@@ -51,6 +51,21 @@ export async function updateLinkGeoeffnet(token) {
   }
 }
 
+export async function markInteressiert(token) {
+  if (!supabase) return { error: null };
+  try {
+    const { error } = await supabase
+      .from('empfehlungen')
+      .update({ interessiert: true, interessiert_at: new Date().toISOString() })
+      .eq('link_token', token);
+    if (error) throw error;
+    return { error: null };
+  } catch (err) {
+    console.error('[markInteressiert]', err);
+    return { error: err };
+  }
+}
+
 export async function updateAusgetragen(token) {
   if (!supabase) return { error: null };
   try {

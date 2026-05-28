@@ -2,6 +2,7 @@ import {
   createEmpfehlung,
   updateLinkGeoeffnet,
   updateAusgetragen,
+  markInteressiert,
 } from './supabase.js';
 
 const page = document.body.dataset.page;
@@ -184,84 +185,69 @@ if (page === 'empfaenger') {
   const params = new URLSearchParams(window.location.search);
   const token = params.get('token');
 
+  // Foto + Name
   const foto1 = document.getElementById('wbFoto1');
-  const foto2 = document.getElementById('wbFoto2');
   if (foto1) foto1.src = window.ENV_BERATER_FOTO;
-  if (foto2) foto2.src = window.ENV_BERATER_FOTO;
+  const footerName = document.getElementById('wbFooterName');
+  if (footerName) footerName.textContent = window.ENV_BERATER_NAME;
 
-  const nameEl = document.getElementById('wbName');
-  const titelEl = document.getElementById('wbTitel');
-  if (nameEl) nameEl.textContent = window.ENV_BERATER_NAME;
-  if (titelEl) titelEl.textContent = window.ENV_BERATER_TITEL;
-
+  // Austragen-Link mit Token
   const link = document.getElementById('austragenLink');
   if (link && token) link.href = `austragen.html?token=${token}`;
 
-  if (token) {
-    updateLinkGeoeffnet(token);
+  // Kontakt-Links (WhatsApp + Tel)
+  const wa = document.getElementById('wbWa');
+  const tel = document.getElementById('wbTel');
+  const telDisplay = document.getElementById('wbTelDisplay');
+  const waNumber = window.ENV_WHATSAPP || '4915154776159';
+  if (wa) wa.href = `https://wa.me/${waNumber}`;
+  if (tel) tel.href = `tel:+${waNumber}`;
+  if (telDisplay) {
+    const f = waNumber.replace(/^49/, '+49 ').replace(/(\d{3})(\d{3})(\d{3})(\d+)/, '$1 $2 $3 $4');
+    telDisplay.textContent = f;
   }
 
-  // ----- Slide-Navigator -----
-  const slides = Array.from(document.querySelectorAll('.wb-slide'));
-  const total = slides.length;
-  const progressBar = document.getElementById('wbProgress');
-  const counter = document.getElementById('wbCounter');
-  const prevBtn = document.getElementById('wbPrev');
-  const nextBtn = document.getElementById('wbNext');
-  let current = 0;
-  let thumbsTriggered = false;
+  // Link-Öffnung tracken
+  if (token) updateLinkGeoeffnet(token);
 
-  function render() {
-    slides.forEach((s, i) => s.classList.toggle('active', i === current));
-    const pct = ((current + 1) / total) * 100;
-    if (progressBar) progressBar.style.width = pct + '%';
-    if (counter) counter.textContent = `${current + 1} / ${total}`;
-    if (prevBtn) prevBtn.disabled = current === 0;
-    if (nextBtn) nextBtn.textContent = current === total - 1 ? 'Fertig' : 'Weiter';
+  // IntersectionObserver — Fade-up beim Scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
 
-    if (slides[current]?.dataset.slide === '5' && !thumbsTriggered) {
-      thumbsTriggered = true;
-      const items = document.querySelectorAll('#wbThumbs li');
-      items.forEach((li, idx) => {
-        setTimeout(() => li.classList.add('visible'), 150 + idx * 350);
+  document.querySelectorAll('.wb-reveal').forEach((el) => io.observe(el));
+
+  // CTA-Handler
+  const cta = document.getElementById('wbCta');
+  const confirm = document.getElementById('wbConfirm');
+  if (cta && confirm) {
+    cta.addEventListener('click', async () => {
+      cta.disabled = true;
+      cta.style.opacity = '0.5';
+      if (token) await markInteressiert(token);
+      // CTA + Trust ausblenden, Confirm einblenden
+      const trust = cta.nextElementSibling;
+      [cta, trust].forEach((el) => {
+        if (el) {
+          el.style.transition = 'opacity 0.5s ease, transform 0.5s ease, max-height 0.7s ease';
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(-8px)';
+          el.style.maxHeight = '0';
+          el.style.overflow = 'hidden';
+          el.style.pointerEvents = 'none';
+        }
       });
-    }
+      setTimeout(() => {
+        confirm.classList.add('visible');
+        confirm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 350);
+    });
   }
-
-  function go(delta) {
-    const next = current + delta;
-    if (next < 0 || next >= total) return;
-    current = next;
-    render();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  if (prevBtn) prevBtn.addEventListener('click', () => go(-1));
-  if (nextBtn) nextBtn.addEventListener('click', () => {
-    if (current === total - 1) return;
-    go(1);
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight') go(1);
-    if (e.key === 'ArrowLeft') go(-1);
-  });
-
-  let touchStartX = 0;
-  let touchStartY = 0;
-  document.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].clientX;
-    touchStartY = e.changedTouches[0].clientY;
-  }, { passive: true });
-  document.addEventListener('touchend', (e) => {
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    const dy = e.changedTouches[0].clientY - touchStartY;
-    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
-      if (dx < 0) go(1); else go(-1);
-    }
-  }, { passive: true });
-
-  render();
 }
 
 /* ---------- AUSTRAGEN ---------- */

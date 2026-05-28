@@ -3,209 +3,158 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#C49B2A" />
-  <title>Du wurdest empfohlen · Kai Blobel</title>
+  <meta name="theme-color" content="#FAF8F5" />
+  <title>Eine persönliche Empfehlung · Kai Blobel</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/empfaenger.css" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="empfaenger">
 
-  <div class="wb-progress"><div class="wb-progress-bar" id="wbProgress"></div></div>
-  <div class="wb-plaque">TEAM<small>Wachsbleiche</small></div>
+  <!-- ===== 1 · Hero ===== -->
+  <section class="wb-hero">
+    <p class="wb-eyebrow wb-reveal">Eine persönliche Empfehlung</p>
+    <img class="wb-hero-portrait wb-reveal delay-1" id="wbFoto1" src="" alt="Berater" />
+    <h1 class="wb-reveal delay-2">Willkommen.</h1>
+    <p class="wb-lede wb-reveal delay-3">
+      Jemand aus deinem Umfeld hat bewusst an dich gedacht.
+    </p>
+    <div class="wb-scroll-hint wb-reveal delay-4">
+      <span>weiterlesen</span>
+      <span class="line"></span>
+    </div>
+  </section>
 
-  <main class="wb-slides" id="wbSlides">
+  <!-- ===== 2 · Warum ===== -->
+  <section class="wb-section">
+    <p class="wb-eyebrow wb-reveal">Warum du hier bist</p>
+    <h2 class="wb-reveal delay-1" style="font-size: clamp(34px, 7vw, 52px);">
+      Kein Zufall.<br>Eine Wahl.
+    </h2>
+    <blockquote class="wb-quote wb-reveal delay-2" style="margin-top: 56px;">
+      „Ich glaube, dieses Gespräch könnte für dich wirklich wertvoll sein.“
+    </blockquote>
+    <span class="wb-quote-cite wb-reveal delay-3">
+      Aus dem Gedanken, der zu dieser Empfehlung geführt hat.
+    </span>
+    <p class="wb-body wb-reveal delay-3" style="padding-left: 24px; margin-top: 40px;">
+      Diese Empfehlung kommt aus echtem Vertrauen — nicht aus einer Datenbank.
+      Jemand hat dich konkret im Sinn gehabt, weil er glaubt, dass es passt.
+    </p>
+  </section>
 
-    <!-- ===== Slide 1: Hallo ===== -->
-    <section class="wb-slide active" data-slide="1">
-      <span class="wb-dots top-left"></span>
-      <span class="wb-circle lg-tr"></span>
-      <span class="wb-circle md-bl"></span>
-      <span class="wb-dots dark bottom-right"></span>
+  <div class="wb-divider"></div>
 
-      <div class="wb-inner" style="align-items: center; text-align: center;">
-        <img class="wb-photo" id="wbFoto1" src="" alt="Berater" />
-        <div class="wb-bubble lg centered">Hallo!</div>
-        <div class="wb-box lg straight" style="text-align: center; align-self: center;">
-          Schön, dass du da bist.
-        </div>
-        <div class="wb-box sm" style="text-align: center; align-self: center;">
-          Du wurdest empfohlen — und das ist die ehrlichste Auszeichnung, die es gibt.
-          <svg class="wb-wiggle" viewBox="0 0 60 18" fill="none"><path d="M2 9c5-7 10 7 15 0s10 7 15 0 10 7 15 0 10 7 13 0" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
-        </div>
+  <!-- ===== 3 · Was dich erwartet ===== -->
+  <section class="wb-section">
+    <p class="wb-eyebrow wb-reveal">Was dich erwartet</p>
+    <h2 class="wb-reveal delay-1" style="font-size: clamp(34px, 7vw, 52px);">
+      Vier ruhige<br>Schritte.
+    </h2>
+    <ol class="wb-timeline">
+      <li class="wb-reveal delay-1">
+        <span class="wb-step-num">Schritt 1</span>
+        <h3 class="wb-step-title">Kennenlernen</h3>
+        <p class="wb-step-desc">Ein kurzer Anruf. Wer ich bin, wer du bist, ob es überhaupt passt.</p>
+      </li>
+      <li class="wb-reveal delay-2">
+        <span class="wb-step-num">Schritt 2</span>
+        <h3 class="wb-step-title">Situation verstehen</h3>
+        <p class="wb-step-desc">Wir schauen zusammen, wo du gerade stehst — ohne Bewertung, ohne Druck.</p>
+      </li>
+      <li class="wb-reveal delay-3">
+        <span class="wb-step-num">Schritt 3</span>
+        <h3 class="wb-step-title">Möglichkeiten aufzeigen</h3>
+        <p class="wb-step-desc">Was geht, was nicht, was sich lohnt. Klar erklärt, in deinem Tempo.</p>
+      </li>
+      <li class="wb-reveal delay-4">
+        <span class="wb-step-num">Schritt 4</span>
+        <h3 class="wb-step-title">Gemeinsam entscheiden</h3>
+        <p class="wb-step-desc">Du entscheidest, ob und wie es weitergeht. Auf Augenhöhe.</p>
+      </li>
+    </ol>
+  </section>
+
+  <div class="wb-divider"></div>
+
+  <!-- ===== 4 · Werte ===== -->
+  <section class="wb-section">
+    <p class="wb-eyebrow wb-reveal">Was du davon hast</p>
+    <h2 class="wb-reveal delay-1" style="font-size: clamp(34px, 7vw, 52px);">
+      Drei Dinge,<br>mehr nicht.
+    </h2>
+
+    <div class="wb-values">
+      <div class="wb-value wb-reveal delay-1">
+        <h3 class="wb-value-key">Klarheit</h3>
+        <p class="wb-value-desc">Über deine Situation — und über das, was wirklich wichtig ist.</p>
       </div>
-    </section>
-
-    <!-- ===== Slide 2: Wer ich bin ===== -->
-    <section class="wb-slide" data-slide="2">
-      <span class="wb-dots top-left"></span>
-      <span class="wb-circle lg-tr"></span>
-      <span class="wb-circle md-bl"></span>
-
-      <div class="wb-inner" style="align-items: center; text-align: center;">
-        <div class="wb-bubble centered">Wer ich bin</div>
-        <img class="wb-photo sm" id="wbFoto2" src="" alt="Berater" />
-        <div class="wb-box lg straight" style="text-align: center; align-self: center;" id="wbName">Kai Blobel</div>
-        <div class="wb-box sm straight" style="text-align: center; align-self: center;" id="wbTitel">
-          Regionaldirektionsleiter · Team Wachsbleiche
-        </div>
-        <div class="wb-box sm" style="align-self: center; text-align: center; max-width: 520px;">
-          Ich begleite Menschen dabei, mit ihren Finanzen das zu erreichen, was wirklich zählt.
-        </div>
+      <div class="wb-value wb-reveal delay-2">
+        <h3 class="wb-value-key">Struktur</h3>
+        <p class="wb-value-desc">Für die Entscheidungen, die anstehen oder schon zu lange warten.</p>
       </div>
-    </section>
-
-    <!-- ===== Slide 3: 5 Schritte ===== -->
-    <section class="wb-slide" data-slide="3">
-      <span class="wb-dots top-left"></span>
-      <span class="wb-circle lg-tr"></span>
-      <span class="wb-dots dark bottom-right"></span>
-
-      <div class="wb-inner">
-        <div class="wb-bubble">5 Schritte zu deinen Zielen</div>
-        <div class="wb-box sm">Die bewährte Allfinanzberatung — verständlich, persönlich, ganzheitlich.</div>
-
-        <div class="wb-steps">
-          <div class="wb-step">
-            <div class="wb-step-num">1</div>
-            <div class="wb-step-body">
-              <strong>Analyse</strong>
-              <span>Erfassen deiner Ist-Situation mit deinen Wünschen und Zielen.</span>
-            </div>
-          </div>
-          <div class="wb-step">
-            <div class="wb-step-num">2</div>
-            <div class="wb-step-body">
-              <strong>Planung</strong>
-              <span>Auswertung und Vermögensplanung mit Qualitätssiegel.</span>
-            </div>
-          </div>
-          <div class="wb-step">
-            <div class="wb-step-num">3</div>
-            <div class="wb-step-body">
-              <strong>Beratung</strong>
-              <span>Persönliche Beratung, abgestimmt auf deine Wünsche und Ziele.</span>
-            </div>
-          </div>
-          <div class="wb-step">
-            <div class="wb-step-num">4</div>
-            <div class="wb-step-body">
-              <strong>Umsetzung</strong>
-              <span>Realisierung deiner Vermögensplanung — Schritt für Schritt.</span>
-            </div>
-          </div>
-          <div class="wb-step">
-            <div class="wb-step-num">5</div>
-            <div class="wb-step-body">
-              <strong>Dauerhafte Partnerschaft</strong>
-              <span>Begleitung über Jahre — nicht nur am Tag der Unterschrift.</span>
-            </div>
-          </div>
-        </div>
+      <div class="wb-value wb-reveal delay-3">
+        <h3 class="wb-value-key">Optionen</h3>
+        <p class="wb-value-desc">Möglichkeiten, die du sonst vielleicht nicht gesehen hättest.</p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ===== Slide 4: 8 Millionen vertrauen ===== -->
-    <section class="wb-slide" data-slide="4">
-      <span class="wb-dots top-left"></span>
-      <span class="wb-circle lg-tr"></span>
-      <span class="wb-dots dark bottom-right"></span>
+  <!-- ===== 5 · Nächster Schritt ===== -->
+  <section class="wb-cta-section">
+    <p class="wb-eyebrow dark wb-reveal" style="text-align: center; margin: 0 auto 28px; display: block;">Nächster Schritt</p>
+    <h2 class="wb-reveal delay-1">Der nächste Schritt<br>ist einfach.</h2>
+    <p class="wb-body wb-reveal delay-2">
+      Ein kurzer Tap. Ich melde mich heute oder morgen — kurz, persönlich, ohne Verpflichtung.
+    </p>
 
-      <div class="wb-inner">
-        <div class="wb-bubble">Über 8 Mio. vertrauen uns</div>
-        <div class="wb-box sm">Die Deutsche Vermögensberatung — Europas größter eigenständiger Allfinanzvertrieb.</div>
-
-        <div class="wb-chart">
-          <div class="wb-chart-title">Kundenzuwachs der Deutschen Vermögensberatung</div>
-          <div class="wb-chart-axis-label">in Millionen</div>
-          <div class="wb-chart-bars">
-            <div class="wb-bar muted" style="height: 32%;"><span class="wb-bar-label">1990</span></div>
-            <div class="wb-bar"       style="height: 45%;"><span class="wb-bar-label">1995</span></div>
-            <div class="wb-bar"       style="height: 54%;"><span class="wb-bar-label">2000</span></div>
-            <div class="wb-bar"       style="height: 68%;"><span class="wb-bar-label">2005</span></div>
-            <div class="wb-bar"       style="height: 82%;"><span class="wb-bar-label">2010</span></div>
-            <div class="wb-bar"       style="height: 92%;"><span class="wb-bar-label">2015</span></div>
-            <div class="wb-bar peak"  style="height: 100%;">
-              <span class="wb-bar-value">rund<br>8 Mio</span>
-              <span class="wb-bar-label">2023</span>
-            </div>
-          </div>
-        </div>
+    <div class="wb-cta-wrap">
+      <button class="wb-btn-primary wb-reveal delay-3" id="wbCta">
+        Unverbindlich kennenlernen
+      </button>
+      <div class="wb-trust wb-reveal delay-4">
+        <span>Persönlich</span><span class="dot"></span>
+        <span>Vertraulich</span><span class="dot"></span>
+        <span>Ohne Verpflichtung</span>
       </div>
-    </section>
 
-    <!-- ===== Slide 5: Für wen spannend ===== -->
-    <section class="wb-slide" data-slide="5">
-      <span class="wb-dots top-left"></span>
-      <span class="wb-circle lg-tr"></span>
-      <span class="wb-dots dark bottom-right"></span>
-
-      <div class="wb-inner">
-        <div class="wb-bubble centered" style="align-self: center;">Für wen ist das spannend?</div>
-        <div class="wb-box sm" style="align-self: center; text-align: center;">Vielleicht erkennst du dich wieder.</div>
-
-        <ul class="wb-thumbs" id="wbThumbs">
-          <li><span class="wb-thumb-icon">👍</span> Familien mit Kindern</li>
-          <li><span class="wb-thumb-icon">👍</span> Häuslebauer oder Hausbesitzer</li>
-          <li><span class="wb-thumb-icon">👍</span> Berufliche Veränderung oder Weiterentwicklung</li>
-          <li><span class="wb-thumb-icon">👍</span> Steuerpflichtiges Einkommen</li>
-          <li><span class="wb-thumb-icon">👍</span> Menschen mit konkreten Zielen</li>
-          <li><span class="wb-thumb-icon">👍</span> Alle, die Klarheit über ihre Finanzen wollen</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- ===== Slide 6: Nächste Schritte + Dank ===== -->
-    <section class="wb-slide" data-slide="6">
-      <span class="wb-dots top-left"></span>
-      <span class="wb-circle lg-tr"></span>
-      <span class="wb-circle md-bl"></span>
-      <span class="wb-dots dark bottom-right"></span>
-
-      <div class="wb-inner">
-        <div class="wb-bubble">Die nächsten Schritte</div>
-        <div class="wb-box sm">So leicht funktioniert es…</div>
-
-        <div class="wb-next">
-          <div class="wb-next-card">
-            <div class="wb-next-num">1</div>
-            <div>
-              <strong>Ich melde mich in 1–3 Werktagen</strong>
-              <span>Per Anruf — kurz, persönlich, unverbindlich.</span>
-            </div>
-          </div>
-          <div class="wb-next-card">
-            <div class="wb-next-num">2</div>
-            <div>
-              <strong>Unverbindliches Kennenlernen</strong>
-              <span>Wir schauen, ob es passt — kein Pitch, kein Druck.</span>
-            </div>
-          </div>
-          <div class="wb-next-card">
-            <div class="wb-next-num">3</div>
-            <div>
-              <strong>Du entscheidest, wie es weitergeht</strong>
-              <span>Ohne Verpflichtung — auf Augenhöhe.</span>
-            </div>
-          </div>
-        </div>
-
-        <p class="wb-thanks">Danke für deine Zeit. Ich freue mich auf dich.</p>
-
-        <p class="wb-optout">
-          Kein Interesse an einem Gespräch? Du kannst dich
-          <a id="austragenLink" href="austragen.html">hier austragen</a>.
+      <!-- Confirm-State, sichtbar nach CTA-Tap -->
+      <div class="wb-confirm" id="wbConfirm">
+        <div class="wb-confirm-mark">✓</div>
+        <h3>Danke.</h3>
+        <p>
+          Ich habe deine Rückmeldung. Ich melde mich heute oder morgen.<br>
+          Wenn dir lieber ist, schreib mir direkt:
         </p>
+        <div class="wb-contact-options">
+          <a class="wb-contact-link" id="wbWa" target="_blank" rel="noopener">
+            <span>
+              <span class="label">WhatsApp</span>
+              <span class="value">Direkt schreiben</span>
+            </span>
+            <span class="arrow">→</span>
+          </a>
+          <a class="wb-contact-link" id="wbTel" href="tel:">
+            <span>
+              <span class="label">Anrufen</span>
+              <span class="value" id="wbTelDisplay">+49 151 547 76 159</span>
+            </span>
+            <span class="arrow">→</span>
+          </a>
+        </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-  </main>
-
-  <nav class="wb-nav">
-    <button class="wb-nav-btn secondary" id="wbPrev">Zurück</button>
-    <span class="wb-nav-counter" id="wbCounter">1 / 6</span>
-    <button class="wb-nav-btn" id="wbNext">Weiter</button>
-  </nav>
+  <!-- ===== Footer ===== -->
+  <footer class="wb-footer">
+    <p class="wb-footer-mark" id="wbFooterName">Kai Blobel</p>
+    <p class="wb-footer-sub">Team Wachsbleiche</p>
+    <p class="wb-optout">
+      Kein Interesse? Du kannst dich
+      <a id="austragenLink" href="austragen.html">hier diskret austragen</a>.
+    </p>
+  </footer>
 
   <script type="module" src="js/app.js"></script>
 </body>

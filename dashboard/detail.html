@@ -91,6 +91,10 @@
             <span class="value">${r.link_klicks || 0}</span>
           </div>
           <div class="detail-row">
+            <span class="label">Interesse bekundet</span>
+            <span class="value">${r.interessiert ? 'Ja · ' + formatDate(r.interessiert_at) : 'Nein'}</span>
+          </div>
+          <div class="detail-row">
             <span class="label">Ausgetragen</span>
             <span class="value">${r.ausgetragen ? 'Ja · ' + formatDate(r.ausgetragen_at) : 'Nein'}</span>
           </div>
