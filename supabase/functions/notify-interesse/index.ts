@@ -1,17 +1,37 @@
 // Supabase Edge Function: notify-interesse
 // Wird vom Database-Trigger bei interessiert=true aufgerufen.
 // Schickt eine Telegram-Nachricht an den konfigurierten Chat.
+//
+// Credentials werden aus der app_secrets-Tabelle gelesen (Service-Role-Key
+// ist in Edge Functions automatisch via SUPABASE_SERVICE_ROLE_KEY verfügbar).
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const TELEGRAM_BOT_TOKEN = Deno.env.get("TELEGRAM_BOT_TOKEN");
-const TELEGRAM_CHAT_ID = Deno.env.get("TELEGRAM_CHAT_ID");
 const DASHBOARD_BASE = Deno.env.get("DASHBOARD_BASE") ?? "https://empfehlungsportal.vercel.app";
 
 Deno.serve(async (req: Request) => {
   try {
     const payload = await req.json();
     const { id, name, telefon } = payload ?? {};
+
+    const supa = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+    );
+
+    const { data: secretsRows, error: secretsErr } = await supa
+      .from("app_secrets")
+      .select("key, value");
+
+    if (secretsErr) {
+      console.error("Konnte app_secrets nicht laden:", secretsErr);
+      return new Response(JSON.stringify({ ok: false, reason: "secrets-load-failed" }), { status: 200 });
+    }
+
+    const secrets = Object.fromEntries((secretsRows ?? []).map((r) => [r.key, r.value]));
+    const TELEGRAM_BOT_TOKEN = secrets.TELEGRAM_BOT_TOKEN;
+    const TELEGRAM_CHAT_ID = secrets.TELEGRAM_CHAT_ID;
 
     if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
       console.warn("Telegram credentials nicht gesetzt — Notification übersprungen.");
