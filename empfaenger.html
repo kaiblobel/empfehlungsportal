@@ -3,30 +3,209 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#f5f5f7" />
+  <meta name="theme-color" content="#C49B2A" />
   <title>Du wurdest empfohlen · Kai Blobel</title>
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/empfaenger.css" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="empfaenger">
 
-  <main class="center-page" style="padding-top: 40px;">
-    <div class="center-inner">
-      <img class="slide-image-round" id="beraterFoto" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80" alt="Kai Blobel" />
-      <h1 class="page-headline" id="beraterName">Kai Blobel</h1>
-      <p class="page-subtext" id="beraterTitel">Regionaldirektionsleiter · Team Wachsbleiche</p>
-      <p class="slide-text" style="margin-top: 12px;">Du wurdest von jemandem empfohlen, dem du vertraust. Ich werde mich in Kürze persönlich bei dir melden.</p>
+  <div class="wb-progress"><div class="wb-progress-bar" id="wbProgress"></div></div>
+  <div class="wb-plaque">TEAM<small>Wachsbleiche</small></div>
 
-      <div class="info-box" style="margin-top: 20px;">
-        <strong>Was passiert jetzt?</strong>
-        <span>Kai meldet sich in den nächsten 1–3 Werktagen telefonisch bei dir.</span>
+  <main class="wb-slides" id="wbSlides">
+
+    <!-- ===== Slide 1: Hallo ===== -->
+    <section class="wb-slide active" data-slide="1">
+      <span class="wb-dots top-left"></span>
+      <span class="wb-circle lg-tr"></span>
+      <span class="wb-circle md-bl"></span>
+      <span class="wb-dots dark bottom-right"></span>
+
+      <div class="wb-inner" style="align-items: center; text-align: center;">
+        <img class="wb-photo" id="wbFoto1" src="" alt="Berater" />
+        <div class="wb-bubble lg centered">Hallo!</div>
+        <div class="wb-box lg straight" style="text-align: center; align-self: center;">
+          Schön, dass du da bist.
+        </div>
+        <div class="wb-box sm" style="text-align: center; align-self: center;">
+          Du wurdest empfohlen — und das ist die ehrlichste Auszeichnung, die es gibt.
+          <svg class="wb-wiggle" viewBox="0 0 60 18" fill="none"><path d="M2 9c5-7 10 7 15 0s10 7 15 0 10 7 15 0 10 7 13 0" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+        </div>
       </div>
+    </section>
 
-      <p class="opt-out-hint">
-        Kein Interesse an einem Gespräch? Du kannst dich <a id="austragenLink" href="austragen.html">hier austragen</a>.
-      </p>
-    </div>
+    <!-- ===== Slide 2: Wer ich bin ===== -->
+    <section class="wb-slide" data-slide="2">
+      <span class="wb-dots top-left"></span>
+      <span class="wb-circle lg-tr"></span>
+      <span class="wb-circle md-bl"></span>
+
+      <div class="wb-inner" style="align-items: center; text-align: center;">
+        <div class="wb-bubble centered">Wer ich bin</div>
+        <img class="wb-photo sm" id="wbFoto2" src="" alt="Berater" />
+        <div class="wb-box lg straight" style="text-align: center; align-self: center;" id="wbName">Kai Blobel</div>
+        <div class="wb-box sm straight" style="text-align: center; align-self: center;" id="wbTitel">
+          Regionaldirektionsleiter · Team Wachsbleiche
+        </div>
+        <div class="wb-box sm" style="align-self: center; text-align: center; max-width: 520px;">
+          Ich begleite Menschen dabei, mit ihren Finanzen das zu erreichen, was wirklich zählt.
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Slide 3: 5 Schritte ===== -->
+    <section class="wb-slide" data-slide="3">
+      <span class="wb-dots top-left"></span>
+      <span class="wb-circle lg-tr"></span>
+      <span class="wb-dots dark bottom-right"></span>
+
+      <div class="wb-inner">
+        <div class="wb-bubble">5 Schritte zu deinen Zielen</div>
+        <div class="wb-box sm">Die bewährte Allfinanzberatung — verständlich, persönlich, ganzheitlich.</div>
+
+        <div class="wb-steps">
+          <div class="wb-step">
+            <div class="wb-step-num">1</div>
+            <div class="wb-step-body">
+              <strong>Analyse</strong>
+              <span>Erfassen deiner Ist-Situation mit deinen Wünschen und Zielen.</span>
+            </div>
+          </div>
+          <div class="wb-step">
+            <div class="wb-step-num">2</div>
+            <div class="wb-step-body">
+              <strong>Planung</strong>
+              <span>Auswertung und Vermögensplanung mit Qualitätssiegel.</span>
+            </div>
+          </div>
+          <div class="wb-step">
+            <div class="wb-step-num">3</div>
+            <div class="wb-step-body">
+              <strong>Beratung</strong>
+              <span>Persönliche Beratung, abgestimmt auf deine Wünsche und Ziele.</span>
+            </div>
+          </div>
+          <div class="wb-step">
+            <div class="wb-step-num">4</div>
+            <div class="wb-step-body">
+              <strong>Umsetzung</strong>
+              <span>Realisierung deiner Vermögensplanung — Schritt für Schritt.</span>
+            </div>
+          </div>
+          <div class="wb-step">
+            <div class="wb-step-num">5</div>
+            <div class="wb-step-body">
+              <strong>Dauerhafte Partnerschaft</strong>
+              <span>Begleitung über Jahre — nicht nur am Tag der Unterschrift.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Slide 4: 8 Millionen vertrauen ===== -->
+    <section class="wb-slide" data-slide="4">
+      <span class="wb-dots top-left"></span>
+      <span class="wb-circle lg-tr"></span>
+      <span class="wb-dots dark bottom-right"></span>
+
+      <div class="wb-inner">
+        <div class="wb-bubble">Über 8 Mio. vertrauen uns</div>
+        <div class="wb-box sm">Die Deutsche Vermögensberatung — Europas größter eigenständiger Allfinanzvertrieb.</div>
+
+        <div class="wb-chart">
+          <div class="wb-chart-title">Kundenzuwachs der Deutschen Vermögensberatung</div>
+          <div class="wb-chart-axis-label">in Millionen</div>
+          <div class="wb-chart-bars">
+            <div class="wb-bar muted" style="height: 32%;"><span class="wb-bar-label">1990</span></div>
+            <div class="wb-bar"       style="height: 45%;"><span class="wb-bar-label">1995</span></div>
+            <div class="wb-bar"       style="height: 54%;"><span class="wb-bar-label">2000</span></div>
+            <div class="wb-bar"       style="height: 68%;"><span class="wb-bar-label">2005</span></div>
+            <div class="wb-bar"       style="height: 82%;"><span class="wb-bar-label">2010</span></div>
+            <div class="wb-bar"       style="height: 92%;"><span class="wb-bar-label">2015</span></div>
+            <div class="wb-bar peak"  style="height: 100%;">
+              <span class="wb-bar-value">rund<br>8 Mio</span>
+              <span class="wb-bar-label">2023</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Slide 5: Für wen spannend ===== -->
+    <section class="wb-slide" data-slide="5">
+      <span class="wb-dots top-left"></span>
+      <span class="wb-circle lg-tr"></span>
+      <span class="wb-dots dark bottom-right"></span>
+
+      <div class="wb-inner">
+        <div class="wb-bubble centered" style="align-self: center;">Für wen ist das spannend?</div>
+        <div class="wb-box sm" style="align-self: center; text-align: center;">Vielleicht erkennst du dich wieder.</div>
+
+        <ul class="wb-thumbs" id="wbThumbs">
+          <li><span class="wb-thumb-icon">👍</span> Familien mit Kindern</li>
+          <li><span class="wb-thumb-icon">👍</span> Häuslebauer oder Hausbesitzer</li>
+          <li><span class="wb-thumb-icon">👍</span> Berufliche Veränderung oder Weiterentwicklung</li>
+          <li><span class="wb-thumb-icon">👍</span> Steuerpflichtiges Einkommen</li>
+          <li><span class="wb-thumb-icon">👍</span> Menschen mit konkreten Zielen</li>
+          <li><span class="wb-thumb-icon">👍</span> Alle, die Klarheit über ihre Finanzen wollen</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== Slide 6: Nächste Schritte + Dank ===== -->
+    <section class="wb-slide" data-slide="6">
+      <span class="wb-dots top-left"></span>
+      <span class="wb-circle lg-tr"></span>
+      <span class="wb-circle md-bl"></span>
+      <span class="wb-dots dark bottom-right"></span>
+
+      <div class="wb-inner">
+        <div class="wb-bubble">Die nächsten Schritte</div>
+        <div class="wb-box sm">So leicht funktioniert es…</div>
+
+        <div class="wb-next">
+          <div class="wb-next-card">
+            <div class="wb-next-num">1</div>
+            <div>
+              <strong>Ich melde mich in 1–3 Werktagen</strong>
+              <span>Per Anruf — kurz, persönlich, unverbindlich.</span>
+            </div>
+          </div>
+          <div class="wb-next-card">
+            <div class="wb-next-num">2</div>
+            <div>
+              <strong>Unverbindliches Kennenlernen</strong>
+              <span>Wir schauen, ob es passt — kein Pitch, kein Druck.</span>
+            </div>
+          </div>
+          <div class="wb-next-card">
+            <div class="wb-next-num">3</div>
+            <div>
+              <strong>Du entscheidest, wie es weitergeht</strong>
+              <span>Ohne Verpflichtung — auf Augenhöhe.</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="wb-thanks">Danke für deine Zeit. Ich freue mich auf dich.</p>
+
+        <p class="wb-optout">
+          Kein Interesse an einem Gespräch? Du kannst dich
+          <a id="austragenLink" href="austragen.html">hier austragen</a>.
+        </p>
+      </div>
+    </section>
+
   </main>
+
+  <nav class="wb-nav">
+    <button class="wb-nav-btn secondary" id="wbPrev">Zurück</button>
+    <span class="wb-nav-counter" id="wbCounter">1 / 6</span>
+    <button class="wb-nav-btn" id="wbNext">Weiter</button>
+  </nav>
 
   <script type="module" src="js/app.js"></script>
 </body>

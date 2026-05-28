@@ -184,9 +184,15 @@ if (page === 'empfaenger') {
   const params = new URLSearchParams(window.location.search);
   const token = params.get('token');
 
-  document.getElementById('beraterFoto').src = window.ENV_BERATER_FOTO;
-  document.getElementById('beraterName').textContent = window.ENV_BERATER_NAME;
-  document.getElementById('beraterTitel').textContent = window.ENV_BERATER_TITEL;
+  const foto1 = document.getElementById('wbFoto1');
+  const foto2 = document.getElementById('wbFoto2');
+  if (foto1) foto1.src = window.ENV_BERATER_FOTO;
+  if (foto2) foto2.src = window.ENV_BERATER_FOTO;
+
+  const nameEl = document.getElementById('wbName');
+  const titelEl = document.getElementById('wbTitel');
+  if (nameEl) nameEl.textContent = window.ENV_BERATER_NAME;
+  if (titelEl) titelEl.textContent = window.ENV_BERATER_TITEL;
 
   const link = document.getElementById('austragenLink');
   if (link && token) link.href = `austragen.html?token=${token}`;
@@ -194,6 +200,68 @@ if (page === 'empfaenger') {
   if (token) {
     updateLinkGeoeffnet(token);
   }
+
+  // ----- Slide-Navigator -----
+  const slides = Array.from(document.querySelectorAll('.wb-slide'));
+  const total = slides.length;
+  const progressBar = document.getElementById('wbProgress');
+  const counter = document.getElementById('wbCounter');
+  const prevBtn = document.getElementById('wbPrev');
+  const nextBtn = document.getElementById('wbNext');
+  let current = 0;
+  let thumbsTriggered = false;
+
+  function render() {
+    slides.forEach((s, i) => s.classList.toggle('active', i === current));
+    const pct = ((current + 1) / total) * 100;
+    if (progressBar) progressBar.style.width = pct + '%';
+    if (counter) counter.textContent = `${current + 1} / ${total}`;
+    if (prevBtn) prevBtn.disabled = current === 0;
+    if (nextBtn) nextBtn.textContent = current === total - 1 ? 'Fertig' : 'Weiter';
+
+    if (slides[current]?.dataset.slide === '5' && !thumbsTriggered) {
+      thumbsTriggered = true;
+      const items = document.querySelectorAll('#wbThumbs li');
+      items.forEach((li, idx) => {
+        setTimeout(() => li.classList.add('visible'), 150 + idx * 350);
+      });
+    }
+  }
+
+  function go(delta) {
+    const next = current + delta;
+    if (next < 0 || next >= total) return;
+    current = next;
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', () => go(-1));
+  if (nextBtn) nextBtn.addEventListener('click', () => {
+    if (current === total - 1) return;
+    go(1);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') go(1);
+    if (e.key === 'ArrowLeft') go(-1);
+  });
+
+  let touchStartX = 0;
+  let touchStartY = 0;
+  document.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].clientX;
+    touchStartY = e.changedTouches[0].clientY;
+  }, { passive: true });
+  document.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+      if (dx < 0) go(1); else go(-1);
+    }
+  }, { passive: true });
+
+  render();
 }
 
 /* ---------- AUSTRAGEN ---------- */
