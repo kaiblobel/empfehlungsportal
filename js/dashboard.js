@@ -118,6 +118,27 @@ export async function updateStatus(id, status, notiz) {
 }
 
 
+/* ---------- Funnel ---------- */
+
+export async function loadFunnel() {
+  if (!supabase) return { gesendet: 0, geoeffnet: 0, interessiert: 0, kunden: 0 };
+
+  const [g, o, i, k] = await Promise.all([
+    supabase.from('empfehlungen').select('id', { count: 'exact', head: true }),
+    supabase.from('empfehlungen').select('id', { count: 'exact', head: true }).eq('link_geoeffnet', true),
+    supabase.from('empfehlungen').select('id', { count: 'exact', head: true }).eq('interessiert', true),
+    supabase.from('empfehlungen').select('id', { count: 'exact', head: true }).eq('status', 'kunde'),
+  ]);
+
+  return {
+    gesendet: g.count || 0,
+    geoeffnet: o.count || 0,
+    interessiert: i.count || 0,
+    kunden: k.count || 0,
+  };
+}
+
+
 /* ---------- 7-Tage-Chart ---------- */
 
 export async function loadLast7Days() {

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f5f5f7" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Neue Empfehlung · Empfehlungsportal</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <script src="../js/config.js"></script>
+</head>
+<body>
+
+  <div class="app-shell">
+    <header class="app-header">
+      <button class="detail-back" id="backBtn">← Zurück</button>
+      <button class="btn-logout" id="logoutBtn">Abmelden</button>
+    </header>
+
+    <main class="app-content">
+      <h1 class="detail-headline">Neue Empfehlung</h1>
+      <p class="page-subtext" style="margin-top: -8px;">Manuell anlegen — z. B. nach einem Telefon-Tipp.</p>
+
+      <form id="neuForm" novalidate style="display: flex; flex-direction: column; gap: 14px;">
+
+        <div class="field-card">
+          <label for="vorname">Vorname *</label>
+          <input id="vorname" type="text" required autocomplete="given-name" />
+        </div>
+        <div class="field-card">
+          <label for="nachname">Nachname *</label>
+          <input id="nachname" type="text" required autocomplete="family-name" />
+        </div>
+        <div class="field-card">
+          <label for="telefon">Telefon *</label>
+          <input id="telefon" type="tel" required inputmode="tel" placeholder="+49" autocomplete="tel" />
+        </div>
+
+        <div class="detail-field">
+          <label for="typSel">Typ</label>
+          <select id="typSel">
+            <option value="direkt">Direkt-Empfehlung</option>
+            <option value="info">Info-Variante</option>
+          </select>
+        </div>
+
+        <div class="field-card">
+          <label for="empfehler">Empfehler (optional)</label>
+          <input id="empfehler" type="text" autocomplete="off" />
+        </div>
+
+        <div class="detail-field">
+          <label for="notiz">Notiz (optional)</label>
+          <textarea id="notiz" placeholder="Kontext, was ihr besprochen habt, was wichtig ist…"></textarea>
+        </div>
+
+        <div class="login-error" id="errBox"></div>
+
+        <div class="detail-actions">
+          <button type="submit" class="btn btn-primary" id="saveBtn">Empfehlung anlegen</button>
+          <button type="button" class="btn btn-secondary" id="cancelBtn">Abbrechen</button>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <script type="module">
+    import { requireAuth, logout, updateStatus, toast } from '../js/dashboard.js';
+    import { createEmpfehlung } from '../js/supabase.js';
+
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+    document.getElementById('backBtn').addEventListener('click', () => history.back());
+    document.getElementById('cancelBtn').addEventListener('click', () => window.location.href = 'overview.html');
+
+    (async () => { await requireAuth(); })();
+
+    function sanitizePhone(raw) {
+      return (raw || '').replace(/[^\d+]/g, '').replace(/^00/, '+').replace(/^\+/, '');
+    }
+
+    document.getElementById('neuForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errBox = document.getElementById('errBox');
+      errBox.classList.remove('show');
+
+      const vorname = document.getElementById('vorname').value.trim();
+      const nachname = document.getElementById('nachname').value.trim();
+      const telefon = sanitizePhone(document.getElementById('telefon').value);
+      const typ = document.getElementById('typSel').value;
+      const empfehler = document.getElementById('empfehler').value.trim();
+      const notiz = document.getElementById('notiz').value.trim();
+
+      if (!vorname || !nachname || !telefon) {
+        errBox.textContent = 'Vorname, Nachname und Telefon sind Pflicht.';
+        errBox.classList.add('show');
+        return;
+      }
+
+      const btn = document.getElementById('saveBtn');
+      btn.disabled = true;
+      btn.textContent = 'Lege an…';
+
+      const { data, error } = await createEmpfehlung({
+        empfaenger_name: `${vorname} ${nachname}`,
+        empfaenger_telefon: telefon,
+        empfehler_name: empfehler || null,
+        nachricht: null,
+        typ,
+      });
+
+      if (error || !data) {
+        errBox.textContent = 'Konnte nicht angelegt werden: ' + (error?.message || 'unbekannt');
+        errBox.classList.add('show');
+        btn.disabled = false;
+        btn.textContent = 'Empfehlung anlegen';
+        return;
+      }
+
+      if (notiz) {
+        await updateStatus(data.id, 'offen', notiz);
+      }
+
+      window.location.href = `detail.html?id=${data.id}`;
+    });
+  </script>
+</body>
+</html>

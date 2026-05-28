@@ -12,6 +12,7 @@ if (url && key && !url.startsWith('PLACEHOLDER') && !key.startsWith('PLACEHOLDER
 
 export const supabase = client;
 
+/* ---------- Empfehler-Flow (INSERT bleibt direkt) ---------- */
 export async function createEmpfehlung(data) {
   if (!supabase) return { data: { link_token: 'demo-token' }, error: null };
   try {
@@ -36,13 +37,11 @@ export async function createEmpfehlung(data) {
   }
 }
 
+/* ---------- Empfänger-Flow (via SECURITY-DEFINER-RPCs) ---------- */
 export async function updateLinkGeoeffnet(token) {
   if (!supabase) return { error: null };
   try {
-    const { error } = await supabase
-      .from('empfehlungen')
-      .update({ link_geoeffnet: true, link_geoeffnet_at: new Date().toISOString() })
-      .eq('link_token', token);
+    const { error } = await supabase.rpc('mark_link_geoeffnet_rpc', { p_token: token });
     if (error) throw error;
     return { error: null };
   } catch (err) {
@@ -54,10 +53,7 @@ export async function updateLinkGeoeffnet(token) {
 export async function markInteressiert(token) {
   if (!supabase) return { error: null };
   try {
-    const { error } = await supabase
-      .from('empfehlungen')
-      .update({ interessiert: true, interessiert_at: new Date().toISOString() })
-      .eq('link_token', token);
+    const { error } = await supabase.rpc('mark_interessiert_rpc', { p_token: token });
     if (error) throw error;
     return { error: null };
   } catch (err) {
@@ -69,10 +65,7 @@ export async function markInteressiert(token) {
 export async function updateAusgetragen(token) {
   if (!supabase) return { error: null };
   try {
-    const { error } = await supabase
-      .from('empfehlungen')
-      .update({ ausgetragen: true, ausgetragen_at: new Date().toISOString() })
-      .eq('link_token', token);
+    const { error } = await supabase.rpc('mark_ausgetragen_rpc', { p_token: token });
     if (error) throw error;
     return { error: null };
   } catch (err) {
@@ -84,19 +77,16 @@ export async function updateAusgetragen(token) {
 export async function getEmpfehlungByToken(token) {
   if (!supabase) return { data: null, error: null };
   try {
-    const { data, error } = await supabase
-      .from('empfehlungen')
-      .select('*')
-      .eq('link_token', token)
-      .single();
+    const { data, error } = await supabase.rpc('get_empfehlung_public', { p_token: token });
     if (error) throw error;
-    return { data, error: null };
+    return { data: data?.[0] || null, error: null };
   } catch (err) {
     console.error('[getEmpfehlungByToken]', err);
     return { data: null, error: err };
   }
 }
 
+/* ---------- Dashboard (authenticated, direkter Zugriff) ---------- */
 export async function getBerater(id) {
   if (!supabase) return { data: null, error: null };
   try {

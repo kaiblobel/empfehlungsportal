@@ -32,6 +32,13 @@
       </div>
 
       <div>
+        <div class="section-title">Funnel</div>
+        <div class="funnel-card" id="funnelCard">
+          <div class="spinner" style="margin: 16px auto;"></div>
+        </div>
+      </div>
+
+      <div>
         <div class="section-title">Letzte 7 Tage</div>
         <div class="chart-card">
           <div class="chart-bars" id="chartBars"></div>
@@ -40,7 +47,10 @@
       </div>
 
       <div>
-        <div class="section-title">Aktivität</div>
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: -4px;">
+          <div class="section-title" style="margin: 0 0 0 4px;">Aktivität</div>
+          <a href="neu.html" class="btn-logout" style="text-decoration: none; padding: 6px 12px;">+ Neu</a>
+        </div>
         <div id="feed">
           <div class="spinner"></div>
         </div>
@@ -55,7 +65,7 @@
 
   <script type="module">
     import {
-      requireAuth, logout, loadKPIs, loadRecent, loadLast7Days,
+      requireAuth, logout, loadKPIs, loadRecent, loadLast7Days, loadFunnel,
       formatDate, getStatusBadge,
     } from '../js/dashboard.js';
 
@@ -73,6 +83,27 @@
       document.getElementById('kpiKlicks').textContent     = kpis.klicks;
       document.getElementById('kpiGesamt').textContent     = kpis.gesamt;
       document.getElementById('kpiKunden').textContent     = kpis.kunden;
+
+      // Funnel
+      const f = await loadFunnel();
+      const stages = [
+        { key: 'gesendet',     label: 'Gesendet',     count: f.gesendet,     base: f.gesendet,    gold: false },
+        { key: 'geoeffnet',    label: 'Geöffnet',     count: f.geoeffnet,    base: f.gesendet,    gold: false },
+        { key: 'interessiert', label: 'Interesse',    count: f.interessiert, base: f.geoeffnet,   gold: false },
+        { key: 'kunden',       label: 'Kunde',        count: f.kunden,       base: f.interessiert, gold: true  },
+      ];
+      const funnelMax = Math.max(1, f.gesendet);
+      document.getElementById('funnelCard').innerHTML = stages.map(s => {
+        const widthPct = (s.count / funnelMax) * 100;
+        const pct = s.base > 0 ? Math.round((s.count / s.base) * 100) + ' %' : '–';
+        return `
+          <div class="funnel-row">
+            <div class="label">${s.label}</div>
+            <div class="bar-wrap"><div class="bar ${s.gold?'gold':''}" style="width: ${widthPct}%"></div></div>
+            <div class="value">${s.count}</div>
+            <div class="pct">${s.key === 'gesendet' ? '' : pct}</div>
+          </div>`;
+      }).join('');
 
       // 7-Tage-Chart
       const days = await loadLast7Days();

@@ -202,6 +202,11 @@ if (page === 'empfaenger') {
   const waNumber = window.ENV_WHATSAPP || '4915154776159';
   if (wa) wa.href = `https://wa.me/${waNumber}`;
   if (tel) tel.href = `tel:+${waNumber}`;
+  const calBtn = document.getElementById('wbCal');
+  if (calBtn && window.ENV_CALENDLY_URL) {
+    calBtn.href = window.ENV_CALENDLY_URL;
+    calBtn.style.display = '';
+  }
   if (telDisplay) {
     const f = waNumber.replace(/^49/, '+49 ').replace(/(\d{3})(\d{3})(\d{3})(\d+)/, '$1 $2 $3 $4');
     telDisplay.textContent = f;
