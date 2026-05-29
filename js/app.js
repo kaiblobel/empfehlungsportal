@@ -38,7 +38,6 @@ if (page === 'index') {
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
   let current = 0;
-  let checklistTriggered = false;
 
   function render() {
     slides.forEach((s, i) => s.classList.toggle('active', i === current));
@@ -48,11 +47,11 @@ if (page === 'index') {
     prevBtn.disabled = current === 0;
     nextBtn.textContent = current === total - 1 ? 'Fertig' : 'Weiter';
 
-    if (slides[current].dataset.slide === '8' && !checklistTriggered) {
-      checklistTriggered = true;
-      const items = document.querySelectorAll('#checklist li');
-      items.forEach((li, idx) => {
-        setTimeout(() => li.classList.add('visible'), 280 + idx * 140);
+    const list = slides[current].querySelector('.ed-list[data-staggered]');
+    if (list && !list.dataset.triggered) {
+      list.dataset.triggered = '1';
+      list.querySelectorAll('li').forEach((li, idx) => {
+        setTimeout(() => li.classList.add('visible'), 320 + idx * 130);
       });
     }
   }
