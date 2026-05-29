@@ -52,7 +52,7 @@ if (page === 'index') {
       checklistTriggered = true;
       const items = document.querySelectorAll('#checklist li');
       items.forEach((li, idx) => {
-        setTimeout(() => li.classList.add('visible'), 200 + idx * 400);
+        setTimeout(() => li.classList.add('visible'), 280 + idx * 140);
       });
     }
   }

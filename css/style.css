@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&display=swap');
 
 :root {
   --bg-primary: #f5f5f7;
@@ -482,4 +483,304 @@ img { max-width: 100%; display: block; }
   .slide-image-round { width: 280px; height: 280px; }
   .slide { padding: 60px 40px 110px; }
   .page-headline { font-size: 36px; }
+}
+
+/* ============================================================
+   PHASE 12 · PRÄSENTATION EDITORIAL PURE
+   Scope: body[data-page="index"] — alle anderen Seiten unverändert.
+   Fraunces-Import ist am Dateianfang (CSS @import muss vor Rules).
+   ============================================================ */
+
+body[data-page="index"] {
+  --ed-bg: #FAF8F5;
+  --ed-bg-invert: #F2EFE9;
+  --ed-ink: #1A1A1A;
+  --ed-muted: #6B6660;
+  --ed-champagne: #C9B98A;
+  --ed-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  background: var(--ed-bg);
+  color: var(--ed-ink);
+}
+
+body[data-page="index"] .progress { height: 1px; }
+body[data-page="index"] .progress-bar {
+  background: var(--ed-champagne);
+  transition: width 500ms var(--ed-ease);
+}
+
+body[data-page="index"] .slides {
+  padding-bottom: 110px;
+}
+
+body[data-page="index"] .slide {
+  padding: 64px 28px 130px;
+  transform: translateY(12px);
+  transition: opacity 400ms var(--ed-ease), transform 500ms var(--ed-ease);
+  justify-content: center;
+}
+body[data-page="index"] .slide.active {
+  transform: translateY(0);
+}
+
+body[data-page="index"] .slide-inner {
+  max-width: 580px;
+  gap: 28px;
+}
+
+/* Eyebrow (Champagne-Caps) */
+body[data-page="index"] .ed-eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ed-champagne);
+  text-align: center;
+  line-height: 1.4;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 600ms var(--ed-ease) 0ms, transform 600ms var(--ed-ease) 0ms;
+}
+
+/* Editorial Headline (Fraunces serif) */
+body[data-page="index"] .ed-headline {
+  font-family: 'Fraunces', 'Georgia', serif;
+  font-weight: 500;
+  font-size: clamp(30px, 6vw, 44px);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: var(--ed-ink);
+  text-align: center;
+  font-variation-settings: "opsz" 96, "SOFT" 50;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 600ms var(--ed-ease) 120ms, transform 600ms var(--ed-ease) 120ms;
+}
+body[data-page="index"] .ed-headline.xl {
+  font-size: clamp(40px, 9vw, 68px);
+  line-height: 1.05;
+}
+body[data-page="index"] .ed-headline em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ed-ink);
+}
+
+/* Body-Text */
+body[data-page="index"] .ed-body {
+  font-family: 'Inter', sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ed-muted);
+  text-align: center;
+  max-width: 480px;
+  margin: 0 auto;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 600ms var(--ed-ease) 240ms, transform 600ms var(--ed-ease) 240ms;
+}
+
+/* Reveal on active */
+body[data-page="index"] .slide.active .ed-eyebrow,
+body[data-page="index"] .slide.active .ed-headline,
+body[data-page="index"] .slide.active .ed-body,
+body[data-page="index"] .slide.active .ed-quotes,
+body[data-page="index"] .slide.active .ed-anchor,
+body[data-page="index"] .slide.active .ed-cta-stack {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Champagne-Hairline-Marker (links neben Body, dezent) */
+body[data-page="index"] .ed-hairline-left {
+  width: 32px;
+  height: 1px;
+  background: var(--ed-champagne);
+  margin: 4px auto 0;
+}
+
+/* Slide 6: drei Editorial-Zitate */
+body[data-page="index"] .ed-quotes {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 4px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 600ms var(--ed-ease) 320ms, transform 600ms var(--ed-ease) 320ms;
+}
+body[data-page="index"] .ed-quote {
+  font-family: 'Fraunces', 'Georgia', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 1.4;
+  color: var(--ed-ink);
+  text-align: center;
+  padding: 18px 0;
+  position: relative;
+}
+body[data-page="index"] .ed-quote + .ed-quote {
+  border-top: 1px solid var(--ed-champagne);
+}
+
+/* Slide 7: zentrierter Hairline-Anker */
+body[data-page="index"] .ed-anchor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 600ms var(--ed-ease) 360ms, transform 600ms var(--ed-ease) 360ms;
+}
+body[data-page="index"] .ed-anchor::before,
+body[data-page="index"] .ed-anchor::after {
+  content: '';
+  width: 80px;
+  height: 1px;
+  background: var(--ed-champagne);
+}
+body[data-page="index"] .ed-anchor-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ed-champagne);
+}
+
+/* Slide 8: Editorial Checklist (Champagne-Plus statt grün-Häkchen) */
+body[data-page="index"] .checklist {
+  gap: 0;
+  margin-top: 8px;
+}
+body[data-page="index"] .checklist li {
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  border-top: 1px solid var(--ed-champagne);
+  padding: 18px 0;
+  font-family: 'Fraunces', 'Georgia', serif;
+  font-size: 19px;
+  font-weight: 400;
+  color: var(--ed-ink);
+  transform: translateY(8px) scale(0.96);
+  transition: opacity 500ms var(--ed-ease), transform 500ms var(--ed-ease);
+}
+body[data-page="index"] .checklist li:last-child {
+  border-bottom: 1px solid var(--ed-champagne);
+}
+body[data-page="index"] .checklist li.visible {
+  transform: translateY(0) scale(1);
+}
+body[data-page="index"] .check {
+  background: transparent;
+  color: var(--ed-champagne);
+  font-size: 18px;
+  font-weight: 400;
+  font-family: 'Fraunces', serif;
+  width: 16px;
+  height: 16px;
+}
+
+/* Slide 9: invertierter Editorial-Pause-Look */
+body[data-page="index"] .slide.ed-invert {
+  background: var(--ed-bg-invert);
+}
+body[data-page="index"] .slide.ed-invert .ed-headline {
+  font-size: clamp(26px, 5vw, 36px);
+}
+
+/* Slide 10: Editorial CTA-Buttons */
+body[data-page="index"] .ed-cta-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 24px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 600ms var(--ed-ease) 320ms, transform 600ms var(--ed-ease) 320ms;
+}
+body[data-page="index"] .ed-btn {
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 18px 24px;
+  border-radius: 4px;
+  transition: background 200ms var(--ed-ease), color 200ms var(--ed-ease), border-color 200ms var(--ed-ease);
+  position: relative;
+}
+body[data-page="index"] .ed-btn-primary {
+  background: var(--ed-ink);
+  color: #FAF8F5;
+  border: 1px solid var(--ed-ink);
+}
+body[data-page="index"] .ed-btn-primary:hover {
+  background: transparent;
+  color: var(--ed-ink);
+}
+body[data-page="index"] .ed-btn-secondary {
+  background: transparent;
+  color: var(--ed-ink);
+  border: 1px solid var(--ed-champagne);
+}
+body[data-page="index"] .ed-btn-secondary:hover {
+  border-color: var(--ed-ink);
+}
+body[data-page="index"] .ed-microline {
+  color: var(--ed-champagne);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-align: center;
+  margin-top: -8px;
+}
+
+/* Nav-Bar: Editorial-Look */
+body[data-page="index"] .nav-bar {
+  background: var(--ed-bg);
+  border-top: 1px solid var(--ed-champagne);
+  padding-top: 16px;
+}
+body[data-page="index"] .nav-btn {
+  border-color: var(--ed-champagne);
+  color: var(--ed-ink);
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  min-height: 44px;
+  min-width: 100px;
+}
+body[data-page="index"] .nav-btn:disabled { opacity: 0.25; }
+body[data-page="index"] .nav-counter {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  color: var(--ed-muted);
+  font-size: 14px;
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+  body[data-page="index"] .slide { padding: 80px 40px 130px; }
+  body[data-page="index"] .ed-quote { font-size: 24px; }
+  body[data-page="index"] .checklist li { font-size: 22px; padding: 22px 0; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  body[data-page="index"] .slide,
+  body[data-page="index"] .ed-eyebrow,
+  body[data-page="index"] .ed-headline,
+  body[data-page="index"] .ed-body,
+  body[data-page="index"] .ed-quotes,
+  body[data-page="index"] .ed-anchor,
+  body[data-page="index"] .ed-cta-stack,
+  body[data-page="index"] .checklist li,
+  body[data-page="index"] .progress-bar {
+    transition: opacity 200ms linear !important;
+    transform: none !important;
+  }
 }
