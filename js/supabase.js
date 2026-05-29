@@ -25,6 +25,7 @@ export async function createEmpfehlung(data) {
       nachricht: data.nachricht || null,
       typ: data.typ || 'direkt',
       vorlage_slug: data.vorlage_slug || 'allgemein',
+      empfehler_id: data.empfehler_id || null,
     };
     const { data: inserted, error } = await supabase
       .from('empfehlungen')
@@ -130,6 +131,73 @@ export async function getVorlage(slug) {
   } catch (err) {
     console.error('[getVorlage]', err);
     return null;
+  }
+}
+
+
+/* ---------- Empfehler / Belohnungen (Phase 7) ---------- */
+export async function createEmpfehler({ name, email, telefon }) {
+  if (!supabase) return { data: null, error: { message: 'Supabase nicht konfiguriert' } };
+  try {
+    const { data, error } = await supabase.rpc('create_empfehler', {
+      p_name: name, p_email: email || '', p_telefon: telefon || '',
+    });
+    if (error) throw error;
+    return { data, error: null };
+  } catch (err) {
+    console.error('[createEmpfehler]', err);
+    return { data: null, error: err };
+  }
+}
+
+export async function getEmpfehlerByCode(code) {
+  if (!supabase) return { data: null, error: null };
+  try {
+    const { data, error } = await supabase.rpc('get_empfehler_by_code', { p_code: code });
+    if (error) throw error;
+    return { data: data?.[0] || null, error: null };
+  } catch (err) {
+    console.error('[getEmpfehlerByCode]', err);
+    return { data: null, error: err };
+  }
+}
+
+export async function getEmpfehlerStats(code) {
+  if (!supabase) return { data: null, error: null };
+  try {
+    const { data, error } = await supabase.rpc('get_empfehler_stats', { p_code: code });
+    if (error) throw error;
+    return { data: data?.[0] || null, error: null };
+  } catch (err) {
+    console.error('[getEmpfehlerStats]', err);
+    return { data: null, error: err };
+  }
+}
+
+export async function getEmpfehlerEmpfehlungen(code) {
+  if (!supabase) return { data: [], error: null };
+  try {
+    const { data, error } = await supabase.rpc('get_empfehler_empfehlungen', { p_code: code });
+    if (error) throw error;
+    return { data: data || [], error: null };
+  } catch (err) {
+    console.error('[getEmpfehlerEmpfehlungen]', err);
+    return { data: [], error: err };
+  }
+}
+
+export async function getBelohnungsStufen() {
+  if (!supabase) return [];
+  try {
+    const { data, error } = await supabase
+      .from('belohnungs_stufen')
+      .select('*')
+      .order('sort_order', { ascending: true });
+    if (error) throw error;
+    return data || [];
+  } catch (err) {
+    console.error('[getBelohnungsStufen]', err);
+    return [];
   }
 }
 

@@ -1,0 +1,542 @@
+/* ============================================================
+   Phase 7 · Promoter-Page + Empfehler-Dashboard
+   Phase-1-Apple-Look auf globalen Tokens
+   ============================================================ */
+
+body[data-page="programm"],
+body[data-page="empfehler"] {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ---------- Sektionen ---------- */
+.p7-section {
+  padding: 80px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.p7-section.alt   { background: var(--bg-secondary); }
+.p7-section.dark  { background: var(--text-primary); color: #fff; }
+
+.p7-inner {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+}
+
+.p7-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin: 0 0 12px;
+}
+.p7-eyebrow.muted { color: var(--text-secondary); }
+
+.p7-h1 {
+  font-size: clamp(32px, 8vw, 48px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.p7-h2 {
+  font-size: clamp(26px, 6vw, 36px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+.p7-h3 {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.p7-sub {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin: 4px 0 12px;
+}
+.p7-body {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  margin: 0;
+  max-width: 32em;
+}
+
+/* ---------- Hero ---------- */
+.p7-hero {
+  min-height: 88vh;
+  padding-top: 80px;
+}
+.p7-portrait {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.10);
+  margin-bottom: 22px;
+}
+
+.p7-cta-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 360px;
+  margin-top: 16px;
+}
+
+.p7-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 16px 24px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: var(--radius-button);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
+.p7-btn:active { transform: scale(0.98); }
+.p7-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.p7-btn-primary { background: var(--text-primary); color: #fff; }
+.p7-btn-primary:hover { opacity: 0.9; }
+.p7-btn-secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border-color: var(--text-primary);
+}
+.p7-btn-secondary:hover { background: var(--text-primary); color: #fff; }
+.p7-btn-gold {
+  background: var(--accent-gold);
+  color: #fff;
+}
+
+/* ---------- 3-Step Wie es funktioniert ---------- */
+.p7-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  margin-top: 8px;
+}
+.p7-step {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+.p7-step-num {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+  color: #fff;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+.p7-step-icon { font-size: 28px; }
+.p7-step-text { font-size: 14px; color: var(--text-secondary); line-height: 1.5; margin: 0; }
+
+@media (min-width: 768px) {
+  .p7-steps { flex-direction: row; }
+  .p7-step { flex: 1; }
+}
+
+/* ---------- Belohnungs-Treppe ---------- */
+.p7-rewards {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+.p7-reward {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--border-light);
+  padding: 22px 22px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  text-align: left;
+  position: relative;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.p7-reward.highlight {
+  background: linear-gradient(180deg, #fff 0%, #FFF8E7 100%);
+  border-color: var(--accent-gold);
+}
+.p7-reward .icon {
+  font-size: 36px;
+  line-height: 1;
+  width: 56px;
+  flex-shrink: 0;
+  text-align: center;
+}
+.p7-reward .body { flex: 1; }
+.p7-reward .num {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 4px;
+}
+.p7-reward .titel {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 6px;
+}
+.p7-reward .text { font-size: 14px; color: var(--text-secondary); line-height: 1.55; margin: 0; }
+.p7-reward .wert {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent-gold);
+  margin-top: 8px;
+  display: block;
+}
+
+/* Status für Belohnungen im Empfehler-Dashboard */
+.p7-reward.reached  { background: linear-gradient(180deg, #fff 0%, #E8F5E9 100%); border-color: #1F6B30; }
+.p7-reward.pending  { opacity: 0.92; }
+.p7-reward .status-mark {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.p7-reward.reached .status-mark { background: #D7EBD5; color: #1F6B30; }
+.p7-reward.pending .status-mark { background: #F2F2F4; color: var(--text-secondary); }
+
+/* ---------- Win-Win-Win ---------- */
+.p7-trio {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+.p7-trio-card {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 24px 22px;
+  box-shadow: var(--shadow-card);
+  text-align: left;
+}
+.p7-trio-card .icon { font-size: 28px; display: block; margin-bottom: 8px; }
+.p7-trio-card h3 { font-size: 18px; font-weight: 700; margin: 0 0 8px; }
+.p7-trio-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.55; margin: 0; }
+@media (min-width: 768px) {
+  .p7-trio { flex-direction: row; }
+  .p7-trio-card { flex: 1; }
+}
+
+/* ---------- Wen suchen wir? ---------- */
+.p7-target {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  width: 100%;
+}
+.p7-target-card {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 22px;
+  text-align: left;
+  box-shadow: var(--shadow-card);
+}
+.p7-target-card h3 { font-size: 17px; font-weight: 700; margin: 0 0 6px; display: flex; gap: 8px; align-items: center; }
+.p7-target-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.55; margin: 0; }
+@media (min-width: 720px) {
+  .p7-target { grid-template-columns: 1fr 1fr; }
+}
+
+/* ---------- Anmeldung ---------- */
+.p7-form-card {
+  width: 100%;
+  max-width: 460px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 28px 24px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.p7-form-card label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 4px;
+}
+.p7-form-card input {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 15px;
+  font-family: inherit;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-button);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  outline: none;
+}
+.p7-form-card input:focus { border-color: var(--text-primary); }
+.p7-form-err {
+  background: #FBEBEB;
+  color: #8A1F1F;
+  border-radius: var(--radius-button);
+  padding: 10px 14px;
+  font-size: 13px;
+  display: none;
+}
+.p7-form-err.show { display: block; }
+
+/* ---------- FAQ ---------- */
+.p7-faq {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+.p7-faq details {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 18px 22px;
+  box-shadow: var(--shadow-card);
+  text-align: left;
+  cursor: pointer;
+}
+.p7-faq details summary {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.p7-faq details summary::-webkit-details-marker { display: none; }
+.p7-faq details summary::after {
+  content: '+';
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+.p7-faq details[open] summary::after { content: '−'; }
+.p7-faq details p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 12px 0 0;
+}
+
+/* ---------- Footer ---------- */
+.p7-footer {
+  padding: 56px 24px 64px;
+}
+.p7-footer-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 6px;
+}
+.p7-footer-sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+.p7-footer-links {
+  margin-top: 22px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+}
+.p7-footer-links a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------- Empfehler-Dashboard ---------- */
+.p7-status-pill {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.p7-status-pill.gold { background: #FBF1D7; color: #8A6A14; }
+.p7-status-pill.dark { background: var(--text-primary); color: #fff; }
+
+.p7-stats-card {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  text-align: center;
+}
+.p7-stats-big {
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  line-height: 1;
+}
+.p7-stats-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Mein Link-Card */
+.p7-link-card {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 20px 22px;
+  box-shadow: var(--shadow-card);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.p7-link-text {
+  background: var(--bg-primary);
+  border: 1px dashed var(--border-light);
+  border-radius: var(--radius-button);
+  padding: 12px 14px;
+  font-size: 13px;
+  font-family: 'SF Mono', Menlo, monospace;
+  color: var(--text-primary);
+  word-break: break-all;
+  text-align: left;
+}
+.p7-link-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* Empfehlungs-Liste im Empfehler-Dashboard */
+.p7-feed {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  width: 100%;
+}
+.p7-feed-row {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+}
+.p7-feed-row:last-child { border-bottom: none; }
+.p7-feed-row .name { font-size: 15px; font-weight: 600; color: var(--text-primary); margin: 0 0 2px; }
+.p7-feed-row .meta { font-size: 12px; color: var(--text-secondary); }
+.p7-feed-row .badge-mini {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+.badge-mini-offen          { background: #f2f2f4; color: #6e6e73; }
+.badge-mini-anrufwunsch    { background: #F4ECD4; color: #8A6A14; }
+.badge-mini-kontaktiert    { background: #DDE9F4; color: #1E4E68; }
+.badge-mini-kunde          { background: #D7EBD5; color: #1F6B30; }
+.badge-mini-kein_interesse { background: #F5D7D7; color: #8A1F1F; }
+
+.p7-empty {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-card);
+  padding: 32px 24px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+  width: 100%;
+}
+
+/* ---------- Empfehler-Banner in empfehlen.html ---------- */
+.p7-banner {
+  background: var(--text-primary);
+  color: #fff;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.p7-banner .gold { color: var(--accent-gold); }
+
+/* ---------- Reveal ---------- */
+.p7-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.p7-reveal.visible { opacity: 1; transform: translateY(0); }
+.p7-reveal.d1 { transition-delay: 0.1s; }
+.p7-reveal.d2 { transition-delay: 0.2s; }
+.p7-reveal.d3 { transition-delay: 0.3s; }
+
+@media (min-width: 768px) {
+  .p7-section { padding: 110px 32px; }
+  .p7-portrait { width: 130px; height: 130px; }
+}

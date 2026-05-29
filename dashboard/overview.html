@@ -25,7 +25,7 @@
 
     <main class="app-content">
       <div class="kpi-grid" id="kpiGrid">
-        <div class="kpi-card"><div class="kpi-label">Promotoren</div><div class="kpi-value" id="kpiPromotoren">–</div></div>
+        <div class="kpi-card"><div class="kpi-label">Aktive Empfehler</div><div class="kpi-value" id="kpiEmpfehler">–</div></div>
         <div class="kpi-card"><div class="kpi-label">Link-Klicks</div><div class="kpi-value" id="kpiKlicks">–</div></div>
         <div class="kpi-card"><div class="kpi-label">Empfehlungen</div><div class="kpi-value" id="kpiGesamt">–</div></div>
         <div class="kpi-card"><div class="kpi-label">Kunden</div><div class="kpi-value gold" id="kpiKunden">–</div></div>
@@ -60,12 +60,14 @@
     <nav class="bottom-nav">
       <a href="overview.html" class="active"><span class="icon">◆</span>Übersicht</a>
       <a href="empfehlungen.html"><span class="icon">≡</span>Empfehlungen</a>
+      <a href="empfehler.html"><span class="icon">★</span>Empfehler</a>
     </nav>
   </div>
 
   <script type="module">
     import {
       requireAuth, logout, loadKPIs, loadRecent, loadLast7Days, loadFunnel,
+      loadAktiveEmpfehlerCount,
       formatDate, getStatusBadge,
     } from '../js/dashboard.js';
 
@@ -78,11 +80,11 @@
       if (!session) return;
 
       // KPIs
-      const kpis = await loadKPIs();
-      document.getElementById('kpiPromotoren').textContent = kpis.promotoren;
-      document.getElementById('kpiKlicks').textContent     = kpis.klicks;
-      document.getElementById('kpiGesamt').textContent     = kpis.gesamt;
-      document.getElementById('kpiKunden').textContent     = kpis.kunden;
+      const [kpis, empfCount] = await Promise.all([loadKPIs(), loadAktiveEmpfehlerCount()]);
+      document.getElementById('kpiEmpfehler').textContent = empfCount;
+      document.getElementById('kpiKlicks').textContent    = kpis.klicks;
+      document.getElementById('kpiGesamt').textContent    = kpis.gesamt;
+      document.getElementById('kpiKunden').textContent    = kpis.kunden;
 
       // Funnel
       const f = await loadFunnel();

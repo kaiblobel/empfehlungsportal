@@ -7,6 +7,7 @@ import {
   getEmpfehlungByToken,
   getVorlagen,
   getVorlage,
+  getEmpfehlerByCode,
 } from './supabase.js';
 
 const page = document.body.dataset.page;
@@ -118,6 +119,30 @@ if (page === 'empfehlen') {
     });
   }
 
+  // ----- Empfehler-Code (Phase 7) -----
+  // Code aus URL > LocalStorage
+  const urlCode = new URLSearchParams(window.location.search).get('empfehler');
+  let empfehlerCode = urlCode || (() => { try { return localStorage.getItem('empfehler_code'); } catch (_) { return null; } })();
+  let empfehlerData = null;
+
+  if (empfehlerCode) {
+    if (urlCode) { try { localStorage.setItem('empfehler_code', urlCode); } catch (_) {} }
+    const { data } = await getEmpfehlerByCode(empfehlerCode);
+    empfehlerData = data;
+    if (empfehlerData) {
+      const banner = document.getElementById('empfehlerBanner');
+      const name = document.getElementById('empfehlerBannerName');
+      if (banner) banner.style.display = '';
+      if (name) name.textContent = empfehlerData.name;
+      // Empfehler-Name in Form vorausfüllen
+      if (empfehlerEl && !empfehlerEl.value) empfehlerEl.value = empfehlerData.name;
+    } else {
+      // Code ungültig — aus Storage löschen
+      try { localStorage.removeItem('empfehler_code'); } catch (_) {}
+      empfehlerCode = null;
+    }
+  }
+
   // ----- Vorlagen-Grid -----
   const vorlageSlugEl = document.getElementById('vorlageSlug');
   const grid = document.getElementById('vorlagenGrid');
@@ -185,6 +210,7 @@ if (page === 'empfehlen') {
       nachricht: tempMsg,
       typ,
       vorlage_slug: vorlageSlug,
+      empfehler_id: empfehlerData?.id || null,
     });
 
     const token = data?.link_token || 'demo';

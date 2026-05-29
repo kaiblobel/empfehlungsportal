@@ -118,6 +118,56 @@ export async function updateStatus(id, status, notiz) {
 }
 
 
+/* ---------- Empfehler (Phase 7) ---------- */
+
+export async function loadEmpfehlerList() {
+  if (!supabase) return [];
+  try {
+    const { data: empfehlerRows, error: e1 } = await supabase
+      .from('empfehler')
+      .select('id, code, name, email, telefon, created_at')
+      .order('created_at', { ascending: false });
+    if (e1) throw e1;
+
+    const { data: counts, error: e2 } = await supabase
+      .from('empfehlungen')
+      .select('empfehler_id, status')
+      .not('empfehler_id', 'is', null);
+    if (e2) throw e2;
+
+    const byId = new Map();
+    (counts || []).forEach(r => {
+      const m = byId.get(r.empfehler_id) || { gesamt: 0, kunde: 0 };
+      m.gesamt += 1;
+      if (r.status === 'kunde') m.kunde += 1;
+      byId.set(r.empfehler_id, m);
+    });
+
+    return (empfehlerRows || []).map(e => {
+      const m = byId.get(e.id) || { gesamt: 0, kunde: 0 };
+      return { ...e, gesamt: m.gesamt, kunde: m.kunde };
+    });
+  } catch (err) {
+    console.error('[loadEmpfehlerList]', err);
+    return [];
+  }
+}
+
+export async function loadAktiveEmpfehlerCount() {
+  if (!supabase) return 0;
+  try {
+    const { count, error } = await supabase
+      .from('empfehler')
+      .select('id', { count: 'exact', head: true });
+    if (error) throw error;
+    return count || 0;
+  } catch (err) {
+    console.error('[loadAktiveEmpfehlerCount]', err);
+    return 0;
+  }
+}
+
+
 /* ---------- Funnel ---------- */
 
 export async function loadFunnel() {
