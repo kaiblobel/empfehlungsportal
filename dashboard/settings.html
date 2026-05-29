@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#FAFAFA" />
+  <title>Einstellungen · Empfehlungsportal</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="stylesheet" href="../css/style.css?v=13d" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=13d" />
+  <script src="../js/config.js"></script>
+</head>
+<body class="has-app-nav">
+
+  <div id="appNav"></div>
+  <script type="module" src="../js/nav.js?v=13d"></script>
+
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="app-header-left">
+        <img class="app-header-photo" id="hdrPhoto" src="" alt="" />
+        <div>
+          <div class="app-header-name" id="hdrName">…</div>
+          <div class="app-header-sub">Einstellungen</div>
+        </div>
+      </div>
+      <div class="app-header-right">
+        <a href="../hub.html" class="btn-hub-back" title="Zum Dashboard">← <span class="lbl">Dashboard</span></a>
+        <button class="btn-logout" id="logoutBtn">Abmelden</button>
+      </div>
+    </header>
+
+    <main class="app-content">
+
+      <section>
+        <h2 class="settings-section-title">Profil</h2>
+        <div class="settings-card">
+          <div class="settings-row"><span class="settings-key">Name</span><span class="settings-val" id="profName">—</span></div>
+          <div class="settings-row"><span class="settings-key">E-Mail</span><span class="settings-val" id="profEmail">—</span></div>
+          <div class="settings-row"><span class="settings-key">Berater-ID</span><span class="settings-val mono" id="profUuid">—</span></div>
+          <div class="settings-row"><span class="settings-key">Session</span><span class="settings-val" id="profExpiry">—</span></div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="settings-section-title">Vorlagen-Vorschauen</h2>
+        <p class="settings-section-sub">Schnell-Vorschau der 6 Themen-Vorlagen mit Test-Token.</p>
+        <div class="settings-vorlagen">
+          <a class="settings-tile" href="../empfaenger.html?token=d127cf3f-2d6b-4cd7-9640-64a0941e11ac&vorlage=allgemein" target="_blank">
+            <span class="settings-tile-title">Allgemein</span>
+            <span class="settings-tile-sub">Universeller Einstieg</span>
+          </a>
+          <a class="settings-tile" href="../empfaenger.html?token=d127cf3f-2d6b-4cd7-9640-64a0941e11ac&vorlage=baufi" target="_blank">
+            <span class="settings-tile-title">Baufinanzierung</span>
+            <span class="settings-tile-sub">Hauskauf, Neubau, Anschluss</span>
+          </a>
+          <a class="settings-tile" href="../empfaenger.html?token=d127cf3f-2d6b-4cd7-9640-64a0941e11ac&vorlage=foerderungen" target="_blank">
+            <span class="settings-tile-title">Förderungen</span>
+            <span class="settings-tile-sub">Staatliche Zulagen</span>
+          </a>
+          <a class="settings-tile" href="../empfaenger.html?token=d127cf3f-2d6b-4cd7-9640-64a0941e11ac&vorlage=selbstaendige" target="_blank">
+            <span class="settings-tile-title">Selbständige</span>
+            <span class="settings-tile-sub">Basisrente, Absicherung</span>
+          </a>
+          <a class="settings-tile" href="../empfaenger.html?token=d127cf3f-2d6b-4cd7-9640-64a0941e11ac&vorlage=investment" target="_blank">
+            <span class="settings-tile-title">Investment</span>
+            <span class="settings-tile-sub">Depot, Vermögensaufbau</span>
+          </a>
+          <a class="settings-tile" href="../empfaenger.html?token=d127cf3f-2d6b-4cd7-9640-64a0941e11ac&vorlage=absicherung" target="_blank">
+            <span class="settings-tile-title">Absicherung</span>
+            <span class="settings-tile-sub">Familie, BU, KV</span>
+          </a>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="settings-section-title">Test-Daten</h2>
+        <p class="settings-section-sub">Beispieldatensätze zum Verifizieren der Touchpoints.</p>
+        <div class="settings-vorlagen settings-vorlagen-2">
+          <a class="settings-tile" href="../empfehler.html?code=anna-schmidt-247e" target="_blank">
+            <span class="settings-tile-title">Anna Schmidt</span>
+            <span class="settings-tile-sub">Empfehler-Code-Demo</span>
+          </a>
+          <a class="settings-tile" href="../empfaenger.html?token=d127cf3f-2d6b-4cd7-9640-64a0941e11ac" target="_blank">
+            <span class="settings-tile-title">Max Mustermann</span>
+            <span class="settings-tile-sub">Empfänger-Demo</span>
+          </a>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="settings-section-title">Systemstatus</h2>
+        <div class="settings-card">
+          <div class="settings-row"><span class="settings-key">GitHub</span><span class="settings-val" id="statusGithub">…</span></div>
+          <div class="settings-row"><span class="settings-key">Vercel</span><span class="settings-val" id="statusVercel">…</span></div>
+          <div class="settings-row"><span class="settings-key">Supabase</span><span class="settings-val" id="statusSupabase">…</span></div>
+          <div class="settings-row"><span class="settings-key">Telegram Bot</span><span class="settings-val muted">Unbekannt</span></div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="settings-section-title">Admin · Externe Tools</h2>
+        <div class="settings-links">
+          <a href="https://github.com/kaiblobel/empfehlungsportal" target="_blank">GitHub Repository</a>
+          <a href="https://vercel.com/kaiblobel-makers-projects/empfehlungsportal" target="_blank">Vercel Project</a>
+          <a href="https://supabase.com/dashboard/project/kkseqhmfubzfyloffkwe/editor" target="_blank">Supabase Editor</a>
+          <a href="https://t.me/KaiEmpfehlBot" target="_blank">Telegram Bot</a>
+          <a href="https://finanzcheck.kaiblobel.de/" target="_blank">Finanzcheck</a>
+          <a href="https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/s/vIk8AVAbE0CCK6qZpumyTA2?ismsaljsauthenabled=true" target="_blank">Bookings (Outlook)</a>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="settings-section-title">Admin · Supabase-Tabellen</h2>
+        <div class="settings-links">
+          <a href="https://supabase.com/dashboard/project/kkseqhmfubzfyloffkwe/editor/empfehlungen" target="_blank">empfehlungen</a>
+          <a href="https://supabase.com/dashboard/project/kkseqhmfubzfyloffkwe/editor/empfehler" target="_blank">empfehler</a>
+          <a href="https://supabase.com/dashboard/project/kkseqhmfubzfyloffkwe/editor/vorlagen" target="_blank">vorlagen</a>
+          <a href="https://supabase.com/dashboard/project/kkseqhmfubzfyloffkwe/editor/belohnungs_stufen" target="_blank">belohnungs_stufen</a>
+          <a href="https://supabase.com/dashboard/project/kkseqhmfubzfyloffkwe/editor/erfolgsgeschichten" target="_blank">erfolgsgeschichten</a>
+          <a href="https://supabase.com/dashboard/project/kkseqhmfubzfyloffkwe/editor/berater" target="_blank">berater</a>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="settings-section-title">Admin · Edge Function</h2>
+        <div class="settings-card">
+          <div class="settings-row"><span class="settings-key mono">notify-interesse</span><span class="settings-val mono">https://kkseqhmfubzfyloffkwe.supabase.co/functions/v1/notify-interesse</span></div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script type="module">
+    import { requireAuth, logout } from '../js/dashboard.js';
+
+    document.getElementById('hdrPhoto').src = window.ENV_BERATER_FOTO || '';
+    document.getElementById('hdrName').textContent = window.ENV_BERATER_NAME || 'Berater';
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+
+    (async () => {
+      const session = await requireAuth();
+      if (!session) return;
+
+      document.getElementById('profName').textContent = window.ENV_BERATER_NAME || '—';
+      document.getElementById('profEmail').textContent = session.user?.email || '—';
+      document.getElementById('profUuid').textContent = session.user?.id || '—';
+      document.getElementById('profExpiry').textContent = session.expires_at
+        ? `gültig bis ${new Date(session.expires_at * 1000).toLocaleString('de-DE')}`
+        : '—';
+
+      pingStatus();
+    })();
+
+    async function pingStatus() {
+      const check = async (url) => {
+        try { await fetch(url, { method: 'GET', mode: 'no-cors', cache: 'no-store' }); return true; }
+        catch { return false; }
+      };
+      const [vercel, supa, gh] = await Promise.all([
+        check('https://empfehlungsportal.vercel.app/'),
+        check('https://kkseqhmfubzfyloffkwe.supabase.co/'),
+        check('https://github.com/kaiblobel/empfehlungsportal'),
+      ]);
+      setStatus('statusVercel', vercel);
+      setStatus('statusSupabase', supa);
+      setStatus('statusGithub', gh);
+    }
+    function setStatus(id, ok) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.textContent = ok ? 'Online' : 'Offline';
+      el.className = 'settings-val ' + (ok ? 'ok' : 'fail');
+    }
+  </script>
+</body>
+</html>

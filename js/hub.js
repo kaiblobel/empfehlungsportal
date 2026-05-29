@@ -1,5 +1,6 @@
 import { supabase } from './supabase.js';
-import { requireAuth, logout, formatDate, getStatusBadge } from './dashboard.js';
+import { requireAuth, logout, formatDate, loadFunnel } from './dashboard.js';
+import { icon, hydrateIcons } from './icons.js';
 
 document.getElementById('logoutBtn').addEventListener('click', logout);
 document.getElementById('hPhoto').src = window.ENV_BERATER_FOTO || '';
@@ -7,8 +8,6 @@ document.getElementById('hName').textContent = window.ENV_BERATER_NAME || 'Berat
 
 const NOW = new Date();
 const HOUR = NOW.getHours();
-const TEST_TOKEN = 'd127cf3f-2d6b-4cd7-9640-64a0941e11ac';
-const SUPABASE_PROJECT = 'kkseqhmfubzfyloffkwe';
 
 (async () => {
   const session = await requireAuth();
@@ -16,22 +15,24 @@ const SUPABASE_PROJECT = 'kkseqhmfubzfyloffkwe';
 
   setGreeting();
   startClock();
-  fillDevSection(session);
+  hydrateIcons();
 
-  // Daten parallel laden
-  const [kpiRows, kpiSubs, heroStats, hotLeads, timelineEvents] = await Promise.all([
+  const [kpiRows, kpiSubs, heroStats, hotLeads, timelineEvents, funnel, topPromoters] = await Promise.all([
     loadKPIs(),
     loadKPISubStats(),
     loadHeroStats(),
     loadHotLeads(),
     loadTimelineEvents(),
+    loadFunnel(),
+    loadTopPromoters(),
   ]);
 
   renderKPIs(kpiRows, kpiSubs);
   renderHeroStats(heroStats);
   renderHotLeads(hotLeads);
+  renderFunnel(funnel);
+  renderTopPromoters(topPromoters);
   renderTimeline(timelineEvents);
-  pingStatus();
 })();
 
 /* ---------- Header Clock ---------- */
@@ -259,40 +260,69 @@ function timelineTime(ts) {
   return `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.`;
 }
 
-/* ---------- Status Pings ---------- */
-async function pingStatus() {
-  const check = async (url) => {
-    try {
-      // no-cors: opaque response, throw nur bei DNS/Connection-Fail
-      await fetch(url, { method: 'GET', mode: 'no-cors', cache: 'no-store', redirect: 'follow' });
-      return true;
-    } catch { return false; }
-  };
-  const [vercel, supa, gh] = await Promise.all([
-    check('https://empfehlungsportal.vercel.app/'),
-    check(`https://${SUPABASE_PROJECT}.supabase.co/`),
-    check('https://github.com/kaiblobel/empfehlungsportal'),
-  ]);
-  setStatus('statusVercel', vercel);
-  setStatus('statusSupabase', supa);
-  setStatus('statusGithub', gh);
-  // Telegram bleibt unknown
-}
-function setStatus(id, ok) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  if (ok) { el.textContent = '🟢 Online'; el.className = 'status ok'; }
-  else    { el.textContent = '🔴 Offline'; el.className = 'status fail'; }
+/* ---------- Funnel ---------- */
+function renderFunnel(f) {
+  const wrap = document.getElementById('hFunnel');
+  if (!wrap) return;
+  const stages = [
+    { label: 'Gesendet',  count: f.gesendet,     base: f.gesendet },
+    { label: 'Geöffnet',  count: f.geoeffnet,    base: f.gesendet },
+    { label: 'Interesse', count: f.interessiert, base: f.geoeffnet },
+    { label: 'Kunde',     count: f.kunden,       base: f.interessiert, gold: true },
+  ];
+  const max = Math.max(1, f.gesendet);
+  wrap.innerHTML = stages.map((s, i) => {
+    const w = (s.count / max) * 100;
+    const pct = s.base > 0 && i > 0 ? Math.round((s.count / s.base) * 100) + '%' : '';
+    return `
+      <div class="h-funnel-row${s.gold ? ' gold' : ''}">
+        <div class="h-funnel-label">${s.label}</div>
+        <div class="h-funnel-track"><div class="h-funnel-bar" style="width:${w}%"></div></div>
+        <div class="h-funnel-count">${s.count}</div>
+        <div class="h-funnel-pct">${pct}</div>
+      </div>`;
+  }).join('');
 }
 
-/* ---------- Dev Section ---------- */
-function fillDevSection(session) {
-  const email = session?.user?.email || '—';
-  const expiry = session?.expires_at ? new Date(session.expires_at * 1000).toLocaleString('de-DE') : '—';
-  const userId = session?.user?.id || '—';
-  document.getElementById('devEmail').textContent = email;
-  document.getElementById('devExpiry').textContent = expiry;
-  document.getElementById('devUserId').textContent = userId;
+/* ---------- Top-Empfehler ---------- */
+async function loadTopPromoters() {
+  try {
+    const { data } = await supabase
+      .from('empfehlungen')
+      .select('empfehler_name, status')
+      .not('empfehler_name', 'is', null);
+    if (!data) return [];
+    const tally = new Map();
+    for (const row of data) {
+      const key = (row.empfehler_name || '').trim();
+      if (!key) continue;
+      const t = tally.get(key) || { name: key, gesamt: 0, kunde: 0 };
+      t.gesamt++;
+      if (row.status === 'kunde') t.kunde++;
+      tally.set(key, t);
+    }
+    return Array.from(tally.values())
+      .sort((a, b) => (b.kunde - a.kunde) || (b.gesamt - a.gesamt))
+      .slice(0, 3);
+  } catch { return []; }
+}
+
+function renderTopPromoters(rows) {
+  const wrap = document.getElementById('hPromoters');
+  if (!wrap) return;
+  if (!rows.length) {
+    wrap.innerHTML = `<div class="h-empty-positive">Noch keine Empfehler. Sobald Empfehlungen reinkommen, erscheinen hier deine Champions.</div>`;
+    return;
+  }
+  const ranks = ['gold', 'silber', 'bronze'];
+  wrap.innerHTML = rows.map((p, i) => `
+    <a class="h-promoter h-promoter-${ranks[i]}" href="dashboard/empfehler.html">
+      <span class="h-promoter-rank">${icon('Trophy', { size: 18 })}</span>
+      <span class="h-promoter-body">
+        <span class="h-promoter-name">${escapeHtml(p.name)}</span>
+        <span class="h-promoter-meta">${p.gesamt} Empfehlung${p.gesamt !== 1 ? 'en' : ''}${p.kunde ? ` · ${p.kunde} Kunde${p.kunde !== 1 ? 'n' : ''}` : ''}</span>
+      </span>
+    </a>`).join('');
 }
 
 /* ---------- Toast ---------- */
@@ -303,14 +333,6 @@ function toast(text) {
   clearTimeout(toastEl._t);
   toastEl._t = setTimeout(() => toastEl.classList.remove('show'), 2200);
 }
-
-// "BALD VERFÜGBAR"-Tiles
-document.querySelectorAll('.h-tile.disabled').forEach(t => {
-  t.addEventListener('click', (e) => {
-    e.preventDefault();
-    toast('Kommt bald.');
-  });
-});
 
 /* ---------- Helpers ---------- */
 function escapeHtml(s) {

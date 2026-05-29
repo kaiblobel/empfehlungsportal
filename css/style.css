@@ -2,16 +2,55 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&display=swap');
 
 :root {
-  --bg-primary: #f5f5f7;
-  --bg-secondary: #ffffff;
-  --text-primary: #1d1d1f;
-  --text-secondary: #6e6e73;
-  --accent-gold: #B8860B;
-  --border-light: #e5e5e5;
-  --shadow-card: 0 2px 20px rgba(0, 0, 0, 0.06);
-  --radius-card: 12px;
+  /* Phase 13 · Premium SaaS Design-Tokens */
+  --bg: #FAFAFA;
+  --surface: #FFFFFF;
+  --surface-2: #F5F5F2;
+  --ink: #1A1A1A;
+  --ink-muted: #6B6660;
+  --ink-soft: #8C8680;
+  --hairline: #E8E5E0;
+  --hairline-strong: #D4CFC6;
+
+  --accent: #C9B98A;
+  --accent-hover: #B8A570;
+  --accent-bg: #F5F0E0;
+  --accent-soft: rgba(201, 185, 138, 0.16);
+
+  --ok: #1F6B30;
+  --warn: #C9871E;
+  --err: #B53D3D;
+  --ok-bg: rgba(31, 107, 48, 0.10);
+  --warn-bg: rgba(201, 135, 30, 0.12);
+  --err-bg: rgba(181, 61, 61, 0.10);
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: 'Fraunces', 'Georgia', serif;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --transition: 200ms var(--ease);
+
+  /* Backward-Compat Aliases (Phase-1-Apple-Tokens — bleiben für unangetastete Pages) */
+  --bg-primary: var(--bg);
+  --bg-secondary: var(--surface);
+  --text-primary: var(--ink);
+  --text-secondary: var(--ink-muted);
+  --accent-gold: var(--accent);
+  --border-light: var(--hairline);
+  --shadow-card: 0 2px 20px rgba(0, 0, 0, 0.04);
+  --radius-card: var(--radius-md);
   --radius-button: 8px;
-  --transition: 0.3s ease;
 }
 
 * {
