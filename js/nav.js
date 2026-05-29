@@ -92,14 +92,14 @@ export function renderNav(opts = {}) {
       <aside class="nav-sidebar">
         <div class="nav-brand">
           <span class="nav-brand-mark"></span>
-          <span class="nav-brand-text">Referral OS</span>
+          <span class="nav-brand-text">Empfehlungs-HUB</span>
         </div>
         <nav class="nav-list">${NAV_ITEMS.map(sidebarItem).join('')}</nav>
       </aside>
       <button class="nav-hamburger" type="button" aria-label="Menü öffnen">${icon('Menu', { size: 22 })}</button>
       <div class="nav-drawer" hidden>
         <button class="nav-drawer-close" type="button" aria-label="Menü schließen">${icon('X', { size: 22 })}</button>
-        <div class="nav-brand"><span class="nav-brand-mark"></span><span class="nav-brand-text">Referral OS</span></div>
+        <div class="nav-brand"><span class="nav-brand-mark"></span><span class="nav-brand-text">Empfehlungs-HUB</span></div>
         <nav class="nav-list">${NAV_ITEMS.map(sidebarItem).join('')}</nav>
       </div>
       <nav class="nav-bottom">${NAV_ITEMS.filter(i => i.bottom).map(bottomItem).join('')}</nav>
