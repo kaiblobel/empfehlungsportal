@@ -93,7 +93,37 @@ function renderLinkCard() {
   });
 
   const waText = `Hi, ich bin seit einiger Zeit Kunde bei Kai Blobel und wollte dir kurz die Möglichkeit geben, ihn auch kennenzulernen. Schau es dir an: ${baseLink}`;
-  document.getElementById('p7Whatsapp').href = `https://wa.me/?text=${encodeURIComponent(waText)}`;
+  const waUrl = `https://wa.me/?text=${encodeURIComponent(waText)}`;
+
+  const waBtn = document.getElementById('p7Whatsapp');
+  waBtn.href = waUrl;
+  waBtn.setAttribute('target', '_blank');
+  waBtn.setAttribute('rel', 'noopener');
+
+  waBtn.addEventListener('click', async (e) => {
+    // 1. Web Share API (nativer iOS/Android-Share-Sheet, bietet WhatsApp + alle anderen Apps)
+    if (navigator.share) {
+      e.preventDefault();
+      try {
+        await navigator.share({
+          title: 'Kai Blobel — Persönliche Empfehlung',
+          text: waText,
+        });
+        return;
+      } catch (err) {
+        // User hat abgebrochen oder Share fehlgeschlagen → Fallback unten
+        if (err.name === 'AbortError') return;
+      }
+    }
+    // 2. Kein Web Share API: <a href> auf wa.me wird vom Browser geöffnet (Desktop: WhatsApp Web; Mobile: WhatsApp-App)
+    //    Falls auch das nicht klappt, Clipboard-Fallback:
+    setTimeout(async () => {
+      try {
+        await navigator.clipboard.writeText(waText);
+        toast('Nachricht in die Zwischenablage kopiert. Füg sie in WhatsApp ein.');
+      } catch (_) {}
+    }, 500);
+  });
 }
 
 function renderRewardsList(stats, stufen) {
