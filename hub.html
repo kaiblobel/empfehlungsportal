@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f5f5f7" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Empfehlungshub · Kai Blobel</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/hub.css" />
+  <script src="js/config.js"></script>
+</head>
+<body data-page="hub">
+
+  <header class="h-header">
+    <div class="h-header-left">
+      <img class="h-header-photo" id="hPhoto" src="" alt="" />
+      <div class="h-header-text">
+        <div class="h-header-name" id="hName">…</div>
+        <div class="h-header-sub">Empfehlungshub</div>
+      </div>
+    </div>
+    <button class="h-logout" id="logoutBtn">Abmelden</button>
+  </header>
+
+  <main class="h-main">
+
+    <!-- Hero -->
+    <section class="h-hero">
+      <h1 class="h-greet" id="hGreet">…</h1>
+      <p class="h-stats-text" id="hStats">Lade Live-Daten…</p>
+    </section>
+
+    <!-- 1 · KPI Dashboard -->
+    <section>
+      <div class="h-kpis">
+        <div class="h-kpi"><div class="h-kpi-label">Aktive Empfehler</div><div class="h-kpi-value" id="kpiEmpfehler"><span class="h-skeleton"></span></div></div>
+        <div class="h-kpi"><div class="h-kpi-label">Link-Klicks</div><div class="h-kpi-value" id="kpiKlicks"><span class="h-skeleton"></span></div></div>
+        <div class="h-kpi"><div class="h-kpi-label">Empfehlungen</div><div class="h-kpi-value" id="kpiGesamt"><span class="h-skeleton"></span></div></div>
+        <div class="h-kpi"><div class="h-kpi-label">Kunden</div><div class="h-kpi-value" id="kpiKunden"><span class="h-skeleton"></span></div></div>
+      </div>
+    </section>
+
+    <!-- 2 · Schnellaktionen -->
+    <section>
+      <div class="h-label">Schnellaktionen</div>
+      <div class="h-quick" style="margin-top:12px;">
+        <a href="empfehlen.html"><span class="icon">➕</span><span class="label">Neue Empfehlung</span></a>
+        <a href="empfaenger.html?token=d127cf3f-2d6b-4cd7-9640-64a0941e11ac&vorlage=allgemein" target="_blank"><span class="icon">👁</span><span class="label">Empfänger testen</span></a>
+        <a href="dashboard/overview.html"><span class="icon">📋</span><span class="label">Dashboard</span></a>
+        <a href="dashboard/empfehlungen.html"><span class="icon">📞</span><span class="label">Anrufwünsche</span></a>
+      </div>
+    </section>
+
+    <!-- 3 · Bereiche -->
+    <section>
+      <div class="h-label">Bereiche</div>
+      <div class="h-tiles" style="margin-top:12px;">
+        <a class="h-tile" href="dashboard/overview.html">
+          <span class="icon">📋</span>
+          <h3 class="titel">Empfehlungen</h3>
+          <p class="desc">Alle Empfehlungen, Status und Anrufwünsche</p>
+          <span class="badge live">Live</span>
+        </a>
+        <a class="h-tile" href="vorlagen.html">
+          <span class="icon">🎨</span>
+          <h3 class="titel">Vorlagen</h3>
+          <p class="desc">Empfängerseiten pro Thema verwalten</p>
+          <span class="badge live">Live</span>
+        </a>
+        <a class="h-tile" href="programm.html">
+          <span class="icon">🎁</span>
+          <h3 class="titel">Programm</h3>
+          <p class="desc">Belohnungen und Stufen bearbeiten</p>
+          <span class="badge live">Live</span>
+        </a>
+        <a class="h-tile" href="index.html">
+          <span class="icon">📽️</span>
+          <h3 class="titel">Präsentation</h3>
+          <p class="desc">Empfehlungsflow für Kundengespräch</p>
+          <span class="badge live">Live</span>
+        </a>
+        <a class="h-tile" href="empfaenger.html">
+          <span class="icon">🔗</span>
+          <h3 class="titel">Empfängerseite</h3>
+          <p class="desc">So sieht es deine Empfehlung</p>
+          <span class="badge live">Live</span>
+        </a>
+        <a class="h-tile disabled" href="#" data-soon>
+          <span class="icon">⚙️</span>
+          <h3 class="titel">Einstellungen</h3>
+          <p class="desc">Profil, WhatsApp, Booking-Link</p>
+          <span class="badge soon">Bald verfügbar</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 4 · Vorlagen testen -->
+    <section>
+      <div class="h-label">Vorlagen testen</div>
+      <div class="h-vorlagen-test" style="margin-top:12px;">
+        <div class="h-vorlage-card"><span class="icon">🎯</span><h3>Allgemein</h3><p>Universeller Einstieg für jeden Kontakt</p><a href="empfaenger.html?token=d127cf3f-2d6b-4cd7-9640-64a0941e11ac&vorlage=allgemein" target="_blank">Vorschau öffnen →</a></div>
+        <div class="h-vorlage-card"><span class="icon">🏠</span><h3>Baufinanzierung</h3><p>Für Hauskauf, Neubau, Anschlussfinanzierung</p><a href="empfaenger.html?token=d127cf3f-2d6b-4cd7-9640-64a0941e11ac&vorlage=baufi" target="_blank">Vorschau öffnen →</a></div>
+        <div class="h-vorlage-card"><span class="icon">💶</span><h3>Förderungen</h3><p>Staatliche Zulagen und Arbeitgeberbeiträge</p><a href="empfaenger.html?token=d127cf3f-2d6b-4cd7-9640-64a0941e11ac&vorlage=foerderungen" target="_blank">Vorschau öffnen →</a></div>
+        <div class="h-vorlage-card"><span class="icon">💼</span><h3>Selbständige</h3><p>Basisrente, Absicherung, Altersvorsorge</p><a href="empfaenger.html?token=d127cf3f-2d6b-4cd7-9640-64a0941e11ac&vorlage=selbstaendige" target="_blank">Vorschau öffnen →</a></div>
+        <div class="h-vorlage-card"><span class="icon">📈</span><h3>Investment</h3><p>Depot, Vermögensaufbau, Rendite</p><a href="empfaenger.html?token=d127cf3f-2d6b-4cd7-9640-64a0941e11ac&vorlage=investment" target="_blank">Vorschau öffnen →</a></div>
+        <div class="h-vorlage-card"><span class="icon">🛡️</span><h3>Absicherung</h3><p>Familie, BU, Krankenversicherung</p><a href="empfaenger.html?token=d127cf3f-2d6b-4cd7-9640-64a0941e11ac&vorlage=absicherung" target="_blank">Vorschau öffnen →</a></div>
+      </div>
+    </section>
+
+    <!-- 5 · Test-Empfehlungen -->
+    <section>
+      <div class="h-label">Test-Empfehlungen</div>
+      <div class="h-test-pair" style="margin-top:12px;">
+        <div class="h-vorlage-card"><span class="icon">👤</span><h3>Anna Schmidt</h3><p>Test-Empfehler mit echtem Code</p><a href="empfehler.html?code=anna-schmidt-247e" target="_blank">Empfehler-Ansicht →</a></div>
+        <div class="h-vorlage-card"><span class="icon">👤</span><h3>Max Mustermann</h3><p>Empfänger mit Anrufwunsch + Nachricht</p><a href="empfaenger.html?token=d127cf3f-2d6b-4cd7-9640-64a0941e11ac" target="_blank">Empfänger-Demo →</a></div>
+      </div>
+    </section>
+
+    <!-- 6 · Externe Tools -->
+    <section>
+      <div class="h-label">Externe Tools</div>
+      <div class="h-tools" style="margin-top:12px;">
+        <a href="https://github.com/kaiblobel/empfehlungsportal" target="_blank"><span class="icon">🐙</span><div class="titel">GitHub Repo</div><div class="desc">Source-Code & Commits</div></a>
+        <a href="https://vercel.com/kaiblobel-makers-projects/empfehlungsportal" target="_blank"><span class="icon">⚡</span><div class="titel">Vercel</div><div class="desc">Deployments & Logs</div></a>
+        <a href="https://supabase.com/dashboard/project/kkseqhmfubzfyloffkwe/editor" target="_blank"><span class="icon">🗄️</span><div class="titel">Supabase</div><div class="desc">Datenbank-Editor</div></a>
+        <a href="https://t.me/KaiEmpfehlBot" target="_blank"><span class="icon">🤖</span><div class="titel">Telegram Bot</div><div class="desc">Hot-Lead-Alerts</div></a>
+        <a href="https://finanzcheck.kaiblobel.de/" target="_blank"><span class="icon">📊</span><div class="titel">Finanzcheck</div><div class="desc">Externes Tool</div></a>
+        <a href="https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/s/vIk8AVAbE0CCK6qZpumyTA2?ismsaljsauthenabled=true" target="_blank"><span class="icon">📅</span><div class="titel">Bookings</div><div class="desc">Outlook-Termine</div></a>
+      </div>
+    </section>
+
+    <!-- 7 · Letzte Aktivität -->
+    <section>
+      <div class="h-label">Letzte Aktivität</div>
+      <div class="h-feed" id="hFeed" style="margin-top:12px;"><div style="padding:24px;text-align:center;color:var(--text-secondary);font-size:14px;">Lade…</div></div>
+    </section>
+
+    <!-- 8 · Systemstatus -->
+    <section>
+      <div class="h-label">Systemstatus</div>
+      <div class="h-status" style="margin-top:12px;">
+        <div class="h-status-row"><span class="name">GitHub</span><span class="status unknown" id="statusGithub">…</span></div>
+        <div class="h-status-row"><span class="name">Vercel</span><span class="status unknown" id="statusVercel">…</span></div>
+        <div class="h-status-row"><span class="name">Supabase</span><span class="status unknown" id="statusSupabase">…</span></div>
+        <div class="h-status-row"><span class="name">Telegram Bot</span><span class="status unknown">⚪ Unbekannt</span></div>
+      </div>
+    </section>
+
+    <!-- 9 · Entwickler & Debug -->
+    <section>
+      <details class="h-dev">
+        <summary>Entwickler & Debug</summary>
+        <div class="h-dev-body">
+          <div class="h-dev-block">
+            <h4>Session</h4>
+            <div class="v">User: <span id="devEmail">—</span></div>
+            <div class="v">User-ID: <span id="devUserId">—</span></div>
+            <div class="v">Expiry: <span id="devExpiry">—</span></div>
+          </div>
+          <div class="h-dev-block">
+            <h4>6 Vorlagen-Test-URLs</h4>
+            <a href="empfaenger.html?token=d127cf3f-2d6b-4cd7-9640-64a0941e11ac&vorlage=allgemein" target="_blank">empfaenger.html?token=d127cf3f…&vorlage=allgemein</a>
+            <a href="empfaenger.html?token=d127cf3f-2d6b-4cd7-9640-64a0941e11ac&vorlage=baufi" target="_blank">…&vorlage=baufi</a>
+            <a href="empfaenger.html?token=d127cf3f-2d6b-4cd7-9640-64a0941e11ac&vorlage=foerderungen" target="_blank">…&vorlage=foerderungen</a>
+            <a href="empfaenger.html?token=d127cf3f-2d6b-4cd7-9640-64a0941e11ac&vorlage=selbstaendige" target="_blank">…&vorlage=selbstaendige</a>
+            <a href="empfaenger.html?token=d127cf3f-2d6b-4cd7-9640-64a0941e11ac&vorlage=investment" target="_blank">…&vorlage=investment</a>
+            <a href="empfaenger.html?token=d127cf3f-2d6b-4cd7-9640-64a0941e11ac&vorlage=absicherung" target="_blank">…&vorlage=absicherung</a>
+          </div>
+          <div class="h-dev-block">
+            <h4>Supabase-Tabellen</h4>
+            <a href="https://supabase.com/dashboard/project/kkseqhmfubzfyloffkwe/editor/empfehlungen" target="_blank">empfehlungen</a>
+            <a href="https://supabase.com/dashboard/project/kkseqhmfubzfyloffkwe/editor/empfehler" target="_blank">empfehler</a>
+            <a href="https://supabase.com/dashboard/project/kkseqhmfubzfyloffkwe/editor/vorlagen" target="_blank">vorlagen</a>
+            <a href="https://supabase.com/dashboard/project/kkseqhmfubzfyloffkwe/editor/belohnungs_stufen" target="_blank">belohnungs_stufen</a>
+            <a href="https://supabase.com/dashboard/project/kkseqhmfubzfyloffkwe/editor/erfolgsgeschichten" target="_blank">erfolgsgeschichten</a>
+            <a href="https://supabase.com/dashboard/project/kkseqhmfubzfyloffkwe/editor/berater" target="_blank">berater</a>
+          </div>
+          <div class="h-dev-block">
+            <h4>Edge Function</h4>
+            <div class="v">https://kkseqhmfubzfyloffkwe.supabase.co/functions/v1/notify-interesse</div>
+          </div>
+          <div class="h-dev-block">
+            <h4>Test-Token + Berater-UUID</h4>
+            <div class="v">Token: d127cf3f-2d6b-4cd7-9640-64a0941e11ac</div>
+            <div class="v">Berater-UUID: b3cbf981-ea3e-4e6d-a993-2fe158ca0d48</div>
+          </div>
+        </div>
+      </details>
+    </section>
+
+  </main>
+
+  <div class="h-toast" id="hToast"></div>
+
+  <script type="module" src="js/hub.js"></script>
+</body>
+</html>

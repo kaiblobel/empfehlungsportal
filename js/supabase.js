@@ -141,6 +141,21 @@ export async function getErfolgsgeschichten(vorlage_slug = null) {
   }
 }
 
+export async function updateVorlage(slug, data) {
+  if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
+  try {
+    const { error } = await supabase
+      .from('vorlagen')
+      .update(data)
+      .eq('slug', slug);
+    if (error) throw error;
+    return { error: null };
+  } catch (err) {
+    console.error('[updateVorlage]', err);
+    return { error: err };
+  }
+}
+
 export async function getVorlage(slug) {
   if (!supabase) return null;
   try {
