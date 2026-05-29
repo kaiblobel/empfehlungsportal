@@ -123,6 +123,34 @@
   cursor: pointer;
 }
 
+.app-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-hub-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-button);
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.btn-hub-back:hover {
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
+}
+@media (max-width: 480px) {
+  .btn-hub-back span.lbl { display: none; }
+  .btn-hub-back { padding: 8px 10px; }
+}
+
 .app-content {
   max-width: 720px;
   margin: 0 auto;
