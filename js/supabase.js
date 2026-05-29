@@ -118,6 +118,29 @@ export async function getVorlagen() {
   }
 }
 
+export async function getErfolgsgeschichten(vorlage_slug = null) {
+  if (!supabase) return [];
+  try {
+    let q = supabase
+      .from('erfolgsgeschichten')
+      .select('*')
+      .eq('aktiv', true)
+      .order('sort_order', { ascending: true });
+    if (vorlage_slug) {
+      // Themen-spezifisch ODER themen-neutral (NULL)
+      q = q.or(`vorlage_slug.eq.${vorlage_slug},vorlage_slug.is.null`);
+    } else {
+      q = q.is('vorlage_slug', null);
+    }
+    const { data, error } = await q;
+    if (error) throw error;
+    return data || [];
+  } catch (err) {
+    console.error('[getErfolgsgeschichten]', err);
+    return [];
+  }
+}
+
 export async function getVorlage(slug) {
   if (!supabase) return null;
   try {

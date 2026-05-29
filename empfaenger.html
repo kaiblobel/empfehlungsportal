@@ -3,19 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#f5f5f7" />
+  <meta name="theme-color" content="#FAF8F5" />
   <title>Eine persönliche Empfehlung · Kai Blobel</title>
 
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Du wurdest empfohlen." />
-  <meta property="og:description" content="Jemand aus deinem Umfeld hat bewusst an dich gedacht. Eine persönliche Empfehlung von Kai Blobel." />
+  <meta property="og:description" content="Jemand aus deinem Umfeld hat bewusst an dich gedacht." />
   <meta property="og:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:site_name" content="Kai Blobel · Team Wachsbleiche" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Du wurdest empfohlen." />
-  <meta name="twitter:description" content="Jemand aus deinem Umfeld hat bewusst an dich gedacht." />
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
   <link rel="stylesheet" href="css/style.css" />
@@ -24,132 +19,224 @@
 </head>
 <body data-page="empfaenger">
 
-  <!-- Vorlage-Badge oben rechts (nur wenn nicht 'allgemein') -->
-  <div class="p5-badge-vorlage" id="p5BadgeVorlage" style="display:none;">
-    <span class="icon" id="p5BadgeIcon"></span>
-    <span class="titel" id="p5BadgeTitel"></span>
+  <!-- Vorlage-Badge (nur wenn nicht allgemein) -->
+  <div class="e-badge-vorlage" id="eBadge" style="display:none;">
+    <span class="icon" id="eBadgeIcon"></span>
+    <span class="titel" id="eBadgeTitel"></span>
   </div>
 
   <!-- ===== 1 · Hero ===== -->
-  <section class="p5-section p5-hero">
-    <div class="p5-inner">
-      <p class="p5-eyebrow p5-reveal">Eine persönliche Empfehlung</p>
-      <img class="p5-portrait p5-reveal d1" id="p5Foto" src="" alt="Kai Blobel" />
-      <h1 class="p5-h1 p5-reveal d1">Hallo, ich bin Kai Blobel.</h1>
-      <p class="p5-sub p5-reveal d2">Regionaldirektionsleiter · Team Wachsbleiche · 22 Jahre Erfahrung</p>
-      <p class="p5-body p5-reveal d3" id="p5HeroBody">
-        Jemand aus deinem Umfeld glaubt, dass ein Gespräch mit mir für dich wertvoll sein könnte.
-        Ich rufe dich in den nächsten Tagen an — kurz, persönlich, ohne Verpflichtung.
+  <section class="e-section e-hero" id="hero">
+    <div class="e-inner">
+      <p class="e-eyebrow e-reveal">Persönliche Empfehlung</p>
+      <h1 class="e-h1 e-reveal d1">Jemand aus deinem Umfeld<br>hat an dich gedacht.</h1>
+      <img class="e-hero-portrait e-reveal d2" id="eFoto" src="" alt="Kai Blobel" />
+      <p class="e-lede e-reveal d2" style="margin: 0 auto;">
+        Diese Empfehlung wurde nicht zufällig ausgesprochen.
+        Jemand glaubt, dass ein Gespräch oder ein kurzer Check für dich interessant sein könnte.
       </p>
-    </div>
-    <div class="p5-scroll-hint p5-reveal d3">
-      <span>weiterlesen</span>
-      <span class="line"></span>
+      <p class="e-body e-reveal d3" style="margin: 0 auto;">
+        Ohne Druck. Ohne Verpflichtung.
+      </p>
+      <div class="e-cta-stack e-reveal d3">
+        <a class="e-btn e-btn-primary" href="#finanzcheck">3-Minuten-Check starten</a>
+        <a class="e-btn e-btn-secondary" href="#kontakt">Mehr erfahren</a>
+      </div>
     </div>
   </section>
 
-  <!-- ===== 2 · Empfehler-Karte (dynamisch) ===== -->
-  <section class="p5-section alt" id="p5SectEmpfehler">
-    <div class="p5-inner" id="p5EmpfehlerInner">
-      <!-- Inhalt wird per JS gerendert -->
-      <p class="p5-eyebrow">Persönliche Empfehlung</p>
-      <h2 class="p5-h2">Jemand hat an dich gedacht.</h2>
-      <p class="p5-body">Eine Person aus deinem Umfeld glaubt, dass dieses Gespräch für dich interessant sein könnte.</p>
+  <!-- ===== 2 · Empfehler-Karte ===== -->
+  <section class="e-section alt" id="empfehler">
+    <div class="e-inner" id="eEmpfehlerInner">
+      <!-- Wird per JS gerendert -->
+      <p class="e-eyebrow">Warum diese Seite</p>
+      <h2 class="e-h2">Menschen empfehlen<br>keine Produkte.</h2>
+      <p class="e-lede" style="margin: 8px auto 0;">Sie empfehlen Erfahrungen.</p>
+      <p class="e-body" style="margin: 24px auto 0;">
+        Jemand aus deinem Umfeld hat den Eindruck, dass diese Informationen für dich interessant sein könnten.
+      </p>
     </div>
   </section>
 
-  <!-- ===== 3 · Quickcheck CTA ===== -->
-  <section class="p5-section">
-    <img class="p5-hero-image p5-reveal" id="p5QuickHero" src="" alt="" style="display:none;" />
-    <div class="p5-inner">
-      <p class="p5-eyebrow p5-reveal">Vorab</p>
-      <h2 class="p5-h2 p5-reveal d1" id="p5QuickHeadline">Was steckt finanziell<br>in deiner Situation?</h2>
-      <p class="p5-body p5-reveal d2">
-        In 3 Minuten siehst du, welche Förderungen, Steuervorteile und Sparmöglichkeiten du aktuell noch nicht nutzt.
-        Konkret. Auf deine Zahlen zugeschnitten.
+  <!-- ===== 3 · Finanzcheck ===== -->
+  <section class="e-section" id="finanzcheck">
+    <img class="e-finanz-img e-reveal" id="eFinanzImg" src="/assets/images/empfaenger/finanzcheck.jpg" alt="" />
+    <div class="e-inner">
+      <p class="e-eyebrow e-reveal">Finanzcheck</p>
+      <h2 class="e-h2 e-reveal d1" id="eFinanzHeadline">Was könnte dir<br>aktuell entgehen?</h2>
+      <p class="e-body e-reveal d2" style="margin: 0 auto;">
+        In nur wenigen Minuten findest du heraus, welche Förderungen, Steuerpotenziale und finanziellen Chancen
+        du möglicherweise noch nicht nutzt.
       </p>
-      <a class="p5-btn p5-btn-primary p5-reveal d2" id="p5QuickCta" href="https://finanzcheck.kaiblobel.de/" target="_blank" rel="noopener" style="margin-top: 12px;">
-        Mein Potenzial jetzt checken →
+      <a class="e-btn e-btn-primary e-reveal d3" id="eFinanzCta"
+         href="https://finanzcheck.kaiblobel.de/" target="_blank" rel="noopener"
+         style="margin-top: 28px; max-width: 360px;">
+        Mein Potenzial prüfen
       </a>
-      <p class="p5-micro p5-reveal d3">Dauert ca. 3 Minuten · Keine Anmeldung · 100&nbsp;% kostenlos</p>
+      <p class="e-micro e-reveal d3">Persönlich. Kostenlos. Unverbindlich.</p>
     </div>
   </section>
 
-  <!-- ===== 4 · Warum Kai ===== -->
-  <section class="p5-section alt">
-    <div class="p5-inner">
-      <p class="p5-eyebrow p5-reveal">Warum Kai Blobel</p>
-      <h2 class="p5-h2 p5-reveal d1">Was dich erwartet.</h2>
-      <div class="p5-cards p5-reveal d2">
-        <div class="p5-card">
-          <span class="p5-card-icon">🎯</span>
-          <h3 class="p5-card-title" id="p5V1Titel">Keine Kaltakquise</h3>
-          <p class="p5-card-text"  id="p5V1Text">Du wurdest empfohlen — jemand, dem du vertraust, hat bewusst an dich gedacht.</p>
+  <!-- ===== 4 · Was dich erwartet ===== -->
+  <section class="e-section alt">
+    <div class="e-inner">
+      <p class="e-eyebrow e-reveal">Was dich erwartet</p>
+      <h2 class="e-h2 e-reveal d1">Vier ruhige<br>Versprechen.</h2>
+      <div class="e-expect e-reveal d2">
+        <div class="e-expect-row">
+          <span class="num">1</span>
+          <div class="body">
+            <h3 id="eV1Titel">Persönliches Gespräch</h3>
+            <p id="eV1Text">Kein Verkaufsmodus. Ein echtes Gespräch über deine Situation.</p>
+          </div>
         </div>
-        <div class="p5-card">
-          <span class="p5-card-icon">💡</span>
-          <h3 class="p5-card-title" id="p5V2Titel">Konkrete Zahlen</h3>
-          <p class="p5-card-text"  id="p5V2Text">Kein allgemeines Gespräch. Wir schauen, was in deiner Situation wirklich möglich ist.</p>
+        <div class="e-expect-row">
+          <span class="num">2</span>
+          <div class="body">
+            <h3 id="eV2Titel">Klare Zahlen</h3>
+            <p id="eV2Text">Konkret, auf deine Verhältnisse zugeschnitten — nicht allgemeingültig.</p>
+          </div>
         </div>
-        <div class="p5-card">
-          <span class="p5-card-icon">🤝</span>
-          <h3 class="p5-card-title" id="p5V3Titel">Du entscheidest</h3>
-          <p class="p5-card-text"  id="p5V3Text">Kein Druck, keine Verpflichtung. Du bestimmst, ob und wie es weitergeht.</p>
+        <div class="e-expect-row">
+          <span class="num">3</span>
+          <div class="body">
+            <h3 id="eV3Titel">Individuelle Möglichkeiten</h3>
+            <p id="eV3Text">Was in deiner Situation realistisch und sinnvoll ist — und was nicht.</p>
+          </div>
+        </div>
+        <div class="e-expect-row">
+          <span class="num">4</span>
+          <div class="body">
+            <h3>Du entscheidest</h3>
+            <p>Kein Druck, keine Verpflichtung. Du bestimmst, ob und wie es weitergeht.</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== 5 · Anrufwunsch ===== -->
-  <section class="p5-section">
-    <div class="p5-inner">
-      <p class="p5-eyebrow p5-reveal">Nächster Schritt</p>
-      <h2 class="p5-h2 p5-reveal d1">Kai meldet sich bei dir.</h2>
-      <p class="p5-body p5-reveal d2">
-        Hinterlasse deinen Anrufwunsch — ich melde mich persönlich bei dir.
-      </p>
-
-      <form class="p5-form p5-reveal d2" id="p5Anrufform">
-        <select class="p5-select" id="p5Slot" required>
-          <option value="" disabled selected>Wann passt es dir am besten?</option>
-          <option value="Morgens (8–10 Uhr)">Morgens (8–10 Uhr)</option>
-          <option value="Vormittags (10–12 Uhr)">Vormittags (10–12 Uhr)</option>
-          <option value="Mittags (12–14 Uhr)">Mittags (12–14 Uhr)</option>
-          <option value="Nachmittags (14–17 Uhr)">Nachmittags (14–17 Uhr)</option>
-          <option value="Abends (17–19 Uhr)">Abends (17–19 Uhr)</option>
-        </select>
-        <button type="submit" class="p5-btn p5-btn-primary" id="p5SubmitBtn">
-          Anrufwunsch bestätigen
-        </button>
-      </form>
-
-      <div class="p5-confirm" id="p5Confirm">
-        <div class="p5-confirm-mark">✓</div>
-        <p class="p5-confirm-text">Danke. Kai meldet sich persönlich bei dir.</p>
-        <p class="p5-confirm-sub" id="p5ConfirmSub">Ich rufe dich zu deinem gewünschten Zeitfenster an.</p>
-      </div>
-
-      <div class="p5-divider"><span>oder</span></div>
-
-      <a class="p5-btn p5-btn-secondary p5-reveal d3"
-         href="https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/s/vIk8AVAbE0CCK6qZpumyTA2?ismsaljsauthenabled=true"
-         target="_blank" rel="noopener">
-        Termin selbst wählen
-      </a>
+  <!-- ===== 5 · So läuft es ab ===== -->
+  <section class="e-section">
+    <div class="e-inner">
+      <p class="e-eyebrow e-reveal">So läuft es ab</p>
+      <h2 class="e-h2 e-reveal d1">Vier Schritte,<br>kein Druck.</h2>
+      <ol class="e-journey">
+        <li class="e-reveal d1">
+          <span class="step-num">Schritt 1</span>
+          <h3 class="step-title">Finanzcheck</h3>
+          <p class="step-desc">Du nutzt den Online-Check und siehst, was möglich ist.</p>
+        </li>
+        <li class="e-reveal d2">
+          <span class="step-num">Schritt 2</span>
+          <h3 class="step-title">Persönliche Einordnung</h3>
+          <p class="step-desc">Wir telefonieren kurz — ich ordne deine Situation ein.</p>
+        </li>
+        <li class="e-reveal d2">
+          <span class="step-num">Schritt 3</span>
+          <h3 class="step-title">Möglichkeiten erkennen</h3>
+          <p class="step-desc">Konkrete Optionen, die zu deinem Leben passen.</p>
+        </li>
+        <li class="e-reveal d3">
+          <span class="step-num">Schritt 4</span>
+          <h3 class="step-title">Eigene Entscheidung</h3>
+          <p class="step-desc">Du entscheidest, was passt und was nicht — in deinem Tempo.</p>
+        </li>
+      </ol>
     </div>
   </section>
 
-  <!-- ===== 6 · Footer ===== -->
-  <footer class="p5-section dark p5-footer">
-    <div class="p5-inner">
-      <p class="p5-footer-name">Kai Blobel · Team Wachsbleiche</p>
-      <p class="p5-footer-sub">Regionaldirektionsleiter · Deutsche Vermögensberatung</p>
-      <p class="p5-optout">
+  <!-- ===== 6 · Warum Kai ===== -->
+  <section class="e-section alt">
+    <div class="e-inner">
+      <p class="e-eyebrow e-reveal">Warum ich</p>
+      <h2 class="e-h2 e-reveal d1">22 Jahre Erfahrung.<br>Ein Versprechen.</h2>
+      <img class="e-bio-portrait e-reveal d2" id="eBioFoto" src="" alt="Kai Blobel" />
+      <div class="e-bio-stmts e-reveal d2">
+        <div class="stmt"><p>Regionaldirektionsleiter — Team Wachsbleiche.</p></div>
+        <div class="stmt"><p>Spezialisiert auf ganzheitliche Allfinanz-Beratung.</p></div>
+        <div class="stmt"><p>Persönliche Betreuung — kein Call-Center.</p></div>
+        <div class="stmt"><p>Backbone: Deutsche Vermögensberatung, Europas größter Allfinanzvertrieb.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 7 · Echte Ergebnisse ===== -->
+  <section class="e-section">
+    <div class="e-inner">
+      <p class="e-eyebrow e-reveal">Echte Ergebnisse</p>
+      <h2 class="e-h2 e-reveal d1">Drei Beispiele,<br>anonymisiert.</h2>
+      <div class="e-results" id="eResults"></div>
+    </div>
+  </section>
+
+  <!-- ===== 8 · Kontakt (3 gleichwertige Optionen) ===== -->
+  <section class="e-section alt" id="kontakt">
+    <div class="e-inner">
+      <p class="e-eyebrow e-reveal">Der nächste Schritt</p>
+      <h2 class="e-h2 e-reveal d1">Drei Wege.<br>Du wählst.</h2>
+      <p class="e-body e-reveal d2" style="margin: 0 auto;">
+        Keine Hierarchie. Keine Hauptaktion. Was zu dir passt.
+      </p>
+
+      <div class="e-contact-trio e-reveal d2">
+
+        <!-- Option 1: Anrufwunsch -->
+        <div class="e-contact-opt" id="eAnrufOpt">
+          <span class="label">Option 1</span>
+          <h3 class="titel">Anrufwunsch hinterlegen</h3>
+          <select class="e-select" id="eSlot">
+            <option value="" disabled selected>Wann passt es dir am besten?</option>
+            <option value="Morgens (8–10 Uhr)">Morgens (8–10 Uhr)</option>
+            <option value="Vormittags (10–12 Uhr)">Vormittags (10–12 Uhr)</option>
+            <option value="Mittags (12–14 Uhr)">Mittags (12–14 Uhr)</option>
+            <option value="Nachmittags (14–17 Uhr)">Nachmittags (14–17 Uhr)</option>
+            <option value="Abends (17–19 Uhr)">Abends (17–19 Uhr)</option>
+          </select>
+          <button class="e-btn e-btn-primary" id="eAnrufSubmit" style="margin-top: 10px;">
+            Anrufwunsch bestätigen
+          </button>
+          <div class="e-confirm" id="eAnrufConfirm">
+            <span class="mark">✓</span>
+            <p class="text" id="eAnrufConfirmText">Danke. Ich melde mich persönlich.</p>
+          </div>
+        </div>
+
+        <!-- Option 2: Termin selbst wählen -->
+        <a class="e-contact-opt" id="eTerminOpt"
+           href="https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/s/vIk8AVAbE0CCK6qZpumyTA2?ismsaljsauthenabled=true"
+           target="_blank" rel="noopener">
+          <span class="label">Option 2</span>
+          <h3 class="titel">Termin selbst wählen</h3>
+          <span class="arrow">In meinem Kalender →</span>
+        </a>
+
+        <!-- Option 3: WhatsApp -->
+        <a class="e-contact-opt" id="eWhatsappOpt" href="https://wa.me/4915154776159" target="_blank" rel="noopener">
+          <span class="label">Option 3</span>
+          <h3 class="titel">Direkt per WhatsApp</h3>
+          <span class="arrow">Kurze Nachricht an mich →</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 9 · Footer ===== -->
+  <footer class="e-section dark e-footer">
+    <div class="e-inner">
+      <p class="e-footer-mark">Kai Blobel · Team Wachsbleiche</p>
+      <p class="e-footer-sub">Regionaldirektionsleiter · Deutsche Vermögensberatung</p>
+      <p class="e-optout">
         Kein Interesse? Du kannst dich
         <a id="austragenLink" href="austragen.html">hier diskret austragen</a>.
       </p>
     </div>
   </footer>
+
+  <!-- Sticky Mobile CTA -->
+  <div class="e-sticky-cta" id="eStickyCta">
+    <a href="#finanzcheck">Potenzial prüfen</a>
+  </div>
 
   <script type="module" src="js/app.js"></script>
 </body>

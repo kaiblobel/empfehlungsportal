@@ -8,6 +8,7 @@ import {
   getVorlagen,
   getVorlage,
   getEmpfehlerByCode,
+  getErfolgsgeschichten,
 } from './supabase.js';
 
 const page = document.body.dataset.page;
@@ -253,37 +254,44 @@ if (page === 'empfehlen') {
   shareBtn.addEventListener('click', () => submitFlow(false));
 }
 
-/* ---------- EMPFAENGER (Phase 6) ---------- */
+/* ---------- EMPFAENGER (Phase 9 · Trust Luxury) ---------- */
 if (page === 'empfaenger') {
   const params = new URLSearchParams(window.location.search);
   const token = params.get('token');
   const urlVorlage = params.get('vorlage');
 
-  // Foto im Hero
-  const foto = document.getElementById('p5Foto');
-  if (foto) foto.src = window.ENV_BERATER_FOTO;
+  // Fotos im Hero + Bio-Sektion
+  const foto = document.getElementById('eFoto');
+  const bioFoto = document.getElementById('eBioFoto');
+  if (foto) foto.src = window.ENV_BERATER_FOTO || '';
+  if (bioFoto) bioFoto.src = window.ENV_BERATER_FOTO || '';
 
-  // Austragen-Link mit Token
+  // Austragen-Link
   const optoutLink = document.getElementById('austragenLink');
   if (optoutLink && token) optoutLink.href = `austragen.html?token=${token}`;
 
   // Link-Öffnung tracken
   if (token) updateLinkGeoeffnet(token);
 
-  // IntersectionObserver — Fade-up beim Scroll
+  // IntersectionObserver
   const io = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        io.unobserve(entry.target);
-      }
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); io.unobserve(entry.target); }
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-  document.querySelectorAll('.p5-reveal').forEach((el) => io.observe(el));
+  document.querySelectorAll('.e-reveal').forEach((el) => io.observe(el));
 
-  // Empfehlung + Vorlage parallel laden, dann Seite befüllen
+  // Sticky-CTA Mobile reveal
+  const sticky = document.getElementById('eStickyCta');
+  const hero = document.getElementById('hero');
+  if (sticky && hero) {
+    new IntersectionObserver((entries) => {
+      entries.forEach((e) => sticky.classList.toggle('visible', !e.isIntersecting));
+    }, { threshold: 0.05 }).observe(hero);
+  }
+
+  // Empfehlung + Vorlage + Erfolgsgeschichten parallel laden
   (async () => {
-    // 1) URL-Param hat Priorität, ansonsten erst DB-Wert
     let empData = null;
     if (token) {
       const r = await getEmpfehlungByToken(token);
@@ -292,59 +300,55 @@ if (page === 'empfaenger') {
 
     const slugResolved = (urlVorlage || empData?.vorlage_slug || 'allgemein').toLowerCase();
 
-    // 2) Vorlage laden, Fallback auf 'allgemein'
-    let v = await getVorlage(slugResolved);
-    if (!v) v = await getVorlage('allgemein');
+    // Vorlage + Erfolge parallel
+    const [v, erfolge] = await Promise.all([
+      (async () => (await getVorlage(slugResolved)) || (await getVorlage('allgemein')))(),
+      getErfolgsgeschichten(slugResolved),
+    ]);
+
     if (v) applyVorlage(v);
+    renderErfolge(erfolge);
 
-    // 3) Empfehler-Karte
     if (empData) renderEmpfehlerKarte(empData);
-
-    // 4) Anrufwunsch-State
-    if (empData?.anrufwunsch) revealConfirm(empData.anrufwunsch);
+    if (empData?.anrufwunsch) revealAnrufConfirm(empData.anrufwunsch);
   })();
 
   function applyVorlage(v) {
-    // Hero-Subtext
-    const heroBody = document.getElementById('p5HeroBody');
-    if (heroBody && v.subtext) heroBody.textContent = v.subtext;
-
-    // Quickcheck-Sektion
-    const heroImg = document.getElementById('p5QuickHero');
-    if (heroImg && v.hero_bild_url) {
-      heroImg.src = v.hero_bild_url;
-      heroImg.style.display = '';
-    }
-    const headline = document.getElementById('p5QuickHeadline');
+    // Finanzcheck-Sektion
+    const headline = document.getElementById('eFinanzHeadline');
     if (headline && v.headline) headline.textContent = v.headline;
-    const cta = document.getElementById('p5QuickCta');
+    const cta = document.getElementById('eFinanzCta');
     if (cta) {
       if (v.cta_text)      cta.textContent = v.cta_text;
       if (v.quickcheck_url) cta.href       = v.quickcheck_url;
     }
+    const heroImg = document.getElementById('eFinanzImg');
+    if (heroImg && v.hero_bild_url) heroImg.src = v.hero_bild_url;
 
-    // Drei Vorteile
-    const setText = (id, t) => { const el = document.getElementById(id); if (el && t) el.textContent = t; };
-    setText('p5V1Titel', v.vorteil_1_titel);
-    setText('p5V1Text',  v.vorteil_1_text);
-    setText('p5V2Titel', v.vorteil_2_titel);
-    setText('p5V2Text',  v.vorteil_2_text);
-    setText('p5V3Titel', v.vorteil_3_titel);
-    setText('p5V3Text',  v.vorteil_3_text);
+    // Drei Vorteile (4. bleibt statisch)
+    const set = (id, t) => { const el = document.getElementById(id); if (el && t) el.textContent = t; };
+    set('eV1Titel', v.vorteil_1_titel);
+    set('eV1Text',  v.vorteil_1_text);
+    set('eV2Titel', v.vorteil_2_titel);
+    set('eV2Text',  v.vorteil_2_text);
+    set('eV3Titel', v.vorteil_3_titel);
+    set('eV3Text',  v.vorteil_3_text);
 
-    // Badge (nur wenn nicht 'allgemein')
-    const badge = document.getElementById('p5BadgeVorlage');
-    if (badge && v.slug !== 'allgemein') {
-      const ic = document.getElementById('p5BadgeIcon');
-      const ti = document.getElementById('p5BadgeTitel');
-      if (ic) ic.textContent = v.icon || '';
-      if (ti) ti.textContent = v.titel || '';
-      badge.style.display = '';
+    // Vorlage-Badge
+    if (v.slug && v.slug !== 'allgemein') {
+      const badge = document.getElementById('eBadge');
+      if (badge) {
+        const ic = document.getElementById('eBadgeIcon');
+        const ti = document.getElementById('eBadgeTitel');
+        if (ic) ic.textContent = v.icon || '';
+        if (ti) ti.textContent = v.titel || '';
+        badge.style.display = '';
+      }
     }
   }
 
   function renderEmpfehlerKarte(d) {
-    const inner = document.getElementById('p5EmpfehlerInner');
+    const inner = document.getElementById('eEmpfehlerInner');
     if (!inner) return;
     const name = (d.empfehler_name || '').trim();
     const msg  = (d.empfehler_nachricht || '').trim();
@@ -352,74 +356,95 @@ if (page === 'empfaenger') {
     let html;
     if (name && msg) {
       html = `
-        <p class="p5-eyebrow">Persönliche Empfehlung</p>
-        <h2 class="p5-h2">${escapeHtml(name)} hat an dich gedacht.</h2>
-        <p class="p5-body" style="margin-bottom:6px;">
-          Diese Empfehlung kommt nicht aus einer Datenbank.
-          ${escapeHtml(name)} hat dich ganz bewusst vorgeschlagen,
-          weil er glaubt, dass dieses Gespräch für dich wertvoll sein könnte.
+        <p class="e-eyebrow">Warum diese Seite</p>
+        <h2 class="e-h2">${escapeHtml(name)}<br>hat an dich gedacht.</h2>
+        <p class="e-body" style="margin: 0 auto;">
+          Diese Empfehlung kommt nicht aus einer Datenbank — ${escapeHtml(name)} hat dich ganz bewusst vorgeschlagen.
         </p>
-        <div class="p5-quote-card">
-          <p class="p5-quote">„${escapeHtml(msg)}"</p>
-          <span class="p5-quote-cite">— ${escapeHtml(name)}</span>
+        <div class="e-quote-card" style="margin-top: 20px;">
+          <blockquote>„${escapeHtml(msg)}"</blockquote>
+          <cite>— ${escapeHtml(name)}</cite>
         </div>`;
     } else if (name) {
       html = `
-        <p class="p5-eyebrow">Persönliche Empfehlung</p>
-        <h2 class="p5-h2">${escapeHtml(name)} hat an dich gedacht.</h2>
-        <p class="p5-body">
-          ${escapeHtml(name)} hat dich ganz bewusst vorgeschlagen,
-          weil er glaubt, dass ein Gespräch für dich interessant sein könnte.
+        <p class="e-eyebrow">Warum diese Seite</p>
+        <h2 class="e-h2">${escapeHtml(name)}<br>hat an dich gedacht.</h2>
+        <p class="e-body" style="margin: 0 auto;">
+          ${escapeHtml(name)} glaubt, dass ein Gespräch für dich interessant sein könnte — und hat dich bewusst vorgeschlagen.
         </p>`;
     } else {
       html = `
-        <p class="p5-eyebrow">Persönliche Empfehlung</p>
-        <h2 class="p5-h2">Jemand hat an dich gedacht.</h2>
-        <p class="p5-body">
-          Eine Person aus deinem Umfeld glaubt,
-          dass dieses Gespräch für dich interessant sein könnte.
+        <p class="e-eyebrow">Warum diese Seite</p>
+        <h2 class="e-h2">Menschen empfehlen<br>keine Produkte.</h2>
+        <p class="e-lede" style="margin: 8px auto 0;">Sie empfehlen Erfahrungen.</p>
+        <p class="e-body" style="margin: 24px auto 0;">
+          Jemand aus deinem Umfeld hat den Eindruck, dass diese Informationen für dich interessant sein könnten.
         </p>`;
     }
     inner.innerHTML = html;
-    // Reveal-Animation auch für neue Elemente
-    inner.querySelectorAll('p, h2, div').forEach((el) => {
-      el.classList.add('p5-reveal');
-      io.observe(el);
-    });
+    inner.querySelectorAll('p, h2, div').forEach((el) => { el.classList.add('e-reveal'); io.observe(el); });
   }
 
-  // Anrufwunsch-Form
-  const form = document.getElementById('p5Anrufform');
-  const slotEl = document.getElementById('p5Slot');
-  const submitBtn = document.getElementById('p5SubmitBtn');
-  const confirmEl = document.getElementById('p5Confirm');
+  function renderErfolge(list) {
+    const wrap = document.getElementById('eResults');
+    if (!wrap) return;
+    if (!list?.length) {
+      wrap.innerHTML = '<p class="e-body" style="margin:0 auto;">Beispiele folgen.</p>';
+      return;
+    }
+    wrap.innerHTML = list.map(r => `
+      <article class="e-result e-reveal">
+        <div>
+          <p class="label">Fall</p>
+          <h3 class="titel">${escapeHtml(r.titel)}</h3>
+          ${r.key_metric ? `<span class="metric">${escapeHtml(r.key_metric)}</span>` : ''}
+        </div>
+        <div>
+          <div class="row">
+            <p class="label" style="margin-bottom: 4px;">Vorher</p>
+            <p>${escapeHtml(r.vorher)}</p>
+          </div>
+          <div class="row">
+            <p class="label" style="margin-bottom: 4px;">Nachher</p>
+            <p>${escapeHtml(r.nachher)}</p>
+          </div>
+        </div>
+      </article>
+    `).join('');
+    wrap.querySelectorAll('.e-reveal').forEach((el) => io.observe(el));
+  }
 
-  function revealConfirm(slot) {
-    if (form) form.style.display = 'none';
-    if (confirmEl) {
-      confirmEl.classList.add('visible');
-      const sub = document.getElementById('p5ConfirmSub');
-      if (sub && slot) sub.textContent = `Ich rufe dich zu deinem gewünschten Zeitfenster (${slot}) an.`;
+  // Anrufwunsch-Submit
+  const anrufBtn = document.getElementById('eAnrufSubmit');
+  const slotEl = document.getElementById('eSlot');
+  const anrufConfirm = document.getElementById('eAnrufConfirm');
+
+  function revealAnrufConfirm(slot) {
+    if (slotEl) slotEl.style.display = 'none';
+    if (anrufBtn) anrufBtn.style.display = 'none';
+    if (anrufConfirm) {
+      anrufConfirm.classList.add('visible');
+      const t = document.getElementById('eAnrufConfirmText');
+      if (t && slot) t.textContent = `Danke. Ich rufe dich zu deinem Wunsch-Zeitfenster (${slot}) an.`;
     }
   }
 
-  if (form && submitBtn && slotEl) {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+  if (anrufBtn && slotEl) {
+    anrufBtn.addEventListener('click', async () => {
       const slot = slotEl.value;
-      if (!slot) return;
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Sende…';
+      if (!slot) { slotEl.focus(); return; }
+      anrufBtn.disabled = true;
+      anrufBtn.textContent = 'Sende…';
       if (token) {
         const { error } = await markAnrufwunsch(token, slot);
         if (error) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Anrufwunsch bestätigen';
+          anrufBtn.disabled = false;
+          anrufBtn.textContent = 'Anrufwunsch bestätigen';
           alert('Übermittlung fehlgeschlagen, bitte erneut versuchen.');
           return;
         }
       }
-      revealConfirm(slot);
+      revealAnrufConfirm(slot);
     });
   }
 
