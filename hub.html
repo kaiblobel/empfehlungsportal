@@ -18,10 +18,14 @@
       <img class="h-header-photo" id="hPhoto" src="" alt="" />
       <div class="h-header-text">
         <div class="h-header-name" id="hName">…</div>
-        <div class="h-header-sub">Empfehlungshub</div>
+        <div class="h-header-sub">Regionaldirektion · Hub</div>
       </div>
     </div>
-    <button class="h-logout" id="logoutBtn">Abmelden</button>
+    <div class="h-header-right">
+      <div class="h-live"><span class="h-live-dot"></span><span>System aktiv</span></div>
+      <span class="h-clock" id="hClock">--:--</span>
+      <button class="h-logout" id="logoutBtn">Abmelden</button>
+    </div>
   </header>
 
   <main class="h-main">
@@ -32,13 +36,21 @@
       <p class="h-stats-text" id="hStats">Lade Live-Daten…</p>
     </section>
 
+    <!-- Hot Leads (NEU) -->
+    <section>
+      <div class="h-label" id="hHotLabel">Aufmerksamkeit erforderlich</div>
+      <div class="h-hotleads" id="hHotLeads" style="margin-top:12px;">
+        <div class="h-empty-positive" style="opacity:0.5;">Lade Hot Leads…</div>
+      </div>
+    </section>
+
     <!-- 1 · KPI Dashboard -->
     <section>
       <div class="h-kpis">
-        <div class="h-kpi"><div class="h-kpi-label">Aktive Empfehler</div><div class="h-kpi-value" id="kpiEmpfehler"><span class="h-skeleton"></span></div></div>
-        <div class="h-kpi"><div class="h-kpi-label">Link-Klicks</div><div class="h-kpi-value" id="kpiKlicks"><span class="h-skeleton"></span></div></div>
-        <div class="h-kpi"><div class="h-kpi-label">Empfehlungen</div><div class="h-kpi-value" id="kpiGesamt"><span class="h-skeleton"></span></div></div>
-        <div class="h-kpi"><div class="h-kpi-label">Kunden</div><div class="h-kpi-value" id="kpiKunden"><span class="h-skeleton"></span></div></div>
+        <div class="h-kpi"><div class="h-kpi-label">Aktive Empfehler</div><div class="h-kpi-value" id="kpiEmpfehler"><span class="h-skeleton"></span></div><span class="h-kpi-sub" id="subEmpfehler">—</span></div>
+        <div class="h-kpi"><div class="h-kpi-label">Link-Klicks</div><div class="h-kpi-value" id="kpiKlicks"><span class="h-skeleton"></span></div><span class="h-kpi-sub" id="subKlicks">—</span></div>
+        <div class="h-kpi"><div class="h-kpi-label">Empfehlungen</div><div class="h-kpi-value" id="kpiGesamt"><span class="h-skeleton"></span></div><span class="h-kpi-sub" id="subGesamt">—</span></div>
+        <div class="h-kpi"><div class="h-kpi-label">Kunden</div><div class="h-kpi-value" id="kpiKunden"><span class="h-skeleton"></span></div><span class="h-kpi-sub" id="subKunden">—</span></div>
       </div>
     </section>
 
@@ -53,45 +65,47 @@
       </div>
     </section>
 
-    <!-- 3 · Bereiche -->
+    <!-- 3 · Kernmodule -->
     <section>
-      <div class="h-label">Bereiche</div>
-      <div class="h-tiles" style="margin-top:12px;">
-        <a class="h-tile" href="dashboard/overview.html">
+      <div class="h-label">Kernmodule</div>
+      <div class="h-tiles-core" style="margin-top:12px;">
+        <a class="h-tile-core" href="dashboard/overview.html">
           <span class="icon">📋</span>
           <h3 class="titel">Empfehlungen</h3>
           <p class="desc">Alle Empfehlungen, Status und Anrufwünsche</p>
           <span class="badge live">Live</span>
         </a>
-        <a class="h-tile" href="vorlagen.html">
+        <a class="h-tile-core" href="vorlagen.html">
           <span class="icon">🎨</span>
           <h3 class="titel">Vorlagen</h3>
           <p class="desc">Empfängerseiten pro Thema verwalten</p>
           <span class="badge live">Live</span>
         </a>
-        <a class="h-tile" href="programm.html">
+        <a class="h-tile-core" href="programm.html">
           <span class="icon">🎁</span>
           <h3 class="titel">Programm</h3>
           <p class="desc">Belohnungen und Stufen bearbeiten</p>
           <span class="badge live">Live</span>
         </a>
-        <a class="h-tile" href="index.html">
+      </div>
+    </section>
+
+    <!-- 3b · Tools -->
+    <section>
+      <div class="h-label muted">Tools</div>
+      <div class="h-tiles-tools" style="margin-top:12px;">
+        <a class="h-tile-tool" href="index.html">
           <span class="icon">📽️</span>
-          <h3 class="titel">Präsentation</h3>
-          <p class="desc">Empfehlungsflow für Kundengespräch</p>
-          <span class="badge live">Live</span>
+          <span class="titel">Präsentation</span>
         </a>
-        <a class="h-tile" href="empfaenger.html">
+        <a class="h-tile-tool" href="empfaenger.html">
           <span class="icon">🔗</span>
-          <h3 class="titel">Empfängerseite</h3>
-          <p class="desc">So sieht es deine Empfehlung</p>
-          <span class="badge live">Live</span>
+          <span class="titel">Empfängerseite</span>
         </a>
-        <a class="h-tile disabled" href="#" data-soon>
+        <a class="h-tile-tool disabled" href="#" data-soon>
           <span class="icon">⚙️</span>
-          <h3 class="titel">Einstellungen</h3>
-          <p class="desc">Profil, WhatsApp, Booking-Link</p>
-          <span class="badge soon">Bald verfügbar</span>
+          <span class="titel">Einstellungen</span>
+          <span class="badge">Bald</span>
         </a>
       </div>
     </section>
@@ -118,23 +132,10 @@
       </div>
     </section>
 
-    <!-- 6 · Externe Tools -->
-    <section>
-      <div class="h-label">Externe Tools</div>
-      <div class="h-tools" style="margin-top:12px;">
-        <a href="https://github.com/kaiblobel/empfehlungsportal" target="_blank"><span class="icon">🐙</span><div class="titel">GitHub Repo</div><div class="desc">Source-Code & Commits</div></a>
-        <a href="https://vercel.com/kaiblobel-makers-projects/empfehlungsportal" target="_blank"><span class="icon">⚡</span><div class="titel">Vercel</div><div class="desc">Deployments & Logs</div></a>
-        <a href="https://supabase.com/dashboard/project/kkseqhmfubzfyloffkwe/editor" target="_blank"><span class="icon">🗄️</span><div class="titel">Supabase</div><div class="desc">Datenbank-Editor</div></a>
-        <a href="https://t.me/KaiEmpfehlBot" target="_blank"><span class="icon">🤖</span><div class="titel">Telegram Bot</div><div class="desc">Hot-Lead-Alerts</div></a>
-        <a href="https://finanzcheck.kaiblobel.de/" target="_blank"><span class="icon">📊</span><div class="titel">Finanzcheck</div><div class="desc">Externes Tool</div></a>
-        <a href="https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/s/vIk8AVAbE0CCK6qZpumyTA2?ismsaljsauthenabled=true" target="_blank"><span class="icon">📅</span><div class="titel">Bookings</div><div class="desc">Outlook-Termine</div></a>
-      </div>
-    </section>
-
-    <!-- 7 · Letzte Aktivität -->
+    <!-- 7 · Letzte Aktivität · Timeline -->
     <section>
       <div class="h-label">Letzte Aktivität</div>
-      <div class="h-feed" id="hFeed" style="margin-top:12px;"><div style="padding:24px;text-align:center;color:var(--text-secondary);font-size:14px;">Lade…</div></div>
+      <div class="h-timeline" id="hTimeline" style="margin-top:12px;"><div style="padding:24px;text-align:center;color:var(--text-secondary);font-size:14px;">Lade…</div></div>
     </section>
 
     <!-- 8 · Systemstatus -->
@@ -180,6 +181,15 @@
           <div class="h-dev-block">
             <h4>Edge Function</h4>
             <div class="v">https://kkseqhmfubzfyloffkwe.supabase.co/functions/v1/notify-interesse</div>
+          </div>
+          <div class="h-dev-block">
+            <h4>Externe Tools</h4>
+            <a href="https://github.com/kaiblobel/empfehlungsportal" target="_blank">🐙 GitHub Repo</a>
+            <a href="https://vercel.com/kaiblobel-makers-projects/empfehlungsportal" target="_blank">⚡ Vercel</a>
+            <a href="https://supabase.com/dashboard/project/kkseqhmfubzfyloffkwe/editor" target="_blank">🗄️ Supabase Editor</a>
+            <a href="https://t.me/KaiEmpfehlBot" target="_blank">🤖 Telegram Bot</a>
+            <a href="https://finanzcheck.kaiblobel.de/" target="_blank">📊 Finanzcheck</a>
+            <a href="https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/s/vIk8AVAbE0CCK6qZpumyTA2?ismsaljsauthenabled=true" target="_blank">📅 Bookings (Outlook)</a>
           </div>
           <div class="h-dev-block">
             <h4>Test-Token + Berater-UUID</h4>

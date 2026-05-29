@@ -31,13 +31,13 @@ export async function login(email, password) {
 
 export async function logout() {
   if (supabase) await supabase.auth.signOut();
-  window.location.href = 'index.html';
+  window.location.href = '/dashboard/index.html';
 }
 
 function redirectLogin() {
   if (!window.location.pathname.endsWith('/dashboard/index.html') &&
       !window.location.pathname.endsWith('/dashboard/')) {
-    window.location.href = 'index.html';
+    window.location.href = '/dashboard/index.html';
   }
 }
 

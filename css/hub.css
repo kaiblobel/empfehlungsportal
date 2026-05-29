@@ -15,7 +15,7 @@ body[data-page="vorlagen-cms"] {
 /* ---------- Header (fix oben) ---------- */
 .h-header {
   background: var(--bg-secondary);
-  padding: 14px 20px;
+  padding: 12px 20px;
   border-bottom: 1px solid var(--border-light);
   display: flex;
   align-items: center;
@@ -24,7 +24,44 @@ body[data-page="vorlagen-cms"] {
   position: sticky;
   top: 0;
   z-index: 90;
-  height: 64px;
+  height: 68px;
+}
+
+/* Header-Rechts: Live-Status + Uhrzeit + Logout */
+.h-header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.h-live {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.h-live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #34c759;
+  box-shadow: 0 0 0 0 rgba(52,199,89,0.5);
+  animation: pulse-dot 2.4s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%   { box-shadow: 0 0 0 0 rgba(52,199,89,0.55); }
+  60%  { box-shadow: 0 0 0 6px rgba(52,199,89,0); }
+  100% { box-shadow: 0 0 0 0 rgba(52,199,89,0); }
+}
+.h-clock {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+@media (max-width: 540px) {
+  .h-live, .h-clock { display: none; }
 }
 .h-header-left {
   display: flex;
@@ -460,6 +497,270 @@ body[data-page="vorlagen-cms"] {
   pointer-events: none;
 }
 .h-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+
+/* ============================================================
+   Phase 11 · Hot Leads + Timeline + Kernmodule/Tools
+   ============================================================ */
+
+/* ---------- KPI Sub-Stats ---------- */
+.h-kpi-sub {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+  margin-top: 8px;
+  display: block;
+}
+.h-kpi-sub strong { color: var(--text-primary); font-weight: 600; }
+
+/* ---------- Hot Leads ---------- */
+.h-hotleads {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.h-lead {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 18px 18px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-left: 3px solid transparent;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.h-lead:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+}
+.h-lead.anrufwunsch { border-left-color: #ff9500; }
+.h-lead.interesse  { border-left-color: var(--accent-gold); }
+.h-lead-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.h-lead.anrufwunsch .h-lead-dot { background: #ff9500; }
+.h-lead.interesse  .h-lead-dot { background: var(--accent-gold); }
+.h-lead-body {
+  flex: 1;
+  min-width: 0;
+}
+.h-lead-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.h-lead-meta {
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.h-lead-meta .label {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  font-size: 10px;
+}
+.h-lead-meta .label.anrufwunsch { color: #b56b00; }
+.h-lead-meta .label.interesse { color: #8A6A14; }
+.h-lead-cta {
+  background: var(--text-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-button);
+  padding: 9px 14px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
+}
+.h-lead-cta:hover { opacity: 0.88; }
+
+.h-empty-positive {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 24px 20px;
+  box-shadow: var(--shadow-card);
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+  border: 1px dashed var(--border-light);
+}
+.h-empty-positive strong { color: var(--text-primary); font-weight: 600; }
+
+/* ---------- Bereiche-Hierarchie ---------- */
+.h-tiles-core {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+.h-tile-core {
+  background: var(--bg-secondary);
+  border-radius: 18px;
+  padding: 28px 24px;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.h-tile-core:hover { transform: translateY(-3px) scale(1.01); box-shadow: 0 16px 36px rgba(0,0,0,0.10); }
+.h-tile-core .icon { font-size: 36px; line-height: 1; margin-bottom: 6px; }
+.h-tile-core .titel { font-size: 19px; font-weight: 700; color: var(--text-primary); margin: 0; }
+.h-tile-core .desc { font-size: 14px; color: var(--text-secondary); line-height: 1.5; margin: 0; }
+.h-tile-core .badge.live {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: #D7EBD5;
+  color: #1F6B30;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+@media (min-width: 720px) {
+  .h-tiles-core { grid-template-columns: repeat(3, 1fr); }
+}
+
+.h-tiles-tools {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.h-tile-tool {
+  background: var(--bg-secondary);
+  border-radius: 14px;
+  padding: 16px 12px;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.h-tile-tool:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,0.08); }
+.h-tile-tool.disabled { opacity: 0.65; cursor: pointer; }
+.h-tile-tool .icon { font-size: 22px; }
+.h-tile-tool .titel { font-size: 13px; font-weight: 600; color: var(--text-primary); margin: 0; }
+.h-tile-tool .badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 3px 6px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  background: #f2f2f4;
+  color: #6e6e73;
+}
+
+/* ---------- Activity Timeline (Linear-Stil) ---------- */
+.h-timeline {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  padding: 8px 0;
+}
+.h-tl-row {
+  display: grid;
+  grid-template-columns: 64px 24px 1fr;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  transition: background 0.15s ease;
+}
+.h-tl-row:hover { background: var(--bg-primary); }
+.h-tl-time {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  padding-top: 1px;
+}
+.h-tl-axis {
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+}
+.h-tl-axis::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: -12px;
+  left: 50%;
+  width: 1px;
+  background: var(--border-light);
+  transform: translateX(-0.5px);
+}
+.h-tl-row:last-child .h-tl-axis::before { bottom: 0; }
+.h-tl-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+  margin-top: 4px;
+  z-index: 1;
+  box-shadow: 0 0 0 4px var(--bg-secondary);
+}
+.h-tl-dot.created  { background: #6e6e73; }
+.h-tl-dot.opened   { background: #007aff; }
+.h-tl-dot.interest { background: var(--accent-gold); }
+.h-tl-dot.call     { background: #ff9500; }
+.h-tl-text {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--text-secondary);
+  padding-top: 1px;
+}
+.h-tl-text strong { color: var(--text-primary); font-weight: 600; }
+
+.h-tl-all {
+  display: block;
+  text-align: right;
+  padding: 12px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-gold);
+  text-decoration: none;
+  border-top: 1px solid var(--border-light);
+}
+
+/* ---------- Mobile-Optimierungen ---------- */
+@media (max-width: 540px) {
+  .h-lead-cta { padding: 7px 11px; font-size: 12px; }
+  .h-tl-row { grid-template-columns: 50px 20px 1fr; padding: 12px 16px; }
+  .h-tl-time { font-size: 11px; }
+}
 
 
 /* ============================================================
