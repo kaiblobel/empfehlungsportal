@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#FAF8F5" />
+  <meta name="theme-color" content="#f5f5f7" />
   <title>Eine persönliche Empfehlung · Kai Blobel</title>
 
   <meta property="og:type" content="website" />
@@ -25,155 +25,123 @@
 <body data-page="empfaenger">
 
   <!-- ===== 1 · Hero ===== -->
-  <section class="wb-hero">
-    <p class="wb-eyebrow wb-reveal">Eine persönliche Empfehlung</p>
-    <img class="wb-hero-portrait wb-reveal delay-1" id="wbFoto1" src="" alt="Berater" />
-    <h1 class="wb-reveal delay-2">Willkommen.</h1>
-    <p class="wb-lede wb-reveal delay-3">
-      Jemand aus deinem Umfeld hat bewusst an dich gedacht.
-    </p>
-    <div class="wb-scroll-hint wb-reveal delay-4">
+  <section class="p5-section p5-hero">
+    <div class="p5-inner">
+      <p class="p5-eyebrow p5-reveal">Eine persönliche Empfehlung</p>
+      <img class="p5-portrait p5-reveal d1" id="p5Foto" src="" alt="Kai Blobel" />
+      <h1 class="p5-h1 p5-reveal d1">Hallo, ich bin Kai Blobel.</h1>
+      <p class="p5-sub p5-reveal d2">Regionaldirektionsleiter · Team Wachsbleiche · 22 Jahre Erfahrung</p>
+      <p class="p5-body p5-reveal d3">
+        Jemand aus deinem Umfeld glaubt, dass ein Gespräch mit mir für dich wertvoll sein könnte.
+        Ich rufe dich in den nächsten Tagen an — kurz, persönlich, ohne Verpflichtung.
+      </p>
+    </div>
+    <div class="p5-scroll-hint p5-reveal d3">
       <span>weiterlesen</span>
       <span class="line"></span>
     </div>
   </section>
 
-  <!-- ===== 2 · Warum ===== -->
-  <section class="wb-section">
-    <p class="wb-eyebrow wb-reveal">Warum du hier bist</p>
-    <h2 class="wb-reveal delay-1" style="font-size: clamp(34px, 7vw, 52px);">
-      Kein Zufall.<br>Eine Wahl.
-    </h2>
-    <blockquote class="wb-quote wb-reveal delay-2" style="margin-top: 56px;">
-      „Ich glaube, dieses Gespräch könnte für dich wirklich wertvoll sein.“
-    </blockquote>
-    <span class="wb-quote-cite wb-reveal delay-3">
-      Aus dem Gedanken, der zu dieser Empfehlung geführt hat.
-    </span>
-    <p class="wb-body wb-reveal delay-3" style="padding-left: 24px; margin-top: 40px;">
-      Diese Empfehlung kommt aus echtem Vertrauen — nicht aus einer Datenbank.
-      Jemand hat dich konkret im Sinn gehabt, weil er glaubt, dass es passt.
-    </p>
-  </section>
-
-  <div class="wb-divider"></div>
-
-  <!-- ===== 3 · Was dich erwartet ===== -->
-  <section class="wb-section">
-    <p class="wb-eyebrow wb-reveal">Was dich erwartet</p>
-    <h2 class="wb-reveal delay-1" style="font-size: clamp(34px, 7vw, 52px);">
-      Vier ruhige<br>Schritte.
-    </h2>
-    <ol class="wb-timeline">
-      <li class="wb-reveal delay-1">
-        <span class="wb-step-num">Schritt 1</span>
-        <h3 class="wb-step-title">Kennenlernen</h3>
-        <p class="wb-step-desc">Ein kurzer Anruf. Wer ich bin, wer du bist, ob es überhaupt passt.</p>
-      </li>
-      <li class="wb-reveal delay-2">
-        <span class="wb-step-num">Schritt 2</span>
-        <h3 class="wb-step-title">Situation verstehen</h3>
-        <p class="wb-step-desc">Wir schauen zusammen, wo du gerade stehst — ohne Bewertung, ohne Druck.</p>
-      </li>
-      <li class="wb-reveal delay-3">
-        <span class="wb-step-num">Schritt 3</span>
-        <h3 class="wb-step-title">Möglichkeiten aufzeigen</h3>
-        <p class="wb-step-desc">Was geht, was nicht, was sich lohnt. Klar erklärt, in deinem Tempo.</p>
-      </li>
-      <li class="wb-reveal delay-4">
-        <span class="wb-step-num">Schritt 4</span>
-        <h3 class="wb-step-title">Gemeinsam entscheiden</h3>
-        <p class="wb-step-desc">Du entscheidest, ob und wie es weitergeht. Auf Augenhöhe.</p>
-      </li>
-    </ol>
-  </section>
-
-  <div class="wb-divider"></div>
-
-  <!-- ===== 4 · Werte ===== -->
-  <section class="wb-section">
-    <p class="wb-eyebrow wb-reveal">Was du davon hast</p>
-    <h2 class="wb-reveal delay-1" style="font-size: clamp(34px, 7vw, 52px);">
-      Drei Dinge,<br>mehr nicht.
-    </h2>
-
-    <div class="wb-values">
-      <div class="wb-value wb-reveal delay-1">
-        <h3 class="wb-value-key">Klarheit</h3>
-        <p class="wb-value-desc">Über deine Situation — und über das, was wirklich wichtig ist.</p>
-      </div>
-      <div class="wb-value wb-reveal delay-2">
-        <h3 class="wb-value-key">Struktur</h3>
-        <p class="wb-value-desc">Für die Entscheidungen, die anstehen oder schon zu lange warten.</p>
-      </div>
-      <div class="wb-value wb-reveal delay-3">
-        <h3 class="wb-value-key">Optionen</h3>
-        <p class="wb-value-desc">Möglichkeiten, die du sonst vielleicht nicht gesehen hättest.</p>
-      </div>
+  <!-- ===== 2 · Empfehler-Karte (dynamisch) ===== -->
+  <section class="p5-section alt" id="p5SectEmpfehler">
+    <div class="p5-inner" id="p5EmpfehlerInner">
+      <!-- Inhalt wird per JS gerendert -->
+      <p class="p5-eyebrow">Persönliche Empfehlung</p>
+      <h2 class="p5-h2">Jemand hat an dich gedacht.</h2>
+      <p class="p5-body">Eine Person aus deinem Umfeld glaubt, dass dieses Gespräch für dich interessant sein könnte.</p>
     </div>
   </section>
 
-  <!-- ===== 5 · Nächster Schritt ===== -->
-  <section class="wb-cta-section">
-    <p class="wb-eyebrow dark wb-reveal" style="text-align: center; margin: 0 auto 28px; display: block;">Nächster Schritt</p>
-    <h2 class="wb-reveal delay-1">Der nächste Schritt<br>ist einfach.</h2>
-    <p class="wb-body wb-reveal delay-2">
-      Ein kurzer Tap. Ich melde mich heute oder morgen — kurz, persönlich, ohne Verpflichtung.
-    </p>
+  <!-- ===== 3 · Quickcheck CTA ===== -->
+  <section class="p5-section">
+    <div class="p5-inner">
+      <p class="p5-eyebrow p5-reveal">Vorab</p>
+      <h2 class="p5-h2 p5-reveal d1">Was steckt finanziell<br>in deiner Situation?</h2>
+      <p class="p5-body p5-reveal d2">
+        In 3 Minuten siehst du, welche Förderungen, Steuervorteile und Sparmöglichkeiten du aktuell noch nicht nutzt.
+        Konkret. Auf deine Zahlen zugeschnitten.
+      </p>
+      <a class="p5-btn p5-btn-primary p5-reveal d2" href="https://finanzcheck.kaiblobel.de/" target="_blank" rel="noopener" style="margin-top: 12px;">
+        Mein Potenzial jetzt checken →
+      </a>
+      <p class="p5-micro p5-reveal d3">Dauert ca. 3 Minuten · Keine Anmeldung · 100&nbsp;% kostenlos</p>
+    </div>
+  </section>
 
-    <div class="wb-cta-wrap">
-      <button class="wb-btn-primary wb-reveal delay-3" id="wbCta">
-        Unverbindlich kennenlernen
-      </button>
-      <div class="wb-trust wb-reveal delay-4">
-        <span>Persönlich</span><span class="dot"></span>
-        <span>Vertraulich</span><span class="dot"></span>
-        <span>Ohne Verpflichtung</span>
-      </div>
-
-      <!-- Confirm-State, sichtbar nach CTA-Tap -->
-      <div class="wb-confirm" id="wbConfirm">
-        <div class="wb-confirm-mark">✓</div>
-        <h3>Danke.</h3>
-        <p>
-          Ich habe deine Rückmeldung. Ich melde mich heute oder morgen.<br>
-          Wenn dir lieber ist, schreib mir direkt:
-        </p>
-        <div class="wb-contact-options">
-          <a class="wb-contact-link" id="wbCal" target="_blank" rel="noopener" style="display:none;">
-            <span>
-              <span class="label">Termin buchen</span>
-              <span class="value">Direkt im Kalender</span>
-            </span>
-            <span class="arrow">→</span>
-          </a>
-          <a class="wb-contact-link" id="wbWa" target="_blank" rel="noopener">
-            <span>
-              <span class="label">WhatsApp</span>
-              <span class="value">Direkt schreiben</span>
-            </span>
-            <span class="arrow">→</span>
-          </a>
-          <a class="wb-contact-link" id="wbTel" href="tel:">
-            <span>
-              <span class="label">Anrufen</span>
-              <span class="value" id="wbTelDisplay">+49 151 547 76 159</span>
-            </span>
-            <span class="arrow">→</span>
-          </a>
+  <!-- ===== 4 · Warum Kai ===== -->
+  <section class="p5-section alt">
+    <div class="p5-inner">
+      <p class="p5-eyebrow p5-reveal">Warum Kai Blobel</p>
+      <h2 class="p5-h2 p5-reveal d1">Was dich erwartet.</h2>
+      <div class="p5-cards p5-reveal d2">
+        <div class="p5-card">
+          <span class="p5-card-icon">🎯</span>
+          <h3 class="p5-card-title">Keine Kaltakquise</h3>
+          <p class="p5-card-text">Du wurdest empfohlen — jemand, dem du vertraust, hat bewusst an dich gedacht.</p>
+        </div>
+        <div class="p5-card">
+          <span class="p5-card-icon">💡</span>
+          <h3 class="p5-card-title">Konkrete Zahlen</h3>
+          <p class="p5-card-text">Kein allgemeines Gespräch. Wir schauen, was in deiner Situation wirklich möglich ist.</p>
+        </div>
+        <div class="p5-card">
+          <span class="p5-card-icon">🤝</span>
+          <h3 class="p5-card-title">Du entscheidest</h3>
+          <p class="p5-card-text">Kein Druck, keine Verpflichtung. Du bestimmst, ob und wie es weitergeht.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== Footer ===== -->
-  <footer class="wb-footer">
-    <p class="wb-footer-mark" id="wbFooterName">Kai Blobel</p>
-    <p class="wb-footer-sub">Team Wachsbleiche</p>
-    <p class="wb-optout">
-      Kein Interesse? Du kannst dich
-      <a id="austragenLink" href="austragen.html">hier diskret austragen</a>.
-    </p>
+  <!-- ===== 5 · Anrufwunsch ===== -->
+  <section class="p5-section">
+    <div class="p5-inner">
+      <p class="p5-eyebrow p5-reveal">Nächster Schritt</p>
+      <h2 class="p5-h2 p5-reveal d1">Kai meldet sich bei dir.</h2>
+      <p class="p5-body p5-reveal d2">
+        Hinterlasse deinen Anrufwunsch — ich melde mich persönlich bei dir.
+      </p>
+
+      <form class="p5-form p5-reveal d2" id="p5Anrufform">
+        <select class="p5-select" id="p5Slot" required>
+          <option value="" disabled selected>Wann passt es dir am besten?</option>
+          <option value="Morgens (8–10 Uhr)">Morgens (8–10 Uhr)</option>
+          <option value="Vormittags (10–12 Uhr)">Vormittags (10–12 Uhr)</option>
+          <option value="Mittags (12–14 Uhr)">Mittags (12–14 Uhr)</option>
+          <option value="Nachmittags (14–17 Uhr)">Nachmittags (14–17 Uhr)</option>
+          <option value="Abends (17–19 Uhr)">Abends (17–19 Uhr)</option>
+        </select>
+        <button type="submit" class="p5-btn p5-btn-primary" id="p5SubmitBtn">
+          Anrufwunsch bestätigen
+        </button>
+      </form>
+
+      <div class="p5-confirm" id="p5Confirm">
+        <div class="p5-confirm-mark">✓</div>
+        <p class="p5-confirm-text">Danke. Kai meldet sich persönlich bei dir.</p>
+        <p class="p5-confirm-sub" id="p5ConfirmSub">Ich rufe dich zu deinem gewünschten Zeitfenster an.</p>
+      </div>
+
+      <div class="p5-divider"><span>oder</span></div>
+
+      <a class="p5-btn p5-btn-secondary p5-reveal d3"
+         href="https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/s/vIk8AVAbE0CCK6qZpumyTA2?ismsaljsauthenabled=true"
+         target="_blank" rel="noopener">
+        Termin selbst wählen
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== 6 · Footer ===== -->
+  <footer class="p5-section dark p5-footer">
+    <div class="p5-inner">
+      <p class="p5-footer-name">Kai Blobel · Team Wachsbleiche</p>
+      <p class="p5-footer-sub">Regionaldirektionsleiter · Deutsche Vermögensberatung</p>
+      <p class="p5-optout">
+        Kein Interesse? Du kannst dich
+        <a id="austragenLink" href="austragen.html">hier diskret austragen</a>.
+      </p>
+    </div>
   </footer>
 
   <script type="module" src="js/app.js"></script>

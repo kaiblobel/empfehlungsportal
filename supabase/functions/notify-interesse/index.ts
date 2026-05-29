@@ -1,9 +1,7 @@
 // Supabase Edge Function: notify-interesse
 // Wird vom Database-Trigger bei interessiert=true aufgerufen.
-// Schickt eine Telegram-Nachricht an den konfigurierten Chat.
-//
-// Credentials werden aus der app_secrets-Tabelle gelesen (Service-Role-Key
-// ist in Edge Functions automatisch via SUPABASE_SERVICE_ROLE_KEY verfügbar).
+// Schickt eine Telegram-Nachricht an den konfigurierten Chat,
+// inkl. Anrufwunsch-Zeitfenster wenn vorhanden.
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
@@ -20,6 +18,7 @@ Deno.serve(async (req: Request) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     );
 
+    // Credentials laden
     const { data: secretsRows, error: secretsErr } = await supa
       .from("app_secrets")
       .select("key, value");
@@ -29,7 +28,7 @@ Deno.serve(async (req: Request) => {
       return new Response(JSON.stringify({ ok: false, reason: "secrets-load-failed" }), { status: 200 });
     }
 
-    const secrets = Object.fromEntries((secretsRows ?? []).map((r) => [r.key, r.value]));
+    const secrets = Object.fromEntries((secretsRows ?? []).map((r: any) => [r.key, r.value]));
     const TELEGRAM_BOT_TOKEN = secrets.TELEGRAM_BOT_TOKEN;
     const TELEGRAM_CHAT_ID = secrets.TELEGRAM_CHAT_ID;
 
@@ -38,14 +37,34 @@ Deno.serve(async (req: Request) => {
       return new Response(JSON.stringify({ ok: false, reason: "no-credentials" }), { status: 200 });
     }
 
+    // Anrufwunsch + Empfehler-Nachricht nachladen (für Telegram-Text)
+    let anrufwunsch: string | null = null;
+    let empfehlerName: string | null = null;
+    if (id) {
+      const { data: emp } = await supa
+        .from("empfehlungen")
+        .select("anrufwunsch, empfehler_name")
+        .eq("id", id)
+        .maybeSingle();
+      anrufwunsch = emp?.anrufwunsch ?? null;
+      empfehlerName = emp?.empfehler_name ?? null;
+    }
+
     const detailUrl = `${DASHBOARD_BASE}/dashboard/detail.html?id=${id}`;
 
-    const text =
+    let text =
       `🔥 *Heißer Lead*\n\n` +
       `*${escapeMd(name ?? "Unbekannt")}*\n` +
-      `📞 ${escapeMd(formatPhone(telefon))}\n\n` +
-      `⏱ Soeben Interesse bekundet.\n` +
-      `👉 [Im Dashboard öffnen](${detailUrl})`;
+      `📞 ${escapeMd(formatPhone(telefon))}`;
+
+    if (anrufwunsch) {
+      text += `\n⏰ Anrufwunsch: ${escapeMd(anrufwunsch)}`;
+    }
+    if (empfehlerName) {
+      text += `\n👥 Empfohlen von: ${escapeMd(empfehlerName)}`;
+    }
+
+    text += `\n\n👉 [Im Dashboard öffnen](${detailUrl})`;
 
     const tgRes = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
       method: "POST",

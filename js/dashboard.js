@@ -197,6 +197,7 @@ export function formatDateShort(ts) {
 
 const STATUS_LABEL = {
   offen: 'Offen',
+  anrufwunsch: 'Anrufwunsch',
   kontaktiert: 'Kontaktiert',
   kunde: 'Kunde',
   kein_interesse: 'Kein Interesse',

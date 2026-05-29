@@ -95,6 +95,14 @@
             <span class="value">${r.interessiert ? 'Ja · ' + formatDate(r.interessiert_at) : 'Nein'}</span>
           </div>
           <div class="detail-row">
+            <span class="label">Anrufwunsch</span>
+            <span class="value">${r.anrufwunsch ? escapeHtml(r.anrufwunsch) + ' · ' + formatDate(r.anrufwunsch_at) : '–'}</span>
+          </div>
+          ${r.empfehler_nachricht ? `<div class="detail-row" style="flex-direction:column;align-items:flex-start;gap:6px;">
+            <span class="label">Persönliche Nachricht des Empfehlers</span>
+            <span class="value" style="text-align:left;max-width:100%;font-style:italic;">„${escapeHtml(r.empfehler_nachricht)}"</span>
+          </div>` : ''}
+          <div class="detail-row">
             <span class="label">Ausgetragen</span>
             <span class="value">${r.ausgetragen ? 'Ja · ' + formatDate(r.ausgetragen_at) : 'Nein'}</span>
           </div>
@@ -104,6 +112,7 @@
           <label for="statusSel">Status ändern</label>
           <select id="statusSel">
             <option value="offen">${statusLabel('offen')}</option>
+            <option value="anrufwunsch">${statusLabel('anrufwunsch')}</option>
             <option value="kontaktiert">${statusLabel('kontaktiert')}</option>
             <option value="kunde">${statusLabel('kunde')}</option>
             <option value="kein_interesse">${statusLabel('kein_interesse')}</option>

@@ -33,6 +33,14 @@
             <label for="empfehlerName">Dein Name (optional)</label>
             <input id="empfehlerName" name="empfehlerName" type="text" autocomplete="name" />
           </div>
+          <div class="field-card">
+            <label for="empfehlerNachricht">Persönliche Nachricht (optional)</label>
+            <textarea id="empfehlerNachricht" name="empfehlerNachricht" maxlength="200" rows="4" placeholder="z.B. Ich dachte sofort an dich, weil…" style="border:none;outline:none;background:transparent;font-family:inherit;font-size:17px;color:var(--text-primary);resize:vertical;padding:4px 0;min-height:84px;"></textarea>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
+              <span style="font-size:12px;color:var(--text-secondary);">Erscheint persönlich auf der Empfehlungs-Seite.</span>
+              <span id="charCount" style="font-size:12px;color:var(--text-secondary);font-variant-numeric:tabular-nums;">0/200</span>
+            </div>
+          </div>
         </div>
 
         <div style="margin-top: 22px;">

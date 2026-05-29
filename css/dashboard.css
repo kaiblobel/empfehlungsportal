@@ -239,6 +239,7 @@
   letter-spacing: 0.04em;
 }
 .badge-offen          { background: #f2f2f4; color: #6e6e73; }
+.badge-anrufwunsch    { background: #F4ECD4; color: #8A6A14; }
 .badge-kontaktiert    { background: #DDE9F4; color: #1E4E68; }
 .badge-kunde          { background: #D7EBD5; color: #1F6B30; }
 .badge-kein_interesse { background: #F5D7D7; color: #8A1F1F; }

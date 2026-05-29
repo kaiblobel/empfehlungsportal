@@ -21,6 +21,7 @@ export async function createEmpfehlung(data) {
       empfaenger_name: data.empfaenger_name,
       empfaenger_telefon: data.empfaenger_telefon,
       empfehler_name: data.empfehler_name || null,
+      empfehler_nachricht: data.empfehler_nachricht || null,
       nachricht: data.nachricht || null,
       typ: data.typ || 'direkt',
     };
@@ -58,6 +59,18 @@ export async function markInteressiert(token) {
     return { error: null };
   } catch (err) {
     console.error('[markInteressiert]', err);
+    return { error: err };
+  }
+}
+
+export async function markAnrufwunsch(token, slot) {
+  if (!supabase) return { error: null };
+  try {
+    const { error } = await supabase.rpc('mark_anrufwunsch_rpc', { p_token: token, p_slot: slot });
+    if (error) throw error;
+    return { error: null };
+  } catch (err) {
+    console.error('[markAnrufwunsch]', err);
     return { error: err };
   }
 }

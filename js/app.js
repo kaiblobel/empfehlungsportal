@@ -3,6 +3,8 @@ import {
   updateLinkGeoeffnet,
   updateAusgetragen,
   markInteressiert,
+  markAnrufwunsch,
+  getEmpfehlungByToken,
 } from './supabase.js';
 
 const page = document.body.dataset.page;
@@ -102,9 +104,17 @@ if (page === 'empfehlen') {
   const nachnameEl = document.getElementById('nachname');
   const telefonEl = document.getElementById('telefon');
   const empfehlerEl = document.getElementById('empfehlerName');
+  const nachrichtEl = document.getElementById('empfehlerNachricht');
+  const charCount = document.getElementById('charCount');
   const preview = document.getElementById('messagePreview');
   const shareBtn = document.getElementById('shareBtn');
   const form = document.getElementById('empfehlForm');
+
+  if (nachrichtEl && charCount) {
+    nachrichtEl.addEventListener('input', () => {
+      charCount.textContent = `${nachrichtEl.value.length}/200`;
+    });
+  }
 
   function previewLink() {
     return `${window.location.origin}/empfaenger.html?token=…`;
@@ -125,6 +135,7 @@ if (page === 'empfehlen') {
     const nachname = nachnameEl.value.trim();
     const telefon = sanitizePhone(telefonEl.value);
     const empfehler = empfehlerEl.value.trim();
+    const empfehlerNachricht = nachrichtEl ? nachrichtEl.value.trim() : '';
 
     if (!vorname || !nachname || !telefon) {
       showToast('Bitte alle Pflichtfelder ausfüllen');
@@ -136,6 +147,7 @@ if (page === 'empfehlen') {
       empfaenger_name: `${vorname} ${nachname}`,
       empfaenger_telefon: telefon,
       empfehler_name: empfehler || null,
+      empfehler_nachricht: empfehlerNachricht || null,
       nachricht: tempMsg,
       typ,
     });
@@ -180,37 +192,18 @@ if (page === 'empfehlen') {
   shareBtn.addEventListener('click', () => submitFlow(false));
 }
 
-/* ---------- EMPFAENGER ---------- */
+/* ---------- EMPFAENGER (Phase 5) ---------- */
 if (page === 'empfaenger') {
   const params = new URLSearchParams(window.location.search);
   const token = params.get('token');
 
-  // Foto + Name
-  const foto1 = document.getElementById('wbFoto1');
-  if (foto1) foto1.src = window.ENV_BERATER_FOTO;
-  const footerName = document.getElementById('wbFooterName');
-  if (footerName) footerName.textContent = window.ENV_BERATER_NAME;
+  // Foto im Hero
+  const foto = document.getElementById('p5Foto');
+  if (foto) foto.src = window.ENV_BERATER_FOTO;
 
   // Austragen-Link mit Token
-  const link = document.getElementById('austragenLink');
-  if (link && token) link.href = `austragen.html?token=${token}`;
-
-  // Kontakt-Links (WhatsApp + Tel)
-  const wa = document.getElementById('wbWa');
-  const tel = document.getElementById('wbTel');
-  const telDisplay = document.getElementById('wbTelDisplay');
-  const waNumber = window.ENV_WHATSAPP || '4915154776159';
-  if (wa) wa.href = `https://wa.me/${waNumber}`;
-  if (tel) tel.href = `tel:+${waNumber}`;
-  const calBtn = document.getElementById('wbCal');
-  if (calBtn && window.ENV_CALENDLY_URL) {
-    calBtn.href = window.ENV_CALENDLY_URL;
-    calBtn.style.display = '';
-  }
-  if (telDisplay) {
-    const f = waNumber.replace(/^49/, '+49 ').replace(/(\d{3})(\d{3})(\d{3})(\d+)/, '$1 $2 $3 $4');
-    telDisplay.textContent = f;
-  }
+  const optoutLink = document.getElementById('austragenLink');
+  if (optoutLink && token) optoutLink.href = `austragen.html?token=${token}`;
 
   // Link-Öffnung tracken
   if (token) updateLinkGeoeffnet(token);
@@ -224,34 +217,105 @@ if (page === 'empfaenger') {
       }
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.p5-reveal').forEach((el) => io.observe(el));
 
-  document.querySelectorAll('.wb-reveal').forEach((el) => io.observe(el));
+  // Empfehlung laden + Empfehler-Karte rendern
+  (async () => {
+    if (!token) return;
+    const { data, error } = await getEmpfehlungByToken(token);
+    if (error || !data) return;
+    renderEmpfehlerKarte(data);
 
-  // CTA-Handler
-  const cta = document.getElementById('wbCta');
-  const confirm = document.getElementById('wbConfirm');
-  if (cta && confirm) {
-    cta.addEventListener('click', async () => {
-      cta.disabled = true;
-      cta.style.opacity = '0.5';
-      if (token) await markInteressiert(token);
-      // CTA + Trust ausblenden, Confirm einblenden
-      const trust = cta.nextElementSibling;
-      [cta, trust].forEach((el) => {
-        if (el) {
-          el.style.transition = 'opacity 0.5s ease, transform 0.5s ease, max-height 0.7s ease';
-          el.style.opacity = '0';
-          el.style.transform = 'translateY(-8px)';
-          el.style.maxHeight = '0';
-          el.style.overflow = 'hidden';
-          el.style.pointerEvents = 'none';
-        }
-      });
-      setTimeout(() => {
-        confirm.classList.add('visible');
-        confirm.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 350);
+    // Wenn Anrufwunsch schon gesetzt: Confirm-State sofort zeigen
+    if (data.anrufwunsch) {
+      revealConfirm(data.anrufwunsch);
+    }
+  })();
+
+  function renderEmpfehlerKarte(d) {
+    const inner = document.getElementById('p5EmpfehlerInner');
+    if (!inner) return;
+    const name = (d.empfehler_name || '').trim();
+    const msg  = (d.empfehler_nachricht || '').trim();
+
+    let html;
+    if (name && msg) {
+      html = `
+        <p class="p5-eyebrow">Persönliche Empfehlung</p>
+        <h2 class="p5-h2">${escapeHtml(name)} hat an dich gedacht.</h2>
+        <p class="p5-body" style="margin-bottom:6px;">
+          Diese Empfehlung kommt nicht aus einer Datenbank.
+          ${escapeHtml(name)} hat dich ganz bewusst vorgeschlagen,
+          weil er glaubt, dass dieses Gespräch für dich wertvoll sein könnte.
+        </p>
+        <div class="p5-quote-card">
+          <p class="p5-quote">„${escapeHtml(msg)}"</p>
+          <span class="p5-quote-cite">— ${escapeHtml(name)}</span>
+        </div>`;
+    } else if (name) {
+      html = `
+        <p class="p5-eyebrow">Persönliche Empfehlung</p>
+        <h2 class="p5-h2">${escapeHtml(name)} hat an dich gedacht.</h2>
+        <p class="p5-body">
+          ${escapeHtml(name)} hat dich ganz bewusst vorgeschlagen,
+          weil er glaubt, dass ein Gespräch für dich interessant sein könnte.
+        </p>`;
+    } else {
+      html = `
+        <p class="p5-eyebrow">Persönliche Empfehlung</p>
+        <h2 class="p5-h2">Jemand hat an dich gedacht.</h2>
+        <p class="p5-body">
+          Eine Person aus deinem Umfeld glaubt,
+          dass dieses Gespräch für dich interessant sein könnte.
+        </p>`;
+    }
+    inner.innerHTML = html;
+    // Reveal-Animation auch für neue Elemente
+    inner.querySelectorAll('p, h2, div').forEach((el) => {
+      el.classList.add('p5-reveal');
+      io.observe(el);
     });
+  }
+
+  // Anrufwunsch-Form
+  const form = document.getElementById('p5Anrufform');
+  const slotEl = document.getElementById('p5Slot');
+  const submitBtn = document.getElementById('p5SubmitBtn');
+  const confirmEl = document.getElementById('p5Confirm');
+
+  function revealConfirm(slot) {
+    if (form) form.style.display = 'none';
+    if (confirmEl) {
+      confirmEl.classList.add('visible');
+      const sub = document.getElementById('p5ConfirmSub');
+      if (sub && slot) sub.textContent = `Ich rufe dich zu deinem gewünschten Zeitfenster (${slot}) an.`;
+    }
+  }
+
+  if (form && submitBtn && slotEl) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const slot = slotEl.value;
+      if (!slot) return;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sende…';
+      if (token) {
+        const { error } = await markAnrufwunsch(token, slot);
+        if (error) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Anrufwunsch bestätigen';
+          alert('Übermittlung fehlgeschlagen, bitte erneut versuchen.');
+          return;
+        }
+      }
+      revealConfirm(slot);
+    });
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, m =>
+      ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])
+    );
   }
 }
 
