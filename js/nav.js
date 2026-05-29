@@ -31,7 +31,7 @@ export const NAV_ITEMS = [
       { label: 'Belohnungen', href: path('programm.html') },
       { label: 'Champions',   href: path('dashboard/empfehler.html'),  icon: 'Trophy' },
     ] },
-  { id: 'vorlagen',    label: 'Vorlagen',      icon: 'FileText',        href: path('vorlagen.html'),                  bottom: false,
+  { id: 'vorlagen',    label: 'Themen-Seiten', icon: 'FileText',        href: path('vorlagen.html'),                  bottom: false,
     subs: [
       { label: 'Allgemein',      href: path('vorlagen.html#allgemein') },
       { label: 'Baufinanzierung',href: path('vorlagen.html#baufi') },

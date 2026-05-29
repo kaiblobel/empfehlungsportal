@@ -12,7 +12,7 @@ document.getElementById('hName').textContent = window.ENV_BERATER_NAME || 'Berat
   const list = await getVorlagen();
   const wrap = document.getElementById('cmsList');
   if (!list.length) {
-    wrap.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text-secondary);">Vorlagen konnten nicht geladen werden.</div>';
+    wrap.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text-secondary);">Themen-Seiten konnten nicht geladen werden.</div>';
     return;
   }
   wrap.innerHTML = list.map(renderCard).join('');

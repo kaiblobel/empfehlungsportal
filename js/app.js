@@ -151,7 +151,7 @@ if (page === 'empfehlen') {
     (async () => {
       const list = await getVorlagen();
       if (!list.length) {
-        grid.innerHTML = '<p style="font-size:13px;color:var(--text-secondary);">Vorlagen konnten nicht geladen werden.</p>';
+        grid.innerHTML = '<p style="font-size:13px;color:var(--text-secondary);">Themen-Seiten konnten nicht geladen werden.</p>';
         return;
       }
       grid.innerHTML = list.map(v => `
