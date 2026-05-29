@@ -5,6 +5,8 @@ import {
   markInteressiert,
   markAnrufwunsch,
   getEmpfehlungByToken,
+  getVorlagen,
+  getVorlage,
 } from './supabase.js';
 
 const page = document.body.dataset.page;
@@ -116,6 +118,37 @@ if (page === 'empfehlen') {
     });
   }
 
+  // ----- Vorlagen-Grid -----
+  const vorlageSlugEl = document.getElementById('vorlageSlug');
+  const grid = document.getElementById('vorlagenGrid');
+  if (grid) {
+    (async () => {
+      const list = await getVorlagen();
+      if (!list.length) {
+        grid.innerHTML = '<p style="font-size:13px;color:var(--text-secondary);">Vorlagen konnten nicht geladen werden.</p>';
+        return;
+      }
+      grid.innerHTML = list.map(v => `
+        <button type="button" class="vorlage-kachel${v.slug === 'allgemein' ? ' selected' : ''}" data-slug="${v.slug}">
+          <span class="icon">${v.icon || ''}</span>
+          <span class="titel">${escapeHtml(v.titel)}</span>
+        </button>
+      `).join('');
+      grid.querySelectorAll('.vorlage-kachel').forEach(btn => {
+        btn.addEventListener('click', () => {
+          grid.querySelectorAll('.vorlage-kachel').forEach(b => b.classList.toggle('selected', b === btn));
+          if (vorlageSlugEl) vorlageSlugEl.value = btn.dataset.slug;
+        });
+      });
+    })();
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, m =>
+      ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])
+    );
+  }
+
   function previewLink() {
     return `${window.location.origin}/empfaenger.html?token=…`;
   }
@@ -136,6 +169,7 @@ if (page === 'empfehlen') {
     const telefon = sanitizePhone(telefonEl.value);
     const empfehler = empfehlerEl.value.trim();
     const empfehlerNachricht = nachrichtEl ? nachrichtEl.value.trim() : '';
+    const vorlageSlug = vorlageSlugEl ? vorlageSlugEl.value : 'allgemein';
 
     if (!vorname || !nachname || !telefon) {
       showToast('Bitte alle Pflichtfelder ausfüllen');
@@ -150,10 +184,11 @@ if (page === 'empfehlen') {
       empfehler_nachricht: empfehlerNachricht || null,
       nachricht: tempMsg,
       typ,
+      vorlage_slug: vorlageSlug,
     });
 
     const token = data?.link_token || 'demo';
-    const link = `${window.location.origin}/empfaenger.html?token=${token}`;
+    const link = `${window.location.origin}/empfaenger.html?token=${token}&vorlage=${vorlageSlug}`;
     const finalMsg = buildMessage(vorname, typ, link);
 
     if (error && !data) {
@@ -192,10 +227,11 @@ if (page === 'empfehlen') {
   shareBtn.addEventListener('click', () => submitFlow(false));
 }
 
-/* ---------- EMPFAENGER (Phase 5) ---------- */
+/* ---------- EMPFAENGER (Phase 6) ---------- */
 if (page === 'empfaenger') {
   const params = new URLSearchParams(window.location.search);
   const token = params.get('token');
+  const urlVorlage = params.get('vorlage');
 
   // Foto im Hero
   const foto = document.getElementById('p5Foto');
@@ -219,18 +255,67 @@ if (page === 'empfaenger') {
   }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
   document.querySelectorAll('.p5-reveal').forEach((el) => io.observe(el));
 
-  // Empfehlung laden + Empfehler-Karte rendern
+  // Empfehlung + Vorlage parallel laden, dann Seite befüllen
   (async () => {
-    if (!token) return;
-    const { data, error } = await getEmpfehlungByToken(token);
-    if (error || !data) return;
-    renderEmpfehlerKarte(data);
-
-    // Wenn Anrufwunsch schon gesetzt: Confirm-State sofort zeigen
-    if (data.anrufwunsch) {
-      revealConfirm(data.anrufwunsch);
+    // 1) URL-Param hat Priorität, ansonsten erst DB-Wert
+    let empData = null;
+    if (token) {
+      const r = await getEmpfehlungByToken(token);
+      empData = r.data || null;
     }
+
+    const slugResolved = (urlVorlage || empData?.vorlage_slug || 'allgemein').toLowerCase();
+
+    // 2) Vorlage laden, Fallback auf 'allgemein'
+    let v = await getVorlage(slugResolved);
+    if (!v) v = await getVorlage('allgemein');
+    if (v) applyVorlage(v);
+
+    // 3) Empfehler-Karte
+    if (empData) renderEmpfehlerKarte(empData);
+
+    // 4) Anrufwunsch-State
+    if (empData?.anrufwunsch) revealConfirm(empData.anrufwunsch);
   })();
+
+  function applyVorlage(v) {
+    // Hero-Subtext
+    const heroBody = document.getElementById('p5HeroBody');
+    if (heroBody && v.subtext) heroBody.textContent = v.subtext;
+
+    // Quickcheck-Sektion
+    const heroImg = document.getElementById('p5QuickHero');
+    if (heroImg && v.hero_bild_url) {
+      heroImg.src = v.hero_bild_url;
+      heroImg.style.display = '';
+    }
+    const headline = document.getElementById('p5QuickHeadline');
+    if (headline && v.headline) headline.textContent = v.headline;
+    const cta = document.getElementById('p5QuickCta');
+    if (cta) {
+      if (v.cta_text)      cta.textContent = v.cta_text;
+      if (v.quickcheck_url) cta.href       = v.quickcheck_url;
+    }
+
+    // Drei Vorteile
+    const setText = (id, t) => { const el = document.getElementById(id); if (el && t) el.textContent = t; };
+    setText('p5V1Titel', v.vorteil_1_titel);
+    setText('p5V1Text',  v.vorteil_1_text);
+    setText('p5V2Titel', v.vorteil_2_titel);
+    setText('p5V2Text',  v.vorteil_2_text);
+    setText('p5V3Titel', v.vorteil_3_titel);
+    setText('p5V3Text',  v.vorteil_3_text);
+
+    // Badge (nur wenn nicht 'allgemein')
+    const badge = document.getElementById('p5BadgeVorlage');
+    if (badge && v.slug !== 'allgemein') {
+      const ic = document.getElementById('p5BadgeIcon');
+      const ti = document.getElementById('p5BadgeTitel');
+      if (ic) ic.textContent = v.icon || '';
+      if (ti) ti.textContent = v.titel || '';
+      badge.style.display = '';
+    }
+  }
 
   function renderEmpfehlerKarte(d) {
     const inner = document.getElementById('p5EmpfehlerInner');

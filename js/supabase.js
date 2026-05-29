@@ -24,6 +24,7 @@ export async function createEmpfehlung(data) {
       empfehler_nachricht: data.empfehler_nachricht || null,
       nachricht: data.nachricht || null,
       typ: data.typ || 'direkt',
+      vorlage_slug: data.vorlage_slug || 'allgemein',
     };
     const { data: inserted, error } = await supabase
       .from('empfehlungen')
@@ -98,6 +99,40 @@ export async function getEmpfehlungByToken(token) {
     return { data: null, error: err };
   }
 }
+
+/* ---------- Vorlagen (public read) ---------- */
+export async function getVorlagen() {
+  if (!supabase) return [];
+  try {
+    const { data, error } = await supabase
+      .from('vorlagen')
+      .select('*')
+      .eq('aktiv', true)
+      .order('sort_order', { ascending: true });
+    if (error) throw error;
+    return data || [];
+  } catch (err) {
+    console.error('[getVorlagen]', err);
+    return [];
+  }
+}
+
+export async function getVorlage(slug) {
+  if (!supabase) return null;
+  try {
+    const { data, error } = await supabase
+      .from('vorlagen')
+      .select('*')
+      .eq('slug', slug)
+      .maybeSingle();
+    if (error) throw error;
+    return data || null;
+  } catch (err) {
+    console.error('[getVorlage]', err);
+    return null;
+  }
+}
+
 
 /* ---------- Dashboard (authenticated, direkter Zugriff) ---------- */
 export async function getBerater(id) {

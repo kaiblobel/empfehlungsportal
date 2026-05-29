@@ -24,6 +24,12 @@
 </head>
 <body data-page="empfaenger">
 
+  <!-- Vorlage-Badge oben rechts (nur wenn nicht 'allgemein') -->
+  <div class="p5-badge-vorlage" id="p5BadgeVorlage" style="display:none;">
+    <span class="icon" id="p5BadgeIcon"></span>
+    <span class="titel" id="p5BadgeTitel"></span>
+  </div>
+
   <!-- ===== 1 · Hero ===== -->
   <section class="p5-section p5-hero">
     <div class="p5-inner">
@@ -31,7 +37,7 @@
       <img class="p5-portrait p5-reveal d1" id="p5Foto" src="" alt="Kai Blobel" />
       <h1 class="p5-h1 p5-reveal d1">Hallo, ich bin Kai Blobel.</h1>
       <p class="p5-sub p5-reveal d2">Regionaldirektionsleiter · Team Wachsbleiche · 22 Jahre Erfahrung</p>
-      <p class="p5-body p5-reveal d3">
+      <p class="p5-body p5-reveal d3" id="p5HeroBody">
         Jemand aus deinem Umfeld glaubt, dass ein Gespräch mit mir für dich wertvoll sein könnte.
         Ich rufe dich in den nächsten Tagen an — kurz, persönlich, ohne Verpflichtung.
       </p>
@@ -54,14 +60,15 @@
 
   <!-- ===== 3 · Quickcheck CTA ===== -->
   <section class="p5-section">
+    <img class="p5-hero-image p5-reveal" id="p5QuickHero" src="" alt="" style="display:none;" />
     <div class="p5-inner">
       <p class="p5-eyebrow p5-reveal">Vorab</p>
-      <h2 class="p5-h2 p5-reveal d1">Was steckt finanziell<br>in deiner Situation?</h2>
+      <h2 class="p5-h2 p5-reveal d1" id="p5QuickHeadline">Was steckt finanziell<br>in deiner Situation?</h2>
       <p class="p5-body p5-reveal d2">
         In 3 Minuten siehst du, welche Förderungen, Steuervorteile und Sparmöglichkeiten du aktuell noch nicht nutzt.
         Konkret. Auf deine Zahlen zugeschnitten.
       </p>
-      <a class="p5-btn p5-btn-primary p5-reveal d2" href="https://finanzcheck.kaiblobel.de/" target="_blank" rel="noopener" style="margin-top: 12px;">
+      <a class="p5-btn p5-btn-primary p5-reveal d2" id="p5QuickCta" href="https://finanzcheck.kaiblobel.de/" target="_blank" rel="noopener" style="margin-top: 12px;">
         Mein Potenzial jetzt checken →
       </a>
       <p class="p5-micro p5-reveal d3">Dauert ca. 3 Minuten · Keine Anmeldung · 100&nbsp;% kostenlos</p>
@@ -76,18 +83,18 @@
       <div class="p5-cards p5-reveal d2">
         <div class="p5-card">
           <span class="p5-card-icon">🎯</span>
-          <h3 class="p5-card-title">Keine Kaltakquise</h3>
-          <p class="p5-card-text">Du wurdest empfohlen — jemand, dem du vertraust, hat bewusst an dich gedacht.</p>
+          <h3 class="p5-card-title" id="p5V1Titel">Keine Kaltakquise</h3>
+          <p class="p5-card-text"  id="p5V1Text">Du wurdest empfohlen — jemand, dem du vertraust, hat bewusst an dich gedacht.</p>
         </div>
         <div class="p5-card">
           <span class="p5-card-icon">💡</span>
-          <h3 class="p5-card-title">Konkrete Zahlen</h3>
-          <p class="p5-card-text">Kein allgemeines Gespräch. Wir schauen, was in deiner Situation wirklich möglich ist.</p>
+          <h3 class="p5-card-title" id="p5V2Titel">Konkrete Zahlen</h3>
+          <p class="p5-card-text"  id="p5V2Text">Kein allgemeines Gespräch. Wir schauen, was in deiner Situation wirklich möglich ist.</p>
         </div>
         <div class="p5-card">
           <span class="p5-card-icon">🤝</span>
-          <h3 class="p5-card-title">Du entscheidest</h3>
-          <p class="p5-card-text">Kein Druck, keine Verpflichtung. Du bestimmst, ob und wie es weitergeht.</p>
+          <h3 class="p5-card-title" id="p5V3Titel">Du entscheidest</h3>
+          <p class="p5-card-text"  id="p5V3Text">Kein Druck, keine Verpflichtung. Du bestimmst, ob und wie es weitergeht.</p>
         </div>
       </div>
     </div>
