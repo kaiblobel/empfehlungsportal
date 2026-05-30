@@ -40,6 +40,7 @@ export const NAV_ITEMS = [
       { label: 'Selbständige',   href: path('vorlagen.html#selbstaendige') },
       { label: 'Absicherung',    href: path('vorlagen.html#absicherung') },
     ] },
+  { id: 'praesentation',label: 'Präsentation', icon: 'Presentation',    href: path('index.html'),                     bottom: false },
   { id: 'analysen',    label: 'Analysen',      icon: 'BarChart3',       href: path('dashboard/overview.html'),        bottom: false },
   { id: 'einstellungen',label: 'Einstellungen',icon: 'Settings',        href: path('dashboard/settings.html'),        bottom: false },
 ];
