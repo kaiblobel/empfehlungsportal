@@ -5,6 +5,7 @@
  * Wir injizieren Sidebar (visible ≥1024px), Bottom-Nav (≤1023px, 3 Items), Hamburger-Drawer (≤1023px, alle Items).
  */
 import { icon } from './icons.js';
+import { initCmdK } from './cmdk.js';
 
 const ROOT = (typeof window !== 'undefined' && window.location.origin) || '';
 
@@ -117,9 +118,7 @@ export function renderNav(opts = {}) {
 
 // Auto-init if a #appNav exists on DOMContentLoaded
 if (typeof document !== 'undefined') {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', renderNav);
-  } else {
-    renderNav();
-  }
+  const init = () => { renderNav(); initCmdK(); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 }
