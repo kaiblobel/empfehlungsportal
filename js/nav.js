@@ -6,6 +6,7 @@
  */
 import { icon } from './icons.js';
 import { initCmdK } from './cmdk.js';
+import './pwa.js'; // registers service worker
 
 const ROOT = (typeof window !== 'undefined' && window.location.origin) || '';
 

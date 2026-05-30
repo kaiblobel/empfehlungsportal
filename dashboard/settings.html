@@ -42,6 +42,12 @@
         </div>
       </section>
 
+      <section id="pwaSection" style="display:none;">
+        <h2 class="settings-section-title">App-Installation</h2>
+        <p class="settings-section-sub">Installiere den Empfehlungs-HUB auf deinem Homescreen für schnellen Zugriff wie eine echte App.</p>
+        <button id="installBtn" class="btn-logout" style="padding: 12px 20px; font-size: 14px;">Jetzt installieren</button>
+      </section>
+
       <section>
         <h2 class="settings-section-title">Themen-Seiten · Vorschauen</h2>
         <p class="settings-section-sub">Schnell-Vorschau der 6 Themen-Seiten mit Test-Token.</p>
@@ -134,10 +140,20 @@
 
   <script type="module">
     import { requireAuth, logout } from '../js/dashboard.js';
+    import { showInstallPrompt, canInstall } from '../js/pwa.js';
 
     document.getElementById('hdrPhoto').src = window.ENV_BERATER_FOTO || '';
     document.getElementById('hdrName').textContent = window.ENV_BERATER_NAME || 'Berater';
     document.getElementById('logoutBtn').addEventListener('click', logout);
+
+    // PWA-Install-Section: nur zeigen wenn installierbar (Chrome/Edge auf Desktop/Android)
+    setTimeout(() => {
+      if (canInstall()) document.getElementById('pwaSection').style.display = '';
+    }, 800);
+    document.getElementById('installBtn').addEventListener('click', async () => {
+      const r = await showInstallPrompt();
+      if (!r.available) alert('Installation gerade nicht verfügbar. Auf iOS bitte über das Teilen-Menü "Zum Home-Bildschirm".');
+    });
 
     (async () => {
       const session = await requireAuth();

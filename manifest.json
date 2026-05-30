@@ -1,0 +1,44 @@
+{
+  "name": "Empfehlungs-HUB · Kai Blobel",
+  "short_name": "Empfehlungs-HUB",
+  "description": "Premium-Empfehlungssystem für Kai Blobel, Team Wachsbleiche.",
+  "start_url": "/hub.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FAFAFA",
+  "theme_color": "#FAFAFA",
+  "lang": "de-DE",
+  "categories": ["business", "productivity"],
+  "icons": [
+    {
+      "src": "/assets/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Neue Empfehlung",
+      "url": "/empfehlen.html",
+      "description": "Empfehlung anlegen und sofort teilen"
+    },
+    {
+      "name": "Anrufwünsche",
+      "url": "/dashboard/empfehlungen.html?status=anrufwunsch",
+      "description": "Offene Anrufwünsche bearbeiten"
+    },
+    {
+      "name": "Themen-Seiten",
+      "url": "/vorlagen.html",
+      "description": "Vorlagen bearbeiten"
+    }
+  ]
+}
