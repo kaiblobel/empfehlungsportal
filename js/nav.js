@@ -113,11 +113,24 @@ export function renderNav(opts = {}) {
 
     const ham = sidebar.querySelector('.nav-hamburger');
     const drawer = sidebar.querySelector('.nav-drawer');
+    const panel = sidebar.querySelector('.nav-drawer-panel');
     const close = sidebar.querySelector('.nav-drawer-close');
     const logout = sidebar.querySelector('#navDrawerLogout');
-    ham?.addEventListener('click', () => { drawer.hidden = false; document.body.classList.add('nav-drawer-open'); });
-    close?.addEventListener('click', () => { drawer.hidden = true; document.body.classList.remove('nav-drawer-open'); });
-    drawer?.addEventListener('click', (e) => { if (e.target === drawer) { drawer.hidden = true; document.body.classList.remove('nav-drawer-open'); } });
+
+    const openDrawer = () => { drawer.hidden = false; document.body.classList.add('nav-drawer-open'); };
+    const closeDrawer = () => { drawer.hidden = true; document.body.classList.remove('nav-drawer-open'); };
+    const toggleDrawer = () => { drawer.hidden ? openDrawer() : closeDrawer(); };
+
+    ham?.addEventListener('click', toggleDrawer);
+    close?.addEventListener('click', closeDrawer);
+    // Backdrop-Click: wenn nicht auf Panel geklickt → schließen
+    drawer?.addEventListener('click', (e) => {
+      if (panel && !panel.contains(e.target)) closeDrawer();
+    });
+    // Esc + Outside-Tap auf Touch-Devices
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !drawer.hidden) closeDrawer();
+    });
     logout?.addEventListener('click', async () => {
       try {
         const m = await import('./dashboard.js');
