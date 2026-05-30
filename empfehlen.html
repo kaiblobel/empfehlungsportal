@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#FAF8F5" />
   <title>Empfehlung aussprechen · Kai Blobel</title>
-  <link rel="stylesheet" href="css/empfehlen.css?v=20" />
+  <link rel="stylesheet" href="css/empfehlen.css?v=28" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="empfehlen">
@@ -46,6 +46,41 @@
         </div>
       </div>
 
+      <details class="f-context" id="contextAccordion">
+        <summary>
+          <span>Mehr Kontext für Kai (optional)</span>
+          <span class="f-context-chev">↓</span>
+        </summary>
+        <div class="f-context-body">
+          <div class="f-field">
+            <label for="empfaengerBeruf">Beruf / Position</label>
+            <input id="empfaengerBeruf" name="empfaengerBeruf" type="text" autocomplete="off" placeholder="z. B. Architektin, selbständig" />
+          </div>
+          <div class="f-field">
+            <label for="empfaengerVerbindung">Verbindung zu dir</label>
+            <select id="empfaengerVerbindung" name="empfaengerVerbindung">
+              <option value="">— wählen —</option>
+              <option value="Familie">Familie</option>
+              <option value="Lebenspartner">Lebenspartner</option>
+              <option value="Freund">Freund / Freundin</option>
+              <option value="Arbeitskollege">Arbeitskollege / -kollegin</option>
+              <option value="Vereinskollege">Verein / Sport</option>
+              <option value="Nachbar">Nachbar / Nachbarin</option>
+              <option value="Bekannter">Bekannte / Bekannter</option>
+              <option value="Sonstiges">Sonstiges</option>
+            </select>
+          </div>
+          <div class="f-field">
+            <label for="empfaengerKontext">Was sollte Kai wissen?</label>
+            <textarea id="empfaengerKontext" name="empfaengerKontext" maxlength="300" rows="3" placeholder="z. B. Kauft gerade ein Haus, macht sich selbständig, Mutter ist gerade gestorben…"></textarea>
+            <div class="f-field-meta">
+              <span>Persönlicher Kontext für die Gesprächsvorbereitung — nur Kai sieht das.</span>
+              <span id="kontextCount">0/300</span>
+            </div>
+          </div>
+        </div>
+      </details>
+
       <div class="f-block">
         <span class="f-section-label">Worüber könnte sich deine Empfehlung freuen?</span>
         <p class="f-section-sub">Wähle das Thema, das am besten passt. Nicht sicher? Nimm einfach Allgemein.</p>
@@ -77,6 +112,6 @@
 
   <div class="f-toast" id="toast">Link kopiert</div>
 
-  <script type="module" src="js/app.js?v=27"></script>
+  <script type="module" src="js/app.js?v=28"></script>
 </body>
 </html>

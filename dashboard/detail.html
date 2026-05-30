@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#f5f5f7" />
   <title>Empfehlung · Empfehlungsportal</title>
-  <link rel="stylesheet" href="../css/style.css?v=26e" />
-  <link rel="stylesheet" href="../css/dashboard.css?v=26e" />
+  <link rel="stylesheet" href="../css/style.css?v=28" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=28" />
   <script src="../js/config.js"></script>
 </head>
 <body class="has-app-nav">
 
   <div id="appNav"></div>
-  <script type="module" src="../js/nav.js?v=26e"></script>
+  <script type="module" src="../js/nav.js?v=28"></script>
 
   <div class="app-shell">
     <header class="app-header">
@@ -88,6 +88,18 @@
             <span class="label">Empfehler</span>
             <span class="value">${escapeHtml(r.empfehler_name || '–')}</span>
           </div>
+          ${r.empfaenger_verbindung ? `<div class="detail-row">
+            <span class="label">Verbindung</span>
+            <span class="value">${escapeHtml(r.empfaenger_verbindung)}</span>
+          </div>` : ''}
+          ${r.empfaenger_beruf ? `<div class="detail-row">
+            <span class="label">Beruf</span>
+            <span class="value">${escapeHtml(r.empfaenger_beruf)}</span>
+          </div>` : ''}
+          ${r.empfaenger_kontext ? `<div class="detail-row" style="flex-direction:column;align-items:flex-start;gap:6px;">
+            <span class="label">Kontext</span>
+            <span class="value" style="text-align:left;max-width:100%;font-style:italic;background:rgba(201,185,138,0.10);padding:10px 14px;border-radius:4px;border-left:2px solid var(--accent);">${escapeHtml(r.empfaenger_kontext)}</span>
+          </div>` : ''}
           <div class="detail-row">
             <span class="label">Erstellt</span>
             <span class="value">${formatDate(r.created_at)}</span>

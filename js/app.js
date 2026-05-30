@@ -208,6 +208,9 @@ if (page === 'empfehlen') {
     const empfehler = empfehlerEl.value.trim();
     const empfehlerNachricht = nachrichtEl ? nachrichtEl.value.trim() : '';
     const vorlageSlug = vorlageSlugEl ? vorlageSlugEl.value : 'allgemein';
+    const beruf = (document.getElementById('empfaengerBeruf')?.value || '').trim();
+    const verbindung = document.getElementById('empfaengerVerbindung')?.value || '';
+    const kontext = (document.getElementById('empfaengerKontext')?.value || '').trim();
 
     if (!vorname || !nachname || !telefon) {
       showToast('Bitte alle Pflichtfelder ausfüllen');
@@ -224,6 +227,9 @@ if (page === 'empfehlen') {
       typ,
       vorlage_slug: vorlageSlug,
       empfehler_id: empfehlerData?.id || null,
+      empfaenger_beruf: beruf || null,
+      empfaenger_verbindung: verbindung || null,
+      empfaenger_kontext: kontext || null,
     });
 
     const token = data?.link_token || 'demo';

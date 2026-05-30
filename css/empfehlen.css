@@ -361,3 +361,55 @@ body[data-page="danke"] .f-hairline-d {
   body[data-page="empfehlen"] .vorlage-skel { animation: none; opacity: 0.6; }
   body[data-page="empfehlen"] .f-toast { transition: opacity 100ms linear !important; transform: translateX(-50%) !important; }
 }
+
+/* PHASE 26 - Context-Accordion */
+body[data-page="empfehlen"] .f-context {
+  margin-top: 12px;
+  border: 1px solid var(--f-hairline);
+  border-radius: 4px;
+  background: var(--f-warm);
+  overflow: hidden;
+}
+body[data-page="empfehlen"] .f-context summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--f-anthracite);
+}
+body[data-page="empfehlen"] .f-context summary::-webkit-details-marker { display: none; }
+body[data-page="empfehlen"] .f-context-chev {
+  font-family: 'Inter', sans-serif;
+  color: var(--f-champagne-hover);
+  transition: transform 200ms var(--f-ease);
+}
+body[data-page="empfehlen"] .f-context[open] .f-context-chev { transform: rotate(180deg); }
+body[data-page="empfehlen"] .f-context-body {
+  padding: 4px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-top: 1px solid var(--f-hairline);
+}
+body[data-page="empfehlen"] .f-context-body .f-field { background: transparent; border-color: var(--f-hairline); }
+body[data-page="empfehlen"] .f-field select {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: var(--f-anthracite);
+  background: transparent;
+  border: 0;
+  outline: 0;
+  padding: 0;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236E6660' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0 center;
+  padding-right: 24px;
+}

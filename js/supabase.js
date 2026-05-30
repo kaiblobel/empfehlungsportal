@@ -26,6 +26,9 @@ export async function createEmpfehlung(data) {
       typ: data.typ || 'direkt',
       vorlage_slug: data.vorlage_slug || 'allgemein',
       empfehler_id: data.empfehler_id || null,
+      empfaenger_beruf: data.empfaenger_beruf || null,
+      empfaenger_verbindung: data.empfaenger_verbindung || null,
+      empfaenger_kontext: data.empfaenger_kontext || null,
     };
     const { data: inserted, error } = await supabase
       .from('empfehlungen')
