@@ -551,6 +551,12 @@ body[data-page="vorlagen-cms"] {
   flex: 1;
   min-width: 0;
 }
+.h-lead-heat {
+  font-size: 12px;
+  margin-right: 4px;
+  cursor: help;
+  filter: saturate(1.4);
+}
 .h-lead-name {
   font-size: 15px;
   font-weight: 700;

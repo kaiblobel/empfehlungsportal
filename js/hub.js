@@ -174,7 +174,7 @@ async function loadHotLeads() {
   try {
     const { data } = await supabase
       .from('empfehlungen')
-      .select('id, empfaenger_name, status, anrufwunsch, anrufwunsch_at, interessiert, interessiert_at, created_at')
+      .select('id, empfaenger_name, status, anrufwunsch, anrufwunsch_at, interessiert, interessiert_at, link_geoeffnet_at, created_at')
       .or('status.eq.anrufwunsch,interessiert.eq.true')
       .not('status', 'in', '(kontaktiert,kunde,kein_interesse)')
       .limit(20);
@@ -208,11 +208,13 @@ function renderHotLeads(list) {
     const detail = cls === 'anrufwunsch' && r.anrufwunsch
       ? `${escapeHtml(r.anrufwunsch)}`
       : '';
+    const heat = heatScore(r);
+    const heatTitle = heatTitleFor(heat);
     return `
       <div class="h-lead ${cls}">
         <span class="h-lead-dot"></span>
         <div class="h-lead-body">
-          <h3 class="h-lead-name">${escapeHtml(r.empfaenger_name || '–')}</h3>
+          <h3 class="h-lead-name">${heat ? `<span class="h-lead-heat" title="${heatTitle}">${heat}</span> ` : ''}${escapeHtml(r.empfaenger_name || '–')}</h3>
           <div class="h-lead-meta">
             <span class="label ${cls}">${labelTxt}</span>
             ${detail ? `<span>${detail}</span>` : ''}
@@ -222,6 +224,24 @@ function renderHotLeads(list) {
         <a class="h-lead-cta" href="dashboard/detail.html?id=${r.id}">Jetzt öffnen</a>
       </div>`;
   }).join('');
+}
+
+function heatScore(r) {
+  if (!r.link_geoeffnet_at || !r._ts) return '';
+  const openedAt = new Date(r.link_geoeffnet_at).getTime();
+  const delta = r._ts - openedAt;
+  if (delta < 0) return '';
+  const hr = delta / 3600000;
+  if (hr < 1) return '🔥🔥🔥';
+  if (hr < 24) return '🔥🔥';
+  if (hr < 72) return '🔥';
+  return '';
+}
+function heatTitleFor(h) {
+  if (h === '🔥🔥🔥') return 'Sofort-Reaktion (< 1h nach Öffnen)';
+  if (h === '🔥🔥') return 'Schnelle Reaktion (< 24h)';
+  if (h === '🔥') return 'Reaktion innerhalb 3 Tagen';
+  return '';
 }
 
 /* ---------- Activity Timeline ---------- */

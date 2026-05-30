@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#FAF8F5" />
   <title>Empfehlung aussprechen · Kai Blobel</title>
-  <link rel="stylesheet" href="css/empfehlen.css?v=28" />
+  <link rel="stylesheet" href="css/empfehlen.css?v=29" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="empfehlen">
@@ -78,6 +78,31 @@
               <span id="kontextCount">0/300</span>
             </div>
           </div>
+          <div class="f-field" style="flex-direction:row;align-items:center;gap:12px;">
+            <input type="checkbox" id="empfehlerVorinformiert" style="width:18px;height:18px;cursor:pointer;flex-shrink:0;accent-color:var(--f-champagne-hover);" />
+            <label for="empfehlerVorinformiert" style="cursor:pointer;text-transform:none;letter-spacing:0;font-weight:500;font-size:14px;color:var(--f-anthracite);">Ich habe ${''}schon Bescheid gegeben dass Kai sich meldet</label>
+          </div>
+          <div class="f-field">
+            <label for="besteErreichbarkeit">Beste Erreichbarkeit</label>
+            <select id="besteErreichbarkeit" name="besteErreichbarkeit">
+              <option value="">— wenn du es weißt —</option>
+              <option value="vormittag">Vormittag (8–12 Uhr)</option>
+              <option value="mittag">Mittag (12–14 Uhr)</option>
+              <option value="nachmittag">Nachmittag (14–18 Uhr)</option>
+              <option value="abend">Abend (18–21 Uhr)</option>
+              <option value="we">Am Wochenende</option>
+            </select>
+          </div>
+          <div class="f-field">
+            <label for="bevorzugterKanal">Bevorzugter Kanal</label>
+            <select id="bevorzugterKanal" name="bevorzugterKanal">
+              <option value="">— wenn du es weißt —</option>
+              <option value="anruf">Telefon-Anruf</option>
+              <option value="whatsapp">WhatsApp</option>
+              <option value="sms">SMS</option>
+              <option value="email">Email</option>
+            </select>
+          </div>
         </div>
       </details>
 
@@ -112,6 +137,6 @@
 
   <div class="f-toast" id="toast">Link kopiert</div>
 
-  <script type="module" src="js/app.js?v=28"></script>
+  <script type="module" src="js/app.js?v=29"></script>
 </body>
 </html>

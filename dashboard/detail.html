@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#f5f5f7" />
   <title>Empfehlung · Empfehlungsportal</title>
-  <link rel="stylesheet" href="../css/style.css?v=28" />
-  <link rel="stylesheet" href="../css/dashboard.css?v=28" />
+  <link rel="stylesheet" href="../css/style.css?v=29" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=29" />
   <script src="../js/config.js"></script>
 </head>
 <body class="has-app-nav">
 
   <div id="appNav"></div>
-  <script type="module" src="../js/nav.js?v=28"></script>
+  <script type="module" src="../js/nav.js?v=29"></script>
 
   <div class="app-shell">
     <header class="app-header">
@@ -37,6 +37,31 @@
       requireAuth, logout, loadDetail, updateStatus,
       formatDate, getStatusBadge, statusLabel, whatsappLink, toast,
     } from '../js/dashboard.js';
+    import { supabase } from '../js/supabase.js';
+
+    const ERR_LABELS = {
+      vormittag: 'Vormittag (8–12)', mittag: 'Mittag (12–14)', nachmittag: 'Nachmittag (14–18)',
+      abend: 'Abend (18–21)', we: 'Wochenende', egal: 'Egal',
+    };
+    const KANAL_LABELS = {
+      anruf: 'Telefon-Anruf', whatsapp: 'WhatsApp', sms: 'SMS', email: 'Email', egal: 'Egal',
+    };
+    async function fetchEmpfehlerScore(empfehlerId) {
+      if (!empfehlerId) return null;
+      try {
+        const { data, error } = await supabase.rpc('empfehler_score', { p_empfehler_id: empfehlerId });
+        if (error) return null;
+        return data?.[0] || null;
+      } catch { return null; }
+    }
+    function starsFor(score) {
+      if (!score || score.gesamt === 0) return '';
+      const k = score.kunden, g = score.gesamt;
+      if (k >= 3 || (g >= 5 && k >= 2)) return '★★★★';
+      if (k >= 1 && g >= 3) return '★★★';
+      if (k >= 1 || g >= 2) return '★★';
+      return '★';
+    }
 
     document.getElementById('logoutBtn').addEventListener('click', logout);
     document.getElementById('backBtn').addEventListener('click', () => {
@@ -68,6 +93,9 @@
         ? `${window.location.origin}/empfaenger.html?token=${r.link_token}`
         : '';
 
+      const score = await fetchEmpfehlerScore(r.empfehler_id);
+      const stars = starsFor(score);
+
       content.innerHTML = `
         <h1 class="detail-headline">${escapeHtml(r.empfaenger_name || '–')}</h1>
 
@@ -86,11 +114,23 @@
           </div>
           <div class="detail-row">
             <span class="label">Empfehler</span>
-            <span class="value">${escapeHtml(r.empfehler_name || '–')}</span>
+            <span class="value">${escapeHtml(r.empfehler_name || '–')}${score && score.gesamt > 1 ? `<br><span style="font-size:11px;color:var(--accent-hover);letter-spacing:0.05em;">${stars} ${score.gesamt} Empfehlung${score.gesamt !== 1 ? 'en' : ''}${score.kunden > 0 ? ` · ${score.kunden} Kunde${score.kunden !== 1 ? 'n' : ''} (${score.conversion_pct}%)` : ''}</span>` : ''}</span>
           </div>
           ${r.empfaenger_verbindung ? `<div class="detail-row">
             <span class="label">Verbindung</span>
             <span class="value">${escapeHtml(r.empfaenger_verbindung)}</span>
+          </div>` : ''}
+          ${r.empfehler_vorinformiert ? `<div class="detail-row">
+            <span class="label">Vorinformiert</span>
+            <span class="value" style="color:var(--ok);font-weight:600;">✓ Empfehler hat Bescheid gegeben</span>
+          </div>` : ''}
+          ${r.beste_erreichbarkeit ? `<div class="detail-row">
+            <span class="label">Erreichbar</span>
+            <span class="value">${ERR_LABELS[r.beste_erreichbarkeit] || r.beste_erreichbarkeit}</span>
+          </div>` : ''}
+          ${r.bevorzugter_kanal ? `<div class="detail-row">
+            <span class="label">Kanal</span>
+            <span class="value">${KANAL_LABELS[r.bevorzugter_kanal] || r.bevorzugter_kanal}</span>
           </div>` : ''}
           ${r.empfaenger_beruf ? `<div class="detail-row">
             <span class="label">Beruf</span>
