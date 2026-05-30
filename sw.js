@@ -8,7 +8,7 @@
  *  - Niemals cachen: Supabase-API, externe CDN-Fonts
  */
 
-const CACHE_VERSION = 'v21-2026-05-30';
+const CACHE_VERSION = 'v23-2026-05-30';
 const SHELL_CACHE = `shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `assets-${CACHE_VERSION}`;
 
@@ -102,4 +102,35 @@ self.addEventListener('fetch', (event) => {
       })
     );
   }
+});
+
+/* PHASE 23 - Web-Push handlers */
+
+self.addEventListener('push', (event) => {
+  if (!event.data) return;
+  let payload = {};
+  try { payload = event.data.json(); } catch { payload = { title: 'Empfehlungs-HUB', body: event.data.text() }; }
+  const title = payload.title || 'Empfehlungs-HUB';
+  const options = {
+    body: payload.body || '',
+    icon: '/assets/icons/icon.svg',
+    badge: '/assets/icons/icon.svg',
+    tag: payload.tag || 'hot-lead',
+    data: { url: payload.url || '/hub.html' },
+    requireInteraction: false,
+  };
+  event.waitUntil(self.registration.showNotification(title, options));
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const url = event.notification.data?.url || '/hub.html';
+  event.waitUntil(
+    self.clients.matchAll({ type: 'window' }).then((wins) => {
+      for (const w of wins) {
+        if (w.url.includes(url.split('?')[0]) && 'focus' in w) return w.focus();
+      }
+      if (self.clients.openWindow) return self.clients.openWindow(url);
+    })
+  );
 });
