@@ -62,6 +62,8 @@ body[data-page="vorlagen-cms"] {
 }
 @media (max-width: 540px) {
   .h-live, .h-clock { display: none; }
+  .h-header { padding-right: 64px; }
+  .h-header .h-logout { display: none; }
 }
 .h-header-left {
   display: flex;

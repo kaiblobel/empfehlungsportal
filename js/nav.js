@@ -101,9 +101,12 @@ export function renderNav(opts = {}) {
       </aside>
       <button class="nav-hamburger" type="button" aria-label="Menü öffnen">${icon('Menu', { size: 22 })}</button>
       <div class="nav-drawer" hidden>
-        <button class="nav-drawer-close" type="button" aria-label="Menü schließen">${icon('X', { size: 22 })}</button>
-        <div class="nav-brand"><span class="nav-brand-mark"></span><span class="nav-brand-text">Empfehlungs-HUB</span></div>
-        <nav class="nav-list">${NAV_ITEMS.map(sidebarItem).join('')}</nav>
+        <div class="nav-drawer-panel">
+          <button class="nav-drawer-close" type="button" aria-label="Menü schließen">${icon('X', { size: 22 })}</button>
+          <div class="nav-brand"><span class="nav-brand-mark"></span><span class="nav-brand-text">Empfehlungs-HUB</span></div>
+          <nav class="nav-list">${NAV_ITEMS.map(sidebarItem).join('')}</nav>
+          <button class="nav-drawer-logout" type="button" id="navDrawerLogout">${icon('LogOut', { size: 16 })}<span>Abmelden</span></button>
+        </div>
       </div>
       <nav class="nav-bottom">${NAV_ITEMS.filter(i => i.bottom).map(bottomItem).join('')}</nav>
     `;
@@ -111,9 +114,16 @@ export function renderNav(opts = {}) {
     const ham = sidebar.querySelector('.nav-hamburger');
     const drawer = sidebar.querySelector('.nav-drawer');
     const close = sidebar.querySelector('.nav-drawer-close');
+    const logout = sidebar.querySelector('#navDrawerLogout');
     ham?.addEventListener('click', () => { drawer.hidden = false; document.body.classList.add('nav-drawer-open'); });
     close?.addEventListener('click', () => { drawer.hidden = true; document.body.classList.remove('nav-drawer-open'); });
     drawer?.addEventListener('click', (e) => { if (e.target === drawer) { drawer.hidden = true; document.body.classList.remove('nav-drawer-open'); } });
+    logout?.addEventListener('click', async () => {
+      try {
+        const m = await import('./dashboard.js');
+        m.logout();
+      } catch (e) { console.warn('logout failed', e); }
+    });
   }
 }
 
