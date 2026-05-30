@@ -31,6 +31,19 @@ function showToast(text) {
 
 /* ---------- INDEX (Slide-Flow) ---------- */
 if (page === 'index') {
+  // Auto-Redirect zum Hub wenn Berater eingeloggt (außer ?preview=1)
+  (async () => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('preview') === '1') return;
+      const { supabase } = await import('./supabase.js');
+      const { data } = await supabase.auth.getSession();
+      if (data?.session) {
+        window.location.replace('/hub.html');
+      }
+    } catch (e) { /* Präsentation läuft normal weiter */ }
+  })();
+
   const slides = Array.from(document.querySelectorAll('.slide'));
   const total = slides.length;
   const progressBar = document.getElementById('progressBar');
