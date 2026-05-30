@@ -9,8 +9,8 @@ body[data-page="vorlagen-cms"] {
   color: var(--text-primary);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
-  padding-bottom: 80px;
 }
+/* padding-bottom für nav-bottom kommt aus dashboard.css body.has-app-nav */
 
 /* ---------- Header (fix oben) ---------- */
 .h-header {

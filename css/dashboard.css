@@ -724,15 +724,6 @@
   padding-bottom: calc(8px + env(safe-area-inset-bottom));
   display: none;
   z-index: 95;
-  /* iOS-Safari Hardware-Layer fix gegen Mit-Scroll bei dynamic-viewport */
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-  will-change: transform;
-  /* iOS-Safari: backdrop-filter zwingt Compositing-Layer und macht
-     Bottom-Nav unter Content sichtbar abgesetzt */
-  -webkit-backdrop-filter: saturate(180%) blur(12px);
-  backdrop-filter: saturate(180%) blur(12px);
-  background-color: rgba(255, 255, 255, 0.92);
 }
 .navbottom-item {
   flex: 1;
