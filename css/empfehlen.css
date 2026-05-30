@@ -1,0 +1,363 @@
+/* Phase 20 - Empfehlen-Page Trust-Luxury
+   Editorial Form mit Champagne-Hairlines
+   Scope: body[data-page="empfehlen"] + body[data-page="danke"] */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');
+
+body[data-page="empfehlen"],
+body[data-page="danke"] {
+  --f-ivory: #FAF8F5;
+  --f-warm: #FFFCF7;
+  --f-soft: #F2EFE9;
+  --f-anthracite: #1C1C1E;
+  --f-deep: #0A0A0B;
+  --f-muted: #6E6660;
+  --f-soft-text: #8C8680;
+  --f-champagne: #C9B98A;
+  --f-champagne-hover: #B8A570;
+  --f-champagne-soft: rgba(201,185,138,0.18);
+  --f-hairline: rgba(28,28,30,0.10);
+  --f-shadow: 0 24px 60px -20px rgba(28,28,30,0.12);
+  --f-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --wa-green: #25D366;
+
+  background: var(--f-ivory);
+  color: var(--f-anthracite);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* Empfehler-Banner */
+body[data-page="empfehlen"] .f-banner {
+  background: var(--f-warm);
+  border-bottom: 1px solid var(--f-champagne);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--f-muted);
+  letter-spacing: 0.04em;
+}
+body[data-page="empfehlen"] .f-banner-name {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 15px;
+  color: var(--f-champagne-hover);
+}
+
+/* Page Layout */
+body[data-page="empfehlen"] .f-page,
+body[data-page="danke"] .f-page {
+  max-width: 580px;
+  margin: 0 auto;
+  padding: 64px 28px 96px;
+}
+
+body[data-page="empfehlen"] .f-eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--f-champagne);
+  margin: 0 0 18px;
+  display: block;
+  text-align: center;
+}
+
+body[data-page="empfehlen"] .f-h1,
+body[data-page="danke"] .f-h1 {
+  font-family: 'Fraunces', 'Georgia', serif;
+  font-weight: 300;
+  font-size: clamp(34px, 7vw, 56px);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: var(--f-deep);
+  text-align: center;
+  margin: 0 0 14px;
+}
+body[data-page="empfehlen"] .f-lede,
+body[data-page="danke"] .f-lede {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(17px, 2.5vw, 19px);
+  line-height: 1.5;
+  color: var(--f-muted);
+  text-align: center;
+  max-width: 24em;
+  margin: 0 auto;
+}
+
+body[data-page="empfehlen"] .f-hairline {
+  width: 56px;
+  height: 1px;
+  background: var(--f-champagne);
+  margin: 28px auto;
+}
+
+body[data-page="empfehlen"] .f-section-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--f-soft-text);
+  margin-bottom: 10px;
+  display: block;
+}
+body[data-page="empfehlen"] .f-section-sub {
+  font-size: 13px;
+  color: var(--f-muted);
+  margin: 0 0 14px;
+}
+
+/* Form */
+body[data-page="empfehlen"] .f-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 36px;
+}
+body[data-page="empfehlen"] .f-field {
+  background: var(--f-warm);
+  border: 1px solid var(--f-hairline);
+  border-radius: 4px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: border-color 200ms var(--f-ease);
+}
+body[data-page="empfehlen"] .f-field:focus-within {
+  border-color: var(--f-champagne);
+}
+body[data-page="empfehlen"] .f-field label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--f-soft-text);
+}
+body[data-page="empfehlen"] .f-field input,
+body[data-page="empfehlen"] .f-field textarea {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: var(--f-anthracite);
+  background: transparent;
+  border: 0;
+  outline: 0;
+  padding: 0;
+  resize: vertical;
+  min-height: 24px;
+}
+body[data-page="empfehlen"] .f-field textarea {
+  min-height: 84px;
+  line-height: 1.5;
+}
+body[data-page="empfehlen"] .f-field-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--f-soft-text);
+}
+
+/* Vorlagen Grid */
+body[data-page="empfehlen"] .f-block {
+  margin-top: 28px;
+}
+body[data-page="empfehlen"] .f-vorlagen {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+}
+body[data-page="empfehlen"] .vorlage-kachel {
+  background: var(--f-warm);
+  border: 1px solid var(--f-hairline);
+  border-radius: 4px;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  text-align: left;
+  font-family: 'Inter', sans-serif;
+  color: var(--f-anthracite);
+  transition: border-color 200ms var(--f-ease), background 200ms var(--f-ease);
+}
+body[data-page="empfehlen"] .vorlage-kachel:hover { border-color: var(--f-champagne); }
+body[data-page="empfehlen"] .vorlage-kachel.selected {
+  background: var(--f-champagne-soft);
+  border-color: var(--f-champagne);
+}
+body[data-page="empfehlen"] .vorlage-kachel .icon {
+  font-size: 18px;
+  filter: grayscale(40%);
+  opacity: 0.85;
+}
+body[data-page="empfehlen"] .vorlage-kachel .titel {
+  font-family: 'Fraunces', serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--f-deep);
+  line-height: 1.2;
+}
+body[data-page="empfehlen"] .vorlage-skel {
+  background: var(--f-soft);
+  border-radius: 4px;
+  height: 76px;
+  animation: f-shimmer 1.4s ease-in-out infinite;
+}
+@keyframes f-shimmer { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+/* Message Preview */
+body[data-page="empfehlen"] .f-preview {
+  background: var(--f-soft);
+  border-left: 2px solid var(--f-champagne);
+  border-radius: 0 4px 4px 0;
+  padding: 18px 22px;
+  margin-top: 12px;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--f-anthracite);
+  white-space: pre-wrap;
+}
+
+/* CTA */
+body[data-page="empfehlen"] .f-cta-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 32px;
+}
+body[data-page="empfehlen"] .f-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 18px 26px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 200ms var(--f-ease), color 200ms var(--f-ease), border-color 200ms var(--f-ease);
+  width: 100%;
+}
+body[data-page="empfehlen"] .f-btn-wa {
+  background: var(--wa-green);
+  color: #fff;
+  border-color: var(--wa-green);
+}
+body[data-page="empfehlen"] .f-btn-wa:hover {
+  background: #1ebe5a;
+  border-color: #1ebe5a;
+}
+body[data-page="empfehlen"] .f-btn-secondary {
+  background: transparent;
+  color: var(--f-anthracite);
+  border-color: var(--f-champagne);
+}
+body[data-page="empfehlen"] .f-btn-secondary:hover {
+  border-color: var(--f-deep);
+}
+
+/* Toast */
+body[data-page="empfehlen"] .f-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--f-deep);
+  color: var(--f-ivory);
+  padding: 14px 22px;
+  border-radius: 4px;
+  font-size: 14px;
+  z-index: 200;
+  opacity: 0;
+  transition: opacity 250ms var(--f-ease), transform 250ms var(--f-ease);
+  pointer-events: none;
+}
+body[data-page="empfehlen"] .f-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Danke Page */
+body[data-page="danke"] .f-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 28px;
+}
+body[data-page="danke"] .f-check {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid var(--f-champagne);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 32px;
+  background: var(--f-warm);
+}
+body[data-page="danke"] .f-check svg {
+  width: 28px;
+  height: 28px;
+  stroke: var(--f-champagne-hover);
+  stroke-width: 1.5;
+  fill: none;
+}
+body[data-page="danke"] .f-eyebrow-d {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--f-champagne);
+  margin: 0 0 14px;
+  display: block;
+}
+body[data-page="danke"] .f-signature {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  color: var(--f-champagne-hover);
+  font-size: 15px;
+  margin-top: 28px;
+}
+body[data-page="danke"] .f-hairline-d {
+  width: 56px;
+  height: 1px;
+  background: var(--f-champagne);
+  margin: 32px auto;
+}
+
+/* Desktop */
+@media (min-width: 720px) {
+  body[data-page="empfehlen"] .f-vorlagen { grid-template-columns: repeat(3, 1fr); }
+  body[data-page="empfehlen"] .f-page,
+  body[data-page="danke"] .f-page { padding: 96px 32px 120px; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  body[data-page="empfehlen"] .vorlage-skel { animation: none; opacity: 0.6; }
+  body[data-page="empfehlen"] .f-toast { transition: opacity 100ms linear !important; transform: translateX(-50%) !important; }
+}

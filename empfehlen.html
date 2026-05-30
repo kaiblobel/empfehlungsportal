@@ -3,85 +3,80 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#f5f5f7" />
+  <meta name="theme-color" content="#FAF8F5" />
   <title>Empfehlung aussprechen · Kai Blobel</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/programm.css" />
+  <link rel="stylesheet" href="css/empfehlen.css?v=20" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="empfehlen">
 
-  <div class="p7-banner" id="empfehlerBanner" style="display:none;">
-    <span>👋</span>
-    <span>Du empfiehlst als <span class="gold" id="empfehlerBannerName">…</span></span>
+  <div class="f-banner" id="empfehlerBanner" style="display:none;">
+    <span>Du empfiehlst als</span>
+    <span class="f-banner-name" id="empfehlerBannerName">…</span>
   </div>
 
+  <main class="f-page">
+    <p class="f-eyebrow">Empfehlung</p>
+    <h1 class="f-h1" id="formHeadline">Wen möchtest du empfehlen?</h1>
+    <p class="f-lede">Gib die Kontaktdaten deiner Empfehlung ein. Es dauert weniger als zwei Minuten.</p>
 
-  <main class="page">
-    <div class="page-inner">
-      <h1 class="page-headline" id="formHeadline">Wen möchtest du empfehlen?</h1>
-      <p class="page-subtext">Gib die Kontaktdaten deiner Empfehlung ein.</p>
-
-      <form id="empfehlForm" novalidate>
-        <div style="display: flex; flex-direction: column; gap: 14px;">
-          <div class="field-card">
-            <label for="vorname">Vorname</label>
-            <input id="vorname" name="vorname" type="text" required autocomplete="given-name" />
-          </div>
-          <div class="field-card">
-            <label for="nachname">Nachname</label>
-            <input id="nachname" name="nachname" type="text" required autocomplete="family-name" />
-          </div>
-          <div class="field-card">
-            <label for="telefon">Telefonnummer</label>
-            <input id="telefon" name="telefon" type="tel" required inputmode="tel" placeholder="+49" autocomplete="tel" />
-          </div>
-          <div class="field-card">
-            <label for="empfehlerName">Dein Name (optional)</label>
-            <input id="empfehlerName" name="empfehlerName" type="text" autocomplete="name" />
-          </div>
-          <div class="field-card">
-            <label for="empfehlerNachricht">Persönliche Nachricht (optional)</label>
-            <textarea id="empfehlerNachricht" name="empfehlerNachricht" maxlength="200" rows="4" placeholder="z.B. Ich dachte sofort an dich, weil…" style="border:none;outline:none;background:transparent;font-family:inherit;font-size:17px;color:var(--text-primary);resize:vertical;padding:4px 0;min-height:84px;"></textarea>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
-              <span style="font-size:12px;color:var(--text-secondary);">Erscheint persönlich auf der Empfehlungs-Seite.</span>
-              <span id="charCount" style="font-size:12px;color:var(--text-secondary);font-variant-numeric:tabular-nums;">0/200</span>
-            </div>
-          </div>
+    <form class="f-form" id="empfehlForm" novalidate>
+      <div class="f-field">
+        <label for="vorname">Vorname</label>
+        <input id="vorname" name="vorname" type="text" required autocomplete="given-name" />
+      </div>
+      <div class="f-field">
+        <label for="nachname">Nachname</label>
+        <input id="nachname" name="nachname" type="text" required autocomplete="family-name" />
+      </div>
+      <div class="f-field">
+        <label for="telefon">Telefonnummer</label>
+        <input id="telefon" name="telefon" type="tel" required inputmode="tel" placeholder="+49" autocomplete="tel" />
+      </div>
+      <div class="f-field">
+        <label for="empfehlerName">Dein Name (optional)</label>
+        <input id="empfehlerName" name="empfehlerName" type="text" autocomplete="name" />
+      </div>
+      <div class="f-field">
+        <label for="empfehlerNachricht">Persönliche Nachricht (optional)</label>
+        <textarea id="empfehlerNachricht" name="empfehlerNachricht" maxlength="200" rows="4" placeholder="z. B. Ich dachte sofort an dich, weil…"></textarea>
+        <div class="f-field-meta">
+          <span>Erscheint persönlich auf der Empfehlungs-Seite.</span>
+          <span id="charCount">0/200</span>
         </div>
+      </div>
 
-        <div style="margin-top: 22px;">
-          <span class="message-preview-label">Worüber könnte sich deine Empfehlung freuen?</span>
-          <p style="font-size:13px;color:var(--text-secondary);margin:0 0 12px;">Wähle das Thema, das am besten passt. Nicht sicher? Nimm einfach Allgemein.</p>
-          <div class="vorlagen-grid" id="vorlagenGrid">
-            <div class="vorlage-skel"></div>
-            <div class="vorlage-skel"></div>
-            <div class="vorlage-skel"></div>
-            <div class="vorlage-skel"></div>
-            <div class="vorlage-skel"></div>
-            <div class="vorlage-skel"></div>
-          </div>
-          <input type="hidden" id="vorlageSlug" value="allgemein" />
+      <div class="f-block">
+        <span class="f-section-label">Worüber könnte sich deine Empfehlung freuen?</span>
+        <p class="f-section-sub">Wähle das Thema, das am besten passt. Nicht sicher? Nimm einfach Allgemein.</p>
+        <div class="f-vorlagen" id="vorlagenGrid">
+          <div class="vorlage-skel"></div>
+          <div class="vorlage-skel"></div>
+          <div class="vorlage-skel"></div>
+          <div class="vorlage-skel"></div>
+          <div class="vorlage-skel"></div>
+          <div class="vorlage-skel"></div>
         </div>
+        <input type="hidden" id="vorlageSlug" value="allgemein" />
+      </div>
 
-        <div style="margin-top: 22px;">
-          <span class="message-preview-label">Vorschau der Nachricht</span>
-          <div class="message-preview" id="messagePreview">…</div>
-        </div>
+      <div class="f-block">
+        <span class="f-section-label">Vorschau der Nachricht</span>
+        <div class="f-preview" id="messagePreview">…</div>
+      </div>
 
-        <div class="cta-stack">
-          <button type="submit" class="btn btn-whatsapp">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.8-2-.9-.3-.1-.5-.2-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.5-.3-.5.3-.5.8-1.6.1-.2 0-.4 0-.5 0-.2-.6-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1 2.9 1.2 3.1c.1.2 2 3 4.9 4.2 1.8.7 2.5.8 3.4.7.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 4.9L2 22l5.2-1.4C8.7 21.5 10.3 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
-            Jetzt per WhatsApp senden
-          </button>
-          <button type="button" class="btn btn-secondary" id="shareBtn">Über anderen Kanal teilen</button>
-        </div>
-      </form>
-    </div>
+      <div class="f-cta-stack">
+        <button type="submit" class="f-btn f-btn-wa">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.8-2-.9-.3-.1-.5-.2-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.5-.3-.5.3-.5.8-1.6.1-.2 0-.4 0-.5 0-.2-.6-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1 2.9 1.2 3.1c.1.2 2 3 4.9 4.2 1.8.7 2.5.8 3.4.7.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 4.9L2 22l5.2-1.4C8.7 21.5 10.3 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+          Jetzt per WhatsApp senden
+        </button>
+        <button type="button" class="f-btn f-btn-secondary" id="shareBtn">Über anderen Kanal teilen</button>
+      </div>
+    </form>
   </main>
 
-  <div class="toast" id="toast">Link kopiert</div>
+  <div class="f-toast" id="toast">Link kopiert</div>
 
-  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/app.js?v=20"></script>
 </body>
 </html>
