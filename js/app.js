@@ -132,6 +132,14 @@ if (page === 'empfehlen') {
     });
   }
 
+  const kontextEl = document.getElementById('empfaengerKontext');
+  const kontextCount = document.getElementById('kontextCount');
+  if (kontextEl && kontextCount) {
+    kontextEl.addEventListener('input', () => {
+      kontextCount.textContent = `${kontextEl.value.length}/300`;
+    });
+  }
+
   // ----- Empfehler-Code (Phase 7) -----
   // Code aus URL > LocalStorage
   const urlCode = new URLSearchParams(window.location.search).get('empfehler');

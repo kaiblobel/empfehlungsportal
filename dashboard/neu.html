@@ -52,8 +52,8 @@
         </div>
 
         <div class="field-card">
-          <label for="empfehler">Empfehler (optional)</label>
-          <input id="empfehler" type="text" autocomplete="off" />
+          <label for="empfehlerName">Empfehler (optional)</label>
+          <input id="empfehlerName" type="text" autocomplete="off" />
         </div>
 
         <div class="field-card">
@@ -149,7 +149,7 @@
       const nachname = document.getElementById('nachname').value.trim();
       const telefon = sanitizePhone(document.getElementById('telefon').value);
       const typ = document.getElementById('typSel').value;
-      const empfehler = document.getElementById('empfehler').value.trim();
+      const empfehler = document.getElementById('empfehlerName').value.trim();
       const notiz = document.getElementById('notiz').value.trim();
       const beruf = document.getElementById('empfaengerBeruf').value.trim();
       const verbindung = document.getElementById('empfaengerVerbindung').value;
