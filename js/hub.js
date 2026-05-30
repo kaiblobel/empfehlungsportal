@@ -89,39 +89,44 @@ function renderKPIs([empfehler, klicks, gesamt, kunden], subs) {
   set('kpiGesamt', gesamt);
   set('kpiKunden', kunden);
 
-  // Sub-Stats
+  // Trend-Sub-Stats (Phase 17 · Snapshot-basiert)
   if (subs) {
     const sub = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
-    sub('subEmpfehler', subs.empfehler ? `<strong>+${subs.empfehler}</strong> diese Woche` : 'noch keine diese Woche');
-    sub('subKlicks',    subs.klicks    ? `<strong>${subs.klicks}</strong> heute`           : 'noch keine heute');
-    sub('subGesamt',    subs.gesamt    ? `<strong>${subs.gesamt}</strong> diese Woche`    : 'noch keine diese Woche');
-    sub('subKunden',    subs.kunden    ? `<strong>+${subs.kunden}</strong> diese Woche`   : 'noch keine diese Woche');
+    sub('subEmpfehler', formatTrend(subs.empfehler));
+    sub('subKlicks',    formatTrend(subs.klicks));
+    sub('subGesamt',    formatTrend(subs.gesamt));
+    sub('subKunden',    formatTrend(subs.kunden));
   }
 }
 
-/* ---------- KPI Sub-Stats ---------- */
+function formatTrend(t) {
+  if (!t || t.base === null) return 'noch keine Vergleichswerte';
+  const diff = t.curr - t.base;
+  if (diff === 0) return 'stabil zur Vorwoche';
+  if (t.base === 0 && diff > 0) return `<strong>+${diff}</strong> diese Woche`;
+  if (t.base === 0) return 'noch keine Vergleichswerte';
+  const pct = Math.round((diff / t.base) * 100);
+  const arrow = diff > 0 ? '↑' : '↓';
+  return `<strong>${arrow} ${Math.abs(pct)}%</strong> vs. Vorwoche`;
+}
+
+/* ---------- KPI Sub-Stats (Phase 17 · Trend-Vergleich via Snapshot-Tabelle) ---------- */
 async function loadKPISubStats() {
-  const todayStart = new Date(); todayStart.setHours(0,0,0,0);
-  const weekStart = new Date(); weekStart.setDate(weekStart.getDate() - 7);
-  const safe = async (q) => { try { const { count } = await q; return count ?? 0; } catch { return 0; } };
-  const sumKlicks = async () => {
-    try {
-      const { data } = await supabase.from('empfehlungen')
-        .select('link_klicks, link_geoeffnet_at')
-        .gte('link_geoeffnet_at', todayStart.toISOString());
-      return (data || []).reduce((s, r) => s + (r.link_klicks || 0), 0);
-    } catch { return 0; }
-  };
-  const [empfehler, klicks, gesamt, kunden] = await Promise.all([
-    safe(supabase.from('empfehler').select('id', { count: 'exact', head: true })
-      .gte('created_at', weekStart.toISOString())),
-    sumKlicks(),
-    safe(supabase.from('empfehlungen').select('id', { count: 'exact', head: true })
-      .gte('created_at', weekStart.toISOString())),
-    safe(supabase.from('empfehlungen').select('id', { count: 'exact', head: true })
-      .eq('status', 'kunde').gte('created_at', weekStart.toISOString())),
-  ]);
-  return { empfehler, klicks, gesamt, kunden };
+  try {
+    const { data, error } = await supabase.rpc('kpi_trend', { days_back: 7 });
+    if (error || !data || !data.length) return null;
+    const row = data[0];
+    if (row.baseline_day === null) return null;
+    return {
+      empfehler: { curr: row.curr_aktive_empfehler,    base: row.base_aktive_empfehler },
+      klicks:    { curr: row.curr_link_klicks,         base: row.base_link_klicks },
+      gesamt:    { curr: row.curr_empfehlungen_gesamt, base: row.base_empfehlungen_gesamt },
+      kunden:    { curr: row.curr_kunden,              base: row.base_kunden },
+    };
+  } catch (e) {
+    console.warn('[loadKPISubStats trend]', e);
+    return null;
+  }
 }
 
 /* ---------- Hero Stats Text ---------- */
