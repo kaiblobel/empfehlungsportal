@@ -1,6 +1,7 @@
 import { supabase } from './supabase.js';
 import { requireAuth, logout, formatDate, loadFunnel } from './dashboard.js';
 import { icon, hydrateIcons } from './icons.js';
+import { watchHotLeads } from './hot-lead-watcher.js';
 
 document.getElementById('logoutBtn').addEventListener('click', logout);
 document.getElementById('hPhoto').src = window.ENV_BERATER_FOTO || '';
@@ -33,6 +34,14 @@ const HOUR = NOW.getHours();
   renderFunnel(funnel);
   renderTopPromoters(topPromoters);
   renderTimeline(timelineEvents);
+
+  // Realtime Hot-Lead-Watcher (Phase 18)
+  watchHotLeads({
+    onChange: async () => {
+      const fresh = await loadHotLeads();
+      renderHotLeads(fresh);
+    },
+  });
 })();
 
 /* ---------- Header Clock ---------- */
