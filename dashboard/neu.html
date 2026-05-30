@@ -6,14 +6,14 @@
   <meta name="theme-color" content="#f5f5f7" />
   <meta name="robots" content="noindex,nofollow" />
   <title>Neue Empfehlung · Empfehlungsportal</title>
-  <link rel="stylesheet" href="../css/style.css?v=28" />
-  <link rel="stylesheet" href="../css/dashboard.css?v=28" />
+  <link rel="stylesheet" href="../css/style.css?v=28b" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=28b" />
   <script src="../js/config.js"></script>
 </head>
 <body class="has-app-nav">
 
   <div id="appNav"></div>
-  <script type="module" src="../js/nav.js?v=28"></script>
+  <script type="module" src="../js/nav.js?v=28b"></script>
 
   <div class="app-shell">
     <header class="app-header">
@@ -56,9 +56,34 @@
           <input id="empfehler" type="text" autocomplete="off" />
         </div>
 
+        <div class="field-card">
+          <label for="empfaengerBeruf">Beruf / Position (optional)</label>
+          <input id="empfaengerBeruf" type="text" autocomplete="off" placeholder="z. B. Architektin, selbständig" />
+        </div>
+
         <div class="detail-field">
-          <label for="notiz">Notiz (optional)</label>
-          <textarea id="notiz" placeholder="Kontext, was ihr besprochen habt, was wichtig ist…"></textarea>
+          <label for="empfaengerVerbindung">Verbindung zum Empfehler (optional)</label>
+          <select id="empfaengerVerbindung">
+            <option value="">— wählen —</option>
+            <option value="Familie">Familie</option>
+            <option value="Lebenspartner">Lebenspartner</option>
+            <option value="Freund">Freund / Freundin</option>
+            <option value="Arbeitskollege">Arbeitskollege / -kollegin</option>
+            <option value="Vereinskollege">Verein / Sport</option>
+            <option value="Nachbar">Nachbar / Nachbarin</option>
+            <option value="Bekannter">Bekannte / Bekannter</option>
+            <option value="Sonstiges">Sonstiges</option>
+          </select>
+        </div>
+
+        <div class="detail-field">
+          <label for="empfaengerKontext">Kontext für Gespräch (optional)</label>
+          <textarea id="empfaengerKontext" maxlength="300" placeholder="z. B. Kauft gerade ein Haus, macht sich selbständig…"></textarea>
+        </div>
+
+        <div class="detail-field">
+          <label for="notiz">Notiz (intern, optional)</label>
+          <textarea id="notiz" placeholder="Was du dir merken willst, Folgetermin…"></textarea>
         </div>
 
         <div class="login-error" id="errBox"></div>
@@ -96,6 +121,9 @@
       const typ = document.getElementById('typSel').value;
       const empfehler = document.getElementById('empfehler').value.trim();
       const notiz = document.getElementById('notiz').value.trim();
+      const beruf = document.getElementById('empfaengerBeruf').value.trim();
+      const verbindung = document.getElementById('empfaengerVerbindung').value;
+      const kontext = document.getElementById('empfaengerKontext').value.trim();
 
       if (!vorname || !nachname || !telefon) {
         errBox.textContent = 'Vorname, Nachname und Telefon sind Pflicht.';
@@ -113,6 +141,9 @@
         empfehler_name: empfehler || null,
         nachricht: null,
         typ,
+        empfaenger_beruf: beruf || null,
+        empfaenger_verbindung: verbindung || null,
+        empfaenger_kontext: kontext || null,
       });
 
       if (error || !data) {
