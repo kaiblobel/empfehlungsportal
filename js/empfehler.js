@@ -41,7 +41,7 @@ async function init() {
   if (!stats) {
     document.getElementById('p7Hallo').textContent = 'Code unbekannt.';
     document.getElementById('p7Status').textContent = 'Bitte prüfe deinen Link oder erstelle einen neuen Code unter /programm.';
-    document.querySelectorAll('section.p7-section:not(:first-of-type), footer').forEach(s => s.style.display = 'none');
+    document.querySelectorAll('section.e-section:not(:first-of-type), footer').forEach(s => s.style.display = 'none');
     return;
   }
 
@@ -135,16 +135,16 @@ function renderRewardsList(stats, stufen) {
     const isHighlight = s.highlight;
     const cls = isReached ? 'reached' : 'pending';
     const mark = isReached
-      ? '<span class="status-mark">Erreicht ✓</span>'
-      : `<span class="status-mark">${s.stufe - reached} bis hier</span>`;
+      ? '<span class="e-reward-status">Erreicht</span>'
+      : `<span class="e-reward-status">${s.stufe - reached} bis hier</span>`;
     return `
-      <div class="p7-reward ${isHighlight ? 'highlight' : ''} ${cls}">
-        <div class="icon">${s.icon || '🎁'}</div>
-        <div class="body">
-          <div class="num">${s.stufe}. Empfehlung</div>
-          <h3 class="titel">${escapeHtml(s.titel)}</h3>
-          <p class="text">${escapeHtml(s.beschreibung)}</p>
-          ${s.wert_label ? `<span class="wert">Wert: ${escapeHtml(s.wert_label)}</span>` : ''}
+      <div class="e-reward ${isHighlight ? 'highlight' : ''} ${cls}">
+        <div class="e-reward-icon">${s.icon || '★'}</div>
+        <div class="e-reward-body">
+          <div class="e-reward-stufe">Stufe ${s.stufe}</div>
+          <h3 class="e-reward-titel">${escapeHtml(s.titel)}</h3>
+          <p class="e-reward-text">${escapeHtml(s.beschreibung)}</p>
+          ${s.wert_label ? `<span class="e-reward-wert">Wert: ${escapeHtml(s.wert_label)}</span>` : ''}
         </div>
         ${mark}
       </div>
@@ -155,16 +155,16 @@ function renderRewardsList(stats, stufen) {
 function renderFeed(empfehlungen) {
   const wrap = document.getElementById('p7Feed');
   if (!empfehlungen.length) {
-    wrap.innerHTML = '<div class="p7-empty">Du hast noch keine Empfehlung abgegeben. Teile deinen Link und starte durch.</div>';
+    wrap.innerHTML = '<div class="e-empty">Noch keine Empfehlung. Teile deinen Link und starte durch.</div>';
     return;
   }
-  wrap.innerHTML = '<div class="p7-feed">' + empfehlungen.map(e => `
-    <div class="p7-feed-row">
+  wrap.innerHTML = '<div class="e-feed">' + empfehlungen.map(e => `
+    <div class="e-feed-row">
       <div>
-        <div class="name">${escapeHtml(e.empfaenger_name || '–')}</div>
-        <div class="meta">${formatDate(e.created_at)}${e.anrufwunsch ? ' · ' + escapeHtml(e.anrufwunsch) : ''}</div>
+        <div class="e-feed-name">${escapeHtml(e.empfaenger_name || '–')}</div>
+        <div class="e-feed-meta">${formatDate(e.created_at)}${e.anrufwunsch ? ' · ' + escapeHtml(e.anrufwunsch) : ''}</div>
       </div>
-      <span class="badge-mini badge-mini-${e.status || 'offen'}">${STATUS_LABEL[e.status || 'offen']}</span>
+      <span class="e-badge e-badge-${e.status || 'offen'}">${STATUS_LABEL[e.status || 'offen']}</span>
     </div>
   `).join('') + '</div>';
 }
