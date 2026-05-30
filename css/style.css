@@ -910,3 +910,73 @@ body[data-page="index"] .nav-counter {
     transform: none !important;
   }
 }
+
+/* PHASE 16 - Globale Skeleton-Loader (Stripe/Linear-Standard) */
+
+.skel {
+  background: linear-gradient(
+    90deg,
+    var(--surface-2, #F5F5F2) 25%,
+    rgba(248, 246, 240, 0.8) 50%,
+    var(--surface-2, #F5F5F2) 75%
+  );
+  background-size: 200% 100%;
+  animation: skel-shimmer 1.4s ease-in-out infinite;
+  border-radius: 4px;
+  display: block;
+}
+@keyframes skel-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skel { animation: none; opacity: 0.6; }
+}
+
+.skel-line     { height: 14px; width: 100%; }
+.skel-line.w60 { width: 60%; }
+.skel-line.w40 { width: 40%; }
+.skel-line.w80 { width: 80%; }
+.skel-line.lg  { height: 28px; }
+.skel-line.xl  { height: 40px; }
+
+.skel-circle { width: 36px; height: 36px; border-radius: 50%; }
+.skel-circle.lg { width: 64px; height: 64px; }
+
+.skel-block { height: 120px; width: 100%; border-radius: var(--radius-md, 10px); }
+
+.skel-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--hairline, #E8E5E0);
+}
+.skel-row:last-child { border-bottom: 0; }
+.skel-row .skel-body { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.skel-row .skel-body .skel-line:nth-child(1) { width: 55%; }
+.skel-row .skel-body .skel-line:nth-child(2) { width: 35%; height: 10px; }
+.skel-row .skel-tail { width: 60px; height: 22px; border-radius: 999px; }
+
+.skel-card {
+  background: var(--surface, #FFFFFF);
+  border: 1px solid var(--hairline, #E8E5E0);
+  border-radius: var(--radius-lg, 14px);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.skel-card .skel-line:nth-child(1) { width: 40%; height: 11px; }
+.skel-card .skel-line:nth-child(2) { width: 80%; height: 22px; }
+.skel-card .skel-line:nth-child(3) { width: 60%; height: 14px; }
+
+.skel-funnel-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 40px 44px;
+  gap: 12px;
+  align-items: center;
+  padding: 8px 0;
+}
+.skel-funnel-row .skel-track { height: 6px; border-radius: 3px; }

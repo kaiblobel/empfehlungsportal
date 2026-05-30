@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#f5f5f7" />
   <meta name="robots" content="noindex,nofollow" />
   <title>Empfehlungshub · Kai Blobel</title>
-  <link rel="stylesheet" href="css/style.css?v=13d" />
-  <link rel="stylesheet" href="css/dashboard.css?v=13d" />
-  <link rel="stylesheet" href="css/hub.css?v=13d" />
+  <link rel="stylesheet" href="css/style.css?v=16" />
+  <link rel="stylesheet" href="css/dashboard.css?v=16" />
+  <link rel="stylesheet" href="css/hub.css?v=16" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="hub" class="has-app-nav">
@@ -42,7 +42,8 @@
     <section>
       <div class="h-label" id="hHotLabel">Aufmerksamkeit erforderlich</div>
       <div class="h-hotleads" id="hHotLeads" style="margin-top:12px;">
-        <div class="h-empty-positive" style="opacity:0.5;">Lade Hot Leads…</div>
+        <div class="skel-card"><span class="skel skel-line w40"></span><span class="skel skel-line"></span><span class="skel skel-line w60"></span></div>
+        <div class="skel-card"><span class="skel skel-line w40"></span><span class="skel skel-line"></span><span class="skel skel-line w60"></span></div>
       </div>
     </section>
 
@@ -75,7 +76,10 @@
     <section>
       <div class="h-label">Funnel</div>
       <div class="h-funnel" id="hFunnel" style="margin-top:12px;">
-        <div style="padding:24px;text-align:center;color:var(--ink-soft);font-size:14px;">Lade Funnel…</div>
+        <div class="skel-funnel-row"><span class="skel skel-line w40"></span><span class="skel skel-track"></span><span class="skel skel-line"></span><span class="skel skel-line"></span></div>
+        <div class="skel-funnel-row"><span class="skel skel-line w40"></span><span class="skel skel-track"></span><span class="skel skel-line"></span><span class="skel skel-line"></span></div>
+        <div class="skel-funnel-row"><span class="skel skel-line w40"></span><span class="skel skel-track"></span><span class="skel skel-line"></span><span class="skel skel-line"></span></div>
+        <div class="skel-funnel-row"><span class="skel skel-line w40"></span><span class="skel skel-track"></span><span class="skel skel-line"></span><span class="skel skel-line"></span></div>
       </div>
     </section>
 
@@ -83,21 +87,28 @@
     <section>
       <div class="h-label">Top-Empfehler</div>
       <div class="h-promoters" id="hPromoters" style="margin-top:12px;">
-        <div style="padding:24px;text-align:center;color:var(--ink-soft);font-size:14px;">Lade Champions…</div>
+        <div class="skel-card" style="flex-direction:row;align-items:center;gap:12px;"><span class="skel skel-circle"></span><div style="flex:1;display:flex;flex-direction:column;gap:6px;"><span class="skel skel-line w60"></span><span class="skel skel-line w40" style="height:10px;"></span></div></div>
+        <div class="skel-card" style="flex-direction:row;align-items:center;gap:12px;"><span class="skel skel-circle"></span><div style="flex:1;display:flex;flex-direction:column;gap:6px;"><span class="skel skel-line w60"></span><span class="skel skel-line w40" style="height:10px;"></span></div></div>
+        <div class="skel-card" style="flex-direction:row;align-items:center;gap:12px;"><span class="skel skel-circle"></span><div style="flex:1;display:flex;flex-direction:column;gap:6px;"><span class="skel skel-line w60"></span><span class="skel skel-line w40" style="height:10px;"></span></div></div>
       </div>
     </section>
 
     <!-- Letzte Aktivität · Timeline -->
     <section>
       <div class="h-label">Letzte Aktivität</div>
-      <div class="h-timeline" id="hTimeline" style="margin-top:12px;"><div style="padding:24px;text-align:center;color:var(--ink-soft);font-size:14px;">Lade…</div></div>
+      <div class="h-timeline" id="hTimeline" style="margin-top:12px;">
+        <div class="skel-row"><span class="skel skel-line w40" style="width:48px;height:11px;"></span><div class="skel-body"><span class="skel skel-line"></span></div></div>
+        <div class="skel-row"><span class="skel skel-line w40" style="width:48px;height:11px;"></span><div class="skel-body"><span class="skel skel-line"></span></div></div>
+        <div class="skel-row"><span class="skel skel-line w40" style="width:48px;height:11px;"></span><div class="skel-body"><span class="skel skel-line"></span></div></div>
+        <div class="skel-row"><span class="skel skel-line w40" style="width:48px;height:11px;"></span><div class="skel-body"><span class="skel skel-line"></span></div></div>
+      </div>
     </section>
 
   </main>
 
   <div class="h-toast" id="hToast"></div>
 
-  <script type="module" src="js/nav.js?v=13d"></script>
-  <script type="module" src="js/hub.js?v=13d"></script>
+  <script type="module" src="js/nav.js?v=16"></script>
+  <script type="module" src="js/hub.js?v=16"></script>
 </body>
 </html>
