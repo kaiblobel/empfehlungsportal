@@ -157,11 +157,33 @@ body[data-page="vorlagen-cms"] {
   gap: 12px;
 }
 .h-kpi {
+  --kpi-color: var(--accent-gold);
   background: var(--bg-secondary);
   border-radius: 16px;
-  padding: 22px 18px;
+  padding: 20px 18px;
   box-shadow: var(--shadow-card);
-  border-top: 3px solid var(--accent-gold);
+  border-top: 3px solid var(--kpi-color);
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.h-kpi-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--kpi-color) 13%, transparent);
+  color: var(--kpi-color);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.h-kpi-icon svg { display: block; }
+.h-kpi-body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
 }
 .h-kpi-label {
   font-size: 11px;
@@ -169,13 +191,14 @@ body[data-page="vorlagen-cms"] {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-secondary);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 .h-kpi-value {
   font-size: 32px;
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1.05;
+  margin-bottom: 6px;
 }
 .h-skeleton {
   background: linear-gradient(90deg, #ececef 25%, #f5f5f7 50%, #ececef 75%);
@@ -1266,9 +1289,9 @@ body[data-page="vorlagen-cms"] {
 @media (min-width: 1100px) {
   .h-main-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 380px;
+    grid-template-columns: minmax(0, 1fr) 420px;
     gap: 32px;
-    max-width: 1180px;
+    max-width: 1360px;
   }
   .h-col-side {
     margin-top: 0;
@@ -1328,4 +1351,53 @@ body[data-page="vorlagen-cms"] {
 .h-activity-name {
   font-size: 15px;
   letter-spacing: -0.005em;
+}
+
+/* ============================================================
+   Phase 32 · KPI-Chips Desktop 2x2 + Icon-Kachel + Trend-Pill
+   ============================================================ */
+
+@media (min-width: 1100px) {
+  .h-kpis {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .h-kpi {
+    padding: 24px 22px;
+    gap: 16px;
+  }
+  .h-kpi-icon {
+    width: 50px;
+    height: 50px;
+  }
+  .h-kpi-value {
+    font-size: 40px;
+    margin-bottom: 8px;
+  }
+}
+
+/* Trend-Pill: Farb-Akzent fuer positiv/negativ/stabil */
+.h-kpi-sub-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: rgba(0,0,0,0.05);
+  color: var(--text-secondary);
+}
+.h-kpi-sub-pill.up {
+  background: rgba(122,139,111,0.13);
+  color: #5F7256;
+}
+.h-kpi-sub-pill.down {
+  background: rgba(181,101,29,0.13);
+  color: #964F12;
+}
+.h-kpi-sub-pill strong {
+  font-weight: 700;
+  color: inherit;
 }

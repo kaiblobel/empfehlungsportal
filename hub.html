@@ -13,7 +13,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <link rel="stylesheet" href="css/style.css?v=31" />
   <link rel="stylesheet" href="css/dashboard.css?v=31" />
-  <link rel="stylesheet" href="css/hub.css?v=32" />
+  <link rel="stylesheet" href="css/hub.css?v=33" />
   <script src="js/config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js" defer></script>
 </head>
@@ -67,10 +67,38 @@
     <!-- 1 · KPI Dashboard -->
     <section>
       <div class="h-kpis">
-        <div class="h-kpi"><div class="h-kpi-label">Aktive Empfehler</div><div class="h-kpi-value" id="kpiEmpfehler"><span class="h-skeleton"></span></div><span class="h-kpi-sub" id="subEmpfehler">—</span></div>
-        <div class="h-kpi"><div class="h-kpi-label">Link-Klicks</div><div class="h-kpi-value" id="kpiKlicks"><span class="h-skeleton"></span></div><span class="h-kpi-sub" id="subKlicks">—</span></div>
-        <div class="h-kpi"><div class="h-kpi-label">Empfehlungen</div><div class="h-kpi-value" id="kpiGesamt"><span class="h-skeleton"></span></div><span class="h-kpi-sub" id="subGesamt">—</span></div>
-        <div class="h-kpi"><div class="h-kpi-label">Kunden</div><div class="h-kpi-value" id="kpiKunden"><span class="h-skeleton"></span></div><span class="h-kpi-sub" id="subKunden">—</span></div>
+        <div class="h-kpi" style="--kpi-color:#C9B98A;">
+          <span class="h-kpi-icon" data-icon="Users" data-icon-size="22"></span>
+          <div class="h-kpi-body">
+            <div class="h-kpi-label">Aktive Empfehler</div>
+            <div class="h-kpi-value" id="kpiEmpfehler"><span class="h-skeleton"></span></div>
+            <span class="h-kpi-sub" id="subEmpfehler">—</span>
+          </div>
+        </div>
+        <div class="h-kpi" style="--kpi-color:#7A8B6F;">
+          <span class="h-kpi-icon" data-icon="MousePointerClick" data-icon-size="22"></span>
+          <div class="h-kpi-body">
+            <div class="h-kpi-label">Link-Klicks</div>
+            <div class="h-kpi-value" id="kpiKlicks"><span class="h-skeleton"></span></div>
+            <span class="h-kpi-sub" id="subKlicks">—</span>
+          </div>
+        </div>
+        <div class="h-kpi" style="--kpi-color:#C28447;">
+          <span class="h-kpi-icon" data-icon="Send" data-icon-size="22"></span>
+          <div class="h-kpi-body">
+            <div class="h-kpi-label">Empfehlungen</div>
+            <div class="h-kpi-value" id="kpiGesamt"><span class="h-skeleton"></span></div>
+            <span class="h-kpi-sub" id="subGesamt">—</span>
+          </div>
+        </div>
+        <div class="h-kpi" style="--kpi-color:#2E5266;">
+          <span class="h-kpi-icon" data-icon="Star" data-icon-size="22"></span>
+          <div class="h-kpi-body">
+            <div class="h-kpi-label">Kunden</div>
+            <div class="h-kpi-value" id="kpiKunden"><span class="h-skeleton"></span></div>
+            <span class="h-kpi-sub" id="subKunden">—</span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -150,6 +178,6 @@
   <div class="h-toast" id="hToast"></div>
 
   <script type="module" src="js/nav.js?v=31"></script>
-  <script type="module" src="js/hub.js?v=31"></script>
+  <script type="module" src="js/hub.js?v=32"></script>
 </body>
 </html>

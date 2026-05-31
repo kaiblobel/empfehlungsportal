@@ -121,14 +121,16 @@ function renderKPIs([empfehler, klicks, gesamt, kunden], subs) {
 }
 
 function formatTrend(t) {
-  if (!t || t.base === null) return 'noch keine Vergleichswerte';
+  const pill = (cls, html) => `<span class="h-kpi-sub-pill ${cls}">${html}</span>`;
+  if (!t || t.base === null) return pill('neutral', 'noch keine Vergleichswerte');
   const diff = t.curr - t.base;
-  if (diff === 0) return 'stabil zur Vorwoche';
-  if (t.base === 0 && diff > 0) return `<strong>+${diff}</strong> diese Woche`;
-  if (t.base === 0) return 'noch keine Vergleichswerte';
+  if (diff === 0) return pill('neutral', 'stabil zur Vorwoche');
+  if (t.base === 0 && diff > 0) return pill('up', `<strong>+${diff}</strong> diese Woche`);
+  if (t.base === 0) return pill('neutral', 'noch keine Vergleichswerte');
   const pct = Math.round((diff / t.base) * 100);
+  const dir = diff > 0 ? 'up' : 'down';
   const arrow = diff > 0 ? '↑' : '↓';
-  return `<strong>${arrow} ${Math.abs(pct)}%</strong> vs. Vorwoche`;
+  return pill(dir, `<strong>${arrow} ${Math.abs(pct)}%</strong> vs. Vorwoche`);
 }
 
 /* ---------- KPI Sub-Stats (Phase 17 · Trend-Vergleich via Snapshot-Tabelle) ---------- */
