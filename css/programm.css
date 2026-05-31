@@ -3146,3 +3146,67 @@ body[data-page="programm"] {
   opacity: 0.7;
   line-height: 1.4;
 }
+
+/* ============================================================
+   Phase 68 · Testimonials-Marquee Mobile-Fix
+   iOS Safari braucht Hardware-Acceleration + explizite Setup
+   ============================================================ */
+
+.testimonials-track,
+.testimonials-track-reverse {
+  /* Hardware-Acceleration für iOS Safari erzwingen */
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* width: max-content ist auf iOS Safari unzuverlässig — explizit Flex-Inhalt */
+.testimonials-track {
+  width: auto !important;
+  flex-wrap: nowrap;
+}
+
+/* Mobile: kürzere Animation für Snappy-Feel */
+@media (max-width: 720px) {
+  .testimonials-track            { animation-duration: 38s !important; }
+  .testimonials-track-reverse    { animation-duration: 35s !important; }
+
+  /* Cards etwas schmaler auf Mobile damit mehr passen */
+  .testimonial-card {
+    width: 280px !important;
+    padding: 18px 18px;
+  }
+  .testimonial-quote { font-size: 14px; }
+
+  /* Mask-Fade etwas größer auf Mobile (sieht ruhiger aus) */
+  .testimonials-marquee {
+    mask-image: linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%) !important;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%) !important;
+  }
+}
+
+/* Tablet · etwas snappier als Desktop */
+@media (max-width: 1024px) and (min-width: 721px) {
+  .testimonials-track            { animation-duration: 48s !important; }
+  .testimonials-track-reverse    { animation-duration: 44s !important; }
+}
+
+/* Reduced-Motion: keine harte Stoppung, sondern langsamer Lauf
+   So bleibt die Section auch für Reduce-Motion-User lebendig */
+@media (prefers-reduced-motion: reduce) {
+  .testimonials-track            { animation-duration: 120s !important; }
+  .testimonials-track-reverse    { animation-duration: 110s !important; }
+}
+
+/* Section overflow-x:hidden darf Marquee nicht blockieren —
+   testimonials behält seinen eigenen Overflow-Container */
+.testimonials.section {
+  overflow-x: clip;
+}
+.testimonials .testimonials-marquee {
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+  contain: layout paint;
+}
