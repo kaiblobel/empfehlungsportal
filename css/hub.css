@@ -1240,3 +1240,92 @@ body[data-page="vorlagen-cms"] {
   .h-activity-name { font-size: 13px; }
   .h-activity-bottom { flex-direction: column; align-items: flex-start; gap: 4px; }
 }
+
+/* ============================================================
+   Phase 31 · 2-Spalten-Layout Desktop + Activity rechts permanent
+   ============================================================ */
+
+.h-main-grid {
+  display: flex;
+  flex-direction: column;
+}
+
+.h-col-main {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  min-width: 0;
+}
+
+.h-col-side {
+  display: flex;
+  flex-direction: column;
+  margin-top: 32px;
+}
+
+@media (min-width: 1100px) {
+  .h-main-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: 32px;
+    max-width: 1180px;
+  }
+  .h-col-side {
+    margin-top: 0;
+  }
+  .h-side-activity {
+    position: sticky;
+    top: 88px;
+    max-height: calc(100vh - 108px);
+    overflow-y: auto;
+    background: var(--bg-secondary);
+    border-radius: 14px;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-light);
+    padding: 18px 16px 12px;
+  }
+  .h-side-activity .h-label {
+    margin-bottom: 4px;
+  }
+  /* Timeline-Wrapper im Sidepanel braucht keinen extra Hintergrund */
+  .h-side-activity .h-timeline {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+  }
+  /* Activity-Card-Overrides für engere rechte Spalte */
+  .h-side-activity .h-activity-row {
+    grid-template-columns: auto 36px 1fr;
+    gap: 10px;
+    padding: 12px 10px 12px 16px;
+  }
+  .h-side-activity .h-activity-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 12px;
+  }
+  .h-side-activity .h-activity-name {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    font-size: 15px;
+    letter-spacing: -0.005em;
+    line-height: 1.25;
+  }
+  .h-side-activity .h-activity-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .h-side-activity .h-tl-all {
+    margin-top: 8px;
+  }
+}
+
+/* Auch in der schmalen Default-Card den Namen leicht prominenter */
+.h-activity-name {
+  font-size: 15px;
+  letter-spacing: -0.005em;
+}

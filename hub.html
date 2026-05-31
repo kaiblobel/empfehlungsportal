@@ -13,7 +13,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <link rel="stylesheet" href="css/style.css?v=31" />
   <link rel="stylesheet" href="css/dashboard.css?v=31" />
-  <link rel="stylesheet" href="css/hub.css?v=31" />
+  <link rel="stylesheet" href="css/hub.css?v=32" />
   <script src="js/config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js" defer></script>
 </head>
@@ -36,7 +36,9 @@
     </div>
   </header>
 
-  <main class="h-main">
+  <main class="h-main h-main-grid">
+
+    <div class="h-col-main">
 
     <!-- Hero -->
     <section class="h-hero">
@@ -128,16 +130,20 @@
       </div>
     </section>
 
-    <!-- Letzte Aktivität · Timeline -->
-    <section>
-      <div class="h-label">Letzte Aktivität</div>
-      <div class="h-timeline" id="hTimeline" style="margin-top:12px;">
-        <div class="skel-row"><span class="skel skel-line w40" style="width:48px;height:11px;"></span><div class="skel-body"><span class="skel skel-line"></span></div></div>
-        <div class="skel-row"><span class="skel skel-line w40" style="width:48px;height:11px;"></span><div class="skel-body"><span class="skel skel-line"></span></div></div>
-        <div class="skel-row"><span class="skel skel-line w40" style="width:48px;height:11px;"></span><div class="skel-body"><span class="skel skel-line"></span></div></div>
-        <div class="skel-row"><span class="skel skel-line w40" style="width:48px;height:11px;"></span><div class="skel-body"><span class="skel skel-line"></span></div></div>
-      </div>
-    </section>
+    </div><!-- /.h-col-main -->
+
+    <aside class="h-col-side">
+      <!-- Letzte Aktivität · Timeline -->
+      <section class="h-side-activity">
+        <div class="h-label">Letzte Aktivität</div>
+        <div class="h-timeline" id="hTimeline" style="margin-top:12px;">
+          <div class="skel-row"><span class="skel skel-line w40" style="width:48px;height:11px;"></span><div class="skel-body"><span class="skel skel-line"></span></div></div>
+          <div class="skel-row"><span class="skel skel-line w40" style="width:48px;height:11px;"></span><div class="skel-body"><span class="skel skel-line"></span></div></div>
+          <div class="skel-row"><span class="skel skel-line w40" style="width:48px;height:11px;"></span><div class="skel-body"><span class="skel skel-line"></span></div></div>
+          <div class="skel-row"><span class="skel skel-line w40" style="width:48px;height:11px;"></span><div class="skel-body"><span class="skel skel-line"></span></div></div>
+        </div>
+      </section>
+    </aside>
 
   </main>
 
