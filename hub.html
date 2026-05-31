@@ -11,10 +11,11 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Empfehlungs-HUB" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <link rel="stylesheet" href="css/style.css?v=29" />
-  <link rel="stylesheet" href="css/dashboard.css?v=29" />
-  <link rel="stylesheet" href="css/hub.css?v=29" />
+  <link rel="stylesheet" href="css/style.css?v=30" />
+  <link rel="stylesheet" href="css/dashboard.css?v=30" />
+  <link rel="stylesheet" href="css/hub.css?v=30" />
   <script src="js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js" defer></script>
 </head>
 <body data-page="hub" class="has-app-nav">
 
@@ -52,6 +53,15 @@
       </div>
     </section>
 
+    <!-- Zeitraum-Filter (Phase 29) -->
+    <section>
+      <div class="h-filter-row" id="hFilterRow">
+        <button class="h-chip" data-range="7">7 Tage</button>
+        <button class="h-chip active" data-range="30">30 Tage</button>
+        <button class="h-chip" data-range="90">90 Tage</button>
+      </div>
+    </section>
+
     <!-- 1 · KPI Dashboard -->
     <section>
       <div class="h-kpis">
@@ -59,6 +69,26 @@
         <div class="h-kpi"><div class="h-kpi-label">Link-Klicks</div><div class="h-kpi-value" id="kpiKlicks"><span class="h-skeleton"></span></div><span class="h-kpi-sub" id="subKlicks">—</span></div>
         <div class="h-kpi"><div class="h-kpi-label">Empfehlungen</div><div class="h-kpi-value" id="kpiGesamt"><span class="h-skeleton"></span></div><span class="h-kpi-sub" id="subGesamt">—</span></div>
         <div class="h-kpi"><div class="h-kpi-label">Kunden</div><div class="h-kpi-value" id="kpiKunden"><span class="h-skeleton"></span></div><span class="h-kpi-sub" id="subKunden">—</span></div>
+      </div>
+    </section>
+
+    <!-- Trend-Chart (Phase 29) -->
+    <section>
+      <div class="h-label">Verlauf</div>
+      <div class="h-chart-wrap" style="margin-top:12px;">
+        <div class="h-chart-head">
+          <span class="h-chart-title">Funnel-Entwicklung über Zeit</span>
+          <span class="h-chart-meta" id="hChartRangeLabel">Letzte 30 Tage</span>
+        </div>
+        <div class="h-chart-canvas">
+          <canvas id="hTrendChart"></canvas>
+        </div>
+        <div class="h-chart-legend">
+          <span><i style="background:#C9B98A"></i>Aktive Empfehler</span>
+          <span><i style="background:#7A8B6F"></i>Link-Klicks</span>
+          <span><i style="background:#C28447"></i>Empfehlungen</span>
+          <span><i style="background:#2E5266"></i>Kunden</span>
+        </div>
       </div>
     </section>
 
@@ -113,7 +143,7 @@
 
   <div class="h-toast" id="hToast"></div>
 
-  <script type="module" src="js/nav.js?v=29"></script>
-  <script type="module" src="js/hub.js?v=29"></script>
+  <script type="module" src="js/nav.js?v=30"></script>
+  <script type="module" src="js/hub.js?v=30"></script>
 </body>
 </html>

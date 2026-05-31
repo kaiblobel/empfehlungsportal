@@ -10,6 +10,12 @@ document.getElementById('hName').textContent = window.ENV_BERATER_NAME || 'Berat
 const NOW = new Date();
 const HOUR = NOW.getHours();
 
+const LAST_VISIT_KEY = 'hubLastVisit';
+const RANGE_KEY = 'hubFilterRange';
+const previousVisitTs = parseInt(localStorage.getItem(LAST_VISIT_KEY) || '0', 10);
+localStorage.setItem(LAST_VISIT_KEY, String(Date.now()));
+let currentRange = parseInt(sessionStorage.getItem(RANGE_KEY) || '30', 10);
+
 (async () => {
   const session = await requireAuth();
   if (!session) return;
@@ -17,8 +23,9 @@ const HOUR = NOW.getHours();
   setGreeting();
   startClock();
   hydrateIcons();
+  initFilterChips();
 
-  const [kpiRows, kpiSubs, heroStats, hotLeads, timelineEvents, funnel, topPromoters] = await Promise.all([
+  const [kpiRows, kpiSubs, heroStats, hotLeads, timelineEvents, funnel, topPromoters, trendRows] = await Promise.all([
     loadKPIs(),
     loadKPISubStats(),
     loadHeroStats(),
@@ -26,6 +33,7 @@ const HOUR = NOW.getHours();
     loadTimelineEvents(),
     loadFunnel(),
     loadTopPromoters(),
+    loadTrend(currentRange),
   ]);
 
   renderKPIs(kpiRows, kpiSubs);
@@ -34,6 +42,7 @@ const HOUR = NOW.getHours();
   renderFunnel(funnel);
   renderTopPromoters(topPromoters);
   renderTimeline(timelineEvents);
+  renderTrendChart(trendRows);
 
   // Realtime Hot-Lead-Watcher (Phase 18)
   watchHotLeads({
@@ -42,6 +51,9 @@ const HOUR = NOW.getHours();
       renderHotLeads(fresh);
     },
   });
+
+  // Realtime Hub-Stream (Phase 29) — Timeline live aktualisieren
+  startHubStream();
 })();
 
 /* ---------- Header Clock ---------- */
@@ -271,12 +283,15 @@ function renderTimeline(events) {
     wrap.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text-secondary);font-size:14px;">Noch keine Aktivität.</div>';
     return;
   }
-  wrap.innerHTML = events.map(e => `
+  wrap.innerHTML = events.map(e => {
+    const isNew = previousVisitTs > 0 && e.ts > previousVisitTs;
+    return `
     <a class="h-tl-row" href="dashboard/detail.html?id=${e.id}">
       <div class="h-tl-time">${timelineTime(e.ts)}</div>
       <div class="h-tl-axis"><span class="h-tl-dot ${e.kind}"></span></div>
-      <div class="h-tl-text"><strong>${escapeHtml(e.name)}</strong> ${e.text}</div>
-    </a>`).join('') +
+      <div class="h-tl-text"><strong>${escapeHtml(e.name)}</strong> ${e.text}${isNew ? '<span class="h-badge-new">NEU</span>' : ''}</div>
+    </a>`;
+  }).join('') +
     '<a class="h-tl-all" href="dashboard/empfehlungen.html">Alle anzeigen →</a>';
 }
 
@@ -384,4 +399,118 @@ function relativeTime(ts) {
   const days = Math.floor(sec / 86400);
   if (days < 7) return `vor ${days} Tag${days > 1 ? 'en' : ''}`;
   return formatDate(new Date(tsMs).toISOString());
+}
+
+/* ---------- Phase 29 · Trend-Chart ---------- */
+let trendChartInstance = null;
+
+async function loadTrend(daysBack) {
+  try {
+    const { data, error } = await supabase.rpc('kpi_trend_daily', { days_back: daysBack });
+    if (error || !data) return [];
+    return data;
+  } catch { return []; }
+}
+
+function renderTrendChart(rows) {
+  const canvas = document.getElementById('hTrendChart');
+  if (!canvas || !window.Chart) return;
+  if (!rows.length) return;
+
+  const labels = rows.map(r => {
+    const d = new Date(r.day);
+    return d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' });
+  });
+  const datasets = [
+    { label: 'Aktive Empfehler', data: rows.map(r => r.aktive_empfehler),    borderColor: '#C9B98A', backgroundColor: 'rgba(201,185,138,0.08)', tension: 0.35, borderWidth: 2,   pointRadius: 0, pointHoverRadius: 5, fill: true  },
+    { label: 'Link-Klicks',      data: rows.map(r => r.link_klicks),         borderColor: '#7A8B6F', backgroundColor: 'rgba(122,139,111,0.06)', tension: 0.35, borderWidth: 2,   pointRadius: 0, pointHoverRadius: 5, fill: false },
+    { label: 'Empfehlungen',     data: rows.map(r => r.empfehlungen_gesamt), borderColor: '#C28447', backgroundColor: 'rgba(194,132,71,0.06)',  tension: 0.35, borderWidth: 2,   pointRadius: 0, pointHoverRadius: 5, fill: false },
+    { label: 'Kunden',           data: rows.map(r => r.kunden),              borderColor: '#2E5266', backgroundColor: 'rgba(46,82,102,0.06)',   tension: 0.35, borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 5, fill: false },
+  ];
+
+  if (trendChartInstance) trendChartInstance.destroy();
+  trendChartInstance = new window.Chart(canvas.getContext('2d'), {
+    type: 'line',
+    data: { labels, datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1A1A1A',
+          titleFont: { family: 'Inter, sans-serif', size: 11, weight: '600' },
+          bodyFont:  { family: 'Inter, sans-serif', size: 12 },
+          padding: 10, cornerRadius: 6, displayColors: true, boxPadding: 4,
+        },
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { color: '#6B6660', font: { family: 'Inter, sans-serif', size: 10 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 8 },
+          border: { color: '#E8E5E0' },
+        },
+        y: {
+          grid: { color: '#F0EDE8', drawBorder: false },
+          ticks: { color: '#6B6660', font: { family: 'Inter, sans-serif', size: 10 }, padding: 8 },
+          border: { display: false },
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+}
+
+/* ---------- Phase 29 · Filter-Chips ---------- */
+function initFilterChips() {
+  const row = document.getElementById('hFilterRow');
+  if (!row) return;
+  row.querySelectorAll('.h-chip').forEach(chip => {
+    const r = parseInt(chip.dataset.range, 10);
+    chip.classList.toggle('active', r === currentRange);
+    chip.addEventListener('click', async () => {
+      const newRange = parseInt(chip.dataset.range, 10);
+      if (newRange === currentRange) return;
+      currentRange = newRange;
+      sessionStorage.setItem(RANGE_KEY, String(newRange));
+      row.querySelectorAll('.h-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const label = document.getElementById('hChartRangeLabel');
+      if (label) label.textContent = `Letzte ${newRange} Tage`;
+      const rows = await loadTrend(newRange);
+      renderTrendChart(rows);
+    });
+  });
+  // Label initial setzen falls aus Session restored
+  const label = document.getElementById('hChartRangeLabel');
+  if (label) label.textContent = `Letzte ${currentRange} Tage`;
+}
+
+/* ---------- Phase 29 · Realtime Hub-Stream ---------- */
+function startHubStream() {
+  try {
+    supabase
+      .channel('hub-stream')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'empfehlungen' }, async () => {
+        const fresh = await loadTimelineEvents();
+        renderTimeline(fresh);
+        toast('Neue Empfehlung eingetroffen');
+      })
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'empfehlungen' }, async (payload) => {
+        const before = payload.old || {};
+        const after  = payload.new || {};
+        const changedTimeline =
+          (before.link_geoeffnet_at !== after.link_geoeffnet_at) ||
+          (before.interessiert_at   !== after.interessiert_at)   ||
+          (before.anrufwunsch_at    !== after.anrufwunsch_at)    ||
+          (before.status            !== after.status);
+        if (!changedTimeline) return;
+        const fresh = await loadTimelineEvents();
+        renderTimeline(fresh);
+      })
+      .subscribe();
+  } catch (e) {
+    console.warn('[hub-stream]', e);
+  }
 }
