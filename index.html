@@ -15,7 +15,18 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
-  <link rel="stylesheet" href="css/style.css?v=29" />
+  <script>
+    // Sync-Pre-Auth-Check: verhindert Flash-of-Presentation für eingeloggte Berater
+    (function(){
+      try {
+        var p = new URLSearchParams(location.search);
+        if (p.get('preview') === '1') return;
+        var t = localStorage.getItem('sb-kkseqhmfubzfyloffkwe-auth-token');
+        if (t && t.indexOf('access_token') !== -1) location.replace('/hub.html');
+      } catch(e){}
+    })();
+  </script>
+  <link rel="stylesheet" href="css/style.css?v=30" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="index">
