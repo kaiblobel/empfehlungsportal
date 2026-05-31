@@ -268,13 +268,42 @@ async function loadTimelineEvents() {
     const events = [];
     data.forEach(r => {
       const name = r.empfaenger_name || '–';
-      if (r.created_at)        events.push({ id: r.id, ts: new Date(r.created_at).getTime(),        kind: 'created',  name, text: 'wurde empfohlen' });
-      if (r.link_geoeffnet_at) events.push({ id: r.id, ts: new Date(r.link_geoeffnet_at).getTime(), kind: 'opened',   name, text: 'hat die Empfehlung geöffnet' });
-      if (r.interessiert_at)   events.push({ id: r.id, ts: new Date(r.interessiert_at).getTime(),   kind: 'interest', name, text: 'hat Interesse bekundet' });
-      if (r.anrufwunsch_at)    events.push({ id: r.id, ts: new Date(r.anrufwunsch_at).getTime(),    kind: 'call',     name, text: `hat einen Anrufwunsch hinterlegt${r.anrufwunsch ? ' · ' + r.anrufwunsch : ''}` });
+      const ts = (key) => key ? new Date(key).getTime() : 0;
+      if (r.created_at)        events.push({ id: r.id, ts: ts(r.created_at),        kind: 'created',  name, text: 'wurde empfohlen' });
+      if (r.link_geoeffnet_at) events.push({ id: r.id, ts: ts(r.link_geoeffnet_at), kind: 'opened',   name, text: 'hat die Empfehlung geöffnet' });
+      if (r.interessiert_at)   events.push({ id: r.id, ts: ts(r.interessiert_at),   kind: 'interest', name, text: 'hat Interesse bekundet' });
+      if (r.anrufwunsch_at)    events.push({ id: r.id, ts: ts(r.anrufwunsch_at),    kind: 'call',     name, text: `hat einen Anrufwunsch hinterlegt${r.anrufwunsch ? ' · ' + r.anrufwunsch : ''}` });
+      if (r.status === 'kunde') {
+        const kts = Math.max(ts(r.created_at), ts(r.interessiert_at), ts(r.anrufwunsch_at), ts(r.link_geoeffnet_at));
+        events.push({ id: r.id, ts: kts, kind: 'kunde', name, text: 'wurde Kunde' });
+      }
     });
     return events.sort((a, b) => b.ts - a.ts).slice(0, 8);
   } catch { return []; }
+}
+
+const EVENT_META = {
+  created:  { label: 'Empfehlung erhalten', color: '#C9B98A' },
+  opened:   { label: 'Link geklickt',       color: '#7A8B6F' },
+  interest: { label: 'Interesse',           color: '#C28447' },
+  call:     { label: 'Anrufwunsch',         color: '#B5651D' },
+  kunde:    { label: 'Neuer Kunde',         color: '#2E5266' },
+};
+
+const AVATAR_PALETTE = ['#C9B98A', '#7A8B6F', '#C28447', '#2E5266', '#8B7355', '#6B7A8F', '#A89070'];
+
+function initialsFor(name) {
+  const parts = String(name || '').trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return '–';
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+function colorForName(name) {
+  const s = String(name || '');
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+  return AVATAR_PALETTE[h % AVATAR_PALETTE.length];
 }
 
 function renderTimeline(events) {
@@ -285,11 +314,22 @@ function renderTimeline(events) {
   }
   wrap.innerHTML = events.map(e => {
     const isNew = previousVisitTs > 0 && e.ts > previousVisitTs;
+    const meta = EVENT_META[e.kind] || EVENT_META.created;
+    const avColor = colorForName(e.name);
     return `
-    <a class="h-tl-row" href="dashboard/detail.html?id=${e.id}">
-      <div class="h-tl-time">${timelineTime(e.ts)}</div>
-      <div class="h-tl-axis"><span class="h-tl-dot ${e.kind}"></span></div>
-      <div class="h-tl-text"><strong>${escapeHtml(e.name)}</strong> ${e.text}${isNew ? '<span class="h-badge-new">NEU</span>' : ''}</div>
+    <a class="h-activity-row h-act-${e.kind}" href="dashboard/detail.html?id=${e.id}" style="--act-color:${meta.color};">
+      <span class="h-activity-stripe"></span>
+      <span class="h-activity-avatar" style="background:${avColor};">${escapeHtml(initialsFor(e.name))}</span>
+      <div class="h-activity-body">
+        <div class="h-activity-top">
+          <strong class="h-activity-name">${escapeHtml(e.name)}</strong>
+          <span class="h-activity-time">${isNew ? '<span class="h-badge-new">NEU</span>' : ''}${timelineTime(e.ts)}</span>
+        </div>
+        <div class="h-activity-bottom">
+          <span class="h-activity-text">${e.text}</span>
+          <span class="h-activity-pill"><i></i>${meta.label}</span>
+        </div>
+      </div>
     </a>`;
   }).join('') +
     '<a class="h-tl-all" href="dashboard/empfehlungen.html">Alle anzeigen →</a>';
