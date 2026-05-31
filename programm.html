@@ -311,14 +311,36 @@
         <span class="testimonials-meta-text"><strong>5,0 von 5</strong> · 15 Google-Bewertungen</span>
       </div>
 
-      <!-- Reihe 1: läuft nach links ← -->
+      <!-- Reihe 1: läuft nach links ← (statisch + JS-Override für mehr Loop-Puffer) -->
       <div class="testimonials-marquee reveal d2">
-        <div class="testimonials-track" data-row="1"></div>
+        <div class="testimonials-track" data-row="1">
+          <!-- Set 1 -->
+          <article class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p class="testimonial-quote">„Erstklassige Beratung und Betreuung, kann ich nur weiterempfehlen."</p><div class="testimonial-author"><span class="testimonial-avatar" data-color="champagne">MB</span><div class="testimonial-author-text"><span class="testimonial-name">Martin Böhm</span><span class="testimonial-context">Google-Bewertung</span></div></div></article>
+          <article class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p class="testimonial-quote">„Fachlich exzellent, menschlich super angenehm."</p><div class="testimonial-author"><span class="testimonial-avatar" data-color="terracotta">SH</span><div class="testimonial-author-text"><span class="testimonial-name">Sandra Heinze</span><span class="testimonial-context">Local Guide · Google</span></div></div></article>
+          <article class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p class="testimonial-quote">„Modern, sympathisch und ehrlich."</p><div class="testimonial-author"><span class="testimonial-avatar" data-color="champagne">JB</span><div class="testimonial-author-text"><span class="testimonial-name">Josephine Bürger</span><span class="testimonial-context">Google-Bewertung</span></div></div></article>
+          <article class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p class="testimonial-quote">„Angenehme und vertrauensvolle Zusammenarbeit."</p><div class="testimonial-author"><span class="testimonial-avatar" data-color="terracotta">CK</span><div class="testimonial-author-text"><span class="testimonial-name">Cindy Kühn</span><span class="testimonial-context">Google-Bewertung</span></div></div></article>
+          <!-- Set 2 (Duplikat für nahtlosen Loop) -->
+          <article class="testimonial-card" aria-hidden="true"><div class="testimonial-stars">★★★★★</div><p class="testimonial-quote">„Erstklassige Beratung und Betreuung, kann ich nur weiterempfehlen."</p><div class="testimonial-author"><span class="testimonial-avatar" data-color="champagne">MB</span><div class="testimonial-author-text"><span class="testimonial-name">Martin Böhm</span><span class="testimonial-context">Google-Bewertung</span></div></div></article>
+          <article class="testimonial-card" aria-hidden="true"><div class="testimonial-stars">★★★★★</div><p class="testimonial-quote">„Fachlich exzellent, menschlich super angenehm."</p><div class="testimonial-author"><span class="testimonial-avatar" data-color="terracotta">SH</span><div class="testimonial-author-text"><span class="testimonial-name">Sandra Heinze</span><span class="testimonial-context">Local Guide · Google</span></div></div></article>
+          <article class="testimonial-card" aria-hidden="true"><div class="testimonial-stars">★★★★★</div><p class="testimonial-quote">„Modern, sympathisch und ehrlich."</p><div class="testimonial-author"><span class="testimonial-avatar" data-color="champagne">JB</span><div class="testimonial-author-text"><span class="testimonial-name">Josephine Bürger</span><span class="testimonial-context">Google-Bewertung</span></div></div></article>
+          <article class="testimonial-card" aria-hidden="true"><div class="testimonial-stars">★★★★★</div><p class="testimonial-quote">„Angenehme und vertrauensvolle Zusammenarbeit."</p><div class="testimonial-author"><span class="testimonial-avatar" data-color="terracotta">CK</span><div class="testimonial-author-text"><span class="testimonial-name">Cindy Kühn</span><span class="testimonial-context">Google-Bewertung</span></div></div></article>
+        </div>
       </div>
 
-      <!-- Reihe 2: läuft nach rechts → (entgegengesetzt) -->
+      <!-- Reihe 2: läuft nach rechts → (statisch + JS-Override für mehr Loop-Puffer) -->
       <div class="testimonials-marquee reveal d3" style="margin-top: 16px;">
-        <div class="testimonials-track testimonials-track-reverse" data-row="2"></div>
+        <div class="testimonials-track testimonials-track-reverse" data-row="2">
+          <!-- Set 1 -->
+          <article class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p class="testimonial-quote">„Ich werde seit vielen Jahren in unterschiedlichen Finanzangelegenheiten erfolgreich durch Herrn Blobel beraten."</p><div class="testimonial-author"><span class="testimonial-avatar" data-color="sage">MG</span><div class="testimonial-author-text"><span class="testimonial-name">Mike Gerber</span><span class="testimonial-context">Local Guide · Google</span></div></div></article>
+          <article class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p class="testimonial-quote">„Seit 2006 betreut mich Herr Blobel und hilft mir bei Versicherungsfragen."</p><div class="testimonial-author"><span class="testimonial-avatar" data-color="marine">TM</span><div class="testimonial-author-text"><span class="testimonial-name">Torsten Memczak</span><span class="testimonial-context">Google-Bewertung</span></div></div></article>
+          <article class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p class="testimonial-quote">„Sehr nette und kompetente Beratung bei jeglichen Fragen und Themen."</p><div class="testimonial-author"><span class="testimonial-avatar" data-color="sage">LS</span><div class="testimonial-author-text"><span class="testimonial-name">Lucas Schmidt</span><span class="testimonial-context">Google-Bewertung</span></div></div></article>
+          <article class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p class="testimonial-quote">„Sehr lockere Gespräche. Die Atmosphäre passt auch."</p><div class="testimonial-author"><span class="testimonial-avatar" data-color="marine">MM</span><div class="testimonial-author-text"><span class="testimonial-name">Mathias M.</span><span class="testimonial-context">Local Guide · Google</span></div></div></article>
+          <!-- Set 2 (Duplikat) -->
+          <article class="testimonial-card" aria-hidden="true"><div class="testimonial-stars">★★★★★</div><p class="testimonial-quote">„Ich werde seit vielen Jahren in unterschiedlichen Finanzangelegenheiten erfolgreich durch Herrn Blobel beraten."</p><div class="testimonial-author"><span class="testimonial-avatar" data-color="sage">MG</span><div class="testimonial-author-text"><span class="testimonial-name">Mike Gerber</span><span class="testimonial-context">Local Guide · Google</span></div></div></article>
+          <article class="testimonial-card" aria-hidden="true"><div class="testimonial-stars">★★★★★</div><p class="testimonial-quote">„Seit 2006 betreut mich Herr Blobel und hilft mir bei Versicherungsfragen."</p><div class="testimonial-author"><span class="testimonial-avatar" data-color="marine">TM</span><div class="testimonial-author-text"><span class="testimonial-name">Torsten Memczak</span><span class="testimonial-context">Google-Bewertung</span></div></div></article>
+          <article class="testimonial-card" aria-hidden="true"><div class="testimonial-stars">★★★★★</div><p class="testimonial-quote">„Sehr nette und kompetente Beratung bei jeglichen Fragen und Themen."</p><div class="testimonial-author"><span class="testimonial-avatar" data-color="sage">LS</span><div class="testimonial-author-text"><span class="testimonial-name">Lucas Schmidt</span><span class="testimonial-context">Google-Bewertung</span></div></div></article>
+          <article class="testimonial-card" aria-hidden="true"><div class="testimonial-stars">★★★★★</div><p class="testimonial-quote">„Sehr lockere Gespräche. Die Atmosphäre passt auch."</p><div class="testimonial-author"><span class="testimonial-avatar" data-color="marine">MM</span><div class="testimonial-author-text"><span class="testimonial-name">Mathias M.</span><span class="testimonial-context">Local Guide · Google</span></div></div></article>
+        </div>
       </div>
 
       <div class="testimonials-cta reveal">
@@ -511,6 +533,6 @@
   </div>
 
   <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
-  <script type="module" src="js/programm.js?v=10"></script>
+  <script type="module" src="js/programm.js?v=11"></script>
 </body>
 </html>

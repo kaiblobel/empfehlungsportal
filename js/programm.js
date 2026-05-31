@@ -63,10 +63,11 @@ function fillTestimonialTrack(track, items) {
   track.innerHTML = html;
 }
 
+// JS rendert nur wenn Track leer ist — sonst behalte statische HTML-Cards (Mobile-Safari-Sicherheit)
 const row1 = document.querySelector('[data-row="1"]');
 const row2 = document.querySelector('[data-row="2"]');
-if (row1) fillTestimonialTrack(row1, TESTIMONIALS.row1);
-if (row2) fillTestimonialTrack(row2, TESTIMONIALS.row2);
+if (row1 && row1.children.length === 0) fillTestimonialTrack(row1, TESTIMONIALS.row1);
+if (row2 && row2.children.length === 0) fillTestimonialTrack(row2, TESTIMONIALS.row2);
 
 // IntersectionObserver — Fade-Up
 const io = new IntersectionObserver((entries) => {
