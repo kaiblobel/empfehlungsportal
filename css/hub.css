@@ -1983,3 +1983,31 @@ body[data-page="vorlagen-cms"] {
   transform: scale(1.01);
 }
 .h-chip:active { transform: scale(0.98); }
+
+/* ============================================================
+   Phase 44 · Subtile Akzent-Layer
+   A · Momentum-Card State-Color (Border-Left je nach Score)
+   B · Section-Eyebrow Mini-Strip (4px Champagne vor h-label)
+   ============================================================ */
+
+/* A · Momentum-State-Color (set via JS inline style --momentum-state-color) */
+.h-momentum {
+  border-left: 4px solid var(--momentum-state-color, var(--accent-gold)) !important;
+  transition: border-left-color .35s ease;
+}
+
+/* B · Section-Eyebrow Mini-Strip */
+.h-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.h-label::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 10px;
+  background: var(--accent-gold);
+  border-radius: 2px;
+  flex-shrink: 0;
+}

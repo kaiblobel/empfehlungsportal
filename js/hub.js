@@ -583,12 +583,23 @@ function computeMomentum([empfehler, klicks, gesamt, kunden], subs) {
 
 function renderMomentum(kpiRows, subs) {
   const { score, bonus } = computeMomentum(kpiRows, subs);
+  const cardEl = document.getElementById('hMomentum');
   const scoreEl = document.getElementById('hMomentumScore');
   const trendEl = document.getElementById('hMomentumTrend');
   const headEl = document.getElementById('hMomentumHeadline');
   const explainEl = document.getElementById('hMomentumExplain');
   const barEl = document.getElementById('hMomentumBar');
   const metaEl = document.getElementById('hMomentumMeta');
+
+  // Phase 44 · State-Color je nach Score
+  if (cardEl) {
+    let stateColor;
+    if (score >= 75)      stateColor = '#1F6B30'; // Dunkelgrün · Top-Drittel
+    else if (score >= 50) stateColor = '#C9B98A'; // Champagne · Mittelfeld
+    else if (score >= 25) stateColor = '#B5651D'; // Burnt · Wachstum
+    else                  stateColor = '#7A8B6F'; // Sage · Aufbau
+    cardEl.style.setProperty('--momentum-state-color', stateColor);
+  }
   if (scoreEl) scoreEl.innerHTML = `${score}<sup>/100</sup>`;
   if (trendEl) {
     const cls = bonus > 0 ? 'up' : (bonus < 0 ? 'down' : 'neutral');
