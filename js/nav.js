@@ -77,17 +77,7 @@ function sidebarItem(item) {
     </div>`;
 }
 
-/** Render bottom-nav (3 Items only) */
-function bottomItem(item) {
-  const active = isActive(item) ? ' active' : '';
-  return `
-    <a class="navbottom-item${active}" href="${item.href}">
-      <span class="navbottom-icon">${icon(item.icon, { size: 20 })}</span>
-      <span class="navbottom-label">${item.label}</span>
-    </a>`;
-}
-
-/** Public: render the navigation into #appNav (and #appNavBottom optional). */
+/** Public: render the navigation into #appNav. */
 export function renderNav(opts = {}) {
   const sidebar = document.getElementById('appNav');
   if (sidebar) {
@@ -108,7 +98,6 @@ export function renderNav(opts = {}) {
           <button class="nav-drawer-logout" type="button" id="navDrawerLogout">${icon('LogOut', { size: 16 })}<span>Abmelden</span></button>
         </div>
       </div>
-      <nav class="nav-bottom">${NAV_ITEMS.filter(i => i.bottom).map(bottomItem).join('')}</nav>
     `;
 
     const ham = sidebar.querySelector('.nav-hamburger');
@@ -117,9 +106,21 @@ export function renderNav(opts = {}) {
     const close = sidebar.querySelector('.nav-drawer-close');
     const logout = sidebar.querySelector('#navDrawerLogout');
 
-    const openDrawer = () => { drawer.hidden = false; document.body.classList.add('nav-drawer-open'); };
-    const closeDrawer = () => { drawer.hidden = true; document.body.classList.remove('nav-drawer-open'); };
-    const toggleDrawer = () => { drawer.hidden ? openDrawer() : closeDrawer(); };
+    // Phase 37: Drawer-Animation via CSS transform + body.nav-drawer-open
+    // hidden-Attribut bleibt für a11y, aber CSS-Visibility wird über die Klasse gesteuert.
+    let closeTimer = null;
+    const openDrawer = () => {
+      if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+      drawer.hidden = false;
+      // Force reflow vor Klassen-Toggle damit transition läuft
+      requestAnimationFrame(() => document.body.classList.add('nav-drawer-open'));
+    };
+    const closeDrawer = () => {
+      document.body.classList.remove('nav-drawer-open');
+      closeTimer = setTimeout(() => { drawer.hidden = true; closeTimer = null; }, 240);
+    };
+    const isOpen = () => document.body.classList.contains('nav-drawer-open');
+    const toggleDrawer = () => { isOpen() ? closeDrawer() : openDrawer(); };
 
     ham?.addEventListener('click', toggleDrawer);
     close?.addEventListener('click', closeDrawer);
@@ -129,7 +130,7 @@ export function renderNav(opts = {}) {
     });
     // Esc + Outside-Tap auf Touch-Devices
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !drawer.hidden) closeDrawer();
+      if (e.key === 'Escape' && isOpen()) closeDrawer();
     });
     logout?.addEventListener('click', async () => {
       try {

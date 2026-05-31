@@ -10,7 +10,7 @@ body[data-page="vorlagen-cms"] {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
-/* padding-bottom für nav-bottom kommt aus dashboard.css body.has-app-nav */
+/* Phase 37: Sidebar persistent ab 1024px, Drawer für Mobile/Tablet — keine Bottom-Nav mehr */
 
 /* ---------- Header (fix oben) ---------- */
 .h-header {

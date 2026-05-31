@@ -595,11 +595,11 @@
   top: 0;
   left: 0;
   bottom: 0;
-  width: 232px;
+  width: 240px;
   background: var(--surface);
   border-right: 1px solid var(--hairline);
   padding: 24px 16px;
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 28px;
   z-index: 80;
@@ -711,19 +711,9 @@
   color: var(--ink-soft);
 }
 
-/* --- Mobile Bottom-Nav (3 Items) --- */
+/* --- Mobile Bottom-Nav (3 Items) — entfernt in Phase 37, Drawer ist die einzige Mobile-Nav --- */
 .nav-bottom {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: var(--surface);
-  border-top: 1px solid var(--hairline-strong, var(--hairline));
-  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.06);
-  padding: 8px 8px env(safe-area-inset-bottom);
-  padding-bottom: calc(8px + env(safe-area-inset-bottom));
-  display: none;
-  z-index: 95;
+  display: none !important;
 }
 .navbottom-item {
   flex: 1;
@@ -771,27 +761,38 @@
   cursor: pointer;
 }
 
-/* --- Drawer (Mobile only) --- */
+/* --- Drawer (Mobile/Tablet only) · Slide-In von links --- */
 .nav-drawer {
   position: fixed;
   inset: 0;
-  background: rgba(26, 26, 26, 0.45);
+  background: rgba(26, 26, 26, 0);
   z-index: 105;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  pointer-events: none;
+  transition: background .22s ease;
 }
 .nav-drawer[hidden] { display: none; }
+body.nav-drawer-open .nav-drawer {
+  background: rgba(26, 26, 26, 0.45);
+  pointer-events: auto;
+}
 .nav-drawer-panel {
   position: relative;
   width: 85%;
-  max-width: 340px;
+  max-width: 320px;
   background: var(--surface);
   height: 100%;
-  border-left: 1px solid var(--hairline);
+  border-right: 1px solid var(--hairline);
   display: flex;
   flex-direction: column;
   padding: 60px 16px 24px;
   overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform .22s cubic-bezier(.32,.72,.4,1);
+}
+body.nav-drawer-open .nav-drawer-panel {
+  transform: translateX(0);
 }
 .nav-drawer .nav-list { flex: 1; }
 .nav-drawer .nav-brand {
@@ -832,17 +833,23 @@
   color: var(--ink);
 }
 
-/* --- Layout-Inset: Body bekommt links/unten Padding für die Nav --- */
+/* === Phase 37 · Responsive Sidebar System === */
+
+/* Default <1024px: Sidebar hidden, Hamburger sichtbar, Drawer als Slide-In */
+.nav-hamburger { display: inline-flex; }
+body.has-app-nav { padding-bottom: env(safe-area-inset-bottom); }
+
+/* Laptop ab 1024px: Sidebar persistent 200px */
 @media (min-width: 1024px) {
-  body.has-app-nav { padding-left: 232px; }
-  .nav-hamburger,
-  .nav-bottom { display: none !important; }
+  .nav-sidebar { display: flex; width: 200px; padding: 22px 14px; }
+  .nav-hamburger { display: none; }
+  body.has-app-nav { padding-left: 200px; }
 }
-@media (max-width: 1023px) {
-  .nav-sidebar { display: none; }
-  .nav-hamburger { display: inline-flex; }
-  .nav-bottom { display: flex; }
-  body.has-app-nav { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+
+/* Desktop ab 1280px: Sidebar persistent 240px */
+@media (min-width: 1280px) {
+  .nav-sidebar { width: 240px; padding: 24px 16px; }
+  body.has-app-nav { padding-left: 240px; }
 }
 
 body.nav-drawer-open { overflow: hidden; }
