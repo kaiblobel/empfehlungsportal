@@ -1940,3 +1940,46 @@ body[data-page="vorlagen-cms"] {
     padding-right: 16px !important;
   }
 }
+
+/* ============================================================
+   Phase 43 · Premium Micro-UX Polish
+   - Border-Left 3->4px
+   - Avatar 42->46px
+   - NEU-Badge Spec: #E9DFC8 BG / #8A7446 Text
+   ============================================================ */
+
+.h-activity-row {
+  border-left-width: 4px !important;
+  grid-template-columns: 46px minmax(0, 1fr) !important;
+}
+.h-activity-avatar {
+  width: 46px !important;
+  height: 46px !important;
+}
+.h-activity-avatar svg {
+  width: 22px;
+  height: 22px;
+}
+
+.h-badge-new {
+  background: #E9DFC8 !important;
+  color: #8A7446 !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  padding: 2px 8px !important;
+  border-radius: 999px !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase;
+}
+
+/* Button-Premium-Haptik */
+.h-lead-cta,
+.h-action-primary,
+.h-chip {
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.h-lead-cta:hover,
+.h-action-primary:hover {
+  transform: scale(1.01);
+}
+.h-chip:active { transform: scale(0.98); }

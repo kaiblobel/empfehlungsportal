@@ -88,8 +88,11 @@ export function renderNav(opts = {}) {
           <span class="nav-brand-text">Empfehlungs-HUB</span>
         </div>
         <nav class="nav-list">${NAV_ITEMS.map(sidebarItem).join('')}</nav>
+        <button class="nav-collapse-toggle" type="button" aria-label="Menü ein-/ausblenden" title="Menü ein-/ausblenden (⌘\\)">
+          <span class="nav-collapse-icon-expand">${icon('ChevronLeft', { size: 18 })}</span>
+          <span class="nav-collapse-icon-collapse">${icon('ChevronRight', { size: 18 })}</span>
+        </button>
       </aside>
-      <button class="nav-collapse-toggle" type="button" aria-label="Menü ein-/ausblenden" title="Menü ein-/ausblenden">${icon('Menu', { size: 20 })}</button>
       <button class="nav-hamburger" type="button" aria-label="Menü öffnen">${icon('Menu', { size: 22 })}</button>
       <div class="nav-drawer" hidden>
         <div class="nav-drawer-panel">

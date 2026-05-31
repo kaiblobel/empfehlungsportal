@@ -321,12 +321,14 @@ async function loadTimelineEvents() {
 }
 
 const EVENT_META = {
-  created:  { label: 'Empfehlung erhalten', color: '#C9B98A', icon: 'Send' },
-  opened:   { label: 'Link geklickt',       color: '#7A8B6F', icon: 'Eye' },
-  interest: { label: 'Interesse',           color: '#C28447', icon: 'HeartHandshake' },
-  call:     { label: 'Anrufwunsch',         color: '#B5651D', icon: 'PhoneCall' },
-  kunde:    { label: 'Neuer Kunde',         color: '#2E5266', icon: 'Trophy' },
+  created:  { label: 'Empfehlung erhalten', color: '#C8A85A', icon: 'Send' },           // Gold
+  opened:   { label: 'Link geklickt',       color: '#5F8F5B', icon: 'Eye' },             // Grün
+  interest: { label: 'Interesse',           color: '#C28447', icon: 'HeartHandshake' },  // Terracotta
+  call:     { label: 'Anrufwunsch',         color: '#B5651D', icon: 'PhoneCall' },       // Burnt-Orange
+  kunde:    { label: 'Neuer Kunde',         color: '#1F6B30', icon: 'Trophy' },          // Dunkelgrün
 };
+
+const NEW_BADGE_WINDOW_MS = 24 * 60 * 60 * 1000; // 24h
 
 function renderTimeline(events) {
   const wrap = document.getElementById('hTimeline');
@@ -337,8 +339,8 @@ function renderTimeline(events) {
   wrap.innerHTML = events.map(e => {
     const meta = EVENT_META[e.kind] || EVENT_META.created;
     const key = `${e.id}_${e.kind}_${e.ts}`;
-    const isNew = previousVisitTs > 0 && e.ts > previousVisitTs;
-    const isUnread = isNew && !readEvents.has(key);
+    const isNew = (Date.now() - e.ts) < NEW_BADGE_WINDOW_MS;
+    const isUnread = previousVisitTs > 0 && e.ts > previousVisitTs && !readEvents.has(key);
     return `
     <a class="h-activity-row${isUnread ? ' is-unread' : ''}" href="dashboard/detail.html?id=${e.id}" data-event-key="${key}" style="--act-color:${meta.color};">
       <span class="h-activity-avatar" aria-label="${meta.label}">${icon(meta.icon, { size: 20 })}</span>
