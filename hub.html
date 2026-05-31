@@ -12,8 +12,8 @@
   <meta name="apple-mobile-web-app-title" content="Empfehlungs-HUB" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <link rel="stylesheet" href="css/style.css?v=31" />
-  <link rel="stylesheet" href="css/dashboard.css?v=32" />
-  <link rel="stylesheet" href="css/hub.css?v=33" />
+  <link rel="stylesheet" href="css/dashboard.css?v=33" />
+  <link rel="stylesheet" href="css/hub.css?v=34" />
   <script src="js/config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js" defer></script>
 </head>
@@ -43,21 +43,49 @@
     <!-- Hero -->
     <section class="h-hero">
       <h1 class="h-greet" id="hGreet">…</h1>
-      <p class="h-stats-text" id="hStats">Lade Live-Daten…</p>
+      <div class="h-hero-lines" id="hHeroLines">
+        <span>Lade Live-Daten…</span>
+      </div>
+      <div class="h-hero-pills" id="hHeroPills">
+        <span class="h-pill live">System aktiv</span>
+        <span class="h-pill" id="hPillActivity">— Aktivitäten heute</span>
+        <span class="h-pill">30-Tage-Modus</span>
+      </div>
     </section>
 
-    <!-- Hot Leads (NEU) -->
+    <!-- Momentum-Card -->
+    <section class="h-momentum" id="hMomentum">
+      <div class="h-momentum-left">
+        <span class="h-momentum-eyebrow">Empfehlungs-Momentum</span>
+        <span class="h-momentum-score" id="hMomentumScore">—<sup>/100</sup></span>
+        <span class="h-momentum-trend" id="hMomentumTrend">—</span>
+      </div>
+      <div class="h-momentum-right">
+        <div>
+          <div class="h-momentum-headline" id="hMomentumHeadline">…</div>
+          <div class="h-momentum-explain" id="hMomentumExplain">…</div>
+        </div>
+        <div>
+          <div class="h-momentum-bar"><div class="h-momentum-bar-fill" id="hMomentumBar" style="width:0%"></div></div>
+          <div class="h-momentum-bar-meta" id="hMomentumMeta">—</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hot Leads / Warten auf dich -->
     <section>
-      <div class="h-label" id="hHotLabel">Aufmerksamkeit erforderlich</div>
-      <div class="h-hotleads" id="hHotLeads" style="margin-top:12px;">
+      <div class="h-label" id="hHotLabel">Warten auf dich</div>
+      <p class="h-section-sub" id="hHotSub">…</p>
+      <div class="h-hotleads" id="hHotLeads">
         <div class="skel-card"><span class="skel skel-line w40"></span><span class="skel skel-line"></span><span class="skel skel-line w60"></span></div>
         <div class="skel-card"><span class="skel skel-line w40"></span><span class="skel skel-line"></span><span class="skel skel-line w60"></span></div>
       </div>
     </section>
 
-    <!-- Zeitraum-Filter (Phase 29) -->
+    <!-- Zeitraum-Filter -->
     <section>
-      <div class="h-filter-row" id="hFilterRow">
+      <div class="h-label">Zeitraum</div>
+      <div class="h-filter-row" id="hFilterRow" style="margin-top:8px;">
         <button class="h-chip" data-range="7">7 Tage</button>
         <button class="h-chip active" data-range="30">30 Tage</button>
         <button class="h-chip" data-range="90">90 Tage</button>
@@ -68,43 +96,43 @@
     <section>
       <div class="h-kpis">
         <div class="h-kpi" style="--kpi-color:#C9B98A;">
-          <span class="h-kpi-icon" data-icon="Users" data-icon-size="22"></span>
+          <span class="h-kpi-icon" data-icon="Users" data-icon-size="20"></span>
           <div class="h-kpi-body">
-            <div class="h-kpi-label">Aktive Empfehler</div>
             <div class="h-kpi-value" id="kpiEmpfehler"><span class="h-skeleton"></span></div>
+            <div class="h-kpi-label">Aktive Empfehler</div>
             <span class="h-kpi-sub" id="subEmpfehler">—</span>
           </div>
         </div>
         <div class="h-kpi" style="--kpi-color:#7A8B6F;">
-          <span class="h-kpi-icon" data-icon="MousePointerClick" data-icon-size="22"></span>
+          <span class="h-kpi-icon" data-icon="MousePointerClick" data-icon-size="20"></span>
           <div class="h-kpi-body">
-            <div class="h-kpi-label">Link-Klicks</div>
             <div class="h-kpi-value" id="kpiKlicks"><span class="h-skeleton"></span></div>
+            <div class="h-kpi-label">Link-Klicks</div>
             <span class="h-kpi-sub" id="subKlicks">—</span>
           </div>
         </div>
         <div class="h-kpi" style="--kpi-color:#C28447;">
-          <span class="h-kpi-icon" data-icon="Send" data-icon-size="22"></span>
+          <span class="h-kpi-icon" data-icon="Send" data-icon-size="20"></span>
           <div class="h-kpi-body">
-            <div class="h-kpi-label">Empfehlungen</div>
             <div class="h-kpi-value" id="kpiGesamt"><span class="h-skeleton"></span></div>
+            <div class="h-kpi-label">Empfehlungen</div>
             <span class="h-kpi-sub" id="subGesamt">—</span>
           </div>
         </div>
         <div class="h-kpi" style="--kpi-color:#2E5266;">
-          <span class="h-kpi-icon" data-icon="Star" data-icon-size="22"></span>
+          <span class="h-kpi-icon" data-icon="Star" data-icon-size="20"></span>
           <div class="h-kpi-body">
-            <div class="h-kpi-label">Kunden</div>
             <div class="h-kpi-value" id="kpiKunden"><span class="h-skeleton"></span></div>
+            <div class="h-kpi-label">Neue Kunden</div>
             <span class="h-kpi-sub" id="subKunden">—</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Trend-Chart (Phase 29) -->
+    <!-- Trend-Chart -->
     <section>
-      <div class="h-label">Verlauf</div>
+      <div class="h-label">Dein Verlauf</div>
       <div class="h-chart-wrap" style="margin-top:12px;">
         <div class="h-chart-head">
           <span class="h-chart-title">Funnel-Entwicklung über Zeit</span>
@@ -137,10 +165,19 @@
       </div>
     </section>
 
+    <!-- Conversion-Treppe -->
+    <section>
+      <div class="h-label">Vom Klick zum Kunden</div>
+      <p class="h-section-sub">Wie sich jeder Klick durch deinen Funnel bewegt.</p>
+      <div class="h-conversion-stair" id="hConversionStair" style="margin-top:8px;">
+        <div class="skel-card" style="height:120px;"><span class="skel skel-line"></span></div>
+      </div>
+    </section>
+
     <!-- Funnel -->
     <section>
       <div class="h-label">Funnel</div>
-      <div class="h-funnel" id="hFunnel" style="margin-top:12px;">
+      <div class="h-funnel" id="hFunnel" style="margin-top:8px;">
         <div class="skel-funnel-row"><span class="skel skel-line w40"></span><span class="skel skel-track"></span><span class="skel skel-line"></span><span class="skel skel-line"></span></div>
         <div class="skel-funnel-row"><span class="skel skel-line w40"></span><span class="skel skel-track"></span><span class="skel skel-line"></span><span class="skel skel-line"></span></div>
         <div class="skel-funnel-row"><span class="skel skel-line w40"></span><span class="skel skel-track"></span><span class="skel skel-line"></span><span class="skel skel-line"></span></div>
@@ -148,9 +185,10 @@
       </div>
     </section>
 
-    <!-- Top-Empfehler -->
+    <!-- Deine Champions -->
     <section>
-      <div class="h-label">Top-Empfehler</div>
+      <div class="h-label">Deine Champions</div>
+      <p class="h-section-sub">Menschen, die immer wieder an dich denken.</p>
       <div class="h-promoters" id="hPromoters" style="margin-top:12px;">
         <div class="skel-card" style="flex-direction:row;align-items:center;gap:12px;"><span class="skel skel-circle"></span><div style="flex:1;display:flex;flex-direction:column;gap:6px;"><span class="skel skel-line w60"></span><span class="skel skel-line w40" style="height:10px;"></span></div></div>
         <div class="skel-card" style="flex-direction:row;align-items:center;gap:12px;"><span class="skel skel-circle"></span><div style="flex:1;display:flex;flex-direction:column;gap:6px;"><span class="skel skel-line w60"></span><span class="skel skel-line w40" style="height:10px;"></span></div></div>
@@ -161,9 +199,10 @@
     </div><!-- /.h-col-main -->
 
     <aside class="h-col-side">
-      <!-- Letzte Aktivität · Timeline -->
+      <!-- Was gerade passiert · Activity-Stream -->
       <section class="h-side-activity">
-        <div class="h-label">Letzte Aktivität</div>
+        <div class="h-label">Was gerade passiert</div>
+        <p class="h-section-sub">Live-Stream deines Netzwerks.</p>
         <div class="h-timeline" id="hTimeline" style="margin-top:12px;">
           <div class="skel-row"><span class="skel skel-line w40" style="width:48px;height:11px;"></span><div class="skel-body"><span class="skel skel-line"></span></div></div>
           <div class="skel-row"><span class="skel skel-line w40" style="width:48px;height:11px;"></span><div class="skel-body"><span class="skel skel-line"></span></div></div>
@@ -178,6 +217,6 @@
   <div class="h-toast" id="hToast"></div>
 
   <script type="module" src="js/nav.js?v=32"></script>
-  <script type="module" src="js/hub.js?v=32"></script>
+  <script type="module" src="js/hub.js?v=33"></script>
 </body>
 </html>

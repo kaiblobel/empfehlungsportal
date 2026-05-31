@@ -37,9 +37,11 @@ let currentRange = parseInt(sessionStorage.getItem(RANGE_KEY) || '30', 10);
   ]);
 
   renderKPIs(kpiRows, kpiSubs);
-  renderHeroStats(heroStats);
+  renderHeroStats(heroStats, hotLeads);
+  renderMomentum(kpiRows, kpiSubs);
   renderHotLeads(hotLeads);
   renderFunnel(funnel);
+  renderConversionStair(funnel);
   renderTopPromoters(topPromoters);
   renderTimeline(timelineEvents);
   renderTrendChart(trendRows);
@@ -170,17 +172,22 @@ async function loadHeroStats() {
   ]);
   return { opened, anruf, kunden };
 }
-function renderHeroStats({ opened, anruf, kunden }) {
-  const el = document.getElementById('hStats');
-  if (!opened && !anruf && !kunden) {
-    el.innerHTML = 'Dein Empfehlungssystem läuft.';
-    return;
+function renderHeroStats({ opened, anruf, kunden }, hotLeads) {
+  const linesEl = document.getElementById('hHeroLines');
+  if (linesEl) {
+    const lines = [];
+    if (opened) lines.push(`Heute wurden <strong>${opened} ${opened === 1 ? 'Empfehlung' : 'Empfehlungen'}</strong> geöffnet.`);
+    if (kunden) lines.push(`<strong>${kunden} ${kunden === 1 ? 'neuer Kunde' : 'neue Kunden'}</strong> diese Woche.`);
+    const waiting = (hotLeads || []).length;
+    if (waiting) lines.push(`<strong>${waiting} ${waiting === 1 ? 'Kontakt' : 'Kontakte'}</strong> warten auf deine Aufmerksamkeit.`);
+    if (!lines.length) lines.push('Dein Empfehlungssystem läuft.');
+    linesEl.innerHTML = lines.map(l => `<span>${l}</span>`).join('');
   }
-  const parts = [];
-  if (opened) parts.push(`Heute wurden <strong>${opened} ${opened === 1 ? 'Empfehlung' : 'Empfehlungen'}</strong> geöffnet`);
-  if (anruf)  parts.push(`<strong>${anruf} ${anruf === 1 ? 'neuer Anrufwunsch' : 'neue Anrufwünsche'}</strong>`);
-  if (kunden) parts.push(`<strong>${kunden} ${kunden === 1 ? 'neuer Kunde' : 'neue Kunden'}</strong> diese Woche`);
-  el.innerHTML = parts.join(', ') + '.';
+  const pillAct = document.getElementById('hPillActivity');
+  if (pillAct) {
+    const count = (opened || 0) + (anruf || 0) + (kunden || 0);
+    pillAct.textContent = `${count} Aktivitäten heute`;
+  }
 }
 
 /* ---------- Hot Leads ---------- */
@@ -207,37 +214,54 @@ async function loadHotLeads() {
 function renderHotLeads(list) {
   const wrap = document.getElementById('hHotLeads');
   const label = document.getElementById('hHotLabel');
+  const sub = document.getElementById('hHotSub');
   if (!list.length) {
     if (label) label.textContent = 'Status';
-    wrap.innerHTML = `
-      <div class="h-empty-positive">
-        <strong>Keine offenen Hot Leads.</strong> Alles unter Kontrolle.
-      </div>`;
+    if (sub) sub.textContent = 'Aktuell warten keine Kontakte auf dich. Alles unter Kontrolle.';
+    wrap.innerHTML = `<div class="h-empty-positive"><strong>Keine offenen Hot Leads.</strong> Alles unter Kontrolle.</div>`;
     return;
   }
-  if (label) label.textContent = 'Aufmerksamkeit erforderlich';
+  if (label) label.textContent = 'Warten auf dich';
+  if (sub) sub.textContent = `${list.length} ${list.length === 1 ? 'Kontakt erwartet' : 'Kontakte erwarten'} heute deinen nächsten Schritt.`;
+  const ERR_LABELS = {
+    vormittag: 'Vormittags (8–12 Uhr)',
+    mittag: 'Mittags (12–14 Uhr)',
+    nachmittag: 'Nachmittags (14–18 Uhr)',
+    abend: 'Abends (18–21 Uhr)',
+    we: 'Am Wochenende',
+  };
   wrap.innerHTML = list.map(r => {
     const cls = r._kind;
-    const labelTxt = cls === 'anrufwunsch' ? 'Anrufwunsch' : 'Interesse bekundet';
-    const detail = cls === 'anrufwunsch' && r.anrufwunsch
-      ? `${escapeHtml(r.anrufwunsch)}`
-      : '';
+    const name = r.empfaenger_name || '–';
+    const initials = initialsFor(name);
+    const isCall = cls === 'anrufwunsch';
+    const action = isCall ? '<strong>möchte kontaktiert werden</strong>' : '<strong>hat Interesse bekundet</strong>';
     const heat = heatScore(r);
-    const heatTitle = heatTitleFor(heat);
+    const heatPrefix = heat ? `${heat} ` : '';
+    const reach = isCall && r.anrufwunsch ? `Bevorzugte Zeit: ${ERR_LABELS[r.anrufwunsch] || r.anrufwunsch}` : null;
+    const rel = relativeTime(r._ts);
+    const detailParts = [];
+    if (reach) detailParts.push(reach);
+    if (heat) detailParts.push(`${heatPrefix}schnelle Reaktion`);
+    detailParts.push(rel);
+    const cta = isCall ? 'Kontakt aufnehmen' : 'Jetzt öffnen';
     return `
-      <div class="h-lead ${cls}">
-        <span class="h-lead-dot"></span>
-        <div class="h-lead-body">
-          <h3 class="h-lead-name">${heat ? `<span class="h-lead-heat" title="${heatTitle}">${heat}</span> ` : ''}${escapeHtml(r.empfaenger_name || '–')}</h3>
-          <div class="h-lead-meta">
-            <span class="label ${cls}">${labelTxt}</span>
-            ${detail ? `<span>${detail}</span>` : ''}
-            <span>${relativeTime(r._ts)}</span>
-          </div>
+      <a class="h-lead ${cls}" href="dashboard/detail.html?id=${r.id}">
+        <span class="h-lead-avatar">${escapeHtml(initials)}</span>
+        <div class="h-lead-text">
+          <strong>${escapeHtml(name)}</strong> ${action}.
+          <span class="h-lead-detail">${detailParts.filter(Boolean).map(escapeHtml).join(' · ')}</span>
         </div>
-        <a class="h-lead-cta" href="dashboard/detail.html?id=${r.id}">Jetzt öffnen</a>
-      </div>`;
+        <span class="h-lead-cta">${cta}</span>
+      </a>`;
   }).join('');
+}
+
+function initialsFor(name) {
+  const parts = String(name || '').trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return '–';
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
 
 function heatScore(r) {
@@ -292,22 +316,6 @@ const EVENT_META = {
   kunde:    { label: 'Neuer Kunde',         color: '#2E5266' },
 };
 
-const AVATAR_PALETTE = ['#C9B98A', '#7A8B6F', '#C28447', '#2E5266', '#8B7355', '#6B7A8F', '#A89070'];
-
-function initialsFor(name) {
-  const parts = String(name || '').trim().split(/\s+/).filter(Boolean);
-  if (!parts.length) return '–';
-  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
-  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-}
-
-function colorForName(name) {
-  const s = String(name || '');
-  let h = 0;
-  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
-  return AVATAR_PALETTE[h % AVATAR_PALETTE.length];
-}
-
 function renderTimeline(events) {
   const wrap = document.getElementById('hTimeline');
   if (!events.length) {
@@ -317,11 +325,9 @@ function renderTimeline(events) {
   wrap.innerHTML = events.map(e => {
     const isNew = previousVisitTs > 0 && e.ts > previousVisitTs;
     const meta = EVENT_META[e.kind] || EVENT_META.created;
-    const avColor = colorForName(e.name);
     return `
-    <a class="h-activity-row h-act-${e.kind}" href="dashboard/detail.html?id=${e.id}" style="--act-color:${meta.color};">
-      <span class="h-activity-stripe"></span>
-      <span class="h-activity-avatar" style="background:${avColor};">${escapeHtml(initialsFor(e.name))}</span>
+    <a class="h-activity-row" href="dashboard/detail.html?id=${e.id}" style="--act-color:${meta.color};">
+      <span class="h-activity-avatar">${escapeHtml(initialsFor(e.name))}</span>
       <div class="h-activity-body">
         <div class="h-activity-top">
           <strong class="h-activity-name">${escapeHtml(e.name)}</strong>
@@ -527,6 +533,82 @@ function initFilterChips() {
   // Label initial setzen falls aus Session restored
   const label = document.getElementById('hChartRangeLabel');
   if (label) label.textContent = `Letzte ${currentRange} Tage`;
+}
+
+/* ---------- Phase 38 · Empfehlungs-Momentum (clientseitig) ---------- */
+function computeMomentum([empfehler, klicks, gesamt, kunden], subs) {
+  const empN = Math.min((empfehler || 0) / 20 * 30, 30);
+  const klN  = Math.min((klicks    || 0) / 100 * 30, 30);
+  const geN  = Math.min((gesamt    || 0) / 20 * 30, 30);
+  const kuN  = Math.min((kunden    || 0) / 5  * 10, 10);
+  let bonus = 0;
+  if (subs) {
+    const trends = [subs.empfehler, subs.klicks, subs.gesamt, subs.kunden];
+    let totalPct = 0, n = 0;
+    for (const t of trends) {
+      if (!t || t.base === null || t.base === 0) continue;
+      totalPct += ((t.curr - t.base) / t.base) * 100;
+      n++;
+    }
+    if (n > 0) bonus = Math.max(-10, Math.min(10, totalPct / n / 4));
+  }
+  const score = Math.max(0, Math.min(100, Math.round(empN + klN + geN + kuN + bonus)));
+  return { score, bonus, trendPct: bonus * 4 };
+}
+
+function renderMomentum(kpiRows, subs) {
+  const { score, bonus } = computeMomentum(kpiRows, subs);
+  const scoreEl = document.getElementById('hMomentumScore');
+  const trendEl = document.getElementById('hMomentumTrend');
+  const headEl = document.getElementById('hMomentumHeadline');
+  const explainEl = document.getElementById('hMomentumExplain');
+  const barEl = document.getElementById('hMomentumBar');
+  const metaEl = document.getElementById('hMomentumMeta');
+  if (scoreEl) scoreEl.innerHTML = `${score}<sup>/100</sup>`;
+  if (trendEl) {
+    const cls = bonus > 0 ? 'up' : (bonus < 0 ? 'down' : 'neutral');
+    const sign = bonus > 0 ? '↑ +' : (bonus < 0 ? '↓ ' : '');
+    const pct = Math.abs(Math.round(bonus * 4));
+    trendEl.className = 'h-momentum-trend ' + cls;
+    trendEl.textContent = bonus === 0 ? 'stabil zur Vorwoche' : `${sign}${pct}% zur Vorwoche`;
+  }
+  if (headEl) {
+    if (score >= 70) headEl.textContent = 'Dein Netzwerk entwickelt sich positiv.';
+    else if (score >= 40) headEl.textContent = 'Solide Basis — Luft nach oben.';
+    else headEl.textContent = 'Zeit für neuen Schwung.';
+  }
+  if (explainEl) {
+    const [emp, kl, ges, kun] = kpiRows;
+    const parts = [];
+    if (kl)  parts.push(`${kl} Link-Klicks`);
+    if (emp) parts.push(`${emp} aktive Empfehler`);
+    if (kun) parts.push(`${kun} Neukunde${kun === 1 ? '' : 'n'}`);
+    explainEl.textContent = parts.length ? `Aktuell: ${parts.join(' · ')}.` : 'Sammle Empfehlungen, um deinen Score aufzubauen.';
+  }
+  if (barEl) barEl.style.width = score + '%';
+  if (metaEl) {
+    let band = 'Aufbau-Phase';
+    if (score >= 75) band = 'Top-Drittel der letzten 30 Tage';
+    else if (score >= 50) band = 'Stabiles Mittelfeld';
+    else if (score >= 25) band = 'Wachstum sichtbar';
+    metaEl.textContent = `${score} von 100 Punkten · ${band}`;
+  }
+}
+
+/* ---------- Phase 38 · Conversion-Treppe ---------- */
+function renderConversionStair(f) {
+  const wrap = document.getElementById('hConversionStair');
+  if (!wrap) return;
+  const pct = (n, base) => base > 0 ? Math.round((n / base) * 100) + '%' : '–';
+  wrap.innerHTML = `
+    <div class="h-stair-row"><span class="h-stair-num">${f.gesendet}</span><span class="h-stair-label">Klicks auf deine Empfehlungen</span></div>
+    <div class="h-stair-arrow">${pct(f.geoeffnet, f.gesendet)} Conversion</div>
+    <div class="h-stair-row"><span class="h-stair-num">${f.geoeffnet}</span><span class="h-stair-label">Empfehlungen wurden geöffnet</span></div>
+    <div class="h-stair-arrow">${pct(f.interessiert, f.geoeffnet)} Conversion</div>
+    <div class="h-stair-row"><span class="h-stair-num">${f.interessiert}</span><span class="h-stair-label">Gespräche sind entstanden</span></div>
+    <div class="h-stair-arrow">${pct(f.kunden, f.interessiert)} Conversion</div>
+    <div class="h-stair-row"><span class="h-stair-num">${f.kunden}</span><span class="h-stair-label">Neue Kunden</span></div>
+  `;
 }
 
 /* ---------- Phase 29 · Realtime Hub-Stream ---------- */
