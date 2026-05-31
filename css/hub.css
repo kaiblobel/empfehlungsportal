@@ -2011,3 +2011,55 @@ body[data-page="vorlagen-cms"] {
   border-radius: 2px;
   flex-shrink: 0;
 }
+
+/* ============================================================
+   Phase 45 · Final Micro-Polish (Design-Freeze)
+   ============================================================ */
+
+/* NEU-Badge Premium: wärmeres Gold, dunkler Text, 700, mehr Spacing */
+.h-badge-new {
+  background: #EAD8A8 !important;
+  color: #6F5A2E !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  padding: 2px 9px !important;
+}
+
+/* Activity-Avatar-Tint: stärkere Hierarchie (kunde+created stärker, opened mittel) */
+.h-activity-row[style*="#1A5C29"] .h-activity-avatar,
+.h-activity-row[style*="#1F6B30"] .h-activity-avatar {
+  background: color-mix(in srgb, var(--act-color) 20%, transparent) !important;
+}
+.h-activity-row[style*="#B5953F"] .h-activity-avatar,
+.h-activity-row[style*="#C8A85A"] .h-activity-avatar {
+  background: color-mix(in srgb, var(--act-color) 18%, transparent) !important;
+}
+.h-activity-row[style*="#4A7D48"] .h-activity-avatar,
+.h-activity-row[style*="#5F8F5B"] .h-activity-avatar {
+  background: color-mix(in srgb, var(--act-color) 16%, transparent) !important;
+}
+
+/* Activity-Pill: höherer Font-Weight für Lesbarkeit */
+.h-activity-pill {
+  font-weight: 700 !important;
+  letter-spacing: 0.01em !important;
+}
+
+/* Hover-Haptik exakt 180ms */
+.h-activity-row {
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease !important;
+}
+.h-activity-row:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(20,18,12,0.07), 0 2px 6px rgba(20,18,12,0.05) !important;
+}
+
+/* Feed-Spalte: zusätzliche Luft zur Scrollbar */
+@media (min-width: 1100px) {
+  .h-side-activity {
+    padding-right: 28px !important;
+  }
+  .h-side-activity .h-timeline {
+    padding-bottom: 16px;
+  }
+}

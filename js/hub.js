@@ -321,11 +321,11 @@ async function loadTimelineEvents() {
 }
 
 const EVENT_META = {
-  created:  { label: 'Empfehlung erhalten', color: '#C8A85A', icon: 'Send' },           // Gold
-  opened:   { label: 'Link geklickt',       color: '#5F8F5B', icon: 'Eye' },             // Grün
-  interest: { label: 'Interesse',           color: '#C28447', icon: 'HeartHandshake' },  // Terracotta
-  call:     { label: 'Anrufwunsch',         color: '#B5651D', icon: 'PhoneCall' },       // Burnt-Orange
-  kunde:    { label: 'Neuer Kunde',         color: '#1F6B30', icon: 'Trophy' },          // Dunkelgrün
+  created:  { label: 'Empfehlung erhalten', color: '#B5953F', icon: 'Send' },            // Premium-Gold (dunkler)
+  opened:   { label: 'Link geklickt',       color: '#4A7D48', icon: 'Eye' },              // Sattes Grün
+  interest: { label: 'Interesse',           color: '#C28447', icon: 'HeartHandshake' },   // Terracotta
+  call:     { label: 'Anrufwunsch',         color: '#B5651D', icon: 'PhoneCall' },        // Burnt-Orange
+  kunde:    { label: 'Neuer Kunde',         color: '#1A5C29', icon: 'Trophy' },           // Sattes Dunkelgrün
 };
 
 const NEW_BADGE_WINDOW_MS = 24 * 60 * 60 * 1000; // 24h

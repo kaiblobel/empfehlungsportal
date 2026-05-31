@@ -966,26 +966,29 @@ body.nav-drawer-open { overflow: hidden; }
 .nav-collapse-toggle {
   display: none;
   position: absolute;
-  right: -14px;
+  right: -16px;
   top: 50%;
   transform: translateY(-50%);
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   background: var(--surface);
-  border: 1px solid var(--hairline);
+  border: 1px solid rgba(232,229,224,0.6);
   border-radius: 50%;
   color: var(--ink-muted);
   cursor: pointer;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   z-index: 81;
-  transition: background .2s ease, color .2s ease, border-color .2s ease;
+  opacity: 0.7;
+  transition: opacity .18s ease, background .18s ease, color .18s ease, border-color .18s ease, box-shadow .18s ease;
 }
 .nav-collapse-toggle:hover {
+  opacity: 1;
   background: var(--accent-bg);
   color: var(--accent-hover);
   border-color: var(--accent);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 .nav-collapse-toggle svg { display: block; pointer-events: none; }
 .nav-collapse-icon-collapse { display: none; }
