@@ -14,7 +14,7 @@
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
   <link rel="stylesheet" href="css/style.css?v=32" />
-  <link rel="stylesheet" href="css/programm.css?v=16" />
+  <link rel="stylesheet" href="css/programm.css?v=22" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="programm">
@@ -41,6 +41,39 @@
       </div>
       <div class="hero-split-image reveal d2">
         <img class="hero-portrait" id="t-Foto" src="" alt="Kai Blobel" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 1a · Persönliches Video ===== -->
+  <section class="section video-pitch">
+    <div class="inner">
+      <p class="t-eyebrow reveal" style="text-align:center;">Eine Nachricht von mir</p>
+      <h2 class="t-h2 reveal d1" style="text-align:center;">
+        In <em>30 Sekunden</em> erkläre<br>ich dir, was dahintersteckt.
+      </h2>
+      <p class="t-lede reveal d2" style="text-align:center; margin: 0 auto; max-width:680px;">
+        In dieser kurzen Nachricht erkläre ich dir persönlich, worum es geht — und was dieser Weg für dich bedeuten könnte.
+      </p>
+
+      <div class="video-frame reveal d3">
+        <!-- Wenn echtes Video bereit: ersetze .video-placeholder durch <video> oder Vimeo/YouTube-Iframe -->
+        <div class="video-placeholder" role="button" tabindex="0" aria-label="Video abspielen">
+          <img class="video-poster" id="t-FotoVideo" src="" alt="" />
+          <div class="video-overlay">
+            <span class="video-rec"><span class="video-rec-dot"></span> REC</span>
+            <div class="video-overlay-center">
+              <span class="video-overlay-name">Kai Blobel</span>
+              <span class="video-overlay-role">Initiator</span>
+              <span class="video-overlay-sub">hat eine persönliche Nachricht für dich.</span>
+            </div>
+            <button class="video-play-btn" type="button" aria-label="Video starten">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -116,6 +149,33 @@
     </div>
   </section>
 
+  <!-- ===== 2b · Themen-Auswahl ===== -->
+  <section class="section topics" id="themen">
+    <div class="inner wide">
+      <p class="t-eyebrow reveal" style="text-align:center;">Worüber kannst du mich empfehlen</p>
+      <h2 class="t-h2 reveal d1" style="text-align:center;">
+        Sechs Themen.<br>Für jede <em>Lebenssituation</em>.
+      </h2>
+      <p class="t-lede reveal d2" style="text-align:center; margin: 0 auto; max-width:680px;">
+        Beim Empfehlen wählst du einfach das Thema, das zu deinem Bekannten passt. Ich melde mich dann gezielt dazu — nicht allgemein, sondern passgenau.
+      </p>
+
+      <div class="topics-grid" id="t-Topics">
+        <!-- Skeleton während Load -->
+        <div class="topic-card-skel"></div>
+        <div class="topic-card-skel"></div>
+        <div class="topic-card-skel"></div>
+        <div class="topic-card-skel"></div>
+        <div class="topic-card-skel"></div>
+        <div class="topic-card-skel"></div>
+      </div>
+
+      <div class="section-cta reveal">
+        <a class="btn btn-primary" href="#anmelden">Jetzt empfehlen</a>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== 3 · Belohnungs-Galerie ===== -->
   <section class="section alt" id="belohnungen">
     <div class="inner wide">
@@ -127,7 +187,66 @@
         Je nachdem, wie oft du mich weiterempfiehlst, profitierst du folgendermaßen
         für jede erfolgreiche Empfehlung.
       </p>
+
+      <div class="rewards-explain reveal d2">
+        <div class="rewards-explain-card">
+          <span class="rewards-explain-icon" aria-hidden="true">↑</span>
+          <p>
+            <strong>So funktioniert das Stufen-System:</strong>
+            Mit jeder erfolgreichen Empfehlung schaltest du die nächste Stufe frei. Stufe 1 kommt schon beim ersten Kunden — Stufe 15 wartet als großes Finale. Die Belohnungen werden mit jeder Stufe persönlicher.
+            <span class="rewards-explain-note">In den Zwischenstufen (4, 6, 8, 9, 11–14) erhältst du jeweils die Standardvergütung von 100 € — das System endet nie.</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Stufen-Roadmap -->
+      <div class="rewards-roadmap reveal d2" id="t-Roadmap" aria-label="Belohnungs-Roadmap Stufe 1 bis 15">
+        <!-- JS rendert 15 Stufen-Punkte mit Linie -->
+      </div>
+
+      <!-- Belohnungs-Modus-Wahl (Filter) -->
+      <div class="reward-mode-switch reveal d2" role="tablist" aria-label="Belohnungs-Art wählen">
+        <button class="reward-mode-chip active" data-mode="alle" role="tab" aria-selected="true">
+          <span class="reward-mode-icon" data-icon="Sparkles"></span>
+          <span class="reward-mode-label">
+            <strong>Alle Belohnungen</strong>
+            <span>Zeig mir das ganze System</span>
+          </span>
+        </button>
+        <button class="reward-mode-chip" data-mode="geld" role="tab" aria-selected="false">
+          <span class="reward-mode-icon" data-icon="Banknote"></span>
+          <span class="reward-mode-label">
+            <strong>Geldwert</strong>
+            <span>Wunschgutschein, PayPal oder Bargeld</span>
+          </span>
+        </button>
+        <button class="reward-mode-chip" data-mode="sache" role="tab" aria-selected="false">
+          <span class="reward-mode-icon" data-icon="Gift"></span>
+          <span class="reward-mode-label">
+            <strong>Sache &amp; Erlebnis</strong>
+            <span>Apple Watch, Goldbarren, Mallorca, ...</span>
+          </span>
+        </button>
+        <button class="reward-mode-chip" data-mode="spende" role="tab" aria-selected="false">
+          <span class="reward-mode-icon" data-icon="Heart"></span>
+          <span class="reward-mode-label">
+            <strong>Für guten Zweck</strong>
+            <span>Spende an deine Hilfsorganisation</span>
+          </span>
+        </button>
+      </div>
+
       <div class="reward-gallery" id="t-Rewards"></div>
+
+      <!-- Gesamt-Wert-Counter -->
+      <div class="rewards-total-card reveal" id="t-RewardsTotal">
+        <span class="rewards-total-eyebrow">✦ Im besten Fall wartet auf dich</span>
+        <span class="rewards-total-value">
+          bis zu <span class="rewards-total-counter" data-target="24000">0</span>&nbsp;€
+        </span>
+        <span class="rewards-total-sub">Gesamt-Wert · 8× Standardvergütung · 6× Premium-Belohnung · plus Mallorca-Urlaub</span>
+      </div>
+
       <div class="section-cta reveal">
         <a class="btn btn-primary" href="#anmelden">Jetzt empfehlen</a>
       </div>
@@ -322,9 +441,8 @@
       <!-- Spalte 3: Rechtliches -->
       <div class="footer-col">
         <span class="footer-col-label">Rechtliches</span>
-        <a class="footer-link" href="impressum.html">Impressum</a>
-        <a class="footer-link" href="datenschutz.html">Datenschutz</a>
-        <a class="footer-link" href="agb.html">AGB</a>
+        <a class="footer-link" href="https://www.dvag.de/kai.blobel/impressum.html" target="_blank" rel="noopener">Impressum</a>
+        <a class="footer-link" href="https://www.dvag.de/kai.blobel/datenschutz.html" target="_blank" rel="noopener">Datenschutz</a>
       </div>
 
       <!-- Spalte 4: System -->
@@ -352,6 +470,6 @@
   </div>
 
   <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
-  <script type="module" src="js/programm.js?v=3"></script>
+  <script type="module" src="js/programm.js?v=9"></script>
 </body>
 </html>

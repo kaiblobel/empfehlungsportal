@@ -1955,3 +1955,778 @@ body[data-page="programm"] {
 /* Phase 60 · Marquee-Speed entspannter */
 .testimonials-track            { animation-duration: 55s !important; }
 .testimonials-track-reverse    { animation-duration: 50s !important; }
+
+/* ============================================================
+   Phase 61 · Video-Pitch-Section + Stufen-Erklärung
+   ============================================================ */
+
+.video-pitch {
+  background: var(--bg, #FAF8F5);
+}
+
+.video-frame {
+  margin: 56px auto 0;
+  max-width: 920px;
+  border-radius: 22px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 18px 60px rgba(20,18,12,0.15);
+  background: #1A1A1A;
+  aspect-ratio: 16 / 9;
+}
+
+.video-placeholder {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.video-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.4) brightness(0.7);
+  transition: transform .6s cubic-bezier(.32,.72,.4,1);
+}
+
+.video-placeholder:hover .video-poster {
+  transform: scale(1.03);
+}
+
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.45) 50%, rgba(0,0,0,0.55) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  color: #fff;
+  text-align: center;
+  pointer-events: none;
+}
+
+.video-rec {
+  position: absolute;
+  top: 22px;
+  left: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 10px;
+  background: rgba(20,18,12,0.65);
+  color: #fff;
+  border-radius: 999px;
+  font-family: var(--font-text);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  backdrop-filter: blur(6px);
+}
+.video-rec-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #E04A4A;
+  box-shadow: 0 0 0 0 rgba(224,74,74,0.6);
+  animation: rec-pulse 1.6s ease-in-out infinite;
+}
+@keyframes rec-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(224,74,74,0.6); }
+  70%  { box-shadow: 0 0 0 8px rgba(224,74,74,0); }
+  100% { box-shadow: 0 0 0 0 rgba(224,74,74,0); }
+}
+
+.video-overlay-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.video-overlay-name {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4.5vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+
+.video-overlay-role {
+  font-family: var(--font-text);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #C9B98A;
+  margin-top: 2px;
+}
+
+.video-overlay-sub {
+  font-family: var(--font-text);
+  font-size: clamp(14px, 1.8vw, 17px);
+  font-weight: 400;
+  color: rgba(255,255,255,0.88);
+  margin-top: 14px;
+  letter-spacing: -0.005em;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.25);
+}
+
+.video-play-btn {
+  position: absolute;
+  bottom: 22px;
+  right: 22px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.95);
+  border: none;
+  color: #1A1A1A;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: auto;
+  padding-left: 4px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  transition: transform .25s ease, background .25s ease;
+}
+.video-play-btn:hover {
+  transform: scale(1.06);
+  background: #fff;
+}
+
+@media (max-width: 640px) {
+  .video-frame { border-radius: 16px; margin-top: 40px; }
+  .video-play-btn { width: 52px; height: 52px; bottom: 16px; right: 16px; }
+  .video-rec { top: 16px; left: 16px; padding: 5px 10px 5px 9px; font-size: 10px; }
+}
+
+/* === Stufen-Erklärung vor Belohnungs-Galerie === */
+.rewards-explain {
+  margin: 40px auto 0;
+  max-width: 760px;
+}
+
+.rewards-explain-card {
+  background: linear-gradient(180deg, rgba(201,185,138,0.10) 0%, rgba(201,185,138,0.04) 100%);
+  border: 1px solid rgba(201,185,138,0.28);
+  border-radius: 14px;
+  padding: 22px 26px;
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.rewards-explain-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #C9B98A 0%, #A89070 100%);
+  color: #1A1A1A;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(201,185,138,0.25);
+}
+
+.rewards-explain-card p {
+  font-family: var(--font-text);
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--ink-muted, #6B6660);
+  margin: 0;
+  letter-spacing: -0.005em;
+}
+
+.rewards-explain-card p strong {
+  color: var(--anthracite, #1A1A1A);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* ============================================================
+   Phase 62 · Themen-Auswahl-Section "Empfehl mich gezielt"
+   ============================================================ */
+
+.topics {
+  background: var(--surface, #FFFCF7);
+}
+
+.topics-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin: 56px auto 0;
+  max-width: 1100px;
+}
+
+@media (min-width: 640px) {
+  .topics-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+}
+
+@media (min-width: 960px) {
+  .topics-grid { grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
+}
+
+.topic-card {
+  background: var(--bg, #FAF8F5);
+  border: 1px solid var(--hairline, #E8E5E0);
+  border-radius: 14px;
+  padding: 24px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform .25s cubic-bezier(.32,.72,.4,1),
+              box-shadow .25s ease,
+              border-color .25s ease,
+              background .25s ease;
+}
+
+.topic-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(201,185,138,0.4);
+  background: #FFFFFF;
+  box-shadow: 0 12px 32px rgba(20,18,12,0.06),
+              0 0 0 1px rgba(201,185,138,0.15);
+}
+
+.topic-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(201,185,138,0.10);
+  font-size: 24px;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-bottom: 4px;
+}
+
+.topic-title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--anthracite, #1A1A1A);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.topic-sub {
+  font-family: var(--font-text);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--ink-muted, #6B6660);
+  margin: 0;
+  letter-spacing: -0.005em;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Skeleton während Load */
+.topic-card-skel {
+  background: var(--bg, #FAF8F5);
+  border: 1px solid var(--hairline, #E8E5E0);
+  border-radius: 14px;
+  height: 152px;
+  position: relative;
+  overflow: hidden;
+}
+.topic-card-skel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
+  animation: skel-shimmer 1.4s ease-in-out infinite;
+}
+@keyframes skel-shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@media (min-width: 720px) {
+  .topic-card { padding: 28px 26px; }
+  .topic-title { font-size: 18px; }
+  .topic-sub { font-size: 14.5px; }
+}
+
+/* ============================================================
+   Phase 63 · Topic-Icon Premium-Bubble (Lucide-SVG)
+   ============================================================ */
+
+.topic-icon {
+  width: 60px !important;
+  height: 60px !important;
+  border-radius: 14px !important;
+  background: rgba(201,185,138,0.10) !important;
+  border: 1px solid rgba(201,185,138,0.22);
+  color: #8B7355;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+  flex-shrink: 0;
+  transition: background .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+
+.topic-icon svg {
+  width: 28px;
+  height: 28px;
+  stroke-width: 1.8;
+  display: block;
+}
+
+.topic-icon-fallback {
+  font-size: 26px;
+  line-height: 1;
+}
+
+.topic-card:hover .topic-icon {
+  background: rgba(201,185,138,0.18) !important;
+  border-color: rgba(201,185,138,0.4);
+  box-shadow: 0 4px 14px rgba(201,185,138,0.18);
+}
+
+@media (min-width: 720px) {
+  .topic-icon { width: 64px !important; height: 64px !important; }
+  .topic-icon svg { width: 30px; height: 30px; }
+}
+
+/* ============================================================
+   Phase 64 · Themen-Cards farblich differenzieren
+   Jede Card bekommt eine eigene Editorial-Akzent-Farbe (subtil).
+   ============================================================ */
+
+/* Default-Topic-Color (Fallback) */
+.topic-card { --topic-color: #C9B98A; }
+
+/* Pro Slug eine Akzent-Farbe */
+.topic-card[data-slug="allgemein"]     { --topic-color: #C9B98A; } /* Champagne */
+.topic-card[data-slug="baufi"]         { --topic-color: #9C8D5C; } /* Warm Olive */
+.topic-card[data-slug="foerderungen"]  { --topic-color: #C8A85A; } /* Honey Gold */
+.topic-card[data-slug="selbstaendige"] { --topic-color: #2E5266; } /* Marine */
+.topic-card[data-slug="investment"]    { --topic-color: #7A8B6F; } /* Sage */
+.topic-card[data-slug="absicherung"]   { --topic-color: #C28447; } /* Terracotta */
+
+/* Card-Tönung */
+.topic-card {
+  background: color-mix(in srgb, var(--topic-color) 5%, var(--bg, #FAF8F5)) !important;
+  border: 1px solid color-mix(in srgb, var(--topic-color) 18%, transparent) !important;
+  border-top: 2px solid var(--topic-color) !important;
+}
+
+.topic-card:hover {
+  background: color-mix(in srgb, var(--topic-color) 9%, var(--bg, #FAF8F5)) !important;
+  border-color: color-mix(in srgb, var(--topic-color) 32%, transparent) !important;
+  border-top-color: var(--topic-color) !important;
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--topic-color) 18%, transparent),
+              0 0 0 1px color-mix(in srgb, var(--topic-color) 15%, transparent) !important;
+}
+
+/* Icon-Bubble in Thema-Farbe */
+.topic-card .topic-icon {
+  background: color-mix(in srgb, var(--topic-color) 14%, transparent) !important;
+  border-color: color-mix(in srgb, var(--topic-color) 28%, transparent) !important;
+  color: var(--topic-color) !important;
+}
+
+.topic-card:hover .topic-icon {
+  background: color-mix(in srgb, var(--topic-color) 22%, transparent) !important;
+  border-color: color-mix(in srgb, var(--topic-color) 45%, transparent) !important;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--topic-color) 24%, transparent) !important;
+}
+
+/* Titel bekommt eine Spur der Thema-Farbe als Eyebrow vor dem Titel */
+.topic-card .topic-title {
+  color: color-mix(in srgb, var(--topic-color) 78%, #1A1A1A) !important;
+}
+
+/* ============================================================
+   Phase 65 · Belohnungs-Modus-Switch
+   3 Modi: Geldwert · Sache & Erlebnis · Spende für guten Zweck
+   Plus "Alle" als Default
+   ============================================================ */
+
+.reward-mode-switch {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin: 36px auto 32px;
+  max-width: 1100px;
+}
+
+@media (min-width: 600px) {
+  .reward-mode-switch { grid-template-columns: 1fr 1fr; }
+}
+
+@media (min-width: 960px) {
+  .reward-mode-switch { grid-template-columns: repeat(4, 1fr); gap: 12px; }
+}
+
+.reward-mode-chip {
+  background: var(--bg, #FAF8F5);
+  border: 1px solid var(--hairline, #E8E5E0);
+  border-radius: 14px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-text);
+  color: var(--anthracite, #1A1A1A);
+  transition: background .22s ease, border-color .22s ease, transform .22s ease, box-shadow .22s ease;
+}
+
+.reward-mode-chip:hover {
+  background: rgba(201,185,138,0.06);
+  border-color: rgba(201,185,138,0.3);
+  transform: translateY(-1px);
+}
+
+.reward-mode-chip.active {
+  background: linear-gradient(180deg, rgba(201,185,138,0.16) 0%, rgba(201,185,138,0.08) 100%);
+  border-color: rgba(201,185,138,0.5);
+  box-shadow: 0 6px 18px rgba(201,185,138,0.18),
+              0 0 0 1px rgba(201,185,138,0.25);
+}
+
+.reward-mode-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(201,185,138,0.12);
+  border: 1px solid rgba(201,185,138,0.22);
+  color: #8B7355;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background .22s ease, border-color .22s ease;
+}
+
+.reward-mode-icon svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 1.8;
+  display: block;
+}
+
+.reward-mode-chip.active .reward-mode-icon {
+  background: rgba(201,185,138,0.25);
+  border-color: rgba(201,185,138,0.5);
+}
+
+.reward-mode-label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.reward-mode-label strong {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.012em;
+  line-height: 1.25;
+}
+
+.reward-mode-label span {
+  font-family: var(--font-text);
+  font-size: 12.5px;
+  font-weight: 400;
+  color: var(--ink-muted, #6B6660);
+  letter-spacing: -0.005em;
+  line-height: 1.4;
+}
+
+/* Smooth Re-Render */
+.reward-gallery {
+  animation: reward-gallery-fade .35s ease;
+}
+
+@keyframes reward-gallery-fade {
+  0%   { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@media (min-width: 720px) {
+  .reward-mode-chip { padding: 18px 20px; }
+  .reward-mode-label strong { font-size: 16px; }
+  .reward-mode-label span { font-size: 13px; }
+}
+
+/* ============================================================
+   Phase 66 · Belohnungs-System Erweiterung
+   - Stufen-Roadmap (Timeline 1-15)
+   - Gesamt-Wert-Counter
+   - Lücken-Mikrohinweis
+   ============================================================ */
+
+/* === Mikrohinweis in der Stufen-Erklär-Card === */
+.rewards-explain-note {
+  display: block;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(201,185,138,0.25);
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-muted, #6B6660);
+  line-height: 1.5;
+}
+
+/* === Roadmap === */
+.rewards-roadmap {
+  position: relative;
+  margin: 32px 0 8px;
+  padding: 32px 0 56px;
+  overflow-x: auto;
+  overflow-y: visible;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201,185,138,0.4) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+.rewards-roadmap::-webkit-scrollbar { height: 6px; }
+.rewards-roadmap::-webkit-scrollbar-thumb { background: rgba(201,185,138,0.4); border-radius: 3px; }
+
+.roadmap-line {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  top: 50%;
+  height: 2px;
+  background: linear-gradient(90deg,
+    rgba(201,185,138,0.0) 0%,
+    rgba(201,185,138,0.45) 10%,
+    rgba(201,185,138,0.45) 90%,
+    rgba(201,185,138,0.0) 100%
+  );
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.roadmap-stufen {
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  gap: 4px;
+  min-width: 720px;
+  padding: 0 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.roadmap-stufe {
+  position: relative;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--font-text);
+  color: inherit;
+  outline: none;
+}
+
+.roadmap-stufe.premium { cursor: pointer; }
+
+.roadmap-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  transition: transform .22s cubic-bezier(.32,.72,.4,1),
+              box-shadow .22s ease,
+              background .22s ease;
+}
+
+/* Premium-Stufe = Champagne-Gold Kreis */
+.roadmap-stufe.premium .roadmap-num {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #C9B98A 0%, #A89070 100%);
+  color: #1A1A1A;
+  font-size: 14px;
+  box-shadow: 0 4px 14px rgba(201,185,138,0.35),
+              0 0 0 4px rgba(201,185,138,0.10);
+}
+
+.roadmap-stufe.premium:hover .roadmap-num {
+  transform: scale(1.12);
+  box-shadow: 0 6px 18px rgba(201,185,138,0.5),
+              0 0 0 6px rgba(201,185,138,0.18);
+}
+
+/* Standardvergütungs-Dot */
+.roadmap-stufe.standard .roadmap-num {
+  width: 16px;
+  height: 16px;
+  background: var(--surface, #FFFCF7);
+  border: 1.5px solid rgba(201,185,138,0.45);
+  color: transparent;
+  font-size: 0;
+  margin-top: 10px;
+}
+
+.roadmap-stufe.standard:hover .roadmap-num {
+  background: rgba(201,185,138,0.15);
+  border-color: rgba(201,185,138,0.7);
+}
+
+/* Tooltip */
+.roadmap-tip {
+  position: absolute;
+  bottom: -38px;
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: #1A1A1A;
+  color: #FFFCF7;
+  font-family: var(--font-text);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  padding: 6px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .18s ease, transform .18s ease;
+  box-shadow: 0 6px 18px rgba(20,18,12,0.25);
+  z-index: 10;
+}
+.roadmap-tip::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 8px;
+  height: 8px;
+  background: #1A1A1A;
+}
+
+.roadmap-stufe:hover .roadmap-tip,
+.roadmap-stufe:focus-visible .roadmap-tip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Flash für Galerie-Karte beim Click */
+.reward.reward-flash {
+  animation: reward-flash 1.4s cubic-bezier(.32,.72,.4,1);
+}
+@keyframes reward-flash {
+  0%   { box-shadow: 0 0 0 0 rgba(201,185,138,0.0); }
+  20%  { box-shadow: 0 0 0 6px rgba(201,185,138,0.4); }
+  100% { box-shadow: 0 0 0 0 rgba(201,185,138,0); }
+}
+
+/* Mobile: weniger Padding, Scroll-Hint */
+@media (max-width: 720px) {
+  .rewards-roadmap {
+    padding: 24px 0 48px;
+    margin: 24px 0 8px;
+  }
+  .roadmap-stufen { min-width: 620px; }
+  .roadmap-stufe.premium .roadmap-num { width: 30px; height: 30px; font-size: 12.5px; }
+  .roadmap-stufe.standard .roadmap-num { width: 14px; height: 14px; }
+  .roadmap-tip { font-size: 11px; padding: 5px 9px; bottom: -34px; }
+}
+
+/* === Gesamt-Wert-Counter Card === */
+.rewards-total-card {
+  margin: 56px auto 0;
+  max-width: 720px;
+  padding: 36px 32px;
+  background: linear-gradient(180deg,
+    rgba(201,185,138,0.10) 0%,
+    rgba(201,185,138,0.03) 100%
+  );
+  border: 1px solid rgba(201,185,138,0.32);
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  box-shadow: 0 12px 40px rgba(201,185,138,0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.rewards-total-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -10%;
+  width: 60%;
+  height: 200%;
+  background: radial-gradient(ellipse at center, rgba(201,185,138,0.18) 0%, rgba(201,185,138,0) 60%);
+  pointer-events: none;
+}
+
+.rewards-total-card > * { position: relative; z-index: 1; }
+
+.rewards-total-eyebrow {
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #8B7355;
+}
+
+.rewards-total-value {
+  font-family: var(--font-display);
+  font-size: clamp(38px, 7vw, 64px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  color: var(--anthracite, #1A1A1A);
+  font-variant-numeric: tabular-nums;
+}
+
+.rewards-total-counter {
+  background: linear-gradient(180deg, #1A1A1A 0%, #4A4032 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.rewards-total-sub {
+  font-family: var(--font-text);
+  font-size: 14px;
+  color: var(--ink-muted, #6B6660);
+  letter-spacing: -0.005em;
+  line-height: 1.5;
+  max-width: 540px;
+}
+
+@media (max-width: 600px) {
+  .rewards-total-card { padding: 30px 22px; margin-top: 40px; }
+}

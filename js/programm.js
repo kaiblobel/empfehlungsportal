@@ -1,7 +1,11 @@
-import { getBelohnungsStufen, createEmpfehler } from './supabase.js';
+import { getBelohnungsStufen, getVorlagen, createEmpfehler } from './supabase.js';
+import { icon as lucideIcon, ICONS } from './icons.js';
 
-// Foto im Hero
-document.getElementById('t-Foto').src = window.ENV_BERATER_FOTO || '';
+// Foto im Hero + Video-Poster
+const beraterFoto = window.ENV_BERATER_FOTO || '';
+document.getElementById('t-Foto').src = beraterFoto;
+const fotoVideo = document.getElementById('t-FotoVideo');
+if (fotoVideo) fotoVideo.src = beraterFoto;
 
 // === Testimonials Marquee: dynamisch befüllen mit genug Wiederholungen ===
 const TESTIMONIALS = {
@@ -62,7 +66,7 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
 document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
-// Belohnungs-Cards rendern (mit Bild)
+// Belohnungs-Cards rendern (mit Bild) + Modus-Filter + Roadmap + Total-Counter
 (async () => {
   const stufen = await getBelohnungsStufen();
   const wrap = document.getElementById('t-Rewards');
@@ -70,18 +74,148 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
     wrap.innerHTML = '<p class="t-body" style="color:var(--text-muted);">Belohnungen konnten nicht geladen werden.</p>';
     return;
   }
-  wrap.innerHTML = stufen.map(s => `
-    <article class="reward ${s.highlight ? 'highlight' : ''} reveal">
-      ${s.bild_url ? `<img class="reward-img" src="${escapeAttr(s.bild_url)}" alt="${escapeAttr(s.titel)}" loading="lazy" />` : ''}
-      <div class="reward-body">
-        <span class="t-meta reward-meta">${s.stufe}. Empfehlung</span>
-        <h3>${escapeHtml(s.titel)}</h3>
-        <p>${escapeHtml(s.beschreibung)}</p>
-        ${s.wert_label ? `<span class="wert">Wert ${escapeHtml(s.wert_label)}</span>` : ''}
-      </div>
-    </article>
-  `).join('');
-  wrap.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+  // Lucide-Icons für Modus-Chips hydrieren
+  document.querySelectorAll('.reward-mode-icon[data-icon]').forEach(el => {
+    const name = el.dataset.icon;
+    if (ICONS[name]) el.innerHTML = lucideIcon(name, { size: 22 });
+  });
+
+  // === Roadmap rendern (Stufen 1-15) ===
+  const roadmapEl = document.getElementById('t-Roadmap');
+  if (roadmapEl) {
+    const MAX_STUFE = 15;
+    const stufenMap = new Map(stufen.map(s => [s.stufe, s]));
+    let html = '<div class="roadmap-line" aria-hidden="true"></div><div class="roadmap-stufen">';
+    for (let i = 1; i <= MAX_STUFE; i++) {
+      const s = stufenMap.get(i);
+      const isPremium = !!s;
+      const targetId = isPremium ? `reward-stufe-${i}` : '';
+      const label = isPremium
+        ? escapeAttr(`${s.stufe}. Empfehlung · ${s.titel}`)
+        : `${i}. Empfehlung · Standardvergütung 100 €`;
+      html += `
+        <button
+          class="roadmap-stufe ${isPremium ? 'premium' : 'standard'}"
+          data-stufe="${i}"
+          data-target="${targetId}"
+          aria-label="${label}"
+          type="button"
+        >
+          <span class="roadmap-num">${i}</span>
+          <span class="roadmap-tip">${label}</span>
+        </button>
+      `;
+    }
+    html += '</div>';
+    roadmapEl.innerHTML = html;
+
+    // Click → Smooth-Scroll zur Galerie-Karte
+    roadmapEl.querySelectorAll('.roadmap-stufe.premium').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tgt = document.getElementById(btn.dataset.target);
+        if (tgt) {
+          tgt.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          tgt.classList.add('reward-flash');
+          setTimeout(() => tgt.classList.remove('reward-flash'), 1400);
+        }
+      });
+    });
+  }
+
+  // === Counter-Up für Total-Card ===
+  const counterEl = document.querySelector('.rewards-total-counter');
+  if (counterEl) {
+    const target = parseInt(counterEl.dataset.target, 10) || 0;
+    const counterIO = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const duration = 1600;
+          const start = performance.now();
+          const formatter = new Intl.NumberFormat('de-DE');
+          const tick = (now) => {
+            const p = Math.min(1, (now - start) / duration);
+            const eased = 1 - Math.pow(1 - p, 3); // ease-out-cubic
+            counterEl.textContent = formatter.format(Math.round(target * eased));
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+          counterIO.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    counterIO.observe(counterEl);
+  }
+
+  function renderStufen(mode) {
+    const filtered = mode === 'alle'
+      ? stufen
+      : stufen.filter(s => Array.isArray(s.kategorien) && s.kategorien.includes(mode));
+
+    if (!filtered.length) {
+      wrap.innerHTML = `<p class="t-body" style="color:var(--text-muted); text-align:center; padding:24px;">Für diesen Modus sind aktuell keine Belohnungen hinterlegt.</p>`;
+      return;
+    }
+
+    wrap.innerHTML = filtered.map(s => `
+      <article class="reward ${s.highlight ? 'highlight' : ''} reveal visible" id="reward-stufe-${s.stufe}">
+        ${s.bild_url ? `<img class="reward-img" src="${escapeAttr(s.bild_url)}" alt="${escapeAttr(s.titel)}" loading="lazy" />` : ''}
+        <div class="reward-body">
+          <span class="t-meta reward-meta">${s.stufe}. Empfehlung</span>
+          <h3>${escapeHtml(s.titel)}</h3>
+          <p>${escapeHtml(s.beschreibung)}</p>
+          ${s.wert_label ? `<span class="wert">Wert ${escapeHtml(s.wert_label)}</span>` : ''}
+        </div>
+      </article>
+    `).join('');
+  }
+
+  // Initial: alle
+  renderStufen('alle');
+
+  // Modus-Switch-Buttons
+  const chips = document.querySelectorAll('.reward-mode-chip');
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => {
+        c.classList.remove('active');
+        c.setAttribute('aria-selected', 'false');
+      });
+      chip.classList.add('active');
+      chip.setAttribute('aria-selected', 'true');
+      renderStufen(chip.dataset.mode);
+    });
+  });
+})();
+
+// Themen-Auswahl (Vorlagen aus DB)
+(async () => {
+  const wrap = document.getElementById('t-Topics');
+  if (!wrap) return;
+  try {
+    const vorlagen = await getVorlagen();
+    if (!vorlagen?.length) {
+      wrap.innerHTML = '';
+      return;
+    }
+    wrap.innerHTML = vorlagen.map(v => {
+      const iconKey = v.icon || '';
+      const iconHtml = ICONS[iconKey]
+        ? lucideIcon(iconKey, { size: 28 })
+        : `<span class="topic-icon-fallback">${escapeHtml(iconKey || '✦')}</span>`;
+      return `
+        <article class="topic-card reveal" data-slug="${escapeAttr(v.slug || '')}">
+          <span class="topic-icon">${iconHtml}</span>
+          <h3 class="topic-title">${escapeHtml(v.titel)}</h3>
+          <p class="topic-sub">${escapeHtml(v.headline || '')}</p>
+        </article>
+      `;
+    }).join('');
+    wrap.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  } catch (e) {
+    console.warn('[Themen] Konnte nicht geladen werden:', e);
+    wrap.innerHTML = '';
+  }
 })();
 
 // Sticky-CTA Reveal nach Hero-Scroll
