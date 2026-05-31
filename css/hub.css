@@ -1289,8 +1289,8 @@ body[data-page="vorlagen-cms"] {
 @media (min-width: 1100px) {
   .h-main-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 420px;
-    gap: 32px;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 64px;
     max-width: 1360px;
   }
   .h-col-side {
@@ -1801,4 +1801,35 @@ body[data-page="vorlagen-cms"] {
   font-weight: 600;
   display: inline-block;
   padding: 0 4px;
+}
+
+/* ============================================================
+   Phase 39 · Final Mikrojustierung + Lock
+   ============================================================ */
+
+/* A2 · Momentum-Score Baseline-Fix */
+.h-momentum-score {
+  gap: 0;
+}
+.h-momentum-score sup {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.005em;
+  align-self: baseline;
+  vertical-align: baseline;
+  top: 0;
+  margin-left: 4px;
+}
+
+/* A3 · Header Mikrojustierung */
+.h-header-name {
+  font-size: 16px !important;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.h-header-sub {
+  font-size: 13px !important;
+  font-weight: 500;
 }

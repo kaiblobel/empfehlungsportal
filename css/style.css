@@ -1,22 +1,39 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&display=swap');
 
+/* ============================================================
+   Empfehlungs-HUB · Design-System Master-Reference (Phase 39)
+   Stand: 2026-05-31 · Lock-Commit Phase 38 (5685960)
+   Hub (/hub.html) ist die visuelle DNA für alle Dashboard-Pages.
+   Doku: docs/design-system.md · Regeln: CLAUDE.md
+   ============================================================ */
+
 :root {
-  /* Phase 13 · Premium SaaS Design-Tokens */
+  /* === Farben · Surface === */
   --bg: #FAFAFA;
   --surface: #FFFFFF;
   --surface-2: #F5F5F2;
+  --surface-soft: #F7F5F1;
   --ink: #1A1A1A;
   --ink-muted: #6B6660;
   --ink-soft: #8C8680;
   --hairline: #E8E5E0;
   --hairline-strong: #D4CFC6;
 
-  --accent: #C9B98A;
-  --accent-hover: #B8A570;
+  /* === Akzent-Palette (Editorial) === */
+  --accent: #C9B98A;             /* Champagne · Primary */
+  --accent-hover: #8B7355;       /* Champagne-Dark · Hover/Active */
   --accent-bg: #F5F0E0;
-  --accent-soft: rgba(201, 185, 138, 0.16);
+  --accent-soft: rgba(201,185,138,0.13);
+  --sage: #7A8B6F;               /* Positive · ↑ */
+  --sage-dark: #5F7256;
+  --sage-soft: rgba(122,139,111,0.13);
+  --terracotta: #C28447;         /* Interest */
+  --burnt-orange: #B5651D;       /* Anrufwunsch */
+  --burnt-soft: rgba(181,101,29,0.13);
+  --marine: #2E5266;             /* Outcome · Kunde */
 
+  /* === Status-Farben (Legacy) === */
   --ok: #1F6B30;
   --warn: #C9871E;
   --err: #B53D3D;
@@ -24,33 +41,59 @@
   --warn-bg: rgba(201, 135, 30, 0.12);
   --err-bg: rgba(181, 61, 61, 0.10);
 
+  /* === Schatten · Master-Reference === */
+  --shadow-card:       0 1px 2px rgba(20,18,12,0.04), 0 4px 14px rgba(20,18,12,0.04);
+  --shadow-card-hover: 0 2px 4px rgba(20,18,12,0.05), 0 12px 28px rgba(20,18,12,0.07);
+
+  /* === Typografie · Inter-only im Dashboard. Fraunces nur Präsentation (/index.html) === */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-serif: 'Fraunces', 'Georgia', serif;
 
+  /* Typo-Skala (Hub als Referenz) */
+  --tx-hero:    clamp(34px, 3.4vw, 48px);   /* Greeting weight 800, letter-spacing -0.03em */
+  --tx-score:   clamp(64px, 5.5vw, 92px);   /* Momentum-Score weight 800, -0.045em */
+  --tx-h1:      clamp(22px, 2vw, 26px);     /* Page-Titel weight 700 */
+  --tx-h2:      clamp(18px, 1.7vw, 22px);   /* Section-Headline weight 700 */
+  --tx-section: 11px;                       /* Eyebrow-Label uppercase 0.18em weight 700 */
+  --tx-body:    15px;                       /* Body-Text */
+  --tx-meta:    13px;                       /* Sub-Text / Detail */
+  --tx-caption: 11px;                       /* Caption / Time */
+
+  /* === Spacing (8px-System) === */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 16px;
   --space-4: 24px;
   --space-5: 32px;
   --space-6: 48px;
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 44px;
+  --sp-8: 64px;
 
+  /* === Radii · Card-System === */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 14px;
+  --radius-card: 14px;
+  --radius-pill: 999px;
+  --radius-button: 8px;
 
+  /* === Easing === */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --transition: 200ms var(--ease);
 
-  /* Backward-Compat Aliases (Phase-1-Apple-Tokens — bleiben für unangetastete Pages) */
+  /* === Backward-Compat Aliases (Phase-1-Apple-Tokens) === */
   --bg-primary: var(--bg);
   --bg-secondary: var(--surface);
   --text-primary: var(--ink);
   --text-secondary: var(--ink-muted);
   --accent-gold: var(--accent);
   --border-light: var(--hairline);
-  --shadow-card: 0 2px 20px rgba(0, 0, 0, 0.04);
-  --radius-card: var(--radius-md);
-  --radius-button: 8px;
 }
 
 * {
