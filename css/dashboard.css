@@ -958,3 +958,52 @@ body.nav-drawer-open { overflow: hidden; }
   .settings-vorlagen-2 { grid-template-columns: 1fr; }
   .settings-row { grid-template-columns: 1fr; gap: 4px; }
 }
+
+/* ============================================================
+   Phase 42 · Sidebar Collapse-Toggle (Desktop ≥1024px)
+   ============================================================ */
+
+.nav-collapse-toggle {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 100;
+  display: none;
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--ink-muted);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+.nav-collapse-toggle:hover {
+  background: rgba(0,0,0,0.04);
+  color: var(--ink);
+  border-color: var(--hairline);
+}
+.nav-collapse-toggle svg { display: block; }
+
+@media (min-width: 1024px) {
+  .nav-collapse-toggle { display: inline-flex; }
+}
+
+/* Sidebar-Slide-Animation + Body-Padding-Transition */
+@media (min-width: 1024px) {
+  .nav-sidebar {
+    transition: transform .25s cubic-bezier(.32,.72,.4,1);
+  }
+  body.has-app-nav {
+    transition: padding-left .25s cubic-bezier(.32,.72,.4,1);
+  }
+  body.nav-collapsed .nav-sidebar {
+    transform: translateX(-100%);
+    pointer-events: none;
+  }
+  body.has-app-nav.nav-collapsed {
+    padding-left: 56px !important;
+  }
+}

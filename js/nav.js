@@ -89,6 +89,7 @@ export function renderNav(opts = {}) {
         </div>
         <nav class="nav-list">${NAV_ITEMS.map(sidebarItem).join('')}</nav>
       </aside>
+      <button class="nav-collapse-toggle" type="button" aria-label="Menü ein-/ausblenden" title="Menü ein-/ausblenden">${icon('Menu', { size: 20 })}</button>
       <button class="nav-hamburger" type="button" aria-label="Menü öffnen">${icon('Menu', { size: 22 })}</button>
       <div class="nav-drawer" hidden>
         <div class="nav-drawer-panel">
@@ -105,6 +106,24 @@ export function renderNav(opts = {}) {
     const panel = sidebar.querySelector('.nav-drawer-panel');
     const close = sidebar.querySelector('.nav-drawer-close');
     const logout = sidebar.querySelector('#navDrawerLogout');
+    const collapseBtn = sidebar.querySelector('.nav-collapse-toggle');
+
+    // Phase 42: Persistenter Sidebar-Collapse auf Desktop (≥1024px)
+    const COLLAPSE_KEY = 'navCollapsed';
+    if (localStorage.getItem(COLLAPSE_KEY) === '1') {
+      document.body.classList.add('nav-collapsed');
+    }
+    collapseBtn?.addEventListener('click', () => {
+      const collapsed = document.body.classList.toggle('nav-collapsed');
+      localStorage.setItem(COLLAPSE_KEY, collapsed ? '1' : '0');
+    });
+    // Cmd/Ctrl + \ Shortcut
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === '\\') {
+        e.preventDefault();
+        collapseBtn?.click();
+      }
+    });
 
     // Phase 37: Drawer-Animation via CSS transform + body.nav-drawer-open
     // hidden-Attribut bleibt für a11y, aber CSS-Visibility wird über die Klasse gesteuert.
