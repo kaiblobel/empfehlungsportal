@@ -1030,3 +1030,92 @@ body.nav-collapsed .nav-collapse-icon-collapse { display: inline-flex; align-ite
   body.nav-collapsed .nav-sidebar { width: 72px; }
   body.has-app-nav.nav-collapsed { padding-left: 72px !important; }
 }
+
+/* ============================================================
+   Phase 46 · Top-Promotor-Card in Sidebar unten
+   ============================================================ */
+
+.nav-top-promoter {
+  margin-top: auto;
+  margin-bottom: 4px;
+  padding: 10px 12px;
+  background: rgba(201,185,138,0.06);
+  border: 1px solid rgba(201,185,138,0.18);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  transition: background .18s ease, border-color .18s ease, transform .18s ease;
+}
+.nav-top-promoter:hover {
+  background: rgba(201,185,138,0.13);
+  border-color: rgba(201,185,138,0.3);
+}
+.nav-tp-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(201,185,138,0.18);
+  color: #8B7355;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.nav-tp-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  flex: 1;
+}
+.nav-tp-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8B7355;
+}
+.nav-tp-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nav-tp-points {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: var(--ink-muted);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nav-tp-arrow {
+  color: var(--ink-muted);
+  flex-shrink: 0;
+  display: inline-flex;
+}
+
+/* Collapsed-Sidebar: nur Trophy-Icon zentriert */
+body.nav-collapsed .nav-top-promoter {
+  padding: 8px;
+  justify-content: center;
+  background: transparent;
+  border-color: transparent;
+}
+body.nav-collapsed .nav-tp-text,
+body.nav-collapsed .nav-tp-arrow {
+  display: none;
+}
+body.nav-collapsed .nav-tp-icon {
+  width: 36px;
+  height: 36px;
+}

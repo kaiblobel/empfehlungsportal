@@ -321,11 +321,13 @@ async function loadTimelineEvents() {
 }
 
 const EVENT_META = {
-  created:  { label: 'Empfehlung erhalten', color: '#B5953F', icon: 'Send' },            // Premium-Gold (dunkler)
-  opened:   { label: 'Link geklickt',       color: '#4A7D48', icon: 'Eye' },              // Sattes Grün
-  interest: { label: 'Interesse',           color: '#C28447', icon: 'HeartHandshake' },   // Terracotta
-  call:     { label: 'Anrufwunsch',         color: '#B5651D', icon: 'PhoneCall' },        // Burnt-Orange
-  kunde:    { label: 'Neuer Kunde',         color: '#1A5C29', icon: 'Trophy' },           // Sattes Dunkelgrün
+  created:           { label: 'Empfehlung erhalten', color: '#B5953F', icon: 'Send' },            // Champagne Gold
+  opened:            { label: 'Link geklickt',       color: '#4A7D48', icon: 'Eye' },             // Grün
+  interest:          { label: 'Interesse',           color: '#C28447', icon: 'HeartHandshake' },  // Terracotta
+  call:              { label: 'Anrufwunsch',         color: '#B5651D', icon: 'PhoneCall' },       // Burnt-Orange
+  kunde:             { label: 'Neuer Kunde',         color: '#1A5C29', icon: 'Trophy' },          // Dunkelgrün
+  promotor_created:  { label: 'Promotor erstellt',   color: '#2C5F7C', icon: 'UserPlus' },        // DVAG Blau
+  termin_booked:     { label: 'Termin gebucht',      color: '#3E8B8B', icon: 'Calendar' },        // Türkis
 };
 
 const NEW_BADGE_WINDOW_MS = 24 * 60 * 60 * 1000; // 24h
@@ -430,6 +432,9 @@ async function loadTopPromoters() {
 }
 
 function renderTopPromoters(rows) {
+  // Phase 46 · Top-Promotor-Card in Sidebar unten injizieren
+  injectSidebarTopPromoter(rows[0]);
+
   const wrap = document.getElementById('hPromoters');
   if (!wrap) return;
   if (!rows.length) {
@@ -560,6 +565,28 @@ function initFilterChips() {
   if (label) label.textContent = `Letzte ${currentRange} Tage`;
 }
 
+/* ---------- Phase 46 · Top-Promotor-Card in Sidebar unten ---------- */
+function injectSidebarTopPromoter(top) {
+  if (!top) return;
+  const sidebar = document.querySelector('.nav-sidebar');
+  if (!sidebar) return;
+  // Existing entfernen für Re-Renders
+  sidebar.querySelector('.nav-top-promoter')?.remove();
+  const tag = document.createElement('a');
+  tag.className = 'nav-top-promoter';
+  tag.href = 'dashboard/empfehler.html';
+  tag.innerHTML = `
+    <span class="nav-tp-icon">${icon('Trophy', { size: 16 })}</span>
+    <div class="nav-tp-text">
+      <span class="nav-tp-label">Top-Promotor</span>
+      <span class="nav-tp-name">${escapeHtml(top.name)}</span>
+      <span class="nav-tp-points">${top.gesamt} Empfehlung${top.gesamt !== 1 ? 'en' : ''}${top.kunde ? ` · ${top.kunde} Kunde${top.kunde !== 1 ? 'n' : ''}` : ''}</span>
+    </div>
+    <span class="nav-tp-arrow">${icon('ChevronRight', { size: 14 })}</span>
+  `;
+  sidebar.appendChild(tag);
+}
+
 /* ---------- Phase 38 · Empfehlungs-Momentum (clientseitig) ---------- */
 function computeMomentum([empfehler, klicks, gesamt, kunden], subs) {
   const empN = Math.min((empfehler || 0) / 20 * 30, 30);
@@ -591,12 +618,12 @@ function renderMomentum(kpiRows, subs) {
   const barEl = document.getElementById('hMomentumBar');
   const metaEl = document.getElementById('hMomentumMeta');
 
-  // Phase 44 · State-Color je nach Score
+  // Phase 46 · State-Color je nach Score (Schwellen 80/60/40)
   if (cardEl) {
     let stateColor;
-    if (score >= 75)      stateColor = '#1F6B30'; // Dunkelgrün · Top-Drittel
-    else if (score >= 50) stateColor = '#C9B98A'; // Champagne · Mittelfeld
-    else if (score >= 25) stateColor = '#B5651D'; // Burnt · Wachstum
+    if (score >= 80)      stateColor = '#1A5C29'; // Dunkelgrün · Top
+    else if (score >= 60) stateColor = '#C9B98A'; // Champagne · Stabil
+    else if (score >= 40) stateColor = '#D49A4E'; // Warm Amber · Wachstum
     else                  stateColor = '#7A8B6F'; // Sage · Aufbau
     cardEl.style.setProperty('--momentum-state-color', stateColor);
   }
@@ -624,9 +651,9 @@ function renderMomentum(kpiRows, subs) {
   if (barEl) barEl.style.width = score + '%';
   if (metaEl) {
     let band = 'Aufbau-Phase';
-    if (score >= 75) band = 'Top-Drittel der letzten 30 Tage';
-    else if (score >= 50) band = 'Stabiles Mittelfeld';
-    else if (score >= 25) band = 'Wachstum sichtbar';
+    if (score >= 80) band = 'Top-Drittel der letzten 30 Tage';
+    else if (score >= 60) band = 'Stabiles Mittelfeld';
+    else if (score >= 40) band = 'Wachstum sichtbar';
     metaEl.textContent = `${score} von 100 Punkten · ${band}`;
   }
 }

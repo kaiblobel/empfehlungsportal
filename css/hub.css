@@ -2063,3 +2063,46 @@ body[data-page="vorlagen-cms"] {
     padding-bottom: 16px;
   }
 }
+
+/* ============================================================
+   Phase 46 · Activity-Feed Premium-Evolution
+   ============================================================ */
+
+/* Icon-Bubble 48px, extrem helle BG, größeres Icon */
+.h-activity-row {
+  grid-template-columns: 48px minmax(0, 1fr) !important;
+  gap: 14px !important;
+}
+.h-activity-avatar {
+  width: 48px !important;
+  height: 48px !important;
+  background: color-mix(in srgb, var(--act-color) 9%, transparent) !important;
+  color: var(--act-color) !important;
+}
+.h-activity-avatar svg {
+  width: 24px !important;
+  height: 24px !important;
+  stroke-width: 2 !important;
+}
+
+/* Status-Hierarchie via stärkere Tönung für Outcome-Events */
+.h-activity-row[style*="#1A5C29"] .h-activity-avatar { background: color-mix(in srgb, var(--act-color) 12%, transparent) !important; }
+.h-activity-row[style*="#B5953F"] .h-activity-avatar { background: color-mix(in srgb, var(--act-color) 11%, transparent) !important; }
+.h-activity-row[style*="#4A7D48"] .h-activity-avatar { background: color-mix(in srgb, var(--act-color) 9%, transparent) !important; }
+.h-activity-row[style*="#2C5F7C"] .h-activity-avatar { background: color-mix(in srgb, var(--act-color) 9%, transparent) !important; }
+.h-activity-row[style*="#3E8B8B"] .h-activity-avatar { background: color-mix(in srgb, var(--act-color) 9%, transparent) !important; }
+
+/* Event-Titel stärker */
+.h-activity-name {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+.h-activity-text {
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  color: var(--ink) !important;
+}
+.h-activity-pill {
+  font-size: 11px !important;
+  letter-spacing: 0.02em !important;
+}
