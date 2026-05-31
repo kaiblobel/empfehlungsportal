@@ -341,7 +341,7 @@ function renderTimeline(events) {
     const isUnread = isNew && !readEvents.has(key);
     return `
     <a class="h-activity-row${isUnread ? ' is-unread' : ''}" href="dashboard/detail.html?id=${e.id}" data-event-key="${key}" style="--act-color:${meta.color};">
-      <span class="h-activity-avatar">${escapeHtml(initialsFor(e.name))}</span>
+      <span class="h-activity-avatar" aria-label="${meta.label}">${icon(meta.icon, { size: 20 })}</span>
       <div class="h-activity-body">
         <div class="h-activity-top">
           <strong class="h-activity-name">${escapeHtml(e.name)}</strong>
@@ -349,10 +349,10 @@ function renderTimeline(events) {
         </div>
         <div class="h-activity-bottom">
           <span class="h-activity-text">${e.text}</span>
-          <span class="h-activity-pill">${icon(meta.icon, { size: 12 })}${meta.label}</span>
+          <span class="h-activity-pill">${meta.label}</span>
         </div>
       </div>
-      ${isUnread ? `<span class="h-activity-unread" aria-label="Ungelesen" title="Ungelesen">${icon('Eye', { size: 14 })}</span>` : ''}
+      ${isUnread ? `<span class="h-activity-unread" aria-label="Ungelesen" title="Ungelesen">${icon('Eye', { size: 18 })}</span>` : ''}
     </a>`;
   }).join('') +
     '<a class="h-tl-all" href="dashboard/empfehlungen.html">Alle anzeigen →</a>';
