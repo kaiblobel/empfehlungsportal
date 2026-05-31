@@ -609,3 +609,1349 @@ body[data-page="programm"] * { box-sizing: border-box; }
   font-weight: 600;
 }
 .p7-banner .gold { color: var(--accent-gold, #B8860B); }
+
+/* ============================================================
+   Phase 47 · Conversion-Refactor
+   - Sticky Top-CTA (Desktop)
+   - Hero Split-Layout
+   - 3-Schritte-Row
+   - Belohnungs-Galerie (alternierend)
+   - FAQ-Grid
+   - Section-CTAs
+   ============================================================ */
+
+/* === Sticky Top-CTA === */
+.cta-top {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  z-index: 90;
+  padding: 12px 22px;
+  background: var(--champagne, #C9B98A);
+  color: #FFFCF7;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(20,18,12,0.15);
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+  display: none;
+}
+.cta-top:hover {
+  background: #8B7355;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(20,18,12,0.2);
+}
+@media (min-width: 720px) {
+  .cta-top { display: inline-flex; align-items: center; }
+}
+
+/* === Hero Split-Layout === */
+.hero-split {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+.hero-split-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  text-align: center;
+  max-width: 1200px;
+}
+.hero-split-text {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+}
+.hero-split-image {
+  width: 100%;
+  max-width: 420px;
+}
+.hero-split-image .hero-portrait {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  filter: grayscale(1) contrast(1.05);
+  display: block;
+}
+@media (min-width: 880px) {
+  .hero-split-inner {
+    flex-direction: row;
+    text-align: left;
+    gap: 64px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .hero-split-text {
+    align-items: flex-start;
+    flex: 1 1 50%;
+    max-width: 540px;
+  }
+  .hero-split-image {
+    flex: 1 1 45%;
+    max-width: 460px;
+  }
+  .hero-split-text .hero-cta-stack {
+    justify-content: flex-start;
+  }
+}
+
+/* === 3-Schritte-Row === */
+.steps-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  margin-top: 48px;
+}
+@media (min-width: 880px) {
+  .steps-row { grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+}
+.step-card {
+  background: var(--surface, #FFFCF7);
+  border: 1px solid var(--hairline, #E8E5E0);
+  border-radius: 14px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.step-card.highlight {
+  background: linear-gradient(180deg, rgba(201,185,138,0.06) 0%, rgba(255,255,255,0) 60%), var(--surface, #FFFCF7);
+  border-color: rgba(201,185,138,0.4);
+  box-shadow: 0 8px 28px rgba(20,18,12,0.06);
+  transform: translateY(-4px);
+}
+.step-card-num {
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-size: 64px;
+  line-height: 1;
+  color: var(--champagne, #C9B98A);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+.step-card-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--anthracite, #1A1A1A);
+  margin: 0;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+.step-card-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--ink-muted, #6B6660);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* === Belohnungs-Galerie · alternierend === */
+.reward-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 48px;
+}
+.reward-gallery .reward {
+  background: var(--surface, #FFFCF7);
+  border: 1px solid var(--hairline, #E8E5E0);
+  border-radius: 16px;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 24px;
+  align-items: center;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.reward-gallery .reward.highlight {
+  background: linear-gradient(180deg, rgba(201,185,138,0.10) 0%, rgba(255,255,255,0) 70%), var(--surface, #FFFCF7);
+  border-color: rgba(201,185,138,0.4);
+  box-shadow: 0 8px 28px rgba(20,18,12,0.06);
+}
+.reward-gallery .reward.highlight::before {
+  content: 'Top-Belohnung';
+  position: absolute;
+  top: 16px;
+  right: 24px;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8B7355;
+  background: rgba(201,185,138,0.15);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.reward-gallery .reward { position: relative; }
+
+.reward-gallery .reward-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  object-fit: cover;
+  display: block;
+}
+.reward-gallery .reward-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.reward-gallery .reward-body h3 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--anthracite, #1A1A1A);
+  margin: 0;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+.reward-gallery .reward-meta {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--champagne, #C9B98A);
+}
+.reward-gallery .reward-body p {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--ink-muted, #6B6660);
+  line-height: 1.55;
+  margin: 0;
+}
+.reward-gallery .reward-body .wert {
+  display: inline-block;
+  margin-top: 4px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--anthracite, #1A1A1A);
+  background: rgba(201,185,138,0.12);
+  padding: 4px 10px;
+  border-radius: 999px;
+  width: max-content;
+}
+
+/* Desktop alternierend: ungerade Image-Left, gerade Image-Right */
+@media (min-width: 720px) {
+  .reward-gallery .reward {
+    grid-template-columns: 160px 1fr;
+    padding: 28px 32px;
+    gap: 32px;
+  }
+  .reward-gallery .reward-img {
+    width: 160px;
+    height: 160px;
+  }
+  .reward-gallery .reward:nth-child(even) {
+    grid-template-columns: 1fr 160px;
+  }
+  .reward-gallery .reward:nth-child(even) .reward-img {
+    order: 2;
+  }
+  .reward-gallery .reward:nth-child(even) .reward-body {
+    order: 1;
+  }
+  .reward-gallery .reward-body h3 { font-size: 22px; }
+}
+
+/* === FAQ-Grid === */
+.faq-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  margin-top: 40px;
+}
+@media (min-width: 720px) {
+  .faq-grid { grid-template-columns: 1fr 1fr; gap: 32px 48px; }
+}
+.faq-item {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 14px;
+  align-items: flex-start;
+}
+.faq-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(201,185,138,0.15);
+  color: var(--champagne, #C9B98A);
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 22px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.faq-body h3 {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--anthracite, #1A1A1A);
+  margin: 0 0 6px 0;
+  letter-spacing: -0.005em;
+  line-height: 1.35;
+}
+.faq-body p {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--ink-muted, #6B6660);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* === Section-CTA Utility === */
+.section-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+}
+
+/* ============================================================
+   Phase 48 · Editorial-Typo-Refactor
+   Fraunces Weight 500-600 + tighter letter-spacing
+   Skala +10-15%, mehr Vertical-Rhythm
+   Wirkung: weniger zart, mehr Lifestyle-Magazin
+   ============================================================ */
+
+/* === Hero-Headline · stärker, tighter, größer === */
+.t-h1 {
+  font-family: 'Fraunces', 'Times New Roman', serif;
+  font-weight: 500;
+  font-size: clamp(44px, 9.5vw, 100px);
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+}
+.t-h1 em {
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* === Section-Headlines === */
+.t-h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: clamp(36px, 7.5vw, 64px);
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+}
+.t-h2 em {
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* === Lede / Sub-Headline === */
+.t-lede {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: clamp(22px, 4.2vw, 30px);
+  letter-spacing: -0.015em;
+  line-height: 1.4;
+}
+
+/* === Body-Text · etwas größer für Lesbarkeit === */
+.t-body {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  line-height: 1.65;
+  letter-spacing: -0.005em;
+}
+
+/* === Eyebrow-Labels · weiteres Spacing === */
+.t-eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* === Step-Card · Editorial-Polish === */
+.step-card-num {
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-size: 72px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+.step-card-title {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+.step-card-desc {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-muted, #6B6660);
+}
+
+/* === Reward-Gallery Typo === */
+.reward-gallery .reward-body h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.018em;
+  line-height: 1.2;
+}
+.reward-gallery .reward-meta {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.reward-gallery .reward-body p {
+  font-size: 15px;
+  line-height: 1.6;
+}
+.reward-gallery .reward-body .wert {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+@media (min-width: 720px) {
+  .reward-gallery .reward-body h3 { font-size: 26px; }
+}
+
+/* === FAQ Typo · Editorial === */
+.faq-mark {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 24px;
+  font-weight: 500;
+}
+.faq-body h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  line-height: 1.3;
+  color: var(--anthracite, #1A1A1A);
+}
+.faq-body p {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* === Vertical-Rhythm: mehr Air zwischen Sections === */
+.section {
+  padding-top: clamp(72px, 9vw, 120px);
+  padding-bottom: clamp(72px, 9vw, 120px);
+}
+
+/* === Buttons leicht angepasst === */
+.btn {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+.cta-top {
+  font-size: 14px;
+  letter-spacing: -0.005em;
+}
+
+/* === Section-CTA mehr Air === */
+.section-cta {
+  margin-top: 60px;
+}
+
+/* === Step-Card mehr Padding für Air === */
+.step-card {
+  padding: 36px 30px;
+  gap: 16px;
+}
+
+/* ============================================================
+   Phase 49 · SF (San Francisco) System-Stack
+   Apple-native SF Pro Display / Text wo verfügbar,
+   sauberer Fallback auf Helvetica auf Windows.
+   ============================================================ */
+
+:root {
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-text:    -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body[data-page="programm"] {
+  font-family: var(--font-text);
+}
+
+.t-h1, .t-h1 em {
+  font-family: var(--font-display) !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  font-size: clamp(40px, 8.5vw, 88px) !important;
+  letter-spacing: -0.035em !important;
+  line-height: 1.04 !important;
+}
+.t-h2, .t-h2 em {
+  font-family: var(--font-display) !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  font-size: clamp(32px, 6.5vw, 56px) !important;
+  letter-spacing: -0.03em !important;
+  line-height: 1.1 !important;
+}
+.t-lede {
+  font-family: var(--font-text) !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: clamp(18px, 3.4vw, 22px) !important;
+  letter-spacing: -0.01em !important;
+  line-height: 1.5 !important;
+  color: var(--ink-muted, #6B6660);
+}
+.t-body {
+  font-family: var(--font-text);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+}
+
+/* Step-Card · SF */
+.step-card-num {
+  font-family: var(--font-display) !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  font-size: 56px !important;
+  letter-spacing: -0.04em !important;
+  color: var(--champagne, #C9B98A);
+  line-height: 1;
+}
+.step-card-title {
+  font-family: var(--font-display) !important;
+  font-weight: 600 !important;
+  font-size: 19px !important;
+  letter-spacing: -0.015em !important;
+  line-height: 1.3 !important;
+}
+.step-card-desc {
+  font-family: var(--font-text);
+  font-size: 14.5px;
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+/* Reward-Gallery · SF */
+.reward-gallery .reward-body h3 {
+  font-family: var(--font-display) !important;
+  font-weight: 600 !important;
+  font-size: 20px !important;
+  letter-spacing: -0.018em !important;
+  line-height: 1.25 !important;
+}
+.reward-gallery .reward-meta {
+  font-family: var(--font-text) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.16em !important;
+  text-transform: uppercase !important;
+}
+.reward-gallery .reward-body p {
+  font-family: var(--font-text);
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+.reward-gallery .reward-body .wert {
+  font-family: var(--font-text);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+@media (min-width: 720px) {
+  .reward-gallery .reward-body h3 { font-size: 22px !important; }
+}
+
+/* FAQ · SF */
+.faq-mark {
+  font-family: var(--font-display) !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  font-size: 18px !important;
+}
+.faq-body h3 {
+  font-family: var(--font-display) !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  letter-spacing: -0.012em !important;
+  line-height: 1.35 !important;
+}
+.faq-body p {
+  font-family: var(--font-text);
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+
+/* Targets / Wins / Journey · SF */
+.target-card-body h3,
+.win-block .role,
+.step-title {
+  font-family: var(--font-display) !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.012em !important;
+}
+.step-num {
+  font-family: var(--font-text) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.14em !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+}
+
+/* Eyebrows einheitlich SF */
+.t-eyebrow {
+  font-family: var(--font-text) !important;
+  font-weight: 600 !important;
+  font-size: 11px !important;
+  letter-spacing: 0.2em !important;
+  text-transform: uppercase !important;
+}
+
+/* Buttons SF */
+.btn {
+  font-family: var(--font-text);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+/* ============================================================
+   Phase 50 · Footer-Refactor · Premium-Bottom-Section
+   - 4-Spalten-Grid (Desktop) / Stack (Mobile)
+   - KB-Initial-Mark in Champagne
+   - Impressum/Datenschutz/AGB + System-Links
+   - Bottom-Bar mit Copyright + Tagline
+   ============================================================ */
+
+.site-footer {
+  background: #0F0E0C;
+  color: #C9C5BE;
+  font-family: var(--font-text);
+  padding: 80px 0 0;
+  margin-top: 40px;
+}
+
+.footer-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 28px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+
+@media (min-width: 720px) {
+  .footer-inner {
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 48px;
+  }
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-brand-col {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.footer-mark-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #C9B98A 0%, #A89070 100%);
+  color: #1A1A1A;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(201,185,138,0.18);
+}
+
+.footer-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.footer-brand-name {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.018em;
+  color: #FFFFFF;
+  line-height: 1.2;
+}
+
+.footer-brand-role {
+  font-family: var(--font-text);
+  font-size: 13px;
+  font-weight: 500;
+  color: #C9C5BE;
+  line-height: 1.4;
+}
+
+.footer-brand-org {
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 400;
+  color: #8A867F;
+  line-height: 1.4;
+}
+
+.footer-col-label {
+  font-family: var(--font-text);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #C9B98A;
+  margin-bottom: 6px;
+}
+
+.footer-link {
+  font-family: var(--font-text);
+  font-size: 14px;
+  font-weight: 500;
+  color: #C9C5BE;
+  text-decoration: none;
+  transition: color .18s ease;
+  letter-spacing: -0.005em;
+  line-height: 1.45;
+}
+
+.footer-link:hover {
+  color: #C9B98A;
+}
+
+.footer-link-static {
+  color: #8A867F;
+  pointer-events: none;
+}
+
+/* Bottom-Bar */
+.footer-bottom {
+  margin-top: 64px;
+  border-top: 1px solid rgba(201,185,138,0.12);
+  padding: 24px 0;
+}
+
+.footer-bottom-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  text-align: center;
+}
+
+@media (min-width: 720px) {
+  .footer-bottom-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+.footer-copy {
+  font-family: var(--font-text);
+  font-size: 12px;
+  color: #6B6660;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+}
+
+.footer-tag {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 500;
+  color: #8A867F;
+  letter-spacing: -0.005em;
+  font-style: normal;
+}
+
+/* Alte Footer-Klassen bleiben für eventuelle alte Pages, aber programm.html nutzt jetzt .site-footer */
+
+/* ============================================================
+   Phase 51 · Pulsierende CTA-Buttons
+   ============================================================ */
+
+@keyframes pulse-cta {
+  0% {
+    box-shadow: 0 0 0 0 rgba(201,185,138,0.55),
+                0 4px 14px rgba(20,18,12,0.15);
+  }
+  70% {
+    box-shadow: 0 0 0 16px rgba(201,185,138,0),
+                0 4px 14px rgba(20,18,12,0.15);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(201,185,138,0),
+                0 4px 14px rgba(20,18,12,0.15);
+  }
+}
+
+.btn.btn-primary,
+.cta-top {
+  animation: pulse-cta 2.2s cubic-bezier(.4,0,.6,1) infinite;
+}
+
+/* Pulse pausiert beim Hover, damit Hover-Effekt sauber wirkt */
+.btn.btn-primary:hover,
+.cta-top:hover {
+  animation: none;
+}
+
+/* Reduced-Motion respektieren */
+@media (prefers-reduced-motion: reduce) {
+  .btn.btn-primary,
+  .cta-top {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   Phase 52 · Pulse-Beschränkung
+   Nur Hero-CTA + Sticky-Top + Sticky-Mobile pulsieren.
+   Section-CTAs bleiben statisch.
+   ============================================================ */
+
+/* Pulse ausschalten für alle btn-primary */
+.btn.btn-primary { animation: none; }
+
+/* Pulse nur auf Hero-CTA + Sticky-CTAs */
+.hero-split .btn.btn-primary,
+.cta-top,
+.sticky-cta a {
+  animation: pulse-cta 2.2s cubic-bezier(.4,0,.6,1) infinite;
+}
+
+.hero-split .btn.btn-primary:hover,
+.cta-top:hover,
+.sticky-cta a:hover {
+  animation: none;
+}
+
+/* ============================================================
+   Phase 53 · FAQ als Accordion (details/summary)
+   Plus/Minus-Toggle, kompakte Liste, single-column
+   ============================================================ */
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  max-width: 760px;
+  margin: 40px auto 0;
+  border-top: 1px solid var(--hairline, #E8E5E0);
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--hairline, #E8E5E0);
+  display: block;
+}
+
+.faq-item summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 20px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  color: var(--anthracite, #1A1A1A);
+  line-height: 1.4;
+  transition: color .18s ease;
+}
+
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::marker { content: ''; }
+
+.faq-item summary:hover {
+  color: var(--champagne-hover, #8B7355);
+}
+
+.faq-q {
+  flex: 1 1 auto;
+}
+
+.faq-toggle {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.faq-toggle::before,
+.faq-toggle::after {
+  content: '';
+  position: absolute;
+  background: var(--champagne, #C9B98A);
+  border-radius: 1px;
+  transition: transform .25s cubic-bezier(.32,.72,.4,1);
+}
+
+.faq-toggle::before {
+  width: 14px;
+  height: 2px;
+}
+
+.faq-toggle::after {
+  width: 2px;
+  height: 14px;
+}
+
+.faq-item[open] .faq-toggle::after {
+  transform: rotate(90deg);
+  opacity: 0;
+}
+
+.faq-item[open] summary {
+  color: var(--champagne-hover, #8B7355);
+}
+
+.faq-a {
+  padding: 0 4px 20px;
+  font-family: var(--font-text);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-muted, #6B6660);
+  max-width: 640px;
+}
+
+.faq-a p {
+  margin: 0;
+}
+
+@media (min-width: 720px) {
+  .faq-item summary {
+    padding: 24px 8px;
+    font-size: 18px;
+  }
+  .faq-a {
+    padding: 0 8px 24px;
+    font-size: 16px;
+  }
+}
+
+/* ============================================================
+   Phase 54 · FAQ als 3-Spalten-Grid
+   Mobile: single column · Tablet: 2 · Desktop: 3
+   ============================================================ */
+
+.faq-list {
+  border-top: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px 24px;
+  max-width: 1180px;
+}
+
+.faq-item {
+  border: 1px solid var(--hairline, #E8E5E0);
+  border-radius: 12px;
+  background: var(--surface, #FFFCF7);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.faq-item:hover {
+  border-color: rgba(201,185,138,0.35);
+}
+
+.faq-item[open] {
+  border-color: rgba(201,185,138,0.4);
+  box-shadow: 0 4px 14px rgba(20,18,12,0.04);
+}
+
+.faq-item summary {
+  padding: 18px 18px;
+  font-size: 16px;
+  align-items: flex-start;
+}
+
+.faq-q {
+  line-height: 1.35;
+}
+
+.faq-a {
+  padding: 0 18px 18px;
+  font-size: 14px;
+}
+
+@media (min-width: 720px) {
+  .faq-list {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 20px;
+  }
+  .faq-item summary {
+    padding: 20px 20px;
+    font-size: 16px;
+  }
+  .faq-a {
+    padding: 0 20px 20px;
+    font-size: 14.5px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .faq-list {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px 22px;
+  }
+}
+
+/* ============================================================
+   Phase 55 · Trust-Brücke-Section
+   "Was deine Empfehlung von mir bekommt" — psychologischer Hebel
+   Senkt die soziale Hemmschwelle vor der Belohnungs-Galerie.
+   ============================================================ */
+
+.trust-bridge {
+  background: var(--surface, #FFFCF7);
+}
+
+.trust-bridge .t-h2 em {
+  font-style: normal;
+  font-weight: 700;
+  background: linear-gradient(180deg, transparent 65%, rgba(201,185,138,0.35) 65%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  padding: 0 2px;
+}
+
+.trust-points {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  max-width: 920px;
+  margin: 56px auto 0;
+}
+
+@media (min-width: 760px) {
+  .trust-points {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 28px;
+  }
+}
+
+.trust-point {
+  background: var(--bg, #FAF8F5);
+  border: 1px solid rgba(201,185,138,0.22);
+  border-radius: 14px;
+  padding: 22px 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.trust-point-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #C9B98A 0%, #A89070 100%);
+  color: #1A1A1A;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(201,185,138,0.25);
+}
+
+.trust-point-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.trust-point-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--anthracite, #1A1A1A);
+  line-height: 1.3;
+}
+
+.trust-point-text {
+  font-family: var(--font-text);
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--ink-muted, #6B6660);
+}
+
+.trust-bridge-close {
+  margin-top: 48px;
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2.6vw, 22px);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--anthracite, #1A1A1A);
+  font-style: italic;
+  font-style: normal;
+  background: linear-gradient(180deg, transparent 70%, rgba(201,185,138,0.18) 70%);
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  display: inline-block;
+  padding: 4px 10px;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+@media (min-width: 760px) {
+  .trust-point { padding: 26px 26px 28px; }
+  .trust-point-title { font-size: 17px; }
+  .trust-point-text { font-size: 15px; }
+}
+
+/* ============================================================
+   Phase 56 · Testimonials Auto-Marquee mit echten Google-Reviews
+   ============================================================ */
+
+.testimonials {
+  background: var(--bg, #FAF8F5);
+  overflow: hidden;
+}
+
+/* Meta-Header */
+.testimonials-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 40px auto 0;
+  flex-wrap: wrap;
+}
+.stars-mini {
+  font-size: 22px;
+  letter-spacing: 0.04em;
+  color: #E8B842;
+  line-height: 1;
+}
+.testimonials-meta-text {
+  font-family: var(--font-text);
+  font-size: 14px;
+  color: var(--ink-muted, #6B6660);
+  letter-spacing: -0.005em;
+}
+.testimonials-meta-text strong {
+  font-weight: 700;
+  color: var(--anthracite, #1A1A1A);
+}
+
+/* Marquee */
+.testimonials-marquee {
+  margin-top: 56px;
+  overflow: hidden;
+  position: relative;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+}
+
+.testimonials-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  animation: testimonials-scroll 60s linear infinite;
+}
+
+.testimonials-marquee:hover .testimonials-track {
+  animation-play-state: paused;
+}
+
+@keyframes testimonials-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Card */
+.testimonial-card {
+  flex: 0 0 auto;
+  width: clamp(280px, 80vw, 360px);
+  background: var(--surface, #FFFCF7);
+  border: 1px solid var(--hairline, #E8E5E0);
+  border-radius: 14px;
+  padding: 24px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(20,18,12,0.04);
+}
+
+.testimonial-stars {
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  color: #E8B842;
+  line-height: 1;
+}
+
+.testimonial-quote {
+  font-family: var(--font-display);
+  font-size: 15.5px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--anthracite, #1A1A1A);
+  letter-spacing: -0.008em;
+  margin: 0;
+  flex: 1;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--hairline, #E8E5E0);
+}
+
+.testimonial-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-text);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: -0.02em;
+  color: #1A1A1A;
+  flex-shrink: 0;
+}
+.testimonial-avatar[data-color="champagne"] { background: linear-gradient(135deg, #C9B98A 0%, #A89070 100%); }
+.testimonial-avatar[data-color="sage"]      { background: linear-gradient(135deg, #7A8B6F 0%, #5F7256 100%); color: #fff; }
+.testimonial-avatar[data-color="terracotta"]{ background: linear-gradient(135deg, #C28447 0%, #A06832 100%); color: #fff; }
+.testimonial-avatar[data-color="marine"]    { background: linear-gradient(135deg, #2E5266 0%, #1F3A47 100%); color: #fff; }
+
+.testimonial-author-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.testimonial-name {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.012em;
+  color: var(--anthracite, #1A1A1A);
+  line-height: 1.2;
+}
+.testimonial-context {
+  font-family: var(--font-text);
+  font-size: 12px;
+  color: var(--ink-muted, #6B6660);
+  letter-spacing: -0.005em;
+}
+
+/* CTA für eigene Bewertung */
+.testimonials-cta {
+  margin-top: 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.testimonials-cta-text {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--anthracite, #1A1A1A);
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .testimonials-track { animation: none; }
+}
+
+/* ============================================================
+   Phase 57 · Testimonials Doppel-Reihe entgegengesetzt
+   ============================================================ */
+
+.testimonials-track-reverse {
+  animation: testimonials-scroll-reverse 55s linear infinite;
+}
+
+@keyframes testimonials-scroll-reverse {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+/* Reihen-Spacing: Erste Marquee margin-top von 56 auf 40 reduzieren,
+   damit beide Reihen kompakter wirken */
+.testimonials .testimonials-marquee:first-of-type {
+  margin-top: 40px;
+}
+
+/* ============================================================
+   Phase 58 · Marquee-Speed-Bump (40% schneller)
+   ============================================================ */
+
+.testimonials-track {
+  animation-duration: 35s !important;
+}
+.testimonials-track-reverse {
+  animation-duration: 32s !important;
+}
+
+/* Sub-Text der Testimonials-CTA */
+.testimonials-cta-sub {
+  font-family: var(--font-text);
+  font-size: 14.5px;
+  color: var(--ink-muted, #6B6660);
+  text-align: center;
+  max-width: 480px;
+  margin: -4px 0 4px;
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+}
+
+/* ============================================================
+   Phase 59 · Marquee nahtlos · Lücken eliminieren
+   - Mask-image schmaler (Fade-Bereich kleiner)
+   - Track nutzt min-width damit immer Cards den Viewport füllen
+   ============================================================ */
+
+.testimonials-marquee {
+  mask-image: linear-gradient(90deg, transparent 0%, #000 3%, #000 97%, transparent 100%) !important;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 3%, #000 97%, transparent 100%) !important;
+}
+
+/* Phase 60 · Marquee-Speed entspannter */
+.testimonials-track            { animation-duration: 55s !important; }
+.testimonials-track-reverse    { animation-duration: 50s !important; }

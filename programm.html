@@ -13,150 +13,138 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/programm.css" />
+  <link rel="stylesheet" href="css/style.css?v=32" />
+  <link rel="stylesheet" href="css/programm.css?v=16" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="programm">
 
-  <!-- ===== 1 · Hero ===== -->
-  <section class="section hero">
+  <!-- ===== Sticky Top-CTA (Desktop) ===== -->
+  <a class="cta-top" href="#anmelden">Jetzt empfehlen</a>
+
+  <!-- ===== 1 · Hero (Split-Layout) ===== -->
+  <section class="section hero hero-split">
+    <div class="inner hero-split-inner">
+      <div class="hero-split-text">
+        <p class="t-eyebrow reveal">Empfehlung</p>
+        <h1 class="t-h1 reveal d1">
+          Du bist <em>begeistert</em><br>von unserer<br>Zusammenarbeit?
+        </h1>
+        <p class="t-lede reveal d2">
+          Dann mache ich es dir jetzt maximal leicht,
+          mich weiter zu empfehlen.
+        </p>
+        <div class="hero-cta-stack reveal d3">
+          <a class="btn btn-primary" href="#anmelden">Jetzt empfehlen</a>
+          <a class="btn btn-secondary" href="#funktioniert">So funktioniert es</a>
+        </div>
+      </div>
+      <div class="hero-split-image reveal d2">
+        <img class="hero-portrait" id="t-Foto" src="" alt="Kai Blobel" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 1b · Trust-Brücke: Was die empfohlene Person bekommt ===== -->
+  <section class="section trust-bridge">
     <div class="inner">
-      <p class="t-eyebrow reveal">Empfehlung</p>
-      <h1 class="t-h1 reveal d1">
-        Menschen empfehlen<br>keine Produkte.<br>
-        <em style="font-style: italic; color: var(--anthracite); font-weight: 300;">Sie empfehlen Vertrauen.</em>
-      </h1>
-      <img class="hero-portrait reveal d2" id="t-Foto" src="" alt="Kai Blobel" />
-      <p class="t-lede reveal d2" style="margin: 0 auto;">
-        Wenn unsere Zusammenarbeit für dich wertvoll war, kennst du vielleicht Menschen, denen dieselbe Klarheit ebenfalls helfen könnte.
+      <p class="t-eyebrow reveal" style="text-align:center;">Was deine Empfehlung von mir bekommt</p>
+      <h2 class="t-h2 reveal d1" style="text-align:center;">
+        Kein Vertrieb.<br>Kein Druck. <em>Nur ich.</em>
+      </h2>
+      <p class="t-lede reveal d2" style="text-align:center; margin: 0 auto; max-width:680px;">
+        Wenn du jemanden empfiehlst, bekommt diese Person dasselbe, was du auch bekommen hast: ein ehrliches Erstgespräch auf Augenhöhe. Keine Anruf-Lawine. Keine Verkaufsmasche. Nur eine echte Begrüßung — von mir persönlich.
       </p>
-      <div class="hero-cta-stack reveal d3">
-        <a class="btn btn-primary" href="#anmelden">Vertrauen weitergeben</a>
-        <a class="btn btn-secondary" href="#reise">So funktioniert es</a>
-      </div>
-    </div>
-  </section>
 
-  <!-- ===== 2 · Warum Menschen empfehlen ===== -->
-  <section class="section alt">
-    <div class="inner">
-      <p class="t-eyebrow reveal">Warum Menschen empfehlen</p>
-      <h2 class="t-h2 reveal d1">Es geht nie um<br>das Produkt.</h2>
-      <div class="trio-statements reveal d2">
-        <div class="stmt"><p>Weil sie gute Erfahrungen gemacht haben.</p></div>
-        <div class="stmt"><p>Weil sie helfen möchten.</p></div>
-        <div class="stmt"><p>Weil ihr Wort Gewicht hat.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 3 · Vertrauen statt Verkauf ===== -->
-  <section class="section">
-    <div class="inner">
-      <p class="t-eyebrow reveal">Vertrauen ist die Grundlage</p>
-      <div class="eq-card reveal d1">
-        <blockquote>
-          Empfehlungen funktionieren am besten,
-          wenn Vertrauen bereits vorhanden ist.<br><br>
-          Deshalb beginnt alles mit Menschen,
-          an die du spontan denkst.
-        </blockquote>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 4 · Wem du Wert geben kannst ===== -->
-  <section class="section alt">
-    <div class="inner wide">
-      <p class="t-eyebrow reveal">Wem du Wert geben kannst</p>
-      <h2 class="t-h2 reveal d1" style="text-align:center;">Vier Lebensphasen,<br>in denen Klarheit zählt.</h2>
-      <div class="target-grid">
-        <div class="target-card reveal d1">
-          <img class="target-card-img" src="https://images.unsplash.com/photo-1511895426328-dc8714191300?w=900&q=85" alt="" />
-          <div class="target-card-body">
-            <h3>Familien</h3>
-            <p>Vermögensaufbau für die nächste Generation. Förderungen, die viele übersehen.</p>
+      <div class="trust-points reveal d3">
+        <div class="trust-point">
+          <span class="trust-point-mark">✓</span>
+          <div class="trust-point-body">
+            <span class="trust-point-title">Persönlich von mir</span>
+            <span class="trust-point-text">Kein Call-Center, kein Kollege — ich melde mich selbst.</span>
           </div>
         </div>
-        <div class="target-card reveal d2">
-          <img class="target-card-img" src="https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=900&q=85" alt="" />
-          <div class="target-card-body">
-            <h3>Immobilien</h3>
-            <p>Häuslebauer, Eigentümer, Anschlussfinanzierer. Strukturen, die wirklich tragen.</p>
+        <div class="trust-point">
+          <span class="trust-point-mark">✓</span>
+          <div class="trust-point-body">
+            <span class="trust-point-title">Ohne Verpflichtung</span>
+            <span class="trust-point-text">Ein Kennenlern-Gespräch. Mehr nicht. Wer nicht will, sagt ab.</span>
           </div>
         </div>
-        <div class="target-card reveal d1">
-          <img class="target-card-img" src="https://images.unsplash.com/photo-1604594849809-dfedbc827105?w=900&q=85" alt="" />
-          <div class="target-card-body">
-            <h3>Vermögen</h3>
-            <p>Menschen, die Klarheit über ihre Möglichkeiten suchen. Langfristig, ruhig, fundiert.</p>
-          </div>
-        </div>
-        <div class="target-card reveal d2">
-          <img class="target-card-img" src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=900&q=85" alt="" />
-          <div class="target-card-body">
-            <h3>Karriere & Entwicklung</h3>
-            <p>Wer beruflich vorankommt, hat oft auch finanziell neue Fragen. Wir klären sie.</p>
+        <div class="trust-point">
+          <span class="trust-point-mark">✓</span>
+          <div class="trust-point-body">
+            <span class="trust-point-title">Streng vertraulich</span>
+            <span class="trust-point-text">Keine Daten-Weitergabe. Keine Werbung. Nur ein einziger Kontakt von mir.</span>
           </div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- ===== 5 · Empfehlungs-Reise ===== -->
-  <section class="section" id="reise">
-    <div class="inner">
-      <p class="t-eyebrow reveal">Die Empfehlungs-Reise</p>
-      <h2 class="t-h2 reveal d1">Fünf Schritte,<br>kein Druck.</h2>
-      <ol class="journey">
-        <li class="reveal d1">
-          <span class="step-num">Schritt 1</span>
-          <h3 class="step-title">Vertrauen teilen</h3>
-          <p class="step-desc">Du denkst an jemanden, dem ein Gespräch helfen könnte.</p>
-        </li>
-        <li class="reveal d2">
-          <span class="step-num">Schritt 2</span>
-          <h3 class="step-title">Persönlichen Link versenden</h3>
-          <p class="step-desc">Dein eigener Empfehlungs-Link. Per WhatsApp in dreißig Sekunden geteilt.</p>
-        </li>
-        <li class="reveal d2">
-          <span class="step-num">Schritt 3</span>
-          <h3 class="step-title">Kontakt entsteht</h3>
-          <p class="step-desc">Wir lernen uns kennen — kurz, persönlich, ohne Verpflichtung.</p>
-        </li>
-        <li class="reveal d3">
-          <span class="step-num">Schritt 4</span>
-          <h3 class="step-title">Beratung</h3>
-          <p class="step-desc">Ein Gespräch über Klarheit. Nicht über Produkte.</p>
-        </li>
-        <li class="reveal d3">
-          <span class="step-num">Schritt 5</span>
-          <h3 class="step-title">Erfolg</h3>
-          <p class="step-desc">Aus deiner Empfehlung entsteht etwas Echtes. Für sie. Für mich. Und für dich.</p>
-        </li>
-      </ol>
-    </div>
-  </section>
-
-  <!-- ===== 6 · Wertschätzung (Belohnungen) ===== -->
-  <section class="section alt" id="wertschaetzung">
-    <div class="inner wide">
-      <p class="t-eyebrow reveal">Wertschätzung</p>
-      <h2 class="t-h2 reveal d1" style="text-align:center;">Vertrauen verdient<br>Wertschätzung.</h2>
-      <p class="t-body reveal d2" style="text-align:center; margin: 0 auto;">
-        Für jede erfolgreiche Empfehlung erkenne ich dein Vertrauen mit einer Geste,
-        die zu dir passt.
+      <p class="trust-bridge-close reveal d3" style="text-align:center;">
+        Deine Empfehlung wird nicht zum Lead — sondern zum Gast.
       </p>
-      <div class="rewards" id="t-Rewards"></div>
     </div>
   </section>
 
-  <!-- ===== 7 · Win-Win-Win ===== -->
-  <section class="section">
+  <!-- ===== 2 · So funktioniert es (3-Schritte-Row) ===== -->
+  <section class="section alt" id="funktioniert">
+    <div class="inner wide">
+      <p class="t-eyebrow reveal" style="text-align:center;">So funktioniert es</p>
+      <h2 class="t-h2 reveal d1" style="text-align:center;">
+        So kannst du mich <em>empfehlen</em><br>und gleichzeitig profitieren.
+      </h2>
+      <div class="steps-row">
+        <article class="step-card reveal d1">
+          <span class="step-card-num">01</span>
+          <h3 class="step-card-title">Empfehlungs-Link erstellen</h3>
+          <p class="step-card-desc">Klicke auf „Jetzt empfehlen", fülle das Formular aus und erstelle deinen persönlichen Empfehlungs-Link.</p>
+        </article>
+        <article class="step-card highlight reveal d2">
+          <span class="step-card-num">02</span>
+          <h3 class="step-card-title">Empfehlungs-Link versenden</h3>
+          <p class="step-card-desc">Versende deinen Empfehlungs-Link mit einem kurzen Begleitschreiben an Freunde und Bekannte.</p>
+        </article>
+        <article class="step-card reveal d3">
+          <span class="step-card-num">03</span>
+          <h3 class="step-card-title">Wertschätzung erhalten</h3>
+          <p class="step-card-desc">Für jede Empfehlung, die über deinen Link Kunde bei mir wird, darfst du dich über eine Belohnung freuen.</p>
+        </article>
+      </div>
+      <div class="section-cta reveal d3">
+        <a class="btn btn-primary" href="#anmelden">Jetzt empfehlen</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 3 · Belohnungs-Galerie ===== -->
+  <section class="section alt" id="belohnungen">
+    <div class="inner wide">
+      <p class="t-eyebrow reveal">Deine Benefits</p>
+      <h2 class="t-h2 reveal d1" style="text-align:center;">
+        Folgende Vorteile<br>erwarten dich.
+      </h2>
+      <p class="t-body reveal d2" style="text-align:center; margin: 0 auto; max-width:640px;">
+        Je nachdem, wie oft du mich weiterempfiehlst, profitierst du folgendermaßen
+        für jede erfolgreiche Empfehlung.
+      </p>
+      <div class="reward-gallery" id="t-Rewards"></div>
+      <div class="section-cta reveal">
+        <a class="btn btn-primary" href="#anmelden">Jetzt empfehlen</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 4 · Win-Win-Win ===== -->
+  <section class="section alt">
     <div class="inner">
       <p class="t-eyebrow reveal">Drei gewinnen</p>
-      <h2 class="t-h2 reveal d1">Wenn Vertrauen<br>geteilt wird.</h2>
+      <h2 class="t-h2 reveal d1">Die Win-Win-Win-Situation,<br>wenn Vertrauen geteilt wird.</h2>
+      <p class="t-body reveal d2" style="margin: 0 auto; max-width:680px;">
+        Wenn du mich weiterempfiehlst, gewinnen alle Beteiligten. Deine Empfehlung erhält
+        eine absolute Top-Betreuung durch mich und wird dir für deinen Tipp danken.
+        Du erhältst für jede erfolgreiche Empfehlung eine spannende Belohnung und ich freue
+        mich über einen neuen Kunden. Win-Win-Win also.
+      </p>
       <div class="win-triple reveal d2">
         <div class="win-block">
           <span class="role">Die empfohlene Person</span>
@@ -171,28 +159,115 @@
           <p>Wachse durch Vertrauen statt durch Kaltakquise. Die ehrlichste Form von Empfehlung.</p>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ===== 8 · Transparenz ===== -->
-  <section class="section alt">
-    <div class="inner">
-      <p class="t-eyebrow reveal">Maximale Transparenz</p>
-      <h2 class="t-h2 reveal d1">Du siehst,<br>was passiert.</h2>
-      <p class="t-body reveal d2" style="margin: 0 auto;">
-        In deinem persönlichen Dashboard siehst du den Status jeder Empfehlung in Echtzeit.
-        Klar, ehrlich, ohne Rätselraten.
-      </p>
-      <p class="mockup-note reveal d2">Dashboard-Mockup</p>
-      <div class="mockup-frame reveal d3">
-        <img src="/assets/images/programm/dashboard-mockup.svg" alt="Empfehler-Dashboard"
-             onerror="this.style.display='none'" />
+      <div class="section-cta reveal">
+        <a class="btn btn-primary" href="#anmelden">Jetzt empfehlen</a>
       </div>
     </div>
   </section>
 
-  <!-- ===== 9 · Anmeldung ===== -->
-  <section class="section" id="anmelden">
+  <!-- ===== 6b · Testimonials / Kunden-Bewertungen ===== -->
+  <section class="section testimonials" id="bewertungen">
+    <div class="inner wide">
+      <p class="t-eyebrow reveal" style="text-align:center;">Was meine Kunden sagen</p>
+      <h2 class="t-h2 reveal d1" style="text-align:center;">
+        Vertrauen entsteht nicht<br>aus <em>Worten</em>. Sondern aus Erfahrungen.
+      </h2>
+      <div class="testimonials-meta reveal d2">
+        <span class="stars-mini" aria-label="5 von 5 Sternen">★★★★★</span>
+        <span class="testimonials-meta-text"><strong>5,0 von 5</strong> · 15 Google-Bewertungen</span>
+      </div>
+
+      <!-- Reihe 1: läuft nach links ← -->
+      <div class="testimonials-marquee reveal d2">
+        <div class="testimonials-track" data-row="1"></div>
+      </div>
+
+      <!-- Reihe 2: läuft nach rechts → (entgegengesetzt) -->
+      <div class="testimonials-marquee reveal d3" style="margin-top: 16px;">
+        <div class="testimonials-track testimonials-track-reverse" data-row="2"></div>
+      </div>
+
+      <div class="testimonials-cta reveal">
+        <p class="testimonials-cta-text">Bist du auch zufrieden? Dann bewerte mich.</p>
+        <p class="testimonials-cta-sub">Deine ehrliche Bewertung hilft anderen, eine Entscheidung zu treffen. Und mir, besser zu werden.</p>
+        <a class="btn btn-secondary" href="https://www.google.com/search?q=kai+blobel+dvag" target="_blank" rel="noopener">
+          Bei Google bewerten →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 7 · FAQ ===== -->
+  <section class="section" id="faq">
+    <div class="inner">
+      <p class="t-eyebrow reveal" style="text-align:center;">Noch Fragen?</p>
+      <h2 class="t-h2 reveal d1" style="text-align:center;">
+        Diese Fragen bekomme ich<br><em>häufig</em> gestellt.
+      </h2>
+      <div class="faq-list">
+        <details class="faq-item reveal d1">
+          <summary>
+            <span class="faq-q">Wie oft kann ich dich weiterempfehlen?</span>
+            <span class="faq-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-a">
+            <p>Du kannst mich grundsätzlich an so viele spannende Menschen wie du möchtest weiterempfehlen.</p>
+          </div>
+        </details>
+        <details class="faq-item reveal d1">
+          <summary>
+            <span class="faq-q">Wann bekomme ich die Belohnung?</span>
+            <span class="faq-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-a">
+            <p>Wenn eine direkte Empfehlung von dir Kunde wird, erhältst du mit erstem Geldeingang deine Belohnung.</p>
+          </div>
+        </details>
+        <details class="faq-item reveal d1">
+          <summary>
+            <span class="faq-q">An wen sollte ich dich empfehlen?</span>
+            <span class="faq-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-a">
+            <p>Du kannst mich an jeden Menschen aus deinem Umfeld empfehlen, der die oben genannten Kriterien erfüllt.</p>
+          </div>
+        </details>
+        <details class="faq-item reveal d1">
+          <summary>
+            <span class="faq-q">Wie informierst du mich über den Status?</span>
+            <span class="faq-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-a">
+            <p>Du erhältst regelmäßige Updates zu deinen eingereichten Empfehlungen — persönlich oder per Mail.</p>
+          </div>
+        </details>
+        <details class="faq-item reveal d1">
+          <summary>
+            <span class="faq-q">Was passiert mit den Daten meiner Empfehlung?</span>
+            <span class="faq-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-a">
+            <p>Streng vertraulich. Keine Werbung, keine Weitergabe. Nur ich nehme persönlich Kontakt auf.</p>
+          </div>
+        </details>
+        <details class="faq-item reveal d1">
+          <summary>
+            <span class="faq-q">Kostet mich das etwas?</span>
+            <span class="faq-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="faq-a">
+            <p>Nein. Empfehlen ist und bleibt vollständig kostenlos. Sowohl für dich als auch für die empfohlene Person.</p>
+          </div>
+        </details>
+      </div>
+      <div class="section-cta reveal">
+        <a class="btn btn-primary" href="#anmelden">Jetzt empfehlen</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 8 · Anmeldung ===== -->
+  <section class="section alt" id="anmelden">
     <div class="inner">
       <p class="t-eyebrow reveal">Bereit?</p>
       <h2 class="t-h2 reveal d1">Vertrauen<br>weitergeben.</h2>
@@ -222,23 +297,61 @@
     </div>
   </section>
 
-  <!-- ===== 10 · Footer ===== -->
-  <footer class="section dark footer">
-    <div class="inner">
-      <p class="footer-mark">Kai Blobel · Team Wachsbleiche</p>
-      <p class="footer-sub">Regionaldirektionsleiter · Deutsche Vermögensberatung</p>
-      <div class="footer-links">
-        <a href="mailto:kai.blobel@dvag.de">kai.blobel@dvag.de</a>
-        <a href="tel:+4915154776159">0151 547 761 59</a>
+  <!-- ===== 9 · Footer ===== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+
+      <!-- Spalte 1: Brand + Initial-Mark -->
+      <div class="footer-col footer-brand-col">
+        <div class="footer-mark-circle" aria-hidden="true">KB</div>
+        <div class="footer-brand-text">
+          <span class="footer-brand-name">Kai Blobel</span>
+          <span class="footer-brand-role">Regionaldirektionsleiter</span>
+          <span class="footer-brand-org">Deutsche Vermögensberatung</span>
+        </div>
+      </div>
+
+      <!-- Spalte 2: Kontakt -->
+      <div class="footer-col">
+        <span class="footer-col-label">Kontakt</span>
+        <a class="footer-link" href="mailto:kai.blobel@dvag.de">kai.blobel@dvag.de</a>
+        <a class="footer-link" href="tel:+4915154776159">+49 151 547 761 59</a>
+        <span class="footer-link footer-link-static">Team Wachsbleiche · Hamburg</span>
+      </div>
+
+      <!-- Spalte 3: Rechtliches -->
+      <div class="footer-col">
+        <span class="footer-col-label">Rechtliches</span>
+        <a class="footer-link" href="impressum.html">Impressum</a>
+        <a class="footer-link" href="datenschutz.html">Datenschutz</a>
+        <a class="footer-link" href="agb.html">AGB</a>
+      </div>
+
+      <!-- Spalte 4: System -->
+      <div class="footer-col">
+        <span class="footer-col-label">System</span>
+        <a class="footer-link" href="hub.html">Login Berater</a>
+        <a class="footer-link" href="empfehlen.html">Empfehlung aussprechen</a>
+        <a class="footer-link" href="index.html">Präsentation</a>
+      </div>
+
+    </div>
+
+    <!-- Bottom-Bar -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-inner">
+        <span class="footer-copy">© <span id="footerYear">2026</span> Kai Blobel · Alle Rechte vorbehalten</span>
+        <span class="footer-tag">Vertrauen weitergeben.</span>
       </div>
     </div>
   </footer>
 
   <!-- Sticky Mobile CTA -->
   <div class="sticky-cta" id="t-StickyCta">
-    <a href="#anmelden">Vertrauen weitergeben</a>
+    <a href="#anmelden">Jetzt empfehlen</a>
   </div>
 
-  <script type="module" src="js/programm.js"></script>
+  <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
+  <script type="module" src="js/programm.js?v=3"></script>
 </body>
 </html>
