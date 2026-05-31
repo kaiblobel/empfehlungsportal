@@ -1833,3 +1833,45 @@ body[data-page="vorlagen-cms"] {
   font-size: 13px !important;
   font-weight: 500;
 }
+
+/* ============================================================
+   Phase 40 · Activity-Feed 2.0 — Event-Icons + Unread-Indicator
+   ============================================================ */
+
+/* Activity-Pill mit Lucide-Icon statt Dot */
+.h-activity-pill {
+  padding: 1px 4px 1px 0 !important;
+  gap: 5px !important;
+}
+.h-activity-pill svg {
+  width: 12px;
+  height: 12px;
+  color: var(--act-color);
+  flex-shrink: 0;
+  display: block;
+}
+.h-activity-pill i { display: none !important; }
+
+/* Activity-Card: Padding-Right für Eye-Indicator */
+.h-activity-row.is-unread {
+  padding-right: 26px !important;
+}
+
+/* Unread-Eye-Indicator unten rechts */
+.h-activity-unread {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  color: var(--accent-gold);
+  opacity: 0.55;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.h-activity-unread svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+.h-activity-row:hover .h-activity-unread { opacity: 0.85; }

@@ -3,6 +3,18 @@ import { requireAuth, logout, formatDate, loadFunnel } from './dashboard.js';
 import { icon, hydrateIcons } from './icons.js';
 import { watchHotLeads } from './hot-lead-watcher.js';
 
+// Phase 40 · Read-State für Activity-Stream
+const READ_EVENTS_KEY = 'hubReadEvents';
+let readEvents = new Set();
+try { readEvents = new Set(JSON.parse(localStorage.getItem(READ_EVENTS_KEY) || '[]')); } catch {}
+function markEventRead(key) {
+  if (!key || readEvents.has(key)) return;
+  readEvents.add(key);
+  const capped = [...readEvents].slice(-300);
+  localStorage.setItem(READ_EVENTS_KEY, JSON.stringify(capped));
+}
+window.__markEventRead = markEventRead;
+
 document.getElementById('logoutBtn').addEventListener('click', logout);
 document.getElementById('hPhoto').src = window.ENV_BERATER_FOTO || '';
 document.getElementById('hName').textContent = window.ENV_BERATER_NAME || 'Berater';
@@ -309,11 +321,11 @@ async function loadTimelineEvents() {
 }
 
 const EVENT_META = {
-  created:  { label: 'Empfehlung erhalten', color: '#C9B98A' },
-  opened:   { label: 'Link geklickt',       color: '#7A8B6F' },
-  interest: { label: 'Interesse',           color: '#C28447' },
-  call:     { label: 'Anrufwunsch',         color: '#B5651D' },
-  kunde:    { label: 'Neuer Kunde',         color: '#2E5266' },
+  created:  { label: 'Empfehlung erhalten', color: '#C9B98A', icon: 'Send' },
+  opened:   { label: 'Link geklickt',       color: '#7A8B6F', icon: 'Eye' },
+  interest: { label: 'Interesse',           color: '#C28447', icon: 'HeartHandshake' },
+  call:     { label: 'Anrufwunsch',         color: '#B5651D', icon: 'PhoneCall' },
+  kunde:    { label: 'Neuer Kunde',         color: '#2E5266', icon: 'Trophy' },
 };
 
 function renderTimeline(events) {
@@ -323,10 +335,12 @@ function renderTimeline(events) {
     return;
   }
   wrap.innerHTML = events.map(e => {
-    const isNew = previousVisitTs > 0 && e.ts > previousVisitTs;
     const meta = EVENT_META[e.kind] || EVENT_META.created;
+    const key = `${e.id}_${e.kind}_${e.ts}`;
+    const isNew = previousVisitTs > 0 && e.ts > previousVisitTs;
+    const isUnread = isNew && !readEvents.has(key);
     return `
-    <a class="h-activity-row" href="dashboard/detail.html?id=${e.id}" style="--act-color:${meta.color};">
+    <a class="h-activity-row${isUnread ? ' is-unread' : ''}" href="dashboard/detail.html?id=${e.id}" data-event-key="${key}" style="--act-color:${meta.color};">
       <span class="h-activity-avatar">${escapeHtml(initialsFor(e.name))}</span>
       <div class="h-activity-body">
         <div class="h-activity-top">
@@ -335,12 +349,21 @@ function renderTimeline(events) {
         </div>
         <div class="h-activity-bottom">
           <span class="h-activity-text">${e.text}</span>
-          <span class="h-activity-pill"><i></i>${meta.label}</span>
+          <span class="h-activity-pill">${icon(meta.icon, { size: 12 })}${meta.label}</span>
         </div>
       </div>
+      ${isUnread ? `<span class="h-activity-unread" aria-label="Ungelesen" title="Ungelesen">${icon('Eye', { size: 14 })}</span>` : ''}
     </a>`;
   }).join('') +
     '<a class="h-tl-all" href="dashboard/empfehlungen.html">Alle anzeigen →</a>';
+
+  // Mark-read beim Click (vor Navigation)
+  wrap.querySelectorAll('.h-activity-row.is-unread').forEach(row => {
+    row.addEventListener('click', () => {
+      const k = row.dataset.eventKey;
+      if (k) markEventRead(k);
+    });
+  });
 }
 
 function timelineTime(ts) {
