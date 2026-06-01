@@ -70,9 +70,18 @@ Pages refactoren in dieser Reihenfolge — pro Page: kein neues Design erfinden,
 | 3 | `vorlagen.html` + Themen-Seiten | Card-Liste + Editor |
 | 4 | Analysen | Chart-Dashboard mit `kpi_trend`-RPC |
 | 5 | `dashboard/settings.html` | Form-Layout mit Hub-Tokens |
-| 6 | `programm.html` | Bonusprogramm-Übersicht |
+| 6 | ~~`programm.html`~~ | ✅ Phase 47 (2026-06-01) — Conversion-Refactor mit SF-Font, Themen-Auswahl, Roadmap, WhatsApp-Mockup, Erfolgs-Modal |
 
 Pro Page-Refactor eigene Phase (40+).
+
+### Hinweis Customer-Pages (programm.html, empfehlen.html, empfaenger.html)
+
+Customer-facing Pages folgen **NICHT** dem Editorial-OS Hub-Pattern, sondern eigener Trust-Luxury-DNA:
+- **Font**: SF Pro Display/Text via System-Stack (`-apple-system, BlinkMacSystemFont, "SF Pro Display"`) — KEIN Fraunces mehr im Customer-Bereich seit Phase 47
+- **Palette**: Champagne `#C9B98A` primär, Editorial-Tönungen (Olive, Honey, Marine, Sage, Terracotta) als Akzente
+- **Card-System**: weiß, weiche Hairlines, Champagne-Border-Tints
+- **CTAs**: Pulse-Animation nur auf Hero + Sticky (nicht auf jeden Section-CTA)
+- **Marquee-Testimonials**: müssen statisch im HTML stehen (Mobile-Safari rendert dynamische Cards unzuverlässig — siehe Phase 47 inline-Fallback)
 
 ---
 
