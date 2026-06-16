@@ -22,7 +22,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
   <link rel="stylesheet" href="css/style.css?v=32" />
-  <link rel="stylesheet" href="css/programm.css?v=27" />
+  <link rel="stylesheet" href="css/programm.css?v=28" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="programm">
@@ -35,7 +35,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- ===== Sticky Top-CTA (Desktop) ===== -->
   <a class="cta-top" href="#anmelden">Jetzt empfehlen</a>
 
-  <!-- ===== 0 · Pre-Hero · Reflexions-Sektion (Phase 50g) ===== -->
+  <!-- ===== 0 · Pre-Hero · Reflexions-Sektion mit NPS-Skala ===== -->
   <section class="section pre-hero" id="reflexion">
     <div class="inner pre-hero-inner">
       <p class="t-eyebrow reveal">Eine kurze Frage vorweg</p>
@@ -43,21 +43,65 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         Wie <em>zufrieden</em> bist du<br>wirklich mit unserer<br>Zusammenarbeit?
       </h1>
       <p class="t-lede reveal d2">
-        Bevor ich dir mein Empfehlungs-Programm zeige &mdash;
-        denk kurz nach. War es richtig, sich auf mich einzulassen?
-        Hat es dir geholfen, klarer zu sehen?
+        Klick eine Zahl an. Sei ehrlich &mdash; es hilft mir wirklich, dich zu verstehen.
       </p>
-      <div class="pre-hero-close reveal d3">
-        <p>
-          Wenn deine Antwort ein klares <strong>„Ja"</strong> ist, scroll weiter.<br>
-          Wenn nicht: <a href="tel:+4915154776159">ruf mich kurz an</a>. Ich will wissen, warum.
-        </p>
-        <a class="pre-hero-scroll" href="#hero-haupt" aria-label="Weiter scrollen">
-          <span class="pre-hero-scroll-text">Weiter</span>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>
-          </svg>
-        </a>
+
+      <div class="nps-block reveal d3">
+        <div class="nps-scale" id="npsScale" role="radiogroup" aria-label="Zufriedenheit auf einer Skala von 1 bis 10">
+          <button class="nps-btn" type="button" data-score="1" role="radio" aria-checked="false">1</button>
+          <button class="nps-btn" type="button" data-score="2" role="radio" aria-checked="false">2</button>
+          <button class="nps-btn" type="button" data-score="3" role="radio" aria-checked="false">3</button>
+          <button class="nps-btn" type="button" data-score="4" role="radio" aria-checked="false">4</button>
+          <button class="nps-btn" type="button" data-score="5" role="radio" aria-checked="false">5</button>
+          <button class="nps-btn" type="button" data-score="6" role="radio" aria-checked="false">6</button>
+          <button class="nps-btn" type="button" data-score="7" role="radio" aria-checked="false">7</button>
+          <button class="nps-btn" type="button" data-score="8" role="radio" aria-checked="false">8</button>
+          <button class="nps-btn" type="button" data-score="9" role="radio" aria-checked="false">9</button>
+          <button class="nps-btn" type="button" data-score="10" role="radio" aria-checked="false">10</button>
+        </div>
+        <div class="nps-scale-labels">
+          <span>Gar nicht</span>
+          <span>Total zufrieden</span>
+        </div>
+      </div>
+
+      <!-- Response-Karten (alle 3 versteckt, JS blendet die richtige ein) -->
+      <div class="nps-response nps-response-low" id="npsResponseLow" hidden>
+        <div class="nps-response-card">
+          <p class="nps-response-title">Danke für deine Ehrlichkeit.</p>
+          <p class="nps-response-text">
+            Das tut mir leid &mdash; und ich nehme es ernst. Lass uns kurz reden, damit ich verstehen kann, was bei dir nicht passt.
+          </p>
+          <div class="nps-response-actions">
+            <a class="nps-cta-primary" href="tel:+4915154776159">Jetzt anrufen</a>
+            <a class="nps-cta-secondary" href="https://wa.me/4915154776159?text=Hi%20Kai%2C%20ich%20wollte%20dir%20kurz%20R%C3%BCckmeldung%20zu%20unserer%20Zusammenarbeit%20geben." target="_blank" rel="noopener">Per WhatsApp</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="nps-response nps-response-mid" id="npsResponseMid" hidden>
+        <div class="nps-response-card">
+          <p class="nps-response-title">Verstanden.</p>
+          <p class="nps-response-text">
+            Da ist also noch etwas Luft. Wenn du sagen willst, was wir besser machen können, freu ich mich über deinen Anruf. Schau dir trotzdem gerne an, was ich vorbereitet habe.
+          </p>
+          <div class="nps-response-actions">
+            <a class="nps-cta-secondary" href="tel:+4915154776159">Kurz Feedback geben</a>
+            <a class="nps-cta-primary" href="#hero-haupt">Trotzdem weiterlesen →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="nps-response nps-response-high" id="npsResponseHigh" hidden>
+        <div class="nps-response-card">
+          <p class="nps-response-title">Das freut mich wirklich.</p>
+          <p class="nps-response-text">
+            Dann hab ich gleich etwas für dich, das genau dazu passt &mdash; mein Empfehlungs-Programm. Ich mach es dir maximal leicht, mich an die Menschen weiterzugeben, die du im Kopf hast.
+          </p>
+          <div class="nps-response-actions">
+            <a class="nps-cta-primary nps-cta-pulse" href="#hero-haupt">Zeig mir das Programm →</a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -673,6 +717,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 
   <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
-  <script type="module" src="js/programm.js?v=12"></script>
+  <script type="module" src="js/programm.js?v=13"></script>
 </body>
 </html>

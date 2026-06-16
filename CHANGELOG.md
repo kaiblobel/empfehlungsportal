@@ -1,9 +1,23 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.55** · Phase 50h Story-Sektionen.
+Aktuelle Version: **v1.56** · Phase 50i NPS-Skala.
 
 ---
+
+## v1.56 — Phase 50i · NPS-Skala 1–10 in der Reflexions-Sektion
+**2026-06-17**
+
+Statt nur „scroll weiter oder ruf an" jetzt eine echte interaktive Skala in der Pre-Hero:
+
+- 10 klickbare Buttons (1–10), Mobile als 5×2-Grid
+- Drei Reaktions-Karten je nach Antwort:
+  - **1–6 (Detractor, Terracotta-Akzent)** → „Danke für deine Ehrlichkeit." + Anruf + WhatsApp
+  - **7–8 (Passive, Champagne-Akzent)** → „Verstanden. Da ist noch Luft." + Feedback + Weiterlesen
+  - **9–10 (Promoter, Sage-Akzent)** → „Das freut mich wirklich." + Pulsierender CTA „Zeig mir das Programm →"
+- Smooth-Scroll zur Reaktions-Karte beim Klick
+- Antwort wird in sessionStorage gespeichert (überlebt Page-Wechsel)
+- GTM-Event `nps_answer` mit `nps_score` und `nps_band` (für späteres Analytics)
 
 ## v1.55 — Phase 50h · Story-Sektionen vor dem Haupt-Hero
 **2026-06-17**

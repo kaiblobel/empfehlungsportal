@@ -1,6 +1,74 @@
 import { getBelohnungsStufen, getVorlagen, createEmpfehler } from './supabase.js';
 import { icon as lucideIcon, ICONS } from './icons.js';
 
+// === NPS-Skala (Phase 50i): Reflexions-Frage mit Skala 1-10 ===
+(function initNps() {
+  const scale = document.getElementById('npsScale');
+  if (!scale) return;
+
+  const responses = {
+    low:  document.getElementById('npsResponseLow'),
+    mid:  document.getElementById('npsResponseMid'),
+    high: document.getElementById('npsResponseHigh'),
+  };
+
+  function hideAllResponses() {
+    Object.values(responses).forEach(el => { if (el) el.hidden = true; });
+  }
+
+  function bandFor(score) {
+    if (score <= 6) return 'low';
+    if (score <= 8) return 'mid';
+    return 'high';
+  }
+
+  scale.querySelectorAll('.nps-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const score = Number(btn.dataset.score);
+      // Visuell: alle deaktivieren, geklickte markieren
+      scale.querySelectorAll('.nps-btn').forEach(b => {
+        b.classList.remove('selected');
+        b.setAttribute('aria-checked', 'false');
+      });
+      btn.classList.add('selected');
+      btn.setAttribute('aria-checked', 'true');
+
+      hideAllResponses();
+      const band = bandFor(score);
+      const card = responses[band];
+      if (card) {
+        card.hidden = false;
+        requestAnimationFrame(() => card.classList.add('show'));
+        // Smooth-Scroll zur Reaktions-Karte
+        setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'center' }), 160);
+      }
+
+      // Score lokal merken (für später analytics / Re-Render bei Reload)
+      try { sessionStorage.setItem('nps_score', String(score)); } catch (_) {}
+
+      // GTM-Event (wenn dataLayer vorhanden)
+      try {
+        if (window.dataLayer) {
+          window.dataLayer.push({
+            event: 'nps_answer',
+            nps_score: score,
+            nps_band: band,
+          });
+        }
+      } catch (_) {}
+    });
+  });
+
+  // Wenn der User schon mal geantwortet hat (gleiche Session), Antwort vorausgewählt
+  try {
+    const prev = Number(sessionStorage.getItem('nps_score'));
+    if (prev >= 1 && prev <= 10) {
+      const btn = scale.querySelector(`.nps-btn[data-score="${prev}"]`);
+      if (btn) btn.click();
+    }
+  } catch (_) {}
+})();
+
 // Lokale SVG-Backups für Topic-Icons (Mobile-Safari/Cache-Resilienz)
 const TOPIC_ICON_SVG = {
   Compass:     '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>',

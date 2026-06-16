@@ -3571,3 +3571,167 @@ body[data-page="programm"] {
   .alltag-quotes { grid-template-columns: 1fr; gap: 14px; }
   .alltag-quote { padding: 20px 18px; }
 }
+
+/* ============================================================
+   Phase 50i · NPS-Skala in der Pre-Hero
+   1-10 Skala mit drei Reaktions-Bändern (low/mid/high)
+   ============================================================ */
+
+.nps-block {
+  margin: 12px 0 0;
+  max-width: 640px;
+}
+
+.nps-scale {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 8px;
+  margin: 0;
+}
+
+.nps-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid var(--hairline, #E8E5E0);
+  background: #fff;
+  color: var(--deep, #0A0A0B);
+  font-family: var(--font-display);
+  font-size: clamp(15px, 2.2vw, 20px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  padding: 0;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background .18s ease, border-color .18s ease, transform .18s ease, color .18s ease, box-shadow .18s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+}
+.nps-btn:hover {
+  border-color: var(--gold-hover, #B8A570);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+}
+.nps-btn.selected {
+  background: var(--ink, #1A1A1A);
+  color: var(--bg, #FAF8F5);
+  border-color: var(--ink, #1A1A1A);
+  transform: translateY(-1px) scale(1.04);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+}
+.nps-btn:focus-visible {
+  outline: 2px solid var(--gold-hover, #B8A570);
+  outline-offset: 3px;
+}
+
+.nps-scale-labels {
+  display: flex;
+  justify-content: space-between;
+  margin: 14px 4px 0;
+  font-family: var(--font-text);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted, #6E6660);
+}
+
+/* Reaktions-Karten */
+.nps-response {
+  margin-top: 36px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .35s ease, transform .35s ease;
+}
+.nps-response.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.nps-response-card {
+  background: #fff;
+  border: 1px solid var(--hairline, #E8E5E0);
+  border-radius: 16px;
+  padding: 28px 30px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.06);
+  text-align: left;
+}
+
+/* Akzent-Farbe links je nach Band */
+.nps-response-low  .nps-response-card { border-left: 4px solid #C28447; } /* Terracotta = Detractor */
+.nps-response-mid  .nps-response-card { border-left: 4px solid #B8A570; } /* Champagne = Passive */
+.nps-response-high .nps-response-card { border-left: 4px solid #7A8B6F; } /* Sage = Promoter */
+
+.nps-response-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(20px, 3vw, 26px);
+  line-height: 1.2;
+  color: var(--deep, #0A0A0B);
+  margin: 0 0 10px;
+  letter-spacing: -0.015em;
+}
+.nps-response-text {
+  font-family: var(--font-text);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink, #1A1A1A);
+  margin: 0 0 22px;
+}
+
+.nps-response-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.nps-cta-primary,
+.nps-cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-text);
+  font-size: 14.5px;
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  letter-spacing: -0.005em;
+  transition: background .18s ease, border-color .18s ease, color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+.nps-cta-primary {
+  background: var(--ink, #1A1A1A);
+  color: var(--bg, #FAF8F5);
+  border: 1px solid var(--ink, #1A1A1A);
+}
+.nps-cta-primary:hover {
+  transform: translateY(-1px);
+  background: #000;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}
+.nps-cta-secondary {
+  background: transparent;
+  color: var(--ink, #1A1A1A);
+  border: 1px solid var(--hairline, #D8D4CE);
+}
+.nps-cta-secondary:hover {
+  border-color: var(--ink, #1A1A1A);
+  background: rgba(0,0,0,0.03);
+}
+
+.nps-cta-pulse {
+  animation: nps-cta-pulse 2.2s ease-in-out infinite;
+}
+@keyframes nps-cta-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(122,139,111,0.55); }
+  50%      { box-shadow: 0 0 0 14px rgba(122,139,111,0); }
+}
+
+/* Mobile-Anpassung: 2 Reihen statt 1 */
+@media (max-width: 540px) {
+  .nps-scale { grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .nps-btn { font-size: 18px; border-radius: 10px; }
+  .nps-scale-labels { font-size: 10px; }
+  .nps-response-card { padding: 22px 22px; }
+  .nps-response-actions { flex-direction: column; align-items: stretch; }
+  .nps-response-actions a { width: 100%; }
+}
