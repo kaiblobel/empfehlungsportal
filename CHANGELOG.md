@@ -1,9 +1,17 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.52** · Phase 50e Smart-Root-Splitter.
+Aktuelle Version: **v1.53** · Phase 50f Root = Berater-Portal.
 
 ---
+
+## v1.53 — Phase 50f · Root = Berater-Portal
+**2026-06-17**
+
+- `/` (Root) leitet jetzt **immer** zu `/hub.html` — egal ob eingeloggt oder nicht
+- Hub redirected sich selbst zur Login-Page, wenn keine Session vorhanden ist
+- Customer-Funnel ist nur noch über expliziten Link `/programm.html` erreichbar
+- Klare Trennung: `empfehlungsportal.vercel.app` = dein Berater-Portal, der explizite `/programm.html`-Link = Customer-Page zum Teilen
 
 ## v1.52 — Phase 50e · Smart-Root-Splitter
 **2026-06-17**

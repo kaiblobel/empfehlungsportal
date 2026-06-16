@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Empfehlungs-HUB</title>
   <meta name="robots" content="noindex,nofollow" />
+  <meta http-equiv="refresh" content="0; url=/hub.html" />
   <style>
-    html, body { margin: 0; padding: 0; background: #FAF8F5; }
+    html, body { margin: 0; padding: 0; background: #FAFAFA; }
     .splash {
       position: fixed; inset: 0;
       display: flex; align-items: center; justify-content: center;
@@ -16,37 +17,16 @@
     }
   </style>
   <script>
-    // Smart-Splitter: Berater (eingeloggt) -> Hub, sonst -> programm.html
-    // Supabase legt seine Session im localStorage unter sb-<ref>-auth-token ab.
-    // Wir suchen nach JEDEM solchen Key (ist projekt-spezifisch hinten).
-    (function() {
-      try {
-        let isLoggedIn = false;
-        for (let i = 0; i < localStorage.length; i++) {
-          const k = localStorage.key(i);
-          if (k && k.startsWith('sb-') && k.endsWith('-auth-token')) {
-            const raw = localStorage.getItem(k);
-            if (raw) {
-              const data = JSON.parse(raw);
-              if (data && data.access_token && data.expires_at) {
-                const expMs = data.expires_at * 1000;
-                if (expMs > Date.now()) { isLoggedIn = true; break; }
-              }
-            }
-          }
-        }
-        location.replace(isLoggedIn ? '/hub.html' : '/programm.html');
-      } catch (_) {
-        location.replace('/programm.html');
-      }
-    })();
+    // empfehlungsportal.vercel.app/ -> immer Hub.
+    // Hub redirected sich selbst zur Login-Page wenn keine Session da ist.
+    // Customer-Funnel: explizit /programm.html teilen.
+    location.replace('/hub.html');
   </script>
 </head>
 <body>
   <div class="splash">Lädt …</div>
   <noscript>
-    <meta http-equiv="refresh" content="0; url=/programm.html" />
-    <p style="text-align:center;padding:40px;">Bitte JavaScript aktivieren oder <a href="/programm.html">hier weiter</a>.</p>
+    <p style="text-align:center;padding:40px;"><a href="/hub.html">Zum Hub</a></p>
   </noscript>
 </body>
 </html>
