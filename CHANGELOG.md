@@ -1,9 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.51** · Phase 50d Berater-Einladungs-Flow (Magic-Link).
+Aktuelle Version: **v1.52** · Phase 50e Smart-Root-Splitter.
 
 ---
+
+## v1.52 — Phase 50e · Smart-Root-Splitter
+**2026-06-17**
+
+- `/` (Root) erkennt jetzt selbst, wer kommt:
+  - Eingeloggter Berater → `/hub.html`
+  - Anonymer Besucher (Kunde) → `/programm.html`
+- Präsentations-Slides umgezogen von `/index.html` → `/praesentation.html`
+- vercel.json-Redirect entfernt (Splitter übernimmt jetzt)
+- nav.js + programm.html-Footer auf neue Präsentations-URL umgestellt
 
 ## v1.51 — Phase 50d · Berater-Einladungs-Flow (vorgezogen)
 **2026-06-16**
