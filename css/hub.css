@@ -2638,3 +2638,16 @@ body.nav-collapsed .nav-version {
     justify-self: start;
   }
 }
+
+/* Re-Link-Variante: dezenter, weil schon Account vorhanden */
+.berater-invite-btn.relink {
+  background: transparent;
+  color: var(--text-secondary, #6E6660);
+  border: 1px solid var(--hairline, #E8E5E0);
+}
+.berater-invite-btn.relink:hover {
+  background: var(--ink, #1A1A1A);
+  color: var(--bg, #FAFAFA);
+  border-color: var(--ink, #1A1A1A);
+  transform: translateY(-1px);
+}

@@ -59,9 +59,12 @@ function renderCard(b) {
   const aktivLabel = b.ist_aktiv ? 'Aktiv' : 'Inaktiv';
   const aktivCls = b.ist_aktiv ? 'on' : 'off';
   const fotoSrc = b.foto_url || '';
-  const inviteAction = b.auth_user_id
-    ? ''
-    : `<button class="berater-invite-btn" type="button" data-invite="${b.id}" title="Einladung erstellen">Einladen →</button>`;
+  const inviteLabel = b.auth_user_id ? 'Magic-Link →' : 'Einladen →';
+  const inviteCls = b.auth_user_id ? 'berater-invite-btn relink' : 'berater-invite-btn';
+  const inviteTitle = b.auth_user_id
+    ? 'Erneuten Magic-Link senden (z. B. nach Passwort-Vergessen)'
+    : 'Einladung erstellen';
+  const inviteAction = `<button class="${inviteCls}" type="button" data-invite="${b.id}" title="${inviteTitle}">${inviteLabel}</button>`;
   return `
     <details class="cms-card berater-card${inaktivCls}" data-id="${b.id}">
       <summary>
@@ -152,7 +155,12 @@ function attachHandlers(list) {
         if (error) throw error;
         if (data?.error) throw new Error(data.error);
         if (!data?.link) throw new Error('Kein Link zurückgegeben.');
-        openInviteModal({ link: data.link, email: data.email, name: data.name || berater?.name });
+        openInviteModal({
+          link: data.link,
+          email: data.email,
+          name: data.name || berater?.name,
+          type: data.type || 'invite',
+        });
       } catch (err) {
         toast('Einladung fehlgeschlagen: ' + (err.message || String(err)), 4000);
       } finally {
@@ -258,16 +266,28 @@ const inviteWaEl = document.getElementById('inviteWa');
 const inviteMailEl = document.getElementById('inviteMail');
 const inviteSubEl = document.getElementById('inviteModalSub');
 
-function openInviteModal({ link, email, name }) {
+function openInviteModal({ link, email, name, type }) {
   inviteLinkEl.value = link;
   const firstName = (name || '').split(' ')[0] || 'der Berater';
-  inviteSubEl.textContent = `Schick diesen Link an ${name || email}. Ein Klick und ${firstName} setzt das Passwort selbst.`;
+  const modalTitleEl = document.getElementById('inviteModalTitle');
 
-  const waMsg = `Hi ${firstName}, hier dein persönlicher Login für unser Empfehlungs-Portal: ${link}\n\nKlick den Link, setz dein Passwort, dann bist du drin. Falls Fragen sind, melde dich kurz. – Kai`;
+  if (type === 'magiclink') {
+    modalTitleEl.textContent = 'Magic-Link erstellt';
+    inviteSubEl.textContent = `Schick diesen Login-Link an ${name || email}. Ein Klick und ${firstName} ist drin – falls das Passwort vergessen wurde, kann es danach in den Einstellungen neu gesetzt werden.`;
+  } else {
+    modalTitleEl.textContent = 'Einladung erstellt';
+    inviteSubEl.textContent = `Schick diesen Link an ${name || email}. Ein Klick und ${firstName} setzt das Passwort selbst.`;
+  }
+
+  const waMsgInvite = `Hi ${firstName}, hier dein persönlicher Login für unser Empfehlungs-Portal: ${link}\n\nKlick den Link, setz dein Passwort, dann bist du drin. Falls Fragen sind, melde dich kurz. – Kai`;
+  const waMsgRelink = `Hi ${firstName}, hier ein neuer Login-Link fürs Empfehlungs-Portal: ${link}\n\nEin Klick reicht. Falls Fragen sind, melde dich kurz. – Kai`;
+  const waMsg = type === 'magiclink' ? waMsgRelink : waMsgInvite;
   inviteWaEl.href = `https://wa.me/?text=${encodeURIComponent(waMsg)}`;
 
   const mailSubject = `Dein Login fürs Empfehlungs-Portal`;
-  const mailBody = `Hi ${firstName},\n\nhier dein persönlicher Login-Link:\n${link}\n\nKlick einmal drauf, setz dein Passwort, dann bist du drin.\n\nFalls Fragen sind, melde dich kurz.\n\n– Kai`;
+  const mailBodyInvite = `Hi ${firstName},\n\nhier dein persönlicher Login-Link:\n${link}\n\nKlick einmal drauf, setz dein Passwort, dann bist du drin.\n\nFalls Fragen sind, melde dich kurz.\n\n– Kai`;
+  const mailBodyRelink = `Hi ${firstName},\n\nhier ein neuer Login-Link fürs Empfehlungs-Portal:\n${link}\n\nEin Klick reicht.\n\nFalls Fragen sind, melde dich kurz.\n\n– Kai`;
+  const mailBody = type === 'magiclink' ? mailBodyRelink : mailBodyInvite;
   inviteMailEl.href = `mailto:${email}?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
 
   inviteModal.hidden = false;
