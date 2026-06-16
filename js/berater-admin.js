@@ -8,6 +8,7 @@ import {
   updateBerater,
   setBeraterAktiv,
 } from './supabase.js';
+import { supabase } from './supabase.js';
 import { requireAuth, logout } from './dashboard.js';
 
 document.getElementById('logoutBtn').addEventListener('click', logout);
@@ -58,6 +59,9 @@ function renderCard(b) {
   const aktivLabel = b.ist_aktiv ? 'Aktiv' : 'Inaktiv';
   const aktivCls = b.ist_aktiv ? 'on' : 'off';
   const fotoSrc = b.foto_url || '';
+  const inviteAction = b.auth_user_id
+    ? ''
+    : `<button class="berater-invite-btn" type="button" data-invite="${b.id}" title="Einladung erstellen">Einladen →</button>`;
   return `
     <details class="cms-card berater-card${inaktivCls}" data-id="${b.id}">
       <summary>
@@ -65,6 +69,7 @@ function renderCard(b) {
         <span class="titel">${escapeHtml(b.name)}</span>
         ${slugBadge}
         ${authBadge}
+        ${inviteAction}
         <span class="berater-toggle ${aktivCls}" data-toggle="${b.id}" title="${aktivLabel}">${aktivLabel}</span>
       </summary>
       <div class="cms-body">
@@ -129,6 +134,31 @@ function attachHandlers(list) {
       btn.disabled = false;
       btn.textContent = 'Speichern';
       await renderList();
+    });
+  });
+
+  document.querySelectorAll('[data-invite]').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const id = btn.dataset.invite;
+      const berater = list.find(b => b.id === id);
+      btn.disabled = true;
+      btn.textContent = 'Erstelle…';
+      try {
+        const { data, error } = await supabase.functions.invoke('invite-berater', {
+          body: { berater_id: id },
+        });
+        if (error) throw error;
+        if (data?.error) throw new Error(data.error);
+        if (!data?.link) throw new Error('Kein Link zurückgegeben.');
+        openInviteModal({ link: data.link, email: data.email, name: data.name || berater?.name });
+      } catch (err) {
+        toast('Einladung fehlgeschlagen: ' + (err.message || String(err)), 4000);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Einladen →';
+      }
     });
   });
 
@@ -216,6 +246,55 @@ form.addEventListener('submit', async (e) => {
   submitBtn.textContent = 'Berater anlegen';
   closeModal();
   await renderList();
+});
+
+/* ---------- Invite-Modal ---------- */
+const inviteModal = document.getElementById('inviteModal');
+const inviteBackdrop = document.getElementById('inviteModalBackdrop');
+const inviteClose = document.getElementById('inviteModalClose');
+const inviteLinkEl = document.getElementById('inviteLink');
+const inviteCopyBtn = document.getElementById('inviteLinkCopy');
+const inviteWaEl = document.getElementById('inviteWa');
+const inviteMailEl = document.getElementById('inviteMail');
+const inviteSubEl = document.getElementById('inviteModalSub');
+
+function openInviteModal({ link, email, name }) {
+  inviteLinkEl.value = link;
+  const firstName = (name || '').split(' ')[0] || 'der Berater';
+  inviteSubEl.textContent = `Schick diesen Link an ${name || email}. Ein Klick und ${firstName} setzt das Passwort selbst.`;
+
+  const waMsg = `Hi ${firstName}, hier dein persönlicher Login für unser Empfehlungs-Portal: ${link}\n\nKlick den Link, setz dein Passwort, dann bist du drin. Falls Fragen sind, melde dich kurz. – Kai`;
+  inviteWaEl.href = `https://wa.me/?text=${encodeURIComponent(waMsg)}`;
+
+  const mailSubject = `Dein Login fürs Empfehlungs-Portal`;
+  const mailBody = `Hi ${firstName},\n\nhier dein persönlicher Login-Link:\n${link}\n\nKlick einmal drauf, setz dein Passwort, dann bist du drin.\n\nFalls Fragen sind, melde dich kurz.\n\n– Kai`;
+  inviteMailEl.href = `mailto:${email}?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
+
+  inviteModal.hidden = false;
+  requestAnimationFrame(() => inviteModal.classList.add('open'));
+  document.body.style.overflow = 'hidden';
+}
+
+function closeInviteModal() {
+  inviteModal.classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => { inviteModal.hidden = true; }, 200);
+}
+
+inviteClose.addEventListener('click', closeInviteModal);
+inviteBackdrop.addEventListener('click', closeInviteModal);
+
+inviteCopyBtn.addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText(inviteLinkEl.value);
+    inviteCopyBtn.textContent = 'Kopiert ✓';
+    setTimeout(() => { inviteCopyBtn.textContent = 'Kopieren'; }, 1800);
+  } catch {
+    inviteLinkEl.select();
+    document.execCommand('copy');
+    inviteCopyBtn.textContent = 'Kopiert ✓';
+    setTimeout(() => { inviteCopyBtn.textContent = 'Kopieren'; }, 1800);
+  }
 });
 
 /* ---------- Helpers ---------- */

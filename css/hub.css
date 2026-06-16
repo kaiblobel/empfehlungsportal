@@ -2517,3 +2517,124 @@ body.nav-collapsed .nav-version {
   background: var(--hairline, #E8E5E0);
   margin: 32px 0;
 }
+
+/* ============================================================
+   Phase 50d · Einladen-Button + Invite-Link-Modal
+   ============================================================ */
+
+.berater-invite-btn {
+  background: var(--accent-gold, #C9B98A);
+  color: var(--ink, #1A1A1A);
+  border: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 5px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background .18s ease, transform .18s ease;
+  white-space: nowrap;
+}
+.berater-invite-btn:hover {
+  background: #B8A570;
+  color: #fff;
+  transform: translateY(-1px);
+}
+.berater-invite-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.invite-modal-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text-secondary, #6E6660);
+  margin: 0 0 18px;
+}
+
+.invite-link-row {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 18px;
+}
+.invite-link-input {
+  flex: 1;
+  font-family: 'SF Mono', Menlo, monospace;
+  font-size: 12px;
+  color: var(--ink, #1A1A1A);
+  background: var(--bg, #FAFAFA);
+  border: 1px solid var(--hairline, #E8E5E0);
+  border-radius: 8px;
+  padding: 11px 14px;
+  outline: 0;
+  text-overflow: ellipsis;
+}
+.invite-link-copy {
+  background: var(--ink, #1A1A1A);
+  color: var(--bg, #FAFAFA);
+  border: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 11px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .18s ease;
+}
+.invite-link-copy:hover { background: #000; }
+
+.invite-share {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+.invite-wa,
+.invite-mail {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .18s ease, transform .18s ease;
+}
+.invite-wa {
+  background: #25D366;
+  color: #fff;
+}
+.invite-wa:hover {
+  background: #1ebe5a;
+  transform: translateY(-1px);
+}
+.invite-mail {
+  background: transparent;
+  border: 1px solid var(--hairline, #E8E5E0);
+  color: var(--ink, #1A1A1A);
+}
+.invite-mail:hover {
+  border-color: var(--ink, #1A1A1A);
+  background: var(--hairline, rgba(0,0,0,0.04));
+}
+
+.invite-modal-note {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: var(--text-secondary, #6E6660);
+  margin: 6px 0 0;
+  text-align: center;
+}
+
+@media (max-width: 540px) {
+  .berater-invite-btn {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+}

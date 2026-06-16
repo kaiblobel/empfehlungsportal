@@ -1,9 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.50** · Phase 50a Berater-Admin (Multi-Tenant Schicht 1).
+Aktuelle Version: **v1.51** · Phase 50d Berater-Einladungs-Flow (Magic-Link).
 
 ---
+
+## v1.51 — Phase 50d · Berater-Einladungs-Flow (vorgezogen)
+**2026-06-16**
+
+- DB-Trigger `link_auth_user_to_berater`: koppelt neue `auth.users` per E-Mail-Match automatisch an `berater.auth_user_id`
+- Edge Function `invite-berater`: generiert Magic-Link via `auth.admin.generateLink({type:'invite'})`
+- Berater-Admin: „Einladen →"-Button auf Karten ohne `auth_user_id`
+- Invite-Modal mit Link zum Kopieren, vorausgefülltem WhatsApp- und E-Mail-Versand
+- `dashboard/welcome.html`: Passwort-Setup-Flow nach Klick auf Magic-Link
+- RLS-Policies auf `berater`: INSERT/UPDATE/DELETE für `authenticated` (Kai als Admin)
 
 ## v1.50 — Phase 50a · Berater-Admin (Multi-Tenant Schicht 1)
 **2026-06-16**

@@ -16,7 +16,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <title>Berater verwalten · Empfehlungs-HUB</title>
   <link rel="stylesheet" href="css/style.css?v=32" />
   <link rel="stylesheet" href="css/dashboard.css?v=37" />
-  <link rel="stylesheet" href="css/hub.css?v=32" />
+  <link rel="stylesheet" href="css/hub.css?v=33" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="berater-admin" class="has-app-nav">
@@ -115,8 +115,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 
+  <!-- Invite-Link-Modal: zeigt Magic-Link zum Kopieren -->
+  <div class="berater-modal" id="inviteModal" hidden role="dialog" aria-modal="true" aria-labelledby="inviteModalTitle">
+    <div class="berater-modal-backdrop" id="inviteModalBackdrop"></div>
+    <div class="berater-modal-card">
+      <button class="berater-modal-close" id="inviteModalClose" type="button" aria-label="Schließen">×</button>
+      <h3 class="berater-modal-title" id="inviteModalTitle">Einladung erstellt</h3>
+      <p class="invite-modal-sub" id="inviteModalSub">Schick diesen Link an deinen Kollegen. Ein Klick und das Passwort ist gesetzt.</p>
+      <div class="invite-link-row">
+        <input class="invite-link-input" id="inviteLink" type="text" readonly />
+        <button class="invite-link-copy" id="inviteLinkCopy" type="button">Kopieren</button>
+      </div>
+      <div class="invite-share">
+        <a class="invite-wa" id="inviteWa" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.8-2-.9-.3-.1-.5-.2-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-1.7-.9-2.9-1.6-4-3.5-.3-.5.3-.5.8-1.6.1-.2 0-.4 0-.5 0-.2-.6-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1 2.9 1.2 3.1c.1.2 2 3 4.9 4.2 1.8.7 2.5.8 3.4.7.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 4.9L2 22l5.2-1.4C8.7 21.5 10.3 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+          Per WhatsApp senden
+        </a>
+        <a class="invite-mail" id="inviteMail">Per E-Mail senden</a>
+      </div>
+      <p class="invite-modal-note">Der Link ist 24 Stunden gültig.</p>
+    </div>
+  </div>
+
   <div class="h-toast" id="hToast"></div>
 
-  <script type="module" src="js/berater-admin.js?v=1"></script>
+  <script type="module" src="js/berater-admin.js?v=2"></script>
 </body>
 </html>
