@@ -1,9 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.53** · Phase 50f Root = Berater-Portal.
+Aktuelle Version: **v1.54** · Phase 50g Pre-Hero-Reflexion.
 
 ---
+
+## v1.54 — Phase 50g · Pre-Hero-Reflexions-Sektion
+**2026-06-17**
+
+- programm.html bekommt einen ruhigen Pre-Hero VOR dem Conversion-Hero
+- Eyebrow „Eine kurze Frage vorweg" + H1 „Wie zufrieden bist du wirklich…"
+- Lede mit Reflexions-Impuls + Mikrokopie „Wenn Ja → scroll weiter, wenn nicht → ruf mich an"
+- Pulsierender „Weiter"-Pfeil scrollt zum Haupt-Hero (#hero-haupt)
+- 92vh Höhe = der Kunde sieht NUR die Frage im ersten Viewport
+- Übernimmt den emotionalen Anlauf der alten praesentation.html
 
 ## v1.53 — Phase 50f · Root = Berater-Portal
 **2026-06-17**
