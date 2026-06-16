@@ -3138,6 +3138,35 @@ body[data-page="programm"] {
 }
 .success-modal-btn-dashboard:hover { color: var(--anthracite, #1A1A1A); }
 
+.success-modal-btn-primary {
+  background: var(--anthracite, #1A1A1A);
+  color: var(--bg, #FAF8F5);
+  box-shadow: 0 4px 14px rgba(26,26,26,0.20);
+  padding: 14px 22px;
+  font-size: 15px;
+}
+.success-modal-btn-primary:hover {
+  transform: translateY(-1px);
+  background: #000;
+  box-shadow: 0 6px 18px rgba(26,26,26,0.30);
+}
+
+.success-modal-bookmark {
+  margin-top: 6px;
+  padding-top: 16px;
+  border-top: 1px solid var(--hairline, #E8E5E0);
+}
+.success-modal-bookmark-label {
+  display: block;
+  font-family: var(--font-text);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-muted, #6B6660);
+  margin-bottom: 8px;
+}
+
 .success-modal-note {
   font-family: var(--font-text);
   font-size: 11.5px;

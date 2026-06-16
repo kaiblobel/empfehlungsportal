@@ -10,8 +10,18 @@ import {
   getEmpfehlerByCode,
   getErfolgsgeschichten,
 } from './supabase.js';
+import { ICONS } from './icons.js';
 
 const page = document.body.dataset.page;
+
+function vorlagenIconHtml(iconName) {
+  if (iconName && ICONS[iconName]) {
+    return ICONS[iconName];
+  }
+  return iconName ? String(iconName).replace(/[&<>"']/g, m =>
+    ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])
+  ) : '';
+}
 
 function buildMessage(vorname, typ, link) {
   const name = vorname?.trim() || '[Vorname]';
@@ -176,7 +186,7 @@ if (page === 'empfehlen') {
       }
       grid.innerHTML = list.map(v => `
         <button type="button" class="vorlage-kachel${v.slug === 'allgemein' ? ' selected' : ''}" data-slug="${v.slug}">
-          <span class="icon">${v.icon || ''}</span>
+          <span class="icon">${vorlagenIconHtml(v.icon)}</span>
           <span class="titel">${escapeHtml(v.titel)}</span>
         </button>
       `).join('');
@@ -372,7 +382,7 @@ if (page === 'empfaenger') {
       if (badge) {
         const ic = document.getElementById('eBadgeIcon');
         const ti = document.getElementById('eBadgeTitel');
-        if (ic) ic.textContent = v.icon || '';
+        if (ic) ic.innerHTML = vorlagenIconHtml(v.icon);
         if (ti) ti.textContent = v.titel || '';
         badge.style.display = '';
       }

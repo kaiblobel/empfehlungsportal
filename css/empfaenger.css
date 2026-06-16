@@ -141,6 +141,15 @@ body[data-page="empfaenger"] * { box-sizing: border-box; }
   z-index: 50;
 }
 .e-badge-vorlage .titel { color: var(--e-anthracite); }
+.e-badge-vorlage .icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: var(--e-anthracite);
+}
+.e-badge-vorlage .icon svg { width: 100%; height: 100%; }
 
 /* ---------- Hero ---------- */
 .e-hero {

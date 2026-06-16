@@ -46,11 +46,13 @@ async function init() {
   }
 
   renderGreeting(stats, stufen);
-  renderLinkCard();
   renderRewardsList(stats, stufen);
   renderFeed(empfehlungen);
 
-  document.getElementById('p7CtaNeu').href = `empfehlen.html?typ=direkt&empfehler=${encodeURIComponent(code)}`;
+  // Beide CTAs gehen zum Empfehlungs-Formular mit dem Empfehler-Code im URL-Param
+  const empfehlenUrl = `empfehlen.html?code=${encodeURIComponent(code)}`;
+  document.getElementById('p7CtaEmpfehlen').href = empfehlenUrl;
+  document.getElementById('p7CtaNeu').href = empfehlenUrl;
 }
 
 function renderGreeting(stats, stufen) {
@@ -77,53 +79,6 @@ function renderGreeting(stats, stufen) {
   } else {
     nextEl.innerHTML = `Du hast alle Stufen erreicht. <strong>Wahnsinn.</strong>`;
   }
-}
-
-function renderLinkCard() {
-  const baseLink = `${window.location.origin}/empfehlen.html?typ=direkt&empfehler=${encodeURIComponent(code)}`;
-  document.getElementById('p7LinkText').textContent = baseLink;
-
-  document.getElementById('p7Copy').addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(baseLink);
-      toast('Link kopiert.');
-    } catch (_) {
-      toast('Kopieren nicht möglich.');
-    }
-  });
-
-  const waText = `Hi, ich bin seit einiger Zeit Kunde bei Kai Blobel und wollte dir kurz die Möglichkeit geben, ihn auch kennenzulernen. Schau es dir an: ${baseLink}`;
-  const waUrl = `https://wa.me/?text=${encodeURIComponent(waText)}`;
-
-  const waBtn = document.getElementById('p7Whatsapp');
-  waBtn.href = waUrl;
-  waBtn.setAttribute('target', '_blank');
-  waBtn.setAttribute('rel', 'noopener');
-
-  waBtn.addEventListener('click', async (e) => {
-    // 1. Web Share API (nativer iOS/Android-Share-Sheet, bietet WhatsApp + alle anderen Apps)
-    if (navigator.share) {
-      e.preventDefault();
-      try {
-        await navigator.share({
-          title: 'Kai Blobel — Persönliche Empfehlung',
-          text: waText,
-        });
-        return;
-      } catch (err) {
-        // User hat abgebrochen oder Share fehlgeschlagen → Fallback unten
-        if (err.name === 'AbortError') return;
-      }
-    }
-    // 2. Kein Web Share API: <a href> auf wa.me wird vom Browser geöffnet (Desktop: WhatsApp Web; Mobile: WhatsApp-App)
-    //    Falls auch das nicht klappt, Clipboard-Fallback:
-    setTimeout(async () => {
-      try {
-        await navigator.clipboard.writeText(waText);
-        toast('Nachricht in die Zwischenablage kopiert. Füg sie in WhatsApp ein.');
-      } catch (_) {}
-    }, 500);
-  });
 }
 
 function renderRewardsList(stats, stufen) {

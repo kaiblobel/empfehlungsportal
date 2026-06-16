@@ -829,7 +829,9 @@ body[data-page="vorlagen-cms"] {
   gap: 14px;
 }
 .cms-card summary::-webkit-details-marker { display: none; }
-.cms-card summary .icon { font-size: 24px; flex-shrink: 0; }
+.cms-card summary .icon { font-size: 24px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; }
+.cms-card summary .icon.icon-svg { width: 28px; height: 28px; color: var(--editorial-marine, #2E5266); }
+.cms-card summary .icon.icon-svg svg { width: 100%; height: 100%; }
 .cms-card summary .titel { font-size: 16px; font-weight: 700; flex: 1; }
 .cms-card summary .slug { font-family: 'SF Mono', Menlo, monospace; font-size: 11px; color: var(--text-secondary); }
 .cms-card summary::after {

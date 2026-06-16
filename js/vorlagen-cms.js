@@ -1,5 +1,13 @@
 import { getVorlagen, updateVorlage } from './supabase.js';
 import { requireAuth, logout } from './dashboard.js';
+import { ICONS } from './icons.js';
+
+function renderIcon(name) {
+  if (name && ICONS[name]) {
+    return `<span class="icon icon-svg" aria-hidden="true">${ICONS[name]}</span>`;
+  }
+  return `<span class="icon">${escapeHtml(name || '📋')}</span>`;
+}
 
 document.getElementById('logoutBtn').addEventListener('click', logout);
 document.getElementById('hPhoto').src = window.ENV_BERATER_FOTO || '';
@@ -23,14 +31,14 @@ function renderCard(v) {
   return `
     <details class="cms-card" data-slug="${v.slug}">
       <summary>
-        <span class="icon">${v.icon || '📋'}</span>
+        ${renderIcon(v.icon)}
         <span class="titel">${escapeHtml(v.titel)}</span>
         <span class="slug">${escapeHtml(v.slug)}</span>
       </summary>
       <div class="cms-body">
         <div class="cms-row-2">
           <div><label>Titel</label><input data-f="titel" value="${escapeAttr(v.titel || '')}" /></div>
-          <div><label>Icon (Emoji)</label><input data-f="icon" value="${escapeAttr(v.icon || '')}" /></div>
+          <div><label>Icon (Lucide-Name, z. B. Home, Banknote, ShieldCheck)</label><input data-f="icon" value="${escapeAttr(v.icon || '')}" /></div>
         </div>
         <div><label>Subtext (Hero-Body auf Empfänger-Seite)</label><textarea data-f="subtext">${escapeHtml(v.subtext || '')}</textarea></div>
         <div><label>Headline (Finanzcheck)</label><input data-f="headline" value="${escapeAttr(v.headline || '')}" /></div>

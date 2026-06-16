@@ -280,41 +280,47 @@ form.addEventListener('submit', async (e) => {
   try { localStorage.setItem('empfehler_code', code); } catch (_) {}
 
   // === Erfolgs-Modal anzeigen ===
+  // Dashboard-Link bleibt für den Empfehler selbst (NICHT teilen).
+  // Empfehlungs-CTA führt zu empfehlen.html?code=... wo der Empfehler die
+  // konkrete Empfehlung mit Thema-Auswahl ausspricht.
   const personalLink = `${window.location.origin}/empfehler.html?code=${encodeURIComponent(code)}`;
   const dashboardUrl = `empfehler.html?code=${encodeURIComponent(code)}&neu=1`;
-  const waMessage = `Hi, ich wollte dir kurz Kai Blobel empfehlen — er hat mir bei Finanzfragen sehr geholfen. Schau dir das hier mal kurz an: ${personalLink}`;
+  const empfehlenUrl = `empfehlen.html?code=${encodeURIComponent(code)}`;
 
   const modal = document.getElementById('t-SuccessModal');
   const linkInput = document.getElementById('t-SuccessLink');
-  const waBtn = document.getElementById('t-SuccessWa');
-  const smsBtn = document.getElementById('t-SuccessSms');
+  const empfehlenBtn = document.getElementById('t-SuccessEmpfehlen');
   const dashBtn = document.getElementById('t-SuccessDashboard');
   const copyBtn = document.getElementById('t-SuccessCopy');
   const closeBtn = document.getElementById('t-SuccessClose');
   const backdrop = document.getElementById('t-SuccessBackdrop');
+  const subText = document.getElementById('t-SuccessSub');
 
-  if (modal && linkInput) {
+  if (modal && linkInput && empfehlenBtn) {
     linkInput.value = personalLink;
-    waBtn.href = `https://wa.me/?text=${encodeURIComponent(waMessage)}`;
-    smsBtn.href = `sms:?body=${encodeURIComponent(waMessage)}`;
+    empfehlenBtn.href = empfehlenUrl;
     dashBtn.href = dashboardUrl;
+
+    if (subText && name) {
+      const firstName = name.split(' ')[0];
+      subText.textContent = `Willkommen, ${firstName}. Sag mir, wen du empfehlen möchtest.`;
+    }
 
     modal.hidden = false;
     requestAnimationFrame(() => modal.classList.add('open'));
     document.body.style.overflow = 'hidden';
 
-    const closeModal = () => {
+    const closeModal = (targetUrl) => {
       modal.classList.remove('open');
       document.body.style.overflow = '';
       setTimeout(() => {
         modal.hidden = true;
-        // Nach Schließen zum Dashboard
-        window.location.href = dashboardUrl;
+        if (targetUrl) window.location.href = targetUrl;
       }, 280);
     };
 
-    closeBtn?.addEventListener('click', closeModal, { once: true });
-    backdrop?.addEventListener('click', closeModal, { once: true });
+    closeBtn?.addEventListener('click', () => closeModal(dashboardUrl), { once: true });
+    backdrop?.addEventListener('click', () => closeModal(dashboardUrl), { once: true });
 
     copyBtn?.addEventListener('click', async () => {
       try {
@@ -329,15 +335,11 @@ form.addEventListener('submit', async (e) => {
       }
     });
 
-    // Auto-Redirect nach 30s falls User nichts macht
-    setTimeout(() => {
-      if (!modal.hidden) closeModal();
-    }, 30000);
     return;
   }
 
-  // Fallback wenn Modal nicht da
-  window.location.href = dashboardUrl;
+  // Fallback wenn Modal nicht da: direkt zum Empfehlen-Formular
+  window.location.href = empfehlenUrl;
 });
 
 function escapeHtml(s) {
