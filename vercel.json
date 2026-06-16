@@ -1,4 +1,7 @@
 {
+  "redirects": [
+    { "source": "/", "destination": "/programm.html", "permanent": false }
+  ],
   "rewrites": [
     { "source": "/(.*)", "destination": "/$1" }
   ]

@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#f5f5f7" />
   <title>Empfehlung · Empfehlungsportal</title>
   <link rel="stylesheet" href="../css/style.css?v=32" />
-  <link rel="stylesheet" href="../css/dashboard.css?v=37" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=38" />
   <script src="../js/config.js"></script>
 </head>
 <body class="has-app-nav">
@@ -37,7 +37,7 @@
       requireAuth, logout, loadDetail, updateStatus,
       formatDate, getStatusBadge, statusLabel, whatsappLink, toast,
     } from '../js/dashboard.js';
-    import { supabase } from '../js/supabase.js';
+    import { supabase, deleteEmpfehlung } from '../js/supabase.js';
 
     const ERR_LABELS = {
       vormittag: 'Vormittag (8–12)', mittag: 'Mittag (12–14)', nachmittag: 'Nachmittag (14–18)',
@@ -193,6 +193,13 @@
           </a>
           ${empfehlerLink ? `<button class="btn btn-secondary" id="copyBtn">Empfänger-Link kopieren</button>` : ''}
         </div>
+
+        <div class="detail-danger-zone">
+          <button class="btn-danger" id="deleteBtn" type="button">
+            Diese Empfehlung löschen
+          </button>
+          <p class="detail-danger-hint">Unwiderruflich. Nutze das nur für Test-Daten oder Duplikate.</p>
+        </div>
       `;
 
       document.getElementById('statusSel').value = r.status || 'offen';
@@ -222,6 +229,26 @@
           } catch (e) {
             toast('Kopieren fehlgeschlagen.', 3000);
           }
+        });
+      }
+
+      // Lösch-Button mit Doppel-Bestätigung
+      const deleteBtn = document.getElementById('deleteBtn');
+      if (deleteBtn) {
+        deleteBtn.addEventListener('click', async () => {
+          const name = r.empfaenger_name || 'diese Empfehlung';
+          if (!confirm(`Wirklich "${name}" unwiderruflich löschen?\n\nDas kann nicht rückgängig gemacht werden.`)) return;
+          deleteBtn.disabled = true;
+          deleteBtn.textContent = 'Lösche…';
+          const { error } = await deleteEmpfehlung(id);
+          if (error) {
+            toast('Löschen fehlgeschlagen: ' + (error.message || ''), 4000);
+            deleteBtn.disabled = false;
+            deleteBtn.textContent = 'Diese Empfehlung löschen';
+            return;
+          }
+          toast('Gelöscht. Zurück zur Liste…');
+          setTimeout(() => { window.location.href = 'empfehlungen.html'; }, 800);
         });
       }
     })();

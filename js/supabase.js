@@ -315,3 +315,16 @@ export async function updateBerater(id, updates) {
 export async function setBeraterAktiv(id, ist_aktiv) {
   return updateBerater(id, { ist_aktiv });
 }
+
+/* ---------- Phase 50a · Empfehlungs-Löschung ---------- */
+export async function deleteEmpfehlung(id) {
+  if (!supabase) return { error: { message: 'No Supabase client' } };
+  try {
+    const { error } = await supabase.from('empfehlungen').delete().eq('id', id);
+    if (error) throw error;
+    return { error: null };
+  } catch (err) {
+    console.error('[deleteEmpfehlung]', err);
+    return { error: err };
+  }
+}
