@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5VB63NPP');</script>
+<!-- End Google Tag Manager -->
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f5f5f7" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Berater verwalten · Empfehlungs-HUB</title>
+  <link rel="stylesheet" href="css/style.css?v=32" />
+  <link rel="stylesheet" href="css/dashboard.css?v=37" />
+  <link rel="stylesheet" href="css/hub.css?v=31" />
+  <script src="js/config.js"></script>
+</head>
+<body data-page="berater-admin" class="has-app-nav">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5VB63NPP"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+
+  <div id="appNav"></div>
+  <script type="module" src="js/nav.js?v=35"></script>
+
+  <header class="h-header">
+    <div class="h-header-left">
+      <img class="h-header-photo" id="hPhoto" src="" alt="" />
+      <div class="h-header-text">
+        <div class="h-header-name" id="hName">…</div>
+        <div class="h-header-sub">Berater verwalten</div>
+      </div>
+    </div>
+    <button class="h-logout" id="logoutBtn">Abmelden</button>
+  </header>
+
+  <main class="h-main">
+    <section class="cms-intro">
+      <h2>Berater im Team</h2>
+      <p>
+        Lege neue Berater an, bearbeite Profile, deaktiviere Accounts. Jeder Berater bekommt einen eigenen Slug für seine personalisierten Customer-Pages.
+      </p>
+      <p style="margin-top:10px;font-size:13px;">
+        <a href="hub.html" style="color:var(--accent-gold);font-weight:600;text-decoration:none;">← Zurück zum Hub</a>
+      </p>
+    </section>
+
+    <section class="berater-toolbar">
+      <button class="berater-add-btn" id="beraterAddBtn">+ Neuer Berater</button>
+      <span class="berater-count" id="beraterCount"></span>
+    </section>
+
+    <section class="cms-list" id="beraterList">
+      <div style="padding:24px;text-align:center;color:var(--text-secondary);font-size:14px;">Lade Berater…</div>
+    </section>
+  </main>
+
+  <!-- Neuer-Berater-Modal -->
+  <div class="berater-modal" id="beraterModal" hidden role="dialog" aria-modal="true" aria-labelledby="beraterModalTitle">
+    <div class="berater-modal-backdrop" id="beraterModalBackdrop"></div>
+    <div class="berater-modal-card">
+      <button class="berater-modal-close" id="beraterModalClose" type="button" aria-label="Schließen">×</button>
+      <h3 class="berater-modal-title" id="beraterModalTitle">Neuer Berater</h3>
+      <form class="berater-form" id="beraterForm" novalidate>
+        <div class="berater-form-row">
+          <label>
+            <span>Name *</span>
+            <input data-f="name" type="text" required placeholder="Max Kudlek" />
+          </label>
+          <label>
+            <span>Slug (URL) *</span>
+            <input data-f="slug" type="text" required pattern="[a-z0-9-]+" placeholder="max-kudlek" />
+          </label>
+        </div>
+        <label>
+          <span>Rolle</span>
+          <input data-f="rolle" type="text" placeholder="Vermögensberater" />
+        </label>
+        <div class="berater-form-row">
+          <label>
+            <span>E-Mail</span>
+            <input data-f="email" type="email" placeholder="max@dvag.de" />
+          </label>
+          <label>
+            <span>Telefon</span>
+            <input data-f="telefon" type="tel" placeholder="+491701234567" />
+          </label>
+        </div>
+        <div class="berater-form-row">
+          <label>
+            <span>WhatsApp (ohne +)</span>
+            <input data-f="whatsapp" type="text" placeholder="491701234567" />
+          </label>
+          <label>
+            <span>Foto-URL</span>
+            <input data-f="foto_url" type="url" placeholder="https://…" />
+          </label>
+        </div>
+        <label>
+          <span>Bookings-Link</span>
+          <input data-f="bookings_url" type="url" placeholder="https://outlook.office.com/book/…" />
+        </label>
+        <div class="berater-form-actions">
+          <button type="button" class="berater-form-cancel" id="beraterFormCancel">Abbrechen</button>
+          <button type="submit" class="berater-form-submit">Berater anlegen</button>
+        </div>
+        <div class="berater-form-err" id="beraterFormErr"></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="h-toast" id="hToast"></div>
+
+  <script type="module" src="js/berater-admin.js?v=1"></script>
+</body>
+</html>
