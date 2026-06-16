@@ -3375,3 +3375,199 @@ body[data-page="programm"] {
   .pre-hero .t-lede { margin-bottom: 32px; }
   .pre-hero-close { gap: 20px; }
 }
+
+/* ============================================================
+   Phase 50h · Story-Sektionen vor dem Haupt-Hero
+   Win-Recap · Teamwork+Vorteile · Empfehlen-ist-Alltag
+   ============================================================ */
+
+/* ---------- Win-Recap ---------- */
+.win-recap {
+  padding: 96px 28px;
+  background: var(--bg, #FAF8F5);
+}
+.win-recap .inner { max-width: 760px; margin: 0 auto; }
+
+.recap-list {
+  list-style: none;
+  padding: 0;
+  margin: 44px auto 0;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.recap-list li {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(20px, 3.5vw, 28px);
+  line-height: 1.35;
+  color: var(--deep, #0A0A0B);
+  letter-spacing: -0.005em;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--hairline, #E8E5E0);
+}
+.recap-list li:last-child { border-bottom: 0; }
+.recap-mark {
+  font-family: var(--font-display);
+  font-weight: 300;
+  color: var(--gold-hover, #B8A570);
+  font-size: 1.1em;
+  flex-shrink: 0;
+}
+
+/* ---------- Teamwork + Allfinanz-Vorteile ---------- */
+.teamwork-section {
+  padding: 96px 28px;
+  background: linear-gradient(180deg, var(--surface, #FFFCF7) 0%, var(--bg, #FAF8F5) 100%);
+}
+.teamwork-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(320px, 1.2fr);
+  gap: 72px;
+  align-items: start;
+}
+.teamwork-image {
+  position: sticky;
+  top: 80px;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px -20px rgba(28,28,30,0.18);
+}
+.teamwork-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: grayscale(8%) contrast(1.02);
+}
+
+.teamwork-text .t-eyebrow {
+  font-family: var(--font-text);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-hover, #B8A570);
+  margin: 0 0 18px;
+}
+.teamwork-text .t-h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(28px, 4.4vw, 40px);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--deep, #0A0A0B);
+  margin: 0 0 22px;
+}
+.teamwork-text .t-h2 em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--gold-hover, #B8A570);
+}
+.teamwork-text .t-lede {
+  font-family: var(--font-text);
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ink, #1A1A1A);
+  margin: 0 0 36px;
+}
+
+.teamwork-benefits {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+.teamwork-benefit {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 18px;
+  align-items: start;
+}
+.teamwork-benefit-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: var(--gold-soft, rgba(201, 185, 138, 0.18));
+  color: var(--gold-hover, #B8A570);
+  flex-shrink: 0;
+}
+.teamwork-benefit-icon svg { width: 22px; height: 22px; }
+.teamwork-benefit-body h3 {
+  font-family: var(--font-text);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--deep, #0A0A0B);
+  margin: 0 0 6px;
+  letter-spacing: -0.005em;
+}
+.teamwork-benefit-body p {
+  font-family: var(--font-text);
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--muted, #6E6660);
+  margin: 0;
+}
+
+/* ---------- Empfehlen ist Alltag ---------- */
+.alltag {
+  padding: 96px 28px;
+  background: var(--surface, #FFFCF7);
+  position: relative;
+  overflow: hidden;
+}
+.alltag .inner { max-width: 760px; margin: 0 auto; }
+
+.alltag-quotes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin: 0 auto;
+  max-width: 640px;
+}
+.alltag-quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(19px, 2.6vw, 24px);
+  line-height: 1.35;
+  color: var(--deep, #0A0A0B);
+  background: #fff;
+  border: 1px solid var(--hairline, #E8E5E0);
+  border-radius: 12px;
+  padding: 24px 22px;
+  text-align: center;
+  letter-spacing: -0.005em;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 900px) {
+  .teamwork-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .teamwork-image {
+    position: static;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+}
+@media (max-width: 600px) {
+  .win-recap, .teamwork-section, .alltag { padding: 64px 22px; }
+  .recap-list { margin-top: 30px; }
+  .recap-list li { font-size: 19px; gap: 12px; padding: 6px 0; }
+  .teamwork-benefits { gap: 20px; }
+  .teamwork-benefit { grid-template-columns: 40px 1fr; gap: 14px; }
+  .teamwork-benefit-icon { width: 40px; height: 40px; }
+  .teamwork-benefit-icon svg { width: 18px; height: 18px; }
+  .alltag-quotes { grid-template-columns: 1fr; gap: 14px; }
+  .alltag-quote { padding: 20px 18px; }
+}

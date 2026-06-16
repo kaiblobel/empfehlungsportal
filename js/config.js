@@ -6,5 +6,5 @@ window.ENV_BERATER_NAME = 'Kai Blobel';
 window.ENV_BERATER_TITEL = 'Regionaldirektionsleiter · Team Wachsbleiche';
 window.ENV_BERATER_FOTO = '/assets/images/kai-portrait.jpg';
 window.ENV_CALENDLY_URL = ''; // sobald Kai einen Link schickt, hier eintragen — Karte erscheint automatisch
-window.APP_VERSION = 'v1.54';
-window.APP_PHASE = 'Phase 50g · Pre-Hero Reflexions-Sektion auf programm.html';
+window.APP_VERSION = 'v1.55';
+window.APP_PHASE = 'Phase 50h · Story-Sektionen (Recap · Teamwork · Alltag)';
