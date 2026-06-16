@@ -2,7 +2,9 @@
    Editorial Form mit Champagne-Hairlines
    Scope: body[data-page="empfehlen"] + body[data-page="danke"] */
 
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');
+/* Phase 49b · Schrift-Umstellung auf Customer-DNA (Phase 47):
+   System-Stack SF Pro Display/Text statt Fraunces+Inter.
+   Kein Google-Fonts-Import mehr, alles lokal. */
 
 body[data-page="empfehlen"],
 body[data-page="danke"] {
@@ -20,10 +22,12 @@ body[data-page="danke"] {
   --f-shadow: 0 24px 60px -20px rgba(28,28,30,0.12);
   --f-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --wa-green: #25D366;
+  --f-font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --f-font-text: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
   background: var(--f-ivory);
   color: var(--f-anthracite);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--f-font-text);
   font-weight: 400;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
@@ -39,13 +43,13 @@ body[data-page="empfehlen"] .f-banner {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--f-font-text);
   font-size: 13px;
   color: var(--f-muted);
   letter-spacing: 0.04em;
 }
 body[data-page="empfehlen"] .f-banner-name {
-  font-family: 'Fraunces', serif;
+  font-family: var(--f-font-display);
   font-style: italic;
   font-weight: 400;
   font-size: 15px;
@@ -61,7 +65,7 @@ body[data-page="danke"] .f-page {
 }
 
 body[data-page="empfehlen"] .f-eyebrow {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--f-font-text);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -74,7 +78,7 @@ body[data-page="empfehlen"] .f-eyebrow {
 
 body[data-page="empfehlen"] .f-h1,
 body[data-page="danke"] .f-h1 {
-  font-family: 'Fraunces', 'Georgia', serif;
+  font-family: var(--f-font-display);
   font-weight: 300;
   font-size: clamp(34px, 7vw, 56px);
   line-height: 1.08;
@@ -85,7 +89,7 @@ body[data-page="danke"] .f-h1 {
 }
 body[data-page="empfehlen"] .f-lede,
 body[data-page="danke"] .f-lede {
-  font-family: 'Fraunces', serif;
+  font-family: var(--f-font-display);
   font-style: italic;
   font-weight: 300;
   font-size: clamp(17px, 2.5vw, 19px);
@@ -104,7 +108,7 @@ body[data-page="empfehlen"] .f-hairline {
 }
 
 body[data-page="empfehlen"] .f-section-label {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--f-font-text);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.18em;
@@ -148,7 +152,7 @@ body[data-page="empfehlen"] .f-field label {
 }
 body[data-page="empfehlen"] .f-field input,
 body[data-page="empfehlen"] .f-field textarea {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--f-font-text);
   font-size: 16px;
   color: var(--f-anthracite);
   background: transparent;
@@ -191,7 +195,7 @@ body[data-page="empfehlen"] .vorlage-kachel {
   gap: 6px;
   cursor: pointer;
   text-align: left;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--f-font-text);
   color: var(--f-anthracite);
   transition: border-color 200ms var(--f-ease), background 200ms var(--f-ease);
 }
@@ -216,7 +220,7 @@ body[data-page="empfehlen"] .vorlage-kachel .icon svg {
   height: 100%;
 }
 body[data-page="empfehlen"] .vorlage-kachel .titel {
-  font-family: 'Fraunces', serif;
+  font-family: var(--f-font-display);
   font-size: 16px;
   font-weight: 400;
   color: var(--f-deep);
@@ -237,7 +241,7 @@ body[data-page="empfehlen"] .f-preview {
   border-radius: 0 4px 4px 0;
   padding: 18px 22px;
   margin-top: 12px;
-  font-family: 'Fraunces', serif;
+  font-family: var(--f-font-display);
   font-style: italic;
   font-size: 16px;
   line-height: 1.55;
@@ -258,7 +262,7 @@ body[data-page="empfehlen"] .f-btn {
   justify-content: center;
   gap: 10px;
   padding: 18px 26px;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--f-font-text);
   font-size: 15px;
   font-weight: 600;
   border-radius: 4px;
@@ -336,7 +340,7 @@ body[data-page="danke"] .f-check svg {
   fill: none;
 }
 body[data-page="danke"] .f-eyebrow-d {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--f-font-text);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -346,7 +350,7 @@ body[data-page="danke"] .f-eyebrow-d {
   display: block;
 }
 body[data-page="danke"] .f-signature {
-  font-family: 'Fraunces', serif;
+  font-family: var(--f-font-display);
   font-style: italic;
   color: var(--f-champagne-hover);
   font-size: 15px;
@@ -387,14 +391,14 @@ body[data-page="empfehlen"] .f-context summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--f-font-text);
   font-size: 14px;
   font-weight: 500;
   color: var(--f-anthracite);
 }
 body[data-page="empfehlen"] .f-context summary::-webkit-details-marker { display: none; }
 body[data-page="empfehlen"] .f-context-chev {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--f-font-text);
   color: var(--f-champagne-hover);
   transition: transform 200ms var(--f-ease);
 }
@@ -408,7 +412,7 @@ body[data-page="empfehlen"] .f-context-body {
 }
 body[data-page="empfehlen"] .f-context-body .f-field { background: transparent; border-color: var(--f-hairline); }
 body[data-page="empfehlen"] .f-field select {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--f-font-text);
   font-size: 16px;
   color: var(--f-anthracite);
   background: transparent;
@@ -430,7 +434,7 @@ body[data-page="empfehlen"] .f-field select {
    ============================================================ */
 
 body[data-page="empfehlen"] .f-field-hint {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--f-font-text);
   font-size: 13px;
   color: var(--f-ink-muted, #6E6660);
   margin: 0 0 12px 0;
@@ -458,7 +462,7 @@ body[data-page="empfehlen"] .nachricht-vorlage {
   text-align: left;
   cursor: pointer;
   transition: border-color .18s ease, background .18s ease, transform .18s ease;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--f-font-text);
   width: 100%;
 }
 
