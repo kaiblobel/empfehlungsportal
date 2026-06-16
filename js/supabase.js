@@ -262,3 +262,56 @@ export async function getBerater(id) {
     return { data: null, error: err };
   }
 }
+
+/* ---------- Phase 50a · Multi-Tenant Berater-Admin ---------- */
+export async function listBerater() {
+  if (!supabase) return { data: [], error: null };
+  try {
+    const { data, error } = await supabase
+      .from('berater')
+      .select('id, name, slug, email, rolle, telefon, foto_url, whatsapp, bookings_url, ist_aktiv, created_at, auth_user_id')
+      .order('created_at', { ascending: true });
+    if (error) throw error;
+    return { data: data || [], error: null };
+  } catch (err) {
+    console.error('[listBerater]', err);
+    return { data: [], error: err };
+  }
+}
+
+export async function createBerater(berater) {
+  if (!supabase) return { data: null, error: { message: 'No Supabase client' } };
+  try {
+    const { data, error } = await supabase
+      .from('berater')
+      .insert([berater])
+      .select()
+      .single();
+    if (error) throw error;
+    return { data, error: null };
+  } catch (err) {
+    console.error('[createBerater]', err);
+    return { data: null, error: err };
+  }
+}
+
+export async function updateBerater(id, updates) {
+  if (!supabase) return { data: null, error: { message: 'No Supabase client' } };
+  try {
+    const { data, error } = await supabase
+      .from('berater')
+      .update(updates)
+      .eq('id', id)
+      .select()
+      .single();
+    if (error) throw error;
+    return { data, error: null };
+  } catch (err) {
+    console.error('[updateBerater]', err);
+    return { data: null, error: err };
+  }
+}
+
+export async function setBeraterAktiv(id, ist_aktiv) {
+  return updateBerater(id, { ist_aktiv });
+}
