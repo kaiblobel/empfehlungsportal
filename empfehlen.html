@@ -13,7 +13,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#FAF8F5" />
   <title>Empfehlung aussprechen · Kai Blobel</title>
-  <link rel="stylesheet" href="css/empfehlen.css?v=30" />
+  <link rel="stylesheet" href="css/empfehlen.css?v=31" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="empfehlen">
@@ -50,12 +50,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <label for="empfehlerName">Dein Name (optional)</label>
         <input id="empfehlerName" name="empfehlerName" type="text" autocomplete="name" />
       </div>
+
+      <div class="f-block">
+        <span class="f-section-label">Worum geht es bei ihm oder ihr gerade?</span>
+        <p class="f-section-sub">Wähle das Thema, das am besten passt. So weiß Kai vorher Bescheid und kann sich vorbereiten. Nicht sicher? Nimm einfach Allgemein.</p>
+        <div class="f-vorlagen" id="vorlagenGrid">
+          <div class="vorlage-skel"></div>
+          <div class="vorlage-skel"></div>
+          <div class="vorlage-skel"></div>
+          <div class="vorlage-skel"></div>
+          <div class="vorlage-skel"></div>
+          <div class="vorlage-skel"></div>
+        </div>
+        <input type="hidden" id="vorlageSlug" value="allgemein" />
+      </div>
+
       <div class="f-field">
-        <label for="empfehlerNachricht">Persönliche Nachricht (optional)</label>
-        <textarea id="empfehlerNachricht" name="empfehlerNachricht" maxlength="200" rows="4" placeholder="z. B. Ich dachte sofort an dich, weil…"></textarea>
+        <label for="empfehlerNachricht">Deine Nachricht (optional)</label>
+        <p class="f-field-hint">Klick auf eine Vorlage zum Übernehmen. Du kannst sie danach noch anpassen, damit sie nach dir klingt.</p>
+        <div class="f-nachricht-vorlagen" id="nachrichtVorlagen" aria-label="Nachrichten-Vorlagen"></div>
+        <textarea id="empfehlerNachricht" name="empfehlerNachricht" maxlength="240" rows="5" placeholder="Klick eine Vorlage an oder schreib selbst…"></textarea>
         <div class="f-field-meta">
-          <span>Erscheint persönlich auf der Empfehlungs-Seite.</span>
-          <span id="charCount">0/200</span>
+          <span>So liest deine Empfehlung den Text auf der nächsten Seite.</span>
+          <span id="charCount">0/240</span>
         </div>
       </div>
 
@@ -120,21 +137,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </details>
 
       <div class="f-block">
-        <span class="f-section-label">Worüber könnte sich deine Empfehlung freuen?</span>
-        <p class="f-section-sub">Wähle das Thema, das am besten passt. Nicht sicher? Nimm einfach Allgemein.</p>
-        <div class="f-vorlagen" id="vorlagenGrid">
-          <div class="vorlage-skel"></div>
-          <div class="vorlage-skel"></div>
-          <div class="vorlage-skel"></div>
-          <div class="vorlage-skel"></div>
-          <div class="vorlage-skel"></div>
-          <div class="vorlage-skel"></div>
-        </div>
-        <input type="hidden" id="vorlageSlug" value="allgemein" />
-      </div>
-
-      <div class="f-block">
-        <span class="f-section-label">Vorschau der Nachricht</span>
+        <span class="f-section-label">Vorschau für WhatsApp</span>
         <div class="f-preview" id="messagePreview">…</div>
       </div>
 
@@ -150,6 +153,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <div class="f-toast" id="toast">Link kopiert</div>
 
-  <script type="module" src="js/app.js?v=30"></script>
+  <script type="module" src="js/app.js?v=31"></script>
 </body>
 </html>

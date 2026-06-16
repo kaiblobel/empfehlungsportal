@@ -14,6 +14,51 @@ import { ICONS } from './icons.js';
 
 const page = document.body.dataset.page;
 
+// 18 Nachricht-Vorlagen, 3 pro Thema. Bewusst in Kai-Sprache geschrieben:
+// natürlich, kurz, kein Marketing-Geschwurbel. Platzhalter {{vorname}} wird
+// dynamisch ersetzt durch den Vornamen der empfohlenen Person.
+const NACHRICHT_VORLAGEN = {
+  allgemein: [
+    'Hey {{vorname}}, ich wollte dir mal Kai empfehlen. Hat mir bei einigen Finanz-Sachen sehr geholfen, ich dachte sofort an dich.',
+    'Hi {{vorname}}, du hattest letztens erzählt, dass du dich mal mit deinen Verträgen beschäftigen wolltest. Schau dir das hier kurz an, Kai hat bei mir viel sortiert.',
+    'Du {{vorname}}, falls du gerade auch jemanden für deine Finanzen suchst, kann ich dir Kai sehr empfehlen. Er hat mir richtig den Überblick gegeben.',
+  ],
+  baufi: [
+    'Hey {{vorname}}, du suchst doch noch jemanden für eure Finanzierung. Kai hat unsere Baufi gemacht, ich kann ihn nur empfehlen.',
+    'Hi {{vorname}}, du hattest erzählt, dass ihr ein Haus kauft. Bei unserer Baufinanzierung hat Kai uns viel Geld gespart, vielleicht hilft dir das auch.',
+    '{{vorname}}, du bist doch gerade beim Thema Hauskauf. Kai kennt sich bei Baufi richtig gut aus, der ist auf jeden Fall ein guter Tipp.',
+  ],
+  foerderungen: [
+    'Hey {{vorname}}, Kai hat mir gezeigt, wie viel staatliche Förderung viele jedes Jahr einfach liegen lassen. Wollte dir das mal weitergeben.',
+    'Hi {{vorname}}, du hast bestimmt Anspruch auf einige Förderungen, die kaum einer auf dem Schirm hat. Kai zeigt dir das in 20 Minuten.',
+    '{{vorname}}, der Staat schenkt Geld weg und keiner sagt es einem. Kai hat mir gezeigt, was ich alles holen kann, das lohnt sich für dich bestimmt auch.',
+  ],
+  selbstaendige: [
+    'Hey {{vorname}}, als Selbstständige ist Altersvorsorge ja immer so eine Sache. Kai hat mir geholfen, das endlich mal zu sortieren.',
+    'Hi {{vorname}}, du bist ja auch dein eigener Chef. Kai berät viele Selbstständige zu Vorsorge und Krankenkasse, kann ich nur empfehlen.',
+    '{{vorname}}, kennst du Kai schon? Der hat bei mir die ganze Selbstständigen-Vorsorge auf Linie gebracht, ohne Versicherungs-Geschwurbel.',
+  ],
+  investment: [
+    'Hey {{vorname}}, du wolltest doch schon länger anfangen zu investieren. Kai hat mit mir einen einfachen Plan gemacht, das ist genau richtig zum Einstieg.',
+    'Hi {{vorname}}, dein Geld liegt doch noch auf dem Sparkonto. Kai hat mir geholfen, da was Vernünftiges aufzusetzen, ohne große Versprechen.',
+    '{{vorname}}, ich lege jetzt seit einiger Zeit dank Kai vernünftig an. Vielleicht ist das auch was für dich.',
+  ],
+  absicherung: [
+    'Hey {{vorname}}, jetzt wo bei euch ein Kind kommt, lohnt es sich, die Versicherungen mal anzuschauen. Kai hat das bei uns gemacht.',
+    'Hi {{vorname}}, du hattest mal gefragt, ob ich für sowas einen Tipp habe. Kai hat unsere Versicherungen sortiert, das war echt entspannt.',
+    '{{vorname}}, gerade als Familie hat man viele Versicherungen am Laufen. Kai hat bei uns ausgemistet, was nichts taugt. Wir zahlen jetzt weniger und sind besser dran.',
+  ],
+};
+
+function vorlagenForSlug(slug) {
+  return NACHRICHT_VORLAGEN[slug] || NACHRICHT_VORLAGEN.allgemein;
+}
+
+function fillVorname(template, vorname) {
+  const name = (vorname || '').trim();
+  return template.replace(/\{\{vorname\}\}/g, name || '[Vorname]');
+}
+
 function vorlagenIconHtml(iconName) {
   if (iconName && ICONS[iconName]) {
     return ICONS[iconName];
@@ -138,7 +183,7 @@ if (page === 'empfehlen') {
 
   if (nachrichtEl && charCount) {
     nachrichtEl.addEventListener('input', () => {
-      charCount.textContent = `${nachrichtEl.value.length}/200`;
+      charCount.textContent = `${nachrichtEl.value.length}/240`;
     });
   }
 
@@ -174,14 +219,56 @@ if (page === 'empfehlen') {
     }
   }
 
-  // ----- Vorlagen-Grid -----
+  // ----- Vorlagen-Grid + Nachricht-Vorlagen -----
   const vorlageSlugEl = document.getElementById('vorlageSlug');
   const grid = document.getElementById('vorlagenGrid');
+  const nachrichtVorlagenWrap = document.getElementById('nachrichtVorlagen');
+
+  function renderNachrichtVorlagen(slug) {
+    if (!nachrichtVorlagenWrap) return;
+    const vorname = vornameEl?.value || '';
+    const templates = vorlagenForSlug(slug);
+    nachrichtVorlagenWrap.innerHTML = templates.map((tpl, i) => {
+      const filled = fillVorname(tpl, vorname);
+      return `
+        <button type="button" class="nachricht-vorlage" data-template="${escapeHtml(tpl)}">
+          <span class="nachricht-vorlage-label">Vorlage ${i + 1}</span>
+          <span class="nachricht-vorlage-text">${escapeHtml(filled)}</span>
+        </button>
+      `;
+    }).join('');
+    nachrichtVorlagenWrap.querySelectorAll('.nachricht-vorlage').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const raw = btn.dataset.template || '';
+        const filled = fillVorname(raw, vornameEl?.value || '');
+        if (nachrichtEl) {
+          nachrichtEl.value = filled.slice(0, 240);
+          nachrichtEl.dispatchEvent(new Event('input'));
+          nachrichtEl.focus();
+        }
+        nachrichtVorlagenWrap.querySelectorAll('.nachricht-vorlage').forEach(b => b.classList.toggle('chosen', b === btn));
+      });
+    });
+  }
+
+  // Bei Vorname-Eingabe Vorlagen aktualisieren (Platzhalter mitlaufen)
+  if (vornameEl) {
+    vornameEl.addEventListener('input', () => {
+      const slug = vorlageSlugEl?.value || 'allgemein';
+      renderNachrichtVorlagen(slug);
+    });
+  }
+
+  // Initial render: Nachricht-Vorlagen sofort sichtbar machen, auch wenn
+  // das Themen-Grid asynchron noch lädt
+  renderNachrichtVorlagen('allgemein');
+
   if (grid) {
     (async () => {
       const list = await getVorlagen();
       if (!list.length) {
         grid.innerHTML = '<p style="font-size:13px;color:var(--text-secondary);">Themen-Seiten konnten nicht geladen werden.</p>';
+        renderNachrichtVorlagen('allgemein');
         return;
       }
       grid.innerHTML = list.map(v => `
@@ -194,8 +281,11 @@ if (page === 'empfehlen') {
         btn.addEventListener('click', () => {
           grid.querySelectorAll('.vorlage-kachel').forEach(b => b.classList.toggle('selected', b === btn));
           if (vorlageSlugEl) vorlageSlugEl.value = btn.dataset.slug;
+          renderNachrichtVorlagen(btn.dataset.slug);
         });
       });
+      // Initiales Render mit "allgemein"
+      renderNachrichtVorlagen(vorlageSlugEl?.value || 'allgemein');
     })();
   }
 
