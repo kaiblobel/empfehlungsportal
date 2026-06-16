@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f5f5f7" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Changelog · Empfehlungs-HUB</title>
+  <link rel="stylesheet" href="css/style.css?v=32" />
+  <link rel="stylesheet" href="css/dashboard.css?v=38" />
+  <link rel="stylesheet" href="css/hub.css?v=32" />
+  <script src="js/config.js"></script>
+</head>
+<body data-page="changelog" class="has-app-nav">
+
+  <div id="appNav"></div>
+  <script type="module" src="js/nav.js?v=36"></script>
+
+  <header class="h-header">
+    <div class="h-header-left">
+      <img class="h-header-photo" id="hPhoto" src="" alt="" />
+      <div class="h-header-text">
+        <div class="h-header-name" id="hName">…</div>
+        <div class="h-header-sub">Changelog</div>
+      </div>
+    </div>
+    <button class="h-logout" id="logoutBtn">Abmelden</button>
+  </header>
+
+  <main class="h-main">
+    <section class="cms-intro">
+      <h2 id="changelogVersion">Empfehlungs-HUB</h2>
+      <p id="changelogPhase">Lädt…</p>
+      <p style="margin-top:10px;font-size:13px;">
+        <a href="hub.html" style="color:var(--accent-gold);font-weight:600;text-decoration:none;">← Zurück zum Hub</a>
+      </p>
+    </section>
+
+    <section class="changelog-content" id="changelogContent">
+      <div style="padding:24px;text-align:center;color:var(--text-secondary);font-size:14px;">Lade Changelog…</div>
+    </section>
+  </main>
+
+  <div class="h-toast" id="hToast"></div>
+
+  <script type="module">
+    import { requireAuth, logout } from './js/dashboard.js';
+
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+    document.getElementById('hPhoto').src = window.ENV_BERATER_FOTO || '';
+    document.getElementById('hName').textContent = window.ENV_BERATER_NAME || 'Berater';
+    document.getElementById('changelogVersion').textContent = window.APP_VERSION || 'Empfehlungs-HUB';
+    document.getElementById('changelogPhase').textContent = window.APP_PHASE || '';
+
+    (async () => {
+      const session = await requireAuth();
+      if (!session) return;
+
+      try {
+        const res = await fetch('/CHANGELOG.md');
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const md = await res.text();
+        document.getElementById('changelogContent').innerHTML = renderMarkdown(md);
+      } catch (err) {
+        document.getElementById('changelogContent').innerHTML = `<div style="padding:24px;color:var(--text-secondary);">Changelog konnte nicht geladen werden: ${escapeHtml(err.message)}</div>`;
+      }
+    })();
+
+    function renderMarkdown(md) {
+      const lines = md.split('\n');
+      let html = '';
+      let inList = false;
+      for (let raw of lines) {
+        const line = raw.replace(/\r$/, '');
+        if (/^---\s*$/.test(line)) { html += closeList(); html += '<hr class="changelog-hr"/>'; continue; }
+        if (/^#\s+(.+)/.test(line)) {
+          html += closeList();
+          html += `<h1 class="changelog-h1">${escapeHtml(line.replace(/^#\s+/, ''))}</h1>`;
+          continue;
+        }
+        if (/^##\s+(.+)/.test(line)) {
+          html += closeList();
+          html += `<h2 class="changelog-h2">${formatInline(line.replace(/^##\s+/, ''))}</h2>`;
+          continue;
+        }
+        if (/^###\s+(.+)/.test(line)) {
+          html += closeList();
+          html += `<h3 class="changelog-h3">${formatInline(line.replace(/^###\s+/, ''))}</h3>`;
+          continue;
+        }
+        if (/^\*\*([^*]+)\*\*\s*$/.test(line)) {
+          html += closeList();
+          html += `<p class="changelog-date">${escapeHtml(line.replace(/\*\*/g, ''))}</p>`;
+          continue;
+        }
+        if (/^-\s+(.+)/.test(line)) {
+          if (!inList) { html += '<ul class="changelog-list">'; inList = true; }
+          html += `<li>${formatInline(line.replace(/^-\s+/, ''))}</li>`;
+          continue;
+        }
+        if (line.trim() === '') {
+          html += closeList();
+          continue;
+        }
+        html += closeList();
+        html += `<p class="changelog-p">${formatInline(line)}</p>`;
+      }
+      html += closeList();
+      function closeList() { if (inList) { inList = false; return '</ul>'; } return ''; }
+      return html;
+    }
+
+    function formatInline(s) {
+      return escapeHtml(s)
+        .replace(/`([^`]+)`/g, '<code>$1</code>')
+        .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    }
+
+    function escapeHtml(s) {
+      return String(s ?? '').replace(/[&<>"']/g, m =>
+        ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])
+      );
+    }
+  </script>
+</body>
+</html>
