@@ -3848,26 +3848,21 @@ body.presentation-mode .section {
   min-height: 100vh;
   scroll-snap-align: start;
   scroll-snap-stop: always;
+  /* Vertikale Zentrierung via flex-column, damit die jeweilige .inner
+     ihr eigenes Internal-Layout (Grid/Flex-Row in hero-split etc.)
+     ungestört behält. Kein align-items: center auf der section. */
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  padding-top: 64px;
-  padding-bottom: 96px;
+  padding-top: max(8vh, 64px);
+  padding-bottom: max(10vh, 96px);
+  box-sizing: border-box;
 }
-body.presentation-mode .section .inner {
-  width: 100%;
-  max-width: 1100px;
-  margin: 0 auto;
-}
+
 /* Sticky-CTA und Top-CTA im Präsentations-Modus verstecken */
 body.presentation-mode .cta-top,
 body.presentation-mode .sticky-cta,
 body.presentation-mode .site-footer { display: none; }
-
-/* Hero-Split braucht im Slide-Modus etwas Anpassung */
-body.presentation-mode .hero-split-inner {
-  align-items: center;
-}
 
 /* Mobile: Präsentations-Modus deaktivieren wenn Mobile (zur Sicherheit) */
 @media (max-width: 1023px) {
