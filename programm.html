@@ -22,7 +22,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
   <link rel="stylesheet" href="css/style.css?v=32" />
-  <link rel="stylesheet" href="css/programm.css?v=34" />
+  <link rel="stylesheet" href="css/programm.css?v=35" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="programm">
@@ -163,7 +163,68 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </section>
 
-  <!-- ===== 0b · Teamwork + Allfinanz-Vorteile ===== -->
+  <!-- ===== 0b · Förder-Rechner (Live-Tool im Pitch) ===== -->
+  <section class="section foerder-rechner" id="foerder">
+    <div class="inner">
+      <p class="t-eyebrow reveal" style="text-align:center;">Konkret werden</p>
+      <h2 class="t-h2 reveal d1" style="text-align:center;">
+        Wieviel kann <em>dein Tipp</em><br>jedes Jahr <em>sparen?</em>
+      </h2>
+      <p class="t-lede reveal d2" style="text-align:center; margin: 0 auto 36px; max-width:620px;">
+        Lass uns kurz rechnen. Sag mir, was du über die Person weißt. So sehen wir grob, was an Förderungen drin ist.
+      </p>
+
+      <div class="foerder-tool reveal d3">
+        <div class="foerder-inputs">
+          <div class="foerder-input-group">
+            <label>Alter</label>
+            <div class="foerder-slider">
+              <input type="range" min="18" max="65" value="35" id="foerderAlter" aria-label="Alter" />
+              <span class="foerder-slider-val"><span id="foerderAlterVal">35</span> Jahre</span>
+            </div>
+          </div>
+          <div class="foerder-input-group">
+            <label>Familienstand</label>
+            <div class="foerder-btn-group" data-field="familie">
+              <button type="button" data-val="single" class="active">Single</button>
+              <button type="button" data-val="verheiratet">Verheiratet</button>
+            </div>
+          </div>
+          <div class="foerder-input-group">
+            <label>Kinder</label>
+            <div class="foerder-btn-group" data-field="kinder">
+              <button type="button" data-val="0" class="active">0</button>
+              <button type="button" data-val="1">1</button>
+              <button type="button" data-val="2">2</button>
+              <button type="button" data-val="3">3+</button>
+            </div>
+          </div>
+          <div class="foerder-input-group">
+            <label>Brutto-Einkommen pro Jahr</label>
+            <div class="foerder-slider">
+              <input type="range" min="20000" max="120000" step="2500" value="45000" id="foerderEinkommen" aria-label="Brutto-Einkommen" />
+              <span class="foerder-slider-val"><span id="foerderEinkommenVal">45.000</span> €</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="foerder-result">
+          <p class="foerder-result-label">Möglicher Förder-Vorteil pro Jahr</p>
+          <p class="foerder-result-amount">
+            <span id="foerderAmount" class="foerder-result-amount-num">0</span><span class="foerder-result-amount-unit">€</span>
+          </p>
+          <p class="foerder-result-sub">Das ist eine grobe Schätzung. Im Detail oft deutlich mehr.</p>
+          <ul class="foerder-result-breakdown" id="foerderBreakdown"></ul>
+          <a class="foerder-cta" href="https://finanzcheck.kaiblobel.de" target="_blank" rel="noopener">
+            Detail-Analyse starten
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 0c · Teamwork + Allfinanz-Vorteile ===== -->
   <section class="section teamwork-section">
     <div class="inner teamwork-inner">
       <div class="teamwork-image reveal">
@@ -775,6 +836,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </nav>
 
   <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
-  <script type="module" src="js/programm.js?v=15"></script>
+  <script type="module" src="js/programm.js?v=16"></script>
 </body>
 </html>

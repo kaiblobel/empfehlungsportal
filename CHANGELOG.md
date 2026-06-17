@@ -1,9 +1,24 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.59** · Phase 50l Win-Recap 1-Zeilen-Layout + Slop-Sweep.
+Aktuelle Version: **v1.60** · Phase 50m Förder-Rechner.
 
 ---
+
+## v1.60 — Phase 50m · Förder-Rechner als Live-Tool im Pitch
+**2026-06-17**
+
+Neue interaktive Folie zwischen Win-Recap und Teamwork:
+
+- 4 Eingabe-Felder: Alter (Slider), Familienstand (Buttons), Kinder (Buttons), Brutto-Einkommen (Slider)
+- Live-Berechnung im Browser ohne Server-Roundtrip
+- Berücksichtigte Förderungen: Riester (Grund- + Kinderzulagen), Partner-Riester, VL, AN-Sparzulage, Wohnungsbauprämie, BAV-Steuer-/SV-Vorteil, Kinder-Steueroptimierung
+- Animierter Counter-Up beim Ändern eines Werts
+- Breakdown-Liste mit Aufschlüsselung pro Förderart
+- CTA „Detail-Analyse starten" → öffnet finanzcheck.kaiblobel.de in neuem Tab
+- Sage-grüner Akzent für „so viel ist möglich"-Atmosphäre
+
+Use-Case: Kai sitzt mit Empfehler am Tisch. Empfehler nennt einen Tipp. Kai stellt 4 Slider/Buttons ein, zeigt sofort: „Schau, dein Tipp könnte 1.500 €/Jahr rausholen." → Empfehler ist motivierter, die Empfehlung auszusprechen.
 
 ## v1.59 — Phase 50l · Win-Recap 1-Zeilen-Layout + Slop-Sweep
 **2026-06-17**

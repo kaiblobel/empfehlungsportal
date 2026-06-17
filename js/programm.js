@@ -1,6 +1,131 @@
 import { getBelohnungsStufen, getVorlagen, createEmpfehler } from './supabase.js';
 import { icon as lucideIcon, ICONS } from './icons.js';
 
+// === Förder-Rechner (Phase 50m): Live-Tool für den Live-Pitch ===
+(function initFoerderRechner() {
+  const alterEl    = document.getElementById('foerderAlter');
+  const alterValEl = document.getElementById('foerderAlterVal');
+  const einkEl     = document.getElementById('foerderEinkommen');
+  const einkValEl  = document.getElementById('foerderEinkommenVal');
+  const amountEl   = document.getElementById('foerderAmount');
+  const breakdownEl= document.getElementById('foerderBreakdown');
+  const familieBtns= document.querySelectorAll('[data-field="familie"] button');
+  const kinderBtns = document.querySelectorAll('[data-field="kinder"] button');
+  if (!alterEl || !amountEl) return;
+
+  const fmtEUR = (n) => Math.round(n).toLocaleString('de-DE');
+
+  // Hilfsfunktion: Counter-Up-Animation
+  let animFrom = 0;
+  function animateAmount(target) {
+    const start = animFrom;
+    const delta = target - start;
+    const dur = 420;
+    const t0 = performance.now();
+    function step(now) {
+      const p = Math.min(1, (now - t0) / dur);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const val = start + delta * eased;
+      amountEl.textContent = fmtEUR(val);
+      if (p < 1) requestAnimationFrame(step);
+      else { animFrom = target; amountEl.textContent = fmtEUR(target); }
+    }
+    requestAnimationFrame(step);
+  }
+
+  function getState() {
+    const familie = document.querySelector('[data-field="familie"] button.active')?.dataset.val || 'single';
+    const kinder  = Number(document.querySelector('[data-field="kinder"] button.active')?.dataset.val || 0);
+    return {
+      alter:     Number(alterEl.value),
+      einkommen: Number(einkEl.value),
+      familie,
+      kinder,
+    };
+  }
+
+  function calc(state) {
+    const lines = [];
+    let sum = 0;
+
+    // Riester-Grundzulage (175 € selbst) + 300 € pro Kind (ab Geb 2008)
+    const riester = 175 + state.kinder * 300;
+    if (riester > 0) { lines.push({ label: 'Riester (Grund- + Kinderzulagen)', val: riester }); sum += riester; }
+    // Wenn verheiratet: Partner-Riester ebenfalls
+    if (state.familie === 'verheiratet') {
+      const partnerRiester = 175;
+      lines.push({ label: 'Partner-Riester', val: partnerRiester });
+      sum += partnerRiester;
+    }
+
+    // Vermögenswirksame Leistungen (VL)
+    const vl = 480; // 40 € / Monat
+    lines.push({ label: 'Vermögenswirksame Leistungen', val: vl });
+    sum += vl;
+
+    // Arbeitnehmersparzulage (Einkommens-abhängig)
+    const grenzeAn = state.familie === 'verheiratet' ? 40000 : 20000;
+    if (state.einkommen <= grenzeAn) {
+      const an = 43;
+      lines.push({ label: 'Arbeitnehmer-Sparzulage', val: an });
+      sum += an;
+    }
+
+    // Wohnungsbauprämie
+    const grenzeWop = state.familie === 'verheiratet' ? 70000 : 35000;
+    if (state.einkommen <= grenzeWop) {
+      const wop = 70;
+      lines.push({ label: 'Wohnungsbauprämie', val: wop });
+      sum += wop;
+    }
+
+    // Betriebliche Altersvorsorge (Steuerersparnis)
+    // Annahme: 4 % vom Brutto in BAV, ~30 % Steuer-/SV-Vorteil
+    const bav = Math.round(state.einkommen * 0.04 * 0.30);
+    if (bav > 0) {
+      lines.push({ label: 'BAV-Vorteil (Steuer + SV)', val: bav });
+      sum += bav;
+    }
+
+    // Kinderspezifische Boni (Kinderfreibetrag-Vorteile durch Optimierung)
+    if (state.kinder > 0) {
+      const kinderBoni = state.kinder * 200;
+      lines.push({ label: 'Kinder-Steueroptimierung', val: kinderBoni });
+      sum += kinderBoni;
+    }
+
+    return { sum, lines };
+  }
+
+  function render() {
+    const state = getState();
+    alterValEl.textContent = state.alter;
+    einkValEl.textContent  = state.einkommen.toLocaleString('de-DE');
+
+    const { sum, lines } = calc(state);
+    animateAmount(sum);
+
+    breakdownEl.innerHTML = lines.map(l =>
+      `<li><span>${l.label}</span><span>${fmtEUR(l.val)} €</span></li>`
+    ).join('');
+  }
+
+  alterEl.addEventListener('input', render);
+  einkEl.addEventListener('input', render);
+  familieBtns.forEach(btn => btn.addEventListener('click', () => {
+    familieBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  }));
+  kinderBtns.forEach(btn => btn.addEventListener('click', () => {
+    kinderBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  }));
+
+  render();
+})();
+
 // === Mehrwert-Sammlung (Phase 50k): editierbare Felder im Live-Pitch ===
 (function initMehrwert() {
   const list = document.getElementById('mehrwertList');
