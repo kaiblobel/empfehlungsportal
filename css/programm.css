@@ -3479,9 +3479,14 @@ body[data-page="programm"] {
 }
 
 .teamwork-benefits {
-  display: flex;
-  flex-direction: column;
-  gap: 26px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px 24px;
+}
+@media (max-width: 480px) {
+  .teamwork-benefits {
+    grid-template-columns: 1fr;
+  }
 }
 .teamwork-benefit {
   display: grid;
