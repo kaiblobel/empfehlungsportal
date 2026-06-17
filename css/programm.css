@@ -3392,23 +3392,24 @@ body[data-page="programm"] {
   list-style: none;
   padding: 0;
   margin: 44px auto 0;
-  max-width: 460px;
+  max-width: 640px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 8px;
 }
 .recap-list li {
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: clamp(20px, 3.5vw, 28px);
-  line-height: 1.35;
+  font-size: clamp(17px, 2.4vw, 22px);
+  line-height: 1.4;
   color: var(--deep, #0A0A0B);
   letter-spacing: -0.005em;
   display: flex;
   align-items: baseline;
-  gap: 16px;
-  padding: 8px 0;
+  gap: 14px;
+  padding: 10px 0;
   border-bottom: 1px solid var(--hairline, #E8E5E0);
+  white-space: nowrap;
 }
 .recap-list li:last-child { border-bottom: 0; }
 .recap-mark {
@@ -3562,8 +3563,8 @@ body[data-page="programm"] {
 }
 @media (max-width: 600px) {
   .win-recap, .teamwork-section, .alltag { padding: 64px 22px; }
-  .recap-list { margin-top: 30px; }
-  .recap-list li { font-size: 19px; gap: 12px; padding: 6px 0; }
+  .recap-list { margin-top: 30px; gap: 6px; }
+  .recap-list li { font-size: 15px; gap: 10px; padding: 8px 0; white-space: nowrap; overflow-x: auto; }
   .teamwork-benefits { gap: 20px; }
   .teamwork-benefit { grid-template-columns: 40px 1fr; gap: 14px; }
   .teamwork-benefit-icon { width: 40px; height: 40px; }

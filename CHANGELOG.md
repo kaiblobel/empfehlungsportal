@@ -1,9 +1,25 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.58** · Phase 50k Mehrwert-Folie + Präsentations-Konsolidierung.
+Aktuelle Version: **v1.59** · Phase 50l Win-Recap 1-Zeilen-Layout + Slop-Sweep.
 
 ---
+
+## v1.59 — Phase 50l · Win-Recap 1-Zeilen-Layout + Slop-Sweep
+**2026-06-17**
+
+**Layout-Fix:**
+- Win-Recap-Punkte (Übersicht / Entscheidungen / Geld / Lücken) brachen vorher auf 2 Zeilen
+- `.recap-list` max-width auf 640px, Schrift kleiner (clamp 17/22), `white-space: nowrap` → alle 4 Punkte stehen sauber auf je einer Zeile
+
+**Slop-Sweep über die ganze programm.html:**
+- 5× Em-Dashes (`&mdash;`) raus → Punkt / Komma / Doppelpunkt
+- „wirklich" als Adverb-Verstärker entfernt wo überflüssig
+- „selbstverständlich", „ständig", „vollständig" → menschlichere Formulierungen
+- NPS-Karten gestrafft („Das freut mich" statt „Das freut mich wirklich")
+- Teamwork-Lede direkter („Das ist der Unterschied…" statt „Genau das ist…")
+- Alltag-Closer ehrlicher („Ohne lang zu überlegen" statt „Ganz selbstverständlich")
+- FAQ-Antwort direkter („kostet dich nichts" statt „ist und bleibt vollständig kostenlos")
 
 ## v1.58 — Phase 50k · Mehrwert-Folie + Präsentations-Konsolidierung
 **2026-06-17**
