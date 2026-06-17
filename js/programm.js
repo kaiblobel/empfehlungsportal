@@ -94,6 +94,13 @@ import { icon as lucideIcon, ICONS } from './icons.js';
       sum += kinderBoni;
     }
 
+    // Krankenkassen-Bonus (Wechsel zu günstigerer KK + Fit-/Bonus-Programme)
+    // Bis 185 € pro erwachsener Person, plus für Kinder im Schnitt 75 €
+    const kvErwachsene = state.familie === 'verheiratet' ? 2 : 1;
+    const kvBonus = kvErwachsene * 185 + state.kinder * 75;
+    lines.push({ label: 'KV-Bonus + Fit-Programm', val: kvBonus });
+    sum += kvBonus;
+
     return { sum, lines };
   }
 

@@ -6,5 +6,5 @@ window.ENV_BERATER_NAME = 'Kai Blobel';
 window.ENV_BERATER_TITEL = 'Regionaldirektionsleiter · Team Wachsbleiche';
 window.ENV_BERATER_FOTO = '/assets/images/kai-portrait.jpg';
 window.ENV_CALENDLY_URL = ''; // sobald Kai einen Link schickt, hier eintragen — Karte erscheint automatisch
-window.APP_VERSION = 'v1.60';
-window.APP_PHASE = 'Phase 50m · Förder-Rechner als Live-Tool im Pitch';
+window.APP_VERSION = 'v1.61';
+window.APP_PHASE = 'Phase 50n · Alltag 6-Cards + KV-Bonus + €-Fix';

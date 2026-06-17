@@ -3529,14 +3529,17 @@ body[data-page="programm"] {
   position: relative;
   overflow: hidden;
 }
-.alltag .inner { max-width: 760px; margin: 0 auto; }
+.alltag .inner { max-width: 1100px; margin: 0 auto; }
 
 .alltag-quotes {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 18px;
   margin: 0 auto;
-  max-width: 720px;
+  max-width: 1080px;
+}
+@media (max-width: 900px) {
+  .alltag-quotes { grid-template-columns: repeat(2, 1fr); max-width: 720px; }
 }
 .alltag-quote {
   position: relative;
@@ -3588,6 +3591,87 @@ body[data-page="programm"] {
 .alltag-quote[data-mood="baecker"] {
   background-image: url('https://images.unsplash.com/photo-1509440159596-0249088772ff?w=900&q=80&auto=format&fit=crop');
 }
+.alltag-quote[data-mood="arzt"] {
+  background-image: url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=900&q=80&auto=format&fit=crop');
+}
+
+/* Hero-Card: Finanz-Tipp hebt sich klar ab (Champagne-Gold) */
+.alltag-quote.alltag-quote-hero {
+  background-image: linear-gradient(135deg, #C9B98A 0%, #B8A570 60%, #A28A52 100%);
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow:
+    0 0 0 1px rgba(184, 165, 112, 0.40),
+    0 18px 40px rgba(184, 165, 112, 0.32),
+    0 28px 60px rgba(0,0,0,0.18);
+  color: #1A1A1A;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  text-align: left;
+  padding: 32px 28px;
+  isolation: auto;
+  position: relative;
+  overflow: hidden;
+}
+.alltag-quote.alltag-quote-hero::before {
+  /* Subtiler Glanz-Highlight oben links */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 60% at 0% 0%, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0) 50%),
+    radial-gradient(80% 70% at 100% 100%, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 60%);
+  z-index: 0;
+  pointer-events: none;
+}
+.alltag-quote.alltag-quote-hero > * { position: relative; z-index: 1; }
+.alltag-quote.alltag-quote-hero:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 0 0 1px rgba(184, 165, 112, 0.55),
+    0 24px 50px rgba(184, 165, 112, 0.40),
+    0 36px 72px rgba(0,0,0,0.22);
+}
+
+.alltag-quote-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(26,26,26,0.18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #2A1F0A;
+  font-family: var(--font-text);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 5px 11px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+  font-style: normal;
+}
+.alltag-quote-badge::before {
+  content: '★';
+  font-size: 11px;
+  font-style: normal;
+}
+
+.alltag-quote-text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(22px, 3vw, 28px);
+  line-height: 1.2;
+  color: #1A1A1A;
+  letter-spacing: -0.012em;
+  display: block;
+}
+.alltag-quote-text em {
+  font-style: italic;
+  font-weight: 700;
+  color: #2A1F0A;
+}
 
 /* ---------- Mobile ---------- */
 @media (max-width: 900px) {
@@ -3611,6 +3695,8 @@ body[data-page="programm"] {
   .teamwork-benefit-icon svg { width: 18px; height: 18px; }
   .alltag-quotes { grid-template-columns: 1fr; gap: 14px; }
   .alltag-quote { padding: 42px 22px; min-height: 170px; font-size: 21px; }
+  .alltag-quote.alltag-quote-hero { padding: 26px 22px; min-height: 150px; }
+  .alltag-quote-text { font-size: 22px; }
 }
 
 /* ============================================================
@@ -4171,11 +4257,10 @@ body.presentation-mode .site-footer { display: none; }
 }
 .foerder-result-amount-num { color: #2F4A2A; }
 .foerder-result-amount-unit {
-  font-size: 0.55em;
-  font-weight: 600;
-  color: var(--muted, #6E6660);
-  margin-left: 6px;
-  letter-spacing: 0;
+  color: #2F4A2A;
+  margin-left: 0.08em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 .foerder-result-sub {
   font-family: var(--font-text);
