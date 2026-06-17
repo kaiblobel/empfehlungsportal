@@ -3673,6 +3673,32 @@ body[data-page="programm"] {
   color: #2A1F0A;
 }
 
+.alltag-quote-tipp-value {
+  display: block;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(26,26,26,0.18);
+  font-family: var(--font-text);
+  font-style: normal;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: rgba(26,26,26,0.78);
+  letter-spacing: -0.005em;
+}
+.alltag-quote-tipp-value strong {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 700;
+  font-size: clamp(20px, 2.4vw, 26px);
+  letter-spacing: -0.025em;
+  color: #2A1F0A;
+  margin: 0 2px;
+  font-variant-numeric: tabular-nums;
+  vertical-align: -2px;
+}
+
 /* ---------- Mobile ---------- */
 @media (max-width: 900px) {
   .teamwork-inner {

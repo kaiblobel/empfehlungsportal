@@ -11,6 +11,7 @@ import { icon as lucideIcon, ICONS } from './icons.js';
   const breakdownEl= document.getElementById('foerderBreakdown');
   const familieBtns= document.querySelectorAll('[data-field="familie"] button');
   const kinderBtns = document.querySelectorAll('[data-field="kinder"] button');
+  const alltagSumEl= document.getElementById('alltagFoerderSum');
   if (!alterEl || !amountEl) return;
 
   const fmtEUR = (n) => Math.round(n).toLocaleString('de-DE');
@@ -115,6 +116,11 @@ import { icon as lucideIcon, ICONS } from './icons.js';
     breakdownEl.innerHTML = lines.map(l =>
       `<li><span>${l.label}</span><span>${fmtEUR(l.val)} €</span></li>`
     ).join('');
+
+    // Hero-Card in der Alltag-Sektion mit synchronisieren
+    if (alltagSumEl) {
+      alltagSumEl.innerHTML = `${fmtEUR(sum)}&nbsp;€`;
+    }
   }
 
   alterEl.addEventListener('input', render);
