@@ -48,6 +48,11 @@ const NACHRICHT_VORLAGEN = {
     'Hi {{vorname}}, du hattest mal gefragt, ob ich für sowas einen Tipp habe. Kai hat unsere Versicherungen sortiert, das war echt entspannt.',
     '{{vorname}}, gerade als Familie hat man viele Versicherungen am Laufen. Kai hat bei uns ausgemistet, was nichts taugt. Wir zahlen jetzt weniger und sind besser dran.',
   ],
+  karriere: [
+    'Hey {{vorname}}, du hast doch mal gesagt, du wärst eigentlich bereit für was Neues beruflich. Kai sucht aktuell Leute fürs Team. Schau dir das mal kurz an.',
+    'Hi {{vorname}}, ich kenne jemanden, der eine echte Karriere-Chance bietet. Du suchst doch was, in dem du dich mehr entfalten kannst. Kai zeigt dir alles in Ruhe.',
+    '{{vorname}}, du redest doch schon eine Weile davon, dass du was Eigenes machen willst. Bei Kai gibt es einen echten Einstieg mit klarer Perspektive. Vielleicht ist das deins.',
+  ],
 };
 
 function vorlagenForSlug(slug) {

@@ -2326,6 +2326,7 @@ body[data-page="programm"] {
 .topic-card[data-slug="selbstaendige"] { --topic-color: #2E5266; } /* Marine */
 .topic-card[data-slug="investment"]    { --topic-color: #7A8B6F; } /* Sage */
 .topic-card[data-slug="absicherung"]   { --topic-color: #C28447; } /* Terracotta */
+.topic-card[data-slug="karriere"]      { --topic-color: #4F6045; } /* Forest */
 
 /* Card-Tönung */
 .topic-card {
