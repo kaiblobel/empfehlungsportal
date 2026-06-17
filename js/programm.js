@@ -1,6 +1,141 @@
 import { getBelohnungsStufen, getVorlagen, createEmpfehler } from './supabase.js';
 import { icon as lucideIcon, ICONS } from './icons.js';
 
+// === Präsentations-Modus (Phase 50j): Slide-Modus für Live-Pitch ===
+(function initPresentationMode() {
+  const toggleBtn = document.getElementById('presentToggle');
+  const nav = document.getElementById('presentNav');
+  if (!toggleBtn || !nav) return;
+
+  const prevBtn = document.getElementById('presentPrev');
+  const nextBtn = document.getElementById('presentNext');
+  const exitBtn = document.getElementById('presentExit');
+  const currentEl = document.getElementById('presentCurrent');
+  const totalEl = document.getElementById('presentTotal');
+
+  // Sektionen ausser dem letzten Footer als Slides erfassen
+  const allSections = Array.from(document.querySelectorAll('main > section.section, section.section'));
+  // (Optional: bestimmte Sektionen aus dem Slide-Modus rausnehmen, z.B. footer)
+  const slides = allSections;
+  totalEl.textContent = String(slides.length);
+
+  let isActive = false;
+  let currentIdx = 0;
+
+  function activate() {
+    document.documentElement.classList.add('present-active');
+    document.body.classList.add('presentation-mode');
+    nav.hidden = false;
+    toggleBtn.setAttribute('aria-pressed', 'true');
+    isActive = true;
+    document.addEventListener('keydown', onKey, { passive: false });
+    updateCounterFromScroll();
+    // Erste Slide focus
+    setTimeout(() => goTo(0, true), 50);
+  }
+
+  function deactivate() {
+    document.documentElement.classList.remove('present-active');
+    document.body.classList.remove('presentation-mode');
+    nav.hidden = true;
+    toggleBtn.setAttribute('aria-pressed', 'false');
+    isActive = false;
+    document.removeEventListener('keydown', onKey);
+  }
+
+  function goTo(idx, instant = false) {
+    if (idx < 0) idx = 0;
+    if (idx >= slides.length) idx = slides.length - 1;
+    currentIdx = idx;
+    const el = slides[idx];
+    if (el) {
+      el.scrollIntoView({
+        behavior: instant ? 'auto' : 'smooth',
+        block: 'start',
+      });
+    }
+    currentEl.textContent = String(idx + 1);
+  }
+
+  function next() { goTo(currentIdx + 1); }
+  function prev() { goTo(currentIdx - 1); }
+
+  function onKey(e) {
+    if (!isActive) return;
+    // Editor-Fokus nicht abfangen
+    const tag = (e.target?.tagName || '').toLowerCase();
+    if (['input','textarea','select','button'].includes(tag) && e.target !== document.body) {
+      // Pfeile in Inputs erlauben
+      if (['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)) return;
+    }
+    switch (e.key) {
+      case 'ArrowRight':
+      case 'ArrowDown':
+      case 'PageDown':
+      case ' ':
+        e.preventDefault();
+        next();
+        break;
+      case 'ArrowLeft':
+      case 'ArrowUp':
+      case 'PageUp':
+        e.preventDefault();
+        prev();
+        break;
+      case 'Escape':
+        e.preventDefault();
+        deactivate();
+        break;
+      case 'Home':
+        e.preventDefault();
+        goTo(0);
+        break;
+      case 'End':
+        e.preventDefault();
+        goTo(slides.length - 1);
+        break;
+    }
+  }
+
+  // Counter aktualisiert via IntersectionObserver (welche Slide ist 'mostly visible')
+  const io = new IntersectionObserver((entries) => {
+    if (!isActive) return;
+    let best = null;
+    let bestRatio = 0;
+    entries.forEach(ent => {
+      if (ent.intersectionRatio > bestRatio) {
+        bestRatio = ent.intersectionRatio;
+        best = ent.target;
+      }
+    });
+    if (best) {
+      const idx = slides.indexOf(best);
+      if (idx >= 0 && idx !== currentIdx) {
+        currentIdx = idx;
+        currentEl.textContent = String(idx + 1);
+      }
+    }
+  }, { threshold: [0.3, 0.5, 0.7] });
+
+  slides.forEach(s => io.observe(s));
+
+  function updateCounterFromScroll() {
+    const y = window.scrollY + window.innerHeight / 2;
+    let idx = 0;
+    for (let i = 0; i < slides.length; i++) {
+      const top = slides[i].offsetTop;
+      if (top <= y) idx = i;
+    }
+    currentIdx = idx;
+    currentEl.textContent = String(idx + 1);
+  }
+
+  toggleBtn.addEventListener('click', () => isActive ? deactivate() : activate());
+  prevBtn.addEventListener('click', prev);
+  nextBtn.addEventListener('click', next);
+  exitBtn.addEventListener('click', deactivate);
+})();
+
 // === NPS-Skala (Phase 50i): Reflexions-Frage mit Skala 1-10 ===
 (function initNps() {
   const scale = document.getElementById('npsScale');

@@ -3735,3 +3735,147 @@ body[data-page="programm"] {
   .nps-response-actions { flex-direction: column; align-items: stretch; }
   .nps-response-actions a { width: 100%; }
 }
+
+/* ============================================================
+   Phase 50j · Präsentations-Modus (Desktop-only Slide-Pitch)
+   ============================================================ */
+
+/* Floating Toggle-Button (Desktop ab 1024px) */
+.present-toggle {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 800;
+  background: var(--ink, #1A1A1A);
+  color: var(--bg, #FAF8F5);
+  border: 0;
+  display: none;          /* Default unsichtbar (Mobile) */
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-family: var(--font-text);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  opacity: 0.78;
+  transition: opacity .18s ease, transform .18s ease, background .18s ease, box-shadow .18s ease;
+}
+.present-toggle:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+  background: #000;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.26);
+}
+.present-toggle svg { flex-shrink: 0; }
+@media (min-width: 1024px) {
+  .present-toggle { display: inline-flex; }
+}
+body.presentation-mode .present-toggle { display: none; }
+
+/* Bottom-Nav im Präsentations-Modus */
+.present-nav {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(26,26,26,0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 10px 14px;
+  border-radius: 999px;
+  color: var(--bg, #FAF8F5);
+  font-family: var(--font-text);
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.32);
+  animation: present-nav-in .35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes present-nav-in {
+  0%   { opacity: 0; transform: translate(-50%, 12px); }
+  100% { opacity: 1; transform: translate(-50%, 0); }
+}
+.present-nav[hidden] { display: none; }
+
+.present-nav-btn,
+.present-nav-exit {
+  background: transparent;
+  color: var(--bg, #FAF8F5);
+  border: 0;
+  padding: 8px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-text);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: background .18s ease;
+}
+.present-nav-btn:hover,
+.present-nav-exit:hover {
+  background: rgba(255,255,255,0.12);
+}
+.present-nav-counter {
+  padding: 0 8px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  opacity: 0.85;
+  font-weight: 600;
+}
+.present-nav-exit {
+  margin-left: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-left: 1px solid rgba(255,255,255,0.18);
+  opacity: 0.8;
+}
+
+/* Slide-Modus: Sektionen werden zu Vollbild-Slides mit Scroll-Snap */
+html.present-active {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+body.presentation-mode .section {
+  min-height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 64px;
+  padding-bottom: 96px;
+}
+body.presentation-mode .section .inner {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+/* Sticky-CTA und Top-CTA im Präsentations-Modus verstecken */
+body.presentation-mode .cta-top,
+body.presentation-mode .sticky-cta,
+body.presentation-mode .site-footer { display: none; }
+
+/* Hero-Split braucht im Slide-Modus etwas Anpassung */
+body.presentation-mode .hero-split-inner {
+  align-items: center;
+}
+
+/* Mobile: Präsentations-Modus deaktivieren wenn Mobile (zur Sicherheit) */
+@media (max-width: 1023px) {
+  body.presentation-mode .section {
+    min-height: auto;
+    padding-top: 56px;
+    padding-bottom: 72px;
+  }
+  html.present-active { scroll-snap-type: none; }
+  .present-nav { font-size: 12px; }
+}

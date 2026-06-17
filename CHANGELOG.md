@@ -1,9 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.56** · Phase 50i NPS-Skala.
+Aktuelle Version: **v1.57** · Phase 50j Präsentations-Modus.
 
 ---
+
+## v1.57 — Phase 50j · Präsentations-Modus auf programm.html
+**2026-06-17**
+
+Eine Page, zwei Views: scroll für Kunden (Mobile + Desktop) und ein Slide-Modus für Live-Pitches im Termin.
+
+- **Floating-Button** unten rechts (nur ab 1024px sichtbar), Label „Präsentations-Modus"
+- **Klick** aktiviert Vollbild-Slide-Pitch: jede Section = ein Slide, scroll-snap mandatory, eine Sektion pro Frame
+- **Bottom-Nav** mittig: Zurück/Weiter + Counter („3 / 14") + Beenden
+- **Tastatur**: ← ↑ PageUp = vorige | → ↓ PageDown Leertaste = nächste | Home = erste | End = letzte | ESC = beenden
+- **Counter** wird live via IntersectionObserver synchronisiert
+- Sticky-CTA + Footer ausgeblendet im Slide-Modus
+- Kunde auf Mobile sieht nichts vom Modus → bleibt scroll
 
 ## v1.56 — Phase 50i · NPS-Skala 1–10 in der Reflexions-Sektion
 **2026-06-17**
