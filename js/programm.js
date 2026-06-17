@@ -1,6 +1,51 @@
 import { getBelohnungsStufen, getVorlagen, createEmpfehler } from './supabase.js';
 import { icon as lucideIcon, ICONS } from './icons.js';
 
+// === Mehrwert-Sammlung (Phase 50k): editierbare Felder im Live-Pitch ===
+(function initMehrwert() {
+  const list = document.getElementById('mehrwertList');
+  if (!list) return;
+  const STORAGE_KEY = 'mehrwert_slots_v1';
+
+  function loadSlots() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; }
+  }
+  function saveSlots(slots) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(slots)); } catch {}
+  }
+
+  const fields = list.querySelectorAll('.mehrwert-input');
+  const saved = loadSlots();
+
+  fields.forEach(f => {
+    const slot = f.dataset.slot;
+    if (saved[slot]) f.textContent = saved[slot];
+    f.addEventListener('input', () => {
+      const slots = loadSlots();
+      slots[slot] = f.textContent.trim();
+      saveSlots(slots);
+    });
+    // Beim Klick ans Ende des Textes springen (besser als Anfang)
+    f.addEventListener('focus', () => {
+      const sel = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(f);
+      range.collapse(false);
+      sel.removeAllRanges();
+      sel.addRange(range);
+    });
+  });
+
+  const clearBtn = document.getElementById('mehrwertClear');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      if (!confirm('Alle Felder leeren?')) return;
+      fields.forEach(f => { f.textContent = ''; });
+      saveSlots({});
+    });
+  }
+})();
+
 // === Präsentations-Modus (Phase 50j): Slide-Modus für Live-Pitch ===
 (function initPresentationMode() {
   const toggleBtn = document.getElementById('presentToggle');
@@ -134,6 +179,15 @@ import { icon as lucideIcon, ICONS } from './icons.js';
   prevBtn.addEventListener('click', prev);
   nextBtn.addEventListener('click', next);
   exitBtn.addEventListener('click', deactivate);
+
+  // Auto-Activate bei ?mode=slides (für direkten Link aus Sidebar)
+  try {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('mode') === 'slides') {
+      // Kurz warten bis Layout steht
+      setTimeout(activate, 80);
+    }
+  } catch (_) {}
 })();
 
 // === NPS-Skala (Phase 50i): Reflexions-Frage mit Skala 1-10 ===

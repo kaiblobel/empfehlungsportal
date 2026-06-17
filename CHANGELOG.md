@@ -1,9 +1,25 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.57** · Phase 50j Präsentations-Modus.
+Aktuelle Version: **v1.58** · Phase 50k Mehrwert-Folie + Präsentations-Konsolidierung.
 
 ---
+
+## v1.58 — Phase 50k · Mehrwert-Folie + Präsentations-Konsolidierung
+**2026-06-17**
+
+**Neue editierbare Mehrwert-Folie** zwischen NPS-Reflexion und Win-Recap:
+- „Welchen Mehrwert hast du durch mich?" — Kunde antwortet, Kai schreibt live mit
+- 4 nummerierte Felder (contenteditable), Champagne-Highlight beim Editieren
+- Persistenz in localStorage (überlebt Reload + Page-Wechsel)
+- „Alles löschen"-Button für neuen Termin
+- Danach: Win-Recap mit neuem Eyebrow „Und aus meiner Sicht" → Kai zeigt seine 4 Punkte als Ergänzung
+
+**Präsentations-Konsolidierung:**
+- `praesentation.html` gelöscht — einzige Quelle ist jetzt `programm.html`
+- Sidebar-„Präsentation"-Link führt zu `programm.html?mode=slides` → öffnet sofort Slide-Modus
+- Footer-Link gleich
+- URL-Parameter `?mode=slides` triggert Auto-Activation des Präsentations-Modus
 
 ## v1.57 — Phase 50j · Präsentations-Modus auf programm.html
 **2026-06-17**

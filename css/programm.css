@@ -3874,3 +3874,114 @@ body.presentation-mode .site-footer { display: none; }
   html.present-active { scroll-snap-type: none; }
   .present-nav { font-size: 12px; }
 }
+
+/* ============================================================
+   Phase 50k · Mehrwert-Sammlung (editierbar im Live-Pitch)
+   ============================================================ */
+
+.mehrwert {
+  padding: 96px 28px;
+  background: var(--surface, #FFFCF7);
+}
+.mehrwert .inner { max-width: 760px; margin: 0 auto; }
+
+.mehrwert-hint {
+  display: block;
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--muted, #6E6660);
+  font-style: italic;
+  letter-spacing: -0.005em;
+}
+
+.mehrwert-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.mehrwert-list li {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 18px;
+  align-items: center;
+  background: #fff;
+  border: 1px solid var(--hairline, #E8E5E0);
+  border-radius: 14px;
+  padding: 16px 20px;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+.mehrwert-list li:has(.mehrwert-input:focus),
+.mehrwert-list li:has(.mehrwert-input:not(:empty)) {
+  border-color: var(--gold-hover, #B8A570);
+  box-shadow: 0 4px 14px rgba(184, 165, 112, 0.16);
+}
+
+.mehrwert-num {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 28px;
+  color: var(--gold-hover, #B8A570);
+  text-align: center;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mehrwert-input {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(18px, 2.6vw, 22px);
+  line-height: 1.4;
+  color: var(--deep, #0A0A0B);
+  letter-spacing: -0.01em;
+  min-height: 32px;
+  padding: 4px 0;
+  outline: 0;
+  cursor: text;
+}
+.mehrwert-input:empty::before {
+  content: attr(data-placeholder);
+  color: var(--soft-text, #C9C0B5);
+  font-style: italic;
+  pointer-events: none;
+}
+.mehrwert-input:focus::before { content: ''; }
+
+.mehrwert-tools {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+.mehrwert-clear {
+  background: transparent;
+  border: 1px solid var(--hairline, #E8E5E0);
+  color: var(--muted, #6E6660);
+  font-family: var(--font-text);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease, border-color .18s ease;
+}
+.mehrwert-clear:hover {
+  background: var(--ink, #1A1A1A);
+  color: var(--bg, #FAF8F5);
+  border-color: var(--ink, #1A1A1A);
+}
+
+@media (max-width: 600px) {
+  .mehrwert { padding: 64px 22px; }
+  .mehrwert-list li { padding: 14px 16px; grid-template-columns: 32px 1fr; gap: 14px; }
+  .mehrwert-num { width: 32px; height: 32px; font-size: 22px; }
+  .mehrwert-input { font-size: 17px; }
+}
