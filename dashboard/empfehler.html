@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#f5f5f7" />
   <meta name="robots" content="noindex,nofollow" />
-  <title>Empfehler · Empfehlungsportal</title>
+  <title>Promoter · Empfehlungsportal</title>
   <link rel="stylesheet" href="../css/style.css?v=32" />
   <link rel="stylesheet" href="../css/dashboard.css?v=37" />
   <script src="../js/config.js"></script>
@@ -20,7 +20,7 @@
         <img class="app-header-photo" id="hdrPhoto" src="" alt="" />
         <div>
           <div class="app-header-name" id="hdrName">…</div>
-          <div class="app-header-sub">Empfehler</div>
+          <div class="app-header-sub">Promoter</div>
         </div>
       </div>
       <div class="app-header-right">
@@ -30,7 +30,7 @@
     </header>
 
     <main class="app-content">
-      <div class="section-title">Alle Empfehler</div>
+      <div class="section-title">Alle Promoter</div>
       <div id="list">
         <div class="skel-row"><div class="skel-body"><span class="skel skel-line"></span><span class="skel skel-line"></span></div><span class="skel skel-tail"></span></div>
         <div class="skel-row"><div class="skel-body"><span class="skel skel-line"></span><span class="skel skel-line"></span></div><span class="skel skel-tail"></span></div>
@@ -54,7 +54,7 @@
       const list = await loadEmpfehlerList();
       const wrap = document.getElementById('list');
       if (!list.length) {
-        wrap.innerHTML = '<div class="empty-state">Noch keine Empfehler registriert. Verteile den Link /programm.</div>';
+        wrap.innerHTML = '<div class="empty-state">Noch keine Promoter registriert. Verteile den Link /programm.</div>';
         return;
       }
 

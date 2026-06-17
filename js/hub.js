@@ -326,7 +326,7 @@ const EVENT_META = {
   interest:          { label: 'Interesse',           color: '#C28447', icon: 'HeartHandshake' },  // Terracotta
   call:              { label: 'Anrufwunsch',         color: '#B5651D', icon: 'PhoneCall' },       // Burnt-Orange
   kunde:             { label: 'Neuer Kunde',         color: '#1A5C29', icon: 'Trophy' },          // Dunkelgrün
-  promotor_created:  { label: 'Promotor erstellt',   color: '#2C5F7C', icon: 'UserPlus' },        // DVAG Blau
+  promotor_created:  { label: 'Promoter erstellt',   color: '#2C5F7C', icon: 'UserPlus' },        // DVAG Blau
   termin_booked:     { label: 'Termin gebucht',      color: '#3E8B8B', icon: 'Calendar' },        // Türkis
 };
 
@@ -438,7 +438,7 @@ function renderTopPromoters(rows) {
   const wrap = document.getElementById('hPromoters');
   if (!wrap) return;
   if (!rows.length) {
-    wrap.innerHTML = `<div class="h-empty-positive">Noch keine Empfehler. Sobald Empfehlungen reinkommen, erscheinen hier deine Champions.</div>`;
+    wrap.innerHTML = `<div class="h-empty-positive">Noch keine Promoter. Sobald Empfehlungen reinkommen, erscheinen hier deine Champions.</div>`;
     return;
   }
   const ranks = ['gold', 'silber', 'bronze'];
@@ -500,7 +500,7 @@ function renderTrendChart(rows) {
     return d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' });
   });
   const datasets = [
-    { label: 'Aktive Empfehler', data: rows.map(r => r.aktive_empfehler),    borderColor: '#C9B98A', backgroundColor: 'rgba(201,185,138,0.08)', tension: 0.35, borderWidth: 2,   pointRadius: 0, pointHoverRadius: 5, fill: true  },
+    { label: 'Aktive Promoter',  data: rows.map(r => r.aktive_empfehler),    borderColor: '#C9B98A', backgroundColor: 'rgba(201,185,138,0.08)', tension: 0.35, borderWidth: 2,   pointRadius: 0, pointHoverRadius: 5, fill: true  },
     { label: 'Link-Klicks',      data: rows.map(r => r.link_klicks),         borderColor: '#7A8B6F', backgroundColor: 'rgba(122,139,111,0.06)', tension: 0.35, borderWidth: 2,   pointRadius: 0, pointHoverRadius: 5, fill: false },
     { label: 'Empfehlungen',     data: rows.map(r => r.empfehlungen_gesamt), borderColor: '#C28447', backgroundColor: 'rgba(194,132,71,0.06)',  tension: 0.35, borderWidth: 2,   pointRadius: 0, pointHoverRadius: 5, fill: false },
     { label: 'Kunden',           data: rows.map(r => r.kunden),              borderColor: '#2E5266', backgroundColor: 'rgba(46,82,102,0.06)',   tension: 0.35, borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 5, fill: false },
@@ -578,7 +578,7 @@ function injectSidebarTopPromoter(top) {
   tag.innerHTML = `
     <span class="nav-tp-icon">${icon('Trophy', { size: 16 })}</span>
     <div class="nav-tp-text">
-      <span class="nav-tp-label">Top-Promotor</span>
+      <span class="nav-tp-label">Top-Promoter</span>
       <span class="nav-tp-name">${escapeHtml(top.name)}</span>
       <span class="nav-tp-points">${top.gesamt} Empfehlung${top.gesamt !== 1 ? 'en' : ''}${top.kunde ? ` · ${top.kunde} Kunde${top.kunde !== 1 ? 'n' : ''}` : ''}</span>
     </div>
@@ -644,7 +644,7 @@ function renderMomentum(kpiRows, subs) {
     const [emp, kl, ges, kun] = kpiRows;
     const parts = [];
     if (kl)  parts.push(`${kl} Link-Klicks`);
-    if (emp) parts.push(`${emp} aktive Empfehler`);
+    if (emp) parts.push(`${emp} aktive Promoter`);
     if (kun) parts.push(`${kun} Neukunde${kun === 1 ? '' : 'n'}`);
     explainEl.textContent = parts.length ? `Aktuell: ${parts.join(' · ')}.` : 'Sammle Empfehlungen, um deinen Score aufzubauen.';
   }
