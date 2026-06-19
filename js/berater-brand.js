@@ -10,7 +10,9 @@
  *   data-bb="rolle"     → textContent = rolle
  *   data-bb="booking"   → <a>.href = bookings_url
  *   data-bb="whatsapp"  → <a>.href = https://wa.me/<whatsapp>
- *   data-bb="tel"       → <a>.href = tel:+<telefon>
+ *   data-bb="tel"       → <a>.href = tel:+<telefon>  (+ textContent, wenn vorhanden)
+ *   data-bb="email"     → <a>.href = mailto:<email>  (+ textContent, wenn vorhanden)
+ *   data-bb="title"     → document.title-Suffix „· <name>" wird ersetzt
  *
  * Felder, die im Berater-Datensatz leer sind, werden NICHT überschrieben — so
  * bleiben die statischen HTML-Defaults (Kai) als Fallback erhalten.
@@ -55,10 +57,27 @@ export function applyBeraterBrand(b) {
         if (waNum) el.href = `https://wa.me/${waNum}`;
         else el.style.display = 'none';
         break;
-      case 'tel':
+      case 'tel':        // nur Link (Button mit eigenem Label)
         if (telNum) el.href = `tel:${telNum}`;
+        else el.style.display = 'none';
+        break;
+      case 'tel-text':   // Link + angezeigte Nummer (z. B. Footer)
+        if (telNum) { el.href = `tel:${telNum}`; el.textContent = b.telefon; }
+        else el.style.display = 'none';
+        break;
+      case 'email':
+        if (b.email) el.href = `mailto:${b.email}`;
+        else el.style.display = 'none';
+        break;
+      case 'email-text':
+        if (b.email) { el.href = `mailto:${b.email}`; el.textContent = b.email; }
         else el.style.display = 'none';
         break;
     }
   });
+
+  // Tab-/SEO-Titel: „… · Kai Blobel" → „… · <Berater>"
+  if (b.name && document.title.includes('·')) {
+    document.title = document.title.replace(/·[^·]*$/, `· ${b.name}`);
+  }
 }

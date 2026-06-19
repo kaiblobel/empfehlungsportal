@@ -32,8 +32,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="f-hairline-d"></div>
 
-    <p class="f-signature">Kai Blobel</p>
+    <p class="f-signature" data-bb="name">Kai Blobel</p>
   </main>
 
+  <script src="js/config.js"></script>
+  <script type="module">
+    import { getEmpfehlerByCode, getBeraterPublicById } from './js/supabase.js';
+    import { applyBeraterBrand } from './js/berater-brand.js';
+    (async () => {
+      let code = null;
+      try { code = localStorage.getItem('empfehler_code'); } catch (_) {}
+      if (!code) return;
+      const { data: emp } = await getEmpfehlerByCode(code);
+      if (!emp?.berater_id) return;
+      const { data: berater } = await getBeraterPublicById(emp.berater_id);
+      if (berater) applyBeraterBrand(berater);
+    })();
+  </script>
 </body>
 </html>

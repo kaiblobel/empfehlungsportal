@@ -216,6 +216,12 @@ if (page === 'empfehlen') {
     }
   }
 
+  // Multi-Tenant: Berater des Promoters laden + Formular-Texte auf ihn branden
+  if (empfehlerData?.berater_id) {
+    const { data: berater } = await getBeraterPublicById(empfehlerData.berater_id);
+    if (berater) applyBeraterBrand(berater);
+  }
+
   // ----- Vorlagen-Grid + Nachricht-Vorlagen -----
   const vorlageSlugEl = document.getElementById('vorlageSlug');
   const grid = document.getElementById('vorlagenGrid');
