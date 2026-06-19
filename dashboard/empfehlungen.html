@@ -58,11 +58,10 @@
   <script type="module">
     import {
       requireAuth, logout, loadEmpfehlungen,
-      formatDate, getStatusBadge,
+      formatDate, getStatusBadge, applyBeraterHeader,
     } from '../js/dashboard.js';
 
-    document.getElementById('hdrPhoto').src = window.ENV_BERATER_FOTO || '';
-    document.getElementById('hdrName').textContent = window.ENV_BERATER_NAME || 'Berater';
+    applyBeraterHeader();
     document.getElementById('logoutBtn').addEventListener('click', logout);
 
     // URL-Param `?status=anrufwunsch` als Initial-Filter lesen

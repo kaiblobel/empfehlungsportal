@@ -9,8 +9,10 @@ import {
   getVorlage,
   getEmpfehlerByCode,
   getErfolgsgeschichten,
+  getBeraterPublicById,
 } from './supabase.js';
 import { ICONS } from './icons.js';
+import { applyBeraterBrand } from './berater-brand.js';
 
 const page = document.body.dataset.page;
 
@@ -333,6 +335,7 @@ if (page === 'empfehlen') {
       typ,
       vorlage_slug: vorlageSlug,
       empfehler_id: empfehlerData?.id || null,
+      berater_id: empfehlerData?.berater_id || null,
       empfaenger_beruf: beruf || null,
       empfaenger_verbindung: verbindung || null,
       empfaenger_kontext: kontext || null,
@@ -423,6 +426,12 @@ if (page === 'empfaenger') {
     if (token) {
       const r = await getEmpfehlungByToken(token);
       empData = r.data || null;
+    }
+
+    // Multi-Tenant: Berater dieser Empfehlung laden + Seite auf ihn branden
+    if (empData?.berater_id) {
+      const { data: berater } = await getBeraterPublicById(empData.berater_id);
+      if (berater) applyBeraterBrand(berater);
     }
 
     const slugResolved = (urlVorlage || empData?.vorlage_slug || 'allgemein').toLowerCase();

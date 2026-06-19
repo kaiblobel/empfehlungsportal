@@ -17,7 +17,7 @@ export async function createEmpfehlung(data) {
   if (!supabase) return { data: { link_token: 'demo-token' }, error: null };
   try {
     const payload = {
-      berater_id: window.ENV_BERATER_ID,
+      berater_id: data.berater_id || window.ENV_BERATER_ID,
       empfaenger_name: data.empfaenger_name,
       empfaenger_telefon: data.empfaenger_telefon,
       empfehler_name: data.empfehler_name || null,
@@ -180,16 +180,42 @@ export async function getVorlage(slug) {
 
 
 /* ---------- Empfehler / Belohnungen (Phase 7) ---------- */
-export async function createEmpfehler({ name, email, telefon }) {
+export async function createEmpfehler({ name, email, telefon, beraterSlug }) {
   if (!supabase) return { data: null, error: { message: 'Supabase nicht konfiguriert' } };
   try {
     const { data, error } = await supabase.rpc('create_empfehler', {
       p_name: name, p_email: email || '', p_telefon: telefon || '',
+      p_berater_slug: beraterSlug || null,
     });
     if (error) throw error;
     return { data, error: null };
   } catch (err) {
     console.error('[createEmpfehler]', err);
+    return { data: null, error: err };
+  }
+}
+
+/* ---------- Multi-Tenant · Oeffentliches Berater-Branding (anon-faehig) ---------- */
+export async function getBeraterPublicBySlug(slug) {
+  if (!supabase || !slug) return { data: null, error: null };
+  try {
+    const { data, error } = await supabase.rpc('get_berater_public', { p_slug: slug });
+    if (error) throw error;
+    return { data: data?.[0] || null, error: null };
+  } catch (err) {
+    console.error('[getBeraterPublicBySlug]', err);
+    return { data: null, error: err };
+  }
+}
+
+export async function getBeraterPublicById(id) {
+  if (!supabase || !id) return { data: null, error: null };
+  try {
+    const { data, error } = await supabase.rpc('get_berater_public_by_id', { p_id: id });
+    if (error) throw error;
+    return { data: data?.[0] || null, error: null };
+  } catch (err) {
+    console.error('[getBeraterPublicById]', err);
     return { data: null, error: err };
   }
 }
@@ -314,6 +340,28 @@ export async function updateBerater(id, updates) {
 
 export async function setBeraterAktiv(id, ist_aktiv) {
   return updateBerater(id, { ist_aktiv });
+}
+
+/**
+ * Lädt ein Berater-Foto in den Storage-Bucket `berater-fotos` und gibt die
+ * öffentliche URL zurück. Dateiname = slug + Zeitstempel (Cache-Bust + eindeutig).
+ */
+export async function uploadBeraterFoto(file, slug) {
+  if (!supabase) return { url: null, error: { message: 'No Supabase client' } };
+  try {
+    const ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
+    const safeSlug = (slug || 'berater').replace(/[^a-z0-9-]/g, '') || 'berater';
+    const path = `${safeSlug}-${Date.now()}.${ext}`;
+    const { error } = await supabase.storage
+      .from('berater-fotos')
+      .upload(path, file, { upsert: true, contentType: file.type || 'image/jpeg', cacheControl: '3600' });
+    if (error) throw error;
+    const { data } = supabase.storage.from('berater-fotos').getPublicUrl(path);
+    return { url: data.publicUrl, error: null };
+  } catch (err) {
+    console.error('[uploadBeraterFoto]', err);
+    return { url: null, error: err };
+  }
 }
 
 /* ---------- Phase 50a · Empfehlungs-Löschung ---------- */

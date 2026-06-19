@@ -34,6 +34,53 @@ export async function logout() {
   window.location.href = '/dashboard/index.html';
 }
 
+
+/* ---------- Eingeloggter Berater (Multi-Tenant Branding) ---------- */
+
+let _currentBerater = null;
+
+/**
+ * Lädt den zum eingeloggten Auth-User gehörenden Berater-Datensatz (gecacht).
+ * Quelle für Foto/Name/Rolle im Dashboard-Header statt der globalen ENV_*.
+ */
+export async function getCurrentBerater() {
+  if (_currentBerater) return _currentBerater;
+  if (!supabase) return null;
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return null;
+  const { data, error } = await supabase
+    .from('berater')
+    .select('id, name, rolle, foto_url, slug, bookings_url, whatsapp, telefon, email')
+    .eq('auth_user_id', user.id)
+    .maybeSingle();
+  if (error) {
+    console.error('[getCurrentBerater]', error);
+    return null;
+  }
+  _currentBerater = data || null;
+  window.CURRENT_BERATER = _currentBerater;
+  return _currentBerater;
+}
+
+/**
+ * Setzt Foto + Name (und optional #profName) im Dashboard-Header aus dem
+ * eingeloggten Berater. Deckt beide ID-Konventionen ab (hPhoto/hName und
+ * hdrPhoto/hdrName). ENV_* bleibt nur Fallback, falls noch kein Foto gepflegt.
+ * Gibt den Berater-Datensatz zurück.
+ */
+export async function applyBeraterHeader() {
+  const b = await getCurrentBerater();
+  const foto = b?.foto_url || window.ENV_BERATER_FOTO || '';
+  const name = b?.name || window.ENV_BERATER_NAME || 'Berater';
+  const set = (id, prop, val) => { const el = document.getElementById(id); if (el) el[prop] = val; };
+  set('hPhoto', 'src', foto);
+  set('hdrPhoto', 'src', foto);
+  set('hName', 'textContent', name);
+  set('hdrName', 'textContent', name);
+  set('profName', 'textContent', b?.name || window.ENV_BERATER_NAME || '—');
+  return b;
+}
+
 function redirectLogin() {
   if (!window.location.pathname.endsWith('/dashboard/index.html') &&
       !window.location.pathname.endsWith('/dashboard/')) {

@@ -1,5 +1,10 @@
-import { getBelohnungsStufen, getVorlagen, createEmpfehler } from './supabase.js';
+import { getBelohnungsStufen, getVorlagen, createEmpfehler, getBeraterPublicBySlug } from './supabase.js';
 import { icon as lucideIcon, ICONS } from './icons.js';
+import { applyBeraterBrand } from './berater-brand.js';
+
+// Multi-Tenant: Berater-Einstieg via ?berater=slug (z. B. ?berater=sven-augustin).
+// Wird unten zum Branding genutzt + an create_empfehler durchgereicht.
+const beraterSlug = new URLSearchParams(window.location.search).get('berater');
 
 // === Förder-Rechner (Phase 50m): Live-Tool für den Live-Pitch ===
 (function initFoerderRechner() {
@@ -407,11 +412,20 @@ const TOPIC_ICON_SVG = {
   Sparkles:    '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.582a.5.5 0 0 1 0 .962L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg>',
 };
 
-// Foto im Hero + Video-Poster
+// Foto im Hero + Video-Poster (ENV-Fallback; Multi-Tenant überschreibt unten)
 const beraterFoto = window.ENV_BERATER_FOTO || '';
 document.getElementById('t-Foto').src = beraterFoto;
 const fotoVideo = document.getElementById('t-FotoVideo');
 if (fotoVideo) fotoVideo.src = beraterFoto;
+
+// Multi-Tenant: Berater aus ?berater=slug laden + Seite auf ihn branden
+if (beraterSlug) {
+  getBeraterPublicBySlug(beraterSlug).then(({ data }) => {
+    if (!data) return;
+    applyBeraterBrand(data);
+    if (data.foto_url && fotoVideo) fotoVideo.src = data.foto_url;
+  });
+}
 
 // === Testimonials Marquee: dynamisch befüllen mit genug Wiederholungen ===
 const TESTIMONIALS = {
@@ -663,7 +677,7 @@ form.addEventListener('submit', async (e) => {
   submitBtn.disabled = true;
   submitBtn.textContent = 'Erstelle…';
 
-  const { data: code, error } = await createEmpfehler({ name, email, telefon });
+  const { data: code, error } = await createEmpfehler({ name, email, telefon, beraterSlug });
 
   if (error || !code) {
     errBox.textContent = 'Konnte nicht angelegt werden: ' + (error?.message || 'unbekannt');

@@ -154,11 +154,10 @@
   </div>
 
   <script type="module">
-    import { requireAuth, logout } from '../js/dashboard.js';
+    import { requireAuth, logout, applyBeraterHeader } from '../js/dashboard.js';
     import { showInstallPrompt, canInstall, pushPermissionState, subscribeToPush, unsubscribeFromPush } from '../js/pwa.js';
 
-    document.getElementById('hdrPhoto').src = window.ENV_BERATER_FOTO || '';
-    document.getElementById('hdrName').textContent = window.ENV_BERATER_NAME || 'Berater';
+    applyBeraterHeader();
     document.getElementById('logoutBtn').addEventListener('click', logout);
 
     // PWA-Install-Section: nur zeigen wenn installierbar (Chrome/Edge auf Desktop/Android)
@@ -207,7 +206,7 @@
       const session = await requireAuth();
       if (!session) return;
 
-      document.getElementById('profName').textContent = window.ENV_BERATER_NAME || '—';
+      document.getElementById('profName').textContent = window.CURRENT_BERATER?.name || window.ENV_BERATER_NAME || '—';
       document.getElementById('profEmail').textContent = session.user?.email || '—';
       document.getElementById('profUuid').textContent = session.user?.id || '—';
       document.getElementById('profExpiry').textContent = session.expires_at

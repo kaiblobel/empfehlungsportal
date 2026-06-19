@@ -44,11 +44,10 @@
   <div class="h-toast" id="hToast"></div>
 
   <script type="module">
-    import { requireAuth, logout } from './js/dashboard.js';
+    import { requireAuth, logout, applyBeraterHeader } from './js/dashboard.js';
 
     document.getElementById('logoutBtn').addEventListener('click', logout);
-    document.getElementById('hPhoto').src = window.ENV_BERATER_FOTO || '';
-    document.getElementById('hName').textContent = window.ENV_BERATER_NAME || 'Berater';
+    applyBeraterHeader();
     document.getElementById('changelogVersion').textContent = window.APP_VERSION || 'Empfehlungs-HUB';
     document.getElementById('changelogPhase').textContent = window.APP_PHASE || '';
 

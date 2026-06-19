@@ -41,10 +41,9 @@
   </div>
 
   <script type="module">
-    import { requireAuth, logout, loadEmpfehlerList, formatDate } from '../js/dashboard.js';
+    import { requireAuth, logout, loadEmpfehlerList, formatDate, applyBeraterHeader } from '../js/dashboard.js';
 
-    document.getElementById('hdrPhoto').src = window.ENV_BERATER_FOTO || '';
-    document.getElementById('hdrName').textContent = window.ENV_BERATER_NAME || 'Berater';
+    applyBeraterHeader();
     document.getElementById('logoutBtn').addEventListener('click', logout);
 
     (async () => {

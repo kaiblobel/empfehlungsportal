@@ -1,5 +1,5 @@
 import { supabase } from './supabase.js';
-import { requireAuth, logout, formatDate, loadFunnel } from './dashboard.js';
+import { requireAuth, logout, formatDate, loadFunnel, applyBeraterHeader } from './dashboard.js';
 import { icon, hydrateIcons } from './icons.js';
 import { watchHotLeads } from './hot-lead-watcher.js';
 
@@ -16,8 +16,7 @@ function markEventRead(key) {
 window.__markEventRead = markEventRead;
 
 document.getElementById('logoutBtn').addEventListener('click', logout);
-document.getElementById('hPhoto').src = window.ENV_BERATER_FOTO || '';
-document.getElementById('hName').textContent = window.ENV_BERATER_NAME || 'Berater';
+applyBeraterHeader().then(setGreeting);
 
 const NOW = new Date();
 const HOUR = NOW.getHours();
@@ -87,7 +86,7 @@ function startClock() {
 /* ---------- Greeting ---------- */
 function setGreeting() {
   const greetEl = document.getElementById('hGreet');
-  const name = (window.ENV_BERATER_NAME || 'Kai').split(' ')[0];
+  const name = (window.CURRENT_BERATER?.name || window.ENV_BERATER_NAME || 'Kai').split(' ')[0];
   let prefix;
   if (HOUR >= 5 && HOUR < 11) prefix = 'Guten Morgen';
   else if (HOUR >= 11 && HOUR < 17) prefix = 'Guten Tag';

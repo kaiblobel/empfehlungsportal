@@ -1,5 +1,5 @@
 import { getVorlagen, updateVorlage } from './supabase.js';
-import { requireAuth, logout } from './dashboard.js';
+import { requireAuth, logout, applyBeraterHeader } from './dashboard.js';
 import { ICONS } from './icons.js';
 
 function renderIcon(name) {
@@ -10,8 +10,7 @@ function renderIcon(name) {
 }
 
 document.getElementById('logoutBtn').addEventListener('click', logout);
-document.getElementById('hPhoto').src = window.ENV_BERATER_FOTO || '';
-document.getElementById('hName').textContent = window.ENV_BERATER_NAME || 'Berater';
+applyBeraterHeader();
 
 (async () => {
   const session = await requireAuth();

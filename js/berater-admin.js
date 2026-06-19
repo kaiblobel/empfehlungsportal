@@ -7,13 +7,13 @@ import {
   createBerater,
   updateBerater,
   setBeraterAktiv,
+  uploadBeraterFoto,
 } from './supabase.js';
 import { supabase } from './supabase.js';
-import { requireAuth, logout } from './dashboard.js';
+import { requireAuth, logout, applyBeraterHeader } from './dashboard.js';
 
 document.getElementById('logoutBtn').addEventListener('click', logout);
-document.getElementById('hPhoto').src = window.ENV_BERATER_FOTO || '';
-document.getElementById('hName').textContent = window.ENV_BERATER_NAME || 'Berater';
+applyBeraterHeader();
 
 const listEl = document.getElementById('beraterList');
 const countEl = document.getElementById('beraterCount');
@@ -89,9 +89,15 @@ function renderCard(b) {
           <div><label>WhatsApp (ohne +)</label><input data-f="whatsapp" value="${escapeAttr(b.whatsapp || '')}" placeholder="491701234567" /></div>
         </div>
         <div>
-          <label>Foto-URL</label>
-          <input data-f="foto_url" value="${escapeAttr(b.foto_url || '')}" />
-          ${b.foto_url ? `<img class="cms-img-preview" src="${escapeAttr(b.foto_url)}" alt="" onerror="this.style.display='none'" />` : ''}
+          <label>Foto</label>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <input data-f="foto_url" value="${escapeAttr(b.foto_url || '')}" placeholder="Bild hochladen → oder URL einfügen" style="flex:1;" />
+            <label class="cms-upload-btn" style="white-space:nowrap;cursor:pointer;padding:8px 14px;border:1px solid var(--border,#e3ddd4);border-radius:8px;font-size:13px;font-weight:500;background:#fff;">
+              <span class="cms-upload-label">Hochladen</span>
+              <input type="file" accept="image/*" data-upload="${b.id}" hidden />
+            </label>
+          </div>
+          <img class="cms-img-preview" data-preview="${b.id}" src="${escapeAttr(b.foto_url || '')}" alt="" onerror="this.style.display='none'" style="${b.foto_url ? '' : 'display:none;'}" />
         </div>
         <div><label>Bookings-Link</label><input data-f="bookings_url" value="${escapeAttr(b.bookings_url || '')}" /></div>
         <div><label>Auth-User-ID <span style="color:var(--text-secondary);font-weight:400;">(read-only, wird beim ersten Login automatisch verknüpft)</span></label><input data-f="auth_user_id_readonly" value="${escapeAttr(b.auth_user_id || '')}" readonly style="opacity:0.6;cursor:not-allowed;" /></div>
@@ -137,6 +143,29 @@ function attachHandlers(list) {
       btn.disabled = false;
       btn.textContent = 'Speichern';
       await renderList();
+    });
+  });
+
+  document.querySelectorAll('[data-upload]').forEach(inp => {
+    inp.addEventListener('change', async () => {
+      const file = inp.files && inp.files[0];
+      if (!file) return;
+      const card = inp.closest('.berater-card');
+      const slug = (card.querySelector('[data-f="slug"]')?.value || '').trim();
+      const labelEl = inp.closest('.cms-upload-btn').querySelector('.cms-upload-label');
+      const orig = labelEl.textContent;
+      labelEl.textContent = 'Lädt…';
+      const { url, error } = await uploadBeraterFoto(file, slug);
+      labelEl.textContent = orig;
+      inp.value = '';
+      if (error) {
+        toast('Upload fehlgeschlagen: ' + (error.message || 'unbekannt'), 4000);
+        return;
+      }
+      card.querySelector('[data-f="foto_url"]').value = url;
+      const prev = card.querySelector('[data-preview]');
+      if (prev) { prev.src = url; prev.style.display = ''; }
+      toast('Foto hochgeladen — jetzt noch „Speichern" klicken.', 3500);
     });
   });
 
