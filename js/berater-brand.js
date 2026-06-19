@@ -15,6 +15,13 @@
  * Felder, die im Berater-Datensatz leer sind, werden NICHT überschrieben — so
  * bleiben die statischen HTML-Defaults (Kai) als Fallback erhalten.
  */
+/** Neutraler Initialen-Avatar (Inline-SVG, kein externer Request) als Foto-Fallback. */
+function initialsAvatar(name) {
+  const initials = (name || '?').trim().split(/\s+/).map((s) => s[0] || '').join('').slice(0, 2).toUpperCase() || '?';
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="280" height="280" viewBox="0 0 280 280"><rect width="280" height="280" fill="#C9B98A"/><text x="50%" y="52%" dy=".35em" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-weight="600" font-size="112" fill="#fffcf7">${initials}</text></svg>`;
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
 export function applyBeraterBrand(b) {
   if (!b) return;
   const waNum = (b.whatsapp || '').replace(/[^\d]/g, '');
@@ -25,7 +32,8 @@ export function applyBeraterBrand(b) {
   document.querySelectorAll('[data-bb]').forEach((el) => {
     switch (el.dataset.bb) {
       case 'foto':
-        if (b.foto_url) el.src = b.foto_url;
+        // Eigenes Foto, sonst neutraler Initialen-Avatar — NIE der Kai-Fallback.
+        el.src = b.foto_url || initialsAvatar(b.name);
         if (b.name) el.alt = b.name;
         break;
       case 'name':
