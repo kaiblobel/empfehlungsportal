@@ -136,6 +136,17 @@
 
     (async () => { await requireAuth(); })();
 
+    // Vorbefüllung aus URL-Parametern (Brücke aus dem Berater-Cockpit, Telefon-Fokusmodus)
+    (() => {
+      const p = new URLSearchParams(location.search);
+      const set = (id, key) => { const v = p.get(key); if (v) { const el = document.getElementById(id); if (el) el.value = v; } };
+      set('vorname', 'vorname');
+      set('nachname', 'nachname');
+      set('telefon', 'telefon');
+      set('empfehlerName', 'empfehler');
+      set('empfaengerKontext', 'kontext');
+    })();
+
     function sanitizePhone(raw) {
       return (raw || '').replace(/[^\d+]/g, '').replace(/^00/, '+').replace(/^\+/, '');
     }
