@@ -1,9 +1,29 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.60** · Phase 50m Förder-Rechner.
+Aktuelle Version: **v1.69** · Phase 53 Inhalte pro Berater.
 
 ---
+
+## v1.69 — Phase 53 · Inhalte pro Berater (Multi-Tenant Content)
+**2026-06-22**
+
+Jeder Berater pflegt jetzt EIGENE Inhalte (Vorlagen, Belohnungsstufen, Erfolgsgeschichten) statt geteilter globaler Inhalte.
+
+**Datenbank (schema-phase11.sql):**
+- `vorlagen.slug` jetzt nur noch pro Berater eindeutig (Unique `(berater_id, slug)` statt global) — zwei Berater können dieselben Standard-Slugs haben
+- `belohnungs_stufen` Primärschlüssel auf `(berater_id, stufe)` umgestellt
+- FK `erfolgsgeschichten.vorlage_slug → vorlagen.slug` entfernt (Zuordnung jetzt per `berater_id`+`vorlage_slug` in der Query)
+- RLS pro Berater: public read offen, INSERT/UPDATE/DELETE nur für eigene (`berater_id = current_berater_id()`)
+- `clone_default_content(uuid)` + Trigger `clone_content_on_berater_insert`: neuer Berater bekommt automatisch das Startset von Kai geklont
+- Sven mit Startset befüllt
+
+**Frontend:**
+- `getVorlagen/getVorlage/getErfolgsgeschichten/getBelohnungsStufen/updateVorlage` akzeptieren `berater_id`
+- Funnel (programm.js, app.js empfehlen+empfaenger, empfehler.js Promoter-Dashboard) lädt nur Inhalte des jeweiligen Beraters; Fallback = ENV-Berater (Kai) als Default-Tenant
+- Vorlagen-CMS zeigt/editiert nur die eigenen Vorlagen des eingeloggten Beraters
+
+**Offen (Folge-Phase):** eigene Dashboard-Editoren für Belohnungen + Erfolgsgeschichten (bis dahin via Supabase-UI).
 
 ## v1.60 — Phase 50m · Förder-Rechner als Live-Tool im Pitch
 **2026-06-17**

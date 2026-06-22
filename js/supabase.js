@@ -108,14 +108,19 @@ export async function getEmpfehlungByToken(token) {
 }
 
 /* ---------- Vorlagen (public read) ---------- */
-export async function getVorlagen() {
+// Multi-Tenant: beraterId optional. Wenn gesetzt, werden nur die Inhalte
+// dieses Beraters geladen (jeder Berater pflegt eigene). Ohne beraterId
+// bleibt das alte globale Verhalten (Rückwärtskompatibilität).
+export async function getVorlagen(beraterId = null) {
   if (!supabase) return [];
   try {
-    const { data, error } = await supabase
+    let q = supabase
       .from('vorlagen')
       .select('*')
       .eq('aktiv', true)
       .order('sort_order', { ascending: true });
+    if (beraterId) q = q.eq('berater_id', beraterId);
+    const { data, error } = await q;
     if (error) throw error;
     return data || [];
   } catch (err) {
@@ -124,7 +129,7 @@ export async function getVorlagen() {
   }
 }
 
-export async function getErfolgsgeschichten(vorlage_slug = null) {
+export async function getErfolgsgeschichten(vorlage_slug = null, beraterId = null) {
   if (!supabase) return [];
   try {
     let q = supabase
@@ -132,6 +137,7 @@ export async function getErfolgsgeschichten(vorlage_slug = null) {
       .select('*')
       .eq('aktiv', true)
       .order('sort_order', { ascending: true });
+    if (beraterId) q = q.eq('berater_id', beraterId);
     if (vorlage_slug) {
       // Themen-spezifisch ODER themen-neutral (NULL)
       q = q.or(`vorlage_slug.eq.${vorlage_slug},vorlage_slug.is.null`);
@@ -147,13 +153,15 @@ export async function getErfolgsgeschichten(vorlage_slug = null) {
   }
 }
 
-export async function updateVorlage(slug, data) {
+export async function updateVorlage(slug, data, beraterId = null) {
   if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
   try {
-    const { error } = await supabase
-      .from('vorlagen')
-      .update(data)
-      .eq('slug', slug);
+    // slug ist nur noch pro Berater eindeutig → zusätzlich nach berater_id
+    // filtern (RLS schützt zusätzlich, aber so trifft das Update genau die
+    // eigene Zeile).
+    let q = supabase.from('vorlagen').update(data).eq('slug', slug);
+    if (beraterId) q = q.eq('berater_id', beraterId);
+    const { error } = await q;
     if (error) throw error;
     return { error: null };
   } catch (err) {
@@ -162,16 +170,19 @@ export async function updateVorlage(slug, data) {
   }
 }
 
-export async function getVorlage(slug) {
+export async function getVorlage(slug, beraterId = null) {
   if (!supabase) return null;
   try {
-    const { data, error } = await supabase
+    let q = supabase
       .from('vorlagen')
       .select('*')
-      .eq('slug', slug)
-      .maybeSingle();
+      .eq('slug', slug);
+    if (beraterId) q = q.eq('berater_id', beraterId);
+    // slug ist nur noch pro Berater eindeutig → bei mehreren Treffern den
+    // ersten nehmen (maybeSingle würde bei >1 Row fehlschlagen).
+    const { data, error } = await q.order('sort_order', { ascending: true }).limit(1);
     if (error) throw error;
-    return data || null;
+    return data?.[0] || null;
   } catch (err) {
     console.error('[getVorlage]', err);
     return null;
@@ -256,13 +267,15 @@ export async function getEmpfehlerEmpfehlungen(code) {
   }
 }
 
-export async function getBelohnungsStufen() {
+export async function getBelohnungsStufen(beraterId = null) {
   if (!supabase) return [];
   try {
-    const { data, error } = await supabase
+    let q = supabase
       .from('belohnungs_stufen')
       .select('*')
       .order('sort_order', { ascending: true });
+    if (beraterId) q = q.eq('berater_id', beraterId);
+    const { data, error } = await q;
     if (error) throw error;
     return data || [];
   } catch (err) {

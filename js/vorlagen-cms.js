@@ -1,6 +1,8 @@
 import { getVorlagen, updateVorlage } from './supabase.js';
-import { requireAuth, logout, applyBeraterHeader } from './dashboard.js';
+import { requireAuth, logout, applyBeraterHeader, getCurrentBerater } from './dashboard.js';
 import { ICONS } from './icons.js';
+
+let currentBeraterId = null;
 
 function renderIcon(name) {
   if (name && ICONS[name]) {
@@ -16,7 +18,11 @@ applyBeraterHeader();
   const session = await requireAuth();
   if (!session) return;
 
-  const list = await getVorlagen();
+  // Multi-Tenant: nur die eigenen Vorlagen des eingeloggten Beraters laden/editieren
+  const berater = await getCurrentBerater();
+  currentBeraterId = berater?.id || null;
+
+  const list = await getVorlagen(currentBeraterId);
   const wrap = document.getElementById('cmsList');
   if (!list.length) {
     wrap.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text-secondary);">Themen-Seiten konnten nicht geladen werden.</div>';
@@ -85,7 +91,7 @@ function attachHandlers(list) {
       btn.disabled = true;
       btn.textContent = 'Speichere…';
 
-      const { error } = await updateVorlage(slug, data);
+      const { error } = await updateVorlage(slug, data, currentBeraterId);
 
       if (error) {
         toast('Speichern fehlgeschlagen: ' + (error.message || ''));

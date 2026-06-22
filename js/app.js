@@ -317,7 +317,7 @@ if (page === 'empfehlen') {
 
   if (grid) {
     (async () => {
-      const list = await getVorlagen();
+      const list = await getVorlagen(berater?.id || window.ENV_BERATER_ID || null);
       if (!list.length) {
         grid.innerHTML = '<p style="font-size:13px;color:var(--text-secondary);">Themen-Seiten konnten nicht geladen werden.</p>';
         renderNachrichtVorlagen('allgemein');
@@ -488,11 +488,12 @@ if (page === 'empfaenger') {
     }
 
     const slugResolved = (urlVorlage || empData?.vorlage_slug || 'allgemein').toLowerCase();
+    const contentBeraterId = empData?.berater_id || window.ENV_BERATER_ID || null;
 
-    // Vorlage + Erfolge parallel
+    // Vorlage + Erfolge parallel — beide pro Berater gescoped
     const [v, erfolge] = await Promise.all([
-      (async () => (await getVorlage(slugResolved)) || (await getVorlage('allgemein')))(),
-      getErfolgsgeschichten(slugResolved),
+      (async () => (await getVorlage(slugResolved, contentBeraterId)) || (await getVorlage('allgemein', contentBeraterId)))(),
+      getErfolgsgeschichten(slugResolved, contentBeraterId),
     ]);
 
     if (v) applyVorlage(v);

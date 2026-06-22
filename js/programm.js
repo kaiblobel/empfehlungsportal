@@ -438,7 +438,17 @@ async function resolveBerater() {
   return null;
 }
 
-resolveBerater().then((data) => {
+// Geteiltes Promise: Inhalte (Vorlagen/Belohnungen) laden den Berater EINMAL auf.
+const beraterPromise = resolveBerater();
+
+// berater_id für Inhalts-Abfragen. Fallback = ENV-Berater (Kai) als Default-Tenant,
+// damit die nackte programm.html (ohne Slug/Login) nicht alle Berater mischt.
+async function contentBeraterId() {
+  const b = await beraterPromise;
+  return b?.id || window.ENV_BERATER_ID || null;
+}
+
+beraterPromise.then((data) => {
   if (!data) return;
   applyBeraterBrand(data);
   if (data.foto_url && fotoVideo) fotoVideo.src = data.foto_url;
@@ -512,7 +522,7 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
 // Belohnungs-Cards rendern (mit Bild) + Modus-Filter + Roadmap + Total-Counter
 (async () => {
-  const stufen = await getBelohnungsStufen();
+  const stufen = await getBelohnungsStufen(await contentBeraterId());
   const wrap = document.getElementById('t-Rewards');
   if (!stufen.length) {
     wrap.innerHTML = '<p class="t-body" style="color:var(--text-muted);">Belohnungen konnten nicht geladen werden.</p>';
@@ -637,7 +647,7 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
   const wrap = document.getElementById('t-Topics');
   if (!wrap) return;
   try {
-    const vorlagen = await getVorlagen();
+    const vorlagen = await getVorlagen(await contentBeraterId());
     if (!vorlagen?.length) {
       wrap.innerHTML = '';
       return;

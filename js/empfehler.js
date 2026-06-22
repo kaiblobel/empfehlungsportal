@@ -28,12 +28,15 @@ const STATUS_LABEL = {
 };
 
 async function init() {
-  // Stats + Empfehlungen + Belohnungs-Stufen parallel laden
-  const [statsRes, listRes, stufen] = await Promise.all([
+  // Empfehler (für berater_id) + Stats + Empfehlungen parallel laden,
+  // dann die Belohnungs-Stufen des zugehörigen Beraters.
+  const [empRes, statsRes, listRes] = await Promise.all([
+    getEmpfehlerByCode(code),
     getEmpfehlerStats(code),
     getEmpfehlerEmpfehlungen(code),
-    getBelohnungsStufen(),
   ]);
+  const beraterId = empRes.data?.berater_id || window.ENV_BERATER_ID || null;
+  const stufen = await getBelohnungsStufen(beraterId);
 
   const stats = statsRes.data;
   const empfehlungen = listRes.data || [];
