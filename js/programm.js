@@ -424,6 +424,12 @@ if (beraterSlug) {
     if (!data) return;
     applyBeraterBrand(data);
     if (data.foto_url && fotoVideo) fotoVideo.src = data.foto_url;
+    // Die Testimonials sind echte Google-Bewertungen von Kai. Für andere
+    // Berater ausblenden, statt fremde Rezensionen unter ihrem Namen zu zeigen.
+    if (data.slug && data.slug !== 'kai-blobel') {
+      const tSection = document.getElementById('bewertungen');
+      if (tSection) tSection.style.display = 'none';
+    }
   });
 }
 

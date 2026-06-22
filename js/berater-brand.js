@@ -54,8 +54,12 @@ export function applyBeraterBrand(b) {
         else el.style.display = 'none';
         break;
       case 'whatsapp':
-        if (waNum) el.href = `https://wa.me/${waNum}`;
-        else el.style.display = 'none';
+        if (waNum) {
+          // Vorausgefüllten ?text=… (z. B. Feedback-Nachricht) beibehalten.
+          const qi = el.href.indexOf('?');
+          const query = qi >= 0 ? el.href.slice(qi) : '';
+          el.href = `https://wa.me/${waNum}${query}`;
+        } else el.style.display = 'none';
         break;
       case 'tel':        // nur Link (Button mit eigenem Label)
         if (telNum) el.href = `tel:${telNum}`;

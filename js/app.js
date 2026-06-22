@@ -16,44 +16,44 @@ import { applyBeraterBrand } from './berater-brand.js';
 
 const page = document.body.dataset.page;
 
-// 18 Nachricht-Vorlagen, 3 pro Thema. Bewusst in Kai-Sprache geschrieben:
-// natürlich, kurz, kein Marketing-Geschwurbel. Platzhalter {{vorname}} wird
-// dynamisch ersetzt durch den Vornamen der empfohlenen Person.
+// 21 Nachricht-Vorlagen, 3 pro Thema. Bewusst natürlich/kurz formuliert.
+// Platzhalter: {{vorname}} = Vorname der empfohlenen Person,
+// {{berater}} = Vorname des jeweiligen Beraters (Multi-Tenant: Kai, Sven, …).
 const NACHRICHT_VORLAGEN = {
   allgemein: [
-    'Hey {{vorname}}, ich wollte dir mal Kai empfehlen. Hat mir bei einigen Finanz-Sachen sehr geholfen, ich dachte sofort an dich.',
-    'Hi {{vorname}}, du hattest letztens erzählt, dass du dich mal mit deinen Verträgen beschäftigen wolltest. Schau dir das hier kurz an, Kai hat bei mir viel sortiert.',
-    'Du {{vorname}}, falls du gerade auch jemanden für deine Finanzen suchst, kann ich dir Kai sehr empfehlen. Er hat mir richtig den Überblick gegeben.',
+    'Hey {{vorname}}, ich wollte dir mal {{berater}} empfehlen. Hat mir bei einigen Finanz-Sachen sehr geholfen, ich dachte sofort an dich.',
+    'Hi {{vorname}}, du hattest letztens erzählt, dass du dich mal mit deinen Verträgen beschäftigen wolltest. Schau dir das hier kurz an, {{berater}} hat bei mir viel sortiert.',
+    'Du {{vorname}}, falls du gerade auch jemanden für deine Finanzen suchst, kann ich dir {{berater}} sehr empfehlen. Er hat mir richtig den Überblick gegeben.',
   ],
   baufi: [
-    'Hey {{vorname}}, du suchst doch noch jemanden für eure Finanzierung. Kai hat unsere Baufi gemacht, ich kann ihn nur empfehlen.',
-    'Hi {{vorname}}, du hattest erzählt, dass ihr ein Haus kauft. Bei unserer Baufinanzierung hat Kai uns viel Geld gespart, vielleicht hilft dir das auch.',
-    '{{vorname}}, du bist doch gerade beim Thema Hauskauf. Kai kennt sich bei Baufi richtig gut aus, der ist auf jeden Fall ein guter Tipp.',
+    'Hey {{vorname}}, du suchst doch noch jemanden für eure Finanzierung. {{berater}} hat unsere Baufi gemacht, ich kann ihn nur empfehlen.',
+    'Hi {{vorname}}, du hattest erzählt, dass ihr ein Haus kauft. Bei unserer Baufinanzierung hat {{berater}} uns viel Geld gespart, vielleicht hilft dir das auch.',
+    '{{vorname}}, du bist doch gerade beim Thema Hauskauf. {{berater}} kennt sich bei Baufi richtig gut aus, der ist auf jeden Fall ein guter Tipp.',
   ],
   foerderungen: [
-    'Hey {{vorname}}, Kai hat mir gezeigt, wie viel staatliche Förderung viele jedes Jahr einfach liegen lassen. Wollte dir das mal weitergeben.',
-    'Hi {{vorname}}, du hast bestimmt Anspruch auf einige Förderungen, die kaum einer auf dem Schirm hat. Kai zeigt dir das in 20 Minuten.',
-    '{{vorname}}, der Staat schenkt Geld weg und keiner sagt es einem. Kai hat mir gezeigt, was ich alles holen kann, das lohnt sich für dich bestimmt auch.',
+    'Hey {{vorname}}, {{berater}} hat mir gezeigt, wie viel staatliche Förderung viele jedes Jahr einfach liegen lassen. Wollte dir das mal weitergeben.',
+    'Hi {{vorname}}, du hast bestimmt Anspruch auf einige Förderungen, die kaum einer auf dem Schirm hat. {{berater}} zeigt dir das in 20 Minuten.',
+    '{{vorname}}, der Staat schenkt Geld weg und keiner sagt es einem. {{berater}} hat mir gezeigt, was ich alles holen kann, das lohnt sich für dich bestimmt auch.',
   ],
   selbstaendige: [
-    'Hey {{vorname}}, als Selbstständige ist Altersvorsorge ja immer so eine Sache. Kai hat mir geholfen, das endlich mal zu sortieren.',
-    'Hi {{vorname}}, du bist ja auch dein eigener Chef. Kai berät viele Selbstständige zu Vorsorge und Krankenkasse, kann ich nur empfehlen.',
-    '{{vorname}}, kennst du Kai schon? Der hat bei mir die ganze Selbstständigen-Vorsorge auf Linie gebracht, ohne Versicherungs-Geschwurbel.',
+    'Hey {{vorname}}, als Selbstständige ist Altersvorsorge ja immer so eine Sache. {{berater}} hat mir geholfen, das endlich mal zu sortieren.',
+    'Hi {{vorname}}, du bist ja auch dein eigener Chef. {{berater}} berät viele Selbstständige zu Vorsorge und Krankenkasse, kann ich nur empfehlen.',
+    '{{vorname}}, kennst du {{berater}} schon? Der hat bei mir die ganze Selbstständigen-Vorsorge auf Linie gebracht, ohne Versicherungs-Geschwurbel.',
   ],
   investment: [
-    'Hey {{vorname}}, du wolltest doch schon länger anfangen zu investieren. Kai hat mit mir einen einfachen Plan gemacht, das ist genau richtig zum Einstieg.',
-    'Hi {{vorname}}, dein Geld liegt doch noch auf dem Sparkonto. Kai hat mir geholfen, da was Vernünftiges aufzusetzen, ohne große Versprechen.',
-    '{{vorname}}, ich lege jetzt seit einiger Zeit dank Kai vernünftig an. Vielleicht ist das auch was für dich.',
+    'Hey {{vorname}}, du wolltest doch schon länger anfangen zu investieren. {{berater}} hat mit mir einen einfachen Plan gemacht, das ist genau richtig zum Einstieg.',
+    'Hi {{vorname}}, dein Geld liegt doch noch auf dem Sparkonto. {{berater}} hat mir geholfen, da was Vernünftiges aufzusetzen, ohne große Versprechen.',
+    '{{vorname}}, ich lege jetzt seit einiger Zeit dank {{berater}} vernünftig an. Vielleicht ist das auch was für dich.',
   ],
   absicherung: [
-    'Hey {{vorname}}, jetzt wo bei euch ein Kind kommt, lohnt es sich, die Versicherungen mal anzuschauen. Kai hat das bei uns gemacht.',
-    'Hi {{vorname}}, du hattest mal gefragt, ob ich für sowas einen Tipp habe. Kai hat unsere Versicherungen sortiert, das war echt entspannt.',
-    '{{vorname}}, gerade als Familie hat man viele Versicherungen am Laufen. Kai hat bei uns ausgemistet, was nichts taugt. Wir zahlen jetzt weniger und sind besser dran.',
+    'Hey {{vorname}}, jetzt wo bei euch ein Kind kommt, lohnt es sich, die Versicherungen mal anzuschauen. {{berater}} hat das bei uns gemacht.',
+    'Hi {{vorname}}, du hattest mal gefragt, ob ich für sowas einen Tipp habe. {{berater}} hat unsere Versicherungen sortiert, das war echt entspannt.',
+    '{{vorname}}, gerade als Familie hat man viele Versicherungen am Laufen. {{berater}} hat bei uns ausgemistet, was nichts taugt. Wir zahlen jetzt weniger und sind besser dran.',
   ],
   karriere: [
-    'Hey {{vorname}}, du hast doch mal gesagt, du wärst eigentlich bereit für was Neues beruflich. Kai sucht aktuell Leute fürs Team. Schau dir das mal kurz an.',
-    'Hi {{vorname}}, ich kenne jemanden, der eine echte Karriere-Chance bietet. Du suchst doch was, in dem du dich mehr entfalten kannst. Kai zeigt dir alles in Ruhe.',
-    '{{vorname}}, du redest doch schon eine Weile davon, dass du was Eigenes machen willst. Bei Kai gibt es einen echten Einstieg mit klarer Perspektive. Vielleicht ist das deins.',
+    'Hey {{vorname}}, du hast doch mal gesagt, du wärst eigentlich bereit für was Neues beruflich. {{berater}} sucht aktuell Leute fürs Team. Schau dir das mal kurz an.',
+    'Hi {{vorname}}, ich kenne jemanden, der eine echte Karriere-Chance bietet. Du suchst doch was, in dem du dich mehr entfalten kannst. {{berater}} zeigt dir alles in Ruhe.',
+    '{{vorname}}, du redest doch schon eine Weile davon, dass du was Eigenes machen willst. Bei {{berater}} gibt es einen echten Einstieg mit klarer Perspektive. Vielleicht ist das deins.',
   ],
 };
 
@@ -61,9 +61,11 @@ function vorlagenForSlug(slug) {
   return NACHRICHT_VORLAGEN[slug] || NACHRICHT_VORLAGEN.allgemein;
 }
 
-function fillVorname(template, vorname) {
+function fillTemplate(template, vorname, beraterVorname) {
   const name = (vorname || '').trim();
-  return template.replace(/\{\{vorname\}\}/g, name || '[Vorname]');
+  return template
+    .replace(/\{\{vorname\}\}/g, name || '[Vorname]')
+    .replace(/\{\{berater\}\}/g, (beraterVorname || '').trim() || 'mir');
 }
 
 function vorlagenIconHtml(iconName) {
@@ -75,12 +77,29 @@ function vorlagenIconHtml(iconName) {
   ) : '';
 }
 
-function buildMessage(vorname, typ, link) {
+function buildMessage(vorname, typ, link, beraterName, beraterVorname) {
   const name = vorname?.trim() || '[Vorname]';
+  const bName = (beraterName || '').trim() || 'jemandem, dem ich vertraue';
+  const bVor  = (beraterVorname || '').trim() || 'Er';
   if (typ === 'info') {
-    return `Hallo ${name}, ich möchte dich kurz mit jemandem bekannt machen, dem ich sehr vertraue. Schau dir das kurz an, bevor Kai sich bei dir meldet. ${link}`;
+    return `Hallo ${name}, ich möchte dich kurz mit jemandem bekannt machen, dem ich sehr vertraue. Schau dir das kurz an, bevor ${bVor} sich bei dir meldet. ${link}`;
   }
-  return `Hallo ${name}, ich bin seit einiger Zeit Kunde bei Kai Blobel und wollte dich kurz informieren: Kai wird sich in den nächsten Tagen bei dir melden. Er hat mir sehr geholfen und ich dachte sofort an dich. ${link}`;
+  return `Hallo ${name}, ich bin seit einiger Zeit Kunde bei ${bName} und wollte dich kurz informieren: ${bVor} wird sich in den nächsten Tagen bei dir melden. Er hat mir sehr geholfen und ich dachte sofort an dich. ${link}`;
+}
+
+/**
+ * Normalisiert eine eingegebene Telefonnummer auf internationales E.164-Format
+ * (mit führendem +). Deutsche Nummern mit führender 0 bekommen +49 vorangestellt.
+ * Ohne diese Normalisierung lehnt WhatsApp (wa.me) deutsche 0…-Nummern als
+ * ungültig ab — genau das war der "geht nicht"-Fehler beim Versenden.
+ */
+function normalizePhoneDE(raw) {
+  let n = (raw || '').replace(/[^\d+]/g, '');
+  if (!n) return '';
+  if (n.startsWith('+')) return n;
+  if (n.startsWith('00')) return '+' + n.slice(2);
+  if (n.startsWith('0')) return '+49' + n.slice(1);
+  return '+' + n;
 }
 
 function showToast(text) {
@@ -163,6 +182,11 @@ if (page === 'empfehlen') {
   const params = new URLSearchParams(window.location.search);
   const typ = params.get('typ') === 'info' ? 'info' : 'direkt';
 
+  // Multi-Tenant: Berater-Name für Nachricht-Texte. Default = ENV (Kai),
+  // wird überschrieben sobald der Promoter-Berater geladen ist.
+  let beraterName = window.ENV_BERATER_NAME || 'Kai Blobel';
+  let beraterVorname = beraterName.split(' ')[0];
+
   const headline = document.getElementById('formHeadline');
   headline.textContent = typ === 'info'
     ? 'Wen möchtest du vorab informieren?'
@@ -219,7 +243,13 @@ if (page === 'empfehlen') {
   // Multi-Tenant: Berater des Promoters laden + Formular-Texte auf ihn branden
   if (empfehlerData?.berater_id) {
     const { data: berater } = await getBeraterPublicById(empfehlerData.berater_id);
-    if (berater) applyBeraterBrand(berater);
+    if (berater) {
+      applyBeraterBrand(berater);
+      if (berater.name) {
+        beraterName = berater.name;
+        beraterVorname = berater.name.split(' ')[0];
+      }
+    }
   }
 
   // ----- Vorlagen-Grid + Nachricht-Vorlagen -----
@@ -232,7 +262,7 @@ if (page === 'empfehlen') {
     const vorname = vornameEl?.value || '';
     const templates = vorlagenForSlug(slug);
     nachrichtVorlagenWrap.innerHTML = templates.map((tpl, i) => {
-      const filled = fillVorname(tpl, vorname);
+      const filled = fillTemplate(tpl, vorname, beraterVorname);
       return `
         <button type="button" class="nachricht-vorlage" data-template="${escapeHtml(tpl)}">
           <span class="nachricht-vorlage-label">Vorlage ${i + 1}</span>
@@ -243,7 +273,7 @@ if (page === 'empfehlen') {
     nachrichtVorlagenWrap.querySelectorAll('.nachricht-vorlage').forEach(btn => {
       btn.addEventListener('click', () => {
         const raw = btn.dataset.template || '';
-        const filled = fillVorname(raw, vornameEl?.value || '');
+        const filled = fillTemplate(raw, vornameEl?.value || '', beraterVorname);
         if (nachrichtEl) {
           nachrichtEl.value = filled.slice(0, 240);
           nachrichtEl.dispatchEvent(new Event('input'));
@@ -303,19 +333,15 @@ if (page === 'empfehlen') {
   }
 
   function updatePreview() {
-    preview.textContent = buildMessage(vornameEl.value, typ, previewLink());
+    preview.textContent = buildMessage(vornameEl.value, typ, previewLink(), beraterName, beraterVorname);
   }
   [vornameEl, nachnameEl, telefonEl].forEach((el) => el.addEventListener('input', updatePreview));
   updatePreview();
 
-  function sanitizePhone(raw) {
-    return (raw || '').replace(/[^\d+]/g, '').replace(/^00/, '+').replace(/^\+/, '');
-  }
-
   async function submitFlow(viaWhatsapp) {
     const vorname = vornameEl.value.trim();
     const nachname = nachnameEl.value.trim();
-    const telefon = sanitizePhone(telefonEl.value);
+    const telefon = normalizePhoneDE(telefonEl.value);
     const empfehler = empfehlerEl.value.trim();
     const empfehlerNachricht = nachrichtEl ? nachrichtEl.value.trim() : '';
     const vorlageSlug = vorlageSlugEl ? vorlageSlugEl.value : 'allgemein';
@@ -331,7 +357,7 @@ if (page === 'empfehlen') {
       return;
     }
 
-    const tempMsg = buildMessage(vorname, typ, '');
+    const tempMsg = buildMessage(vorname, typ, '', beraterName, beraterVorname);
     const { data, error } = await createEmpfehlung({
       empfaenger_name: `${vorname} ${nachname}`,
       empfaenger_telefon: telefon,
@@ -352,7 +378,7 @@ if (page === 'empfehlen') {
 
     const token = data?.link_token || 'demo';
     const link = `${window.location.origin}/empfaenger.html?token=${token}&vorlage=${vorlageSlug}`;
-    const finalMsg = buildMessage(vorname, typ, link);
+    const finalMsg = buildMessage(vorname, typ, link, beraterName, beraterVorname);
 
     if (error && !data) {
       showToast('Speichern fehlgeschlagen. Bitte erneut versuchen.');
@@ -360,7 +386,9 @@ if (page === 'empfehlen') {
     }
 
     if (viaWhatsapp) {
-      const url = `https://wa.me/${telefon}?text=${encodeURIComponent(finalMsg)}`;
+      // wa.me erwartet die Nummer nur als Ziffern (internationale Vorwahl ohne +).
+      const waNum = telefon.replace(/\D/g, '');
+      const url = `https://wa.me/${waNum}?text=${encodeURIComponent(finalMsg)}`;
       window.location.href = url;
       setTimeout(() => { window.location.href = 'danke.html'; }, 1500);
     } else {
