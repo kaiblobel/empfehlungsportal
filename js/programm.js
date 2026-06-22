@@ -1,4 +1,4 @@
-import { getBelohnungsStufen, getVorlagen, createEmpfehler, getBeraterPublicBySlug } from './supabase.js';
+import { getBelohnungsStufen, getVorlagen, createEmpfehler, getBeraterPublicBySlug, supabase } from './supabase.js';
 import { icon as lucideIcon, ICONS } from './icons.js';
 import { applyBeraterBrand } from './berater-brand.js';
 
@@ -418,20 +418,37 @@ document.getElementById('t-Foto').src = beraterFoto;
 const fotoVideo = document.getElementById('t-FotoVideo');
 if (fotoVideo) fotoVideo.src = beraterFoto;
 
-// Multi-Tenant: Berater aus ?berater=slug laden + Seite auf ihn branden
-if (beraterSlug) {
-  getBeraterPublicBySlug(beraterSlug).then(({ data }) => {
-    if (!data) return;
-    applyBeraterBrand(data);
-    if (data.foto_url && fotoVideo) fotoVideo.src = data.foto_url;
-    // Die Testimonials sind echte Google-Bewertungen von Kai. Für andere
-    // Berater ausblenden, statt fremde Rezensionen unter ihrem Namen zu zeigen.
-    if (data.slug && data.slug !== 'kai-blobel') {
-      const tSection = document.getElementById('bewertungen');
-      if (tSection) tSection.style.display = 'none';
+// Multi-Tenant: Welcher Berater wird gebrandet?
+// 1. ?berater=slug in der URL (öffentlicher Funnel-Link für Kunden)
+// 2. sonst: eingeloggter Berater (Dashboard-Preview seiner eigenen Seite)
+async function resolveBerater() {
+  if (beraterSlug) {
+    const { data } = await getBeraterPublicBySlug(beraterSlug);
+    if (data) return data;
+  }
+  // Kein Slug → falls ein Berater eingeloggt ist, ihn nehmen (Vorschau).
+  // getSession ist lokal (kein Netz-Request für anonyme Besucher).
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      const m = await import('./dashboard.js');
+      return await m.getCurrentBerater();
     }
-  });
+  } catch (_) {}
+  return null;
 }
+
+resolveBerater().then((data) => {
+  if (!data) return;
+  applyBeraterBrand(data);
+  if (data.foto_url && fotoVideo) fotoVideo.src = data.foto_url;
+  // Die Testimonials sind echte Google-Bewertungen von Kai. Für andere
+  // Berater ausblenden, statt fremde Rezensionen unter ihrem Namen zu zeigen.
+  if (data.slug && data.slug !== 'kai-blobel') {
+    const tSection = document.getElementById('bewertungen');
+    if (tSection) tSection.style.display = 'none';
+  }
+});
 
 // === Testimonials Marquee: dynamisch befüllen mit genug Wiederholungen ===
 const TESTIMONIALS = {

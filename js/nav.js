@@ -163,6 +163,32 @@ export function renderNav(opts = {}) {
         m.logout();
       } catch (e) { console.warn('logout failed', e); }
     });
+
+    // Multi-Tenant: Funnel-Links (programm/empfehlen) mit dem Slug des
+    // eingeloggten Beraters versehen → Adressleiste zeigt den teilbaren Link.
+    applyBeraterSlugToLinks(sidebar);
+  }
+}
+
+async function applyBeraterSlugToLinks(root) {
+  try {
+    const { supabase } = await import('./supabase.js');
+    if (!supabase) return;
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) return;
+    const m = await import('./dashboard.js');
+    const b = await m.getCurrentBerater();
+    if (!b?.slug) return;
+    root.querySelectorAll('a[href*="programm.html"], a[href*="empfehlen.html"]').forEach((a) => {
+      const u = new URL(a.getAttribute('href'), window.location.origin);
+      const isFunnel = u.pathname.endsWith('/programm.html') || u.pathname.endsWith('/empfehlen.html');
+      if (isFunnel && !u.searchParams.has('berater')) {
+        u.searchParams.set('berater', b.slug);
+        a.setAttribute('href', u.pathname + u.search + u.hash);
+      }
+    });
+  } catch (e) {
+    console.warn('[nav] berater-slug patch failed', e);
   }
 }
 

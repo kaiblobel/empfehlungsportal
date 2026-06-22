@@ -10,6 +10,8 @@ import {
   getEmpfehlerByCode,
   getErfolgsgeschichten,
   getBeraterPublicById,
+  getBeraterPublicBySlug,
+  supabase,
 } from './supabase.js';
 import { ICONS } from './icons.js';
 import { applyBeraterBrand } from './berater-brand.js';
@@ -240,15 +242,32 @@ if (page === 'empfehlen') {
     }
   }
 
-  // Multi-Tenant: Berater des Promoters laden + Formular-Texte auf ihn branden
+  // Multi-Tenant: Berater bestimmen + Formular-Texte auf ihn branden.
+  // 1. über den Promoter-Code (echter Kunden-Flow)
+  // 2. über ?berater=slug (z. B. Link aus dem Dashboard)
+  // 3. über eingeloggten Berater (Dashboard-Vorschau)
+  let berater = null;
   if (empfehlerData?.berater_id) {
-    const { data: berater } = await getBeraterPublicById(empfehlerData.berater_id);
-    if (berater) {
-      applyBeraterBrand(berater);
-      if (berater.name) {
-        beraterName = berater.name;
-        beraterVorname = berater.name.split(' ')[0];
+    berater = (await getBeraterPublicById(empfehlerData.berater_id)).data;
+  }
+  if (!berater) {
+    const slugParam = new URLSearchParams(window.location.search).get('berater');
+    if (slugParam) berater = (await getBeraterPublicBySlug(slugParam)).data;
+  }
+  if (!berater) {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        const m = await import('./dashboard.js');
+        berater = await m.getCurrentBerater();
       }
+    } catch (_) {}
+  }
+  if (berater) {
+    applyBeraterBrand(berater);
+    if (berater.name) {
+      beraterName = berater.name;
+      beraterVorname = berater.name.split(' ')[0];
     }
   }
 
