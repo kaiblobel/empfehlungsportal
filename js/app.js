@@ -219,8 +219,11 @@ if (page === 'empfehlen') {
   }
 
   // ----- Empfehler-Code (Phase 7) -----
-  // Code aus URL > LocalStorage
-  const urlCode = new URLSearchParams(window.location.search).get('empfehler');
+  // Code aus URL > LocalStorage. Die CTAs erzeugen ?code=…; ?empfehler= als
+  // Alias (Rückwärtskompatibilität) — sonst greift auf fremdem Gerät kein Code
+  // und der Berater fällt fälschlich auf den ENV-Default (Kai) zurück.
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlCode = urlParams.get('code') || urlParams.get('empfehler');
   let empfehlerCode = urlCode || (() => { try { return localStorage.getItem('empfehler_code'); } catch (_) { return null; } })();
   let empfehlerData = null;
 

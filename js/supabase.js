@@ -12,34 +12,32 @@ if (url && key && !url.startsWith('PLACEHOLDER') && !key.startsWith('PLACEHOLDER
 
 export const supabase = client;
 
-/* ---------- Empfehler-Flow (INSERT bleibt direkt) ---------- */
+/* ---------- Empfehler-Flow (INSERT via SECURITY-DEFINER-RPC) ---------- */
+// Direkter .insert().select() liefert für nicht-eingeloggte Promoter 401 (keine
+// anon-SELECT-Policy). Der RPC fügt ein und gibt link_token zurück — anon-fähig.
 export async function createEmpfehlung(data) {
   if (!supabase) return { data: { link_token: 'demo-token' }, error: null };
   try {
-    const payload = {
-      berater_id: data.berater_id || window.ENV_BERATER_ID,
-      empfaenger_name: data.empfaenger_name,
-      empfaenger_telefon: data.empfaenger_telefon,
-      empfehler_name: data.empfehler_name || null,
-      empfehler_nachricht: data.empfehler_nachricht || null,
-      nachricht: data.nachricht || null,
-      typ: data.typ || 'direkt',
-      vorlage_slug: data.vorlage_slug || 'allgemein',
-      empfehler_id: data.empfehler_id || null,
-      empfaenger_beruf: data.empfaenger_beruf || null,
-      empfaenger_verbindung: data.empfaenger_verbindung || null,
-      empfaenger_kontext: data.empfaenger_kontext || null,
-      empfehler_vorinformiert: data.empfehler_vorinformiert ?? false,
-      beste_erreichbarkeit: data.beste_erreichbarkeit || null,
-      bevorzugter_kanal: data.bevorzugter_kanal || null,
-    };
-    const { data: inserted, error } = await supabase
-      .from('empfehlungen')
-      .insert(payload)
-      .select()
-      .single();
+    const { data: rows, error } = await supabase.rpc('create_empfehlung_public', {
+      p_empfaenger_name: data.empfaenger_name,
+      p_empfaenger_telefon: data.empfaenger_telefon,
+      p_empfehler_name: data.empfehler_name || null,
+      p_empfehler_nachricht: data.empfehler_nachricht || null,
+      p_nachricht: data.nachricht || null,
+      p_typ: data.typ || 'direkt',
+      p_vorlage_slug: data.vorlage_slug || 'allgemein',
+      p_empfehler_id: data.empfehler_id || null,
+      p_berater_id: data.berater_id || window.ENV_BERATER_ID,
+      p_empfaenger_beruf: data.empfaenger_beruf || null,
+      p_empfaenger_verbindung: data.empfaenger_verbindung || null,
+      p_empfaenger_kontext: data.empfaenger_kontext || null,
+      p_empfehler_vorinformiert: data.empfehler_vorinformiert ?? false,
+      p_beste_erreichbarkeit: data.beste_erreichbarkeit || null,
+      p_bevorzugter_kanal: data.bevorzugter_kanal || null,
+    });
     if (error) throw error;
-    return { data: inserted, error: null };
+    const row = Array.isArray(rows) ? rows[0] : rows;
+    return { data: row || null, error: null };
   } catch (err) {
     console.error('[createEmpfehlung]', err);
     return { data: null, error: err };
