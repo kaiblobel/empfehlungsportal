@@ -107,6 +107,10 @@ function renderCard(b) {
           <img class="cms-img-preview" data-preview="${b.id}" src="${escapeAttr(b.foto_url || '')}" alt="" onerror="this.style.display='none'" style="${b.foto_url ? '' : 'display:none;'}" />
         </div>
         <div><label>Bookings-Link</label><input data-f="bookings_url" value="${escapeAttr(b.bookings_url || '')}" /></div>
+        <div class="cms-row-2">
+          <div><label>Impressum-URL</label><input data-f="impressum_url" value="${escapeAttr(b.impressum_url || '')}" placeholder="https://www.dvag.de/vorname.nachname/impressum.html" /></div>
+          <div><label>Datenschutz-URL</label><input data-f="datenschutz_url" value="${escapeAttr(b.datenschutz_url || '')}" placeholder="https://www.dvag.de/vorname.nachname/datenschutz.html" /></div>
+        </div>
         <div><label>Auth-User-ID <span style="color:var(--text-secondary);font-weight:400;">(read-only, wird beim ersten Login automatisch verknüpft)</span></label><input data-f="auth_user_id_readonly" value="${escapeAttr(b.auth_user_id || '')}" readonly style="opacity:0.6;cursor:not-allowed;" /></div>
 
         <div class="cms-actions berater-actions">

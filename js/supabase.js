@@ -306,7 +306,7 @@ export async function listBerater() {
   try {
     const { data, error } = await supabase
       .from('berater')
-      .select('id, name, slug, email, rolle, telefon, foto_url, whatsapp, bookings_url, ist_aktiv, created_at, auth_user_id')
+      .select('id, name, slug, email, rolle, telefon, foto_url, whatsapp, bookings_url, impressum_url, datenschutz_url, ist_aktiv, created_at, auth_user_id')
       .order('created_at', { ascending: true });
     if (error) throw error;
     return { data: data || [], error: null };

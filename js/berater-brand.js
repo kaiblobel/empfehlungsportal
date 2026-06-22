@@ -73,6 +73,14 @@ export function applyBeraterBrand(b) {
         if (b.email) el.href = `mailto:${b.email}`;
         else el.style.display = 'none';
         break;
+      case 'impressum':
+        if (b.impressum_url) el.href = b.impressum_url;
+        else el.style.display = 'none';
+        break;
+      case 'datenschutz':
+        if (b.datenschutz_url) el.href = b.datenschutz_url;
+        else el.style.display = 'none';
+        break;
       case 'email-text':
         if (b.email) { el.href = `mailto:${b.email}`; el.textContent = b.email; }
         else el.style.display = 'none';

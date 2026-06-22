@@ -18,11 +18,14 @@ applyBeraterHeader();
   const session = await requireAuth();
   if (!session) return;
 
-  // Multi-Tenant: nur die eigenen Vorlagen des eingeloggten Beraters laden/editieren
+  // Themen-Seiten sind GETEILT und nur vom Admin editierbar. Nicht-Admins raus.
   const berater = await getCurrentBerater();
-  currentBeraterId = berater?.id || null;
+  if (!berater?.ist_admin) {
+    window.location.href = '/hub.html';
+    return;
+  }
 
-  const list = await getVorlagen(currentBeraterId);
+  const list = await getVorlagen();
   const wrap = document.getElementById('cmsList');
   if (!list.length) {
     wrap.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text-secondary);">Themen-Seiten konnten nicht geladen werden.</div>';
@@ -91,7 +94,7 @@ function attachHandlers(list) {
       btn.disabled = true;
       btn.textContent = 'Speichere…';
 
-      const { error } = await updateVorlage(slug, data, currentBeraterId);
+      const { error } = await updateVorlage(slug, data);
 
       if (error) {
         toast('Speichern fehlgeschlagen: ' + (error.message || ''));
