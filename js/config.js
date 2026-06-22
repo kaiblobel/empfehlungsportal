@@ -6,5 +6,5 @@ window.ENV_BERATER_NAME = 'Kai Blobel';
 window.ENV_BERATER_TITEL = 'Regionaldirektionsleiter · Team Wachsbleiche';
 window.ENV_BERATER_FOTO = '/assets/images/kai-portrait.jpg';
 window.ENV_CALENDLY_URL = ''; // sobald Kai einen Link schickt, hier eintragen — Karte erscheint automatisch
-window.APP_VERSION = 'v1.70';
-window.APP_PHASE = 'Phase 54 · Promoter-Insert-Fix (RPC) + URL-Code-Parameter';
+window.APP_VERSION = 'v1.71';
+window.APP_PHASE = 'Phase 55 · Berater-Verwaltung nur fuer Admin (Kai)';

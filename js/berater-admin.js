@@ -10,7 +10,7 @@ import {
   uploadBeraterFoto,
 } from './supabase.js';
 import { supabase } from './supabase.js';
-import { requireAuth, logout, applyBeraterHeader } from './dashboard.js';
+import { requireAuth, logout, applyBeraterHeader, getCurrentBerater } from './dashboard.js';
 
 document.getElementById('logoutBtn').addEventListener('click', logout);
 applyBeraterHeader();
@@ -31,6 +31,13 @@ let editId = null;
 (async () => {
   const session = await requireAuth();
   if (!session) return;
+  // Berater-Verwaltung ist Admin-only. Nicht-Admins (auch bei direktem URL-Aufruf)
+  // zum Hub umleiten. Die DB-RLS schützt zusätzlich gegen direkte Schreibzugriffe.
+  const me = await getCurrentBerater();
+  if (!me?.ist_admin) {
+    window.location.href = '/hub.html';
+    return;
+  }
   await renderList();
 })();
 

@@ -44,7 +44,7 @@ export const NAV_ITEMS = [
     ] },
   { id: 'praesentation',label: 'Präsentation', icon: 'Presentation',    href: path('programm.html?mode=slides'),      bottom: false },
   { id: 'analysen',    label: 'Analysen',      icon: 'BarChart3',       href: path('dashboard/overview.html'),        bottom: false },
-  { id: 'berater',     label: 'Berater',       icon: 'Users',           href: path('berater.html'),                   bottom: false },
+  { id: 'berater',     label: 'Berater',       icon: 'Users',           href: path('berater.html'),                   bottom: false, adminOnly: true },
   { id: 'einstellungen',label: 'Einstellungen',icon: 'Settings',        href: path('dashboard/settings.html'),        bottom: false },
 ];
 
@@ -63,13 +63,17 @@ function isActive(item) {
 /** Render an item as sidebar-row */
 function sidebarItem(item) {
   const active = isActive(item) ? ' active' : '';
+  // Admin-only Items (z. B. Berater-Verwaltung) standardmäßig verstecken; werden
+  // nur eingeblendet, wenn der eingeloggte Berater Admin ist (siehe revealAdminItems).
+  const adminCls = item.adminOnly ? ' nav-admin-only' : '';
+  const adminStyle = item.adminOnly ? ' style="display:none"' : '';
   const subs = item.subs ? `<div class="nav-subs">${item.subs.map(s => `
     <a class="nav-sub" href="${s.href}">
       ${s.icon ? `<span class="nav-sub-icon">${icon(s.icon, { size: 14 })}</span>` : ''}
       <span>${s.label}</span>
     </a>`).join('')}</div>` : '';
   return `
-    <div class="nav-group${active}">
+    <div class="nav-group${active}${adminCls}"${adminStyle}>
       <a class="nav-item${active}" href="${item.href}">
         <span class="nav-item-icon">${icon(item.icon, { size: 18 })}</span>
         <span class="nav-item-label">${item.label}</span>
@@ -178,7 +182,12 @@ async function applyBeraterSlugToLinks(root) {
     if (!session) return;
     const m = await import('./dashboard.js');
     const b = await m.getCurrentBerater();
-    if (!b?.slug) return;
+    if (!b) return;
+    // Admin-only Items (Berater-Verwaltung) nur für Admins einblenden.
+    if (b.ist_admin) {
+      root.querySelectorAll('.nav-admin-only').forEach((el) => { el.style.display = ''; });
+    }
+    if (!b.slug) return;
     root.querySelectorAll('a[href*="programm.html"], a[href*="empfehlen.html"]').forEach((a) => {
       const u = new URL(a.getAttribute('href'), window.location.origin);
       const isFunnel = u.pathname.endsWith('/programm.html') || u.pathname.endsWith('/empfehlen.html');

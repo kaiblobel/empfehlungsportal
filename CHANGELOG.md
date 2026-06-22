@@ -1,9 +1,21 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.70** · Phase 54 Promoter-Insert-Fix.
+Aktuelle Version: **v1.71** · Phase 55 Berater-Verwaltung Admin-only.
 
 ---
+
+## v1.71 — Phase 55 · Berater-Verwaltung nur für Admin (Kai)
+**2026-06-22**
+
+Die Berater-Verwaltung ist jetzt eine reine Admin-Funktion. Freigeschaltete Berater brauchen diese Rechte nicht und sehen sie nicht mehr.
+
+- **DB (schema-phase13.sql):** neues Flag `berater.ist_admin` (Kai = true). Helper `is_current_berater_admin()`. Schreib-Policies auf `berater` (insert/update/delete) von „jeder Authenticated" → **nur Admin** (`is_current_berater_admin()`). Public read bleibt (Branding).
+- **Menü (nav.js):** Punkt „Berater" ist `adminOnly` — standardmäßig versteckt, wird nur für Admins eingeblendet.
+- **Seite (berater-admin.js):** Admin-Guard — Nicht-Admins werden auch bei direktem URL-Aufruf von `berater.html` zum Hub umgeleitet.
+- **dashboard.js:** `getCurrentBerater` lädt `ist_admin` mit.
+
+Cache: nav.js v40, berater-admin.js v4, sw.js v50.
 
 ## v1.70 — Phase 54 · Promoter kann Empfehlung absenden (fremdes Gerät)
 **2026-06-22**
