@@ -1,9 +1,21 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.71** · Phase 55 Berater-Verwaltung Admin-only.
+Aktuelle Version: **v1.72** · Phase 56 Social-Preview pro Berater.
 
 ---
+
+## v1.72 — Phase 56 · Social-Preview-Karte pro Berater
+**2026-06-22**
+
+Beim Teilen eines Empfehlungslinks zeigte die WhatsApp-Vorschau immer Kais Foto/Namen (statische OG-Meta-Tags, kein JS für den Crawler). Jetzt pro Berater korrekt.
+
+- **Neu: Vercel-Serverless-Funktion `api/share.js`** — liefert die Empfänger-Seite mit pro-Berater OG-Tags aus: `og:image` = Foto des Beraters, `og:description` = „Eine kurze Nachricht von <Name>". Schlägt Berater per `get_empfehlung_public`/`get_berater_public_by_id` über den Token nach. Fallback (kein Token/Fehler) = statischer Default.
+- **vercel.json:** Rewrite `/e` → `/api/share` (Query bleibt erhalten).
+- **app.js:** geteilter Link jetzt `/e?token=…&vorlage=…` (statt `/empfaenger.html?…`). Alte Links bleiben gültig. `empfaenger.html` selbst unverändert.
+- Vorschaubild = Berater-Portrait (skaliert automatisch für jeden neuen Berater, kein Extra-Asset nötig).
+
+Cache: app.js v39, sw.js v51.
 
 ## v1.71 — Phase 55 · Berater-Verwaltung nur für Admin (Kai)
 **2026-06-22**

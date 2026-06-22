@@ -351,7 +351,7 @@ if (page === 'empfehlen') {
   }
 
   function previewLink() {
-    return `${window.location.origin}/empfaenger.html?token=…`;
+    return `${window.location.origin}/e?token=…`;
   }
 
   function updatePreview() {
@@ -399,7 +399,9 @@ if (page === 'empfehlen') {
     });
 
     const token = data?.link_token || 'demo';
-    const link = `${window.location.origin}/empfaenger.html?token=${token}&vorlage=${vorlageSlug}`;
+    // /e geht über die Server-Funktion (pro-Berater Social-Preview), zeigt aber
+    // dieselbe Empfänger-Seite. Alte /empfaenger.html?token=-Links bleiben gültig.
+    const link = `${window.location.origin}/e?token=${token}&vorlage=${vorlageSlug}`;
     const finalMsg = buildMessage(vorname, typ, link, beraterName, beraterVorname);
 
     if (error && !data) {
