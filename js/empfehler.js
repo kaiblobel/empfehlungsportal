@@ -3,7 +3,9 @@ import {
   getEmpfehlerStats,
   getEmpfehlerEmpfehlungen,
   getBelohnungsStufen,
+  getBeraterPublicById,
 } from './supabase.js';
+import { applyBeraterBrand } from './berater-brand.js';
 
 const params = new URLSearchParams(window.location.search);
 const codeFromUrl = params.get('code');
@@ -28,12 +30,19 @@ const STATUS_LABEL = {
 };
 
 async function init() {
-  // Stats + Empfehlungen + Belohnungs-Stufen (geteilt/global) parallel laden
-  const [statsRes, listRes, stufen] = await Promise.all([
+  // Empfehler (für Branding-Berater) + Stats + Empfehlungen + Belohnungen (global) laden
+  const [empRes, statsRes, listRes, stufen] = await Promise.all([
+    getEmpfehlerByCode(code),
     getEmpfehlerStats(code),
     getEmpfehlerEmpfehlungen(code),
     getBelohnungsStufen(),
   ]);
+
+  // Promoter-Dashboard auf den Berater des Promoters branden (Foto/Name/Rolle/Titel)
+  if (empRes.data?.berater_id) {
+    const { data: berater } = await getBeraterPublicById(empRes.data.berater_id);
+    if (berater) applyBeraterBrand(berater);
+  }
 
   const stats = statsRes.data;
   const empfehlungen = listRes.data || [];

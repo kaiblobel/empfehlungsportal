@@ -1,9 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.73** · Phase 57 Inhalte geteilt + Impressum pro Berater.
+Aktuelle Version: **v1.74** · Phase 58 QA-Fixes.
 
 ---
+
+## v1.74 — Phase 58 · QA-Fixes (Standort + Promoter-Dashboard pro Berater)
+**2026-06-23**
+
+- **Falscher Standort:** Präsentations-Footer zeigte „Team Wachsbleiche · Hamburg" → korrigiert zu **Cottbus**.
+- **Promoter-Dashboard (empfehler.html) zeigte immer Kai:** Foto + Footer-Name/Rolle waren fest verdrahtet. Jetzt per `data-bb` + `applyBeraterBrand` (Berater über den Promoter-Code geladen) → ein Promoter von Sven/Sandro sieht den richtigen Berater.
+- Bekannt/offen: Settings-Seite zeigt Admin-/Infra-Links (GitHub/Vercel/Supabase/Bookings) für alle Berater — sollte admin-only werden (separater Schritt).
+
+Cache: empfehler.js v33, sw.js v53.
 
 ## v1.73 — Phase 57 · Empfehlungsprogramm geteilt (admin-only) + Impressum/Datenschutz pro Berater
 **2026-06-22**
