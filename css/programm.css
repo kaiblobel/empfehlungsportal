@@ -2585,18 +2585,35 @@ body[data-page="programm"] {
 
 /* Standardvergütungs-Dot */
 .roadmap-stufe.standard .roadmap-num {
-  width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
   background: var(--surface, #FFFCF7);
   border: 1.5px solid rgba(201,185,138,0.45);
-  color: transparent;
-  font-size: 0;
+  color: rgba(201,185,138,0.7);
+  font-size: 10px;
   margin-top: 10px;
 }
 
 .roadmap-stufe.standard:hover .roadmap-num {
   background: rgba(201,185,138,0.15);
   border-color: rgba(201,185,138,0.7);
+}
+
+/* Kurzbezeichnung unter Premium-Kreis */
+.roadmap-reward-label {
+  display: block;
+  margin-top: 5px;
+  font-family: var(--font-text);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted, #6E6660);
+  text-align: center;
+  max-width: 42px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Tooltip */
@@ -2654,8 +2671,8 @@ body[data-page="programm"] {
     margin: 24px 0 8px;
   }
   .roadmap-stufen { min-width: 620px; }
-  .roadmap-stufe.premium .roadmap-num { width: 30px; height: 30px; font-size: 12.5px; }
-  .roadmap-stufe.standard .roadmap-num { width: 14px; height: 14px; }
+  .roadmap-stufe.premium .roadmap-num { width: 34px; height: 34px; font-size: 13px; }
+  .roadmap-stufe.standard .roadmap-num { width: 22px; height: 22px; font-size: 9px; }
   .roadmap-tip { font-size: 11px; padding: 5px 9px; bottom: -34px; }
 }
 
@@ -3939,8 +3956,8 @@ body[data-page="programm"] {
 /* Mobile-Anpassung: 2 Reihen statt 1 */
 @media (max-width: 540px) {
   .nps-scale { grid-template-columns: repeat(5, 1fr); gap: 6px; }
-  .nps-btn { font-size: 18px; border-radius: 10px; }
-  .nps-scale-labels { font-size: 10px; }
+  .nps-btn { font-size: 18px; border-radius: 10px; min-height: 52px; }
+  .nps-scale-labels { font-size: 10px; width: 100%; }
   .nps-response-card { padding: 22px 22px; }
   .nps-response-actions { flex-direction: column; align-items: stretch; }
   .nps-response-actions a { width: 100%; }

@@ -542,6 +542,7 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
       const label = isPremium
         ? escapeAttr(`${s.stufe}. Empfehlung · ${s.titel}`)
         : `${i}. Empfehlung · Standardvergütung 100 €`;
+      const shortLabel = isPremium ? escapeHtml(s.titel.split(' ')[0]) : '';
       html += `
         <button
           class="roadmap-stufe ${isPremium ? 'premium' : 'standard'}"
@@ -551,6 +552,7 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
           type="button"
         >
           <span class="roadmap-num">${i}</span>
+          ${isPremium && shortLabel ? `<span class="roadmap-reward-label">${shortLabel}</span>` : ''}
           <span class="roadmap-tip">${label}</span>
         </button>
       `;
