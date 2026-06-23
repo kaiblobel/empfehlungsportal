@@ -541,7 +541,7 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
       const targetId = isPremium ? `reward-stufe-${i}` : '';
       const label = isPremium
         ? escapeAttr(`${s.stufe}. Empfehlung · ${s.titel}`)
-        : `${i}. Empfehlung · Standardvergütung 100 €`;
+        : `${i}. Empfehlung · Empfehlungs-Bonus 100 €`;
       const shortLabel = isPremium ? escapeHtml(s.titel.split(' ')[0]) : '';
       html += `
         <button
