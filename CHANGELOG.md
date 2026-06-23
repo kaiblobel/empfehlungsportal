@@ -1,9 +1,23 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.74** · Phase 58 QA-Fixes.
+Aktuelle Version: **v1.75** · Phase 59 Sandro-Review Runde 2.
 
 ---
+
+## v1.75 — Phase 59 · Sandro-Review (Runde 2)
+**2026-06-23**
+
+Aufbauend auf Sandros PR #1 (Fixes #1/#2/#5 für NPS + Roadmap, gemergt) die nächsten Punkte:
+
+- **#7a** Footer-Initialen „KB" → `data-bb="initialen"` (aus `b.name` generiert, z.B. „SW" für Sandro).
+- **#10** Video-Overlay-Rolle „Initiator" → `data-bb="rolle"` (zeigt die Rolle des jeweiligen Beraters; für Kai nun „Regionaldirektionsleiter").
+- **#11** Doppelte Formulierung „was dahintersteckt" in der Video-Lede aufgelöst.
+- **#12** FAQ „An wen empfehlen?" — Verweis auf nicht vorhandene „oben genannte Kriterien" durch konkreten Text ersetzt.
+
+Cache: sw.js v54. (berater-brand.js erweitert um `initialen`-Hook.)
+
+**Noch offen (brauchen Entscheidung):** #6 Belohnungstexte/DB-Wording, #7b/#7c Finanzcheck-/Google-Bewertungs-Link pro Berater, #8/#9 Testimonials pro Berater (aktuell für Nicht-Kai ausgeblendet), #3/#4/#13 Feature-Ideen.
 
 ## v1.74 — Phase 58 · QA-Fixes (Standort + Promoter-Dashboard pro Berater)
 **2026-06-23**

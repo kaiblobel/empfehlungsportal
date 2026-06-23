@@ -8,6 +8,7 @@
  *   data-bb="name"      → textContent = name
  *   data-bb="vorname"   → textContent = erster Namensteil
  *   data-bb="rolle"     → textContent = rolle
+ *   data-bb="initialen" → textContent = Initialen aus name (z. B. „SW")
  *   data-bb="booking"   → <a>.href = bookings_url
  *   data-bb="whatsapp"  → <a>.href = https://wa.me/<whatsapp>
  *   data-bb="tel"       → <a>.href = tel:+<telefon>  (+ textContent, wenn vorhanden)
@@ -46,6 +47,11 @@ export function applyBeraterBrand(b) {
         break;
       case 'rolle':
         if (b.rolle) el.textContent = b.rolle;
+        break;
+      case 'initialen':
+        if (b.name) {
+          el.textContent = b.name.trim().split(/\s+/).map((s) => s[0] || '').join('').slice(0, 2).toUpperCase();
+        }
         break;
       // Kontakt-Buttons: fehlt das Feld beim geladenen Berater, Button AUSBLENDEN
       // statt auf den statischen Fallback (Kai) zeigen zu lassen.
