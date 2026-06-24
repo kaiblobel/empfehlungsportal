@@ -597,9 +597,10 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
     counterIO.observe(counterEl);
   }
 
-  // === Meilenstein-Pfad: Premium-Belohnungen als Stationen, dazwischen Bonus-Verbinder ===
-  // (statt 10× "Empfehlungsbonus" zu wiederholen; nennt die Stufennummern → kein "wo ist die 4")
+  // === Belohnungs-Galerie: Premium-Karten + gruppierte Bonus-Kacheln ===
+  // (Bonus als feste Kachel je Lücke: Stufe 3–4 eine Kachel, 8–9 eine Kachel …)
   const BONUS_IMG = '/assets/images/programm/standard.jpg';
+  const BONUS_DESC = '100 € als Wunschgutschein, PayPal-Auszahlung oder Spende deiner Wahl.';
 
   const rewardCardHTML = (s) => {
     const isBonus = /bonus/i.test(s.titel || '');
@@ -617,36 +618,36 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
       </article>`;
   };
 
-  const connectorHTML = (label) => `
-      <div class="reward-connector" role="presentation">
-        <span class="reward-connector-line" aria-hidden="true"></span>
-        <span class="reward-connector-pill">${escapeHtml(label)}</span>
-        <span class="reward-connector-line" aria-hidden="true"></span>
-      </div>`;
-
-  const gapLabel = (a, b) => {
-    if (a > b) return null;
-    if (a === b) return `Stufe ${a} · 100 € Empfehlungsbonus`;
-    return `Stufe ${a}–${b} · je 100 € Empfehlungsbonus`;
+  // Gruppierte Bonus-Kachel für einen Stufenbereich (a..b)
+  const bonusCardHTML = (a, b) => {
+    const meta = (a === b) ? `${a}. Empfehlung` : `${a}.–${b}. Empfehlung`;
+    const wert = (a === b) ? '100 €' : 'je 100 €';
+    return `
+      <article class="reward reward-bonus reveal visible">
+        <img class="reward-img" src="${BONUS_IMG}" alt="Empfehlungsbonus" loading="lazy" />
+        <div class="reward-body">
+          <span class="t-meta reward-meta">${meta}</span>
+          <h3>Empfehlungsbonus</h3>
+          <p>${escapeHtml(BONUS_DESC)}</p>
+          <span class="wert">Wert ${wert}</span>
+        </div>
+      </article>`;
   };
 
   function renderStufen(mode) {
     if (mode === 'alle') {
-      wrap.classList.add('is-path');
       const premium = stufen.filter(s => !/bonus/i.test(s.titel || '')).slice().sort((a, b) => a.stufe - b.stufe);
       let html = '';
       let prev = 0;
       premium.forEach(p => {
-        const lbl = gapLabel(prev + 1, p.stufe - 1);
-        if (lbl) html += connectorHTML(lbl);
+        const a = prev + 1, b = p.stufe - 1;
+        if (a <= b) html += bonusCardHTML(a, b);
         html += rewardCardHTML(p);
         prev = p.stufe;
       });
-      html += connectorHTML('Und danach · für jede weitere Empfehlung 100 €');
       wrap.innerHTML = html;
       return;
     }
-    wrap.classList.remove('is-path');
     const list = stufen.filter(s => Array.isArray(s.kategorien) && s.kategorien.includes(mode));
     if (!list.length) {
       wrap.innerHTML = `<p class="t-body" style="color:var(--text-muted); text-align:center; padding:24px;">Für diesen Modus sind aktuell keine Belohnungen hinterlegt.</p>`;

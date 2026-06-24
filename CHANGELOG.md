@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.80** · Belohnungs-Galerie als Meilenstein-Pfad.
+Aktuelle Version: **v1.81** · Belohnungs-Galerie: gruppierte Bonus-Kacheln + kompakte Mobil-Karten.
+
+---
+
+## v1.81 — Belohnungs-Galerie: gruppierte Bonus-Kacheln + Mobil-Optimierung
+**2026-06-24**
+
+Feinschliff nach Kai-Feedback zum Meilenstein-Pfad:
+
+- **Bonus wieder als feste Kachel**, aber gruppiert je Lücke: „1. Empfehlung", „3.–4. Empfehlung · je 100 €", „6.", „8.–9.", „11.–14." — statt 10× einzeln oder als schlanker Verbinder. Bonus-Kacheln dezent cremefarben abgesetzt, damit die Premium-Belohnungen (Restaurant, Watch, Gold, iPad, Mallorca) herausstechen. Desktop behält das alternierende Bild-links/rechts-Layout.
+- **iPhone-Optimierung:** Galerie-Karten auf dem Handy als kompaktes Flex-Layout (Bild 84 px links, Inhalt rechts). Karten von ~212 px auf ~144 px Höhe → es sind jetzt ~4 Karten statt 2 gleichzeitig sichtbar. Ursache war ein verstecktes `padding: 32/36 px` am `.reward-body` aus dem SF-Redesign, das mobil genullt wird.
+
+Cache: programm.js v31, programm.css v43, sw.js v59.
 
 ---
 
