@@ -486,6 +486,13 @@ if (page === 'empfaenger') {
       empData = r.data || null;
     }
 
+    // Hero sofort persönlich machen: Name des Empfehlers in die Eyebrow
+    const heroEyebrow = document.querySelector('#hero .e-eyebrow');
+    const empfName = (empData?.empfehler_name || '').trim();
+    if (heroEyebrow && empfName) {
+      heroEyebrow.textContent = `${empfName} hat an dich gedacht`;
+    }
+
     // Multi-Tenant: Berater dieser Empfehlung laden + Seite auf ihn branden
     if (empData?.berater_id) {
       const { data: berater } = await getBeraterPublicById(empData.berater_id);
@@ -518,6 +525,17 @@ if (page === 'empfaenger') {
     }
     const heroImg = document.getElementById('eFinanzImg');
     if (heroImg && v.hero_bild_url) heroImg.src = v.hero_bild_url;
+
+    // Hook (Neugierlücke mit konkreter Zahl) – nur zeigen, wenn gepflegt
+    const hook = document.getElementById('eHook');
+    if (hook) {
+      if (v.hook_text && v.hook_text.trim()) {
+        hook.textContent = v.hook_text.trim();
+        hook.style.display = '';
+      } else {
+        hook.style.display = 'none';
+      }
+    }
 
     // Drei Vorteile (4. bleibt statisch)
     const set = (id, t) => { const el = document.getElementById(id); if (el && t) el.textContent = t; };

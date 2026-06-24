@@ -633,3 +633,14 @@ body[data-page="empfaenger"] * { box-sizing: border-box; }
   .e-finanz-img { width: 100%; max-width: 720px; height: 340px; margin: 0 auto 40px; border-radius: 0; }
   .e-sticky-cta { display: none; }
 }
+
+/* ---------- Hook (Neugierlücke mit Zahl, Finanzcheck-Sektion) ---------- */
+.e-hook {
+  font-family: var(--e-font-display);
+  font-weight: 400;
+  font-size: clamp(19px, 3.6vw, 25px);
+  line-height: 1.5;
+  color: var(--e-deep-black);
+  max-width: 28em;
+  margin: 0 auto 18px;
+}
