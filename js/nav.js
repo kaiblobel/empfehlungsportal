@@ -187,6 +187,21 @@ async function applyBeraterSlugToLinks(root) {
     // Admin-only Items (Berater-Verwaltung) nur für Admins einblenden.
     if (b.ist_admin) {
       root.querySelectorAll('.nav-admin-only').forEach((el) => { el.style.display = ''; });
+      // Badge: offene Prämien am Prämien-Menüpunkt — ploppt auf, sobald eine Empfehlung Kunde wird.
+      try {
+        const { getOffenePraemienCount } = await import('./supabase.js');
+        const n = await getOffenePraemienCount();
+        if (n > 0) {
+          root.querySelectorAll('a.nav-item[href$="praemien.html"]').forEach((a) => {
+            if (a.querySelector('.nav-badge')) return;
+            const badge = document.createElement('span');
+            badge.className = 'nav-badge';
+            badge.textContent = n > 99 ? '99+' : String(n);
+            badge.title = `${n} offene Prämie${n === 1 ? '' : 'n'} zum Auszahlen`;
+            a.appendChild(badge);
+          });
+        }
+      } catch (e) { /* Badge ist optional */ }
     }
     if (!b.slug) return;
     root.querySelectorAll('a[href*="programm.html"], a[href*="empfehlen.html"]').forEach((a) => {

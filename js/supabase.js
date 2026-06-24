@@ -329,6 +329,22 @@ export async function auszahlenPraemie(id, { betrag, art, variante, adresse, not
   });
 }
 
+// Anzahl offener Prämien (für das Badge in der Navigation). RLS scoped auf Berater/Admin.
+export async function getOffenePraemienCount() {
+  if (!supabase) return 0;
+  try {
+    const { count, error } = await supabase
+      .from('praemien')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'offen');
+    if (error) throw error;
+    return count || 0;
+  } catch (err) {
+    console.warn('[getOffenePraemienCount]', err);
+    return 0;
+  }
+}
+
 // Einzelne Prämie inkl. Empfehler-Stammdaten laden (für den Beleg).
 export async function getPraemie(id) {
   if (!supabase) return { data: null, error: null };

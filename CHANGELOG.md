@@ -1,7 +1,17 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.90** · QA-Durchlauf + Fixes.
+Aktuelle Version: **v1.91** · Prämien-Badge in der Navigation.
+
+---
+
+## v1.91 — Phase 67 · Prämien-Badge (offene Prämien ploppen auf)
+**2026-06-24**
+
+- Am Menüpunkt **„Prämien"** erscheint jetzt ein **Zähler-Badge** (Terracotta) mit der Anzahl offener Prämien. Sobald eine Empfehlung auf „Kunde" gesetzt wird, legt der Trigger die Prämie an und das Badge ploppt auf allen Seiten auf, ohne dass man extra reinschauen muss. Eingeklappte Sidebar: kleiner Punkt am Icon. Zahl aktualisiert sich beim Seitenaufruf; verschwindet, sobald alle Prämien ausgezahlt/erledigt sind.
+- Neu: `getOffenePraemienCount()` (RLS-scoped), Badge-Injektion in `js/nav.js` (nur Admin), `.nav-badge`-Styling.
+
+Cache: nav.js v43, dashboard.css v40, sw.js v69.
 
 ---
 
