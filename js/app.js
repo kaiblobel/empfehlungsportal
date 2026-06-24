@@ -306,6 +306,12 @@ if (page === 'empfehlen') {
     });
   }
 
+  // Förder-Schätzungsfeld nur beim Thema Förderung zeigen
+  function toggleFoerderFeld(slug) {
+    const wrap = document.getElementById('foerderSchaetzungWrap');
+    if (wrap) wrap.style.display = (slug === 'foerderungen') ? '' : 'none';
+  }
+
   // Bei Vorname-Eingabe Vorlagen aktualisieren (Platzhalter mitlaufen)
   if (vornameEl) {
     vornameEl.addEventListener('input', () => {
@@ -337,10 +343,12 @@ if (page === 'empfehlen') {
           grid.querySelectorAll('.vorlage-kachel').forEach(b => b.classList.toggle('selected', b === btn));
           if (vorlageSlugEl) vorlageSlugEl.value = btn.dataset.slug;
           renderNachrichtVorlagen(btn.dataset.slug);
+          toggleFoerderFeld(btn.dataset.slug);
         });
       });
       // Initiales Render mit "allgemein"
       renderNachrichtVorlagen(vorlageSlugEl?.value || 'allgemein');
+      toggleFoerderFeld(vorlageSlugEl?.value || 'allgemein');
     })();
   }
 
@@ -401,7 +409,10 @@ if (page === 'empfehlen') {
     const token = data?.link_token || 'demo';
     // /e geht über die Server-Funktion (pro-Berater Social-Preview), zeigt aber
     // dieselbe Empfänger-Seite. Alte /empfaenger.html?token=-Links bleiben gültig.
-    const link = `${window.location.origin}/e?token=${token}&vorlage=${vorlageSlug}`;
+    let link = `${window.location.origin}/e?token=${token}&vorlage=${vorlageSlug}`;
+    // Förderung: optionale Schätzung als Aufhänger-Wert an den Link hängen.
+    const betrag = parseInt(String(document.getElementById('foerderSchaetzung')?.value || '').replace(/\D/g, ''), 10);
+    if (vorlageSlug === 'foerderungen' && betrag > 0) link += `&betrag=${betrag}`;
     const finalMsg = buildMessage(vorname, typ, link, beraterName, beraterVorname);
 
     if (error && !data) {

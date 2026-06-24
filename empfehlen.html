@@ -63,6 +63,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="vorlage-skel"></div>
         </div>
         <input type="hidden" id="vorlageSlug" value="allgemein" />
+        <div class="f-field" id="foerderSchaetzungWrap" style="display:none; margin-top:14px;">
+          <label for="foerderSchaetzung">Geschätzte Förderung pro Jahr (optional)</label>
+          <input id="foerderSchaetzung" name="foerderSchaetzung" type="number" inputmode="numeric" min="0" step="50" placeholder="z. B. 1200" />
+          <div class="f-field-meta">
+            <span>Nur fürs Thema Förderung. Erscheint auf der Seite als unverbindlicher Aufhänger („könnten rund … € möglich sein"). Leer lassen ist okay.</span>
+          </div>
+        </div>
       </div>
 
       <div class="f-field">
@@ -153,6 +160,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <div class="f-toast" id="toast">Link kopiert</div>
 
-  <script type="module" src="js/app.js?v=40"></script>
+  <script type="module" src="js/app.js?v=43"></script>
 </body>
 </html>
