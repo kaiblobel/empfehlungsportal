@@ -22,7 +22,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
   <link rel="stylesheet" href="css/style.css?v=32" />
-  <link rel="stylesheet" href="css/programm.css?v=40" />
+  <link rel="stylesheet" href="css/programm.css?v=41" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="programm">
@@ -302,20 +302,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="alltag-quotes alltag-quotes-hero reveal d3">
         <div class="alltag-quote alltag-quote-hero alltag-quote-hero-gold" data-mood="finanz">
           <span class="alltag-quote-badge">Worum es hier geht</span>
-          <span class="alltag-quote-text">„Empfiehl meinen <em>Finanz-Tipp</em>."</span>
+          <span class="alltag-quote-text">„Empfiehl meine <em>Beratung</em>."</span>
           <span class="alltag-quote-tipp-value">
-            Bringt deinem Tipp ca.
+            Im Schnitt ca.
             <strong id="alltagFoerderSum">0&nbsp;€</strong>
-            pro Jahr.
+            im Jahr für die empfohlene Person.
           </span>
         </div>
-        <div class="alltag-quote alltag-quote-hero alltag-quote-hero-marine" data-mood="karriere">
-          <span class="alltag-quote-badge">Lebensentscheidung</span>
-          <span class="alltag-quote-text">„Bring jemanden <em>ins Team</em>."</span>
-          <span class="alltag-quote-tipp-value">
-            Mit klarer Perspektive:
-            <strong>vom ersten Tag bis sechsstellig im dritten Jahr.</strong>
-          </span>
+        <div class="alltag-quote alltag-quote-hero alltag-quote-hero-marine alltag-flip" data-mood="karriere" tabindex="0" role="button" aria-label="Berufliche Perspektive – Details anzeigen">
+          <div class="alltag-flip-inner">
+            <div class="alltag-face alltag-front">
+              <span class="alltag-quote-badge">Lebensentscheidung</span>
+              <span class="alltag-quote-text">„Empfiehl eine neue <em>Perspektive</em>."</span>
+              <span class="alltag-quote-tipp-value">
+                Vom ersten Tag verdienen.
+                <strong>Im dritten Jahr sechsstellig.</strong>
+              </span>
+              <span class="alltag-flip-hint">Was dahintersteckt <span aria-hidden="true">→</span></span>
+            </div>
+            <div class="alltag-face alltag-back">
+              <span class="alltag-quote-badge">Deine Perspektive</span>
+              <ul class="alltag-perspektive">
+                <li>Vom ersten Tag an verdienen</li>
+                <li>Klare Aufstiegsperspektive im Team</li>
+                <li>Arbeit, die wirklich Sinn ergibt</li>
+              </ul>
+              <span class="alltag-flip-hint">Zurück <span aria-hidden="true">↩</span></span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -382,47 +396,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </section>
 
-  <!-- ===== 1b · Trust-Brücke: Was die empfohlene Person bekommt ===== -->
-  <section class="section trust-bridge">
-    <div class="inner">
-      <p class="t-eyebrow reveal" style="text-align:center;">Was passiert nach deiner Empfehlung</p>
-      <h2 class="t-h2 reveal d1" style="text-align:center;">
-        Ich rufe selbst an.<br>Mit <em>Ruhe</em> und Zeit.
-      </h2>
-      <p class="t-lede reveal d2" style="text-align:center; margin: 0 auto; max-width:680px;">
-        Du gibst den Hinweis, ich melde mich in den nächsten Tagen. Wir telefonieren kurz, und dann sieht die Person selbst, ob ein weiteres Gespräch sich lohnt. So habe ich das auch bei dir gemacht.
-      </p>
-
-      <div class="trust-points reveal d3">
-        <div class="trust-point">
-          <span class="trust-point-mark">✓</span>
-          <div class="trust-point-body">
-            <span class="trust-point-title">Du erreichst direkt mich</span>
-            <span class="trust-point-text">Ich rufe selbst an. Es geht nichts über einen Mitarbeiter oder eine Hotline.</span>
-          </div>
-        </div>
-        <div class="trust-point">
-          <span class="trust-point-mark">✓</span>
-          <div class="trust-point-body">
-            <span class="trust-point-title">Ein Gespräch, sonst nichts</span>
-            <span class="trust-point-text">Wir lernen uns kennen und reden über die Lage. Wer danach kein Interesse hat, sagt das einfach.</span>
-          </div>
-        </div>
-        <div class="trust-point">
-          <span class="trust-point-mark">✓</span>
-          <div class="trust-point-body">
-            <span class="trust-point-title">Daten bleiben bei mir</span>
-            <span class="trust-point-text">Ich gebe sie nirgendwohin weiter und schicke auch keine Newsletter. Ein einziger Anruf, mehr nicht.</span>
-          </div>
-        </div>
-      </div>
-
-      <p class="trust-bridge-close reveal d3" style="text-align:center;">
-        Genau so, wie ich auch dich kennengelernt habe.
-      </p>
-    </div>
-  </section>
-
   <!-- ===== 2 · So funktioniert es (3-Schritte-Row) ===== -->
   <section class="section alt" id="funktioniert">
     <div class="inner wide">
@@ -473,7 +446,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="inner wide">
       <p class="t-eyebrow reveal" style="text-align:center;">Worüber kannst du mich empfehlen</p>
       <h2 class="t-h2 reveal d1" style="text-align:center;">
-        Sechs Themen.<br>Für jede <em>Lebenssituation</em>.
+        Sieben Themen.<br>Für jede <em>Lebenssituation</em>.
       </h2>
       <p class="t-lede reveal d2" style="text-align:center; margin: 0 auto; max-width:680px;">
         Beim Empfehlen wählst du das Thema aus, das gerade bei deinem Bekannten dran ist. So weiß ich vorher, worum es geht, und kann mich richtig darauf vorbereiten.
@@ -481,6 +454,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <div class="topics-grid" id="t-Topics">
         <!-- Skeleton während Load -->
+        <div class="topic-card-skel"></div>
         <div class="topic-card-skel"></div>
         <div class="topic-card-skel"></div>
         <div class="topic-card-skel"></div>
@@ -495,6 +469,47 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </section>
 
+  <!-- ===== 2c · Trust-Brücke: Was die empfohlene Person bekommt ===== -->
+  <section class="section trust-bridge">
+    <div class="inner">
+      <p class="t-eyebrow reveal" style="text-align:center;">Was passiert nach deiner Empfehlung</p>
+      <h2 class="t-h2 reveal d1" style="text-align:center;">
+        Ich rufe selbst an.<br>Mit <em>Ruhe</em> und Zeit.
+      </h2>
+      <p class="t-lede reveal d2" style="text-align:center; margin: 0 auto; max-width:680px;">
+        Du gibst den Hinweis, ich melde mich in den nächsten Tagen. Wir telefonieren kurz, und dann sieht die Person selbst, ob ein weiteres Gespräch sich lohnt. So habe ich das auch bei dir gemacht.
+      </p>
+
+      <div class="trust-points reveal d3">
+        <div class="trust-point">
+          <span class="trust-point-mark">✓</span>
+          <div class="trust-point-body">
+            <span class="trust-point-title">Du erreichst direkt mich</span>
+            <span class="trust-point-text">Ich rufe selbst an. Es geht nichts über einen Mitarbeiter oder eine Hotline.</span>
+          </div>
+        </div>
+        <div class="trust-point">
+          <span class="trust-point-mark">✓</span>
+          <div class="trust-point-body">
+            <span class="trust-point-title">Ein Gespräch, sonst nichts</span>
+            <span class="trust-point-text">Wir lernen uns kennen und reden über die Lage. Wer danach kein Interesse hat, sagt das einfach.</span>
+          </div>
+        </div>
+        <div class="trust-point">
+          <span class="trust-point-mark">✓</span>
+          <div class="trust-point-body">
+            <span class="trust-point-title">Daten bleiben bei mir</span>
+            <span class="trust-point-text">Ich gebe sie nirgendwohin weiter und schicke auch keine Newsletter. Ein einziger Anruf, mehr nicht.</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="trust-bridge-close reveal d3" style="text-align:center;">
+        Genau so, wie ich auch dich kennengelernt habe.
+      </p>
+    </div>
+  </section>
+
   <!-- ===== 3 · Belohnungs-Galerie ===== -->
   <section class="section alt" id="belohnungen">
     <div class="inner wide">
@@ -502,18 +517,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h2 class="t-h2 reveal d1" style="text-align:center;">
         Folgende Vorteile<br>erwarten dich.
       </h2>
-      <p class="t-body reveal d2" style="text-align:center; margin: 0 auto; max-width:640px;">
-        Je nachdem, wie oft du mich weiterempfiehlst, profitierst du folgendermaßen
-        für jede erfolgreiche Empfehlung.
+      <p class="t-body reveal d2" style="text-align:center; margin: 0 auto; max-width:560px;">
+        Jede Person, die durch dich Kundin wird, schaltet die nächste Stufe frei.
       </p>
 
       <div class="rewards-explain reveal d2">
         <div class="rewards-explain-card">
           <span class="rewards-explain-icon" aria-hidden="true">↑</span>
           <p>
-            <strong>So funktioniert das Stufen-System:</strong>
-            Mit jeder erfolgreichen Empfehlung schaltest du die nächste Stufe frei. Stufe 1 kommt schon beim ersten Kunden, Stufe 15 wartet als großes Finale. Die Belohnungen werden mit jeder Stufe persönlicher.
-            <span class="rewards-explain-note">In den Zwischenstufen (4, 6, 8, 9, 11–14) erhältst du jeweils den Empfehlungsbonus von 100 €. Das System endet nie.</span>
+            <strong>Zwischendrin 100 € Bonus, an den Meilenstein-Stufen eine Premium-Belohnung, am Ende Mallorca.</strong>
+            <span class="rewards-explain-note">Du suchst dir bei jeder Stufe selbst aus, was du nimmst.</span>
           </p>
         </div>
       </div>
@@ -860,6 +873,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </nav>
 
   <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
-  <script type="module" src="js/programm.js?v=28"></script>
+  <script type="module" src="js/programm.js?v=29"></script>
 </body>
 </html>

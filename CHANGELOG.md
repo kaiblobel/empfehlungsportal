@@ -1,9 +1,25 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.78** · Phase 61 Sandro-Review Runde 3 (Paket 1).
+Aktuelle Version: **v1.79** · Phase 62 Sandro-Review Runde 3 (Paket 2+3).
 
 ---
+
+## v1.79 — Phase 62 · Sandro-Review (Runde 3) · Paket 2 + 3
+**2026-06-24**
+
+Reihenfolge, Belohnungs-Galerie und drehbare Kacheln aus Sandros PDF:
+
+- **B1:** Block „Ich rufe selbst an / Was passiert nach deiner Empfehlung" (Trust-Brücke) hinter „So funktioniert es" + Themen verschoben. Erst Ablauf verstehen, dann Vertrauen, dann Belohnung.
+- **B5:** Stufen-System-Erklärtext deutlich verschlankt (war „sehr viel Text / plump"). Eine klare Zeile statt Absatz.
+- **B6:** Galerie-Sprung „3 → 5 … wo ist die 4?" gelöst. Im Modus „Alle" laufen die Stufen jetzt lückenlos 1–15; die 100-€-Bonus-Zwischenstufen erscheinen kompakt und mit einheitlichem Bild, die Premium-Belohnungen stechen heraus.
+- **B2:** Themen sind jetzt **drehbare Kacheln** (Tap/Klick/Tastatur). Vorderseite Thema + Headline, Rückseite Kurzbeschreibung + drei Vorteile. Mobil-sicher per Klasse statt :hover.
+- **B3:** Neues **7. Thema „Für deine Kinder"** (DB-Vorlage `kinder`, Icon Heart). Generische Vorlage `allgemein` aus dem Grid gefiltert; Header „Sechs Themen" → „Sieben Themen".
+- **B4:** alltag-Karten umformuliert (kein „Finanz-Tipp" mehr): Gold = „Empfiehl meine Beratung", Marine = **drehbare Karriere-Karte** „Empfiehl eine neue Perspektive" mit drei Perspektive-Punkten auf der Rückseite (berufliche Perspektive kommt jetzt klar rüber).
+
+Cache: programm.js v29, programm.css v41, sw.js v57.
+
+**Noch offen (Paket 4 · Strategie):** Belohnungs-Logik auf „Kunde geworden" statt „Empfehlung abgegeben", Stufen-Balance (3. Empfehlung soll reinknallen, Belohnungen strecken), neue Belohnungsideen (mydays-Event, Auto bei 25), Wirtschaftlichkeit final gegenrechnen.
 
 ## v1.78 — Phase 61 · Sandro-Review (Runde 3) · Paket 1
 **2026-06-24**

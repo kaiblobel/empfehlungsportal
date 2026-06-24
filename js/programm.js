@@ -597,27 +597,48 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
     counterIO.observe(counterEl);
   }
 
-  function renderStufen(mode) {
-    const filtered = mode === 'alle'
-      ? stufen
-      : stufen.filter(s => Array.isArray(s.kategorien) && s.kategorien.includes(mode));
+  // Einheitliches Bonus-Bild + -Text (Sandro: "Bilder bei Empfehlungsbonus identisch")
+  const BONUS_IMG = '/assets/images/programm/standard.jpg';
+  const BONUS_DESC = '100 € als Wunschgutschein, PayPal-Auszahlung oder Spende deiner Wahl.';
 
-    if (!filtered.length) {
+  function renderStufen(mode) {
+    let list;
+    if (mode === 'alle') {
+      // Lückenlose Sequenz 1–15: Premium aus DB, Zwischenstufen = 100-€-Bonus
+      // (löst den verwirrenden Sprung "3 → 5 … wo ist die 4?")
+      const map = new Map(stufen.map(s => [s.stufe, s]));
+      list = [];
+      for (let i = 1; i <= 15; i++) {
+        list.push(map.get(i) || {
+          stufe: i, titel: 'Empfehlungsbonus', beschreibung: BONUS_DESC,
+          wert_label: '100 €', kategorien: ['geld', 'spende'], _bonus: true,
+        });
+      }
+    } else {
+      list = stufen.filter(s => Array.isArray(s.kategorien) && s.kategorien.includes(mode));
+    }
+
+    if (!list.length) {
       wrap.innerHTML = `<p class="t-body" style="color:var(--text-muted); text-align:center; padding:24px;">Für diesen Modus sind aktuell keine Belohnungen hinterlegt.</p>`;
       return;
     }
 
-    wrap.innerHTML = filtered.map(s => `
-      <article class="reward ${s.highlight ? 'highlight' : ''} reveal visible" id="reward-stufe-${s.stufe}">
-        ${s.bild_url ? `<img class="reward-img" src="${escapeAttr(s.bild_url)}" alt="${escapeAttr(s.titel)}" loading="lazy" />` : ''}
+    wrap.innerHTML = list.map(s => {
+      const isBonus = s._bonus || /bonus/i.test(s.titel || '');
+      const img = isBonus ? BONUS_IMG : s.bild_url;
+      const titel = isBonus ? 'Empfehlungsbonus' : s.titel;
+      return `
+      <article class="reward ${s.highlight ? 'highlight' : ''}${isBonus ? ' reward-bonus' : ''} reveal visible" id="reward-stufe-${s.stufe}">
+        ${img ? `<img class="reward-img" src="${escapeAttr(img)}" alt="${escapeAttr(titel)}" loading="lazy" />` : ''}
         <div class="reward-body">
           <span class="t-meta reward-meta">${s.stufe}. Empfehlung</span>
-          <h3>${escapeHtml(s.titel)}</h3>
-          <p>${escapeHtml(s.beschreibung)}</p>
+          <h3>${escapeHtml(titel)}</h3>
+          <p>${escapeHtml(s.beschreibung || '')}</p>
           ${s.wert_label ? `<span class="wert">Wert ${escapeHtml(s.wert_label)}</span>` : ''}
         </div>
       </article>
-    `).join('');
+    `;
+    }).join('');
   }
 
   // Initial: alle
@@ -643,7 +664,8 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
   const wrap = document.getElementById('t-Topics');
   if (!wrap) return;
   try {
-    const vorlagen = await getVorlagen();
+    // "allgemein" ist die generische Fallback-Vorlage und gehört nicht ins Themen-Grid
+    const vorlagen = (await getVorlagen()).filter(v => v.slug !== 'allgemein');
     if (!vorlagen?.length) {
       wrap.innerHTML = '';
       return;
@@ -659,20 +681,51 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
       } else {
         iconHtml = '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>';
       }
+      const vorteile = [v.vorteil_1_titel, v.vorteil_2_titel, v.vorteil_3_titel]
+        .filter(Boolean)
+        .map(t => `<li>${escapeHtml(t)}</li>`).join('');
       return `
-        <article class="topic-card reveal" data-slug="${escapeAttr(v.slug || '')}">
-          <span class="topic-icon">${iconHtml}</span>
-          <h3 class="topic-title">${escapeHtml(v.titel)}</h3>
-          <p class="topic-sub">${escapeHtml(v.headline || '')}</p>
+        <article class="topic-card topic-flip reveal" data-slug="${escapeAttr(v.slug || '')}" tabindex="0" role="button" aria-label="${escapeAttr(v.titel)} – Details anzeigen">
+          <div class="topic-card-inner">
+            <div class="topic-face topic-front">
+              <span class="topic-icon">${iconHtml}</span>
+              <h3 class="topic-title">${escapeHtml(v.titel)}</h3>
+              <p class="topic-sub">${escapeHtml(v.headline || '')}</p>
+              <span class="topic-flip-hint">Mehr dazu <span aria-hidden="true">→</span></span>
+            </div>
+            <div class="topic-face topic-back">
+              <h3 class="topic-back-title">${escapeHtml(v.titel)}</h3>
+              <p class="topic-back-sub">${escapeHtml(v.subtext || '')}</p>
+              ${vorteile ? `<ul class="topic-vorteile">${vorteile}</ul>` : ''}
+              <span class="topic-flip-hint">Zurück <span aria-hidden="true">↩</span></span>
+            </div>
+          </div>
         </article>
       `;
     }).join('');
+    // Tap/Klick + Tastatur dreht die Kachel (mobil-sicher, kein :hover)
+    wrap.querySelectorAll('.topic-flip').forEach((card) => {
+      const toggle = () => card.classList.toggle('flipped');
+      card.addEventListener('click', toggle);
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+      });
+    });
     wrap.querySelectorAll('.reveal').forEach((el) => io.observe(el));
   } catch (e) {
     console.warn('[Themen] Konnte nicht geladen werden:', e);
     wrap.innerHTML = '';
   }
 })();
+
+// Karriere-Karte (alltag) drehen – Tap/Klick + Tastatur, mobil-sicher
+document.querySelectorAll('.alltag-flip').forEach((card) => {
+  const toggle = () => card.classList.toggle('flipped');
+  card.addEventListener('click', toggle);
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+  });
+});
 
 // Sticky-CTA Reveal nach Hero-Scroll
 const sticky = document.getElementById('t-StickyCta');
