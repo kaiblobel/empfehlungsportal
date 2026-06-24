@@ -23,7 +23,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/empfaenger.css?v=6" />
+  <link rel="stylesheet" href="css/empfaenger.css?v=7" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="empfaenger">
@@ -81,6 +81,48 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="e-lede e-reveal d2" id="eSituation" style="margin: 8px auto 0;">
         Vielleicht beschäftigt dich gerade ein Thema, bei dem du nicht sicher bist, ob du das Beste daraus machst. Genau da schauen wir in Ruhe gemeinsam hin.
       </p>
+    </div>
+  </section>
+
+  <!-- ===== 3b · Investment-only: Zinseszins-Chart (per JS sichtbar bei slug=investment) ===== -->
+  <section class="e-section" id="invChart" style="display:none;">
+    <div class="e-inner">
+      <p class="e-eyebrow e-reveal">Was Zeit bewirkt</p>
+      <h2 class="e-h2 e-reveal d1">Zeit ist dein<br>stärkster Hebel.</h2>
+      <p class="e-body e-reveal d2" style="margin: 0 auto;">
+        Geld auf dem Konto verliert über die Jahre an Kaufkraft. Wer früh und mit einer Strategie anlegt, lässt den Zinseszins für sich arbeiten. Die Kurven zeigen das Prinzip, keine Vorhersage.
+      </p>
+      <div class="e-chart e-reveal d2">
+        <svg class="e-chart-svg" viewBox="0 0 700 380" fill="none" xmlns="http://www.w3.org/2000/svg"
+             role="img" aria-label="Vier Anlagestrategien im Vergleich über die Zeit, beispielhaft">
+          <line x1="60" y1="20"  x2="660" y2="20"  stroke="#E8E6E1" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="60" y1="110" x2="660" y2="110" stroke="#E8E6E1" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="60" y1="200" x2="660" y2="200" stroke="#E8E6E1" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="60" y1="290" x2="660" y2="290" stroke="#E8E6E1" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="60" y1="360" x2="660" y2="360" stroke="#E8E6E1" stroke-width="1"/>
+          <text x="48" y="28"  text-anchor="end" font-size="11" fill="#9B9B9B" font-family="-apple-system,sans-serif">mehr</text>
+          <text x="48" y="356" text-anchor="end" font-size="11" fill="#9B9B9B" font-family="-apple-system,sans-serif">Start</text>
+          <text x="60"  y="376" text-anchor="middle" font-size="11" fill="#9B9B9B" font-family="-apple-system,sans-serif">Heute</text>
+          <text x="360" y="376" text-anchor="middle" font-size="11" fill="#9B9B9B" font-family="-apple-system,sans-serif">15 Jahre</text>
+          <text x="660" y="376" text-anchor="middle" font-size="11" fill="#9B9B9B" font-family="-apple-system,sans-serif">30 Jahre</text>
+          <path d="M60,360 L160,343 L260,319 L360,282 L460,228 L560,146 L660,40 L660,360 Z" fill="rgba(122,139,111,0.07)"/>
+          <path data-inv-path d="M60,360 L160,346 L260,332 L360,318 L460,303 L560,288 L660,273" stroke="#C0BEB8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path data-inv-path d="M60,360 L160,345 L260,327 L360,305 L460,278 L560,244 L660,204" stroke="#85B4C4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path data-inv-path d="M60,360 L160,344 L260,323 L360,295 L460,256 L560,204 L660,134" stroke="#C9B98A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path data-inv-path d="M60,360 L160,343 L260,319 L360,282 L460,228 L560,146 L660,40" stroke="#7A8B6F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="660" cy="273" r="4" fill="#C0BEB8"/>
+          <circle cx="660" cy="204" r="4" fill="#85B4C4"/>
+          <circle cx="660" cy="134" r="5" fill="#C9B98A"/>
+          <circle cx="660" cy="40"  r="6" fill="#7A8B6F"/>
+        </svg>
+        <div class="e-chart-legend">
+          <div class="e-chart-legend-item"><span class="dot" style="background:#7A8B6F"></span>Renditeorientiert</div>
+          <div class="e-chart-legend-item"><span class="dot" style="background:#C9B98A"></span>Ausgewogen</div>
+          <div class="e-chart-legend-item"><span class="dot" style="background:#85B4C4"></span>Sicherheitsorientiert</div>
+          <div class="e-chart-legend-item"><span class="dot" style="background:#C0BEB8"></span>Sparbuch</div>
+        </div>
+      </div>
+      <p class="e-micro e-reveal d3">Beispielhafte Darstellung des Zinseszins-Effekts über die Zeit. Keine Prognose und keine Garantie. Anlagen an den Kapitalmärkten schwanken im Wert, Verluste sind möglich.</p>
     </div>
   </section>
 
@@ -270,6 +312,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   </main>
 
-  <script type="module" src="js/app.js?v=43"></script>
+  <script type="module" src="js/app.js?v=44"></script>
 </body>
 </html>

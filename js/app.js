@@ -527,6 +527,12 @@ if (page === 'empfaenger') {
       renderFoerderAufhaenger(params.get('betrag'), empfName);
     }
 
+    // Investment: Zinseszins-Chart-Sektion einblenden + animieren
+    if (slugResolved === 'investment') {
+      const chart = document.getElementById('invChart');
+      if (chart) { chart.style.display = ''; animateInvChart(chart); }
+    }
+
     if (empData) renderEmpfehlerKarte(empData);
     if (empData?.anrufwunsch) revealAnrufConfirm(empData.anrufwunsch);
   })();
@@ -598,6 +604,22 @@ if (page === 'empfaenger') {
     // Aufhänger übernimmt die Lead-Rolle → den allgemeinen Hook ausblenden.
     const hook = document.getElementById('eHook');
     if (hook) hook.style.display = 'none';
+  }
+
+  function animateInvChart(section) {
+    const paths = section.querySelectorAll('[data-inv-path]');
+    const obs = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      paths.forEach((p, i) => {
+        const len = p.getTotalLength();
+        p.style.strokeDasharray = len;
+        p.style.strokeDashoffset = len;
+        p.style.transition = `stroke-dashoffset ${1.4 + i * 0.15}s cubic-bezier(0.4,0,0.2,1) ${i * 0.1}s`;
+        requestAnimationFrame(() => { p.style.strokeDashoffset = '0'; });
+      });
+      obs.disconnect();
+    }, { threshold: 0.3 });
+    obs.observe(section);
   }
 
   function renderEmpfehlerKarte(d) {
