@@ -2219,7 +2219,8 @@ body[data-page="programm"] {
   background: var(--surface, #FFFCF7);
   border: 1px solid var(--hairline, #E8E5E0);
   border-radius: 16px;
-  padding: 20px 18px;
+  padding: 22px 22px;
+  text-align: left;
 }
 .bww-friend { border-top: 2px solid #2E5266; }
 .bww-you { border-top: 2px solid var(--champagne, #C9B98A); }
@@ -2234,20 +2235,23 @@ body[data-page="programm"] {
 }
 .bww-friend .bww-label { color: #2E5266; }
 .bww-you .bww-label { color: #8B7355; }
-.bww-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.bww-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 13px; }
 .bww-list li {
-  position: relative;
-  padding-left: 25px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
   font-family: var(--font-text);
   font-size: 14.5px;
-  line-height: 1.4;
+  line-height: 1.45;
   color: var(--anthracite, #1A1A1A);
 }
-.bww-list li::before { content: '✓'; position: absolute; left: 0; top: 0; font-weight: 700; }
-.bww-friend .bww-list li::before { color: #2E5266; }
-.bww-you .bww-list li::before { color: var(--sage, #7A8B6F); }
-.bww-list li span { color: var(--ink-muted, #6B6660); }
-.bww-emoji { font-size: 15px; line-height: 1; white-space: nowrap; color: initial; }
+.bww-ico { flex: 0 0 auto; width: 22px; height: 22px; margin-top: 1px; }
+.bww-ico svg { width: 22px; height: 22px; display: block; }
+.bww-friend .bww-ico { color: #2E5266; }
+.bww-you .bww-ico { color: #8B7355; }
+.bww-txt { flex: 1 1 auto; min-width: 0; }
+.bww-meta { color: var(--ink-muted, #6B6660); }
+.bww-emoji { font-size: 15px; line-height: 1; white-space: nowrap; }
 
 /* Anker-Pille */
 .benefit-anchor {

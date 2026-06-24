@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.85** · Rolle „Regionaldirektion" + Bonus-Bild Taschenrechner.
+Aktuelle Version: **v1.86** · Win-Win mit professionellen Line-Icons.
+
+---
+
+## v1.86 — Win-Win-Paar: Emojis raus, Premium-Icons rein
+**2026-06-24**
+
+- Die per-Zeile-Emojis im Win-Win-Paar wirkten billig → entfernt. Stattdessen **saubere Line-Icons (SVG) vor** jeder Zeile: Datei-Check, Telefon, Schild-Haken (Bekannter, Marine) bzw. Geschenk, Trend-Pfeil, Haken-Kreis (Du, Gold).
+- Karten-Inhalt links ausgerichtet (Feature-Listen-Look), wirkt hochwertiger.
+- Der eine freundliche 🎁 hinter dem Anker-Satz bleibt (war so gewollt, lockert auf).
+
+Cache: programm.css v47, sw.js v64.
 
 ---
 
