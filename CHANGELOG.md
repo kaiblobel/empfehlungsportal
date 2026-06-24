@@ -1,7 +1,21 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.82** · Themen-Kacheln mobile-first kompakt.
+Aktuelle Version: **v1.83** · Win-Win-Paar in der Benefits-Sektion.
+
+---
+
+## v1.83 — Win-Win-Paar in der Benefits-Sektion
+**2026-06-24**
+
+Aus Variante-B-Mock übernommen (nur das Win-Win-Element, Rest verworfen):
+
+- Oben in der Benefits-Sektion zwei Karten nebeneinander: **„Dein Bekannter bekommt"** (Finanz-Check unverbindlich, persönlicher Anruf statt Callcenter, null Verpflichtung) und **„Du bekommst"** (Dankeschön ab der 1. Empfehlung, wird größer, freie Wahl). Marine- bzw. Champagne-Akzent.
+- Darunter eine **Anker-Pille**: „Deine erste Belohnung ist nur eine Empfehlung entfernt." Senkt die Einstiegshürde.
+- Mobile-first: gestapelt auf dem Handy, ab 680 px nebeneinander.
+- Mock-Datei `benefits-mock.html` bleibt zum Nachschauen liegen (noindex).
+
+Cache: programm.css v45, sw.js v61.
 
 ---
 
