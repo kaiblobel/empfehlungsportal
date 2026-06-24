@@ -1,7 +1,21 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.89** · Paket 4 Teil D: Auszahl-Workflow + Beleg.
+Aktuelle Version: **v1.90** · QA-Durchlauf + Fixes.
+
+---
+
+## v1.90 — Phase 66 · Kompletter QA-Durchlauf + Fixes
+**2026-06-24**
+
+Alle Seiten und der gesamte Empfehlungs-Flow mit Dummy-Daten durchgetestet (Konsolen-Fehler, Render, Verknüpfungen). Ergebnis: läuft. Zwei echte Fehler gefunden und behoben:
+
+- **Versionsnummer-Pille** (`.nav-version`) wurde auf allen Dashboard-Unterseiten als unformatierter blauer Link angezeigt: die Regel lag in `hub.css`, das diese Seiten nicht laden. Regel nach `dashboard.css` verschoben (wird überall mit der Nav geladen), aus `hub.css` entfernt.
+- **Totes Stockbild:** der Hintergrund der „Handwerker"-Alltagskachel (Unsplash) lieferte 404. Durch ein geprüft funktionierendes Bild ersetzt.
+- Cache-Buster über alle Seiten normalisiert (dashboard.css v39, hub.css v42, programm.css v49) — vorher uneinheitlich.
+- Getestet end-to-end: Promoter anlegen → Empfehlung (an Promoter gebunden) → Promoter-Dashboard (Link/Feed/Fortschritt) → Empfänger-Link → Detail/Status „Kunde" → Prämie-Trigger → Auszahlen/Beleg. Alles grün. (Harmloses Rest-404: Supabase-Root-Link-Prefetch auf der Settings-Seite, kein Funktionsfehler.)
+
+Cache: dashboard.css v39, hub.css v42, programm.css v49, sw.js v68.
 
 ---
 
