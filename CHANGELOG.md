@@ -1,9 +1,23 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.75** · Phase 59 Sandro-Review Runde 2.
+Aktuelle Version: **v1.78** · Phase 61 Sandro-Review Runde 3 (Paket 1).
 
 ---
+
+## v1.78 — Phase 61 · Sandro-Review (Runde 3) · Paket 1
+**2026-06-24**
+
+Erste, risikolose Runde aus Sandros PDF-Anmerkungen (Wording, ein Bug, Belohnungswerte):
+
+- **A1 (Bug):** „Detail-Analyse" öffnet `finanzcheck.kaiblobel.de?from=empfehlung`; der „Zurück zur Website"-Button dort führt jetzt zurück auf die Empfehlungsseite (per Referrer, mit sicherem Fallback) statt auf die Startseite. Betrifft auch `Kundenseite/finanz-check.html`.
+- **A2:** Hohle Schlusszeile „Genau darum tut es hier wirklich was." entfernt.
+- **A3:** Redundanz im Mehrwert-Intro aufgelöst („Erzähl es mir kurz" raus, ein klarer Hinweis bleibt).
+- **A4:** Platzhalter-Vorschläge in Mehrwert-Feld 2 und 3 ergänzt (vorher nur „…").
+- **A5:** Markierten Satz vereinfacht („Was dir geholfen hat, kann auch deinen Liebsten helfen."); Überschrift „Wieviel kann dein Tipp jedes Jahr sparen?" → „Was bringt dein Tipp jedes Jahr?".
+- **C (Belohnungen, DB):** Weber/Apple Watch auf **449 €** fixiert (Modellnummer „Series 10" raus, damit es nicht veraltet); Goldbarren auf **500 €** hoch, „5 g"/„Geiger Original" raus → „Goldbarren im Wert von 500 €". Gesamt-Counter von unrealistischen **24.000 €** auf den echten Stufen-Gesamtwert **~4.800 €** korrigiert.
+
+**Noch offen (Pakete 2–4):** Reihenfolge „So funktioniert es" vor Belohnungen, drehbare Themen-Kacheln + 7. Thema „Kids", Stufen-Darstellung (3→5-Sprung), Belohnungs-Logik auf „Kunde geworden" + neue Stufen-Balance.
 
 ## v1.75 — Phase 59 · Sandro-Review (Runde 2)
 **2026-06-23**
