@@ -1,7 +1,21 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.81** · Belohnungs-Galerie: gruppierte Bonus-Kacheln + kompakte Mobil-Karten.
+Aktuelle Version: **v1.82** · Themen-Kacheln mobile-first kompakt.
+
+---
+
+## v1.82 — Themen-Kacheln mobile-first kompakt
+**2026-06-24**
+
+Themen-Kacheln nach Kai-Feedback verschlankt (100 % mobile-first):
+
+- **2 Kacheln pro Reihe auf dem iPhone** (Grid mobile-first 2-spaltig, ab 960 px 3-spaltig). Vorher 1 große Kachel pro Reihe.
+- Flip-Höhe 220 → 192 px (mobil), Desktop 206 px; Face-Padding, Icon (60 → 40 px, ab 640 px 52 px), Titel, Headline, Rückseiten-Texte und Vorteile durchgehend kompakter → deutlich weniger Leerraum.
+- Rückseiten-Text auf 2 Zeilen geklemmt, passt ohne Überlauf in die kleinere Kachel. Farbige Themen-Akzente (Phase 64) bleiben erhalten.
+- Ergebnis: statt 1–2 sind jetzt ~6 Kacheln gleichzeitig auf dem iPhone sichtbar.
+
+Cache: programm.css v44, sw.js v60.
 
 ---
 
