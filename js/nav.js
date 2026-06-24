@@ -45,6 +45,7 @@ export const NAV_ITEMS = [
   { id: 'praesentation',label: 'Präsentation', icon: 'Presentation',    href: path('programm.html?mode=slides'),      bottom: false },
   { id: 'analysen',    label: 'Analysen',      icon: 'BarChart3',       href: path('dashboard/overview.html'),        bottom: false },
   { id: 'berater',     label: 'Berater',       icon: 'Users',           href: path('berater.html'),                   bottom: false, adminOnly: true },
+  { id: 'praemien',    label: 'Prämien',       icon: 'Banknote',        href: path('praemien.html'),                  bottom: false, adminOnly: true },
   { id: 'einstellungen',label: 'Einstellungen',icon: 'Settings',        href: path('dashboard/settings.html'),        bottom: false },
 ];
 

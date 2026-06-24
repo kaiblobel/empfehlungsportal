@@ -283,6 +283,39 @@ export async function getBelohnungsStufen(beraterId = null) {
 }
 
 
+/* ---------- Prämien-Tracking (Admin) ---------- */
+
+// Verdiente Prämien laden (mit Empfehler-Name/Code). RLS scoped auf eigenen Berater/Admin.
+export async function getPraemien(beraterId = null) {
+  if (!supabase) return { data: [], error: null };
+  try {
+    let q = supabase
+      .from('praemien')
+      .select('*, empfehler:empfehler_id ( name, code )')
+      .order('earned_at', { ascending: false });
+    if (beraterId) q = q.eq('berater_id', beraterId);
+    const { data, error } = await q;
+    if (error) throw error;
+    return { data: data || [], error: null };
+  } catch (err) {
+    console.error('[getPraemien]', err);
+    return { data: [], error: err };
+  }
+}
+
+// Felder einer Prämie ändern (Status, variante, notiz, ausgezahlt_at).
+export async function updatePraemie(id, fields) {
+  if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
+  return await supabase.from('praemien').update(fields).eq('id', id);
+}
+
+// Verdiente Prämien (Status 'offen') für alle eigenen Empfehler materialisieren.
+export async function syncPraemien() {
+  if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
+  return await supabase.rpc('sync_praemien');
+}
+
+
 /* ---------- Dashboard (authenticated, direkter Zugriff) ---------- */
 export async function getBerater(id) {
   if (!supabase) return { data: null, error: null };

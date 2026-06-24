@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5VB63NPP');</script>
+<!-- End Google Tag Manager -->
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#FAF8F5" />
+  <title>Prämien · Empfehlungs-HUB</title>
+
+  <link rel="stylesheet" href="css/style.css?v=32" />
+  <link rel="stylesheet" href="css/dashboard.css?v=37" />
+  <link rel="stylesheet" href="css/hub.css?v=34" />
+  <script src="js/config.js"></script>
+
+  <style>
+    .pr-toolbar { display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin: 8px 0 18px; }
+    .pr-sync { background:#141414; color:#fff; border:0; border-radius:999px; padding:11px 22px; font-weight:600; font-size:14px; cursor:pointer; }
+    .pr-sync:disabled { opacity:.6; cursor:default; }
+    .pr-filters { display:flex; gap:8px; }
+    .pr-chip { border:1px solid var(--border,#e3ddd4); background:#fff; border-radius:999px; padding:8px 16px; font-size:13px; font-weight:500; cursor:pointer; color:var(--text-secondary,#6B6660); }
+    .pr-chip.active { background:rgba(201,185,138,.14); border-color:rgba(201,185,138,.5); color:#1A1A1A; }
+    .pr-count { font-size:13px; color:var(--text-secondary,#6B6660); margin-left:auto; }
+
+    .pr-list { display:flex; flex-direction:column; gap:10px; }
+    .pr-card { display:grid; grid-template-columns: 1fr auto; gap:14px; align-items:center;
+      background:#fff; border:1px solid var(--border,#e3ddd4); border-radius:14px; padding:16px 18px; }
+    .pr-card.is-offen { border-left:3px solid #C28447; }
+    .pr-card.is-ausgezahlt { opacity:.72; }
+    .pr-main { min-width:0; }
+    .pr-row1 { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+    .pr-name { font-weight:700; font-size:15px; color:#1A1A1A; }
+    .pr-stufe { font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#8B7355; }
+    .pr-titel { font-size:14px; color:#1A1A1A; margin-top:3px; }
+    .pr-meta { font-size:12.5px; color:var(--text-secondary,#6B6660); margin-top:2px; }
+    .pr-meta .pr-wert { font-weight:600; color:#1A1A1A; }
+    .pr-status { display:inline-block; font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; }
+    .pr-status.offen { background:rgba(194,132,71,.14); color:#9A5A22; }
+    .pr-status.ausgezahlt { background:rgba(122,139,111,.16); color:#4F6045; }
+    .pr-status.verzichtet { background:rgba(107,102,96,.12); color:#6B6660; }
+    .pr-actions { display:flex; flex-direction:column; gap:6px; align-items:flex-end; }
+    .pr-btn { border:1px solid var(--border,#e3ddd4); background:#fff; border-radius:8px; padding:7px 12px; font-size:12.5px; font-weight:600; cursor:pointer; white-space:nowrap; }
+    .pr-btn.primary { background:#141414; color:#fff; border-color:#141414; }
+    .pr-detail { grid-column:1 / -1; display:none; gap:10px; margin-top:6px; padding-top:12px; border-top:1px solid var(--border,#eee); }
+    .pr-card.open .pr-detail { display:grid; grid-template-columns:1fr 1fr; }
+    .pr-detail label { display:block; font-size:12px; color:var(--text-secondary,#6B6660); margin-bottom:4px; }
+    .pr-detail input { width:100%; padding:8px 10px; border:1px solid var(--border,#e3ddd4); border-radius:8px; font-size:13px; }
+    .pr-empty { padding:28px; text-align:center; color:var(--text-secondary,#6B6660); font-size:14px; }
+    @media (max-width:560px){ .pr-card { grid-template-columns:1fr; } .pr-actions { flex-direction:row; align-items:stretch; } .pr-card.open .pr-detail { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body data-page="praemien-admin" class="has-app-nav">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5VB63NPP"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+  <div id="appNav"></div>
+  <script type="module" src="js/nav.js?v=42"></script>
+
+  <header class="h-header">
+    <div class="h-header-left">
+      <img class="h-header-photo" id="hPhoto" src="" alt="" />
+      <div class="h-header-text">
+        <div class="h-header-name" id="hName">…</div>
+        <div class="h-header-sub">Prämien verwalten</div>
+      </div>
+    </div>
+    <button class="h-logout" id="logoutBtn">Abmelden</button>
+  </header>
+
+  <main class="h-main">
+    <section class="cms-intro">
+      <h2>Verdiente Prämien</h2>
+      <p>
+        Hier siehst du, welcher Empfehler welche Belohnungsstufe erreicht hat (Stufe = Anzahl gewonnener Kunden). Markiere ausgezahlte Prämien und halte die gewählte Variante fest.
+      </p>
+      <p style="margin-top:10px;font-size:13px;">
+        <a href="hub.html" style="color:var(--accent-gold);font-weight:600;text-decoration:none;">← Zurück zum Hub</a>
+      </p>
+    </section>
+
+    <section class="pr-toolbar">
+      <button class="pr-sync" id="prSync" type="button">Prämien aktualisieren</button>
+      <div class="pr-filters" id="prFilters">
+        <button class="pr-chip active" data-filter="offen" type="button">Offen</button>
+        <button class="pr-chip" data-filter="alle" type="button">Alle</button>
+        <button class="pr-chip" data-filter="ausgezahlt" type="button">Ausgezahlt</button>
+      </div>
+      <span class="pr-count" id="prCount"></span>
+    </section>
+
+    <section class="pr-list" id="prList">
+      <div class="pr-empty">Lade Prämien…</div>
+    </section>
+  </main>
+
+  <div class="h-toast" id="hToast"></div>
+
+  <script type="module" src="js/praemien-admin.js?v=1"></script>
+</body>
+</html>

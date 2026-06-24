@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.87** · Karriere-Karte Desktop-Höhe gefixt.
+Aktuelle Version: **v1.88** · Paket 4: Prämien-Tracking + Wirtschaftlichkeits-Analyse.
+
+---
+
+## v1.88 — Phase 64 · Paket 4 (Teil A + C)
+**2026-06-24**
+
+- **Erkenntnis:** Die Belohnungs-Logik ist bereits conversion-basiert (Stufe = Anzahl Empfehlungen mit Status „Kunde", nicht abgegebene Empfehlungen). Sandros struktureller Kernpunkt war damit schon erfüllt, kein Umbau nötig.
+- **Wirtschaftlichkeits-Analyse (Teil A):** durchgerechnet (intern, liegt in OneDrive, nicht im Repo). Ergebnis: im realistischen Bereich (Stufe 1–10) bewegt sich die Belohnungsquote um die 30 %, kein Totalschaden. Mallorca (15) ist bewusster Marketing-Leuchtturm.
+- **Prämien-Tracking (Teil C):** neue Tabelle `praemien` (Migration schema-phase15.sql) + RLS + `sync_praemien` + Trigger auf `empfehlungen` (Status → „Kunde" legt verdiente Prämien automatisch als „offen" an). Neue Admin-Seite `praemien.html` + `js/praemien-admin.js` (admin-only, Nav-Punkt „Prämien"): zeigt verdiente Stufen-Prämien je Empfehler, „als ausgezahlt" markieren, Variante/Notiz festhalten. End-to-end mit Dummy-Daten getestet.
+
+Cache: nav.js v42, sw.js v66.
+
+**Offen (Teil B):** neue Stufen-Leiter (3. Empfehlung knallt, strecken, mydays/Auto) erst nach Freigabe der Werte durch Kai + Sandro.
 
 ---
 
