@@ -2247,6 +2247,7 @@ body[data-page="programm"] {
 .bww-friend .bww-list li::before { color: #2E5266; }
 .bww-you .bww-list li::before { color: var(--sage, #7A8B6F); }
 .bww-list li span { color: var(--ink-muted, #6B6660); }
+.bww-emoji { font-size: 15px; line-height: 1; white-space: nowrap; color: initial; }
 
 /* Anker-Pille */
 .benefit-anchor {

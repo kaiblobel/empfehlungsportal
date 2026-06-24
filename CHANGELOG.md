@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.83** · Win-Win-Paar in der Benefits-Sektion.
+Aktuelle Version: **v1.84** · Win-Win-Paar mit Emojis.
+
+---
+
+## v1.84 — Win-Win-Paar: Emojis pro Zeile
+**2026-06-24**
+
+- Jede Zeile im Win-Win-Paar bekommt ein passendes Emoji ans Ende (🔍 Finanz-Check, 🤝 Gespräch, 😊 keine Verpflichtung, 🙏 Dankeschön, 📈 wird größer, 👌 freie Wahl), der Anker-Satz ein 🎁. Bringt Leben rein, ✓-Häkchen bleiben als Garantie-Signal.
+
+Cache: programm.css v46, sw.js v62.
 
 ---
 
