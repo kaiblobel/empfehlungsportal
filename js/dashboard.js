@@ -164,6 +164,19 @@ export async function updateStatus(id, status, notiz) {
   return { error };
 }
 
+/**
+ * Markiert eine Empfehlung als interessiert (Boolean-Flag, unabhängig vom Status).
+ * Genutzt vom Schnell-Menü (Rechtsklick) für "Interessent".
+ */
+export async function setInteressiert(id, value = true) {
+  if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
+  const { error } = await supabase
+    .from('empfehlungen')
+    .update({ interessiert: value })
+    .eq('id', id);
+  return { error };
+}
+
 
 /* ---------- Empfehler (Phase 7) ---------- */
 

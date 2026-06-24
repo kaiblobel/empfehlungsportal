@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.91** · Prämien-Badge in der Navigation.
+Aktuelle Version: **v1.92** · Rechtsklick-Schnellmenü + dynamische Prämien-Karten.
+
+---
+
+## v1.92 — Phase 68 · Rechtsklick-Schnellmenü + dynamische Prämien
+**2026-06-24**
+
+- **Rechtsklick auf eine Empfehlung** öffnet ein Schnellmenü: Status direkt setzen (Als Kunde gewonnen, Anrufwunsch, Kontaktiert, Kein Interesse, zurück auf offen) oder als **Interessent** markieren — ohne erst die Empfehlung zu öffnen. Der aktuelle Status ist im Menü mit einem Haken markiert, der Name steht im Kopf, eine kurze Bestätigung (Toast) blendet ein. Schließt bei Klick außerhalb, Escape oder Scrollen.
+- **Prämien-Karten dynamischer:** Statt nur „Stufe 1" steht jetzt **„Verdient durch [Kundenname] · N. gewonnener Kunde"** — die Prämie ist sichtbar mit dem konkreten Kunden verknüpft. Der **Betrag erscheint groß in Gold** (sobald für die Stufe ein Wert hinterlegt ist). Auch die Auszahl-Überschrift zeigt Betrag + Kunde statt nur die Stufe.
+- **Prämien-Badge premiumer:** sanfter Gold-Verlauf, dezenter Puls, feinerer Schatten.
+- Neu: `setInteressiert()` + `getKundenJeEmpfehler()` (ordnet Stufe N dem N. gewonnenen Kunden zu), `.ctx-menu`/`.toast`-Styling.
+
+Cache: dashboard.css v41, praemien-admin.js v3, sw.js v70.
 
 ---
 

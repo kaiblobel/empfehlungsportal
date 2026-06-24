@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#f5f5f7" />
   <title>Empfehlungen · Empfehlungsportal</title>
   <link rel="stylesheet" href="../css/style.css?v=32" />
-  <link rel="stylesheet" href="../css/dashboard.css?v=40" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=41" />
   <script src="../js/config.js"></script>
 </head>
 <body class="has-app-nav">
@@ -55,9 +55,35 @@
     <script type="module" src="../js/nav.js?v=43"></script>
   </div>
 
+  <!-- Schnell-Menü (Rechtsklick auf eine Empfehlung) -->
+  <div id="ctxMenu" class="ctx-menu" role="menu" hidden>
+    <div class="ctx-head" id="ctxHead">Empfehlung</div>
+    <button class="ctx-item ctx-kunde" role="menuitem" data-act="status" data-val="kunde">
+      <span class="ctx-dot dot-kunde"></span>Als Kunde gewonnen
+    </button>
+    <button class="ctx-item" role="menuitem" data-act="interessiert">
+      <span class="ctx-dot dot-interessiert"></span>Interessent
+    </button>
+    <button class="ctx-item" role="menuitem" data-act="status" data-val="anrufwunsch">
+      <span class="ctx-dot dot-anrufwunsch"></span>Anrufwunsch
+    </button>
+    <button class="ctx-item" role="menuitem" data-act="status" data-val="kontaktiert">
+      <span class="ctx-dot dot-kontaktiert"></span>Kontaktiert
+    </button>
+    <button class="ctx-item" role="menuitem" data-act="status" data-val="kein_interesse">
+      <span class="ctx-dot dot-kein_interesse"></span>Kein Interesse
+    </button>
+    <button class="ctx-item" role="menuitem" data-act="status" data-val="offen">
+      <span class="ctx-dot dot-offen"></span>Zurück auf offen
+    </button>
+    <div class="ctx-sep"></div>
+    <button class="ctx-item ctx-open" role="menuitem" data-act="open">Details öffnen &rsaquo;</button>
+  </div>
+  <div id="toast" class="toast" hidden></div>
+
   <script type="module">
     import {
-      requireAuth, logout, loadEmpfehlungen,
+      requireAuth, logout, loadEmpfehlungen, updateStatus, setInteressiert,
       formatDate, getStatusBadge, applyBeraterHeader,
     } from '../js/dashboard.js';
 
@@ -113,7 +139,7 @@
         return;
       }
       list.innerHTML = '<div class="feed">' + allItems.map(r => `
-        <a class="feed-row" href="detail.html?id=${r.id}">
+        <a class="feed-row" href="detail.html?id=${r.id}" data-id="${r.id}" data-status="${r.status || 'offen'}">
           <div class="feed-main">
             <div class="feed-name">${escapeHtml(r.empfaenger_name || '–')}</div>
             <div class="feed-meta">
@@ -131,6 +157,93 @@
     function escapeHtml(s) {
       return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
     }
+
+    /* ---------- Schnell-Menü (Rechtsklick auf eine Empfehlung) ---------- */
+    const ctxMenu = document.getElementById('ctxMenu');
+    const ctxHead = document.getElementById('ctxHead');
+    const toastEl = document.getElementById('toast');
+    let ctxTarget = null; // { id, href, status }
+    let toastTimer;
+
+    function showToast(msg) {
+      toastEl.textContent = msg;
+      toastEl.hidden = false;
+      requestAnimationFrame(() => toastEl.classList.add('show'));
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toastEl.classList.remove('show');
+        setTimeout(() => { toastEl.hidden = true; }, 250);
+      }, 2200);
+    }
+
+    function hideCtx() {
+      ctxMenu.hidden = true;
+      ctxTarget = null;
+      // aktive Markierung auf der Zeile entfernen
+      document.querySelectorAll('.feed-row.ctx-active').forEach(el => el.classList.remove('ctx-active'));
+    }
+
+    function openCtx(x, y, row) {
+      const item = allItems.find(r => String(r.id) === String(row.dataset.id));
+      ctxTarget = { id: row.dataset.id, href: row.getAttribute('href'), status: row.dataset.status };
+      ctxHead.textContent = (item && item.empfaenger_name) ? item.empfaenger_name : 'Empfehlung';
+      // Aktuellen Status im Menü markieren
+      ctxMenu.querySelectorAll('.ctx-item').forEach(b => {
+        b.classList.toggle('is-current', b.dataset.act === 'status' && b.dataset.val === ctxTarget.status);
+      });
+      row.classList.add('ctx-active');
+      // Erst sichtbar machen (für Maße), dann positionieren + an Viewport klemmen
+      ctxMenu.hidden = false;
+      const mw = ctxMenu.offsetWidth, mh = ctxMenu.offsetHeight;
+      const px = Math.min(x, window.innerWidth - mw - 8);
+      const py = Math.min(y, window.innerHeight - mh - 8);
+      ctxMenu.style.left = Math.max(8, px) + 'px';
+      ctxMenu.style.top = Math.max(8, py) + 'px';
+    }
+
+    document.getElementById('list').addEventListener('contextmenu', (e) => {
+      const row = e.target.closest('.feed-row');
+      if (!row) return;
+      e.preventDefault();
+      openCtx(e.clientX, e.clientY, row);
+    });
+
+    ctxMenu.addEventListener('click', async (e) => {
+      const btn = e.target.closest('.ctx-item');
+      if (!btn || !ctxTarget) return;
+      const { id, href, status } = ctxTarget;
+      const act = btn.dataset.act;
+
+      if (act === 'open') { window.location.href = href; return; }
+      hideCtx();
+
+      try {
+        if (act === 'interessiert') {
+          const { error } = await setInteressiert(id, true);
+          if (error) throw error;
+          showToast('Als Interessent markiert');
+        } else if (act === 'status') {
+          const val = btn.dataset.val;
+          if (val === status) { showToast('Status unverändert'); return; }
+          const { error } = await updateStatus(id, val);
+          if (error) throw error;
+          const labels = { kunde: 'Als Kunde gewonnen \u{1F389}', anrufwunsch: 'Anrufwunsch gesetzt', kontaktiert: 'Als kontaktiert markiert', kein_interesse: 'Als „kein Interesse" markiert', offen: 'Zurück auf offen' };
+          showToast(labels[val] || 'Status aktualisiert');
+        }
+        await refresh();
+      } catch (err) {
+        console.warn('[ctx] update fehlgeschlagen', err);
+        showToast('Fehler beim Speichern');
+      }
+    });
+
+    // Schließen bei Klick außerhalb, Scroll, Escape, erneutem Rechtsklick außerhalb
+    document.addEventListener('click', (e) => {
+      if (!ctxMenu.hidden && !ctxMenu.contains(e.target)) hideCtx();
+    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hideCtx(); });
+    window.addEventListener('scroll', () => { if (!ctxMenu.hidden) hideCtx(); }, true);
+    window.addEventListener('resize', hideCtx);
   </script>
 </body>
 </html>

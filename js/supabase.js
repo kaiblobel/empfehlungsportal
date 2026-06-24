@@ -345,6 +345,33 @@ export async function getOffenePraemienCount() {
   }
 }
 
+/**
+ * Liefert je Empfehler die Kunde-gewordenen Empfehlungen (aufsteigend nach Datum).
+ * Damit lässt sich Prämie-Stufe N dem N. gewonnenen Kunden zuordnen.
+ * Rückgabe: Map empfehler_id → [{ empfaenger_name, created_at }, ...]
+ */
+export async function getKundenJeEmpfehler(empfehlerIds = []) {
+  const map = {};
+  if (!supabase || !empfehlerIds.length) return map;
+  try {
+    const { data, error } = await supabase
+      .from('empfehlungen')
+      .select('empfehler_id, empfaenger_name, created_at')
+      .in('empfehler_id', empfehlerIds)
+      .eq('status', 'kunde')
+      .order('created_at', { ascending: true });
+    if (error) throw error;
+    for (const row of data || []) {
+      if (!row.empfehler_id) continue;
+      (map[row.empfehler_id] ||= []).push(row);
+    }
+    return map;
+  } catch (err) {
+    console.warn('[getKundenJeEmpfehler]', err);
+    return map;
+  }
+}
+
 // Einzelne Prämie inkl. Empfehler-Stammdaten laden (für den Beleg).
 export async function getPraemie(id) {
   if (!supabase) return { data: null, error: null };
