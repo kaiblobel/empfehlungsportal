@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.86** · Win-Win mit professionellen Line-Icons.
+Aktuelle Version: **v1.87** · Karriere-Karte Desktop-Höhe gefixt.
+
+---
+
+## v1.87 — Karriere-Karte: Desktop-Höhe gefixt
+**2026-06-24**
+
+- Auf dem Desktop lief der Vorderseiten-Text der drehbaren Karriere-Karte („Empfiehl eine neue Perspektive") 12 px über die feste Höhe → „Was dahintersteckt →" wurde unten abgeschnitten. Hero-Karten-Höhe auf dem Desktop 220 → 244 px (Hero-Card + Flip-Inner). Mobil unverändert (150/200 ab max-width 900). Overflow jetzt 0.
+
+Cache: programm.css v48, sw.js v65.
 
 ---
 

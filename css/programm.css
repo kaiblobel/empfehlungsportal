@@ -3861,7 +3861,7 @@ body[data-page="programm"] {
   justify-content: space-between;
   text-align: left;
   padding: 32px 28px;
-  min-height: 220px;
+  min-height: 244px;
   isolation: auto;
   position: relative;
   overflow: hidden;
@@ -3918,7 +3918,7 @@ body[data-page="programm"] {
   position: relative;
   width: 100%;
   height: 100%;
-  min-height: 220px;
+  min-height: 244px;
   transform-style: preserve-3d;
   transition: transform .6s cubic-bezier(.32,.72,.4,1);
 }
