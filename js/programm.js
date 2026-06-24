@@ -599,7 +599,7 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
   // === Belohnungs-Galerie: Premium-Karten + gruppierte Bonus-Kacheln ===
   // (Bonus als feste Kachel je Lücke: Stufe 3–4 eine Kachel, 8–9 eine Kachel …)
-  const BONUS_IMG = '/assets/images/programm/standard.jpg';
+  const BONUS_IMG = '/assets/images/programm/kundenlos.jpg';
   const BONUS_DESC = '100 € als Wunschgutschein, PayPal-Auszahlung oder Spende deiner Wahl.';
 
   const rewardCardHTML = (s) => {

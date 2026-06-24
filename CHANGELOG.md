@@ -1,7 +1,17 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.84** · Win-Win-Paar mit Emojis.
+Aktuelle Version: **v1.85** · Rolle „Regionaldirektion" + Bonus-Bild Taschenrechner.
+
+---
+
+## v1.85 — Rolle „Regionaldirektion" + Empfehlungsbonus-Bild
+**2026-06-24**
+
+- **Rolle:** „Regionaldirektionsleiter" → **„Regionaldirektion"** überall (DB-Feld `berater.rolle` für Kai + Fallback-Texte in programm.html, empfehler.html, empfaenger.html, config.js). Footer/Branding ziehen den Wert aus der DB.
+- **Empfehlungsbonus-Bild:** zurück auf den **Taschenrechner** (`kundenlos.jpg`) statt der Einkaufstüten (`standard.jpg`). Betrifft alle Bonus-Kacheln in der Galerie.
+
+Cache: programm.js v32, sw.js v63.
 
 ---
 
