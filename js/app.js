@@ -510,6 +510,12 @@ if (page === 'empfaenger') {
     if (v) applyVorlage(v);
     renderErfolge(erfolge);
 
+    // Zwei-Rechner-Logik (nur Förderung): Aufhänger-Zahl aus Rechner A kommt als
+    // Link-Parameter &betrag=. Ohne Wert bleibt der eingebettete Rechner B primär.
+    if (slugResolved === 'foerderungen') {
+      renderFoerderAufhaenger(params.get('betrag'), empfName);
+    }
+
     if (empData) renderEmpfehlerKarte(empData);
     if (empData?.anrufwunsch) revealAnrufConfirm(empData.anrufwunsch);
   })();
@@ -565,6 +571,22 @@ if (page === 'empfaenger') {
         badge.style.display = '';
       }
     }
+  }
+
+  function renderFoerderAufhaenger(raw, empfName) {
+    const el = document.getElementById('eAufhaenger');
+    if (!el) return;
+    const cents = parseInt(String(raw || '').replace(/\D/g, ''), 10);
+    if (!cents || cents <= 0) return; // kein/ungültiger Wert → Rechner B bleibt primär
+    const betrag = cents.toLocaleString('de-DE');
+    const quelle = empfName
+      ? `Nach den Angaben von ${escapeHtml(empfName)}`
+      : 'Nach einer ersten Einschätzung';
+    el.innerHTML = `${quelle} könnten in deiner Situation rund <strong>${betrag} €</strong> Förderung pro Jahr möglich sein. Was davon real nutzbar ist, schauen wir gemeinsam an.`;
+    el.style.display = '';
+    // Aufhänger übernimmt die Lead-Rolle → den allgemeinen Hook ausblenden.
+    const hook = document.getElementById('eHook');
+    if (hook) hook.style.display = 'none';
   }
 
   function renderEmpfehlerKarte(d) {
