@@ -23,7 +23,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/empfaenger.css?v=5" />
+  <link rel="stylesheet" href="css/empfaenger.css?v=6" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="empfaenger">
@@ -52,11 +52,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         Ich melde mich in den nächsten Tagen kurz bei dir.
       </p>
       <p class="e-body e-reveal d3" style="margin: 0 auto;">
-        Du musst nichts vorbereiten. Du musst auch nicht jetzt entscheiden.
+        Du musst nichts vorbereiten und nichts entscheiden. Schau es dir in Ruhe an.
       </p>
       <div class="e-cta-stack e-reveal d3">
-        <a class="e-btn e-btn-primary" href="#finanzcheck">3-Minuten-Check starten</a>
-        <a class="e-btn e-btn-secondary" href="#kontakt">Mehr erfahren</a>
+        <a class="e-btn e-btn-primary" href="#situation">Was das für dich heißt</a>
       </div>
     </div>
   </section>
@@ -74,23 +73,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </section>
 
-  <!-- ===== 3 · Finanzcheck ===== -->
-  <section class="e-section" id="finanzcheck">
-    <img class="e-finanz-img e-reveal" id="eFinanzImg" src="/assets/images/empfaenger/finanzcheck.jpg" alt="" />
+  <!-- ===== 3 · Situations-Spiegel (themenspezifisch, aus subtext) ===== -->
+  <section class="e-section" id="situation">
     <div class="e-inner">
-      <p class="e-eyebrow e-reveal">Finanzcheck</p>
-      <h2 class="e-h2 e-reveal d1" id="eFinanzHeadline">Was könnte dir<br>aktuell entgehen?</h2>
-      <p class="e-hook e-reveal d2" id="eHook" style="display:none; margin: 0 auto;"></p>
-      <p class="e-body e-reveal d2" style="margin: 0 auto;">
-        In nur wenigen Minuten findest du heraus, welche Förderungen, Steuerpotenziale und finanziellen Chancen
-        du möglicherweise noch nicht nutzt.
+      <p class="e-eyebrow e-reveal">Deine Situation</p>
+      <h2 class="e-h2 e-reveal d1" id="eSituationHead">Wo du gerade stehst.</h2>
+      <p class="e-lede e-reveal d2" id="eSituation" style="margin: 8px auto 0;">
+        Vielleicht beschäftigt dich gerade ein Thema, bei dem du nicht sicher bist, ob du das Beste daraus machst. Genau da schauen wir in Ruhe gemeinsam hin.
       </p>
-      <a class="e-btn e-btn-primary e-reveal d3" id="eFinanzCta"
-         href="https://finanzcheck.kaiblobel.de/" target="_blank" rel="noopener"
-         style="margin-top: 28px; max-width: 360px;">
-        Mein Potenzial prüfen
-      </a>
-      <p class="e-micro e-reveal d3">Der Check kostet dich nichts und dauert nur ein paar Minuten.</p>
     </div>
   </section>
 
@@ -129,29 +119,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <section class="e-section">
     <div class="e-inner">
       <p class="e-eyebrow e-reveal">So läuft es ab</p>
-      <h2 class="e-h2 e-reveal d1">Vier Schritte,<br>kein Druck.</h2>
+      <h2 class="e-h2 e-reveal d1">Drei Schritte,<br>kein Druck.</h2>
       <ol class="e-journey">
         <li class="e-reveal d1">
           <span class="step-num">Schritt 1</span>
-          <h3 class="step-title">Finanzcheck</h3>
-          <p class="step-desc">Du nutzt den Online-Check und siehst, was möglich ist.</p>
+          <h3 class="step-title">Kennenlernen</h3>
+          <p class="step-desc">Wir telefonieren kurz. Du erzählst, was gerade dran ist, ich höre zu.</p>
         </li>
         <li class="e-reveal d2">
           <span class="step-num">Schritt 2</span>
-          <h3 class="step-title">Persönliche Einordnung</h3>
-          <p class="step-desc">Wir telefonieren kurz. Ich ordne deine Situation ein.</p>
-        </li>
-        <li class="e-reveal d2">
-          <span class="step-num">Schritt 3</span>
-          <h3 class="step-title">Möglichkeiten erkennen</h3>
-          <p class="step-desc">Konkrete Optionen, die zu deinem Leben passen.</p>
+          <h3 class="step-title">Einordnen</h3>
+          <p class="step-desc">Ich zeige dir ruhig, was in deiner Situation möglich wäre. Konkret, auf dich bezogen.</p>
         </li>
         <li class="e-reveal d3">
-          <span class="step-num">Schritt 4</span>
-          <h3 class="step-title">Eigene Entscheidung</h3>
-          <p class="step-desc">Du entscheidest, was passt und was nicht. In deinem Tempo.</p>
+          <span class="step-num">Schritt 3</span>
+          <h3 class="step-title">Du entscheidest</h3>
+          <p class="step-desc">In deinem Tempo. Ob und wie es weitergeht, bestimmst du.</p>
         </li>
       </ol>
+
+      <div class="e-trust-strip e-reveal d3">
+        <div class="e-trust-point">
+          <span class="mark">✓</span>
+          <p>Unverbindlich und kostenfrei. Ein Gespräch, sonst nichts.</p>
+        </div>
+        <div class="e-trust-point">
+          <span class="mark">✓</span>
+          <p>Ein Ansprechpartner: Du erreichst direkt mich, kein Callcenter.</p>
+        </div>
+        <div class="e-trust-point">
+          <span class="mark">✓</span>
+          <p>Bei mir im Büro oder online, ganz wie es dir passt.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -179,20 +179,46 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </section>
 
-  <!-- ===== 8 · Kontakt (3 gleichwertige Optionen) ===== -->
+  <!-- ===== 8 · Erst-Mehrwert / Rechner B (eingebettet) ===== -->
+  <section class="e-section" id="tool">
+    <div class="e-inner">
+      <p class="e-eyebrow e-reveal">Selbst nachrechnen</p>
+      <h2 class="e-h2 e-reveal d1" id="eFinanzHeadline">Was könnte dir<br>aktuell entgehen?</h2>
+      <!-- Aufhänger-Zahl (nur Förderung, Phase 2): bleibt sonst leer -->
+      <p class="e-aufhaenger e-reveal d2" id="eAufhaenger" style="display:none; margin: 0 auto;"></p>
+      <p class="e-hook e-reveal d2" id="eHook" style="display:none; margin: 0 auto;"></p>
+      <p class="e-body e-reveal d2" id="eToolIntro" style="margin: 0 auto;">
+        Rechne in Ruhe selbst. Das Ergebnis gehört dir, ganz unverbindlich.
+      </p>
+    </div>
+    <div class="e-tool-embed e-reveal d2" id="eToolEmbed">
+      <iframe id="eToolFrame" title="Rechner" loading="lazy" src="about:blank"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <div class="e-inner">
+      <a class="e-btn e-btn-secondary e-reveal d3" id="eFinanzCta"
+         href="https://finanzcheck.kaiblobel.de/" target="_blank" rel="noopener"
+         style="max-width: 360px;">
+        In neuem Tab öffnen
+      </a>
+      <p class="e-micro e-reveal d3">Kostenlos und unverbindlich. Es bleibt unter uns.</p>
+    </div>
+  </section>
+
+  <!-- ===== 9 · Kontakt (3 gleichwertige Optionen) ===== -->
   <section class="e-section alt" id="kontakt">
     <div class="e-inner">
       <p class="e-eyebrow e-reveal">Der nächste Schritt</p>
-      <h2 class="e-h2 e-reveal d1">Wie geht es <em>weiter?</em></h2>
+      <h2 class="e-h2 e-reveal d1">Ein kurzes <em>Erstgespräch.</em></h2>
       <p class="e-body e-reveal d2" style="margin: 0 auto;">
-        Du musst gar nichts tun. Ich melde mich sowieso in den nächsten Tagen. Wenn du es lieber selbst in die Hand nehmen willst, hast du diese Optionen.
+        Du musst gar nichts tun. Kai meldet sich in den nächsten Tagen bei dir. Wenn du selbst den Anfang machen willst, wähl einfach den Kanal, der dir am liebsten ist.
       </p>
 
       <div class="e-contact-trio e-reveal d2">
 
         <!-- Option 1: Anrufwunsch -->
         <div class="e-contact-opt" id="eAnrufOpt">
-          <span class="label">Option 1</span>
+          <span class="label">Anruf</span>
           <h3 class="titel">Anrufwunsch hinterlegen</h3>
           <select class="e-select" id="eSlot">
             <option value="" disabled selected>Wann passt es dir am besten?</option>
@@ -215,14 +241,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a class="e-contact-opt" id="eTerminOpt" data-bb="booking"
            href="https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/s/vIk8AVAbE0CCK6qZpumyTA2?ismsaljsauthenabled=true"
            target="_blank" rel="noopener">
-          <span class="label">Option 2</span>
+          <span class="label">Termin</span>
           <h3 class="titel">Termin selbst wählen</h3>
           <span class="arrow">In meinem Kalender →</span>
         </a>
 
         <!-- Option 3: WhatsApp -->
         <a class="e-contact-opt" id="eWhatsappOpt" data-bb="whatsapp" href="https://wa.me/4915154776159" target="_blank" rel="noopener">
-          <span class="label">Option 3</span>
+          <span class="label">WhatsApp</span>
           <h3 class="titel">Direkt per WhatsApp</h3>
           <span class="arrow">Kurze Nachricht an mich →</span>
         </a>
@@ -245,11 +271,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <!-- Sticky Mobile CTA -->
   <div class="e-sticky-cta" id="eStickyCta">
-    <a href="#finanzcheck">Potenzial prüfen</a>
+    <a href="#kontakt">Erstgespräch vereinbaren</a>
   </div>
 
   </main>
 
-  <script type="module" src="js/app.js?v=41"></script>
+  <script type="module" src="js/app.js?v=42"></script>
 </body>
 </html>

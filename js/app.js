@@ -523,8 +523,16 @@ if (page === 'empfaenger') {
       if (v.cta_text)      cta.textContent = v.cta_text;
       if (v.quickcheck_url) cta.href       = v.quickcheck_url;
     }
-    const heroImg = document.getElementById('eFinanzImg');
-    if (heroImg && v.hero_bild_url) heroImg.src = v.hero_bild_url;
+    // Eingebetteter Rechner (Rechner B): iframe + Fallback-Link teilen sich die quickcheck_url
+    const toolFrame = document.getElementById('eToolFrame');
+    if (toolFrame && v.quickcheck_url) toolFrame.src = v.quickcheck_url;
+
+    // Situations-Spiegel (themenspezifisch, aus dem bisher ungenutzten subtext-Feld)
+    const situation = document.getElementById('eSituation');
+    if (situation && v.subtext && v.subtext.trim()) situation.textContent = v.subtext.trim();
+
+    // Akzentfarbe pro Thema: data-slug aufs body, CSS steuert --e-accent
+    document.body.setAttribute('data-slug', v.slug || 'allgemein');
 
     // Hook (Neugierlücke mit konkreter Zahl) – nur zeigen, wenn gepflegt
     const hook = document.getElementById('eHook');
