@@ -53,6 +53,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .pr-detail input { width:100%; padding:8px 10px; border:1px solid var(--border,#e3ddd4); border-radius:8px; font-size:13px; }
     .pr-empty { padding:28px; text-align:center; color:var(--text-secondary,#6B6660); font-size:14px; }
     @media (max-width:560px){ .pr-card { grid-template-columns:1fr; } .pr-actions { flex-direction:row; align-items:stretch; } .pr-card.open .pr-detail { grid-template-columns:1fr; } }
+
+    .pr-belegnr { font-size:11.5px; color:var(--text-secondary,#6B6660); }
+    .pr-modal { position:fixed; inset:0; z-index:200; display:none; }
+    .pr-modal.open { display:block; }
+    .pr-modal-bd { position:absolute; inset:0; background:rgba(20,18,12,.45); }
+    .pr-modal-card { position:relative; max-width:440px; margin:6vh auto 0; background:#fff; border-radius:16px; padding:24px 24px 20px; box-shadow:0 30px 80px rgba(0,0,0,.25); max-height:88vh; overflow:auto; }
+    .pr-modal-card h3 { font-size:18px; margin:0 0 4px; }
+    .pr-modal-sub { font-size:13px; color:var(--text-secondary,#6B6660); margin-bottom:16px; }
+    .pr-field { margin-bottom:12px; }
+    .pr-field label { display:block; font-size:12px; color:var(--text-secondary,#6B6660); margin-bottom:5px; }
+    .pr-field input, .pr-field select, .pr-field textarea { width:100%; padding:9px 11px; border:1px solid var(--border,#e3ddd4); border-radius:8px; font-size:14px; font-family:inherit; background:#fff; }
+    .pr-field textarea { resize:vertical; min-height:54px; }
+    .pr-modal-actions { display:flex; gap:10px; justify-content:flex-end; margin-top:18px; }
+    .pr-modal-close { position:absolute; top:12px; right:14px; border:0; background:transparent; font-size:24px; line-height:1; cursor:pointer; color:#6B6660; }
   </style>
 </head>
 <body data-page="praemien-admin" class="has-app-nav">
@@ -101,8 +115,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </section>
   </main>
 
+  <!-- Auszahl-Dialog -->
+  <div class="pr-modal" id="prModal" role="dialog" aria-modal="true" aria-labelledby="prModalTitle">
+    <div class="pr-modal-bd" id="prModalBd"></div>
+    <div class="pr-modal-card">
+      <button class="pr-modal-close" id="prModalClose" type="button" aria-label="Schließen">×</button>
+      <h3 id="prModalTitle">Prämie auszahlen</h3>
+      <p class="pr-modal-sub" id="prModalSub">–</p>
+      <div class="pr-field"><label>Betrag / Warenwert (€)</label><input id="prfBetrag" type="number" step="0.01" inputmode="decimal" /></div>
+      <div class="pr-field"><label>Auszahlungsart</label>
+        <select id="prfArt">
+          <option value="Überweisung">Überweisung</option>
+          <option value="PayPal">PayPal</option>
+          <option value="Gutschein">Gutschein</option>
+          <option value="Bar">Bar</option>
+          <option value="Sachleistung">Sachleistung (Ware)</option>
+          <option value="Spende">Spende</option>
+        </select>
+      </div>
+      <div class="pr-field"><label>Gewählte Variante (optional)</label><input id="prfVariante" placeholder="z. B. Apple Watch" /></div>
+      <div class="pr-field"><label>Anschrift Empfänger (optional, für die Quittung)</label><textarea id="prfAdresse" placeholder="Straße Nr.&#10;PLZ Ort"></textarea></div>
+      <div class="pr-field"><label>Datum</label><input id="prfDatum" type="date" /></div>
+      <div class="pr-field"><label>Notiz (optional)</label><input id="prfNotiz" placeholder="optional" /></div>
+      <div class="pr-modal-actions">
+        <button class="pr-btn" id="prfCancel" type="button">Abbrechen</button>
+        <button class="pr-btn primary" id="prfConfirm" type="button">Auszahlen &amp; Beleg erstellen</button>
+      </div>
+    </div>
+  </div>
+
   <div class="h-toast" id="hToast"></div>
 
-  <script type="module" src="js/praemien-admin.js?v=1"></script>
+  <script type="module" src="js/praemien-admin.js?v=2"></script>
 </body>
 </html>

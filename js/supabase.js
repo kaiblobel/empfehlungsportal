@@ -315,6 +315,37 @@ export async function syncPraemien() {
   return await supabase.rpc('sync_praemien');
 }
 
+// Prämie auszahlen: Status + Auszahl-Details setzen, Beleg-Nr vergeben. Gibt die Zeile zurück.
+export async function auszahlenPraemie(id, { betrag, art, variante, adresse, notiz, datum }) {
+  if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
+  return await supabase.rpc('auszahlen_praemie', {
+    p_id: id,
+    p_betrag: (betrag === '' || betrag == null) ? null : Number(betrag),
+    p_art: art || null,
+    p_variante: variante || null,
+    p_adresse: adresse || null,
+    p_notiz: notiz || null,
+    p_datum: datum || null,
+  });
+}
+
+// Einzelne Prämie inkl. Empfehler-Stammdaten laden (für den Beleg).
+export async function getPraemie(id) {
+  if (!supabase) return { data: null, error: null };
+  try {
+    const { data, error } = await supabase
+      .from('praemien')
+      .select('*, empfehler:empfehler_id ( name, email, telefon )')
+      .eq('id', id)
+      .single();
+    if (error) throw error;
+    return { data, error: null };
+  } catch (err) {
+    console.error('[getPraemie]', err);
+    return { data: null, error: err };
+  }
+}
+
 
 /* ---------- Dashboard (authenticated, direkter Zugriff) ---------- */
 export async function getBerater(id) {

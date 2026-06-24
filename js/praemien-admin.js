@@ -3,7 +3,7 @@
  * Zeigt verdiente Prämien (erreichte Belohnungsstufen je Empfehler) und lässt sie
  * als ausgezahlt markieren / Variante + Notiz festhalten. Admin-only.
  */
-import { getPraemien, updatePraemie, syncPraemien } from './supabase.js';
+import { getPraemien, updatePraemie, syncPraemien, auszahlenPraemie } from './supabase.js';
 import { requireAuth, logout, applyBeraterHeader, getCurrentBerater } from './dashboard.js';
 
 document.getElementById('logoutBtn').addEventListener('click', logout);
@@ -62,11 +62,12 @@ function renderCard(p) {
   const variante = p.variante ? ` · gewählt: ${escapeHtml(p.variante)}` : '';
   const datum = p.status === 'ausgezahlt' && p.ausgezahlt_at
     ? ` · ausgezahlt ${new Date(p.ausgezahlt_at).toLocaleDateString('de-DE')}` : '';
+  const belegnr = p.beleg_nr ? ` · <span class="pr-belegnr">Beleg ${escapeHtml(p.beleg_nr)}</span>` : '';
   const actions = p.status === 'offen'
-    ? `<button class="pr-btn primary" data-pay="${p.id}">Als ausgezahlt</button>
+    ? `<button class="pr-btn primary" data-pay="${p.id}">Auszahlen…</button>
        <button class="pr-btn" data-edit="${p.id}">Details</button>`
-    : `<button class="pr-btn" data-reopen="${p.id}">Auf „offen" setzen</button>
-       <button class="pr-btn" data-edit="${p.id}">Details</button>`;
+    : `<button class="pr-btn" data-beleg="${p.id}">Beleg öffnen</button>
+       <button class="pr-btn" data-reopen="${p.id}">Auf „offen"</button>`;
   return `
     <article class="pr-card is-${escapeAttr(p.status)}" data-id="${p.id}">
       <div class="pr-main">
@@ -75,7 +76,7 @@ function renderCard(p) {
           <span class="pr-stufe">Stufe ${p.stufe}. Empfehlung</span>
         </div>
         <div class="pr-titel">${escapeHtml(p.titel)}</div>
-        <div class="pr-meta">${wert}<span class="pr-status ${escapeAttr(p.status)}">${statusLabel(p.status)}</span>${variante}${datum}</div>
+        <div class="pr-meta">${wert}<span class="pr-status ${escapeAttr(p.status)}">${statusLabel(p.status)}</span>${variante}${datum}${belegnr}</div>
       </div>
       <div class="pr-actions">${actions}</div>
       <div class="pr-detail">
@@ -97,7 +98,9 @@ function renderCard(p) {
 
 function attachHandlers() {
   listEl.querySelectorAll('[data-pay]').forEach(b => b.addEventListener('click', () =>
-    setStatus(b.dataset.pay, 'ausgezahlt')));
+    openAuszahlModal(b.dataset.pay)));
+  listEl.querySelectorAll('[data-beleg]').forEach(b => b.addEventListener('click', () =>
+    window.open(`beleg.html?id=${encodeURIComponent(b.dataset.beleg)}`, '_blank')));
   listEl.querySelectorAll('[data-reopen]').forEach(b => b.addEventListener('click', () =>
     setStatus(b.dataset.reopen, 'offen')));
   listEl.querySelectorAll('[data-skip]').forEach(b => b.addEventListener('click', () =>
@@ -141,6 +144,72 @@ syncBtn.addEventListener('click', async () => {
   syncBtn.disabled = false; syncBtn.textContent = 'Prämien aktualisieren';
   toast('Auf dem neuesten Stand.');
 });
+
+/* ---------- Auszahl-Dialog ---------- */
+const modal = document.getElementById('prModal');
+const mSub = document.getElementById('prModalSub');
+const mBetrag = document.getElementById('prfBetrag');
+const mArt = document.getElementById('prfArt');
+const mVariante = document.getElementById('prfVariante');
+const mAdresse = document.getElementById('prfAdresse');
+const mDatum = document.getElementById('prfDatum');
+const mNotiz = document.getElementById('prfNotiz');
+const mConfirm = document.getElementById('prfConfirm');
+let _payId = null;
+
+function openAuszahlModal(id) {
+  const p = _all.find(x => x.id === id);
+  if (!p) return;
+  _payId = id;
+  mSub.textContent = `${p.empfehler?.name || 'Empfehler'} · Stufe ${p.stufe} · ${p.titel}`;
+  mBetrag.value = parseBetrag(p.wert_label);
+  mArt.value = guessArt(p);
+  mVariante.value = p.variante || '';
+  mAdresse.value = p.empfaenger_adresse || '';
+  mDatum.value = new Date().toISOString().slice(0, 10);
+  mNotiz.value = p.notiz || '';
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+  _payId = null;
+}
+document.getElementById('prModalClose').addEventListener('click', closeModal);
+document.getElementById('prModalBd').addEventListener('click', closeModal);
+document.getElementById('prfCancel').addEventListener('click', closeModal);
+
+mConfirm.addEventListener('click', async () => {
+  if (!_payId) return;
+  const id = _payId;
+  // Beleg-Tab synchron öffnen (sonst blockt der Popup-Blocker nach dem await)
+  const w = window.open('', '_blank');
+  mConfirm.disabled = true; mConfirm.textContent = 'Zahle aus…';
+  const { error } = await auszahlenPraemie(id, {
+    betrag: mBetrag.value, art: mArt.value, variante: mVariante.value.trim(),
+    adresse: mAdresse.value.trim(), notiz: mNotiz.value.trim(), datum: mDatum.value || null,
+  });
+  mConfirm.disabled = false; mConfirm.textContent = 'Auszahlen & Beleg erstellen';
+  if (error) { if (w) w.close(); toast('Auszahlung fehlgeschlagen: ' + (error.message || '')); return; }
+  closeModal();
+  toast('Ausgezahlt. Beleg geöffnet.');
+  const url = `beleg.html?id=${encodeURIComponent(id)}`;
+  if (w) w.location = url; else window.open(url, '_blank');
+  await refresh(false);
+});
+
+function parseBetrag(wert) {
+  if (!wert) return '';
+  const m = String(wert).match(/[\d.]+/);
+  return m ? m[0].replace(/\./g, '') : '';
+}
+function guessArt(p) {
+  const t = (p.titel || '').toLowerCase();
+  if (/bonus|geld/.test(t)) return 'Überweisung';
+  if (/spende/.test(t)) return 'Spende';
+  return 'Sachleistung';
+}
 
 /* ---------- Helpers ---------- */
 function statusLabel(s) {

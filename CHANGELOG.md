@@ -1,7 +1,23 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.88** · Paket 4: Prämien-Tracking + Wirtschaftlichkeits-Analyse.
+Aktuelle Version: **v1.89** · Paket 4 Teil D: Auszahl-Workflow + Beleg.
+
+---
+
+## v1.89 — Phase 65 · Paket 4 (Teil D) · Auszahl-Workflow + Beleg/Quittung
+**2026-06-24**
+
+Der Prämien-Auszahlung wird „rund" gemacht: in einem Schritt auszahlen, dokumentieren, Beleg erzeugen.
+
+- **DB (schema-phase16.sql):** `praemien` um `betrag`, `auszahlungsart`, `empfaenger_adresse`, `beleg_nr` erweitert; RPC `auszahlen_praemie(...)` (setzt Status + Details, vergibt laufende Beleg-Nr `EMP-<Jahr>-<NNNN>` pro Berater).
+- **Auszahl-Dialog (praemien.html / praemien-admin.js):** „Auszahlen…" öffnet ein Modal (Betrag vorbefüllt, Auszahlungsart, Variante, optionale Anschrift, Datum, Notiz). Bestätigen → Auszahlung + Beleg-Nr → Beleg öffnet im neuen Tab. Ausgezahlte Prämien zeigen die Beleg-Nr + „Beleg öffnen".
+- **Beleg-Seite (beleg.html + js/beleg.js):** druckbares, premium-schlichtes Dokument, adaptiv nach Auszahlungsart (Geld = Quittung, Sache = Empfangsbestätigung, Spende = Spendenbeleg): Aussteller/Empfänger (mit Anschrift), Anlass, Prämie/Variante, Betrag, zwei Unterschriftsfelder, Signatur-Footer. `@media print` (A4, Buttons weg); Dateiname für „als PDF speichern" nach Konvention vorbelegt (`YYYY-MM-DD Name Empfehlungspraemie Beleg EMP-…`).
+- End-to-end getestet (zwei Auszahlungen → Beleg-Nr fortlaufend EMP-2026-0001/0002, Beleg rendert + Druckansicht), Dummy entfernt.
+
+Cache: praemien-admin.js v2, beleg.js v1, sw.js v67.
+
+**Offen (Teil B):** neue Stufen-Leiter erst nach Werte-Freigabe Kai/Sandro.
 
 ---
 
