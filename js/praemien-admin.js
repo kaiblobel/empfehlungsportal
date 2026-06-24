@@ -3,7 +3,7 @@
  * Zeigt verdiente Prämien (erreichte Belohnungsstufen je Empfehler) und lässt sie
  * als ausgezahlt markieren / Variante + Notiz festhalten. Admin-only.
  */
-import { getPraemien, updatePraemie, syncPraemien, auszahlenPraemie } from './supabase.js';
+import { getPraemien, updatePraemie, syncPraemien, auszahlenPraemie, getKundenJeEmpfehler } from './supabase.js';
 import { requireAuth, logout, applyBeraterHeader, getCurrentBerater } from './dashboard.js';
 
 document.getElementById('logoutBtn').addEventListener('click', logout);
@@ -32,9 +32,17 @@ async function refresh(doSync = false) {
     listEl.innerHTML = `<div class="pr-empty">Prämien konnten nicht geladen werden: ${escapeHtml(error.message || '')}</div>`;
     return;
   }
+  const rows = (data || []).slice();
+  // Kunde-gewordene Empfehlungen je Promoter holen → Stufe N dem N. gewonnenen Kunden zuordnen.
+  const ids = [...new Set(rows.map(p => p.empfehler_id).filter(Boolean))];
+  const kundenMap = await getKundenJeEmpfehler(ids);
+  for (const p of rows) {
+    const liste = kundenMap[p.empfehler_id] || [];
+    p._kunde = liste[p.stufe - 1]?.empfaenger_name || null;
+  }
   // Offen zuerst, dann ausgezahlt/verzichtet; innerhalb nach Stufe absteigend.
   const rank = { offen: 0, ausgezahlt: 1, verzichtet: 2 };
-  _all = (data || []).slice().sort((a, b) =>
+  _all = rows.sort((a, b) =>
     (rank[a.status] - rank[b.status]) || (b.stufe - a.stufe)
   );
   render();
@@ -56,13 +64,26 @@ function render() {
   attachHandlers();
 }
 
+const ICON_GEWONNEN = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+
+function formatWertBig(p) {
+  const b = parseBetrag(p.wert_label);
+  if (b) return `${Number(b).toLocaleString('de-DE')}&nbsp;€`;
+  return p.wert_label ? escapeHtml(p.wert_label) : '';
+}
+
 function renderCard(p) {
   const name = p.empfehler?.name || 'Unbekannter Empfehler';
-  const wert = p.wert_label ? `<span class="pr-wert">${escapeHtml(p.wert_label)}</span> · ` : '';
-  const variante = p.variante ? ` · gewählt: ${escapeHtml(p.variante)}` : '';
+  const wertBig = formatWertBig(p);
+  const bezug = p._kunde
+    ? `${ICON_GEWONNEN} Verdient durch <strong>${escapeHtml(p._kunde)}</strong> · ${p.stufe}. gewonnener Kunde`
+    : `${ICON_GEWONNEN} ${p.stufe}. gewonnener Kunde`;
+  const variante = p.variante ? `gewählt: ${escapeHtml(p.variante)}` : '';
   const datum = p.status === 'ausgezahlt' && p.ausgezahlt_at
-    ? ` · ausgezahlt ${new Date(p.ausgezahlt_at).toLocaleDateString('de-DE')}` : '';
-  const belegnr = p.beleg_nr ? ` · <span class="pr-belegnr">Beleg ${escapeHtml(p.beleg_nr)}</span>` : '';
+    ? `ausgezahlt ${new Date(p.ausgezahlt_at).toLocaleDateString('de-DE')}` : '';
+  const belegnr = p.beleg_nr ? `<span class="pr-belegnr">Beleg ${escapeHtml(p.beleg_nr)}</span>` : '';
+  const metaInner = [variante, datum, belegnr].filter(Boolean).join(' · ');
+  const meta = metaInner ? `<div class="pr-meta">${metaInner}</div>` : '';
   const actions = p.status === 'offen'
     ? `<button class="pr-btn primary" data-pay="${p.id}">Auszahlen…</button>
        <button class="pr-btn" data-edit="${p.id}">Details</button>`
@@ -73,10 +94,14 @@ function renderCard(p) {
       <div class="pr-main">
         <div class="pr-row1">
           <span class="pr-name">${escapeHtml(name)}</span>
-          <span class="pr-stufe">Stufe ${p.stufe}. Empfehlung</span>
+          <span class="pr-status ${escapeAttr(p.status)}">${statusLabel(p.status)}</span>
         </div>
-        <div class="pr-titel">${escapeHtml(p.titel)}</div>
-        <div class="pr-meta">${wert}<span class="pr-status ${escapeAttr(p.status)}">${statusLabel(p.status)}</span>${variante}${datum}${belegnr}</div>
+        <div class="pr-headline">
+          ${wertBig ? `<span class="pr-value-big">${wertBig}</span>` : ''}
+          <span class="pr-titel">${escapeHtml(p.titel)}</span>
+        </div>
+        <div class="pr-bezug">${bezug}</div>
+        ${meta}
       </div>
       <div class="pr-actions">${actions}</div>
       <div class="pr-detail">
@@ -161,7 +186,9 @@ function openAuszahlModal(id) {
   const p = _all.find(x => x.id === id);
   if (!p) return;
   _payId = id;
-  mSub.textContent = `${p.empfehler?.name || 'Empfehler'} · Stufe ${p.stufe} · ${p.titel}`;
+  const betrag = parseBetrag(p.wert_label);
+  const wertText = betrag ? `${Number(betrag).toLocaleString('de-DE')} €` : (p.wert_label || p.titel);
+  mSub.textContent = `${p.empfehler?.name || 'Empfehler'} · ${wertText}${p._kunde ? ` · für ${p._kunde}` : ''} · ${p.titel}`;
   mBetrag.value = parseBetrag(p.wert_label);
   mArt.value = guessArt(p);
   mVariante.value = p.variante || '';

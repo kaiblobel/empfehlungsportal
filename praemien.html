@@ -15,7 +15,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <title>Prämien · Empfehlungs-HUB</title>
 
   <link rel="stylesheet" href="css/style.css?v=32" />
-  <link rel="stylesheet" href="css/dashboard.css?v=40" />
+  <link rel="stylesheet" href="css/dashboard.css?v=41" />
   <link rel="stylesheet" href="css/hub.css?v=42" />
   <script src="js/config.js"></script>
 
@@ -38,7 +38,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .pr-name { font-weight:700; font-size:15px; color:#1A1A1A; }
     .pr-stufe { font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#8B7355; }
     .pr-titel { font-size:14px; color:#1A1A1A; margin-top:3px; }
-    .pr-meta { font-size:12.5px; color:var(--text-secondary,#6B6660); margin-top:2px; }
+    .pr-row1 .pr-status { margin-left:auto; }
+    .pr-headline { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-top:8px; }
+    .pr-value-big { font-size:27px; font-weight:800; line-height:1; letter-spacing:-0.02em;
+      background:linear-gradient(135deg,#C49A4A 0%,#8B6B2E 100%);
+      -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:#8B6B2E; }
+    .pr-headline .pr-titel { margin-top:0; color:var(--text-secondary,#6B6660); }
+    .pr-bezug { display:flex; align-items:center; gap:6px; font-size:12.5px; color:var(--text-secondary,#6B6660); margin-top:6px; }
+    .pr-bezug strong { color:#1A1A1A; font-weight:600; }
+    .pr-bezug svg { color:#2E9E4B; flex:0 0 auto; }
+    .pr-card.is-offen .pr-bezug svg { color:#C49A4A; }
+    .pr-meta { font-size:12.5px; color:var(--text-secondary,#6B6660); margin-top:6px; }
     .pr-meta .pr-wert { font-weight:600; color:#1A1A1A; }
     .pr-status { display:inline-block; font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; }
     .pr-status.offen { background:rgba(194,132,71,.14); color:#9A5A22; }
@@ -146,6 +156,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <div class="h-toast" id="hToast"></div>
 
-  <script type="module" src="js/praemien-admin.js?v=2"></script>
+  <script type="module" src="js/praemien-admin.js?v=3"></script>
 </body>
 </html>
