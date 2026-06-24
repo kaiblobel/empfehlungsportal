@@ -2196,6 +2196,7 @@ body[data-page="programm"] {
   grid-template-columns: 1fr;
   gap: 14px;
   margin: 56px auto 0;
+  width: 100%;
   max-width: 1100px;
 }
 
@@ -2269,6 +2270,8 @@ body[data-page="programm"] {
 
 /* Drehbare Themen-Kacheln (Flip) */
 .topic-flip {
+  display: block;
+  position: relative;
   background: transparent;
   border: 0;
   padding: 0;
@@ -2279,9 +2282,8 @@ body[data-page="programm"] {
 }
 .topic-flip:hover { transform: none; box-shadow: none; background: transparent; border: 0; }
 .topic-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  inset: 0;
   transition: transform .6s cubic-bezier(.32,.72,.4,1);
   transform-style: preserve-3d;
 }
