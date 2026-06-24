@@ -6,5 +6,5 @@ window.ENV_BERATER_NAME = 'Kai Blobel';
 window.ENV_BERATER_TITEL = 'Regionaldirektionsleiter · Team Wachsbleiche';
 window.ENV_BERATER_FOTO = '/assets/images/kai-portrait.jpg';
 window.ENV_CALENDLY_URL = ''; // sobald Kai einen Link schickt, hier eintragen — Karte erscheint automatisch
-window.APP_VERSION = 'v1.79';
-window.APP_PHASE = 'Phase 62 · Sandro-Review Runde 3 · Paket 2+3 (Reihenfolge, Stufen-Galerie, drehbare Themen-Kacheln + Kids)';
+window.APP_VERSION = 'v1.80';
+window.APP_PHASE = 'Phase 62 · Belohnungs-Galerie als Meilenstein-Pfad (Premium-Stationen + Bonus-Verbinder)';

@@ -1177,29 +1177,41 @@ body[data-page="programm"] {
   .reward-gallery .reward-body h3 { font-size: 22px !important; }
 }
 
-/* Empfehlungsbonus-Zwischenstufen: kompakt, damit die Premium-Belohnungen herausstechen */
-.reward-gallery .reward-bonus {
-  padding: 14px 20px;
-  grid-template-columns: 60px 1fr;
-  gap: 18px;
-  opacity: .97;
+/* Meilenstein-Pfad: schlanker Verbinder zwischen den Premium-Belohnungen */
+.reward-connector {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 2px 0;
+  padding: 0 6px;
 }
-.reward-gallery .reward-bonus .reward-img { width: 60px; height: 60px; border-radius: 10px; }
-.reward-gallery .reward-bonus .reward-body { gap: 4px; }
-.reward-gallery .reward-bonus .reward-body h3 { font-size: 16px !important; }
-.reward-gallery .reward-bonus .reward-body p { font-size: 13px; }
+.reward-connector-line {
+  flex: 1;
+  height: 0;
+  border-top: 1px dashed rgba(201,185,138,0.55);
+}
+.reward-connector-pill {
+  font-family: var(--font-text);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #8B7355;
+  background: rgba(201,185,138,0.12);
+  border: 1px solid rgba(201,185,138,0.28);
+  padding: 6px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+/* Pfad-Modus: einheitliches Layout (Bild links), keine alternierende Spiegelung */
+.reward-gallery.is-path .reward { grid-template-columns: 120px 1fr; }
 @media (min-width: 720px) {
-  .reward-gallery .reward-bonus {
-    grid-template-columns: 72px 1fr;
-    padding: 16px 28px;
-    gap: 24px;
-  }
-  .reward-gallery .reward-bonus .reward-img { width: 72px; height: 72px; }
-  .reward-gallery .reward-bonus .reward-body h3 { font-size: 17px !important; }
-  /* Bonus-Karten nie spiegeln – kleines Bild bleibt links */
-  .reward-gallery .reward-bonus:nth-child(even) { grid-template-columns: 72px 1fr; }
-  .reward-gallery .reward-bonus:nth-child(even) .reward-img { order: 0; }
-  .reward-gallery .reward-bonus:nth-child(even) .reward-body { order: 0; }
+  .reward-gallery.is-path .reward,
+  .reward-gallery.is-path .reward:nth-child(even) { grid-template-columns: 160px 1fr; }
+  .reward-gallery.is-path .reward:nth-child(even) .reward-img { order: 0; }
+  .reward-gallery.is-path .reward:nth-child(even) .reward-body { order: 0; }
+}
+@media (max-width: 560px) {
+  .reward-connector-pill { font-size: 11.5px; padding: 5px 11px; white-space: normal; text-align: center; }
 }
 
 /* FAQ · SF */

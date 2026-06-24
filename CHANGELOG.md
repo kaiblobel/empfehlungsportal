@@ -1,7 +1,21 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.79** · Phase 62 Sandro-Review Runde 3 (Paket 2+3).
+Aktuelle Version: **v1.80** · Belohnungs-Galerie als Meilenstein-Pfad.
+
+---
+
+## v1.80 — Belohnungs-Galerie als Meilenstein-Pfad
+**2026-06-24**
+
+Korrektur zu B6 (Kai): die lückenlose 1–15-Galerie wiederholte „Empfehlungsbonus 100 €" 8–10× und wirkte monoton. Jetzt als Meilenstein-Pfad:
+
+- Nur die **Premium-Belohnungen** (Stufe 2, 5, 7, 10, 15) sind große Karten-Stationen, einheitliches Layout (Bild links), kein alternierendes Spiegeln mehr.
+- Dazwischen schlanke **Verbinder** mit Champagne-Pille, die die Bonus-Stufen zusammenfassen statt sie zu wiederholen: „Stufe 3–4 · je 100 € Empfehlungsbonus", „Stufe 11–14 · je 100 €" usw. Die genannten Stufennummern lösen Sandros „wo ist die 4" sauber.
+- Abschluss-Verbinder „Und danach · für jede weitere Empfehlung 100 €" (fortlaufend).
+- Gefilterte Modi (Geldwert/Sache/Spende) zeigen weiterhin die passenden Karten.
+
+Cache: programm.js v30, programm.css v42, sw.js v58.
 
 ---
 

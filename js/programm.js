@@ -597,38 +597,16 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
     counterIO.observe(counterEl);
   }
 
-  // Einheitliches Bonus-Bild + -Text (Sandro: "Bilder bei Empfehlungsbonus identisch")
+  // === Meilenstein-Pfad: Premium-Belohnungen als Stationen, dazwischen Bonus-Verbinder ===
+  // (statt 10× "Empfehlungsbonus" zu wiederholen; nennt die Stufennummern → kein "wo ist die 4")
   const BONUS_IMG = '/assets/images/programm/standard.jpg';
-  const BONUS_DESC = '100 € als Wunschgutschein, PayPal-Auszahlung oder Spende deiner Wahl.';
 
-  function renderStufen(mode) {
-    let list;
-    if (mode === 'alle') {
-      // Lückenlose Sequenz 1–15: Premium aus DB, Zwischenstufen = 100-€-Bonus
-      // (löst den verwirrenden Sprung "3 → 5 … wo ist die 4?")
-      const map = new Map(stufen.map(s => [s.stufe, s]));
-      list = [];
-      for (let i = 1; i <= 15; i++) {
-        list.push(map.get(i) || {
-          stufe: i, titel: 'Empfehlungsbonus', beschreibung: BONUS_DESC,
-          wert_label: '100 €', kategorien: ['geld', 'spende'], _bonus: true,
-        });
-      }
-    } else {
-      list = stufen.filter(s => Array.isArray(s.kategorien) && s.kategorien.includes(mode));
-    }
-
-    if (!list.length) {
-      wrap.innerHTML = `<p class="t-body" style="color:var(--text-muted); text-align:center; padding:24px;">Für diesen Modus sind aktuell keine Belohnungen hinterlegt.</p>`;
-      return;
-    }
-
-    wrap.innerHTML = list.map(s => {
-      const isBonus = s._bonus || /bonus/i.test(s.titel || '');
-      const img = isBonus ? BONUS_IMG : s.bild_url;
-      const titel = isBonus ? 'Empfehlungsbonus' : s.titel;
-      return `
-      <article class="reward ${s.highlight ? 'highlight' : ''}${isBonus ? ' reward-bonus' : ''} reveal visible" id="reward-stufe-${s.stufe}">
+  const rewardCardHTML = (s) => {
+    const isBonus = /bonus/i.test(s.titel || '');
+    const img = isBonus ? BONUS_IMG : s.bild_url;
+    const titel = isBonus ? 'Empfehlungsbonus' : s.titel;
+    return `
+      <article class="reward ${s.highlight ? 'highlight' : ''} reveal visible" id="reward-stufe-${s.stufe}">
         ${img ? `<img class="reward-img" src="${escapeAttr(img)}" alt="${escapeAttr(titel)}" loading="lazy" />` : ''}
         <div class="reward-body">
           <span class="t-meta reward-meta">${s.stufe}. Empfehlung</span>
@@ -636,9 +614,45 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
           <p>${escapeHtml(s.beschreibung || '')}</p>
           ${s.wert_label ? `<span class="wert">Wert ${escapeHtml(s.wert_label)}</span>` : ''}
         </div>
-      </article>
-    `;
-    }).join('');
+      </article>`;
+  };
+
+  const connectorHTML = (label) => `
+      <div class="reward-connector" role="presentation">
+        <span class="reward-connector-line" aria-hidden="true"></span>
+        <span class="reward-connector-pill">${escapeHtml(label)}</span>
+        <span class="reward-connector-line" aria-hidden="true"></span>
+      </div>`;
+
+  const gapLabel = (a, b) => {
+    if (a > b) return null;
+    if (a === b) return `Stufe ${a} · 100 € Empfehlungsbonus`;
+    return `Stufe ${a}–${b} · je 100 € Empfehlungsbonus`;
+  };
+
+  function renderStufen(mode) {
+    if (mode === 'alle') {
+      wrap.classList.add('is-path');
+      const premium = stufen.filter(s => !/bonus/i.test(s.titel || '')).slice().sort((a, b) => a.stufe - b.stufe);
+      let html = '';
+      let prev = 0;
+      premium.forEach(p => {
+        const lbl = gapLabel(prev + 1, p.stufe - 1);
+        if (lbl) html += connectorHTML(lbl);
+        html += rewardCardHTML(p);
+        prev = p.stufe;
+      });
+      html += connectorHTML('Und danach · für jede weitere Empfehlung 100 €');
+      wrap.innerHTML = html;
+      return;
+    }
+    wrap.classList.remove('is-path');
+    const list = stufen.filter(s => Array.isArray(s.kategorien) && s.kategorien.includes(mode));
+    if (!list.length) {
+      wrap.innerHTML = `<p class="t-body" style="color:var(--text-muted); text-align:center; padding:24px;">Für diesen Modus sind aktuell keine Belohnungen hinterlegt.</p>`;
+      return;
+    }
+    wrap.innerHTML = list.map(rewardCardHTML).join('');
   }
 
   // Initial: alle
