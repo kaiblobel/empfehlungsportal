@@ -279,6 +279,10 @@ if (page === 'empfehlen') {
   const grid = document.getElementById('vorlagenGrid');
   const nachrichtVorlagenWrap = document.getElementById('nachrichtVorlagen');
 
+  // Themen-Vorwahl per Link (z.B. aus dem Berater-Cockpit): ?vorlage=baufi
+  const vorwahlSlug = (params.get('vorlage') || '').trim().toLowerCase();
+  if (vorlageSlugEl && vorwahlSlug) vorlageSlugEl.value = vorwahlSlug;
+
   function renderNachrichtVorlagen(slug) {
     if (!nachrichtVorlagenWrap) return;
     const vorname = vornameEl?.value || '';
@@ -333,7 +337,7 @@ if (page === 'empfehlen') {
         return;
       }
       grid.innerHTML = list.map(v => `
-        <button type="button" class="vorlage-kachel${v.slug === 'allgemein' ? ' selected' : ''}" data-slug="${v.slug}">
+        <button type="button" class="vorlage-kachel${v.slug === (vorlageSlugEl?.value || 'allgemein') ? ' selected' : ''}" data-slug="${v.slug}">
           <span class="icon">${vorlagenIconHtml(v.icon)}</span>
           <span class="titel">${escapeHtml(v.titel)}</span>
         </button>
