@@ -1,9 +1,15 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.92** · Rechtsklick-Schnellmenü + dynamische Prämien-Karten.
+Aktuelle Version: **v1.93** · WhatsApp-Follow-up-Button bei Hot Leads.
 
 ---
+
+## v1.93 — Phase 69 · WhatsApp-Follow-up bei Hot Leads
+**2026-06-29**
+
+- Im **Hub** bekommt jede Hot-Lead-Zeile rechts einen grünen **WhatsApp-Button**. Ein Klick öffnet WhatsApp mit einer vorausgefüllten, freundlichen Follow-up-Nachricht (Name eingesetzt), ohne dass man erst in die Empfehlung gehen muss. Der Klick auf die Zeile öffnet weiterhin die Detailseite; der WhatsApp-Klick ist sauber davon getrennt.
+- Cache: hub.js v42, hub.css v43, sw.js v71.
 
 ## v1.92 — Phase 68 · Rechtsklick-Schnellmenü + dynamische Prämien
 **2026-06-24**
