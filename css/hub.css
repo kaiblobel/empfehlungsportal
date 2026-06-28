@@ -789,6 +789,7 @@ body[data-page="vorlagen-cms"] {
 /* ---------- Mobile-Optimierungen ---------- */
 @media (max-width: 540px) {
   .h-lead-cta { padding: 7px 11px; font-size: 12px; }
+  .h-lead-wa { width: 32px; height: 32px; }
   .h-tl-row { grid-template-columns: 50px 20px 1fr; padding: 12px 16px; }
   .h-tl-time { font-size: 11px; }
 }
@@ -1527,9 +1528,9 @@ body[data-page="vorlagen-cms"] {
   border-left: 3px solid var(--accent-gold);
   padding: 14px 16px 14px 18px;
   display: grid;
-  grid-template-columns: 40px 1fr auto;
+  grid-template-columns: 40px 1fr auto auto;
   gap: 14px; align-items: center;
-  text-decoration: none; color: inherit;
+  cursor: pointer;
   transition: transform .25s ease, box-shadow .25s ease;
 }
 .h-lead.anrufwunsch { border-left-color: #B5651D; }
@@ -1568,6 +1569,13 @@ body[data-page="vorlagen-cms"] {
 }
 .h-lead-cta:hover { background: var(--accent-gold); }
 .h-lead .h-lead-dot { display: none; }
+.h-lead-wa {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+  background: #25D366; color: #fff; text-decoration: none;
+  transition: background .2s ease, transform .15s ease;
+}
+.h-lead-wa:hover { background: #1aab54; transform: scale(1.08); }
 
 /* KPI-CARDS · runde Bubble */
 .h-kpi {
