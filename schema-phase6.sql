@@ -74,7 +74,7 @@ values
  'Dein Weg zum Eigenheim. Sicher finanziert.',
  'Ob Neubau, Kauf oder Anschlussfinanzierung — wir finden gemeinsam die optimale Strategie für dein Vorhaben.',
  'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1200&q=80',
- 'https://baufi.kaiblobel.de/',
+ 'https://baufinanzierung.kaiblobel.de',
  'Beste Konditionen',     'Zugang zu über 400 Bankpartnern — wir finden die optimale Finanzierung für dich.',
  'Komplette Begleitung',  'Von der ersten Idee bis zur Schlüsselübergabe. Wir begleiten jeden Schritt.',
  'Keine versteckten Kosten', 'Transparente Beratung ohne Überraschungen. Du weißt immer wo du stehst.',
