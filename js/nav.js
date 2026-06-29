@@ -95,7 +95,7 @@ export function renderNav(opts = {}) {
           <span class="nav-brand-text">Empfehlungs-HUB</span>
         </div>
         <nav class="nav-list">${NAV_ITEMS.map(sidebarItem).join('')}</nav>
-        ${appVer ? `<a class="nav-version" href="changelog.html" title="${window.APP_PHASE || ''}">${appVer}</a>` : ''}
+        ${appVer ? `<a class="nav-version" href="/changelog.html" title="${window.APP_PHASE || ''}">${appVer}</a>` : ''}
         <button class="nav-collapse-toggle" type="button" aria-label="Menü ein-/ausblenden" title="Menü ein-/ausblenden (⌘\\)">
           <span class="nav-collapse-icon-expand">${icon('ChevronLeft', { size: 18 })}</span>
           <span class="nav-collapse-icon-collapse">${icon('ChevronRight', { size: 18 })}</span>

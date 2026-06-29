@@ -1,9 +1,15 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.93** · WhatsApp-Follow-up-Button bei Hot Leads.
+Aktuelle Version: **v1.94** · WhatsApp-Follow-up + Fix Changelog-Link.
 
 ---
+
+## v1.94 — Phase 69 · Fix: Changelog-Link aus Dashboard-Unterseiten
+**2026-06-29**
+
+- **Bugfix:** Klick auf die Versionsnummer in der Seitenleiste führte auf Dashboard-Unterseiten (z. B. `/dashboard/empfehlungen.html`) zu einem **404** — der Link `changelog.html` war relativ und landete bei `/dashboard/changelog.html`. Jetzt absolut (`/changelog.html`), funktioniert von überall.
+- Cache: nav.js v44, sw.js v72.
 
 ## v1.93 — Phase 69 · WhatsApp-Follow-up bei Hot Leads
 **2026-06-29**
