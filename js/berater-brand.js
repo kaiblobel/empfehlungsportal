@@ -13,6 +13,8 @@
  *   data-bb="whatsapp"  → <a>.href = https://wa.me/<whatsapp>
  *   data-bb="tel"       → <a>.href = tel:+<telefon>  (+ textContent, wenn vorhanden)
  *   data-bb="email"     → <a>.href = mailto:<email>  (+ textContent, wenn vorhanden)
+ *   data-bb="finanzcheck" → Standard-Berater behält den HTML-Link (Kais Finanzcheck),
+ *                           andere Berater → eigener Buchungslink (sonst ausgeblendet)
  *   data-bb="title"     → document.title-Suffix „· <name>" wird ersetzt
  *
  * Felder, die im Berater-Datensatz leer sind, werden NICHT überschrieben — so
@@ -91,6 +93,17 @@ export function applyBeraterBrand(b) {
         if (b.email) { el.href = `mailto:${b.email}`; el.textContent = b.email; }
         else el.style.display = 'none';
         break;
+      case 'finanzcheck': {
+        // Der Finanzcheck-Link gehört dem Standard-Berater (ENV_BERATER_ID = Kai).
+        // Für andere Berater → eigener Buchungslink; fehlt der, Button ausblenden.
+        const envId = (typeof window !== 'undefined') ? window.ENV_BERATER_ID : null;
+        const isDefault = envId ? b.id === envId : b.slug === 'kai-blobel';
+        if (!isDefault) {
+          if (b.bookings_url) el.href = b.bookings_url;
+          else el.style.display = 'none';
+        }
+        break;
+      }
     }
   });
 

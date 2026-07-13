@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.97 Beta** · Fix: Empfehlung löschen.
+Aktuelle Version: **v1.98 Beta** · Multi-Tenant: Finanzcheck-CTA pro Berater.
+
+---
+
+## v1.98 Beta — Phase 73 · Multi-Tenant-Fix: Finanzcheck-CTA
+**2026-07-13**
+
+- **Fix (Sandro-Feedback #7b):** Der „Detail-Analyse starten"-Knopf im Förder-Rechner (`programm.html`) zeigte für **jeden** Berater fest auf Kais `finanzcheck.kaiblobel.de`. Jetzt: Bei Kai bleibt es der Finanzcheck, bei anderen Beratern führt der Knopf zum eigenen Buchungslink (fehlt der, wird er ausgeblendet). Neuer Hook `data-bb="finanzcheck"` in `berater-brand.js`, Unterscheidung über `ENV_BERATER_ID` (kein hartcodierter Slug).
+- Restliches Sandro-Feedback gegen aktuellen Stand geprüft: #7a/#8/#9/#10 (Branding) und #1/#2/#5 (Mobile NPS + Roadmap) waren bereits behoben (Phase 52/56), am Handy verifiziert.
+- Cache: config.js v1.98 Beta, sw.js v78.
 
 ---
 
