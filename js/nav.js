@@ -68,17 +68,35 @@ function sidebarItem(item) {
   // nur eingeblendet, wenn der eingeloggte Berater Admin ist (siehe revealAdminItems).
   const adminCls = item.adminOnly ? ' nav-admin-only' : '';
   const adminStyle = item.adminOnly ? ' style="display:none"' : '';
-  const subs = item.subs ? `<div class="nav-subs">${item.subs.map(s => `
-    <a class="nav-sub" href="${s.href}">
-      ${s.icon ? `<span class="nav-sub-icon">${icon(s.icon, { size: 14 })}</span>` : ''}
-      <span>${s.label}</span>
-    </a>`).join('')}</div>` : '';
-  return `
-    <div class="nav-group${active}${adminCls}"${adminStyle}>
+  const hasSubs = Array.isArray(item.subs) && item.subs.length > 0;
+
+  if (!hasSubs) {
+    return `
+    <div class="nav-group${active}${adminCls}"${adminStyle} data-nav-id="${item.id}">
       <a class="nav-item${active}" href="${item.href}">
         <span class="nav-item-icon">${icon(item.icon, { size: 18 })}</span>
         <span class="nav-item-label">${item.label}</span>
       </a>
+    </div>`;
+  }
+
+  // Item mit Unterpunkten: Chevron als eigener Button neben dem Link (nicht IM <a>).
+  const subs = `<div class="nav-subs"><div class="nav-subs-inner">${item.subs.map(s => `
+    <a class="nav-sub" href="${s.href}">
+      ${s.icon ? `<span class="nav-sub-icon">${icon(s.icon, { size: 14 })}</span>` : ''}
+      <span>${s.label}</span>
+    </a>`).join('')}</div></div>`;
+  return `
+    <div class="nav-group has-subs${active}${adminCls}"${adminStyle} data-nav-id="${item.id}">
+      <div class="nav-item-row">
+        <a class="nav-item${active}" href="${item.href}">
+          <span class="nav-item-icon">${icon(item.icon, { size: 18 })}</span>
+          <span class="nav-item-label">${item.label}</span>
+        </a>
+        <button class="nav-sub-toggle" type="button" aria-expanded="false" aria-label="Unterpunkte ein-/ausklappen">
+          ${icon('ChevronDown', { size: 14 })}
+        </button>
+      </div>
       ${subs}
     </div>`;
 }
@@ -134,6 +152,43 @@ export function renderNav(opts = {}) {
         e.preventDefault();
         collapseBtn?.click();
       }
+    });
+
+    // Phase 75: Untermenüs als Klick-Accordion (kein Hover-Aufklappen mehr).
+    // Offene Gruppen werden gemerkt; der aktuelle Bereich ist automatisch offen.
+    const OPEN_KEY = 'navOpenGroups';
+    let openGroups;
+    try { openGroups = new Set(JSON.parse(localStorage.getItem(OPEN_KEY) || '[]')); }
+    catch (_) { openGroups = new Set(); }
+    // Aktive Gruppe(n) automatisch aufnehmen (einmalig, dann gemerkt).
+    let openChanged = false;
+    NAV_ITEMS.forEach((it) => {
+      if (it.subs && isActive(it) && !openGroups.has(it.id)) { openGroups.add(it.id); openChanged = true; }
+    });
+    const persistOpen = () => { try { localStorage.setItem(OPEN_KEY, JSON.stringify([...openGroups])); } catch (_) {} };
+    if (openChanged) persistOpen();
+    // Initialzustand auf alle Gruppen (Sidebar + Drawer) anwenden.
+    const applyOpenState = () => {
+      sidebar.querySelectorAll('.nav-group.has-subs').forEach((g) => {
+        const isOpen = openGroups.has(g.dataset.navId);
+        g.classList.toggle('open', isOpen);
+        const btn = g.querySelector('.nav-sub-toggle');
+        if (btn) btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+    };
+    applyOpenState();
+    // Chevron-Klick (Delegation deckt Sidebar UND Drawer ab).
+    sidebar.addEventListener('click', (e) => {
+      const btn = e.target.closest('.nav-sub-toggle');
+      if (!btn) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const group = btn.closest('.nav-group');
+      const id = group?.dataset.navId;
+      if (!id) return;
+      if (openGroups.has(id)) openGroups.delete(id); else openGroups.add(id);
+      persistOpen();
+      applyOpenState();
     });
 
     // Phase 37: Drawer-Animation via CSS transform + body.nav-drawer-open

@@ -654,7 +654,6 @@
 .nav-item:hover {
   background: rgba(201,185,138,0.07);
   color: var(--ink);
-  transform: translateX(2px);
 }
 .nav-item.active {
   background: color-mix(in srgb, #C9B98A 13%, transparent);
@@ -754,16 +753,53 @@ body.nav-collapsed .nav-badge {
 }
 .nav-item.active .nav-item-icon { color: var(--accent-hover); }
 
-.nav-subs {
-  display: none;
-  margin-left: 28px;
-  padding: 4px 0 6px;
-  flex-direction: column;
+/* Item-Zeile mit Chevron rechts (nur bei Gruppen mit Unterpunkten) */
+.nav-item-row {
+  display: flex;
+  align-items: center;
   gap: 2px;
 }
-.nav-group.active .nav-subs,
-.nav-group:hover .nav-subs {
+.nav-item-row .nav-item {
+  flex: 1;
+  min-width: 0;
+}
+.nav-sub-toggle {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: background .18s ease, color .18s ease;
+}
+.nav-sub-toggle:hover { background: rgba(201,185,138,0.12); color: var(--ink); }
+.nav-sub-toggle svg { transition: transform .25s cubic-bezier(0.22,1,0.36,1); }
+.nav-group.open .nav-sub-toggle svg { transform: rotate(180deg); }
+
+/* Untermenü: weiches Klick-Accordion (Grid-Rows 0fr↔1fr), kein Hover-Aufklappen */
+.nav-subs {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .28s cubic-bezier(0.22,1,0.36,1);
+}
+.nav-group.open .nav-subs {
+  grid-template-rows: 1fr;
+}
+.nav-subs-inner {
+  overflow: hidden;
+  min-height: 0;
   display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-left: 28px;
+}
+.nav-group.open .nav-subs-inner {
+  padding: 4px 0 2px;
 }
 .nav-sub {
   display: flex;
@@ -1084,7 +1120,8 @@ body.nav-collapsed .nav-collapse-icon-collapse { display: inline-flex; align-ite
     justify-content: center;
     padding: 11px 0;
   }
-  body.nav-collapsed .nav-subs { display: none !important; }
+  body.nav-collapsed .nav-sub-toggle { display: none; }
+  body.nav-collapsed .nav-subs { grid-template-rows: 0fr !important; }
   body.has-app-nav.nav-collapsed {
     padding-left: 72px !important;
   }

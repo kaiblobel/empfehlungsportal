@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.99 Beta** · Promoter per Rechtsklick anlegen + löschen.
+Aktuelle Version: **v1.100 Beta** · Ruhige Menüführung (Klick-Accordion).
+
+---
+
+## v1.100 Beta — Phase 75 · Ruhigere linke Menüführung
+**2026-07-13**
+
+- **Sidebar entruhigt:** Untermenüs (Empfehlungen, Programm, Themen-Seiten) klappten bisher schon beim bloßen Drüberfahren mit der Maus hart auf und wieder zu — das flackerte und schob die anderen Menüpunkte ruckartig weg. Jetzt: Untermenüs klappen **nur noch per Klick auf einen kleinen Pfeil** weich auf/zu (sanfte Animation), der aktuelle Bereich ist automatisch offen, und geöffnete Bereiche werden gemerkt (auch nach Neuladen). Der Menüpunkt selbst navigiert wie gewohnt. Der seitliche 2px-Ruck beim Hover ist weg — nur noch eine zarte Tönung.
+- Technisch: `.nav-subs` von `display`-Umschaltung auf animierte Grid-Rows umgestellt, Hover-Trigger entfernt, Chevron-Toggle mit localStorage-Zustand (`js/nav.js` + `css/dashboard.css`).
+- Cache: config.js v1.100 Beta, nav.js v45, dashboard.css v43, sw.js v80.
 
 ---
 
