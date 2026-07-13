@@ -501,3 +501,12 @@ export async function deletePraemie(id) {
   if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
   return await supabase.from('praemien').delete().eq('id', id);
 }
+
+/* ---------- Phase 74 · Promoter-Löschung ---------- */
+// SECURITY-DEFINER-RPC: löscht nur eigene Promoter OHNE Empfehlungen.
+// Rückgabe (data): 'deleted' | 'has_empfehlungen' | 'forbidden' | 'not_found'.
+export async function deleteEmpfehler(id) {
+  if (!supabase) return { data: null, error: { message: 'Supabase nicht konfiguriert' } };
+  const { data, error } = await supabase.rpc('delete_empfehler', { p_id: id });
+  return { data, error };
+}

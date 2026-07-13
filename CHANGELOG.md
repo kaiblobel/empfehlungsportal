@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.98 Beta** · Multi-Tenant: Finanzcheck-CTA pro Berater.
+Aktuelle Version: **v1.99 Beta** · Promoter per Rechtsklick anlegen + löschen.
+
+---
+
+## v1.99 Beta — Phase 74 · Promoter verwalten (anlegen + löschen)
+**2026-07-13**
+
+- **Promoter-Liste** (`dashboard/empfehler.html`) bekommt Verwaltung:
+  - **+ Neuer Promoter**: Knopf oben rechts (und im Rechtsklick-Menü) öffnet ein kleines Fenster (Name + Telefon) und legt den Promoter direkt an.
+  - **Rechtsklick auf einen Promoter**: Ansicht öffnen · Neuer Promoter · **Löschen**.
+  - **Löschen nur bei leeren Promotern:** Hat ein Promoter schon Empfehlungen ausgesprochen, wird er zum Schutz **nicht** gelöscht (klare Meldung „hat N Empfehlungen"). Nur Karteileichen/Test-Promoter ohne Empfehlungen sind löschbar. Prämien/Benachrichtigungen eines leeren Promoters werden automatisch mit entfernt.
+- Neu: DB-Funktion `delete_empfehler` (SECURITY DEFINER, pro Berater gescoped, prüft Empfehlungs-Anzahl; `schema-phase19.sql`), `deleteEmpfehler` in supabase.js. Anlegen nutzt den bestehenden `create_empfehler`. Rechtsklick-Menü/Modal/Toast aus dem bestehenden Dashboard-Baukasten (kein neues CSS).
+- Cache: config.js v1.99 Beta, sw.js v79.
 
 ---
 

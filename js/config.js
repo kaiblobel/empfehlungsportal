@@ -6,5 +6,5 @@ window.ENV_BERATER_NAME = 'Kai Blobel';
 window.ENV_BERATER_TITEL = 'Regionaldirektion · Team Wachsbleiche';
 window.ENV_BERATER_FOTO = '/assets/images/kai-portrait.jpg';
 window.ENV_CALENDLY_URL = ''; // sobald Kai einen Link schickt, hier eintragen — Karte erscheint automatisch
-window.APP_VERSION = 'v1.98 Beta';
-window.APP_PHASE = 'Phase 73 · Multi-Tenant: Finanzcheck-CTA pro Berater (Buchungslink statt Kais Finanzcheck)';
+window.APP_VERSION = 'v1.99 Beta';
+window.APP_PHASE = 'Phase 74 · Promoter per Rechtsklick anlegen + löschen (nur leere)';

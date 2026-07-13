@@ -30,7 +30,10 @@
     </header>
 
     <main class="app-content">
-      <div class="section-title">Alle Promoter</div>
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:4px;">
+        <div class="section-title" style="margin:0;">Alle Promoter</div>
+        <button id="newBtn" class="btn-logout" style="padding:8px 14px;">+ Neuer Promoter</button>
+      </div>
       <div id="list">
         <div class="skel-row"><div class="skel-body"><span class="skel skel-line"></span><span class="skel skel-line"></span></div><span class="skel skel-tail"></span></div>
         <div class="skel-row"><div class="skel-body"><span class="skel skel-line"></span><span class="skel skel-line"></span></div><span class="skel skel-tail"></span></div>
@@ -40,28 +43,66 @@
     <script type="module" src="../js/nav.js?v=44"></script>
   </div>
 
+  <!-- Schnell-Menü (Rechtsklick auf einen Promoter) -->
+  <div id="ctxMenu" class="ctx-menu" role="menu" hidden>
+    <div class="ctx-head" id="ctxHead">Promoter</div>
+    <button class="ctx-item ctx-open" role="menuitem" data-act="open">Promoter-Ansicht öffnen &rsaquo;</button>
+    <button class="ctx-item" role="menuitem" data-act="new">Neuer Promoter…</button>
+    <div class="ctx-sep"></div>
+    <button class="ctx-item ctx-danger" role="menuitem" data-act="delete">Löschen…</button>
+  </div>
+  <div id="toast" class="toast" hidden></div>
+
+  <!-- Anlege-Overlay -->
+  <div id="newModal" class="edit-modal" hidden>
+    <div class="edit-modal-backdrop" id="newModalBd"></div>
+    <div class="edit-modal-card" role="dialog" aria-modal="true" aria-labelledby="newModalTitle">
+      <h3 class="edit-modal-title" id="newModalTitle">Neuer Promoter</h3>
+      <div class="edit-field">
+        <label for="newName">Name</label>
+        <input id="newName" type="text" autocomplete="off" placeholder="Vor- und Nachname" />
+      </div>
+      <div class="edit-field">
+        <label for="newTel">Telefon (optional)</label>
+        <input id="newTel" type="tel" autocomplete="off" />
+      </div>
+      <div class="edit-actions">
+        <button class="edit-btn" id="newCancel" type="button">Abbrechen</button>
+        <button class="edit-btn primary" id="newSave" type="button">Anlegen</button>
+      </div>
+    </div>
+  </div>
+
   <script type="module">
-    import { requireAuth, logout, loadEmpfehlerList, formatDate, applyBeraterHeader } from '../js/dashboard.js';
+    import { requireAuth, logout, loadEmpfehlerList, formatDate, applyBeraterHeader, getCurrentBerater } from '../js/dashboard.js';
+    import { deleteEmpfehler, createEmpfehler } from '../js/supabase.js';
 
     applyBeraterHeader();
     document.getElementById('logoutBtn').addEventListener('click', logout);
 
+    let allItems = [];
+    let beraterSlug = '';
+
     (async () => {
       const session = await requireAuth();
       if (!session) return;
+      const me = await getCurrentBerater();
+      beraterSlug = me?.slug || '';
+      await refresh();
+    })();
 
-      const list = await loadEmpfehlerList();
+    async function refresh() {
       const wrap = document.getElementById('list');
-      if (!list.length) {
-        wrap.innerHTML = '<div class="empty-state">Noch keine Promoter registriert. Verteile den Link /programm.</div>';
+      allItems = await loadEmpfehlerList();
+      if (!allItems.length) {
+        wrap.innerHTML = '<div class="empty-state">Noch keine Promoter. Lege einen an oder verteile den Link /programm.</div>';
         return;
       }
-
       // Sortieren: Promoter mit den meisten erfolgreichen Empfehlungen zuerst
-      list.sort((a, b) => (b.kunde - a.kunde) || (b.gesamt - a.gesamt));
-
-      wrap.innerHTML = '<div class="feed">' + list.map(e => `
-        <a class="feed-row" href="../empfehler.html?code=${encodeURIComponent(e.code)}" target="_blank" rel="noopener">
+      allItems.sort((a, b) => (b.kunde - a.kunde) || (b.gesamt - a.gesamt));
+      wrap.innerHTML = '<div class="feed">' + allItems.map(e => `
+        <a class="feed-row" href="../empfehler.html?code=${encodeURIComponent(e.code)}" target="_blank" rel="noopener"
+           data-id="${e.id}" data-code="${escapeHtml(e.code)}" data-name="${escapeHtml(e.name)}" data-gesamt="${e.gesamt}">
           <div class="feed-main">
             <div class="feed-name">${escapeHtml(e.name)}</div>
             <div class="feed-meta">
@@ -74,11 +115,139 @@
           <span class="feed-arrow">›</span>
         </a>
       `).join('') + '</div>';
-    })();
+    }
 
     function escapeHtml(s) {
       return String(s).replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
     }
+
+    /* ---------- Toast ---------- */
+    const toastEl = document.getElementById('toast');
+    let toastTimer;
+    function showToast(msg) {
+      toastEl.textContent = msg;
+      toastEl.hidden = false;
+      requestAnimationFrame(() => toastEl.classList.add('show'));
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toastEl.classList.remove('show');
+        setTimeout(() => { toastEl.hidden = true; }, 250);
+      }, 2600);
+    }
+
+    /* ---------- Schnell-Menü (Rechtsklick) ---------- */
+    const ctxMenu = document.getElementById('ctxMenu');
+    const ctxHead = document.getElementById('ctxHead');
+    let ctxTarget = null; // { id, code, name, gesamt, href }
+
+    function hideCtx() {
+      ctxMenu.hidden = true;
+      ctxTarget = null;
+      document.querySelectorAll('.feed-row.ctx-active').forEach(el => el.classList.remove('ctx-active'));
+    }
+
+    function openCtx(x, y, row) {
+      ctxTarget = {
+        id: row.dataset.id,
+        code: row.dataset.code,
+        name: row.dataset.name,
+        gesamt: Number(row.dataset.gesamt) || 0,
+        href: row.getAttribute('href'),
+      };
+      ctxHead.textContent = ctxTarget.name || 'Promoter';
+      row.classList.add('ctx-active');
+      ctxMenu.hidden = false;
+      const mw = ctxMenu.offsetWidth, mh = ctxMenu.offsetHeight;
+      const px = Math.min(x, window.innerWidth - mw - 8);
+      const py = Math.min(y, window.innerHeight - mh - 8);
+      ctxMenu.style.left = Math.max(8, px) + 'px';
+      ctxMenu.style.top = Math.max(8, py) + 'px';
+    }
+
+    document.getElementById('list').addEventListener('contextmenu', (e) => {
+      const row = e.target.closest('.feed-row');
+      if (!row) return;
+      e.preventDefault();
+      openCtx(e.clientX, e.clientY, row);
+    });
+
+    ctxMenu.addEventListener('click', async (e) => {
+      const btn = e.target.closest('.ctx-item');
+      if (!btn || !ctxTarget) return;
+      const { id, name, gesamt, href } = ctxTarget;
+      const act = btn.dataset.act;
+
+      if (act === 'open') { window.open(href, '_blank', 'noopener'); hideCtx(); return; }
+      if (act === 'new') { hideCtx(); openNewModal(); return; }
+
+      if (act === 'delete') {
+        hideCtx();
+        if (gesamt > 0) {
+          showToast(`${name} hat ${gesamt} Empfehlung${gesamt === 1 ? '' : 'en'} und kann nicht gelöscht werden.`);
+          return;
+        }
+        if (!confirm(`Promoter „${name}" wirklich löschen? (Keine Empfehlungen vorhanden.)`)) return;
+        try {
+          const { data, error } = await deleteEmpfehler(id);
+          if (error) throw error;
+          if (data === 'deleted') { showToast('Promoter gelöscht'); await refresh(); }
+          else if (data === 'has_empfehlungen') showToast('Promoter hat inzwischen Empfehlungen — nicht gelöscht.');
+          else if (data === 'forbidden') showToast('Kein Zugriff auf diesen Promoter.');
+          else showToast('Promoter nicht gefunden.');
+        } catch (err) {
+          console.warn('[ctx] delete promoter fehlgeschlagen', err);
+          showToast('Fehler beim Löschen');
+        }
+      }
+    });
+
+    document.addEventListener('click', (e) => { if (!ctxMenu.hidden && !ctxMenu.contains(e.target)) hideCtx(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hideCtx(); });
+    window.addEventListener('scroll', () => { if (!ctxMenu.hidden) hideCtx(); }, true);
+    window.addEventListener('resize', hideCtx);
+
+    /* ---------- Anlege-Overlay ---------- */
+    const newModal = document.getElementById('newModal');
+    const newName = document.getElementById('newName');
+    const newTel = document.getElementById('newTel');
+    const newSave = document.getElementById('newSave');
+
+    function openNewModal() {
+      newName.value = '';
+      newTel.value = '';
+      newModal.hidden = false;
+      requestAnimationFrame(() => newModal.classList.add('open'));
+      setTimeout(() => newName.focus(), 60);
+    }
+    function closeNewModal() {
+      newModal.classList.remove('open');
+      setTimeout(() => { newModal.hidden = true; }, 220);
+    }
+
+    document.getElementById('newBtn').addEventListener('click', openNewModal);
+    document.getElementById('newCancel').addEventListener('click', closeNewModal);
+    document.getElementById('newModalBd').addEventListener('click', closeNewModal);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !newModal.hidden) closeNewModal(); });
+
+    newSave.addEventListener('click', async () => {
+      const name = newName.value.trim();
+      if (name.length < 2) { showToast('Bitte einen Namen eingeben.'); newName.focus(); return; }
+      newSave.disabled = true;
+      newSave.textContent = 'Lege an…';
+      try {
+        const { data: code, error } = await createEmpfehler({ name, email: '', telefon: newTel.value.trim(), beraterSlug });
+        if (error || !code) throw (error || new Error('kein Code'));
+        closeNewModal();
+        showToast('Promoter angelegt');
+        await refresh();
+      } catch (err) {
+        console.warn('[new] createEmpfehler fehlgeschlagen', err);
+        showToast('Fehler beim Anlegen');
+      } finally {
+        newSave.disabled = false;
+        newSave.textContent = 'Anlegen';
+      }
+    });
   </script>
 </body>
 </html>
