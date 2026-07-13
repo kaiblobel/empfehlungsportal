@@ -1,7 +1,15 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.103 Beta** · Themen-Status + Promoter-Profil + Promoter-Detailseite.
+Aktuelle Version: **v1.104 Beta** · Menü-Label „Champions (Promoter)".
+
+---
+
+## v1.104 Beta — Phase 79 · Menü-Label
+**2026-07-14**
+
+- Menüpunkt links heißt jetzt **„Champions (Promoter)"** — klarer, was gemeint ist.
+- Cache: config.js v1.104 Beta, nav.js v47, sw.js v84.
 
 ---
 
