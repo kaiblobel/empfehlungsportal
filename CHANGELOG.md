@@ -1,7 +1,15 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.105 Beta** · Zuverlässiges Berater-Login (Passwort statt Magic-Link).
+Aktuelle Version: **v1.106 Beta** · Manuelle Empfehlung einem Promoter zuordnen.
+
+---
+
+## v1.106 Beta — Phase 81 · Empfehlung einem Promoter zuordnen
+**2026-07-14**
+
+- Beim **manuellen Anlegen einer Empfehlung** (`dashboard/neu.html`) gibt es statt des freien Promoter-Namensfelds jetzt eine **Auswahl deiner Promoter**. Ordnest du die Empfehlung einem Promoter zu, **zählt sie zu seiner Liste und seinen Prämien** (echte Verknüpfung über `empfehler_id`, nicht nur ein Namens-Text). „— kein Promoter —" lässt sie unzugeordnet.
+- Cache: config.js v1.106 Beta, sw.js v86.
 
 ---
 

@@ -51,9 +51,12 @@
           </select>
         </div>
 
-        <div class="field-card">
-          <label for="empfehlerName">Promoter (optional)</label>
-          <input id="empfehlerName" type="text" autocomplete="off" />
+        <div class="detail-field">
+          <label for="empfehlerSel">Promoter zuordnen (optional)</label>
+          <select id="empfehlerSel">
+            <option value="">— kein Promoter —</option>
+          </select>
+          <span style="font-size:12px;color:var(--ink-soft,#8A8178);margin-top:4px;display:block;">Ordne die Empfehlung einem Promoter zu — dann zählt sie zu seiner Liste und seinen Prämien.</span>
         </div>
 
         <div class="field-card">
@@ -127,24 +130,44 @@
   </div>
 
   <script type="module">
-    import { requireAuth, logout, updateStatus, toast } from '../js/dashboard.js';
+    import { requireAuth, logout, updateStatus, toast, loadEmpfehlerList } from '../js/dashboard.js';
     import { createEmpfehlung } from '../js/supabase.js';
 
     document.getElementById('logoutBtn').addEventListener('click', logout);
     document.getElementById('backBtn').addEventListener('click', () => history.back());
     document.getElementById('cancelBtn').addEventListener('click', () => window.location.href = 'overview.html');
 
-    (async () => { await requireAuth(); })();
-
     // Vorbefüllung aus URL-Parametern (Brücke aus dem Berater-Cockpit, Telefon-Fokusmodus)
+    const urlParams = new URLSearchParams(location.search);
     (() => {
-      const p = new URLSearchParams(location.search);
-      const set = (id, key) => { const v = p.get(key); if (v) { const el = document.getElementById(id); if (el) el.value = v; } };
+      const set = (id, key) => { const v = urlParams.get(key); if (v) { const el = document.getElementById(id); if (el) el.value = v; } };
       set('vorname', 'vorname');
       set('nachname', 'nachname');
       set('telefon', 'telefon');
-      set('empfehlerName', 'empfehler');
       set('empfaengerKontext', 'kontext');
+    })();
+
+    (async () => {
+      const session = await requireAuth();
+      if (!session) return;
+      // Promoter-Auswahl befüllen
+      try {
+        const promoter = (await loadEmpfehlerList()).slice().sort((a, b) => a.name.localeCompare(b.name));
+        const sel = document.getElementById('empfehlerSel');
+        for (const p of promoter) {
+          const opt = document.createElement('option');
+          opt.value = p.id;
+          opt.dataset.name = p.name;
+          opt.textContent = `${p.name}${p.gesamt ? ` (${p.gesamt} Empf.)` : ''}`;
+          sel.appendChild(opt);
+        }
+        // Vorauswahl aus ?empfehler= (Name oder Code), falls vorhanden
+        const pref = (urlParams.get('empfehler') || '').toLowerCase();
+        if (pref) {
+          const match = promoter.find(p => (p.name || '').toLowerCase() === pref || (p.code || '').toLowerCase() === pref);
+          if (match) sel.value = match.id;
+        }
+      } catch (e) { console.warn('[neu] Promoter laden fehlgeschlagen', e); }
     })();
 
     function sanitizePhone(raw) {
@@ -160,7 +183,9 @@
       const nachname = document.getElementById('nachname').value.trim();
       const telefon = sanitizePhone(document.getElementById('telefon').value);
       const typ = document.getElementById('typSel').value;
-      const empfehler = document.getElementById('empfehlerName').value.trim();
+      const empfehlerSel = document.getElementById('empfehlerSel');
+      const empfehlerId = empfehlerSel.value || null;
+      const empfehlerName = empfehlerId ? (empfehlerSel.selectedOptions[0]?.dataset.name || null) : null;
       const notiz = document.getElementById('notiz').value.trim();
       const beruf = document.getElementById('empfaengerBeruf').value.trim();
       const verbindung = document.getElementById('empfaengerVerbindung').value;
@@ -182,7 +207,8 @@
       const { data, error } = await createEmpfehlung({
         empfaenger_name: `${vorname} ${nachname}`,
         empfaenger_telefon: telefon,
-        empfehler_name: empfehler || null,
+        empfehler_name: empfehlerName,
+        empfehler_id: empfehlerId,
         nachricht: null,
         typ,
         empfaenger_beruf: beruf || null,
