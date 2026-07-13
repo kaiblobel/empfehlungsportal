@@ -1,12 +1,14 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.96** · Empfehlungs-Broschüre digital: Inspiration + Potenzialliste + Link-Nachverfolgung.
+Aktuelle Version: **v1.96 Beta** · Empfehlungs-Broschüre digital: Inspiration + Potenzialliste + Link-Nachverfolgung.
 
 ---
 
-## v1.96 — Phase 71 · Empfehlungs-Broschüre digital
+## v1.96 Beta — Phase 71 · Empfehlungs-Broschüre digital
 **2026-07-13**
+
+> ⚠️ **Beta:** Die Potenzialliste + Promoter-Nachverfolgung sind neu und werden im echten Kundengespräch noch erprobt. Kennzeichnung nur im Berater-Bereich (Versionspille/Changelog), die Kundenseite bleibt neutral.
 
 Die gedruckte Empfehlungs-Broschüre wird digital: Inspiration, direkte Erfassung und Nachvollziehbarkeit — alles im moderierten Gesprächstool `programm.html` und im Promoter-Dashboard.
 
@@ -15,7 +17,7 @@ Die gedruckte Empfehlungs-Broschüre wird digital: Inspiration, direkte Erfassun
   - **Registrierung direkt im Block:** Ist der Kunde noch kein Promoter, gibt er Name (+ optional Telefon) direkt in der Potenzialliste ein und legt sofort los, ohne zum Anmelde-Formular hochzuscrollen.
   - **Nichts geht verloren:** Getippte Kontakte werden lokal zwischengespeichert. Lädt die Seite neu (Handy, versehentlicher Zurück-Wisch), sind die Namen noch da, erstellte Links bleiben als „erledigt" markiert. Ein „Liste leeren" räumt bewusst auf.
 - **Nachvollziehbarkeit** (Promoter-Dashboard `empfehler.html?code=…`): Der Feed zeigt pro Empfehlung jetzt zusätzlich, ob der Link **schon geöffnet** wurde (mit Datum) und bietet „Link kopieren". Der Berater sieht dasselbe, weil er im Dashboard auf den Promoter klickt. Datenbank-Funktion `get_empfehler_empfehlungen` additiv um `link_geoeffnet`/`link_geoeffnet_at`/`link_token` erweitert (Telefon bleibt bewusst draußen — Datenschutz). Dok: `schema-phase17.sql`.
-- Cache: config.js v1.96, programm.css v51, programm.js v34, empfehler.css v32, empfehler.js v34, sw.js v75.
+- Cache: config.js v1.96 Beta, programm.css v51, programm.js v34, empfehler.css v32, empfehler.js v34, sw.js v76.
 
 ---
 
