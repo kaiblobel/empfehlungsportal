@@ -601,3 +601,15 @@ export async function adminSetBeraterPassword(beraterId, newPassword) {
   });
   return { data, error };
 }
+
+// Admin legt für einen Berater OHNE Konto ein Login MIT Passwort an (Edge Function,
+// offizielle Admin-API, admin-gated). Ersetzt den Magic-Link.
+export async function createBeraterLogin(beraterId, password) {
+  if (!supabase) return { data: null, error: { message: 'Supabase nicht konfiguriert' } };
+  const { data, error } = await supabase.functions.invoke('berater-create-login', {
+    body: { berater_id: beraterId, password },
+  });
+  // functions.invoke gibt bei HTTP-Fehlern error; Body kann trotzdem { error } enthalten
+  if (data?.error && !error) return { data: null, error: { message: data.error } };
+  return { data, error };
+}

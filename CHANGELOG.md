@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.104 Beta** · Menü-Label „Champions (Promoter)".
+Aktuelle Version: **v1.105 Beta** · Zuverlässiges Berater-Login (Passwort statt Magic-Link).
+
+---
+
+## v1.105 Beta — Phase 80 · Zuverlässiges Berater-Login
+**2026-07-14**
+
+Die Magic-Link-Einladung war unzuverlässig (Link-Vorschau verbraucht den Einmal-Link) und unsicher (wer ihn öffnet, wird in das Konto eingeloggt). Sie ist raus.
+
+- **„Passwort setzen" ist jetzt der einzige, zuverlässige Weg** für Berater-Logins — in der Berater-Verwaltung pro Karte:
+  - Berater hat schon ein Konto → **Passwort neu setzen**.
+  - Berater hat noch **kein** Konto → **„Login anlegen"** erstellt das Konto direkt mit Passwort (sofort anmeldbar).
+  - Danach: Passwort anzeigen, kopieren, per WhatsApp/E-Mail mit Benutzer (E-Mail) + Login-Link senden.
+- **Magic-Link-Knopf entfernt.** Neue Server-Funktion `berater-create-login` (offizielle Admin-API, streng admin-abgesichert) legt Konten an.
+- Neu: `createBeraterLogin` in supabase.js.
+- Cache: config.js v1.105 Beta, berater-admin.js v7, sw.js v85.
 
 ---
 

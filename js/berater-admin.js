@@ -9,6 +9,7 @@ import {
   setBeraterAktiv,
   uploadBeraterFoto,
   adminSetBeraterPassword,
+  createBeraterLogin,
 } from './supabase.js';
 import { supabase } from './supabase.js';
 import { requireAuth, logout, applyBeraterHeader, getCurrentBerater } from './dashboard.js';
@@ -77,12 +78,6 @@ function renderCard(b) {
   const aktivLabel = b.ist_aktiv ? 'Aktiv' : 'Inaktiv';
   const aktivCls = b.ist_aktiv ? 'on' : 'off';
   const fotoSrc = b.foto_url || '';
-  const inviteLabel = b.auth_user_id ? 'Magic-Link →' : 'Einladen →';
-  const inviteCls = b.auth_user_id ? 'berater-invite-btn relink' : 'berater-invite-btn';
-  const inviteTitle = b.auth_user_id
-    ? 'Erneuten Magic-Link senden (z. B. nach Passwort-Vergessen)'
-    : 'Einladung erstellen';
-  const inviteAction = `<button class="${inviteCls}" type="button" data-invite="${b.id}" title="${inviteTitle}">${inviteLabel}</button>`;
   return `
     <details class="cms-card berater-card${inaktivCls}" data-id="${b.id}">
       <summary>
@@ -90,7 +85,6 @@ function renderCard(b) {
         <span class="titel">${escapeHtml(b.name)}</span>
         ${slugBadge}
         ${authBadge}
-        ${inviteAction}
         <span class="berater-toggle ${aktivCls}" data-toggle="${b.id}" title="${aktivLabel}">${aktivLabel}</span>
       </summary>
       <div class="cms-body">
@@ -125,11 +119,11 @@ function renderCard(b) {
         <div><label>Auth-User-ID <span style="color:var(--text-secondary);font-weight:400;">(read-only, wird beim ersten Login automatisch verknüpft)</span></label><input data-f="auth_user_id_readonly" value="${escapeAttr(b.auth_user_id || '')}" readonly style="opacity:0.6;cursor:not-allowed;" /></div>
 
         <div class="berater-pw" style="margin-top:6px;padding-top:14px;border-top:1px solid var(--border,#e3ddd4);">
-          <label>Passwort setzen ${b.auth_user_id ? '' : '<span style="color:#C24747;font-weight:400;">(erst Login/Einladen nötig)</span>'}</label>
+          <label>${b.auth_user_id ? 'Passwort setzen' : 'Login anlegen (Passwort vergeben)'}</label>
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-            <input data-pw="${b.id}" value="${escapeAttr(generatePassword())}" style="flex:1;min-width:160px;font-family:'SF Mono',Menlo,monospace;" ${b.auth_user_id ? '' : 'disabled'} />
-            <button type="button" data-pw-roll="${b.id}" title="Neuen Vorschlag würfeln" style="padding:8px 12px;border:1px solid var(--border,#e3ddd4);border-radius:8px;background:#fff;cursor:pointer;" ${b.auth_user_id ? '' : 'disabled'}>🎲</button>
-            <button type="button" data-pw-set="${b.id}" style="padding:8px 16px;border:1px solid #141414;border-radius:8px;background:#141414;color:#fff;font-weight:600;cursor:pointer;" ${b.auth_user_id ? '' : 'disabled'}>Setzen</button>
+            <input data-pw="${b.id}" value="${escapeAttr(generatePassword())}" style="flex:1;min-width:160px;font-family:'SF Mono',Menlo,monospace;" />
+            <button type="button" data-pw-roll="${b.id}" title="Neuen Vorschlag würfeln" style="padding:8px 12px;border:1px solid var(--border,#e3ddd4);border-radius:8px;background:#fff;cursor:pointer;">🎲</button>
+            <button type="button" data-pw-set="${b.id}" style="padding:8px 16px;border:1px solid #141414;border-radius:8px;background:#141414;color:#fff;font-weight:600;cursor:pointer;">${b.auth_user_id ? 'Setzen' : 'Login anlegen'}</button>
           </div>
           <div data-pw-result="${b.id}" style="display:none;margin-top:10px;font-size:13px;"></div>
         </div>
@@ -201,36 +195,6 @@ function attachHandlers(list) {
     });
   });
 
-  document.querySelectorAll('[data-invite]').forEach(btn => {
-    btn.addEventListener('click', async (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const id = btn.dataset.invite;
-      const berater = list.find(b => b.id === id);
-      btn.disabled = true;
-      btn.textContent = 'Erstelle…';
-      try {
-        const { data, error } = await supabase.functions.invoke('invite-berater', {
-          body: { berater_id: id },
-        });
-        if (error) throw error;
-        if (data?.error) throw new Error(data.error);
-        if (!data?.link) throw new Error('Kein Link zurückgegeben.');
-        openInviteModal({
-          link: data.link,
-          email: data.email,
-          name: data.name || berater?.name,
-          type: data.type || 'invite',
-        });
-      } catch (err) {
-        toast('Einladung fehlgeschlagen: ' + (err.message || String(err)), 4000);
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Einladen →';
-      }
-    });
-  });
-
   // Passwort würfeln (neuer Vorschlag)
   document.querySelectorAll('[data-pw-roll]').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -241,6 +205,32 @@ function attachHandlers(list) {
   });
 
   // Passwort setzen (Admin)
+  // Passwort/Login zeigt Erfolg (Passwort + Kopieren + WhatsApp/E-Mail mit Login-Link)
+  function showLoginResult(resultEl, berater, pw, created) {
+    const origin = window.location.origin;
+    const loginUrl = `${origin}/dashboard/`;
+    const msg = `Hallo ${berater?.name || ''}, dein Login fürs Empfehlungsportal:\nBenutzer: ${berater?.email || ''}\nPasswort: ${pw}\nAnmelden: ${loginUrl}`;
+    const waNum = (berater?.whatsapp || '').replace(/[^\d]/g, '');
+    const waBtn = waNum ? `<a href="https://wa.me/${waNum}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener" style="text-decoration:none;padding:5px 12px;border-radius:999px;border:1px solid #25D366;color:#128C36;font-weight:600;">WhatsApp</a>` : '';
+    const mailBtn = berater?.email ? `<a href="mailto:${berater.email}?subject=${encodeURIComponent('Dein Login-Zugang')}&body=${encodeURIComponent(msg)}" style="text-decoration:none;padding:5px 12px;border-radius:999px;border:1px solid var(--border,#e3ddd4);color:#141414;font-weight:600;">E-Mail</a>` : '';
+    resultEl.innerHTML = `
+      <div style="padding:10px 12px;background:rgba(31,107,48,0.06);border:1px solid rgba(31,107,48,0.3);border-radius:8px;">
+        <div style="color:#1F6B30;font-weight:600;margin-bottom:6px;">✓ ${created ? 'Login angelegt' : 'Passwort gesetzt'}</div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+          <code style="font-family:'SF Mono',Menlo,monospace;font-size:14px;background:#fff;padding:5px 10px;border-radius:6px;border:1px solid var(--border,#e3ddd4);">${escapeHtml(pw)}</code>
+          <button type="button" data-pw-copy="${escapeAttr(pw)}" style="padding:5px 12px;border-radius:999px;border:1px solid var(--border,#e3ddd4);background:#fff;cursor:pointer;font-weight:600;">Kopieren</button>
+          ${waBtn}${mailBtn}
+        </div>
+        <div style="margin-top:6px;color:var(--text-secondary,#6B6660);">Schick ${escapeHtml(berater?.name || 'dem Berater')} Benutzer (E-Mail) + Passwort + Login-Link. Er kann es danach selbst in den Einstellungen ändern.${created ? ' Falls die Seite neu geladen wird, zeigt die Karte „✓ Login".' : ''}</div>
+      </div>`;
+    resultEl.style.display = '';
+    const copyBtn = resultEl.querySelector('[data-pw-copy]');
+    copyBtn?.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(pw); copyBtn.textContent = 'Kopiert ✓'; setTimeout(() => { copyBtn.textContent = 'Kopieren'; }, 1600); } catch (_) {}
+    });
+  }
+
+  // Passwort setzen (bestehendes Konto) bzw. Login anlegen (neues Konto) — Admin
   document.querySelectorAll('[data-pw-set]').forEach(btn => {
     btn.addEventListener('click', async (e) => {
       e.preventDefault(); e.stopPropagation();
@@ -249,49 +239,34 @@ function attachHandlers(list) {
       const inp = document.querySelector(`input[data-pw="${id}"]`);
       const resultEl = document.querySelector(`[data-pw-result="${id}"]`);
       const pw = (inp?.value || '').trim();
+      const hatLogin = !!berater?.auth_user_id;
       if (pw.length < 8) { toast('Passwort muss mindestens 8 Zeichen haben.'); return; }
-      if (!confirm(`Passwort für ${berater?.name || 'diesen Berater'} jetzt neu setzen?`)) return;
-      btn.disabled = true; btn.textContent = 'Setze…';
+      const frage = hatLogin
+        ? `Passwort für ${berater?.name || 'diesen Berater'} jetzt neu setzen?`
+        : `Für ${berater?.name || 'diesen Berater'} jetzt ein Login mit diesem Passwort anlegen?`;
+      if (!confirm(frage)) return;
+      const origLabel = btn.textContent;
+      btn.disabled = true; btn.textContent = hatLogin ? 'Setze…' : 'Lege an…';
       try {
-        const { data, error } = await adminSetBeraterPassword(id, pw);
-        if (error) throw error;
-        if (data === 'ok') {
-          const origin = window.location.origin;
-          const loginUrl = `${origin}/dashboard/`;
-          const msg = `Hallo ${berater?.name || ''}, dein neues Login-Passwort für das Empfehlungsportal: ${pw}\nAnmelden: ${loginUrl}`;
-          const waNum = (berater?.whatsapp || '').replace(/[^\d]/g, '');
-          const waBtn = waNum ? `<a href="https://wa.me/${waNum}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener" style="text-decoration:none;padding:5px 12px;border-radius:999px;border:1px solid #25D366;color:#128C36;font-weight:600;">WhatsApp</a>` : '';
-          const mailBtn = berater?.email ? `<a href="mailto:${berater.email}?subject=${encodeURIComponent('Dein Login-Passwort')}&body=${encodeURIComponent(msg)}" style="text-decoration:none;padding:5px 12px;border-radius:999px;border:1px solid var(--border,#e3ddd4);color:#141414;font-weight:600;">E-Mail</a>` : '';
-          resultEl.innerHTML = `
-            <div style="padding:10px 12px;background:rgba(31,107,48,0.06);border:1px solid rgba(31,107,48,0.3);border-radius:8px;">
-              <div style="color:#1F6B30;font-weight:600;margin-bottom:6px;">✓ Passwort gesetzt</div>
-              <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-                <code style="font-family:'SF Mono',Menlo,monospace;font-size:14px;background:#fff;padding:5px 10px;border-radius:6px;border:1px solid var(--border,#e3ddd4);">${escapeHtml(pw)}</code>
-                <button type="button" data-pw-copy="${escapeAttr(pw)}" style="padding:5px 12px;border-radius:999px;border:1px solid var(--border,#e3ddd4);background:#fff;cursor:pointer;font-weight:600;">Kopieren</button>
-                ${waBtn}${mailBtn}
-              </div>
-              <div style="margin-top:6px;color:var(--text-secondary,#6B6660);">Gib das Passwort an ${escapeHtml(berater?.name || 'den Berater')} weiter. Er kann es danach selbst in den Einstellungen ändern.</div>
-            </div>`;
-          resultEl.style.display = '';
-          const copyBtn = resultEl.querySelector('[data-pw-copy]');
-          copyBtn?.addEventListener('click', async () => {
-            try { await navigator.clipboard.writeText(pw); copyBtn.textContent = 'Kopiert ✓'; setTimeout(() => { copyBtn.textContent = 'Kopieren'; }, 1600); } catch (_) {}
-          });
-          toast('Passwort gesetzt.');
-        } else if (data === 'no_login') {
-          toast('Dieser Berater hat noch kein Login — erst „Einladen".');
-        } else if (data === 'forbidden') {
-          toast('Kein Admin-Zugriff.');
-        } else if (data === 'too_short') {
-          toast('Passwort zu kurz (min. 8 Zeichen).');
+        if (hatLogin) {
+          const { data, error } = await adminSetBeraterPassword(id, pw);
+          if (error) throw error;
+          if (data === 'ok') { showLoginResult(resultEl, berater, pw, false); toast('Passwort gesetzt.'); }
+          else if (data === 'no_login') toast('Dieser Berater hat noch kein Login.');
+          else if (data === 'forbidden') toast('Kein Admin-Zugriff.');
+          else if (data === 'too_short') toast('Passwort zu kurz (min. 8 Zeichen).');
+          else toast('Unerwartete Antwort: ' + data);
         } else {
-          toast('Unerwartete Antwort: ' + data);
+          const { data, error } = await createBeraterLogin(id, pw);
+          if (error) throw error;
+          if (data?.ok) { showLoginResult(resultEl, berater, pw, true); toast('Login angelegt.'); }
+          else toast('Unerwartete Antwort.');
         }
       } catch (err) {
         console.warn('[pw-set]', err);
         toast('Fehler: ' + (err.message || String(err)));
       } finally {
-        btn.disabled = false; btn.textContent = 'Setzen';
+        btn.disabled = false; btn.textContent = origLabel;
       }
     });
   });
