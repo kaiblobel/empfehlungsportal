@@ -494,3 +494,10 @@ export async function deleteEmpfehlung(id) {
     return { error: err };
   }
 }
+
+/* ---------- Phase 70 · Prämien-Löschung ---------- */
+// RLS-Policy praemien_write (for all) deckt DELETE für authenticated Berater/Admins.
+export async function deletePraemie(id) {
+  if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
+  return await supabase.from('praemien').delete().eq('id', id);
+}

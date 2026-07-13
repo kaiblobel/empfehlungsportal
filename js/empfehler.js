@@ -122,15 +122,36 @@ function renderFeed(empfehlungen) {
     wrap.innerHTML = '<div class="e-empty">Noch keine Empfehlung. Teile deinen Link und starte durch.</div>';
     return;
   }
-  wrap.innerHTML = '<div class="e-feed">' + empfehlungen.map(e => `
+  const origin = window.location.origin;
+  wrap.innerHTML = '<div class="e-feed">' + empfehlungen.map(e => {
+    const geoeffnet = !!e.link_geoeffnet;
+    const linkInfo = geoeffnet
+      ? `<span class="e-link-status is-open">Link geöffnet ✓${e.link_geoeffnet_at ? ' · ' + formatDate(e.link_geoeffnet_at) : ''}</span>`
+      : `<span class="e-link-status">Link noch nicht geöffnet</span>`;
+    const link = e.link_token ? `${origin}/e?token=${encodeURIComponent(e.link_token)}${e.vorlage_slug ? '&vorlage=' + encodeURIComponent(e.vorlage_slug) : ''}` : '';
+    const copyBtn = link ? `<button type="button" class="e-copy" data-link="${escapeHtml(link)}">Link kopieren</button>` : '';
+    return `
     <div class="e-feed-row">
-      <div>
+      <div class="e-feed-main">
         <div class="e-feed-name">${escapeHtml(e.empfaenger_name || '–')}</div>
         <div class="e-feed-meta">${formatDate(e.created_at)}${e.anrufwunsch ? ' · ' + escapeHtml(e.anrufwunsch) : ''}</div>
+        <div class="e-feed-track">${linkInfo}${copyBtn}</div>
       </div>
       <span class="e-badge e-badge-${e.status || 'offen'}">${STATUS_LABEL[e.status || 'offen']}</span>
-    </div>
-  `).join('') + '</div>';
+    </div>`;
+  }).join('') + '</div>';
+
+  // "Link kopieren"-Buttons
+  wrap.querySelectorAll('.e-copy').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.link);
+        const prev = btn.textContent;
+        btn.textContent = 'Kopiert ✓';
+        setTimeout(() => { btn.textContent = prev; }, 1600);
+      } catch (_) {}
+    });
+  });
 }
 
 function formatDate(ts) {

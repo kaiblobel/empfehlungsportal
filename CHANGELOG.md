@@ -1,7 +1,39 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.94** · WhatsApp-Follow-up + Fix Changelog-Link.
+Aktuelle Version: **v1.96 Beta** · Empfehlungs-Broschüre digital: Inspiration + Potenzialliste + Link-Nachverfolgung.
+
+---
+
+## v1.96 Beta — Phase 71 · Empfehlungs-Broschüre digital
+**2026-07-13**
+
+> ⚠️ **Beta:** Die Potenzialliste + Promoter-Nachverfolgung sind neu und werden im echten Kundengespräch noch erprobt. Kennzeichnung nur im Berater-Bereich (Versionspille/Changelog), die Kundenseite bleibt neutral.
+
+Die gedruckte Empfehlungs-Broschüre wird digital: Inspiration, direkte Erfassung und Nachvollziehbarkeit — alles im moderierten Gesprächstool `programm.html` und im Promoter-Dashboard.
+
+- **Inspiration-Block** (`programm.html`, neuer Abschnitt vor der Themen-Auswahl): 11 echte Kunden-Aussagen als Zitat-Karten („Wie spreche ich meine Kontakte an?") — über 500 €/Jahr frei, 3 Jahre eher schuldenfrei, Nebenverdienst 500–1000 € u. a. Zeigt dem Kunden, worüber er empfehlen kann. Erscheint automatisch auch im Präsentationsmodus.
+- **Potenzialliste** (`programm.html`, neuer Abschnitt nach den Belohnungen): Der Kunde wählt eine Anzahl (3/5/10/eigene Zahl), es öffnen sich genau so viele Zeilen (Name + Telefon + Thema). Pro Zeile erstellt er mit einem Klick seinen persönlichen Empfehlungslink und verschickt ihn direkt per WhatsApp (oder kopiert ihn). Die Empfehlung landet wie gewohnt am Promoter im Portal. Die Belohnungs-Karten haben jetzt einen Knopf „Diese N Empfehlungen jetzt eintragen", der die Anzahl vorbelegt und hinscrollt.
+  - **Registrierung direkt im Block:** Ist der Kunde noch kein Promoter, gibt er Name (+ optional Telefon) direkt in der Potenzialliste ein und legt sofort los, ohne zum Anmelde-Formular hochzuscrollen.
+  - **Nichts geht verloren:** Getippte Kontakte werden lokal zwischengespeichert. Lädt die Seite neu (Handy, versehentlicher Zurück-Wisch), sind die Namen noch da, erstellte Links bleiben als „erledigt" markiert. Ein „Liste leeren" räumt bewusst auf.
+- **Nachvollziehbarkeit** (Promoter-Dashboard `empfehler.html?code=…`): Der Feed zeigt pro Empfehlung jetzt zusätzlich, ob der Link **schon geöffnet** wurde (mit Datum) und bietet „Link kopieren". Der Berater sieht dasselbe, weil er im Dashboard auf den Promoter klickt. Datenbank-Funktion `get_empfehler_empfehlungen` additiv um `link_geoeffnet`/`link_geoeffnet_at`/`link_token` erweitert (Telefon bleibt bewusst draußen — Datenschutz). Dok: `schema-phase17.sql`.
+- Cache: config.js v1.96 Beta, programm.css v51, programm.js v34, empfehler.css v32, empfehler.js v34, sw.js v76.
+
+---
+
+## v1.95 — Phase 70 · Rechtsklick-Kontextmenü wird vollwertig
+**2026-07-13**
+
+Das Rechtsklick-Menü kann jetzt mehr als nur Status setzen — direkt aus der rechten Maustaste bearbeiten, löschen und neu anlegen.
+
+- **Empfehlungen** (`/dashboard/empfehlungen.html`): Das Schnellmenü bekommt drei neue Einträge:
+  - **Bearbeiten…** öffnet ein kleines Overlay direkt auf der Liste — Name, Telefon, Thema und Notiz ändern, speichern, fertig, ohne die Seite zu verlassen.
+  - **Neue Empfehlung…** springt zum Anlege-Formular.
+  - **Löschen…** entfernt die Empfehlung nach Rückfrage.
+  Die bestehenden Status-Einträge bleiben unverändert.
+- **Prämien** (`/praemien.html`, Admin): Prämien bekommen erstmals ein Rechtsklick-Menü, das die vorhandenen Aktionen bündelt (Auszahlen, Variante/Notiz bearbeiten, auf „offen"/„verzichtet" setzen, Beleg öffnen) und neu: **Löschen** nach Rückfrage. Die Einträge passen sich dem Status an (offen vs. ausgezahlt/verzichtet).
+- Neu: `updateEmpfehlung()` (Stammdaten-Update) in `js/dashboard.js`, `deletePraemie()` in `js/supabase.js`.
+- Cache: config.js v1.95, dashboard.css v42, praemien-admin.js v4, sw.js v73.
 
 ---
 

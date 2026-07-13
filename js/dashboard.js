@@ -177,6 +177,20 @@ export async function setInteressiert(id, value = true) {
   return { error };
 }
 
+/**
+ * Aktualisiert Stammdaten einer Empfehlung (Name/Telefon/Thema/Notiz etc.).
+ * Genutzt vom Inline-Bearbeiten-Overlay (Rechtsklick > Bearbeiten).
+ * Direkter Update, gedeckt durch RLS-Policy "empfehlung auth update".
+ */
+export async function updateEmpfehlung(id, fields) {
+  if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
+  const { error } = await supabase
+    .from('empfehlungen')
+    .update(fields)
+    .eq('id', id);
+  return { error };
+}
+
 
 /* ---------- Empfehler (Phase 7) ---------- */
 

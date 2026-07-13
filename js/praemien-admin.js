@@ -3,7 +3,7 @@
  * Zeigt verdiente Prämien (erreichte Belohnungsstufen je Empfehler) und lässt sie
  * als ausgezahlt markieren / Variante + Notiz festhalten. Admin-only.
  */
-import { getPraemien, updatePraemie, syncPraemien, auszahlenPraemie, getKundenJeEmpfehler } from './supabase.js';
+import { getPraemien, updatePraemie, syncPraemien, auszahlenPraemie, getKundenJeEmpfehler, deletePraemie } from './supabase.js';
 import { requireAuth, logout, applyBeraterHeader, getCurrentBerater } from './dashboard.js';
 
 document.getElementById('logoutBtn').addEventListener('click', logout);
@@ -254,3 +254,84 @@ function escapeHtml(s) {
     ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
 }
 function escapeAttr(s) { return escapeHtml(s); }
+
+/* ---------- Schnell-Menü (Rechtsklick auf eine Prämie) ---------- */
+const prCtxMenu = document.getElementById('prCtxMenu');
+const prCtxHead = document.getElementById('prCtxHead');
+let ctxId = null;
+
+function hidePrCtx() {
+  prCtxMenu.hidden = true;
+  ctxId = null;
+  listEl.querySelectorAll('.pr-card.ctx-active').forEach(el => el.classList.remove('ctx-active'));
+}
+
+function openPrCtx(x, y, card) {
+  const id = card.dataset.id;
+  const p = _all.find(pr => pr.id === id);
+  if (!p) return;
+  ctxId = id;
+  prCtxHead.textContent = p.empfehler?.name || 'Prämie';
+  // Kontextabhängige Einträge: offen vs. ausgezahlt/verzichtet
+  const offen = p.status === 'offen';
+  prCtxMenu.querySelectorAll('.ctx-item').forEach(b => {
+    const a = b.dataset.act;
+    let show = true;
+    if (a === 'pay' || a === 'variante' || a === 'skip') show = offen;
+    else if (a === 'beleg' || a === 'reopen') show = !offen;
+    b.hidden = !show;
+  });
+  card.classList.add('ctx-active');
+  prCtxMenu.hidden = false;
+  const mw = prCtxMenu.offsetWidth, mh = prCtxMenu.offsetHeight;
+  const px = Math.min(x, window.innerWidth - mw - 8);
+  const py = Math.min(y, window.innerHeight - mh - 8);
+  prCtxMenu.style.left = Math.max(8, px) + 'px';
+  prCtxMenu.style.top = Math.max(8, py) + 'px';
+}
+
+listEl.addEventListener('contextmenu', (e) => {
+  const card = e.target.closest('.pr-card');
+  if (!card) return;
+  e.preventDefault();
+  openPrCtx(e.clientX, e.clientY, card);
+});
+
+prCtxMenu.addEventListener('click', async (e) => {
+  const btn = e.target.closest('.ctx-item');
+  if (!btn || !ctxId) return;
+  const id = ctxId;
+  const act = btn.dataset.act;
+  hidePrCtx();
+
+  if (act === 'pay') { openAuszahlModal(id); return; }
+  if (act === 'beleg') { window.open(`beleg.html?id=${encodeURIComponent(id)}`, '_blank'); return; }
+  if (act === 'reopen') { await setStatus(id, 'offen'); return; }
+  if (act === 'skip') { await setStatus(id, 'verzichtet'); return; }
+  if (act === 'variante') {
+    const card = listEl.querySelector(`.pr-card[data-id="${id}"]`);
+    if (card) {
+      card.classList.add('open');
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      const inp = card.querySelector('[data-f="variante"]');
+      if (inp) setTimeout(() => inp.focus(), 260);
+    }
+    return;
+  }
+  if (act === 'delete') {
+    const p = _all.find(x => x.id === id);
+    const nm = p?.empfehler?.name || 'diese Prämie';
+    if (!confirm(`Prämie von ${nm} (${p?.titel || ''}) wirklich löschen? Das lässt sich nicht rückgängig machen.`)) return;
+    const { error } = await deletePraemie(id);
+    if (error) { toast('Löschen fehlgeschlagen: ' + (error.message || '')); return; }
+    toast('Prämie gelöscht.');
+    await refresh(false);
+  }
+});
+
+document.addEventListener('click', (e) => {
+  if (!prCtxMenu.hidden && !prCtxMenu.contains(e.target)) hidePrCtx();
+});
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hidePrCtx(); });
+window.addEventListener('scroll', () => { if (!prCtxMenu.hidden) hidePrCtx(); }, true);
+window.addEventListener('resize', hidePrCtx);
