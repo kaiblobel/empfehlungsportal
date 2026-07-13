@@ -42,8 +42,12 @@ function renderCard(v) {
         ${renderIcon(v.icon)}
         <span class="titel">${escapeHtml(v.titel)}</span>
         <span class="slug">${escapeHtml(v.slug)}</span>
+        ${v.in_arbeit ? '<span class="wip-badge" style="margin-left:8px;padding:2px 9px;border-radius:999px;background:#FBEEC8;color:#8A6D1B;font-size:11px;font-weight:700;">🚧 In Arbeit</span>' : ''}
       </summary>
       <div class="cms-body">
+        <label class="pv-check" style="display:inline-flex;align-items:center;gap:7px;margin-bottom:6px;font-size:13.5px;">
+          <input type="checkbox" data-f-check="in_arbeit" ${v.in_arbeit ? 'checked' : ''}/> In Arbeit (Markierung nur für dich, Kunden sehen die Seite normal)
+        </label>
         <div class="cms-row-2">
           <div><label>Titel</label><input data-f="titel" value="${escapeAttr(v.titel || '')}" /></div>
           <div><label>Icon (Lucide-Name, z. B. Home, Banknote, ShieldCheck)</label><input data-f="icon" value="${escapeAttr(v.icon || '')}" /></div>
@@ -90,6 +94,9 @@ function attachHandlers(list) {
         if (typeof v === 'string') v = v.trim();
         data[k] = v || null;
       });
+      // In-Arbeit-Marker (Checkbox, nicht data-f)
+      const wip = card.querySelector('[data-f-check="in_arbeit"]');
+      if (wip) data.in_arbeit = wip.checked;
 
       btn.disabled = true;
       btn.textContent = 'Speichere…';

@@ -66,6 +66,22 @@
         <label for="newTel">Telefon (optional)</label>
         <input id="newTel" type="tel" autocomplete="off" />
       </div>
+      <div class="edit-field">
+        <label for="newEmail">E-Mail (optional)</label>
+        <input id="newEmail" type="email" autocomplete="off" />
+      </div>
+      <div class="edit-field">
+        <label for="newAdresse">Adresse (optional)</label>
+        <textarea id="newAdresse" rows="2" placeholder="Straße Nr.&#10;PLZ Ort"></textarea>
+      </div>
+      <div class="edit-field">
+        <label for="newMotive">Motive / Interessen (optional)</label>
+        <textarea id="newMotive" rows="2" placeholder="Wofür empfiehlt er? Was motiviert ihn (Wunschprämie, Themen)?"></textarea>
+      </div>
+      <div class="edit-field">
+        <label for="newNotiz">Interne Notiz (optional)</label>
+        <textarea id="newNotiz" rows="2"></textarea>
+      </div>
       <div class="edit-actions">
         <button class="edit-btn" id="newCancel" type="button">Abbrechen</button>
         <button class="edit-btn primary" id="newSave" type="button">Anlegen</button>
@@ -75,7 +91,7 @@
 
   <script type="module">
     import { requireAuth, logout, loadEmpfehlerList, formatDate, applyBeraterHeader, getCurrentBerater } from '../js/dashboard.js';
-    import { deleteEmpfehler, createEmpfehler } from '../js/supabase.js';
+    import { deleteEmpfehler, createEmpfehler, updateEmpfehler, getEmpfehlerIdByCode } from '../js/supabase.js';
 
     applyBeraterHeader();
     document.getElementById('logoutBtn').addEventListener('click', logout);
@@ -101,7 +117,7 @@
       // Sortieren: Promoter mit den meisten erfolgreichen Empfehlungen zuerst
       allItems.sort((a, b) => (b.kunde - a.kunde) || (b.gesamt - a.gesamt));
       wrap.innerHTML = '<div class="feed">' + allItems.map(e => `
-        <a class="feed-row" href="../empfehler.html?code=${encodeURIComponent(e.code)}" target="_blank" rel="noopener"
+        <a class="feed-row" href="promoter.html?id=${encodeURIComponent(e.id)}"
            data-id="${e.id}" data-code="${escapeHtml(e.code)}" data-name="${escapeHtml(e.name)}" data-gesamt="${e.gesamt}">
           <div class="feed-main">
             <div class="feed-name">${escapeHtml(e.name)}</div>
@@ -174,10 +190,11 @@
     ctxMenu.addEventListener('click', async (e) => {
       const btn = e.target.closest('.ctx-item');
       if (!btn || !ctxTarget) return;
-      const { id, name, gesamt, href } = ctxTarget;
+      const { id, code, name, gesamt } = ctxTarget;
       const act = btn.dataset.act;
 
-      if (act === 'open') { window.open(href, '_blank', 'noopener'); hideCtx(); return; }
+      // "Promoter-Ansicht öffnen" = die öffentliche Promoter-Sicht (wie der Kunde sie sieht)
+      if (act === 'open') { window.open('../empfehler.html?code=' + encodeURIComponent(code), '_blank', 'noopener'); hideCtx(); return; }
       if (act === 'new') { hideCtx(); openNewModal(); return; }
 
       if (act === 'delete') {
@@ -210,11 +227,14 @@
     const newModal = document.getElementById('newModal');
     const newName = document.getElementById('newName');
     const newTel = document.getElementById('newTel');
+    const newEmail = document.getElementById('newEmail');
+    const newAdresse = document.getElementById('newAdresse');
+    const newMotive = document.getElementById('newMotive');
+    const newNotiz = document.getElementById('newNotiz');
     const newSave = document.getElementById('newSave');
 
     function openNewModal() {
-      newName.value = '';
-      newTel.value = '';
+      [newName, newTel, newEmail, newAdresse, newMotive, newNotiz].forEach(el => { el.value = ''; });
       newModal.hidden = false;
       requestAnimationFrame(() => newModal.classList.add('open'));
       setTimeout(() => newName.focus(), 60);
@@ -235,8 +255,17 @@
       newSave.disabled = true;
       newSave.textContent = 'Lege an…';
       try {
-        const { data: code, error } = await createEmpfehler({ name, email: '', telefon: newTel.value.trim(), beraterSlug });
+        const { data: code, error } = await createEmpfehler({ name, email: newEmail.value.trim(), telefon: newTel.value.trim(), beraterSlug });
         if (error || !code) throw (error || new Error('kein Code'));
+        // Zusatzfelder (Adresse/Motive/Notiz) per Folge-Update setzen, falls gefüllt
+        const extra = {};
+        if (newAdresse.value.trim()) extra.adresse = newAdresse.value.trim();
+        if (newMotive.value.trim()) extra.motive = newMotive.value.trim();
+        if (newNotiz.value.trim()) extra.notiz = newNotiz.value.trim();
+        if (Object.keys(extra).length) {
+          const id = await getEmpfehlerIdByCode(code);
+          if (id) await updateEmpfehler(id, extra);
+        }
         closeNewModal();
         showToast('Promoter angelegt');
         await refresh();

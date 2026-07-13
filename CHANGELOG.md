@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.102 Beta** · Programm verwalten + Menü-Struktur.
+Aktuelle Version: **v1.103 Beta** · Themen-Status + Promoter-Profil + Promoter-Detailseite.
+
+---
+
+## v1.103 Beta — Phase 78 · Themen-Status + Promoter-Profil + Detailseite
+**2026-07-14**
+
+- **Themen-Seiten „In Arbeit":** In der Themen-Verwaltung kannst du jede Themen-Seite als „🚧 In Arbeit" markieren (Umschalter pro Karte, Badge im Titel). Alle sind aktuell so markiert. Die Markierung ist **nur für dich** — Kunden sehen die Seiten unverändert.
+- **Promoter mit mehr Daten:** Beim Anlegen eines Promoters kannst du jetzt zusätzlich **E-Mail, Adresse, Motive/Interessen und eine interne Notiz** erfassen (vorher nur Name + Telefon).
+- **Promoter-Detailseite (neu):** Klick in der Champions-Liste auf einen Promoter öffnet **seine Detailseite** — bearbeitbares Profil (inkl. Adresse/Motive/Notiz), Kennzahlen, und **seine Empfehlungsliste mit den gesendeten Links** (inkl. „Link geöffnet ✓"). Jede Empfehlung führt per Klick zur vollen Detailansicht. Buttons: Promoter-Ansicht öffnen, neue Empfehlung aussprechen.
+- **Sicher:** Berater dürfen nur ihre **eigenen** Promoter bearbeiten (neue RLS-Update-Policy, `schema-phase22.sql`). Rollback-only verifiziert (eigener Berater darf, fremder nicht). Empfänger-Telefonnummern werden in der Promoter-Liste bewusst nicht angezeigt (Datenschutz).
+- Neu: `getEmpfehler`/`updateEmpfehler`/`getEmpfehlerIdByCode` in supabase.js, `dashboard/promoter.html` + `js/promoter-detail.js`.
+- Cache: config.js v1.103 Beta, vorlagen-cms.js v6, sw.js v83.
 
 ---
 

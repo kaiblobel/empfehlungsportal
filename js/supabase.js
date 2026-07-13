@@ -204,6 +204,34 @@ export async function createEmpfehler({ name, email, telefon, beraterSlug }) {
   }
 }
 
+/* ---------- Phase 78 · Promoter-Profil (Berater bearbeitet eigene) ---------- */
+// Vollen Promoter-Datensatz laden (RLS-scoped auf eigenen Berater).
+export async function getEmpfehler(id) {
+  if (!supabase) return { data: null, error: null };
+  try {
+    const { data, error } = await supabase.from('empfehler').select('*').eq('id', id).maybeSingle();
+    if (error) throw error;
+    return { data: data || null, error: null };
+  } catch (err) {
+    console.error('[getEmpfehler]', err);
+    return { data: null, error: err };
+  }
+}
+// Promoter-Stammdaten bearbeiten (durch "empfehler scoped update"-Policy gedeckt).
+export async function updateEmpfehler(id, fields) {
+  if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
+  const { error } = await supabase.from('empfehler').update(fields).eq('id', id);
+  return { error };
+}
+// Promoter per Code finden (für den Anlege-Flow: nach create die neue id holen).
+export async function getEmpfehlerIdByCode(code) {
+  if (!supabase) return null;
+  try {
+    const { data } = await supabase.from('empfehler').select('id').eq('code', code).maybeSingle();
+    return data?.id || null;
+  } catch (_) { return null; }
+}
+
 /* ---------- Multi-Tenant · Oeffentliches Berater-Branding (anon-faehig) ---------- */
 export async function getBeraterPublicBySlug(slug) {
   if (!supabase || !slug) return { data: null, error: null };
