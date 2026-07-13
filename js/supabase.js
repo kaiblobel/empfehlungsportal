@@ -510,3 +510,22 @@ export async function deleteEmpfehler(id) {
   const { data, error } = await supabase.rpc('delete_empfehler', { p_id: id });
   return { data, error };
 }
+
+/* ---------- Phase 76 · Passwort-Verwaltung ---------- */
+// Berater ändert sein EIGENES Passwort (offizielles Supabase-Auth-Primitive).
+export async function updateMyPassword(newPassword) {
+  if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
+  const { error } = await supabase.auth.updateUser({ password: newPassword });
+  return { error };
+}
+
+// Admin setzt das Passwort EINES Beraters (SECURITY-DEFINER-RPC, admin-gated).
+// Rückgabe (data): 'ok' | 'forbidden' | 'too_short' | 'no_login'.
+export async function adminSetBeraterPassword(beraterId, newPassword) {
+  if (!supabase) return { data: null, error: { message: 'Supabase nicht konfiguriert' } };
+  const { data, error } = await supabase.rpc('admin_set_berater_password', {
+    p_berater_id: beraterId,
+    p_password: newPassword,
+  });
+  return { data, error };
+}

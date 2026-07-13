@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.100 Beta** · Ruhige Menüführung (Klick-Accordion).
+Aktuelle Version: **v1.101 Beta** · Passwort-Verwaltung.
+
+---
+
+## v1.101 Beta — Phase 76 · Passwort-Verwaltung
+**2026-07-13**
+
+Passwörter lassen sich jetzt einfach verwalten — ohne die fehleranfälligen Magic-Links.
+
+- **Jeder Berater ändert sein Passwort selbst** (Einstellungen → „Passwort ändern"): neues Passwort 2× eingeben, speichern. Läuft über Supabases offizielles Auth (`updateUser`).
+- **Admin setzt Passwort für jeden Berater** (Berater-Verwaltung → Karte aufklappen → „Passwort setzen"): Feld ist mit einem starken Vorschlag vorbefüllt (🎲 würfelt neu), du kannst es übernehmen oder überschreiben → „Setzen". Danach wird das Passwort angezeigt zum Kopieren und per WhatsApp/E-Mail direkt an den Berater senden. Der Berater kann es anschließend selbst ändern.
+- **Sicher gebaut:** Das Admin-Setzen läuft über eine Datenbank-Funktion, die serverseitig hart prüft, dass der Aufrufer Admin ist (`admin_set_berater_password`, `schema-phase20.sql`, Bcrypt via pgcrypto). Kein Service-Schlüssel im Browser. Rollback-only verifiziert (ok/forbidden/too_short). Berater ohne Login: Feld ist gesperrt mit Hinweis „erst Einladen".
+- Neu: `updateMyPassword` + `adminSetBeraterPassword` in supabase.js, `generatePassword()` in berater-admin.js.
+- Cache: config.js v1.101 Beta, berater-admin.js v6, sw.js v81.
 
 ---
 

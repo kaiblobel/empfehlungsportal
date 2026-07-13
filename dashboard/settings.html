@@ -42,6 +42,28 @@
         </div>
       </section>
 
+      <section>
+        <h2 class="settings-section-title">Passwort ändern</h2>
+        <p class="settings-section-sub">Wähle ein neues Passwort für deinen Login. Mindestens 8 Zeichen.</p>
+        <div class="settings-card">
+          <div class="settings-row">
+            <span class="settings-key">Neues Passwort</span>
+            <span class="settings-val"><input id="pwNew" type="password" autocomplete="new-password" style="padding:8px 11px;border:1px solid var(--hairline,#E8E5E0);border-radius:8px;font-size:14px;min-width:200px;" /></span>
+          </div>
+          <div class="settings-row">
+            <span class="settings-key">Wiederholen</span>
+            <span class="settings-val"><input id="pwNew2" type="password" autocomplete="new-password" style="padding:8px 11px;border:1px solid var(--hairline,#E8E5E0);border-radius:8px;font-size:14px;min-width:200px;" /></span>
+          </div>
+          <div class="settings-row">
+            <span class="settings-key">&nbsp;</span>
+            <span class="settings-val">
+              <button id="pwSaveBtn" class="btn-logout" style="padding:8px 16px;font-size:13px;">Passwort speichern</button>
+              <span id="pwMsg" style="margin-left:10px;font-size:13px;"></span>
+            </span>
+          </div>
+        </div>
+      </section>
+
       <section id="pwaSection" style="display:none;">
         <h2 class="settings-section-title">App-Installation</h2>
         <p class="settings-section-sub">Installiere den Empfehlungs-HUB auf deinem Homescreen für schnellen Zugriff wie eine echte App.</p>
@@ -156,9 +178,36 @@
   <script type="module">
     import { requireAuth, logout, applyBeraterHeader } from '../js/dashboard.js';
     import { showInstallPrompt, canInstall, pushPermissionState, subscribeToPush, unsubscribeFromPush } from '../js/pwa.js';
+    import { updateMyPassword } from '../js/supabase.js';
 
     applyBeraterHeader();
     document.getElementById('logoutBtn').addEventListener('click', logout);
+
+    // Passwort ändern (eigenes Konto)
+    (() => {
+      const pw1 = document.getElementById('pwNew');
+      const pw2 = document.getElementById('pwNew2');
+      const btn = document.getElementById('pwSaveBtn');
+      const msg = document.getElementById('pwMsg');
+      const setMsg = (t, ok) => { msg.textContent = t; msg.style.color = ok ? '#1F6B30' : '#C24747'; };
+      btn.addEventListener('click', async () => {
+        const a = pw1.value, b = pw2.value;
+        if (a.length < 8) { setMsg('Mindestens 8 Zeichen.', false); pw1.focus(); return; }
+        if (a !== b) { setMsg('Die Passwörter stimmen nicht überein.', false); pw2.focus(); return; }
+        btn.disabled = true; btn.textContent = 'Speichere…'; setMsg('', true);
+        try {
+          const { error } = await updateMyPassword(a);
+          if (error) throw error;
+          pw1.value = ''; pw2.value = '';
+          setMsg('Passwort geändert ✓', true);
+        } catch (err) {
+          console.warn('[settings] Passwort ändern fehlgeschlagen', err);
+          setMsg('Fehler: ' + (err?.message || 'bitte erneut versuchen'), false);
+        } finally {
+          btn.disabled = false; btn.textContent = 'Passwort speichern';
+        }
+      });
+    })();
 
     // PWA-Install-Section: nur zeigen wenn installierbar (Chrome/Edge auf Desktop/Android)
     setTimeout(() => {
