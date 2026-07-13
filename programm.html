@@ -22,7 +22,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
   <link rel="stylesheet" href="css/style.css?v=32" />
-  <link rel="stylesheet" href="css/programm.css?v=49" />
+  <link rel="stylesheet" href="css/programm.css?v=51" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="programm">
@@ -441,6 +441,32 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </section>
 
+  <!-- ===== 2a · Inspiration: Worüber Kunden empfehlen ===== -->
+  <section class="section alt inspiration" id="inspiration">
+    <div class="inner wide">
+      <p class="t-eyebrow reveal" style="text-align:center;">Wie spreche ich meine Kontakte an?</p>
+      <h2 class="t-h2 reveal d1" style="text-align:center;">
+        Worüber Menschen<br>mich <em>weiterempfehlen</em>.
+      </h2>
+      <p class="t-lede reveal d2" style="text-align:center; margin: 0 auto 40px; max-width:660px;">
+        Echte Sätze aus echten Gesprächen. Vielleicht kennst du jemanden, für den genau das gerade dran ist.
+      </p>
+      <div class="inspo-grid reveal d3">
+        <blockquote class="inspo-quote"><span class="inspo-tag">Überblick</span>„Wir haben über 500 € im Jahr mehr zur Verfügung. Einfach, weil wir versteckte Möglichkeiten genutzt haben."</blockquote>
+        <blockquote class="inspo-quote"><span class="inspo-tag">Verein</span>„Wir haben neue Trikots bekommen und füllen nebenbei noch unsere Vereinskasse auf."</blockquote>
+        <blockquote class="inspo-quote"><span class="inspo-tag">Förderungen</span>„Für unsere ganze Familie läuft jetzt alles an staatlichen Förderungen, was geht."</blockquote>
+        <blockquote class="inspo-quote"><span class="inspo-tag">Baufinanzierung</span>„Ich bin jetzt 3 Jahre eher schuldenfrei."</blockquote>
+        <blockquote class="inspo-quote"><span class="inspo-tag">Energie</span>„Hätten wir das früher gewusst. Solar und Wärmepumpe war einfacher als gedacht."</blockquote>
+        <blockquote class="inspo-quote"><span class="inspo-tag">Kinder</span>„Für die Zukunft unseres Kindes ist jetzt vorgesorgt."</blockquote>
+        <blockquote class="inspo-quote"><span class="inspo-tag">Energie</span>„Wir zahlen jetzt deutlich weniger für Strom und Gas."</blockquote>
+        <blockquote class="inspo-quote"><span class="inspo-tag">Arbeitgeber</span>„Wir nutzen jetzt Sonderleistungen vom Arbeitgeber optimal aus."</blockquote>
+        <blockquote class="inspo-quote"><span class="inspo-tag">Überblick</span>„Wir haben jetzt endlich den Überblick über unsere Finanzen."</blockquote>
+        <blockquote class="inspo-quote"><span class="inspo-tag">Vorsorge</span>„Wir haben jetzt alle Vollmachten und Verfügungen an einem Ort."</blockquote>
+        <blockquote class="inspo-quote inspo-quote-wide"><span class="inspo-tag">Karriere</span>„Ich erziele durch meinen Vermögensberater einen Nebenverdienst von 500 bis 1000 €."</blockquote>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== 2b · Themen-Auswahl ===== -->
   <section class="section topics" id="themen">
     <div class="inner wide">
@@ -623,6 +649,54 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <div class="section-cta reveal">
         <a class="btn btn-primary" href="#anmelden">Jetzt empfehlen</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 3b · Potenzialliste (Kontakte direkt eintragen) ===== -->
+  <section class="section potenzial" id="potenzialliste">
+    <div class="inner wide">
+      <p class="t-eyebrow reveal" style="text-align:center;">Deine empfohlenen Kontakte</p>
+      <h2 class="t-h2 reveal d1" style="text-align:center;">
+        Wen ich für dich<br><em>begeistern</em> darf.
+      </h2>
+      <p class="t-lede reveal d2" style="text-align:center; margin: 0 auto 32px; max-width:660px;">
+        Trag hier die Menschen ein, an die du gerade gedacht hast. Für jeden erstellst du mit einem Klick deinen persönlichen Empfehlungslink und schickst ihn direkt los.
+      </p>
+
+      <!-- Guard: kurze Registrierung direkt hier, dann geht's los -->
+      <div class="potenzial-guard reveal d2" id="potenzialGuard" hidden>
+        <p>Kurz dein Name, dann kannst du direkt loslegen. So werden dir deine Empfehlungen zugeordnet.</p>
+        <form class="potenzial-reg" id="potenzialRegForm">
+          <input type="text" id="potenzialRegName" placeholder="Dein Name" autocomplete="name" aria-label="Dein Name" />
+          <input type="tel" id="potenzialRegTel" placeholder="Deine Telefonnummer (optional)" autocomplete="tel" aria-label="Deine Telefonnummer" />
+          <button type="submit" class="btn btn-primary" id="potenzialRegBtn">Loslegen</button>
+        </form>
+        <p class="potenzial-reg-err" id="potenzialRegErr" hidden></p>
+      </div>
+
+      <div class="potenzial-tool reveal d3" id="potenzialTool" hidden>
+        <!-- Anzahl-Wähler -->
+        <div class="potenzial-count">
+          <span class="potenzial-count-label">Wie viele Kontakte?</span>
+          <div class="potenzial-chips" id="potenzialChips">
+            <button type="button" class="potenzial-chip" data-count="3">3</button>
+            <button type="button" class="potenzial-chip active" data-count="5">5</button>
+            <button type="button" class="potenzial-chip" data-count="10">10</button>
+            <label class="potenzial-chip potenzial-chip-free">
+              eigene:
+              <input type="number" id="potenzialFree" min="1" max="15" inputmode="numeric" placeholder="#" aria-label="Eigene Anzahl Kontakte" />
+            </label>
+          </div>
+        </div>
+
+        <!-- Zeilen -->
+        <div class="potenzial-rows" id="potenzialRows"></div>
+
+        <div class="potenzial-foot">
+          <p class="potenzial-hint">Name und Telefonnummer genügen. Mit dem Thema weiß ich vorher, worum es geht. Den Link schickst du direkt per WhatsApp los.</p>
+          <button type="button" class="potenzial-clear" id="potenzialClear">Liste leeren</button>
+        </div>
       </div>
     </div>
   </section>
@@ -915,6 +989,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </nav>
 
   <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
-  <script type="module" src="js/programm.js?v=32"></script>
+  <script type="module" src="js/programm.js?v=34"></script>
 </body>
 </html>

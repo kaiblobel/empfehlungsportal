@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#f5f5f7" />
   <title>Empfehlungen · Empfehlungsportal</title>
   <link rel="stylesheet" href="../css/style.css?v=32" />
-  <link rel="stylesheet" href="../css/dashboard.css?v=41" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=42" />
   <script src="../js/config.js"></script>
 </head>
 <body class="has-app-nav">
@@ -77,15 +77,48 @@
       <span class="ctx-dot dot-offen"></span>Zurück auf offen
     </button>
     <div class="ctx-sep"></div>
+    <button class="ctx-item" role="menuitem" data-act="edit">Bearbeiten…</button>
+    <button class="ctx-item" role="menuitem" data-act="new">Neue Empfehlung…</button>
+    <button class="ctx-item ctx-danger" role="menuitem" data-act="delete">Löschen…</button>
+    <div class="ctx-sep"></div>
     <button class="ctx-item ctx-open" role="menuitem" data-act="open">Details öffnen &rsaquo;</button>
   </div>
   <div id="toast" class="toast" hidden></div>
 
+  <!-- Inline-Bearbeiten-Overlay (Rechtsklick > Bearbeiten) -->
+  <div id="editModal" class="edit-modal" hidden>
+    <div class="edit-modal-backdrop" id="editModalBd"></div>
+    <div class="edit-modal-card" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
+      <h3 class="edit-modal-title" id="editModalTitle">Empfehlung bearbeiten</h3>
+      <div class="edit-field">
+        <label for="editName">Name</label>
+        <input id="editName" type="text" autocomplete="off" />
+      </div>
+      <div class="edit-field">
+        <label for="editTel">Telefon</label>
+        <input id="editTel" type="tel" autocomplete="off" />
+      </div>
+      <div class="edit-field">
+        <label for="editThema">Thema</label>
+        <select id="editThema"><option value="">— kein Thema —</option></select>
+      </div>
+      <div class="edit-field">
+        <label for="editNotiz">Notiz</label>
+        <textarea id="editNotiz" rows="2"></textarea>
+      </div>
+      <div class="edit-actions">
+        <button class="edit-btn" id="editCancel" type="button">Abbrechen</button>
+        <button class="edit-btn primary" id="editSave" type="button">Speichern</button>
+      </div>
+    </div>
+  </div>
+
   <script type="module">
     import {
       requireAuth, logout, loadEmpfehlungen, updateStatus, setInteressiert,
-      formatDate, getStatusBadge, applyBeraterHeader,
+      updateEmpfehlung, formatDate, getStatusBadge, applyBeraterHeader,
     } from '../js/dashboard.js';
+    import { deleteEmpfehlung, getVorlagen } from '../js/supabase.js';
 
     applyBeraterHeader();
     document.getElementById('logoutBtn').addEventListener('click', logout);
@@ -215,6 +248,26 @@
       const act = btn.dataset.act;
 
       if (act === 'open') { window.location.href = href; return; }
+      if (act === 'new') { window.location.href = 'neu.html'; return; }
+      if (act === 'edit') { openEditOverlay(id); hideCtx(); return; }
+
+      if (act === 'delete') {
+        const item = allItems.find(r => String(r.id) === String(id));
+        const nm = (item && item.empfaenger_name) ? item.empfaenger_name : 'diese Empfehlung';
+        hideCtx();
+        if (!confirm(`Empfehlung von ${nm} wirklich löschen? Das lässt sich nicht rückgängig machen.`)) return;
+        try {
+          const { error } = await deleteEmpfehlung(id);
+          if (error) throw error;
+          showToast('Empfehlung gelöscht');
+          await refresh();
+        } catch (err) {
+          console.warn('[ctx] delete fehlgeschlagen', err);
+          showToast('Fehler beim Löschen');
+        }
+        return;
+      }
+
       hideCtx();
 
       try {
@@ -235,6 +288,79 @@
         console.warn('[ctx] update fehlgeschlagen', err);
         showToast('Fehler beim Speichern');
       }
+    });
+
+    /* ---------- Inline-Bearbeiten-Overlay ---------- */
+    const editModal = document.getElementById('editModal');
+    const editName = document.getElementById('editName');
+    const editTel = document.getElementById('editTel');
+    const editThema = document.getElementById('editThema');
+    const editNotiz = document.getElementById('editNotiz');
+    const editSave = document.getElementById('editSave');
+    let editId = null;
+    let vorlagenLoaded = false;
+
+    async function ensureVorlagen() {
+      if (vorlagenLoaded) return;
+      vorlagenLoaded = true;
+      const vorlagen = await getVorlagen(window.ENV_BERATER_ID || null);
+      for (const v of vorlagen) {
+        const opt = document.createElement('option');
+        opt.value = v.slug;
+        opt.textContent = v.titel || v.slug;
+        editThema.appendChild(opt);
+      }
+    }
+
+    async function openEditOverlay(id) {
+      const item = allItems.find(r => String(r.id) === String(id));
+      if (!item) return;
+      editId = id;
+      await ensureVorlagen();
+      editName.value = item.empfaenger_name || '';
+      editTel.value = item.empfaenger_telefon || '';
+      editThema.value = item.vorlage_slug || '';
+      editNotiz.value = item.notiz || '';
+      editModal.hidden = false;
+      requestAnimationFrame(() => editModal.classList.add('open'));
+      setTimeout(() => editName.focus(), 60);
+    }
+
+    function closeEditOverlay() {
+      editModal.classList.remove('open');
+      setTimeout(() => { editModal.hidden = true; }, 220);
+      editId = null;
+    }
+
+    editSave.addEventListener('click', async () => {
+      if (!editId) return;
+      const fields = {
+        empfaenger_name: editName.value.trim(),
+        empfaenger_telefon: editTel.value.trim() || null,
+        vorlage_slug: editThema.value || null,
+        notiz: editNotiz.value.trim() || null,
+      };
+      editSave.disabled = true;
+      editSave.textContent = 'Speichere…';
+      try {
+        const { error } = await updateEmpfehlung(editId, fields);
+        if (error) throw error;
+        closeEditOverlay();
+        showToast('Änderungen gespeichert');
+        await refresh();
+      } catch (err) {
+        console.warn('[edit] update fehlgeschlagen', err);
+        showToast('Fehler beim Speichern');
+      } finally {
+        editSave.disabled = false;
+        editSave.textContent = 'Speichern';
+      }
+    });
+
+    document.getElementById('editCancel').addEventListener('click', closeEditOverlay);
+    document.getElementById('editModalBd').addEventListener('click', closeEditOverlay);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !editModal.hidden) closeEditOverlay();
     });
 
     // Schließen bei Klick außerhalb, Scroll, Escape, erneutem Rechtsklick außerhalb

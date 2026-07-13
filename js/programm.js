@@ -1,4 +1,4 @@
-import { getBelohnungsStufen, getVorlagen, createEmpfehler, getBeraterPublicBySlug, supabase } from './supabase.js';
+import { getBelohnungsStufen, getVorlagen, createEmpfehler, getBeraterPublicBySlug, createEmpfehlung, getEmpfehlerByCode, supabase } from './supabase.js';
 import { icon as lucideIcon, ICONS } from './icons.js';
 import { applyBeraterBrand } from './berater-brand.js';
 
@@ -444,6 +444,7 @@ const beraterPromise = resolveBerater();
 
 beraterPromise.then((data) => {
   if (!data) return;
+  window.__beraterPublic = data; // für Potenzialliste (Berater-Vorname in WhatsApp-Text)
   applyBeraterBrand(data);
   if (data.foto_url && fotoVideo) fotoVideo.src = data.foto_url;
   // Die Testimonials sind echte Google-Bewertungen von Kai. Für andere
@@ -614,6 +615,7 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
           <h3>${escapeHtml(titel)}</h3>
           <p>${escapeHtml(s.beschreibung || '')}</p>
           ${s.wert_label ? `<span class="wert">Wert ${escapeHtml(s.wert_label)}</span>` : ''}
+          <button type="button" class="reward-eintragen" data-prefill="${s.stufe}">Diese ${s.stufe} Empfehlungen jetzt eintragen →</button>
         </div>
       </article>`;
   };
@@ -671,6 +673,14 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
       chip.setAttribute('aria-selected', 'true');
       renderStufen(chip.dataset.mode);
     });
+  });
+
+  // "Diese N Empfehlungen jetzt eintragen" → Potenzialliste vorbelegen + hinscrollen
+  wrap.addEventListener('click', (e) => {
+    const btn = e.target.closest('.reward-eintragen');
+    if (!btn) return;
+    const n = Number(btn.dataset.prefill) || 5;
+    if (typeof window.__potenzialPrefill === 'function') window.__potenzialPrefill(n);
   });
 })();
 
@@ -785,6 +795,8 @@ form.addEventListener('submit', async (e) => {
   }
 
   try { localStorage.setItem('empfehler_code', code); } catch (_) {}
+  // Potenzialliste live freischalten (falls der Kunde auf der Seite bleibt)
+  if (typeof window.__potenzialActivate === 'function') window.__potenzialActivate(code);
 
   // === Erfolgs-Modal anzeigen ===
   // Dashboard-Link bleibt für den Empfehler selbst (NICHT teilen).
@@ -855,3 +867,270 @@ function escapeHtml(s) {
   );
 }
 function escapeAttr(s) { return escapeHtml(s); }
+
+// Telefon → E.164 (lokale Kopie aus app.js; wa.me lehnt deutsche 0…-Nummern ab)
+function normalizePhoneDE(raw) {
+  let n = (raw || '').replace(/[^\d+]/g, '');
+  if (!n) return '';
+  if (n.startsWith('+')) return n;
+  if (n.startsWith('00')) return '+' + n.slice(2);
+  if (n.startsWith('0')) return '+49' + n.slice(1);
+  return '+' + n;
+}
+// WhatsApp-Nachricht (lokale Kopie aus app.js, typ='info'-Variante)
+function buildPotenzialMessage(vorname, link, beraterVorname) {
+  const name = (vorname || '').trim() || 'du';
+  const bVor = (beraterVorname || '').trim() || 'Er';
+  return `Hallo ${name}, ich möchte dich kurz mit jemandem bekannt machen, dem ich sehr vertraue. Schau dir das kurz an, bevor ${bVor} sich bei dir meldet. ${link}`;
+}
+
+// === Potenzialliste (Phase 71): Kontakte direkt eintragen + Link erzeugen ===
+(function initPotenzialliste() {
+  const guard = document.getElementById('potenzialGuard');
+  const tool = document.getElementById('potenzialTool');
+  const rowsEl = document.getElementById('potenzialRows');
+  const chipsEl = document.getElementById('potenzialChips');
+  const freeEl = document.getElementById('potenzialFree');
+  if (!guard || !tool || !rowsEl || !chipsEl) return;
+
+  let empfehlerData = null; // { id, berater_id }
+  let vorlagen = [];
+  let currentCount = 5;
+
+  // --- Zwischenspeicher (localStorage), damit im Gespräch nichts verloren geht ---
+  const DRAFT_KEY = 'potenzial_draft_v1';
+  function saveDraft() {
+    if (!empfehlerData) return;
+    const rows = [...rowsEl.querySelectorAll('.potenzial-row')].map(r => ({
+      name: r.querySelector('[data-f="name"]').value,
+      tel: r.querySelector('[data-f="tel"]').value,
+      thema: r.querySelector('[data-f="thema"]').value,
+      done: r.dataset.done === '1',
+      link: r.dataset.link || '',
+      msg: r.dataset.msg || '',
+      teln: r.dataset.tel || '',
+    }));
+    try { localStorage.setItem(DRAFT_KEY, JSON.stringify({ code: empfehlerData.code, count: currentCount, rows })); } catch (_) {}
+  }
+  function loadDraft() {
+    try {
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if (!raw) return null;
+      const d = JSON.parse(raw);
+      return (d && d.code === empfehlerData?.code) ? d : null;
+    } catch (_) { return null; }
+  }
+  function clearDraft() { try { localStorage.removeItem(DRAFT_KEY); } catch (_) {} }
+
+  function beraterVorname() {
+    const b = window.__beraterPublic || null;
+    return (b?.name || '').trim().split(' ')[0] || '';
+  }
+
+  function themeOptions(selected) {
+    const opts = vorlagen.length
+      ? vorlagen.map(v => `<option value="${escapeAttr(v.slug)}"${v.slug === selected ? ' selected' : ''}>${escapeHtml(v.titel || v.slug)}</option>`).join('')
+      : '<option value="allgemein">Allgemein</option>';
+    return opts;
+  }
+
+  function renderRows(n, saved) {
+    const rows = [];
+    for (let i = 1; i <= n; i++) {
+      const s = saved && saved[i - 1] ? saved[i - 1] : null;
+      const nameV = s ? escapeAttr(s.name || '') : '';
+      const telV = s ? escapeAttr(s.tel || '') : '';
+      const done = !!(s && s.done);
+      const btnLabel = done ? (s.teln ? 'Erneut senden' : 'Link kopieren') : 'Link erstellen &amp; senden';
+      const btnCls = done ? 'btn-secondary' : 'btn-primary';
+      const statusHtml = done ? 'Link erstellt ✓' : '';
+      const statusCls = done ? 'potenzial-status is-done' : 'potenzial-status';
+      const dataAttrs = done
+        ? ` data-done="1" data-link="${escapeAttr(s.link || '')}" data-msg="${escapeAttr(s.msg || '')}" data-tel="${escapeAttr(s.teln || '')}"`
+        : '';
+      rows.push(`
+        <div class="potenzial-row${done ? ' is-done' : ''}" data-row="${i}"${dataAttrs}>
+          <span class="potenzial-row-num">${i}</span>
+          <input type="text" class="potenzial-f" data-f="name" placeholder="Name" autocomplete="off" aria-label="Name Kontakt ${i}" value="${nameV}"${done ? ' readonly' : ''} />
+          <input type="tel" class="potenzial-f" data-f="tel" placeholder="Telefon" autocomplete="off" aria-label="Telefon Kontakt ${i}" value="${telV}"${done ? ' readonly' : ''} />
+          <select class="potenzial-f" data-f="thema" aria-label="Thema Kontakt ${i}"${done ? ' disabled' : ''}>${themeOptions(s ? s.thema : 'allgemein')}</select>
+          <button type="button" class="potenzial-send btn ${btnCls}" data-send="${i}">${btnLabel}</button>
+          <span class="${statusCls}" data-status="${i}">${statusHtml}</span>
+        </div>`);
+    }
+    rowsEl.innerHTML = rows.join('');
+  }
+
+  function setCount(n, saved) {
+    currentCount = Math.max(1, Math.min(15, n | 0));
+    chipsEl.querySelectorAll('.potenzial-chip').forEach(c => {
+      c.classList.toggle('active', c.dataset.count && Number(c.dataset.count) === currentCount);
+    });
+    renderRows(currentCount, saved);
+    saveDraft();
+  }
+
+  async function activate(code) {
+    if (!code) { guard.hidden = false; tool.hidden = true; return; }
+    let data = null;
+    try { const res = await getEmpfehlerByCode(code); data = res?.data || null; } catch (_) {}
+    if (!data) { guard.hidden = false; tool.hidden = true; return; }
+    empfehlerData = data;
+    try { vorlagen = await getVorlagen(); } catch (_) { vorlagen = []; }
+    guard.hidden = true;
+    tool.hidden = false;
+    const draft = loadDraft();
+    if (draft && Array.isArray(draft.rows) && draft.rows.length) {
+      setCount(draft.count || draft.rows.length, draft.rows);
+    } else {
+      setCount(currentCount);
+    }
+  }
+  // Für den Register-Handler erreichbar machen (Kunde bleibt auf der Seite)
+  window.__potenzialActivate = activate;
+
+  // Anzahl-Chips
+  chipsEl.addEventListener('click', (e) => {
+    const chip = e.target.closest('.potenzial-chip[data-count]');
+    if (!chip) return;
+    if (freeEl) freeEl.value = '';
+    setCount(Number(chip.dataset.count));
+  });
+  if (freeEl) {
+    freeEl.addEventListener('input', () => {
+      const v = Number(freeEl.value);
+      if (v >= 1) setCount(v);
+    });
+  }
+
+  // Eingaben zwischenspeichern (Name/Telefon tippen, Thema wählen)
+  rowsEl.addEventListener('input', saveDraft);
+  rowsEl.addEventListener('change', saveDraft);
+
+  // Kopplung: Belohnungs-Galerie ruft dies auf → Anzahl vorbelegen + hinscrollen
+  window.__potenzialPrefill = (n) => {
+    setCount(Number(n) || currentCount);
+    document.getElementById('potenzialliste')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  // Link erstellen & senden (pro Zeile) — bzw. erneut teilen/kopieren wenn schon erstellt
+  rowsEl.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.potenzial-send');
+    if (!btn || !empfehlerData) return;
+    const row = btn.closest('.potenzial-row');
+    if (!row) return;
+
+    // Bereits erstellt → erneut teilen/kopieren
+    if (row.dataset.done === '1') {
+      e.preventDefault();
+      const link = row.dataset.link;
+      const tel = row.dataset.tel;
+      if (tel) {
+        window.open(`https://wa.me/${tel.replace(/\D/g, '')}?text=${encodeURIComponent(row.dataset.msg || link)}`, '_blank');
+      } else {
+        try {
+          await navigator.clipboard.writeText(link);
+          const st = row.querySelector('.potenzial-status');
+          if (st) st.innerHTML = 'Kopiert ✓';
+        } catch (_) {}
+      }
+      return;
+    }
+
+    const name = row.querySelector('[data-f="name"]').value.trim();
+    const telRaw = row.querySelector('[data-f="tel"]').value.trim();
+    const slug = row.querySelector('[data-f="thema"]').value || 'allgemein';
+    const statusEl = row.querySelector('.potenzial-status');
+    if (!name) { statusEl.textContent = 'Name fehlt'; statusEl.className = 'potenzial-status is-error'; return; }
+    if (!telRaw) { statusEl.textContent = 'Telefonnummer fehlt'; statusEl.className = 'potenzial-status is-error'; return; }
+
+    const tel = normalizePhoneDE(telRaw);
+    btn.disabled = true;
+    const prevLabel = btn.textContent;
+    btn.textContent = 'Erstelle…';
+    try {
+      const { data, error } = await createEmpfehlung({
+        empfaenger_name: name,
+        empfaenger_telefon: tel || null,
+        vorlage_slug: slug,
+        empfehler_id: empfehlerData.id,
+        berater_id: empfehlerData.berater_id || window.ENV_BERATER_ID,
+        typ: 'info',
+      });
+      if (error) throw error;
+      const token = data?.link_token || 'demo';
+      const link = `${window.location.origin}/e?token=${token}&vorlage=${encodeURIComponent(slug)}`;
+      row.dataset.done = '1';
+      row.classList.add('is-done');
+      const vorname = name.split(' ')[0];
+      const msg = buildPotenzialMessage(vorname, link, beraterVorname());
+      // WhatsApp öffnen, wenn Nummer da; sonst Link kopieren
+      if (tel) {
+        const waNum = tel.replace(/\D/g, '');
+        window.open(`https://wa.me/${waNum}?text=${encodeURIComponent(msg)}`, '_blank');
+      } else {
+        try { await navigator.clipboard.writeText(link); } catch (_) {}
+      }
+      statusEl.innerHTML = 'Link erstellt ✓';
+      statusEl.className = 'potenzial-status is-done';
+      btn.textContent = tel ? 'Erneut senden' : 'Link kopieren';
+      btn.classList.remove('btn-primary');
+      btn.classList.add('btn-secondary');
+      btn.disabled = false;
+      row.dataset.link = link;
+      row.dataset.msg = msg;
+      row.dataset.tel = tel;
+      // Zeile gegen Änderung sperren + Zustand sichern
+      row.querySelectorAll('.potenzial-f').forEach(f => { f.readOnly = true; f.disabled = f.tagName === 'SELECT'; });
+      saveDraft();
+    } catch (err) {
+      console.warn('[potenzial] createEmpfehlung fehlgeschlagen', err);
+      statusEl.textContent = 'Fehler, bitte nochmal';
+      statusEl.className = 'potenzial-status is-error';
+      btn.disabled = false;
+      btn.textContent = prevLabel;
+    }
+  });
+
+  // Mini-Registrierung direkt im Block (kein Hochscrollen zum großen Formular)
+  const regForm = document.getElementById('potenzialRegForm');
+  const regErr = document.getElementById('potenzialRegErr');
+  regForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (regErr) regErr.hidden = true;
+    const nameEl = document.getElementById('potenzialRegName');
+    const telEl = document.getElementById('potenzialRegTel');
+    const regBtn = document.getElementById('potenzialRegBtn');
+    const name = (nameEl?.value || '').trim();
+    const tel = (telEl?.value || '').trim();
+    if (!name || name.length < 2) {
+      if (regErr) { regErr.textContent = 'Bitte gib deinen Namen ein.'; regErr.hidden = false; }
+      return;
+    }
+    regBtn.disabled = true;
+    const prev = regBtn.textContent;
+    regBtn.textContent = 'Moment…';
+    try {
+      const { data: code, error } = await createEmpfehler({ name, email: '', telefon: tel, beraterSlug });
+      if (error || !code) throw (error || new Error('kein Code'));
+      try { localStorage.setItem('empfehler_code', code); } catch (_) {}
+      await activate(code);
+    } catch (err) {
+      console.warn('[potenzial] Registrierung fehlgeschlagen', err);
+      if (regErr) { regErr.textContent = 'Hat nicht geklappt, bitte nochmal.'; regErr.hidden = false; }
+      regBtn.disabled = false;
+      regBtn.textContent = prev;
+    }
+  });
+
+  // "Liste leeren" — Draft verwerfen + frische Zeilen
+  document.getElementById('potenzialClear')?.addEventListener('click', () => {
+    clearDraft();
+    renderRows(currentCount);
+  });
+
+  // Beim Laden: vorhandenen Promoter-Code aus localStorage nutzen
+  let savedCode = '';
+  try { savedCode = localStorage.getItem('empfehler_code') || ''; } catch (_) {}
+  activate(savedCode);
+})();
