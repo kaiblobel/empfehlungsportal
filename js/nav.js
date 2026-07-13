@@ -28,20 +28,13 @@ export const NAV_ITEMS = [
       { label: 'Interesse',    href: path('dashboard/empfehlungen.html?status=interessiert'), icon: 'HeartHandshake' },
       { label: 'Offen',        href: path('dashboard/empfehlungen.html?status=offen') },
     ] },
-  { id: 'programm',    label: 'Programm',      icon: 'Gift',            href: path('programm.html'),                  bottom: true,
+  { id: 'programm',    label: 'Programm',      icon: 'Gift',            href: path('programm-verwalten.html'),        bottom: false, adminOnly: true,
     subs: [
-      { label: 'Belohnungen', href: path('programm.html') },
-      { label: 'Champions',   href: path('dashboard/empfehler.html'),  icon: 'Trophy' },
+      { label: 'Belohnungen',       href: path('programm-verwalten.html#belohnungen') },
+      { label: 'Erfolgsgeschichten',href: path('programm-verwalten.html#erfolgsgeschichten') },
+      { label: 'Themen-Seiten',     href: path('vorlagen.html'), icon: 'FileText' },
     ] },
-  { id: 'vorlagen',    label: 'Themen-Seiten', icon: 'FileText',        href: path('vorlagen.html'),                  bottom: false, adminOnly: true,
-    subs: [
-      { label: 'Allgemein',      href: path('vorlagen.html#allgemein') },
-      { label: 'Baufinanzierung',href: path('vorlagen.html#baufi') },
-      { label: 'Förderung',      href: path('vorlagen.html#foerderungen') },
-      { label: 'Investment',     href: path('vorlagen.html#investment') },
-      { label: 'Selbständige',   href: path('vorlagen.html#selbstaendige') },
-      { label: 'Absicherung',    href: path('vorlagen.html#absicherung') },
-    ] },
+  { id: 'champions',   label: 'Champions',     icon: 'Trophy',          href: path('dashboard/empfehler.html'),       bottom: false },
   { id: 'praesentation',label: 'Präsentation', icon: 'Presentation',    href: path('programm.html?mode=slides'),      bottom: false },
   { id: 'analysen',    label: 'Analysen',      icon: 'BarChart3',       href: path('dashboard/overview.html'),        bottom: false },
   { id: 'berater',     label: 'Berater',       icon: 'Users',           href: path('berater.html'),                   bottom: false, adminOnly: true },
@@ -58,6 +51,9 @@ function isActive(item) {
   if (item.id === 'empfehlungen' && (cur.endsWith('/dashboard/empfehlungen.html') || cur.endsWith('/dashboard/detail.html') || cur.endsWith('/dashboard/neu.html'))) return true;
   if (item.id === 'analysen' && cur.endsWith('/dashboard/overview.html')) return true;
   if (item.id === 'einstellungen' && cur.endsWith('/dashboard/settings.html')) return true;
+  // Programm-Verwaltung ist auch aktiv, wenn man auf der Themen-Seiten-CMS ist (dorthin gefaltet)
+  if (item.id === 'programm' && (cur.endsWith('/programm-verwalten.html') || cur.endsWith('/vorlagen.html'))) return true;
+  if (item.id === 'champions' && cur.endsWith('/dashboard/empfehler.html')) return true;
   return false;
 }
 

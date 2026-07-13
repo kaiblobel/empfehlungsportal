@@ -282,6 +282,50 @@ export async function getBelohnungsStufen(beraterId = null) {
   }
 }
 
+/* ---------- Phase 77 · Programm-Editoren (admin-only, direkte Mutationen via RLS) ---------- */
+
+// Belohnungs-Stufen (Roadmap-Definition)
+export async function updateBelohnungsStufe(stufe, beraterId, fields) {
+  if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
+  return await supabase.from('belohnungs_stufen').update(fields).eq('stufe', stufe).eq('berater_id', beraterId);
+}
+export async function insertBelohnungsStufe(fields) {
+  if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
+  return await supabase.from('belohnungs_stufen').insert(fields);
+}
+export async function deleteBelohnungsStufe(stufe, beraterId) {
+  if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
+  return await supabase.from('belohnungs_stufen').delete().eq('stufe', stufe).eq('berater_id', beraterId);
+}
+
+// Erfolgsgeschichten
+export async function listErfolgsgeschichtenAdmin() {
+  if (!supabase) return [];
+  try {
+    const { data, error } = await supabase
+      .from('erfolgsgeschichten')
+      .select('*')
+      .order('sort_order', { ascending: true });
+    if (error) throw error;
+    return data || [];
+  } catch (err) {
+    console.error('[listErfolgsgeschichtenAdmin]', err);
+    return [];
+  }
+}
+export async function updateErfolgsgeschichte(id, fields) {
+  if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
+  return await supabase.from('erfolgsgeschichten').update(fields).eq('id', id);
+}
+export async function insertErfolgsgeschichte(fields) {
+  if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
+  return await supabase.from('erfolgsgeschichten').insert(fields);
+}
+export async function deleteErfolgsgeschichte(id) {
+  if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
+  return await supabase.from('erfolgsgeschichten').delete().eq('id', id);
+}
+
 
 /* ---------- Prämien-Tracking (Admin) ---------- */
 

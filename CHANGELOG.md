@@ -1,7 +1,26 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.101 Beta** · Passwort-Verwaltung.
+Aktuelle Version: **v1.102 Beta** · Programm verwalten + Menü-Struktur.
+
+---
+
+## v1.102 Beta — Phase 77 · Programm verwalten + Menü-Struktur
+**2026-07-14**
+
+Die Menüführung war irreführend: „Programm" öffnete direkt die Kundenpräsentation. Jetzt sauber getrennt.
+
+- **Menü neu geordnet:**
+  - **„Programm"** ist jetzt dein Verwaltungs-Bereich (nur Admin) — nicht mehr die Kundenseite.
+  - **„Präsentation"** öffnet die Kundenpräsentation (Vollbild-Slides).
+  - **„Champions"** (deine Promoter) ist ein eigener Menüpunkt und für alle Berater erreichbar.
+  - Themen-Seiten sind unter „Programm" eingegliedert.
+- **Neue Seite „Programm verwalten"** (`programm-verwalten.html`, admin-only): Oben Schnell-Knöpfe (Kundenpräsentation starten, Themen-Seiten, Champions). Darunter zwei echte In-App-Editoren:
+  - **Belohnungen / Stufen:** Titel, Wert, Beschreibung, Bild, Icon, Sortierung, Premium-Flag, Kategorien (Geld/Sache/Spende) — bearbeiten, hinzufügen, löschen.
+  - **Erfolgsgeschichten:** Titel, Vorher/Nachher, Kennzahl, Thema, aktiv/inaktiv — bearbeiten, hinzufügen, löschen. (Vorher nur über den externen Supabase-Editor pflegbar.)
+- **Sicher:** Die Editoren schreiben direkt, aber die Datenbank erlaubt Schreiben ausschließlich dem Admin (RLS). Rollback-only verifiziert (Admin darf, Nicht-Admin blockiert). Doku: `schema-phase21.sql`.
+- Neu: Schreib-Funktionen in supabase.js, `js/programm-admin.js`.
+- Cache: config.js v1.102 Beta, nav.js v46, sw.js v82.
 
 ---
 
