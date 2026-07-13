@@ -1,7 +1,15 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.96 Beta** · Empfehlungs-Broschüre digital: Inspiration + Potenzialliste + Link-Nachverfolgung.
+Aktuelle Version: **v1.97 Beta** · Fix: Empfehlung löschen.
+
+---
+
+## v1.97 Beta — Phase 72 · Fix: Empfehlung löschen
+**2026-07-13**
+
+- **Bugfix:** Löschen einer Empfehlung (Rechtsklick > Löschen, Phase 70) zeigte „gelöscht", aber die Empfehlung war beim Neuladen wieder da. Grund: Die Datenbank hatte für Empfehlungen keine Lösch-Berechtigung hinterlegt (RLS-Policy fehlte), also wurde das Löschen still ignoriert. Jetzt darf ein eingeloggter Berater seine eigenen Empfehlungen löschen. Reine Datenbank-Änderung, wirkt sofort. Doku: `schema-phase18.sql`.
+- Cache: config.js v1.97 Beta, sw.js v77.
 
 ---
 

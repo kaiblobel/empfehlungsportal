@@ -6,5 +6,5 @@ window.ENV_BERATER_NAME = 'Kai Blobel';
 window.ENV_BERATER_TITEL = 'Regionaldirektion · Team Wachsbleiche';
 window.ENV_BERATER_FOTO = '/assets/images/kai-portrait.jpg';
 window.ENV_CALENDLY_URL = ''; // sobald Kai einen Link schickt, hier eintragen — Karte erscheint automatisch
-window.APP_VERSION = 'v1.96 Beta';
-window.APP_PHASE = 'Phase 71 · Empfehlungs-Broschüre digital (BETA): Inspiration + Potenzialliste + Link-Nachverfolgung';
+window.APP_VERSION = 'v1.97 Beta';
+window.APP_PHASE = 'Phase 72 · Fix: Empfehlung löschen (fehlende DELETE-RLS-Policy)';
