@@ -85,6 +85,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </section>
 
+    <!-- Team-Momentum (Phase 82) -->
+    <section class="h-team-momentum" id="hTeamMomentum" hidden>
+      <style>
+        .h-team-presence { display:flex; flex-wrap:wrap; gap:16px; margin:6px 0 16px; }
+        .h-tp { display:flex; align-items:center; gap:9px; }
+        .h-tp-av { position:relative; width:34px; height:34px; border-radius:50%; overflow:hidden; background:#C9B98A; color:#fffcf7; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; flex:0 0 34px; }
+        .h-tp-av img { width:100%; height:100%; object-fit:cover; }
+        .h-tp-dot { position:absolute; right:-1px; bottom:-1px; width:11px; height:11px; border-radius:50%; border:2px solid #fff; background:#B6B0A6; }
+        .h-tp-dot.on { background:#2E9E4B; }
+        .h-tp-meta { display:flex; flex-direction:column; line-height:1.18; }
+        .h-tp-name { font-size:13px; font-weight:600; color:var(--ink,#1A1A1A); }
+        .h-tp-sub { font-size:11.5px; color:var(--text-secondary,#6B6660); }
+        .h-tp-sub.on { color:#2E9E4B; font-weight:600; }
+      </style>
+      <div class="h-label">Team-Momentum</div>
+      <p class="h-section-sub">Was dein Team gerade bewegt — nur Aktivität, keine Kundendaten.</p>
+      <div class="h-team-presence" id="hTeamPresence"></div>
+      <div class="h-timeline" id="hTeamFeed"></div>
+    </section>
+
     <!-- Hot Leads / Warten auf dich -->
     <section>
       <div class="h-label" id="hHotLabel">Warten auf dich</div>
@@ -230,6 +250,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="h-toast" id="hToast"></div>
 
   <script type="module" src="js/nav.js?v=47"></script>
-  <script type="module" src="js/hub.js?v=42"></script>
+  <script type="module" src="js/hub.js?v=43"></script>
 </body>
 </html>

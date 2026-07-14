@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.106 Beta** · Manuelle Empfehlung einem Promoter zuordnen.
+Aktuelle Version: **v1.107 Beta** · Team-Momentum (Team-Aktivität + Online-Anzeige).
+
+---
+
+## v1.107 Beta — Phase 82 · Team-Momentum
+**2026-07-14**
+
+- Neue **Team-Momentum**-Sektion auf dem Hub (Startseite), für jeden eingeloggten Berater:
+  - **Online-Anzeige:** pro Teammitglied Avatar + Punkt (grün = gerade aktiv, sonst „aktiv vor …").
+  - **Team-Feed:** „Sven hat einen neuen Promoter gewonnen", „Kai hat eine Empfehlung erhalten", „… hat einen Kunden gewonnen" — mit Icon, Zeit, „NEU"-Badge. Live-Aktualisierung alle 60 Sekunden.
+- **Nur Berater-Ebene** — Name, Ereignis, Zeit. **Keine** Kundennamen/-nummern. Umgesetzt über datensparsame Server-Funktionen (`team_activity`, `team_presence`) + `berater.last_seen`-Heartbeat (`schema-phase23.sql`).
+- Neu: `touchPresence`/`getTeamActivity`/`getTeamPresence` in supabase.js.
+- Cache: config.js v1.107 Beta, hub.js v43, sw.js v87.
 
 ---
 

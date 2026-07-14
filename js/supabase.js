@@ -613,3 +613,25 @@ export async function createBeraterLogin(beraterId, password) {
   if (data?.error && !error) return { data: null, error: { message: data.error } };
   return { data, error };
 }
+
+/* ---------- Phase 82 · Team-Momentum (nur Berater-Ebene, keine Kundendaten) ---------- */
+export async function touchPresence() {
+  if (!supabase) return;
+  try { await supabase.rpc('touch_presence'); } catch (_) {}
+}
+export async function getTeamActivity(days = 14) {
+  if (!supabase) return [];
+  try {
+    const { data, error } = await supabase.rpc('team_activity', { p_days: days });
+    if (error) throw error;
+    return data || [];
+  } catch (err) { console.error('[getTeamActivity]', err); return []; }
+}
+export async function getTeamPresence() {
+  if (!supabase) return [];
+  try {
+    const { data, error } = await supabase.rpc('team_presence');
+    if (error) throw error;
+    return data || [];
+  } catch (err) { console.error('[getTeamPresence]', err); return []; }
+}

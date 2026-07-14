@@ -1,4 +1,4 @@
-import { supabase } from './supabase.js';
+import { supabase, touchPresence, getTeamActivity, getTeamPresence } from './supabase.js';
 import { requireAuth, logout, formatDate, loadFunnel, applyBeraterHeader } from './dashboard.js';
 import { icon, hydrateIcons } from './icons.js';
 import { watchHotLeads } from './hot-lead-watcher.js';
@@ -67,6 +67,11 @@ let currentRange = parseInt(sessionStorage.getItem(RANGE_KEY) || '30', 10);
 
   // Realtime Hub-Stream (Phase 29) — Timeline live aktualisieren
   startHubStream();
+
+  // Team-Momentum (Phase 82): Präsenz-Heartbeat + Team-Feed
+  await touchPresence();
+  loadTeamMomentum();
+  setInterval(async () => { await touchPresence(); loadTeamMomentum(); }, 60000);
 })();
 
 /* ---------- Header Clock ---------- */
@@ -388,6 +393,77 @@ function timelineTime(ts) {
     return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
   }
   return `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.`;
+}
+
+/* ---------- Team-Momentum (Phase 82) ---------- */
+const TEAM_META = {
+  empfehlung: { label: 'Empfehlung', color: '#B5953F', icon: 'Send',     text: 'hat eine Empfehlung erhalten' },
+  promoter:   { label: 'Promoter',   color: '#2C5F7C', icon: 'UserPlus', text: 'hat einen neuen Promoter gewonnen' },
+  kunde:      { label: 'Kunde',      color: '#1A5C29', icon: 'Trophy',   text: 'hat einen Kunden gewonnen' },
+};
+
+async function loadTeamMomentum() {
+  try {
+    const [feed, presence] = await Promise.all([getTeamActivity(14), getTeamPresence()]);
+    renderTeamPresence(presence);
+    renderTeamFeed(feed);
+    const sec = document.getElementById('hTeamMomentum');
+    if (sec) sec.hidden = false;
+  } catch (e) { console.warn('[team-momentum]', e); }
+}
+
+function renderTeamPresence(rows) {
+  const wrap = document.getElementById('hTeamPresence');
+  if (!wrap) return;
+  const now = Date.now();
+  wrap.innerHTML = (rows || []).map(r => {
+    const last = r.last_seen ? new Date(r.last_seen).getTime() : 0;
+    const online = last && (now - last) < 3 * 60 * 1000;
+    const initial = (r.berater_name || '?').trim().split(/\s+/).map(s => s[0] || '').join('').slice(0, 2).toUpperCase();
+    const av = r.berater_foto
+      ? `<img src="${escapeHtml(r.berater_foto)}" alt="" onerror="this.style.display='none'"/>`
+      : escapeHtml(initial);
+    const sub = online ? 'online' : (last ? `aktiv ${teamAgo(last)}` : 'noch nicht da');
+    return `<div class="h-tp">
+      <span class="h-tp-av">${av}<span class="h-tp-dot${online ? ' on' : ''}"></span></span>
+      <span class="h-tp-meta"><span class="h-tp-name">${escapeHtml(r.berater_name || '')}</span><span class="h-tp-sub${online ? ' on' : ''}">${sub}</span></span>
+    </div>`;
+  }).join('');
+}
+
+function renderTeamFeed(rows) {
+  const wrap = document.getElementById('hTeamFeed');
+  if (!wrap) return;
+  if (!rows || !rows.length) {
+    wrap.innerHTML = '<div style="padding:16px;text-align:center;color:var(--text-secondary);font-size:13.5px;">Noch keine Team-Aktivität in den letzten Tagen.</div>';
+    return;
+  }
+  wrap.innerHTML = rows.map(r => {
+    const m = TEAM_META[r.event] || TEAM_META.empfehlung;
+    const ts = new Date(r.event_at).getTime();
+    const isNew = (Date.now() - ts) < NEW_BADGE_WINDOW_MS;
+    return `<div class="h-activity-row" style="--act-color:${m.color};">
+      <span class="h-activity-avatar" aria-label="${m.label}">${icon(m.icon, { size: 20 })}</span>
+      <div class="h-activity-body">
+        <div class="h-activity-top">
+          <strong class="h-activity-name">${escapeHtml(r.berater_name || 'Berater')}</strong>
+          <span class="h-activity-time">${isNew ? '<span class="h-badge-new">NEU</span>' : ''}${timelineTime(ts)}</span>
+        </div>
+        <div class="h-activity-bottom">
+          <span class="h-activity-text">${m.text}</span>
+          <span class="h-activity-pill">${m.label}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function teamAgo(ts) {
+  const sec = Math.floor((Date.now() - ts) / 1000);
+  if (sec < 60) return 'gerade';
+  if (sec < 3600) return `vor ${Math.floor(sec / 60)} Min`;
+  if (sec < 86400) return `vor ${Math.floor(sec / 3600)} Std`;
+  return `vor ${Math.floor(sec / 86400)} T`;
 }
 
 /* ---------- Funnel ---------- */

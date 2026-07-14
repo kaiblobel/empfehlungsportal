@@ -8,7 +8,7 @@
  *  - Niemals cachen: Supabase-API, externe CDN-Fonts
  */
 
-const CACHE_VERSION = 'v86-2026-07-14';
+const CACHE_VERSION = 'v87-2026-07-14';
 const SHELL_CACHE = `shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `assets-${CACHE_VERSION}`;
 
@@ -20,7 +20,7 @@ const SHELL_URLS = [
   '/js/nav.js?v=47',
   '/js/icons.js',
   '/js/cmdk.js',
-  '/js/hub.js?v=42',
+  '/js/hub.js?v=43',
   '/js/hot-lead-watcher.js',
   '/js/dashboard.js',
   '/js/supabase.js',
