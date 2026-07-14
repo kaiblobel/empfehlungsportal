@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.108 Beta** · Team-Momentum-Feed kompakter (3 sichtbar, Rest einklappbar).
+Aktuelle Version: **v1.109 Beta** · Globales Rechtsklick-Menü im ganzen Berater-Bereich.
+
+---
+
+## v1.109 Beta — Phase 83 · Globales Rechtsklick-Menü
+**2026-07-14**
+
+- **Rechtsklick funktioniert jetzt überall** im Berater-Bereich mit sinnvollen Aktionen — statt des rohen Browser-Menüs. Zentral eingehängt, erscheint auf allen 13 Berater-Seiten, **nie** auf den Kundenseiten.
+- **Kontext-sensibel:** markierter Text → „… kopieren"; auf einem Link → „Öffnen / In neuem Tab / Link kopieren"; Telefon-Link → „Anrufen / Nummer kopieren"; E-Mail-Link → „E-Mail schreiben / Adresse kopieren".
+- **Immer dabei:** „Neue Empfehlung", „Suche öffnen (⌘K)", Sprünge zu Dashboard/Empfehlungen/Champions/Prämien\*/Einstellungen, „Seite aktualisieren". (\*Prämien nur für Admins.)
+- Die bestehenden reichhaltigen Menüs auf Empfehlungs-/Champion-/Prämien-Zeilen (Status, Bearbeiten, Löschen) bleiben unangetastet — das globale Menü weicht ihnen automatisch aus. In Eingabefeldern bleibt das native Menü (Einfügen/Rechtschreibung).
+- Neu: `js/context-menu.js` (aus nav.js gemountet), 5 neue Icons. Cache: config.js v1.109 Beta, nav.js v48, sw.js v89.
 
 ---
 

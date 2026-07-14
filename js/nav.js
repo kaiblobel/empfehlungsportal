@@ -6,6 +6,7 @@
  */
 import { icon } from './icons.js';
 import { initCmdK } from './cmdk.js';
+import { mountContextMenu } from './context-menu.js';
 import './pwa.js'; // registers service worker
 
 const ROOT = (typeof window !== 'undefined' && window.location.origin) || '';
@@ -270,7 +271,7 @@ async function applyBeraterSlugToLinks(root) {
 
 // Auto-init if a #appNav exists on DOMContentLoaded
 if (typeof document !== 'undefined') {
-  const init = () => { renderNav(); initCmdK(); };
+  const init = () => { renderNav(); initCmdK(); mountContextMenu(); };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 }
