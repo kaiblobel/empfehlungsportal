@@ -269,6 +269,29 @@ export async function getEmpfehlerByCode(code) {
   }
 }
 
+// Promoter reicht Kontext einer eigenen (bereits versendeten) Empfehlung nach (anon, keyed per Code).
+export async function updateEmpfehlungKontext(code, id, f) {
+  if (!supabase) return { error: null };
+  try {
+    const { error } = await supabase.rpc('update_empfehlung_kontext', {
+      p_code: code,
+      p_id: id,
+      p_beruf: f.beruf || null,
+      p_verbindung: f.verbindung || null,
+      p_kontext: f.kontext || null,
+      p_erreichbarkeit: f.erreichbarkeit || null,
+      p_kanal: f.kanal || null,
+      p_vorinformiert: !!f.vorinformiert,
+      p_nachricht: f.nachricht || null,
+    });
+    if (error) throw error;
+    return { error: null };
+  } catch (err) {
+    console.error('[updateEmpfehlungKontext]', err);
+    return { error: err };
+  }
+}
+
 // Ziel (gewählte Belohnungs-Stufe) am Promoter setzen/entfernen (anon, keyed per Code).
 export async function setEmpfehlerZiel(code, stufe) {
   if (!supabase) return { error: null };

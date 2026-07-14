@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.115 Beta** · Ziel + Empfehlungs-Eingabe auf dem individuellen Promoter-Link.
+Aktuelle Version: **v1.116 Beta** · Empfehlungsgeber kann Kontext-Infos zur Empfehlung nachreichen.
+
+---
+
+## v1.116 Beta — Phase 89 · Kontext-Infos zur Empfehlung nachreichen
+**2026-07-14**
+
+- Auf dem Promoter-Link (`empfehler.html`) lässt sich jede versendete Empfehlung im Feed **aufklappen** („Infos für Kai ergänzen"): Beruf/Position, Verbindung, „Was sollte Kai wissen?", beste Erreichbarkeit, bevorzugter Kanal, „schon Bescheid gegeben", persönliche Nachricht. So kann der Empfehlungsgeber auch **nach dem Senden** noch wertvollen Kontext nachreichen. Bereits ergänzte Empfehlungen sind mit „Infos bearbeiten ✓" markiert.
+- Der Berater sieht diese Infos wie gewohnt in der Detailansicht — die jetzt zusätzlich das **Thema** (Baufi, Förderungen, Kinder …) der Empfehlung anzeigt.
+- Nur eigene Empfehlungen editierbar, nur diese Kontextfelder (Status/Name/Telefon unberührt).
+- DB: RPC `update_empfehlung_kontext` + `get_empfehler_empfehlungen` um Kontextfelder erweitert (`schema-phase25.sql`). Cache: empfehler v34/v36, sw v91, config v1.116.
+
+Hinweis: Die Themen-Auswahl pro Kontakt (Allgemein, Baufinanzierung, Förderungen, Selbständige, Investment, Absicherung, Karriere, Kinder) gibt es im Eingabe-Tool bereits. „Finanzcheck" als eigenes Thema kann bei Bedarf über die Themen-Verwaltung ergänzt werden.
 
 ---
 

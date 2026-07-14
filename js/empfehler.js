@@ -7,6 +7,7 @@ import {
   getVorlagen,
   createEmpfehlung,
   setEmpfehlerZiel,
+  updateEmpfehlungKontext,
 } from './supabase.js';
 import { applyBeraterBrand } from './berater-brand.js';
 
@@ -29,6 +30,25 @@ const STATUS_LABEL = {
   kunde: 'Kunde',
   kein_interesse: 'Kein Interesse',
 };
+
+// Auswahl-Optionen 1:1 wie im ausführlichen Formular (empfehlen.html)
+const VERBINDUNG_OPTS = [
+  ['', '— wählen —'], ['Familie', 'Familie'], ['Lebenspartner', 'Lebenspartner'],
+  ['Freund', 'Freund / Freundin'], ['Arbeitskollege', 'Arbeitskollege / -kollegin'],
+  ['Vereinskollege', 'Verein / Sport'], ['Nachbar', 'Nachbar / Nachbarin'],
+  ['Bekannter', 'Bekannte / Bekannter'], ['Sonstiges', 'Sonstiges'],
+];
+const ERREICHBARKEIT_OPTS = [
+  ['', '— wenn du es weißt —'], ['vormittag', 'Vormittag (8–12 Uhr)'], ['mittag', 'Mittag (12–14 Uhr)'],
+  ['nachmittag', 'Nachmittag (14–18 Uhr)'], ['abend', 'Abend (18–21 Uhr)'], ['we', 'Am Wochenende'],
+];
+const KANAL_OPTS = [
+  ['', '— wenn du es weißt —'], ['anruf', 'Telefon-Anruf'], ['whatsapp', 'WhatsApp'],
+  ['sms', 'SMS'], ['email', 'Email'],
+];
+function selectOptions(pairs, selected) {
+  return pairs.map(([v, l]) => `<option value="${escapeAttr(v)}"${v === (selected || '') ? ' selected' : ''}>${escapeHtml(l)}</option>`).join('');
+}
 
 // Modul-Status
 let empfehler = null;   // { id, code, name, berater_id, ziel_stufe }
@@ -361,14 +381,33 @@ function renderFeed(empfehlungen) {
       : `<span class="e-link-status">Link noch nicht geöffnet</span>`;
     const link = e.link_token ? `${origin}/e?token=${encodeURIComponent(e.link_token)}${e.vorlage_slug ? '&vorlage=' + encodeURIComponent(e.vorlage_slug) : ''}` : '';
     const copyBtn = link ? `<button type="button" class="e-copy" data-link="${escapeHtml(link)}">Link kopieren</button>` : '';
+    const hasKontext = !!(e.empfaenger_beruf || e.empfaenger_verbindung || e.empfaenger_kontext || e.beste_erreichbarkeit || e.bevorzugter_kanal || e.empfehler_vorinformiert || e.empfehler_nachricht);
+    const vorname = (e.empfaenger_name || 'die Person').split(' ')[0];
     return `
-    <div class="e-feed-row">
-      <div class="e-feed-main">
-        <div class="e-feed-name">${escapeHtml(e.empfaenger_name || '–')}</div>
-        <div class="e-feed-meta">${formatDate(e.created_at)}${e.anrufwunsch ? ' · ' + escapeHtml(e.anrufwunsch) : ''}</div>
-        <div class="e-feed-track">${linkInfo}${copyBtn}</div>
+    <div class="e-feed-item" data-id="${escapeAttr(e.id)}">
+      <div class="e-feed-row">
+        <div class="e-feed-main">
+          <div class="e-feed-name">${escapeHtml(e.empfaenger_name || '–')}</div>
+          <div class="e-feed-meta">${formatDate(e.created_at)}${e.anrufwunsch ? ' · ' + escapeHtml(e.anrufwunsch) : ''}</div>
+          <div class="e-feed-track">${linkInfo}${copyBtn}</div>
+        </div>
+        <span class="e-badge e-badge-${e.status || 'offen'}">${STATUS_LABEL[e.status || 'offen']}</span>
       </div>
-      <span class="e-badge e-badge-${e.status || 'offen'}">${STATUS_LABEL[e.status || 'offen']}</span>
+      <button type="button" class="e-feed-toggle${hasKontext ? ' has-kontext' : ''}" data-toggle="${escapeAttr(e.id)}">
+        ${hasKontext ? 'Infos bearbeiten ✓' : 'Infos für Kai ergänzen'} <span class="e-feed-chev">▾</span>
+      </button>
+      <div class="e-feed-edit" id="edit-${escapeAttr(e.id)}" hidden>
+        <div class="e-fe-field"><label>Beruf / Position</label><input type="text" data-f="beruf" placeholder="z. B. Architektin, selbständig" value="${escapeAttr(e.empfaenger_beruf || '')}" /></div>
+        <div class="e-fe-field"><label>Verbindung zu dir</label><select data-f="verbindung">${selectOptions(VERBINDUNG_OPTS, e.empfaenger_verbindung)}</select></div>
+        <div class="e-fe-field"><label>Was sollte Kai wissen?</label><textarea data-f="kontext" maxlength="300" rows="3" placeholder="z. B. kauft gerade ein Haus, macht sich selbständig …">${escapeHtml(e.empfaenger_kontext || '')}</textarea></div>
+        <div class="e-fe-row-2">
+          <div class="e-fe-field"><label>Beste Erreichbarkeit</label><select data-f="erreichbarkeit">${selectOptions(ERREICHBARKEIT_OPTS, e.beste_erreichbarkeit)}</select></div>
+          <div class="e-fe-field"><label>Bevorzugter Kanal</label><select data-f="kanal">${selectOptions(KANAL_OPTS, e.bevorzugter_kanal)}</select></div>
+        </div>
+        <label class="e-fe-check"><input type="checkbox" data-f="vorinformiert"${e.empfehler_vorinformiert ? ' checked' : ''} /> Ich habe ${escapeHtml(vorname)} schon Bescheid gegeben, dass Kai sich meldet</label>
+        <div class="e-fe-field"><label>Persönliche Nachricht (optional)</label><textarea data-f="nachricht" maxlength="240" rows="2" placeholder="Ein Satz, warum du empfiehlst …">${escapeHtml(e.empfehler_nachricht || '')}</textarea></div>
+        <button type="button" class="e-btn e-btn-primary e-feed-save" data-save="${escapeAttr(e.id)}" style="width:auto;min-width:180px;">Speichern</button>
+      </div>
     </div>`;
   }).join('') + '</div>';
 
@@ -377,6 +416,42 @@ function renderFeed(empfehlungen) {
       try { await navigator.clipboard.writeText(btn.dataset.link); const prev = btn.textContent; btn.textContent = 'Kopiert ✓'; setTimeout(() => { btn.textContent = prev; }, 1600); } catch (_) {}
     });
   });
+
+  wrap.querySelectorAll('.e-feed-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const panel = document.getElementById('edit-' + btn.dataset.toggle);
+      if (panel) { panel.hidden = !panel.hidden; btn.classList.toggle('open', !panel.hidden); }
+    });
+  });
+
+  wrap.querySelectorAll('.e-feed-save').forEach(btn => {
+    btn.addEventListener('click', () => onKontextSave(btn));
+  });
+}
+
+async function onKontextSave(btn) {
+  const id = btn.dataset.save;
+  const panel = document.getElementById('edit-' + id);
+  if (!panel) return;
+  const val = (f) => panel.querySelector(`[data-f="${f}"]`);
+  const fields = {
+    beruf: val('beruf').value.trim(),
+    verbindung: val('verbindung').value,
+    kontext: val('kontext').value.trim(),
+    erreichbarkeit: val('erreichbarkeit').value,
+    kanal: val('kanal').value,
+    vorinformiert: val('vorinformiert').checked,
+    nachricht: val('nachricht').value.trim(),
+  };
+  btn.disabled = true;
+  const prev = btn.textContent;
+  btn.textContent = 'Speichere…';
+  const { error } = await updateEmpfehlungKontext(code, id, fields);
+  btn.disabled = false;
+  btn.textContent = prev;
+  if (error) { toast('Konnte nicht speichern, bitte nochmal.'); return; }
+  toast('Danke — die Infos sind bei Kai. 🙌');
+  await refresh();
 }
 
 /* ---------- Helfer ---------- */

@@ -46,6 +46,11 @@
     const KANAL_LABELS = {
       anruf: 'Telefon-Anruf', whatsapp: 'WhatsApp', sms: 'SMS', email: 'Email', egal: 'Egal',
     };
+    const THEMA_LABELS = {
+      allgemein: 'Allgemein', baufi: 'Baufinanzierung', foerderungen: 'Staatliche Förderungen',
+      selbstaendige: 'Selbständige', investment: 'Geldanlage & Investment',
+      absicherung: 'Absicherung & Familie', karriere: 'Berufliche Perspektive', kinder: 'Für deine Kinder',
+    };
     async function fetchEmpfehlerScore(empfehlerId) {
       if (!empfehlerId) return null;
       try {
@@ -112,6 +117,10 @@
             <span class="label">Typ</span>
             <span class="value">${r.typ === 'info' ? 'Info-Variante' : 'Direkt-Empfehlung'}</span>
           </div>
+          ${r.vorlage_slug ? `<div class="detail-row">
+            <span class="label">Thema</span>
+            <span class="value">${THEMA_LABELS[r.vorlage_slug] || escapeHtml(r.vorlage_slug)}</span>
+          </div>` : ''}
           <div class="detail-row">
             <span class="label">Promoter</span>
             <span class="value">${escapeHtml(r.empfehler_name || '–')}${score && score.gesamt > 1 ? `<br><span style="font-size:11px;color:var(--accent-hover);letter-spacing:0.05em;">${stars} ${score.gesamt} Empfehlung${score.gesamt !== 1 ? 'en' : ''}${score.kunden > 0 ? ` · ${score.kunden} Kunde${score.kunden !== 1 ? 'n' : ''} (${score.conversion_pct}%)` : ''}</span>` : ''}</span>
