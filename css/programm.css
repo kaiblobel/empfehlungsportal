@@ -3679,8 +3679,11 @@ body[data-page="programm"] {
   display: grid;
   grid-template-columns: minmax(280px, 1fr) minmax(320px, 1.2fr);
   gap: 72px;
-  align-items: start;
+  align-items: center;
 }
+/* Split-Layout: Textspalte linksbündig — sonst erbt sie das zentrierte
+   text-align von .inner und die Vorteils-Kärtchen fransen aus. */
+.teamwork-text { text-align: left; }
 .teamwork-image {
   position: sticky;
   top: 80px;

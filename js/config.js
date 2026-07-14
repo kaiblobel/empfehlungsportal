@@ -6,5 +6,5 @@ window.ENV_BERATER_NAME = 'Kai Blobel';
 window.ENV_BERATER_TITEL = 'Regionaldirektion · Team Wachsbleiche';
 window.ENV_BERATER_FOTO = '/assets/images/kai-portrait.jpg';
 window.ENV_CALENDLY_URL = ''; // sobald Kai einen Link schickt, hier eintragen — Karte erscheint automatisch
-window.APP_VERSION = 'v1.110 Beta';
-window.APP_PHASE = 'Phase 84 · Präsentation gestrafft (Win-Win-Win-Folie raus, 17 Folien)';
+window.APP_VERSION = 'v1.111 Beta';
+window.APP_PHASE = 'Phase 85 · Team-Folie aufgeräumt (linksbündig, Bild mittig)';

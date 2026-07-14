@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.110 Beta** · Empfehlungspräsentation gestrafft (17 statt 18 Folien).
+Aktuelle Version: **v1.111 Beta** · Team-Folie der Präsentation aufgeräumt.
+
+---
+
+## v1.111 Beta — Phase 85 · Team-Folie aufgeräumt
+**2026-07-14**
+
+- Folie „Wir als Team" (Du hast nicht nur einen Berater…) sah unaufgeräumt aus: Die Textspalte erbte das zentrierte `text-align` der Sektion, wodurch die 4 Vorteils-Kärtchen von ihren Icons wegschwammen und die Kanten ausfransten.
+- Fix: Team-Textspalte linksbündig (gemeinsame Fluchtlinie von Icon + Text, wie bei allen anderen Split-Folien) und Bild vertikal mittig zur Textspalte (kein leerer Weißraum mehr unten links).
+- Cache: programm.css v52, config.js v1.111 Beta.
 
 ---
 
