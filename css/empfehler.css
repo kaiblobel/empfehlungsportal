@@ -454,3 +454,127 @@ body[data-page="empfehler"] .e-toast.show {
 @media (prefers-reduced-motion: reduce) {
   body[data-page="empfehler"] .e-toast { transition: opacity 100ms linear !important; transform: translateX(-50%) !important; }
 }
+
+/* ============================================================
+   Phase 24 · Ziel-Banner + klickbare Belohnungen + Eingabe-Tool
+   ============================================================ */
+
+/* Ziel-Banner (im Hero) */
+body[data-page="empfehler"] .e-ziel {
+  width: 100%;
+  max-width: 640px;
+  margin: 22px auto 0;
+  padding: 18px 22px;
+  border-radius: 14px;
+  background: var(--e-warm-white);
+  border: 1px solid rgba(201,185,138,0.55);
+  box-shadow: var(--e-shadow);
+  text-align: center;
+}
+body[data-page="empfehler"] .e-ziel.is-empty {
+  background: transparent;
+  border: 1px dashed var(--e-hairline);
+  box-shadow: none;
+}
+body[data-page="empfehler"] .e-ziel-hint { font-size: 14px; color: var(--e-muted); }
+body[data-page="empfehler"] .e-ziel-head {
+  display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+body[data-page="empfehler"] .e-ziel-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--e-champagne-hover);
+}
+body[data-page="empfehler"] .e-ziel-titel { font-size: 19px; font-weight: 700; color: var(--e-deep); }
+body[data-page="empfehler"] .e-ziel-progress {
+  display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;
+  font-size: 13.5px; color: var(--e-muted);
+}
+body[data-page="empfehler"] .e-ziel-progress strong { color: var(--e-deep); }
+body[data-page="empfehler"] .e-ziel-goal strong { color: var(--e-champagne-hover); }
+body[data-page="empfehler"] .e-ziel-sep { color: var(--e-hairline); }
+
+/* Ziel-Button auf den Belohnungs-Karten */
+body[data-page="empfehler"] .e-reward.is-ziel {
+  border-color: rgba(184,165,112,0.85);
+  box-shadow: 0 0 0 1px rgba(201,185,138,0.55), var(--e-shadow);
+}
+body[data-page="empfehler"] .e-reward-goal {
+  margin-top: 12px;
+  display: inline-flex; align-items: center;
+  border: 1px solid var(--e-champagne);
+  background: transparent;
+  color: var(--e-deep);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-family: var(--e-font-text);
+  font-size: 12.5px; font-weight: 600;
+  cursor: pointer;
+  transition: background 160ms var(--e-ease), color 160ms var(--e-ease), border-color 160ms var(--e-ease);
+}
+body[data-page="empfehler"] .e-reward-goal:hover { border-color: var(--e-deep); }
+body[data-page="empfehler"] .e-reward-goal.is-active {
+  background: var(--e-deep); color: var(--e-ivory); border-color: var(--e-deep); cursor: default;
+}
+
+/* Eingabe-Tool (Kontakte eintragen) */
+body[data-page="empfehler"] .potenzial-tool { width: 100%; max-width: 820px; margin: 8px auto 0; }
+body[data-page="empfehler"] .potenzial-count {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px;
+}
+body[data-page="empfehler"] .potenzial-count-label { font-weight: 600; color: var(--e-anthracite); }
+body[data-page="empfehler"] .potenzial-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+body[data-page="empfehler"] .potenzial-chip {
+  border: 1px solid var(--e-hairline); background: #fff; border-radius: 999px; padding: 9px 18px;
+  font-family: var(--e-font-text); font-size: 14px; font-weight: 600; color: var(--e-muted); cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+body[data-page="empfehler"] .potenzial-chip.active { background: var(--e-anthracite); border-color: var(--e-anthracite); color: #fff; }
+body[data-page="empfehler"] .potenzial-chip-free { display: inline-flex; align-items: center; gap: 6px; cursor: text; }
+body[data-page="empfehler"] .potenzial-chip-free input { width: 46px; border: 0; background: transparent; font: inherit; color: inherit; text-align: center; }
+body[data-page="empfehler"] .potenzial-chip-free input:focus { outline: none; }
+
+body[data-page="empfehler"] .potenzial-rows { display: flex; flex-direction: column; gap: 10px; }
+body[data-page="empfehler"] .potenzial-row {
+  display: grid; grid-template-columns: 28px 1.3fr 1fr 1fr auto; align-items: center; gap: 10px;
+  background: var(--e-warm-white); border: 1px solid var(--e-hairline); border-radius: 12px; padding: 10px 12px;
+}
+body[data-page="empfehler"] .potenzial-row.is-done { border-color: rgba(31,107,48,0.4); background: rgba(31,107,48,0.04); }
+body[data-page="empfehler"] .potenzial-row-num { font-family: var(--e-font-display); color: var(--e-muted); text-align: center; }
+body[data-page="empfehler"] .potenzial-f {
+  width: 100%; border: 1px solid var(--e-hairline); border-radius: 9px; padding: 10px 12px;
+  font: inherit; font-size: 14px; background: #fff; color: var(--e-anthracite);
+}
+body[data-page="empfehler"] .potenzial-f:focus { outline: none; border-color: var(--e-champagne); box-shadow: 0 0 0 3px rgba(201,185,138,0.18); }
+body[data-page="empfehler"] .potenzial-send {
+  white-space: nowrap; padding: 11px 18px; font-size: 13.5px; font-weight: 700; border-radius: 8px;
+  border: 1px solid var(--e-deep); background: var(--e-deep); color: var(--e-ivory);
+  font-family: var(--e-font-text); cursor: pointer; transition: background 160ms var(--e-ease), color 160ms var(--e-ease);
+}
+body[data-page="empfehler"] .potenzial-send:hover { background: transparent; color: var(--e-deep); }
+body[data-page="empfehler"] .potenzial-send.is-secondary { background: transparent; color: var(--e-deep); border-color: var(--e-champagne); }
+body[data-page="empfehler"] .potenzial-send:disabled { opacity: .6; cursor: default; }
+body[data-page="empfehler"] .potenzial-status { font-size: 12.5px; font-weight: 600; grid-column: 2 / -1; }
+body[data-page="empfehler"] .potenzial-status.is-done { color: var(--e-ok); }
+body[data-page="empfehler"] .potenzial-status.is-error { color: var(--e-err); }
+body[data-page="empfehler"] .potenzial-foot {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap; justify-content: space-between; margin-top: 16px;
+}
+body[data-page="empfehler"] .potenzial-hint { margin: 0; font-size: 13px; color: var(--e-muted); flex: 1 1 320px; text-align: left; }
+body[data-page="empfehler"] .potenzial-clear {
+  border: 0; background: transparent; color: var(--e-muted); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: underline;
+}
+body[data-page="empfehler"] .potenzial-clear:hover { color: var(--e-anthracite); }
+
+@media (max-width: 720px) {
+  body[data-page="empfehler"] .potenzial-row {
+    grid-template-columns: 24px 1fr 1fr;
+    grid-template-areas: "num name name" "num tel thema" "num send send" "num status status";
+  }
+  body[data-page="empfehler"] .potenzial-row-num { grid-area: num; align-self: start; padding-top: 10px; }
+  body[data-page="empfehler"] .potenzial-row [data-f="name"] { grid-area: name; }
+  body[data-page="empfehler"] .potenzial-row [data-f="tel"] { grid-area: tel; }
+  body[data-page="empfehler"] .potenzial-row [data-f="thema"] { grid-area: thema; }
+  body[data-page="empfehler"] .potenzial-send { grid-area: send; }
+  body[data-page="empfehler"] .potenzial-status { grid-area: status; }
+}

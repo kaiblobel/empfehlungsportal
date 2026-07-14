@@ -14,7 +14,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <meta name="theme-color" content="#FAF8F5" />
   <meta name="robots" content="noindex,nofollow" />
   <title>Mein Empfehlungs-Dashboard · Kai Blobel</title>
-  <link rel="stylesheet" href="css/empfehler.css?v=32" />
+  <link rel="stylesheet" href="css/empfehler.css?v=33" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="empfehler">
@@ -41,32 +41,51 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="e-stats-label">Erfolgreiche Empfehlungen</span>
         <p class="e-stats-next" id="p7NextStufe"></p>
       </div>
+
+      <div class="e-ziel" id="p7ZielBanner" hidden></div>
     </div>
   </section>
 
-  <!-- Neue Empfehlung aussprechen -->
-  <section class="e-section alt">
-    <div class="e-inner">
-      <p class="e-eyebrow">Empfehlen</p>
-      <h2 class="e-h2">Wen möchtest du<br>empfehlen?</h2>
-      <div class="e-hairline"></div>
-      <p class="e-body">Jede Empfehlung erstellst du gezielt für eine Person. Du wählst das Thema und versendest den persönlichen Link.</p>
-
-      <div class="e-link-card">
-        <a class="e-btn e-btn-primary" id="p7CtaEmpfehlen" style="width:100%;max-width:360px;margin:0 auto;">
-          Neue Empfehlung aussprechen →
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Belohnungs-Treppe -->
+  <!-- Belohnungs-Treppe · Ziel wählen -->
   <section class="e-section">
     <div class="e-inner">
       <p class="e-eyebrow">Dein Fortschritt</p>
-      <h2 class="e-h2">Deine Belohnungs-Treppe.</h2>
+      <h2 class="e-h2">Wähle dein Ziel.</h2>
       <div class="e-hairline"></div>
+      <p class="e-body">Tippe auf eine Belohnung, um sie als dein Ziel zu setzen — dann öffnet sich direkt dein Eingabefeld.</p>
       <div class="e-rewards" id="p7RewardsList"></div>
+    </div>
+  </section>
+
+  <!-- Empfehlungen eintragen -->
+  <section class="e-section alt" id="p7Eintragen">
+    <div class="e-inner">
+      <p class="e-eyebrow">Loslegen</p>
+      <h2 class="e-h2">Wen darf ich für dich<br>begeistern?</h2>
+      <div class="e-hairline"></div>
+      <p class="e-body">Trag die Menschen ein, an die du gerade denkst. Für jeden erstellst du mit einem Klick deinen persönlichen Link und schickst ihn direkt per WhatsApp los.</p>
+
+      <div class="potenzial-tool">
+        <div class="potenzial-count">
+          <span class="potenzial-count-label">Wie viele Kontakte?</span>
+          <div class="potenzial-chips" id="p7Chips">
+            <button type="button" class="potenzial-chip" data-count="3">3</button>
+            <button type="button" class="potenzial-chip active" data-count="5">5</button>
+            <button type="button" class="potenzial-chip" data-count="10">10</button>
+            <label class="potenzial-chip potenzial-chip-free">eigene:
+              <input type="number" id="p7Free" min="1" max="15" inputmode="numeric" placeholder="#" aria-label="Eigene Anzahl" />
+            </label>
+          </div>
+        </div>
+        <div class="potenzial-rows" id="p7Rows"></div>
+        <div class="potenzial-foot">
+          <p class="potenzial-hint">Name und Telefonnummer genügen. Mit dem Thema weiß ich vorher, worum es geht.</p>
+          <button type="button" class="potenzial-clear" id="p7Clear">Liste leeren</button>
+        </div>
+        <p style="text-align:center;margin-top:6px;width:100%;">
+          <a id="p7CtaEmpfehlen" style="font-size:13px;color:var(--e-muted);text-decoration:underline;">Lieber einzeln empfehlen →</a>
+        </p>
+      </div>
     </div>
   </section>
 
@@ -96,6 +115,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <div class="e-toast" id="p7Toast"></div>
 
-  <script type="module" src="js/empfehler.js?v=34"></script>
+  <script type="module" src="js/empfehler.js?v=35"></script>
 </body>
 </html>

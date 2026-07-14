@@ -671,54 +671,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </section>
 
-  <!-- ===== 3b · Potenzialliste (Kontakte direkt eintragen) ===== -->
-  <section class="section potenzial" id="potenzialliste">
-    <div class="inner wide">
-      <p class="t-eyebrow reveal" style="text-align:center;">Deine empfohlenen Kontakte</p>
-      <h2 class="t-h2 reveal d1" style="text-align:center;">
-        Wen ich für dich<br><em>begeistern</em> darf.
-      </h2>
-      <p class="t-lede reveal d2" style="text-align:center; margin: 0 auto 32px; max-width:660px;">
-        Trag hier die Menschen ein, an die du gerade gedacht hast. Für jeden erstellst du mit einem Klick deinen persönlichen Empfehlungslink und schickst ihn direkt los.
-      </p>
-
-      <!-- Guard: kurze Registrierung direkt hier, dann geht's los -->
-      <div class="potenzial-guard reveal d2" id="potenzialGuard" hidden>
-        <p>Kurz dein Name, dann kannst du direkt loslegen. So werden dir deine Empfehlungen zugeordnet.</p>
-        <form class="potenzial-reg" id="potenzialRegForm">
-          <input type="text" id="potenzialRegName" placeholder="Dein Name" autocomplete="name" aria-label="Dein Name" />
-          <input type="tel" id="potenzialRegTel" placeholder="Deine Telefonnummer (optional)" autocomplete="tel" aria-label="Deine Telefonnummer" />
-          <button type="submit" class="btn btn-primary" id="potenzialRegBtn">Loslegen</button>
-        </form>
-        <p class="potenzial-reg-err" id="potenzialRegErr" hidden></p>
-      </div>
-
-      <div class="potenzial-tool reveal d3" id="potenzialTool" hidden>
-        <!-- Anzahl-Wähler -->
-        <div class="potenzial-count">
-          <span class="potenzial-count-label">Wie viele Kontakte?</span>
-          <div class="potenzial-chips" id="potenzialChips">
-            <button type="button" class="potenzial-chip" data-count="3">3</button>
-            <button type="button" class="potenzial-chip active" data-count="5">5</button>
-            <button type="button" class="potenzial-chip" data-count="10">10</button>
-            <label class="potenzial-chip potenzial-chip-free">
-              eigene:
-              <input type="number" id="potenzialFree" min="1" max="15" inputmode="numeric" placeholder="#" aria-label="Eigene Anzahl Kontakte" />
-            </label>
-          </div>
-        </div>
-
-        <!-- Zeilen -->
-        <div class="potenzial-rows" id="potenzialRows"></div>
-
-        <div class="potenzial-foot">
-          <p class="potenzial-hint">Name und Telefonnummer genügen. Mit dem Thema weiß ich vorher, worum es geht. Den Link schickst du direkt per WhatsApp los.</p>
-          <button type="button" class="potenzial-clear" id="potenzialClear">Liste leeren</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ===== 6b · Testimonials / Kunden-Bewertungen ===== -->
   <section class="section testimonials" id="bewertungen">
     <div class="inner wide">
@@ -978,6 +930,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </nav>
 
   <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
-  <script type="module" src="js/programm.js?v=34"></script>
+  <script type="module" src="js/programm.js?v=35"></script>
 </body>
 </html>

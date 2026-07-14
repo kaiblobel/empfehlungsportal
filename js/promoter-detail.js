@@ -3,7 +3,7 @@
  * Profil (bearbeitbar) + Kennzahlen + Empfehlungsliste mit gesendeten Links.
  */
 import { requireAuth, logout, applyBeraterHeader, formatDate } from './dashboard.js';
-import { getEmpfehler, updateEmpfehler, getEmpfehlerStats, getEmpfehlerEmpfehlungen } from './supabase.js';
+import { getEmpfehler, updateEmpfehler, getEmpfehlerStats, getEmpfehlerEmpfehlungen, getBelohnungsStufen } from './supabase.js';
 
 const STATUS_LABEL = {
   offen: 'Offen', anrufwunsch: 'Anrufwunsch', kontaktiert: 'Kontaktiert',
@@ -15,6 +15,8 @@ document.getElementById('logoutBtn').addEventListener('click', logout);
 
 const id = new URLSearchParams(location.search).get('id');
 let promoter = null;
+let stats = null;
+let stufen = [];
 
 (async () => {
   const session = await requireAuth();
@@ -30,11 +32,14 @@ let promoter = null;
   promoter = data;
   document.querySelector('.app-header-sub').textContent = promoter.name || 'Promoter-Detail';
 
-  const [statsRes, feedRes] = await Promise.all([
+  const [statsRes, feedRes, stufenData] = await Promise.all([
     getEmpfehlerStats(promoter.code),
     getEmpfehlerEmpfehlungen(promoter.code),
+    getBelohnungsStufen(),
   ]);
-  renderAll(statsRes.data, feedRes.data || []);
+  stats = statsRes.data || {};
+  stufen = stufenData || [];
+  renderAll(stats, feedRes.data || []);
 })();
 
 function renderAll(stats, feed) {
@@ -52,6 +57,19 @@ function renderAll(stats, feed) {
       <div class="pd-stat"><div class="pd-stat-num" style="color:#1F6B30;">${s.kunde ?? 0}</div><div class="pd-stat-lbl">Kunde geworden</div></div>
       <div class="pd-stat"><div class="pd-stat-num">${s.offen ?? 0}</div><div class="pd-stat-lbl">Offen</div></div>
       <div class="pd-stat"><div class="pd-stat-num">${s.anrufwunsch ?? 0}</div><div class="pd-stat-lbl">Anrufwunsch</div></div>
+    </div>
+
+    <div class="pd-card">
+      <h3>Ziel &amp; woran wir arbeiten</h3>
+      <div id="pdZielInfo" style="font-size:14px;margin-bottom:12px;"></div>
+      <div class="pd-field">
+        <label>Ziel-Belohnung des Promoters</label>
+        <select id="pdZiel">
+          <option value="">— kein Ziel gewählt —</option>
+          ${stufen.map(st => `<option value="${st.stufe}"${Number(p.ziel_stufe) === st.stufe ? ' selected' : ''}>Stufe ${st.stufe} · ${escapeHtml(st.titel)}</option>`).join('')}
+        </select>
+      </div>
+      <p style="font-size:12.5px;color:var(--ink-muted,#6E6660);margin:2px 0 0;">„Woran arbeiten wir" pflegst du in der Notiz weiter unten.</p>
     </div>
 
     <div class="pd-card">
@@ -77,7 +95,34 @@ function renderAll(stats, feed) {
   `;
 
   renderFeed(feed, origin);
+  renderZielInfo();
   document.getElementById('pdSave').addEventListener('click', onSave);
+  document.getElementById('pdZiel').addEventListener('change', onZielChange);
+}
+
+function renderZielInfo() {
+  const el = document.getElementById('pdZielInfo');
+  if (!el) return;
+  const zielStufe = Number(promoter.ziel_stufe) || null;
+  const abgegeben = stats.gesamt ?? 0;
+  const kunde = stats.kunde ?? 0;
+  if (!zielStufe) {
+    el.innerHTML = '<span style="color:var(--ink-muted,#6E6660);">Noch kein Ziel gewählt. Der Promoter kann es selbst auf seinem Link setzen — oder du hier.</span>';
+    return;
+  }
+  const s = stufen.find(x => x.stufe === zielStufe);
+  const titel = s ? s.titel : `Stufe ${zielStufe}`;
+  const rest = Math.max(0, zielStufe - kunde);
+  el.innerHTML = `<strong>Ziel: ${escapeHtml(titel)}</strong> (Stufe ${zielStufe}) · ${abgegeben} abgegeben · ${kunde} Kunde · ${rest === 0 ? '<span style="color:#1F6B30;">Ziel erreicht 🎉</span>' : 'noch ' + rest + ' bis zur Belohnung'}`;
+}
+
+async function onZielChange(e) {
+  const val = e.target.value ? Number(e.target.value) : null;
+  const { error } = await updateEmpfehler(id, { ziel_stufe: val });
+  if (error) { toast('Fehler: ' + (error.message || '')); return; }
+  promoter = { ...promoter, ziel_stufe: val };
+  renderZielInfo();
+  toast(val ? 'Ziel gesetzt.' : 'Ziel entfernt.');
 }
 
 function renderFeed(feed, origin) {

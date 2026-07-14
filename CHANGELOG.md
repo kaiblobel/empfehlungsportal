@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.114 Beta** · Karriere-Karte aufgewertet.
+Aktuelle Version: **v1.115 Beta** · Ziel + Empfehlungs-Eingabe auf dem individuellen Promoter-Link.
+
+---
+
+## v1.115 Beta — Phase 88 · Ziel & Eingabe auf den Promoter-Link verlagert
+**2026-07-14**
+
+Die „Belohnung anklicken → Empfehlungen eintragen"-Mechanik wandert von der (für alle gleichen) Präsentation auf den **individuellen Promoter-Link** `empfehler.html?code=…` — der einzige kunden-eindeutige Ort. So bleiben Empfehlungen, Ziel und Fortschritt pro Kunde dauerhaft nachvollziehbar.
+
+- **Promoter-Link (`empfehler.html`):**
+  - **Ziel wählen:** Tippt der Kunde auf eine Belohnung (z. B. Weber-Grill), wird sie als sein Ziel gespeichert; das Eingabefeld öffnet sich direkt mit der passenden Zeilenzahl.
+  - **Ziel-Banner mit Fortschritt (beides):** „X abgegeben · Y Kunde geworden · noch Z bis zur Belohnung". Die Belohnung wird weiterhin erst bei Status „Kunde" ausgelöst (Auszahlung unverändert).
+  - **Empfehlungen inline eintragen:** Mehrzeilen-Tool (Name/Telefon/Thema → Link per WhatsApp), fest an den Promoter gebunden; Feed & Fortschritt aktualisieren live.
+- **Berater-Ansicht (`dashboard/promoter.html`):** neue Karte „Ziel & woran wir arbeiten" — zeigt Ziel + Fortschritt, Ziel per Dropdown änderbar; „woran arbeiten wir" über das Notiz-Feld.
+- **Präsentation (`programm.html`):** Empfehlungs-Eingabe entfernt; die Belohnungs-Karten sagen jetzt „Jetzt starten →" (führt zum Anmelden). Nach der Anmeldung wird der Kunde direkt auf seinen individuellen Link geleitet.
+- DB: `empfehler.ziel_stufe` + RPC `set_empfehler_ziel` (`schema-phase24.sql`). Cache: empfehler v33/v35, programm.js v35, promoter-detail v2, sw v90, config v1.115.
 
 ---
 

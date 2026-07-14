@@ -269,6 +269,19 @@ export async function getEmpfehlerByCode(code) {
   }
 }
 
+// Ziel (gewählte Belohnungs-Stufe) am Promoter setzen/entfernen (anon, keyed per Code).
+export async function setEmpfehlerZiel(code, stufe) {
+  if (!supabase) return { error: null };
+  try {
+    const { error } = await supabase.rpc('set_empfehler_ziel', { p_code: code, p_stufe: stufe });
+    if (error) throw error;
+    return { error: null };
+  } catch (err) {
+    console.error('[setEmpfehlerZiel]', err);
+    return { error: err };
+  }
+}
+
 export async function getEmpfehlerStats(code) {
   if (!supabase) return { data: null, error: null };
   try {

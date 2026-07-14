@@ -615,7 +615,7 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
           <h3>${escapeHtml(titel)}</h3>
           <p>${escapeHtml(s.beschreibung || '')}</p>
           ${s.wert_label ? `<span class="wert">Wert ${escapeHtml(s.wert_label)}</span>` : ''}
-          <button type="button" class="reward-eintragen" data-prefill="${s.stufe}">Diese ${s.stufe} Empfehlungen jetzt eintragen →</button>
+          <button type="button" class="reward-eintragen" data-start="1">Jetzt starten →</button>
         </div>
       </article>`;
   };
@@ -675,12 +675,12 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
     });
   });
 
-  // "Diese N Empfehlungen jetzt eintragen" → Potenzialliste vorbelegen + hinscrollen
+  // "Jetzt starten" → zum Anmelde-Formular (Promoter anlegen); das Eintragen der
+  // Empfehlungen passiert danach auf dem individuellen Link (empfehler.html?code=…).
   wrap.addEventListener('click', (e) => {
     const btn = e.target.closest('.reward-eintragen');
     if (!btn) return;
-    const n = Number(btn.dataset.prefill) || 5;
-    if (typeof window.__potenzialPrefill === 'function') window.__potenzialPrefill(n);
+    document.getElementById('anmelden')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 })();
 
@@ -817,7 +817,7 @@ form.addEventListener('submit', async (e) => {
 
   if (modal && linkInput && empfehlenBtn) {
     linkInput.value = personalLink;
-    empfehlenBtn.href = empfehlenUrl;
+    empfehlenBtn.href = dashboardUrl; // primär → individueller Link (dort wird eingetragen)
     dashBtn.href = dashboardUrl;
 
     if (subText && name) {
@@ -857,8 +857,8 @@ form.addEventListener('submit', async (e) => {
     return;
   }
 
-  // Fallback wenn Modal nicht da: direkt zum Empfehlen-Formular
-  window.location.href = empfehlenUrl;
+  // Fallback wenn Modal nicht da: direkt zum individuellen Link
+  window.location.href = dashboardUrl;
 });
 
 function escapeHtml(s) {
