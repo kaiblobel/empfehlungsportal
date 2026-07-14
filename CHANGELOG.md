@@ -1,7 +1,14 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.112 Beta** · Vorteile-Orbit + Teamwork-Botschaft im Einstieg.
+Aktuelle Version: **v1.113 Beta** · Vorteile-Orbit + Teamwork im Einstieg.
+
+---
+
+## v1.113 Beta — Phase 86 · Karriere-Einkommenszeile raus
+**2026-07-14**
+
+- Satz „Vom ersten Tag verdienen. Im dritten Jahr sechsstellig." von der Vorderseite der Karriere-Flip-Karte entfernt.
 
 ---
 
