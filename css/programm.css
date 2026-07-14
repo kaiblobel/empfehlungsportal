@@ -3773,6 +3773,177 @@ body[data-page="programm"] {
   margin: 0;
 }
 
+/* ---------- Vorteile-Orbit (Folie „Vorteile unserer Zusammenarbeit") ---------- */
+.vorteile-orbit {
+  position: relative;
+  width: min(900px, 92vw);
+  aspect-ratio: 16 / 10;
+  margin: 26px auto 0;
+}
+
+/* Verbindungslinien Mitte → Knoten */
+.vo-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+.vo-lines line {
+  stroke: rgba(201,185,138,0.34);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Zentralkreis */
+.vo-center {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: clamp(200px, 22vw, 266px);
+  height: clamp(200px, 22vw, 266px);
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 40%, #FFFFFF 0%, var(--warm-white, #FFFCF7) 72%);
+  border: 1px solid rgba(184,165,112,0.55);
+  box-shadow: 0 0 0 8px rgba(201,185,138,0.10), 0 24px 60px -22px rgba(28,28,30,0.22);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  z-index: 3;
+}
+.vo-center::before {
+  content: '';
+  position: absolute;
+  inset: -16%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,185,138,0.22) 0%, rgba(201,185,138,0) 62%);
+  z-index: -1;
+  pointer-events: none;
+}
+.vo-center-eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-hover, #B8A570);
+}
+.vo-center-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(22px, 2.6vw, 30px);
+  line-height: 1.14;
+  letter-spacing: -0.01em;
+  color: var(--deep-black, #0A0A0B);
+}
+
+/* Satelliten-Knoten */
+.vo-ring { list-style: none; margin: 0; padding: 0; }
+.vo-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: clamp(100px, 11.5vw, 126px);
+  height: clamp(100px, 11.5vw, 126px);
+  border-radius: 50%;
+  background: var(--warm-white, #FFFCF7);
+  border: 1px solid rgba(201,185,138,0.40);
+  box-shadow: 0 14px 34px -18px rgba(28,28,30,0.30);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px;
+  text-align: center;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity .55s cubic-bezier(.22,1,.36,1) var(--d, 0s),
+              transform .3s cubic-bezier(.22,1,.36,1),
+              box-shadow .3s ease, border-color .3s ease;
+}
+.vorteile-orbit.visible .vo-node { opacity: 1; }
+.vo-node-ic { display: inline-flex; color: var(--gold-hover, #B8A570); }
+.vo-node-ic svg { width: 26px; height: 26px; }
+.vo-node-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+  color: var(--deep-black, #0A0A0B);
+}
+@media (hover: hover) {
+  .vo-node:hover {
+    transform: translate(-50%, -50%) translateY(-4px);
+    border-color: rgba(184,165,112,0.85);
+    box-shadow: 0 20px 40px -16px rgba(28,28,30,0.34);
+  }
+}
+
+/* Positionen — gleichmäßige Ellipse, Mitte unten bleibt frei (Steuerleiste).
+   Koordinaten decken sich mit den <line>-Endpunkten im SVG. */
+.vo-n1 { left: 89%; top: 65%; }
+.vo-n2 { left: 66%; top: 87%; }
+.vo-n3 { left: 34%; top: 87%; }
+.vo-n4 { left: 11%; top: 65%; }
+.vo-n5 { left: 11%; top: 35%; }
+.vo-n6 { left: 34%; top: 13%; }
+.vo-n7 { left: 66%; top: 13%; }
+.vo-n8 { left: 89%; top: 35%; }
+
+@media (prefers-reduced-motion: reduce) {
+  .vo-node { opacity: 1; transition: none; }
+}
+
+/* Mobile / Nicht-Slide-Modus (≤900px): Orbit → Karten-Liste */
+@media (max-width: 900px) {
+  .vorteile-orbit {
+    position: static;
+    aspect-ratio: auto;
+    width: 100%;
+    max-width: 560px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 24px auto 0;
+  }
+  .vo-lines { display: none; }
+  .vo-center {
+    position: static;
+    inset: auto;
+    margin: 0 0 8px;
+    width: 100%;
+    height: auto;
+    border-radius: 18px;
+    padding: 26px 22px;
+    box-shadow: 0 14px 34px -20px rgba(28,28,30,0.22);
+  }
+  .vo-center::before { display: none; }
+  .vo-ring { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .vo-node {
+    position: static;
+    transform: none;
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 14px;
+    padding: 15px 18px;
+    text-align: left;
+    opacity: 1;
+  }
+  .vo-node-ic svg { width: 24px; height: 24px; }
+  .vo-node-label { font-size: 14.5px; }
+}
+@media (min-width: 560px) and (max-width: 900px) {
+  .vo-ring { grid-template-columns: 1fr 1fr; }
+}
+
 /* ---------- Empfehlen ist Alltag ---------- */
 .alltag {
   padding: 96px 28px;

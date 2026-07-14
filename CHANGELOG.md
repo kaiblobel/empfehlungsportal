@@ -1,7 +1,17 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.111 Beta** · Team-Folie der Präsentation aufgeräumt.
+Aktuelle Version: **v1.112 Beta** · Vorteile-Orbit + Teamwork-Botschaft im Einstieg.
+
+---
+
+## v1.112 Beta — Phase 86 · Vorteile-Orbit + Teamwork im Einstieg
+**2026-07-14**
+
+- **Teamwork-Kernbotschaft** („Du hast nicht nur einen Berater, sondern einen Partner für alles, was mit Geld zu tun hat") als kompakte, ruhige Text-Folie in den **Einstieg** gezogen (direkt nach „Was wir gemeinsam bewegt haben").
+- **Neue Folie „Vorteile unserer Zusammenarbeit"** (an der bisherigen Team-Position): ein **Orbit** im warmen, hellen Präsentations-Look — Zentralkreis „Ein Partner · Klarheit. Sicherheit. Vermögen." mit 8 umliegenden Vorteils-Kreisen (Ein Ansprechpartner, Strategie statt Produkte, Kurze Wege, Ein Leben lang begleitet, Mehr aus deinem Geld, So wie es dir passt, Verträge im Blick, Alles aus einer Hand) und dünnen Verbindungslinien. Gibt dem Empfehler die Argumente an die Hand.
+- Mobil kollabiert das Orbit sauber zu einer Karten-Liste (Zentrum als Banner, Linien aus). Statisch, motion-safe.
+- Präsentation jetzt 18 Folien. Cache: programm.css v53, config.js v1.112 Beta.
 
 ---
 
