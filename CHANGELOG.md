@@ -1,7 +1,15 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.109 Beta** · Globales Rechtsklick-Menü im ganzen Berater-Bereich.
+Aktuelle Version: **v1.110 Beta** · Empfehlungspräsentation gestrafft (17 statt 18 Folien).
+
+---
+
+## v1.110 Beta — Phase 84 · Präsentation gestrafft
+**2026-07-14**
+
+- Folie „Wer empfiehlt, bewegt drei Menschen" (Win-Win-Win) aus der Empfehlungspräsentation entfernt. Sie stand nach dem eigentlichen Ask („An wen denkst du gerade?") und wechselte dort zurück ins Abstrakte — das bremste die Dynamik. Inhaltlich war sie zudem eine Dopplung der frühen Mehrwert-/Win-Recap-Folien.
+- Ergebnis: **17 statt 18 Folien**; der Folienzähler stellt sich automatisch um.
 
 ---
 
