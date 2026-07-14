@@ -1,7 +1,15 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.107 Beta** · Team-Momentum (Team-Aktivität + Online-Anzeige).
+Aktuelle Version: **v1.108 Beta** · Team-Momentum-Feed kompakter (3 sichtbar, Rest einklappbar).
+
+---
+
+## v1.108 Beta — Phase 82 · Team-Feed kompakter
+**2026-07-14**
+
+- Team-Momentum-Feed zeigt jetzt **die 3 neuesten Aktivitäten**; der Rest ist eingeklappt und lässt sich per **„+ N weitere anzeigen"** aufklappen (und wieder „Weniger anzeigen"). Der Aufgeklappt-Zustand bleibt über die 60-Sekunden-Neuladung erhalten.
+- Cache: config.js v1.108 Beta, hub.js v44, sw.js v88.
 
 ---
 

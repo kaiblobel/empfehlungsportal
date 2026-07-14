@@ -401,6 +401,7 @@ const TEAM_META = {
   promoter:   { label: 'Promoter',   color: '#2C5F7C', icon: 'UserPlus', text: 'hat einen neuen Promoter gewonnen' },
   kunde:      { label: 'Kunde',      color: '#1A5C29', icon: 'Trophy',   text: 'hat einen Kunden gewonnen' },
 };
+let teamFeedExpanded = false; // bleibt über die 60s-Neuladungen erhalten
 
 async function loadTeamMomentum() {
   try {
@@ -431,6 +432,25 @@ function renderTeamPresence(rows) {
   }).join('');
 }
 
+function teamRowHtml(r) {
+  const m = TEAM_META[r.event] || TEAM_META.empfehlung;
+  const ts = new Date(r.event_at).getTime();
+  const isNew = (Date.now() - ts) < NEW_BADGE_WINDOW_MS;
+  return `<div class="h-activity-row" style="--act-color:${m.color};">
+    <span class="h-activity-avatar" aria-label="${m.label}">${icon(m.icon, { size: 20 })}</span>
+    <div class="h-activity-body">
+      <div class="h-activity-top">
+        <strong class="h-activity-name">${escapeHtml(r.berater_name || 'Berater')}</strong>
+        <span class="h-activity-time">${isNew ? '<span class="h-badge-new">NEU</span>' : ''}${timelineTime(ts)}</span>
+      </div>
+      <div class="h-activity-bottom">
+        <span class="h-activity-text">${m.text}</span>
+        <span class="h-activity-pill">${m.label}</span>
+      </div>
+    </div>
+  </div>`;
+}
+
 function renderTeamFeed(rows) {
   const wrap = document.getElementById('hTeamFeed');
   if (!wrap) return;
@@ -438,24 +458,24 @@ function renderTeamFeed(rows) {
     wrap.innerHTML = '<div style="padding:16px;text-align:center;color:var(--text-secondary);font-size:13.5px;">Noch keine Team-Aktivität in den letzten Tagen.</div>';
     return;
   }
-  wrap.innerHTML = rows.map(r => {
-    const m = TEAM_META[r.event] || TEAM_META.empfehlung;
-    const ts = new Date(r.event_at).getTime();
-    const isNew = (Date.now() - ts) < NEW_BADGE_WINDOW_MS;
-    return `<div class="h-activity-row" style="--act-color:${m.color};">
-      <span class="h-activity-avatar" aria-label="${m.label}">${icon(m.icon, { size: 20 })}</span>
-      <div class="h-activity-body">
-        <div class="h-activity-top">
-          <strong class="h-activity-name">${escapeHtml(r.berater_name || 'Berater')}</strong>
-          <span class="h-activity-time">${isNew ? '<span class="h-badge-new">NEU</span>' : ''}${timelineTime(ts)}</span>
-        </div>
-        <div class="h-activity-bottom">
-          <span class="h-activity-text">${m.text}</span>
-          <span class="h-activity-pill">${m.label}</span>
-        </div>
-      </div>
-    </div>`;
-  }).join('');
+  const VISIBLE = 3;
+  const first = rows.slice(0, VISIBLE).map(teamRowHtml).join('');
+  const restRows = rows.slice(VISIBLE);
+  const rest = restRows.length
+    ? `<div class="h-team-more" id="hTeamMore"${teamFeedExpanded ? '' : ' hidden'}>${restRows.map(teamRowHtml).join('')}</div>
+       <button type="button" class="h-team-toggle" id="hTeamToggle" style="width:100%;margin-top:6px;padding:9px;border:1px solid var(--hairline,#E8E5E0);border-radius:10px;background:#fff;color:var(--ink-muted,#6E6660);font-weight:600;font-size:13px;cursor:pointer;">${teamFeedExpanded ? 'Weniger anzeigen' : `+ ${restRows.length} weitere anzeigen`}</button>`
+    : '';
+  wrap.innerHTML = first + rest;
+
+  const toggle = document.getElementById('hTeamToggle');
+  const more = document.getElementById('hTeamMore');
+  if (toggle && more) {
+    toggle.addEventListener('click', () => {
+      teamFeedExpanded = !teamFeedExpanded;
+      more.hidden = !teamFeedExpanded;
+      toggle.textContent = teamFeedExpanded ? 'Weniger anzeigen' : `+ ${restRows.length} weitere anzeigen`;
+    });
+  }
 }
 
 function teamAgo(ts) {
