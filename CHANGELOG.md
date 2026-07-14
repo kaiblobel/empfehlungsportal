@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.113 Beta** · Vorteile-Orbit + Teamwork im Einstieg.
+Aktuelle Version: **v1.114 Beta** · Karriere-Karte aufgewertet.
+
+---
+
+## v1.114 Beta — Phase 87 · Karriere-Karte aufgewertet
+**2026-07-14**
+
+- Vorderseite der Karriere-Flip-Karte („Empfehlen gehört zum Alltag") stärker gestaltet:
+  - Headline: „Empfiehl eine neue **berufliche** Perspektive."
+  - Neue **Live-Status-Pille** „5 Positionen · jetzt gesucht" mit sanft pulsierendem Punkt (Dringlichkeit, motion-safe).
+  - Neuer Dreiklang „Fünf Wege. Ein Team. Dein Einstieg." (die 5 Einstiegswege) mit dezentem Trenner.
+- Balanciert jetzt sauber mit der Gold-Karte daneben; Flip + Mobile geprüft. Cache: programm.css v54.
 
 ---
 
