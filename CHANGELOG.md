@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.118 Beta** · Premium-Empfängerseite mit Finanzcheck, Personalisierung und echten Rezensionen.
+Aktuelle Version: **v1.119 Beta** · Geführte Story-Empfängerseite mit klarer Entscheidung und ehrlicher Finanzcheck-Vorschau.
+
+---
+
+## v1.119 Beta - Phase 92 · Geführte Story-Empfängerseite
+**2026-07-21**
+
+- Empfängerseite vollständig als geführte Geschichte mit fünf klaren Schritten aufgebaut.
+- Persönliche Empfehlung, Themenwahl, Finanzcheck-Vorschau, Kai-Vertrauen und nächste Entscheidung greifen logisch ineinander.
+- Finanzcheck-Vorschau bewusst präzisiert: keine vorgetäuschte Auswertung vor Beantwortung der sieben Fragen.
+- Anrufbestätigung, Terminwahl, Austragen, Empfehlungs-Tracking und Berater-Branding bleiben vollständig angebunden.
+- Mobile Bedienung, Fokusführung und Abschlussentscheidung für iPhone optimiert.
+- Cache: app.js v42, sw.js v94.
 
 ---
 

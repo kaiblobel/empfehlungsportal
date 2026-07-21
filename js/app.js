@@ -545,16 +545,16 @@ if (page === 'empfaenger') {
 
   function renderEmpfehlerKarte(d) {
     const inner = document.getElementById('eEmpfehlerInner');
-    if (!inner) return;
     const name = (d.empfehler_name || '').trim();
     const msg  = (d.empfehler_nachricht || '').trim();
     const recipient = (d.empfaenger_name || '').trim().split(/\s+/)[0] || '';
     const promoterLabel = name || 'Dein Empfehlungsgeber';
     document.querySelectorAll('[data-promoter]').forEach((el) => { el.textContent = promoterLabel; });
-    const mark = inner.querySelector('.recommendation-mark');
+    const mark = document.querySelector('.recommendation-mark, .promoter-avatar');
     if (mark && name) mark.textContent = name.charAt(0).toUpperCase();
     const message = document.getElementById('ePromoterMessage');
-    if (message && msg) message.textContent = ` „${msg}“`;
+    if (message) message.textContent = msg ? `„${msg}“` : `${promoterLabel} hat diese Seite erst nach eurem Gespräch weitergegeben.`;
+    document.querySelectorAll('[data-recipient]').forEach((el) => { if (recipient) el.textContent = recipient; });
     if (recipient) {
       const personalName = document.querySelector('.personal-name');
       const headlineStart = document.querySelector('.headline-start');
