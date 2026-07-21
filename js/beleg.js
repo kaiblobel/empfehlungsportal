@@ -2,7 +2,7 @@
  * Phase 16 · Beleg/Quittung für eine ausgezahlte Empfehlungsprämie.
  * Liest ?id=<praemie>, baut ein druckbares Dokument (adaptiv nach Auszahlungsart).
  */
-import { getPraemie } from './supabase.js';
+import { getPraemie, parseDbDate } from './supabase.js';
 import { requireAuth, getCurrentBerater } from './dashboard.js';
 
 const EUR = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' });
@@ -34,7 +34,7 @@ function render(p, berater) {
   const art = p.auszahlungsart || '';
   const t = docType(art);
   const empfName = p.empfehler?.name || 'Empfehler';
-  const dateObj = p.ausgezahlt_at ? new Date(p.ausgezahlt_at) : new Date();
+  const dateObj = p.ausgezahlt_at ? parseDbDate(p.ausgezahlt_at) : new Date();
   const dateDE = dateObj.toLocaleDateString('de-DE', { day: '2-digit', month: 'long', year: 'numeric' });
   const isSache = art === 'Sachleistung';
   const betragStr = (p.betrag != null) ? EUR.format(p.betrag) : (p.wert_label || '–');

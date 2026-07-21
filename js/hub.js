@@ -1,4 +1,4 @@
-import { supabase, touchPresence, getTeamActivity, getTeamPresence } from './supabase.js';
+import { supabase, parseDbDate, touchPresence, getTeamActivity, getTeamPresence } from './supabase.js';
 import { requireAuth, logout, formatDate, loadFunnel, applyBeraterHeader } from './dashboard.js';
 import { icon, hydrateIcons } from './icons.js';
 import { watchHotLeads } from './hot-lead-watcher.js';
@@ -220,7 +220,7 @@ async function loadHotLeads() {
       .map(r => {
         const isCall = r.status === 'anrufwunsch';
         const eventAt = isCall ? r.anrufwunsch_at : (r.interessiert_at || r.created_at);
-        return { ...r, _ts: eventAt ? new Date(eventAt).getTime() : 0, _kind: isCall ? 'anrufwunsch' : 'interesse' };
+        return { ...r, _ts: eventAt ? parseDbDate(eventAt).getTime() : 0, _kind: isCall ? 'anrufwunsch' : 'interesse' };
       })
       .sort((a, b) => b._ts - a._ts)
       .slice(0, 5);
@@ -289,7 +289,7 @@ function initialsFor(name) {
 
 function heatScore(r) {
   if (!r.link_geoeffnet_at || !r._ts) return '';
-  const openedAt = new Date(r.link_geoeffnet_at).getTime();
+  const openedAt = parseDbDate(r.link_geoeffnet_at).getTime();
   const delta = r._ts - openedAt;
   if (delta < 0) return '';
   const hr = delta / 3600000;
@@ -317,7 +317,7 @@ async function loadTimelineEvents() {
     const events = [];
     data.forEach(r => {
       const name = r.empfaenger_name || '–';
-      const ts = (key) => key ? new Date(key).getTime() : 0;
+      const ts = (key) => key ? parseDbDate(key).getTime() : 0;
       if (r.created_at)        events.push({ id: r.id, ts: ts(r.created_at),        kind: 'created',  name, text: 'wurde empfohlen' });
       if (r.link_geoeffnet_at) events.push({ id: r.id, ts: ts(r.link_geoeffnet_at), kind: 'opened',   name, text: 'hat die Empfehlung geöffnet' });
       if (r.interessiert_at)   events.push({ id: r.id, ts: ts(r.interessiert_at),   kind: 'interest', name, text: 'hat Interesse bekundet' });
@@ -418,7 +418,7 @@ function renderTeamPresence(rows) {
   if (!wrap) return;
   const now = Date.now();
   wrap.innerHTML = (rows || []).map(r => {
-    const last = r.last_seen ? new Date(r.last_seen).getTime() : 0;
+    const last = r.last_seen ? parseDbDate(r.last_seen).getTime() : 0;
     const online = last && (now - last) < 3 * 60 * 1000;
     const initial = (r.berater_name || '?').trim().split(/\s+/).map(s => s[0] || '').join('').slice(0, 2).toUpperCase();
     const av = r.berater_foto
@@ -434,7 +434,7 @@ function renderTeamPresence(rows) {
 
 function teamRowHtml(r) {
   const m = TEAM_META[r.event] || TEAM_META.empfehlung;
-  const ts = new Date(r.event_at).getTime();
+  const ts = parseDbDate(r.event_at).getTime();
   const isNew = (Date.now() - ts) < NEW_BADGE_WINDOW_MS;
   return `<div class="h-activity-row" style="--act-color:${m.color};">
     <span class="h-activity-avatar" aria-label="${m.label}">${icon(m.icon, { size: 20 })}</span>
@@ -571,7 +571,7 @@ function escapeHtml(s) {
 }
 function relativeTime(ts) {
   if (!ts) return '';
-  const tsMs = typeof ts === 'number' ? ts : new Date(ts).getTime();
+  const tsMs = typeof ts === 'number' ? ts : parseDbDate(ts).getTime();
   const sec = Math.floor((Date.now() - tsMs) / 1000);
   if (sec < 60) return 'gerade eben';
   if (sec < 3600) return `vor ${Math.floor(sec / 60)} Min`;

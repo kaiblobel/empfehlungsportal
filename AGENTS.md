@@ -5,7 +5,7 @@ live_url: https://empfehlungsportal.vercel.app
 tags: portal, supabase, empfehlung, live
 -->
 
-# Empfehlungs-HUB — Projekt-Kontext für Claude
+# Empfehlungs-HUB — Projekt-Kontext für Codex
 
 **Live:** https://empfehlungsportal.vercel.app
 **Master-Reference:** `/hub.html` ist die visuelle DNA für alle anderen Pages.

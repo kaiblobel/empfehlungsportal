@@ -3,7 +3,7 @@
  * Zeigt verdiente Prämien (erreichte Belohnungsstufen je Empfehler) und lässt sie
  * als ausgezahlt markieren / Variante + Notiz festhalten. Admin-only.
  */
-import { getPraemien, updatePraemie, syncPraemien, auszahlenPraemie, getKundenJeEmpfehler, deletePraemie } from './supabase.js';
+import { getPraemien, updatePraemie, syncPraemien, auszahlenPraemie, getKundenJeEmpfehler, deletePraemie, parseDbDate } from './supabase.js';
 import { requireAuth, logout, applyBeraterHeader, getCurrentBerater } from './dashboard.js';
 
 document.getElementById('logoutBtn').addEventListener('click', logout);
@@ -80,7 +80,7 @@ function renderCard(p) {
     : `${ICON_GEWONNEN} ${p.stufe}. gewonnener Kunde`;
   const variante = p.variante ? `gewählt: ${escapeHtml(p.variante)}` : '';
   const datum = p.status === 'ausgezahlt' && p.ausgezahlt_at
-    ? `ausgezahlt ${new Date(p.ausgezahlt_at).toLocaleDateString('de-DE')}` : '';
+    ? `ausgezahlt ${parseDbDate(p.ausgezahlt_at).toLocaleDateString('de-DE')}` : '';
   const belegnr = p.beleg_nr ? `<span class="pr-belegnr">Beleg ${escapeHtml(p.beleg_nr)}</span>` : '';
   const metaInner = [variante, datum, belegnr].filter(Boolean).join(' · ');
   const meta = metaInner ? `<div class="pr-meta">${metaInner}</div>` : '';

@@ -1,7 +1,25 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.116 Beta** · Empfehlungsgeber kann Kontext-Infos zur Empfehlung nachreichen.
+Aktuelle Version: **v1.117 Beta** · Live-TÜV: Zeit, Funnel, Vorschauen und Teilen-Endpunkt korrigiert.
+
+---
+
+## v1.117 Beta - Phase 90 · Live-TÜV-Korrekturen
+**2026-07-21**
+
+- Live-TÜV: Ein neuer Anrufwunsch um 12:44 Uhr erschien im Hub als 10:44 Uhr und "vor 2 Std".
+- Ursache: PostgreSQL-Felder vom Typ `timestamp without time zone` kamen ohne Zeitzonenangabe an und wurden vom Browser fälschlich als deutsche Ortszeit gelesen.
+- Neue zentrale Funktion `parseDbDate`: Zeitwerte ohne Zone werden als UTC behandelt, echte Werte mit `Z` oder Offset bleiben unverändert.
+- Korrigiert in Hub, Aktivitätsverlauf, Hot Leads, Team-Momentum, Dashboard-Datumsformatierung, Promoter-Feed und Prämienansichten.
+- Der Teilen-Endpunkt liest seine Parameter jetzt mit der modernen URL-API statt über die veraltete Node-Auswertung.
+- Themenvorschauen laufen ohne Test-Token und erzeugen dadurch keine künstlichen Öffnungen oder Benachrichtigungen mehr.
+- Veraltete Demo-Verknüpfungen wurden aus den Einstellungen entfernt.
+- Der Funnel zählt gewonnene Kunden immer auch in den vorgelagerten Stufen. Historische Statusdaten erzeugen dadurch keine Quoten über 100 Prozent mehr.
+- Google Tag Manager, Google Analytics und Microsoft Clarity wurden aus allen Portal-Seiten entfernt. Empfehlungs-Token gelangen damit nicht mehr über vollständige Seitenadressen an diese Analyse-Dienste.
+- Regressionstest für den Teilen-Endpunkt ergänzt.
+- Keine Datenbankmigration und keine Änderung bestehender Zeitwerte.
+- Cache: hub.js v45, empfehler.js v37, beleg.js v2, praemien-admin.js v5, sw.js v92.
 
 ---
 

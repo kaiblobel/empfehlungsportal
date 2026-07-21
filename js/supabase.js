@@ -1,4 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+export { parseDbDate } from './date-utils.js';
 
 const url = window.ENV_SUPABASE_URL;
 const key = window.ENV_SUPABASE_ANON_KEY;

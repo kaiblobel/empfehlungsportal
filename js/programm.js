@@ -375,19 +375,8 @@ const beraterSlug = new URLSearchParams(window.location.search).get('berater');
         setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'center' }), 160);
       }
 
-      // Score lokal merken (für später analytics / Re-Render bei Reload)
+      // Score lokal merken für Re-Render bei Reload
       try { sessionStorage.setItem('nps_score', String(score)); } catch (_) {}
-
-      // GTM-Event (wenn dataLayer vorhanden)
-      try {
-        if (window.dataLayer) {
-          window.dataLayer.push({
-            event: 'nps_answer',
-            nps_score: score,
-            nps_band: band,
-          });
-        }
-      } catch (_) {}
     });
   });
 

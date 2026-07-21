@@ -1,4 +1,4 @@
-import { supabase } from '../js/supabase.js';
+import { supabase, parseDbDate } from '../js/supabase.js';
 
 /* ---------- Auth ---------- */
 
@@ -249,8 +249,10 @@ export async function loadFunnel() {
 
   const [g, o, i, k] = await Promise.all([
     supabase.from('empfehlungen').select('id', { count: 'exact', head: true }),
-    supabase.from('empfehlungen').select('id', { count: 'exact', head: true }).eq('link_geoeffnet', true),
-    supabase.from('empfehlungen').select('id', { count: 'exact', head: true }).eq('interessiert', true),
+    supabase.from('empfehlungen').select('id', { count: 'exact', head: true })
+      .or('link_geoeffnet.eq.true,interessiert.eq.true,status.eq.kunde'),
+    supabase.from('empfehlungen').select('id', { count: 'exact', head: true })
+      .or('interessiert.eq.true,status.eq.kunde'),
     supabase.from('empfehlungen').select('id', { count: 'exact', head: true }).eq('status', 'kunde'),
   ]);
 
@@ -288,7 +290,7 @@ export async function loadLast7Days() {
   if (error || !data) return out;
 
   data.forEach(r => {
-    const ts = new Date(r.created_at);
+    const ts = parseDbDate(r.created_at);
     ts.setHours(0, 0, 0, 0);
     const idx = out.findIndex(d => d.date.getTime() === ts.getTime());
     if (idx !== -1) out[idx].count += 1;
@@ -302,7 +304,7 @@ export async function loadLast7Days() {
 
 export function formatDate(ts) {
   if (!ts) return '—';
-  const d = new Date(ts);
+  const d = parseDbDate(ts);
   if (isNaN(d.getTime())) return '—';
   const dd = String(d.getDate()).padStart(2, '0');
   const mm = String(d.getMonth() + 1).padStart(2, '0');
@@ -314,7 +316,7 @@ export function formatDate(ts) {
 
 export function formatDateShort(ts) {
   if (!ts) return '—';
-  const d = new Date(ts);
+  const d = parseDbDate(ts);
   if (isNaN(d.getTime())) return '—';
   return `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.`;
 }

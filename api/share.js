@@ -42,7 +42,8 @@ module.exports = async function handler(req, res) {
   const host = (req.headers['x-forwarded-host'] || req.headers.host || '').split(',')[0];
   const proto = (req.headers['x-forwarded-proto'] || 'https').split(',')[0];
   const base = `${proto}://${host}`;
-  const token = (req.query && req.query.token) || '';
+  const requestUrl = new URL(req.url || '/', base);
+  const token = requestUrl.searchParams.get('token') || '';
 
   // Statisches HTML der Empfänger-Seite holen (nicht rewritten -> keine Rekursion).
   let html;
@@ -52,7 +53,7 @@ module.exports = async function handler(req, res) {
   } catch (_) {
     // Fallback: direkt auf die statische Seite leiten
     res.statusCode = 302;
-    res.setHeader('Location', `/empfaenger.html${req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : ''}`);
+    res.setHeader('Location', `/empfaenger.html${requestUrl.search}`);
     return res.end();
   }
 
