@@ -1,7 +1,34 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.119 Beta** · Geführte Story-Empfängerseite mit klarer Entscheidung und ehrlicher Finanzcheck-Vorschau.
+Aktuelle Version: **v1.121 Beta** · Persönlicher Baufinanzierungs-Kompass mit echtem Empfehlungs-, Opt-out- und Lead-Ablauf.
+
+---
+
+## v1.121 Beta - Phase 94 · Finanzierungskompass live
+**2026-07-21**
+
+- Baufinanzierungs-Empfehlungen öffnen jetzt einen eigenen mobilen Finanzierungskompass mit sechs verständlichen Ausgangssituationen.
+- Neubau, Kauf und Modernisierung führen in einen vorsichtigen KfW- und Regionalförder-Chancencheck. Die Ergebnisse sind klar als Prüfspuren und nicht als Förderzusage gekennzeichnet.
+- Bei auslaufender Zinsbindung steht zusätzlich ein lokaler Restschuld-Schnellcheck bereit. Eingegebene Zahlen und Förderantworten werden nicht übertragen.
+- Empfehlungsgeber, Empfänger und Berater werden aus der echten Empfehlung geladen. Beraterfoto, Rolle, Kalender, Impressum und Datenschutz werden passend gebrandet.
+- Das Öffnen wird wie bisher erfasst. Eine abgeschlossene Kompass-Einordnung markiert echtes Interesse, der Kalender öffnet den persönlichen Buchungsweg und die Abmeldung nutzt den bestehenden sicheren Opt-out-Ablauf.
+- Alte Empfehlungslinks ohne Themenparameter werden anhand der gespeicherten Vorlage richtig aufgelöst. Alle anderen Themenseiten bleiben unverändert.
+- Cache: baufi.js v1, config.js v1.121 Beta, sw.js v96.
+
+---
+
+## v1.120 Beta - Phase 93 · Durchgängiger Empfänger- und Finanzcheck-Funnel
+**2026-07-21**
+
+- Empfängerseite stärker personalisiert und die drei wählbaren Schwerpunkte bis in den Finanzcheck durchgereicht.
+- Finanzcheck-Vorschau hochwertig animiert, ohne vorab konkrete Ergebnisse oder Ansprüche vorzutäuschen.
+- Vertrauen durch mehr als 20 Jahre Berufserfahrung, über 3.000 betreute Haushalte und persönliche Betreuung ergänzt.
+- Mobile Themenkarten mit sichtbaren Symbolen und klarerer Führung aufgewertet.
+- Ergebnislogik des Finanzchecks trennt Gesamtwert, direkten monatlichen Spielraum, Förderansätze, steuerliche Ansätze und langfristige Effekte.
+- Zwei-Konten-Modell als persönliche Beratungsstrategie mit optionalem Erklärvideo in die Auswertung eingebunden.
+- Der Themen- und Herkunftskontext bleibt auch nach dem Laden der zentralen Beraterkonfiguration im Finanzcheck-Link erhalten.
+- Cache: app.js v43, config.js v1.120 Beta, sw.js v95.
 
 ---
 

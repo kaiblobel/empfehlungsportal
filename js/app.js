@@ -516,7 +516,15 @@ if (page === 'empfaenger') {
     const cta = document.getElementById('eFinanzCta');
     if (cta) {
       if (v.cta_text)      cta.textContent = v.cta_text;
-      if (v.quickcheck_url) cta.href       = v.quickcheck_url;
+      if (v.quickcheck_url) {
+        const current = new URL(cta.href, location.href);
+        const target = new URL(v.quickcheck_url, location.href);
+        ['from', 'schwerpunkt'].forEach(key => {
+          const value = current.searchParams.get(key);
+          if (value && !target.searchParams.has(key)) target.searchParams.set(key, value);
+        });
+        cta.href = target.toString();
+      }
     }
     const heroImg = document.getElementById('eFinanzImg');
     if (heroImg && v.hero_bild_url) heroImg.src = v.hero_bild_url;
