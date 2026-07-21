@@ -74,7 +74,7 @@ function renderCard(v) {
 
         <div class="cms-actions">
           <button class="cms-save" type="button" data-save="${v.slug}">Speichern</button>
-          <a class="cms-preview-link" href="empfaenger.html?vorlage=${encodeURIComponent(v.slug)}" target="_blank">Vorschau öffnen ↗</a>
+          <a class="cms-preview-link" href="${v.slug === 'baufi' ? 'baufi.html?vorlage=baufi' : `empfaenger.html?vorlage=${encodeURIComponent(v.slug)}`}" target="_blank">Vorschau öffnen ↗</a>
         </div>
       </div>
     </details>`;

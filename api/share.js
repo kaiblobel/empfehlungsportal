@@ -44,26 +44,33 @@ module.exports = async function handler(req, res) {
   const base = `${proto}://${host}`;
   const requestUrl = new URL(req.url || '/', base);
   const token = requestUrl.searchParams.get('token') || '';
+  const requestedTemplate = (requestUrl.searchParams.get('vorlage') || '').toLowerCase();
 
-  // Statisches HTML der Empfänger-Seite holen (nicht rewritten -> keine Rekursion).
+  // Empfehlung und Berater zuerst laden. So funktionieren auch ältere Links,
+  // bei denen das Thema nicht zusätzlich in der URL steht.
+  let emp = null;
+  let berater = null;
+  if (token) {
+    emp = await rpc('get_empfehlung_public', { p_token: token });
+    if (emp && emp.berater_id) {
+      berater = await rpc('get_berater_public_by_id', { p_id: emp.berater_id });
+    }
+  }
+
+  const template = requestedTemplate || String(emp?.vorlage_slug || '').toLowerCase();
+  const pagePath = template === 'baufi' ? '/baufi.html' : '/empfaenger.html';
+
+  // Passende statische Empfänger-Seite holen (nicht rewritten -> keine Rekursion).
   let html;
   try {
-    const hr = await fetch(`${base}/empfaenger.html`);
+    const hr = await fetch(`${base}${pagePath}`);
+    if (!hr.ok) throw new Error(`Template konnte nicht geladen werden: ${hr.status}`);
     html = await hr.text();
   } catch (_) {
     // Fallback: direkt auf die statische Seite leiten
     res.statusCode = 302;
-    res.setHeader('Location', `/empfaenger.html${requestUrl.search}`);
+    res.setHeader('Location', `${pagePath}${requestUrl.search}`);
     return res.end();
-  }
-
-  // Berater dieser Empfehlung ermitteln
-  let berater = null;
-  if (token) {
-    const emp = await rpc('get_empfehlung_public', { p_token: token });
-    if (emp && emp.berater_id) {
-      berater = await rpc('get_berater_public_by_id', { p_id: emp.berater_id });
-    }
   }
 
   if (berater && berater.name) {

@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f6f4ef">
+  <title>Dein Finanzierungskompass · Kai Blobel</title>
+  <meta name="description" content="Eine persönliche Empfehlung und ein klarer erster Blick auf deine Baufinanzierung." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Dein persönlicher Finanzierungskompass" />
+  <meta property="og:description" content="Finde in wenigen Schritten heraus, welche Fragen für dein Vorhaben wichtig sind." />
+  <meta property="og:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
+  <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
+  <script src="/js/config.js"></script>
+  <style>
+    :root {
+      --paper: #f6f4ef;
+      --paper-strong: #ece8de;
+      --surface: #ffffff;
+      --ink: #171817;
+      --muted: #686963;
+      --line: rgba(23, 24, 23, 0.11);
+      --gold: #b8922f;
+      --gold-soft: #d9c48e;
+      --champagne: #c9b98a;
+      --sage: #74816d;
+      --marine: #2e5266;
+      --terracotta: #b56f45;
+      --success: #2f755b;
+      --danger: #9e4c3c;
+      --shadow: 0 24px 70px rgba(31, 30, 25, 0.10);
+      --shadow-soft: 0 12px 34px rgba(31, 30, 25, 0.07);
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --safe-bottom: max(14px, env(safe-area-inset-bottom));
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    button, input { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { color: inherit; }
+    a { color: inherit; }
+    img { display: block; max-width: 100%; }
+    [hidden] { display: none !important; }
+
+    .page-shell { min-height: 100vh; }
+    .wrap { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+    .eyebrow {
+      margin: 0 0 12px;
+      color: #806a2c;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      letter-spacing: -0.035em;
+    }
+    h1 { font-size: clamp(38px, 7.4vw, 72px); line-height: 0.98; margin-bottom: 22px; }
+    h2 { font-size: clamp(29px, 5vw, 48px); line-height: 1.04; margin-bottom: 14px; }
+    h3 { font-size: 20px; line-height: 1.18; margin-bottom: 8px; }
+    p { color: var(--muted); line-height: 1.65; }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(246, 244, 239, 0.94);
+      border-bottom: 1px solid rgba(23, 24, 23, 0.07);
+    }
+    .header-inner {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      text-decoration: none;
+      min-width: 0;
+    }
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      background: var(--ink);
+      color: var(--gold-soft);
+      box-shadow: 0 8px 20px rgba(23, 24, 23, 0.16);
+    }
+    .brand-mark svg { width: 21px; height: 21px; }
+    .brand-copy { min-width: 0; }
+    .brand-copy strong, .brand-copy span { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .brand-copy strong { font-size: 14px; }
+    .brand-copy span { color: var(--muted); font-size: 11px; margin-top: 2px; }
+    .header-action {
+      min-height: 42px;
+      padding: 0 17px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .hero {
+      position: relative;
+      padding: 64px 0 58px;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 560px;
+      height: 560px;
+      top: -260px;
+      right: -180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201, 185, 138, 0.26), rgba(201, 185, 138, 0));
+      pointer-events: none;
+    }
+    .hero-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+      gap: clamp(42px, 8vw, 98px);
+      align-items: center;
+    }
+    .recommendation {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+      padding: 7px 13px 7px 7px;
+      border: 1px solid rgba(184, 146, 47, 0.24);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.72);
+      box-shadow: 0 8px 28px rgba(71, 62, 38, 0.06);
+      color: #675725;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .recommender-avatar {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: linear-gradient(145deg, #354e5a, #20343e);
+      font-size: 11px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.26);
+    }
+    .hero h1 span { color: #8a6e24; }
+    .hero-lead { max-width: 650px; font-size: clamp(17px, 2.4vw, 20px); margin-bottom: 28px; }
+    .recommendation-note { max-width: 650px; margin: -10px 0 26px; padding: 14px 16px; border-left: 3px solid var(--champagne); background: rgba(255,255,255,0.72); color: #4d4e49; font-size: 14px; line-height: 1.55; }
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+    .primary-btn, .secondary-btn, .text-btn {
+      border: 0;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+    .primary-btn {
+      min-height: 56px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 23px;
+      border-radius: 17px;
+      background: var(--ink);
+      color: #fff;
+      font-weight: 780;
+      box-shadow: 0 14px 30px rgba(23,24,23,0.18);
+    }
+    .primary-btn svg { width: 19px; height: 19px; }
+    .primary-btn:hover { transform: translateY(-2px); box-shadow: 0 18px 36px rgba(23,24,23,0.22); }
+    .secondary-btn {
+      min-height: 52px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 20px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.58);
+      font-weight: 730;
+    }
+    .text-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 0;
+      background: transparent;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .hero-trust { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 24px; color: var(--muted); font-size: 12px; }
+    .hero-trust span { display: inline-flex; align-items: center; gap: 6px; }
+    .hero-trust svg { width: 15px; height: 15px; color: var(--success); }
+
+    .portrait-stage {
+      position: relative;
+      width: min(390px, 100%);
+      margin-inline: auto;
+      padding: 20px;
+    }
+    .portrait-halo {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: conic-gradient(from 210deg, rgba(184,146,47,0), rgba(184,146,47,0.30), rgba(46,82,102,0.22), rgba(116,129,109,0.25), rgba(184,146,47,0));
+      filter: blur(18px);
+      opacity: 0.75;
+      animation: halo 9s linear infinite;
+    }
+    .portrait-card {
+      position: relative;
+      aspect-ratio: 0.83;
+      overflow: hidden;
+      border-radius: 42% 42% 28px 28px;
+      background: #ded8ca;
+      box-shadow: var(--shadow);
+    }
+    .portrait-card img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
+    .portrait-card::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 38%;
+      background: linear-gradient(to top, rgba(18,19,18,0.64), transparent);
+    }
+    .portrait-label {
+      position: absolute;
+      z-index: 2;
+      left: 22px;
+      right: 22px;
+      bottom: 22px;
+      color: #fff;
+    }
+    .portrait-label strong, .portrait-label span { display: block; }
+    .portrait-label strong { font-size: 20px; }
+    .portrait-label span { margin-top: 4px; font-size: 12px; color: rgba(255,255,255,0.80); }
+    .floating-proof {
+      position: absolute;
+      z-index: 4;
+      right: -12px;
+      top: 24%;
+      width: 152px;
+      padding: 14px 15px;
+      border: 1px solid rgba(255,255,255,0.9);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.91);
+      box-shadow: var(--shadow-soft);
+    }
+    .floating-proof strong { display: block; font-size: 13px; }
+    .floating-proof span { display: block; margin-top: 4px; color: var(--muted); font-size: 11px; line-height: 1.4; }
+
+    .section { padding: 76px 0; }
+    .section.soft { background: #eeebe3; }
+    .section-head { max-width: 730px; margin: 0 auto 34px; text-align: center; }
+    .section-head p { font-size: 16px; }
+
+    .compass-app {
+      max-width: 900px;
+      margin: 0 auto;
+      border: 1px solid rgba(23,24,23,0.08);
+      border-radius: var(--radius-xl);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .app-head {
+      padding: 18px 22px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,0.96);
+    }
+    .step-copy strong, .step-copy span { display: block; }
+    .step-copy strong { font-size: 12px; }
+    .step-copy span { margin-top: 2px; color: var(--muted); font-size: 11px; }
+    .step-track { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+    .step-track i { height: 4px; border-radius: 99px; background: #e5e2da; transition: background 220ms ease; }
+    .step-track i.is-active, .step-track i.is-done { background: var(--gold); }
+    .app-close-space { width: 18px; }
+    .app-screen { padding: clamp(24px, 5vw, 44px); }
+    .screen-intro { margin-bottom: 25px; }
+    .screen-intro h3 { font-size: clamp(25px, 4vw, 34px); }
+    .screen-intro p { margin-bottom: 0; }
+    .situation-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; }
+    .situation-card {
+      min-height: 168px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fcfbf8;
+      text-align: left;
+      cursor: pointer;
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    }
+    .situation-card:hover { transform: translateY(-3px); border-color: rgba(184,146,47,0.52); box-shadow: var(--shadow-soft); }
+    .situation-card strong, .situation-card span { display: block; }
+    .situation-card strong { margin-top: 15px; font-size: 15px; }
+    .situation-card span { margin-top: 5px; color: var(--muted); font-size: 12px; line-height: 1.42; }
+    .icon-orb {
+      position: relative;
+      width: 56px;
+      height: 56px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      color: #5e4d1e;
+      background:
+        radial-gradient(circle at 28% 22%, rgba(255,255,255,0.95), transparent 32%),
+        linear-gradient(145deg, rgba(222,207,162,0.96), rgba(255,255,255,0.76) 52%, rgba(116,129,109,0.35));
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.9),
+        inset -8px -10px 18px rgba(86,75,43,0.09),
+        0 12px 24px rgba(95,83,47,0.13);
+    }
+    .icon-orb::after {
+      content: "";
+      position: absolute;
+      inset: 6px;
+      border: 1px solid rgba(255,255,255,0.68);
+      border-radius: 14px;
+      pointer-events: none;
+    }
+    .icon-orb svg { width: 27px; height: 27px; position: relative; z-index: 1; }
+
+    .selected-situation {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding: 8px 13px 8px 8px;
+      border-radius: 999px;
+      background: #f0ede4;
+      font-size: 12px;
+      font-weight: 750;
+    }
+    .selected-situation .mini-orb { width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center; background: #fff; color: #6c581e; }
+    .selected-situation svg { width: 16px; height: 16px; }
+    .option-list { display: grid; gap: 11px; }
+    .answer-option {
+      width: 100%;
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 15px 17px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: #fff;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 180ms ease, transform 180ms ease, background 180ms ease;
+    }
+    .answer-option:hover { border-color: rgba(184,146,47,0.52); transform: translateX(3px); background: #fcfaf5; }
+    .answer-option strong, .answer-option small { display: block; }
+    .answer-option strong { font-size: 15px; }
+    .answer-option small { margin-top: 4px; color: var(--muted); font-size: 12px; }
+    .answer-option .chevron { color: var(--gold); font-size: 26px; }
+    .back-row { margin-top: 18px; }
+
+    .result-kicker {
+      display: inline-flex;
+      margin-bottom: 14px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: #f1eee6;
+      color: #765f22;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .result-lead { max-width: 690px; font-size: 16px; }
+    .result-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 25px 0; }
+    .result-card { padding: 18px; border-radius: 18px; background: #f7f5ef; }
+    .result-card .result-number { color: var(--gold); font-size: 11px; font-weight: 850; letter-spacing: 0.10em; }
+    .result-card h3 { margin-top: 11px; font-size: 16px; }
+    .result-card p { margin-bottom: 0; font-size: 12px; line-height: 1.55; }
+    .kai-quote {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 13px;
+      align-items: center;
+      padding: 15px;
+      border: 1px solid rgba(184,146,47,0.18);
+      border-radius: 18px;
+      background: #fffdf8;
+    }
+    .kai-quote img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; object-position: 50% 22%; }
+    .kai-quote strong { display: block; margin-bottom: 4px; font-size: 12px; }
+    .kai-quote p { margin: 0; font-size: 13px; line-height: 1.48; }
+    .result-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 15px; margin-top: 24px; }
+
+    .rest-teaser {
+      position: relative;
+      overflow: hidden;
+      margin-top: 25px;
+      padding: 22px;
+      border-radius: 22px;
+      color: #fff;
+      background: linear-gradient(145deg, #243b45, #16252b);
+      box-shadow: 0 18px 40px rgba(30, 51, 60, 0.22);
+    }
+    .rest-teaser::after {
+      content: "";
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      right: -86px;
+      top: -95px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(217,196,142,0.43), rgba(217,196,142,0));
+    }
+    .rest-teaser-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 58px 1fr; gap: 16px; }
+    .rest-orb { width: 58px; height: 58px; display: grid; place-items: center; border-radius: 18px; color: #fff; background: linear-gradient(145deg, rgba(217,196,142,0.55), rgba(255,255,255,0.10)); box-shadow: inset 0 1px 0 rgba(255,255,255,0.45); }
+    .rest-orb svg { width: 29px; height: 29px; }
+    .rest-teaser h3 { margin: 1px 0 7px; font-size: 21px; }
+    .rest-teaser p { margin: 0 0 17px; color: rgba(255,255,255,0.72); font-size: 13px; }
+    .rest-teaser .primary-btn { background: #fff; color: var(--ink); box-shadow: none; }
+
+    .funding-teaser {
+      position: relative;
+      overflow: hidden;
+      margin-top: 25px;
+      padding: 22px;
+      border-radius: 22px;
+      color: #fff;
+      background: linear-gradient(145deg, #24473f, #162d2a);
+      box-shadow: 0 18px 40px rgba(28, 68, 58, 0.24);
+    }
+    .funding-teaser::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      right: -88px;
+      top: -102px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(199,224,185,0.42), rgba(199,224,185,0));
+    }
+    .funding-teaser-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 58px 1fr; gap: 16px; }
+    .funding-orb { width: 58px; height: 58px; display: grid; place-items: center; border-radius: 18px; color: #fff; background: linear-gradient(145deg, rgba(203,226,190,0.42), rgba(255,255,255,0.10)); box-shadow: inset 0 1px 0 rgba(255,255,255,0.42); }
+    .funding-orb svg { width: 29px; height: 29px; }
+    .funding-teaser h3 { margin: 1px 0 7px; font-size: 21px; }
+    .funding-teaser p { margin: 0 0 17px; color: rgba(255,255,255,0.74); font-size: 13px; }
+    .funding-teaser .primary-btn { background: #fff; color: #18342e; box-shadow: none; }
+
+    .funding-check {
+      max-width: 760px;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+    .funding-head { padding: 22px 24px 18px; border-bottom: 1px solid var(--line); }
+    .funding-head-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .funding-head strong { font-size: 14px; }
+    .funding-progress { display: flex; gap: 5px; margin-top: 14px; }
+    .funding-progress i { flex: 1; height: 4px; border-radius: 99px; background: #e9e6df; }
+    .funding-progress i.is-on { background: #5d846f; }
+    .funding-body { padding: clamp(25px, 6vw, 46px); }
+    .funding-screen { animation: enter 240ms ease both; }
+    .funding-screen h3 { max-width: 610px; font-size: clamp(27px, 5vw, 40px); }
+    .funding-screen > p { max-width: 610px; }
+    .funding-options { display: grid; gap: 10px; margin-top: 28px; }
+    .funding-option {
+      min-height: 72px;
+      display: grid;
+      grid-template-columns: 42px 1fr auto;
+      align-items: center;
+      gap: 13px;
+      padding: 13px 15px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      color: var(--ink);
+      background: #fff;
+      cursor: pointer;
+      text-align: left;
+      transition: border-color 180ms ease, transform 180ms ease, background 180ms ease;
+    }
+    .funding-option:hover { transform: translateY(-1px); border-color: rgba(64,105,87,0.42); background: #fbfdfb; }
+    .funding-option-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 14px; color: #315e50; background: #edf4ef; font-size: 17px; font-weight: 800; }
+    .funding-option strong, .funding-option small { display: block; }
+    .funding-option strong { font-size: 14px; }
+    .funding-option small { margin-top: 3px; color: var(--muted); font-size: 11px; }
+    .funding-option .chevron { color: #4f7565; font-size: 24px; }
+    .funding-select-wrap { display: grid; gap: 11px; }
+    .funding-select-label { color: var(--ink); font-size: 12px; font-weight: 760; }
+    .funding-select {
+      width: 100%;
+      min-height: 58px;
+      padding: 0 46px 0 16px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      color: var(--ink);
+      background: #fff;
+      font: inherit;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    .funding-select-action { justify-self: start; margin-top: 4px; }
+    .funding-select-action:disabled { opacity: 0.42; cursor: not-allowed; transform: none; box-shadow: none; }
+    .funding-back-row { margin-top: 19px; }
+
+    .funding-result-head { display: grid; grid-template-columns: 64px 1fr; align-items: center; gap: 16px; margin-bottom: 25px; }
+    .funding-result-mark { width: 64px; height: 64px; display: grid; place-items: center; border-radius: 21px; color: #fff; background: linear-gradient(145deg, #5c8974, #284d41); box-shadow: 0 16px 32px rgba(38,77,64,0.20); }
+    .funding-result-mark svg { width: 31px; height: 31px; }
+    .funding-result-head h3 { margin: 3px 0 5px; font-size: clamp(27px, 5vw, 38px); }
+    .funding-result-head p { margin: 0; font-size: 13px; }
+    .program-list { display: grid; gap: 11px; margin: 23px 0; }
+    .program-card { display: grid; grid-template-columns: 74px 1fr; gap: 15px; padding: 17px; border: 1px solid rgba(54,101,82,0.16); border-radius: 19px; background: #f7faf8; text-align: left; }
+    .program-number { align-self: start; padding: 7px 8px; border-radius: 10px; color: #315e50; background: #e6f0ea; font-size: 11px; font-weight: 820; text-align: center; }
+    .program-card h4 { margin: 0 0 5px; font-size: 15px; }
+    .program-card p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+    .program-fit { display: flex; align-items: center; gap: 7px; margin-top: 9px; color: #315e50; font-size: 11px; font-weight: 760; }
+    .program-fit svg { width: 14px; height: 14px; }
+    .regional-program { margin-top: -12px; border-color: rgba(184,146,47,0.23); background: #fffaf0; }
+    .regional-program .program-number { color: #6a5621; background: #f3e9ca; }
+    .funding-path { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 20px 0; }
+    .funding-path span { padding: 12px 9px; border-radius: 14px; background: #f3f1eb; color: #5f5d56; font-size: 11px; font-weight: 720; text-align: center; }
+    .funding-path b { display: block; margin-bottom: 4px; color: #315e50; font-size: 10px; }
+    .funding-disclaimer { margin: 16px 0 20px; color: var(--muted); font-size: 10px; line-height: 1.5; }
+    .funding-result-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 15px; }
+
+    .quick-check {
+      max-width: 720px;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+    .quick-head { padding: 22px 24px 18px; border-bottom: 1px solid var(--line); }
+    .quick-head-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .quick-head strong { font-size: 14px; }
+    .quick-progress { display: flex; gap: 5px; margin-top: 14px; }
+    .quick-progress i { flex: 1; height: 4px; border-radius: 99px; background: #e9e6df; }
+    .quick-progress i.is-on { background: var(--gold); }
+    .quick-body { padding: clamp(25px, 6vw, 46px); }
+    .quick-step { animation: enter 240ms ease both; }
+    .quick-step h3 { font-size: clamp(26px, 5vw, 38px); }
+    .quick-value { margin: 28px 0 18px; font-size: clamp(40px, 9vw, 66px); font-weight: 820; letter-spacing: -0.045em; }
+    .range-wrap { margin: 20px 0 30px; }
+    .range-wrap input[type="range"] { width: 100%; accent-color: var(--gold); }
+    .range-scale { display: flex; justify-content: space-between; margin-top: 8px; color: var(--muted); font-size: 11px; }
+    .quick-actions { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+    .quick-actions .primary-btn { min-width: 150px; }
+    .quick-back { border: 0; background: transparent; color: var(--muted); font-size: 13px; font-weight: 700; cursor: pointer; }
+
+    .calc-result { text-align: center; }
+    .result-orbit {
+      position: relative;
+      width: 190px;
+      height: 190px;
+      display: grid;
+      place-items: center;
+      margin: 5px auto 25px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 37% 32%, #fff, #eee8d9 55%, #d6c697);
+      box-shadow: inset -16px -20px 35px rgba(96,80,36,0.10), 0 22px 48px rgba(80,68,36,0.16);
+    }
+    .result-orbit::before, .result-orbit::after { content: ""; position: absolute; border-radius: 50%; border: 1px solid rgba(184,146,47,0.30); }
+    .result-orbit::before { inset: -10px 18px; transform: rotate(26deg); }
+    .result-orbit::after { inset: 18px -10px; transform: rotate(-26deg); }
+    .result-orbit span { position: relative; z-index: 1; }
+    .result-orbit small, .result-orbit strong { display: block; }
+    .result-orbit small { color: var(--muted); font-size: 11px; }
+    .result-orbit strong { margin-top: 5px; font-size: 31px; letter-spacing: -0.04em; }
+    .calc-result h3 { font-size: clamp(27px, 5vw, 38px); }
+    .rate-comparison { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 14px; margin: 23px 0; padding: 16px; border-radius: 18px; background: #f5f3ed; text-align: left; }
+    .rate-comparison small, .rate-comparison strong { display: block; }
+    .rate-comparison small { color: var(--muted); font-size: 11px; }
+    .rate-comparison strong { margin-top: 4px; font-size: 18px; }
+    .rate-arrow { color: var(--gold); font-size: 24px; }
+    .scenario-choice { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin: 16px 0 22px; }
+    .scenario-choice button { min-height: 38px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; background: #fff; cursor: pointer; font-size: 12px; font-weight: 750; }
+    .scenario-choice button[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: #fff; }
+    .privacy-line { display: flex; align-items: flex-start; gap: 8px; margin: 16px 0; text-align: left; color: var(--muted); font-size: 11px; line-height: 1.45; }
+    .privacy-line svg { flex: 0 0 auto; width: 15px; height: 15px; color: var(--success); margin-top: 1px; }
+
+    .difference-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .concept-rail {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+      margin: 0 0 22px;
+      padding: 20px 14px;
+      border: 1px solid rgba(23,24,23,0.08);
+      border-radius: 24px;
+      background: #fff;
+      box-shadow: var(--shadow-soft);
+    }
+    .concept-node { position: relative; display: grid; justify-items: center; gap: 8px; padding: 0 10px; text-align: center; }
+    .concept-node:not(:last-child)::after { content: ""; position: absolute; top: 21px; left: calc(50% + 28px); right: calc(-50% + 28px); height: 1px; background: linear-gradient(90deg, rgba(184,146,47,0.40), rgba(74,107,91,0.26)); }
+    .concept-icon { position: relative; z-index: 1; width: 43px; height: 43px; display: grid; place-items: center; border-radius: 14px; color: #315e50; background: #eff4f0; box-shadow: inset 0 0 0 1px rgba(49,94,80,0.07); }
+    .concept-icon svg { width: 20px; height: 20px; }
+    .concept-node strong { font-size: 11px; line-height: 1.35; }
+    .difference-card { min-height: 280px; padding: 25px; border: 1px solid rgba(23,24,23,0.08); border-radius: 24px; background: #fff; box-shadow: var(--shadow-soft); }
+    .difference-card h3 { margin-top: 20px; }
+    .difference-card p { font-size: 13px; }
+    .difference-card .detail { display: flex; align-items: center; gap: 8px; margin-top: 17px; color: #5d512f; font-size: 12px; font-weight: 740; }
+    .difference-card .detail svg { width: 16px; height: 16px; color: var(--gold); }
+
+    .next-step {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: clamp(27px, 6vw, 54px);
+      border-radius: var(--radius-xl);
+      color: #fff;
+      background: #181918;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .next-step .eyebrow { color: var(--gold-soft); }
+    .next-step h2 { max-width: 650px; margin-inline: auto; }
+    .next-step p { max-width: 650px; margin: 0 auto 24px; color: rgba(255,255,255,0.67); }
+    .next-step .primary-btn { background: #fff; color: var(--ink); box-shadow: none; }
+    .contact-note { margin-top: 18px !important; font-size: 11px; }
+    .optout { color: rgba(255,255,255,0.62); background: transparent; border: 0; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; font-size: 11px; }
+    .booking-status { min-height: 20px; margin-top: 16px; color: var(--gold-soft); font-size: 12px; font-weight: 700; }
+
+    .footer { padding: 26px 0 96px; color: var(--muted); font-size: 11px; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+    .footer a { color: inherit; }
+
+    .mobile-bar { display: none; }
+    .toast {
+      position: fixed;
+      z-index: 90;
+      left: 50%;
+      bottom: 24px;
+      width: min(420px, calc(100% - 32px));
+      padding: 14px 16px;
+      border-radius: 15px;
+      background: #161716;
+      color: #fff;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.28);
+      transform: translate(-50%, 130%);
+      opacity: 0;
+      transition: transform 240ms ease, opacity 240ms ease;
+      font-size: 13px;
+      text-align: center;
+    }
+    .toast.is-showing { transform: translate(-50%, 0); opacity: 1; }
+
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 600ms ease, transform 600ms ease; }
+    .reveal.is-visible { opacity: 1; transform: none; }
+    @keyframes halo { to { transform: rotate(360deg); } }
+    @keyframes enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+    :focus-visible { outline: 3px solid rgba(184,146,47,0.48); outline-offset: 3px; }
+
+    @media (max-width: 800px) {
+      .wrap { width: min(100% - 24px, 680px); }
+      .hero { padding: 38px 0 46px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+      .hero-copy { text-align: center; }
+      .recommendation { margin-bottom: 23px; }
+      .hero-lead { margin-inline: auto; }
+      .hero-actions, .hero-trust { justify-content: center; }
+      .portrait-stage { width: min(360px, 92%); }
+      .floating-proof { right: -6px; }
+      .section { padding: 58px 0; }
+      .situation-grid { grid-template-columns: repeat(2, 1fr); }
+      .result-grid, .difference-grid { grid-template-columns: 1fr; }
+      .concept-rail { grid-template-columns: repeat(3, 1fr); gap: 16px 8px; }
+      .concept-node:not(:last-child)::after { display: none; }
+      .difference-card { min-height: 0; }
+    }
+
+    @media (max-width: 520px) {
+      .site-header { position: relative; }
+      .header-inner { min-height: 60px; }
+      .brand-mark { width: 34px; height: 34px; border-radius: 11px; }
+      .brand-copy strong { font-size: 13px; }
+      .header-action { display: none; }
+      .hero { padding-top: 30px; }
+      h1 { font-size: clamp(38px, 12vw, 54px); }
+      .hero-actions { display: block; }
+      .hero-actions .primary-btn { width: 100%; }
+      .hero-actions .text-btn { margin-top: 10px; }
+      .hero-trust { gap: 10px 14px; }
+      .portrait-stage { padding: 15px; }
+      .portrait-card { border-radius: 39% 39% 24px 24px; }
+      .floating-proof { width: 142px; right: -2px; top: 18%; }
+      .app-head { grid-template-columns: 1fr; gap: 9px; }
+      .app-close-space { display: none; }
+      .step-copy { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+      .situation-grid { gap: 9px; }
+      .situation-card { min-height: 142px; padding: 14px; border-radius: 17px; }
+      .icon-orb { width: 48px; height: 48px; border-radius: 15px; }
+      .situation-card strong { font-size: 14px; }
+      .situation-card span { font-size: 11px; }
+      .app-screen { padding: 23px 16px 25px; }
+      .answer-option { min-height: 72px; padding: 14px; }
+      .result-grid { gap: 9px; }
+      .result-card { padding: 15px; }
+      .rest-teaser, .funding-teaser { padding: 18px; }
+      .rest-teaser-inner, .funding-teaser-inner { grid-template-columns: 48px 1fr; gap: 13px; }
+      .rest-orb, .funding-orb { width: 48px; height: 48px; border-radius: 15px; }
+      .rest-teaser .primary-btn, .funding-teaser .primary-btn { width: 100%; min-height: 52px; padding-inline: 12px; }
+      .quick-head { padding: 18px; }
+      .quick-body { padding: 28px 18px; }
+      .quick-actions .primary-btn { flex: 1; min-width: 0; }
+      .result-orbit { width: 164px; height: 164px; }
+      .rate-comparison { gap: 8px; padding: 13px; }
+      .rate-comparison strong { font-size: 16px; }
+      .funding-head { padding: 18px; }
+      .funding-body { padding: 28px 18px; }
+      .funding-option { grid-template-columns: 39px 1fr auto; padding: 12px; }
+      .funding-option-icon { width: 39px; height: 39px; border-radius: 13px; }
+      .funding-select-action { width: 100%; }
+      .funding-result-head { grid-template-columns: 52px 1fr; gap: 13px; }
+      .funding-result-mark { width: 52px; height: 52px; border-radius: 17px; }
+      .program-card { grid-template-columns: 62px 1fr; gap: 11px; padding: 14px; }
+      .funding-path { grid-template-columns: 1fr; }
+      .funding-result-actions .primary-btn { width: 100%; }
+      .concept-rail { grid-template-columns: repeat(2, 1fr); padding: 18px 8px; }
+      .concept-node:last-child { grid-column: 1 / -1; }
+      .mobile-bar {
+        position: fixed;
+        z-index: 40;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: none;
+        padding: 10px 12px var(--safe-bottom);
+        background: rgba(246,244,239,0.94);
+        border-top: 1px solid rgba(23,24,23,0.08);
+      }
+      .mobile-bar.is-visible { display: block; }
+      .mobile-bar button { width: 100%; min-height: 52px; }
+      .footer { padding-bottom: 30px; }
+      .toast { bottom: 84px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition-duration: 0.01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body data-page="baufi">
+  <div class="page-shell" id="finance-v4">
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a class="brand" href="#top" aria-label="Zum Anfang">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5M9 20v-5h6v5"/></svg>
+          </span>
+          <span class="brand-copy"><strong>Finanzierungskompass</strong><span><span data-bb="name">Kai Blobel</span> &amp; Team</span></span>
+        </a>
+        <button class="header-action" type="button" data-scroll="compass">Kompass starten</button>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="wrap hero-grid">
+          <div class="hero-copy">
+            <div class="recommendation">
+              <span class="recommender-avatar" id="ref-avatar">E</span>
+              <span><span id="ref-name">Jemand aus deinem Umfeld</span> empfiehlt dir <span data-bb="vorname">Kai</span> persönlich</span>
+            </div>
+            <p class="eyebrow">Eine persönliche Empfehlung</p>
+            <h1><span id="hero-recipient">Für dich</span> geht es nicht um irgendeinen Kredit. Es geht um einen <span>Plan, der bleibt.</span></h1>
+            <p class="hero-lead"><span id="hero-referrer">Jemand aus deinem Umfeld</span> hat diese Seite bewusst mit dir geteilt. In wenigen Schritten siehst du, welche Fragen für deine Situation wirklich wichtig sind und wie Kai anders an Finanzierung herangeht.</p>
+            <p class="recommendation-note" id="recommendation-message" hidden></p>
+            <div class="hero-actions">
+              <button class="primary-btn" type="button" data-scroll="compass">
+                Meine Situation auswählen
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </button>
+              <button class="text-btn" type="button" data-scroll="difference">Was macht Kai anders?</button>
+            </div>
+            <div class="hero-trust" aria-label="Vorteile">
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg>Keine Anmeldung</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Unter zwei Minuten</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 5 6v5c0 4.8 2.8 8 7 10 4.2-2 7-5.2 7-10V6l-7-3Z"/></svg>Unverbindlich</span>
+            </div>
+          </div>
+
+          <div class="portrait-stage" aria-label="Dein persönlicher Ansprechpartner">
+            <div class="portrait-halo" aria-hidden="true"></div>
+            <div class="portrait-card">
+              <img data-bb="foto" src="/assets/images/kai-portrait.jpg" alt="Kai Blobel">
+              <div class="portrait-label"><strong data-bb="name">Kai Blobel</strong><span data-bb="rolle">Regionaldirektion</span></div>
+            </div>
+            <div class="floating-proof"><strong>Konzept vor Produkt</strong><span>Erst dein Gesamtbild. Dann die passende Finanzierung.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft" id="compass">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <p class="eyebrow">Dein persönlicher Kompass</p>
+            <h2>Wo stehst du gerade?</h2>
+            <p>Ein Tipp genügt. Danach bekommst du keine Standardantwort, sondern die Fragen, auf die es in deiner Situation ankommt.</p>
+          </div>
+
+          <div class="compass-app reveal" id="compass-app">
+            <div class="app-head">
+              <div class="step-copy"><strong id="step-label">Schritt 1 von 3</strong><span id="step-name">Situation</span></div>
+              <div class="step-track" aria-hidden="true"><i class="is-active"></i><i></i><i></i></div>
+              <span class="app-close-space"></span>
+            </div>
+
+            <section class="app-screen" data-screen="1">
+              <div class="screen-intro"><h3>Was beschäftigt dich?</h3><p>Wähle einfach das, was deiner Lage am nächsten kommt.</p></div>
+              <div class="situation-grid" id="situation-grid"></div>
+            </section>
+
+            <section class="app-screen" data-screen="2" hidden>
+              <div class="selected-situation" id="selected-situation"></div>
+              <div class="screen-intro"><h3 id="question-title"></h3><p id="question-hint"></p></div>
+              <div class="option-list" id="answer-options"></div>
+              <div class="back-row"><button class="text-btn" type="button" data-back="1">Zurück zur Auswahl</button></div>
+            </section>
+
+            <section class="app-screen" data-screen="3" hidden>
+              <span class="result-kicker" id="result-kicker"></span>
+              <div class="screen-intro"><h3 id="result-title"></h3><p class="result-lead" id="result-lead"></p></div>
+              <div class="result-grid">
+                <article class="result-card"><span class="result-number">01 · ZUERST</span><h3 id="focus-title"></h3><p id="focus-copy"></p></article>
+                <article class="result-card"><span class="result-number">02 · AUFPASSEN</span><h3 id="risk-title"></h3><p id="risk-copy"></p></article>
+                <article class="result-card"><span class="result-number">03 · DANN</span><h3 id="next-title"></h3><p id="next-copy"></p></article>
+              </div>
+              <div class="kai-quote"><img data-bb="foto" src="/assets/images/kai-portrait.jpg" alt=""><div><strong>Kais Einschätzung</strong><p id="kai-copy"></p></div></div>
+
+              <div class="rest-teaser" id="rest-teaser" hidden>
+                <div class="rest-teaser-inner">
+                  <div class="rest-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 19V8l7-4 7 4v11"/><path d="M8 19h8M9 10h6M10 13h4"/><circle cx="18" cy="6" r="3"/></svg></div>
+                  <div><h3>Deine Restschuld grob überschlagen</h3><p>Vier einfache Angaben. Danach siehst du sofort, welche Zahl für deine Anschlussfinanzierung entscheidend werden kann.</p><button class="primary-btn" type="button" id="start-rest">Restschuld in 60 Sekunden prüfen</button></div>
+                </div>
+              </div>
+
+              <div class="funding-teaser" id="funding-teaser" hidden>
+                <div class="funding-teaser-inner">
+                  <div class="funding-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 19h16M6 17V9h12v8M8 9V6h8v3M9 13h6"/><path d="m16.5 4.5 1 1 2-2"/></svg></div>
+                  <div><h3>Welche Förderwege könnten zu deinem Vorhaben passen?</h3><p>Wenige einfache Fragen zeigen dir, welche KfW-Programme und weiteren Möglichkeiten Kai genauer mit dir prüfen würde.</p><button class="primary-btn" type="button" id="start-funding">Förder-Chancen entdecken</button></div>
+                </div>
+              </div>
+
+              <div class="result-actions" id="standard-actions">
+                <button class="primary-btn" type="button" data-scroll="contact">Meinen nächsten Schritt mit Kai klären</button>
+                <button class="text-btn" type="button" data-back="2">Antwort ändern</button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="quick-check-section" hidden>
+        <div class="wrap">
+          <div class="section-head"><p class="eyebrow">Restschuld-Schnellcheck</p><h2>Eine Zahl nach der anderen.</h2><p>Kein Formular, kein Fachchinesisch. Du kannst alle Werte später noch verändern.</p></div>
+          <div class="quick-check" id="quick-check">
+            <div class="quick-head">
+              <div class="quick-head-row"><strong id="quick-label">Angabe 1 von 4</strong><button class="text-btn" type="button" id="close-quick">Schließen</button></div>
+              <div class="quick-progress" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i></div>
+            </div>
+            <div class="quick-body">
+              <section class="quick-step" id="quick-input-screen">
+                <p class="eyebrow" id="quick-eyebrow">Dein Darlehen</p>
+                <h3 id="quick-question">Wie hoch war das Darlehen zu Beginn?</h3>
+                <p id="quick-hint">Eine ungefähre Zahl reicht für die erste Orientierung.</p>
+                <div class="quick-value" id="quick-value">300.000 €</div>
+                <div class="range-wrap">
+                  <label class="sr-only" id="quick-range-label" for="quick-range">Darlehenssumme</label>
+                  <input type="range" id="quick-range" min="50000" max="800000" step="10000" value="300000" aria-labelledby="quick-range-label quick-value">
+                  <div class="range-scale"><span id="range-min">50.000 €</span><span id="range-max">800.000 €</span></div>
+                </div>
+                <div class="quick-actions"><button class="quick-back" type="button" id="quick-back" hidden>Zurück</button><span></span><button class="primary-btn" type="button" id="quick-next">Weiter</button></div>
+              </section>
+
+              <section class="calc-result" id="calc-result" hidden aria-live="polite">
+                <div class="result-orbit"><span><small>Mögliche Restschuld</small><strong id="rest-value">211.316 €</strong></span></div>
+                <h3>Jetzt kennst du die Zahl, über die gesprochen werden sollte.</h3>
+                <p id="rest-explanation">Diese Schätzung zeigt dir, wie viel nach Ablauf der Zinsbindung voraussichtlich noch offen sein könnte.</p>
+                <div class="rate-comparison">
+                  <div><small>Heutige Rate</small><strong id="old-rate">1.000 €</strong></div>
+                  <span class="rate-arrow" aria-hidden="true">›</span>
+                  <div><small>Mögliche neue Rate</small><strong id="new-rate">1.162 €</strong></div>
+                </div>
+                <p style="margin-bottom:8px;font-size:12px">Rechenbeispiel für den späteren Sollzins:</p>
+                <div class="scenario-choice" aria-label="Sollzins für das Rechenbeispiel">
+                  <button type="button" data-interest="3">3,0 %</button>
+                  <button type="button" data-interest="3.8" aria-pressed="true">3,8 %</button>
+                  <button type="button" data-interest="5">5,0 %</button>
+                </div>
+                <div class="privacy-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 5 6v5c0 4.8 2.8 8 7 10 4.2-2 7-5.2 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg><span>Deine Zahlen bleiben auf diesem Gerät und werden nicht übertragen. Gespeichert wird nur, dass du dich für das Thema interessierst. Werte besprichst du erst mit deiner ausdrücklichen Freigabe.</span></div>
+                <button class="primary-btn" type="button" data-scroll="contact" id="discuss-result">Diese Zahl mit Kai prüfen</button>
+                <div><button class="text-btn" type="button" id="edit-check">Eingaben ändern</button></div>
+                <p style="margin:14px 0 0;font-size:10px">Vereinfachte Annuitäten-Schätzung zur Orientierung. Kein Angebot und keine Finanzierungsberatung.</p>
+              </section>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="funding-check-section" hidden>
+        <div class="wrap">
+          <div class="section-head"><p class="eyebrow">Dein Förder-Chancencheck</p><h2>Erst Möglichkeiten erkennen. Dann sauber prüfen.</h2><p>Du bekommst keine pauschale Förderzusage. Du siehst, welche Spuren für dein Vorhaben genauer angesehen werden sollten.</p></div>
+          <div class="funding-check">
+            <div class="funding-head">
+              <div class="funding-head-row"><strong id="funding-label">Frage 1 von 3</strong><button class="text-btn" type="button" id="close-funding">Schließen</button></div>
+              <div class="funding-progress" aria-hidden="true"><i class="is-on"></i><i></i><i></i></div>
+            </div>
+            <div class="funding-body">
+              <section class="funding-screen" id="funding-question-screen">
+                <p class="eyebrow" id="funding-eyebrow">Dein Vorhaben</p>
+                <h3 id="funding-question">Worum geht es bei dir?</h3>
+                <p id="funding-hint">Wähle die Antwort, die am ehesten passt.</p>
+                <div class="funding-options" id="funding-options"></div>
+                <div class="funding-back-row"><button class="text-btn" type="button" id="funding-back" hidden>Zurück</button></div>
+              </section>
+
+              <section class="funding-screen" id="funding-result" hidden aria-live="polite">
+                <div class="funding-result-head">
+                  <div class="funding-result-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 19h16M6 17V9h12v8M8 9V6h8v3M9 13h6"/><path d="m15 5 2 2 4-4"/></svg></div>
+                  <div><p class="eyebrow">Deine möglichen Prüfspuren</p><h3>Hier könnten Förderwege liegen.</h3><p id="funding-result-copy">Kai würde diese Möglichkeiten für dein Vorhaben genauer prüfen.</p></div>
+                </div>
+                <div class="program-list" id="program-list"></div>
+                <article class="program-card regional-program" id="regional-program">
+                  <span class="program-number">REGION</span>
+                  <div><h4 id="regional-title">Landes- und kommunale Förderwege mitprüfen</h4><p id="regional-copy">Zusätzlich zur KfW prüft Kai, ob weitere Programme für den Standort deines Vorhabens relevant sein könnten.</p><span class="program-fit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>Wird in die persönliche Prüfung einbezogen</span></div>
+                </article>
+                <div class="funding-path" aria-label="So läuft die genaue Prüfung ab"><span><b>01</b>Vorhaben einordnen</span><span><b>02</b>Voraussetzungen prüfen</span><span><b>03</b>Kombination prüfen</span></div>
+                <p class="funding-disclaimer">Stand 21.07.2026. Programme und Bedingungen können sich ändern. Der Chancencheck ist keine Förderzusage und keine Beratung. Antrag, Zeitpunkt, Fachplanung und Kombination müssen im Einzelfall geprüft werden.</p>
+                <div class="privacy-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 5 6v5c0 4.8 2.8 8 7 10 4.2-2 7-5.2 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg><span>Deine Antworten bleiben auf diesem Gerät und werden nicht übertragen. Gespeichert wird nur, dass du dich für das Thema interessierst.</span></div>
+                <div class="funding-result-actions"><button class="primary-btn" type="button" id="discuss-funding">Diese Förderwege mit Kai prüfen</button><button class="text-btn" type="button" id="edit-funding">Antworten ändern</button></div>
+              </section>
+            </div>
+          </div>
+          <!-- Quellenstand für die Vorschau: offizielle KfW-Seiten zu 124, 261, 297/298, 300 und 308 sowie DVAG Beratungswelt Öffentliche Fördermittel und Förderinstitute der Bundesländer. -->
+          <!-- Von Kai am 21.07.2026 für den Livegang als neugierig machender Chancencheck freigegeben. Keine Förderzusage und keine Beratung. -->
+        </div>
+      </section>
+
+      <section class="section soft" id="difference">
+        <div class="wrap">
+          <div class="section-head reveal"><p class="eyebrow">Nicht 08/15</p><h2>Der Unterschied liegt nicht im nächsten Angebot. Sondern im gesamten Konzept.</h2><p>Bevor ein Produkt ausgewählt wird, entsteht aus deinem Vorhaben und deinem Leben ein vollständiges Bild.</p></div>
+          <div class="concept-rail reveal" role="list" aria-label="Die fünf Ebenen von Kais Konzeptprüfung">
+            <div class="concept-node" role="listitem"><span class="concept-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 19V8l7-4 7 4v11M8 19h8M9 10h6"/></svg></span><strong>Dein Vorhaben</strong></div>
+            <div class="concept-node" role="listitem"><span class="concept-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M8 12h8M12 8v8"/></svg></span><strong>Deine Möglichkeiten</strong></div>
+            <div class="concept-node" role="listitem"><span class="concept-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16M12 4v16"/><circle cx="12" cy="12" r="8"/></svg></span><strong>Wünsche und Ziele</strong></div>
+            <div class="concept-node" role="listitem"><span class="concept-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 5 6v5c0 4.8 2.8 8 7 10 4.2-2 7-5.2 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg></span><strong>Sicherheit und Vorsorge</strong></div>
+            <div class="concept-node" role="listitem"><span class="concept-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19h16M6 17V9h12v8M8 9V6h8v3"/><path d="m16 5 1.5 1.5L20 4"/></svg></span><strong>Fördermöglichkeiten</strong></div>
+          </div>
+          <div class="difference-grid">
+            <article class="difference-card reveal">
+              <div class="icon-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><path d="M4.5 9h15M4.5 15h15M9 4.5c-2 4.8-2 10.2 0 15M15 4.5c2 4.8 2 10.2 0 15"/></svg></div>
+              <h3>Breiter Vergleich statt Hausbank-Tunnel</h3>
+              <p>Bei Bedarf kann deine Finanzierungsanfrage bei mehr als 400 weiteren Banken platziert werden. So bleibt die Prüfung nicht auf eine Hausbank beschränkt.</p>
+              <span class="detail"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg>Mehr Möglichkeiten sichtbar machen</span>
+            </article>
+            <article class="difference-card reveal">
+              <div class="icon-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 19h16M6 17V9h12v8M8 9V6h8v3M9 13h6"/><path d="m16.5 4.5 1 1 2-2"/></svg></div>
+              <h3>Förderung von Anfang an mitdenken</h3>
+              <p>Mögliche Programme der KfW und weitere Förderwege werden passend zum Vorhaben geprüft. Im persönlichen Kompass werden daraus konkrete Prüfspuren, ohne vorschnell etwas zu versprechen.</p>
+              <span class="detail"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg>Voraussetzungen und Zeitpunkt früh prüfen</span>
+            </article>
+            <article class="difference-card reveal">
+              <div class="icon-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 19V8l7-4 7 4v11"/><path d="M8 19v-6h8v6M9 9h6"/><circle cx="18" cy="6" r="2.5"/></svg></div>
+              <h3>Dein Leben vor dem Produkt</h3>
+              <p>Rate, Rücklagen, Laufzeit, Wünsche, Absicherung und Flexibilität werden gemeinsam betrachtet. Erst dann entsteht eine dauerhaft tragfähige Lösung.</p>
+              <span class="detail"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg>Gesamtbild statt Einzelprodukt</span>
+            </article>
+          </div>
+          <!-- Quelle: DVAG ImmoSmart Flyer CI010758-001, Ausgabe 01/2026. Aussage zu mehr als 400 weiteren Banken laut Flyer mit Stand Dezember 2024. -->
+          <!-- Von Kai am 21.07.2026 für den Livegang freigegeben. -->
+        </div>
+      </section>
+
+      <section class="section" id="contact">
+        <div class="wrap">
+          <div class="next-step reveal">
+            <p class="eyebrow">Dein nächster Schritt</p>
+            <h2 id="contact-title">Lass uns aus deiner Situation einen klaren Plan machen.</h2>
+            <p id="contact-copy">Du musst heute nichts entscheiden. Kai meldet sich persönlich und ordnet mit dir ein, welche nächsten Schritte sinnvoll sind.</p>
+            <button class="primary-btn" type="button" id="calendar-button">Terminzeit selbst auswählen</button>
+            <p class="contact-note"><span id="contact-referrer">Jemand aus deinem Umfeld</span> hat den Kontakt persönlich empfohlen. Wenn du keinen Kontakt möchtest, kannst du das hier eindeutig festhalten.</p>
+            <button class="optout" type="button" id="optout-button">Ich möchte keinen Kontakt</button>
+            <div class="booking-status" id="booking-status" role="status" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer-inner"><span>© 2026 <span data-bb="name">Kai Blobel</span> &amp; Team · Finanzierungskompass · v1.121 Beta</span><span><a data-bb="impressum" href="https://www.dvag.de/kai.blobel/impressum.html" target="_blank" rel="noopener">Impressum</a> · <a data-bb="datenschutz" href="https://www.dvag.de/kai.blobel/datenschutz.html" target="_blank" rel="noopener">Datenschutz</a></span></div>
+    </footer>
+
+    <div class="mobile-bar"><button class="primary-btn" type="button" id="mobile-action">Kompass starten</button></div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <script>
+    (() => {
+      const root = document.getElementById('finance-v4');
+      const params = new URLSearchParams(location.search);
+      const referrer = (params.get('von') || 'Jemand aus deinem Umfeld').trim();
+      const recipient = (params.get('an') || '').trim();
+      const initials = referrer.split(/\s+/).filter(Boolean).slice(0,2).map(part => part[0].toUpperCase()).join('') || 'M';
+
+      root.querySelector('#ref-avatar').textContent = initials;
+      root.querySelector('#ref-name').textContent = referrer;
+      root.querySelector('#hero-referrer').textContent = referrer;
+      root.querySelector('#contact-referrer').textContent = referrer;
+      root.querySelector('#hero-recipient').textContent = recipient ? `${recipient}, für dich` : 'Für dich';
+
+      const icons = {
+        orientierung:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 19h16M6 16l4-4 3 2 5-7"/><circle cx="18" cy="7" r="2"/></svg>',
+        neubau:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m3 12 9-8 9 8M5 10v10h14V10M9 20v-6h6v6"/><path d="M17 5v4"/></svg>',
+        kauf:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 19h16M6 19V9l6-5 6 5v10M9 12h6M9 15h6"/></svg>',
+        sanierung:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m14 6 4-4 4 4-4 4M15 9 6 18l-3 1 1-3 9-9"/><path d="M12 20h9"/></svg>',
+        anschluss:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 19V8l7-4 7 4v11M8 19h8M9 10h6"/><path d="M18 3v5M15.5 5.5h5"/></svg>',
+        optimierung:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h10M18 7h2M4 17h2M10 17h10M14 4v6M6 14v6"/></svg>'
+      };
+
+      const data = {
+        orientierung: { label:'Erst orientieren', sub:'Möglichkeiten und Rahmen verstehen', question:'Wie konkret ist dein Wunsch?', hint:'Es gibt kein zu früh. Wähle, was heute am besten passt.', answers:[
+          { id:'ideen', label:'Ich sammle erst Ideen', sub:'Noch ohne festen Zeitplan', title:'Erst Klarheit schaffen, dann Möglichkeiten bewerten.', lead:'Du musst heute noch nichts entscheiden. Ein belastbarer Rahmen hilft dir später, gezielt statt zufällig zu suchen.', focus:['Deinen Spielraum verstehen','Wünsche, monatliche Belastung, Eigenkapital und Rücklagen gemeinsam einordnen.'], risk:['Zu früh auf einzelne Objekte schauen','Ohne Gesamtbild wirkt etwas schnell passend, obwohl wichtige Kosten fehlen.'], next:['Einen realistischen Rahmen festlegen','Danach weißt du, in welchem Bereich du entspannt weiterdenken kannst.'], kai:'Wir beginnen nicht mit einem Kreditangebot, sondern mit der Frage, was sich für dich dauerhaft gut anfühlen darf.' },
+          { id:'jahr', label:'In den nächsten zwölf Monaten', sub:'Der Wunsch wird konkreter', title:'Jetzt ist der richtige Zeitpunkt für einen verlässlichen Rahmen.', lead:'Mit genügend Vorlauf lassen sich Eigenkapital, Rücklagen und mögliche Wege ohne Zeitdruck ordnen.', focus:['Dein Vorhaben in einen Zeitplan bringen','Kläre, wann Eigenkapital verfügbar ist und welche Schritte vor der Suche sinnvoll sind.'], risk:['Den Zeitbedarf unterschätzen','Objektsuche, Unterlagen und Finanzierung brauchen oft mehr Vorbereitung als erwartet.'], next:['Vorbereitung und Finanzierungsrahmen verbinden','So kannst du später schneller entscheiden, ohne vorschnell zu handeln.'], kai:'Ein Jahr Vorlauf ist kein Leerlauf. Wir legen heute die Grundlagen, damit du später handlungsfähig bist.' },
+          { id:'jetzt', label:'Ich möchte jetzt meinen Rahmen kennen', sub:'Bevor ich ernsthaft suche', title:'Ein klarer Kaufrahmen schützt dich vor Fehlentscheidungen.', lead:'Bevor du dich in ein Objekt verliebst, sollte klar sein, welche Gesamtbelastung wirklich zu deinem Leben passt.', focus:['Kaufpreis und Gesamtkosten trennen','Nebenkosten, Rücklagen und mögliche Maßnahmen müssen mitgedacht werden.'], risk:['Nur von einer Wunschrate ausgehen','Eine angenehme Rate allein sagt noch nicht, ob alles dauerhaft tragfähig ist.'], next:['Deinen tragfähigen Suchrahmen bestimmen','Damit gehst du vorbereitet in Besichtigungen und Gespräche.'], kai:'Ich möchte, dass du nicht nur weißt, was eine Bank finanzieren würde, sondern was für dich vernünftig bleibt.' }
+        ]},
+        neubau: { label:'Neu bauen', sub:'Vom Grundstück bis zum Gesamtbudget', question:'Wie weit ist dein Neubau?', hint:'Wähle den Stand, der deinem Projekt am nächsten kommt.', answers:[
+          { id:'idee', label:'Erste Idee', sub:'Noch ohne Grundstück', title:'Aus dem Hauswunsch muss zuerst ein belastbarer Rahmen werden.', lead:'Beim Neubau entscheidet nicht nur der Hauspreis. Grundstück, Baunebenkosten, Puffer und Zeitplan gehören zusammen.', focus:['Gesamtbudget statt Hauspreis klären','Grundstück, Haus, Nebenkosten und Reserve müssen in einen Rahmen passen.'], risk:['Nebenkosten und Puffer zu klein ansetzen','Viele wichtige Kosten entstehen außerhalb des eigentlichen Hausangebots.'], next:['Einen Projektkorridor entwickeln','Damit kannst du Grundstücke und Hausangebote sinnvoll beurteilen.'], kai:'Ich schütze dich davor, einzelne Preise zu addieren und dabei das Gesamtprojekt aus dem Blick zu verlieren.' },
+          { id:'grundstueck', label:'Grundstück oder Region steht', sub:'Die Planung wird konkreter', title:'Grundstück, Haus und Finanzierung müssen jetzt zusammenpassen.', lead:'Je konkreter der Standort wird, desto genauer lassen sich Kosten, Zeitplan und Fördermöglichkeiten prüfen.', focus:['Grundstück und Vorhaben gemeinsam rechnen','Kaufnebenkosten, Erschließung und Baukosten gehören in einen Gesamtplan.'], risk:['Getrennte Entscheidungen treffen','Das Grundstück kann den Spielraum für Haus, Puffer und Ausstattung stark verändern.'], next:['Kosten und Reihenfolge strukturieren','So weißt du, welche Entscheidung als Nächstes belastbar getroffen werden kann.'], kai:'Ich würde zuerst prüfen, wie Grundstück und Haus gemeinsam in deinen Rahmen passen, bevor du dich fest bindest.' },
+          { id:'angebot', label:'Ein Bauangebot liegt vor', sub:'Kosten sollen geprüft werden', title:'Jetzt zählt, was im Angebot enthalten ist und was noch fehlt.', lead:'Ein Bauangebot ist ein wichtiger Baustein, aber noch nicht automatisch die vollständige Projektsumme.', focus:['Angebot und Gesamtkosten abgleichen','Positionen, Baunebenkosten, Eigenleistungen, Reserve und Zahlungsplan prüfen.'], risk:['Mit einer unvollständigen Summe finanzieren','Fehlende Positionen werden später teuer, wenn kein Puffer eingeplant ist.'], next:['Kostenplan und Finanzierung verbinden','Danach lässt sich beurteilen, welche Wege wirklich passen könnten.'], kai:'Ich prüfe nicht nur die Endsumme, sondern auch die Lücken, die später deinen Puffer belasten können.' }
+        ]},
+        kauf: { label:'Immobilie kaufen', sub:'Suchen, gefunden oder reserviert', question:'Wie konkret ist dein Kauf?', hint:'Auch ohne Objekt lohnt sich eine gute Vorbereitung.', answers:[
+          { id:'suche', label:'Ich suche noch', sub:'Der Rahmen soll zuerst stehen', title:'Dein sicherer Kaufrahmen kommt vor der Besichtigung.', lead:'Wenn Gesamtkosten, Rücklagen und Monatsbelastung klar sind, erkennst du schneller, welches Objekt wirklich passt.', focus:['Tragfähigen Kaufrahmen festlegen','Eigenkapital, Nebenkosten, Rücklagen und Belastung verbinden.'], risk:['Kaufpreis mit Gesamtbudget verwechseln','Nebenkosten und Maßnahmen verändern den tatsächlichen Bedarf.'], next:['Mit einem Suchkorridor starten','So bewertest du Immobilien nach deinem Plan und nicht nur nach dem Exposé.'], kai:'Bevor du suchst, schaffen wir den Rahmen, mit dem du bei einem passenden Objekt ruhig entscheiden kannst.' },
+          { id:'gefunden', label:'Ich habe ein Objekt gefunden', sub:'Jetzt zählen Kosten und Zeitplan', title:'Objekt und Finanzierung müssen als Gesamtbild geprüft werden.', lead:'Der Kaufpreis ist nur der Anfang. Jetzt zählen Gesamtkosten, Zustand, Eigenkapital, Zeitplan und eine belastbare Rate.', focus:['Vollständige Kosten einordnen','Kaufpreis, Nebenkosten, Rücklagen und Modernisierung gehören in eine Rechnung.'], risk:['Unter Zeitdruck nur auf die Zusage schauen','Eine schnelle Finanzierung ist nicht automatisch eine langfristig passende.'], next:['Objektprüfung und Vergleich verbinden','Danach lässt sich fundiert entscheiden, ob Objekt und Konzept tragen.'], kai:'Ich sichere zuerst Gesamtkosten und Puffer, bevor wir einzelne Angebote vergleichen.' },
+          { id:'reserviert', label:'Das Objekt ist reserviert', sub:'Die Finanzierung muss zügig stehen', title:'Jetzt braucht es Tempo, aber keine Abkürzung.', lead:'Fristen müssen eingehalten werden. Trotzdem dürfen Gesamtkosten, Rücklagen, Unterlagen und Vergleich nicht untergehen.', focus:['Fristen und Unterlagen sofort ordnen','Kläre, was vorliegt und welche Entscheidungen wirklich zeitkritisch sind.'], risk:['Zeitdruck mit Sicherheit verwechseln','Eine schnelle Zusage ersetzt keine saubere Prüfung.'], next:['Prüfung und Finanzierung parallel vorbereiten','So bleibt es schnell, ohne oberflächlich zu werden.'], kai:'Wir trennen sofort: Was ist dringend, was muss geprüft werden und wo dürfen wir keine Abkürzung nehmen?' }
+        ]},
+        sanierung: { label:'Modernisieren', sub:'Umbau, Energie oder Kauf mit Sanierung', question:'Was möchtest du verändern?', hint:'Mehrere Maßnahmen sortieren wir später gemeinsam.', answers:[
+          { id:'umbau', label:'Modernisieren oder umbauen', sub:'Zum Beispiel Bad oder Grundriss', title:'Aus einzelnen Wünschen braucht es einen Maßnahmenplan.', lead:'Reihenfolge, Kostenrahmen, Reserve und Finanzierung sollten zusammenstehen, bevor Aufträge vergeben werden.', focus:['Maßnahmen und Prioritäten sortieren','Notwendiges, Wünsche und spätere Schritte klar trennen.'], risk:['Ohne Gesamtbudget einzeln beauftragen','Viele kleine Entscheidungen können den Rahmen unbemerkt überschreiten.'], next:['Kosten, Puffer und Finanzierung verbinden','Damit entsteht ein Plan, der auch bei Veränderungen belastbar bleibt.'], kai:'Wir sortieren zuerst, was notwendig ist, was warten kann und welcher Puffer realistisch ist.' },
+          { id:'energie', label:'Energetisch sanieren', sub:'Gebäudehülle, Heizung oder mehr', title:'Technik und Förderung müssen gemeinsam geplant werden.', lead:'Bei energetischen Vorhaben entscheiden Zeitpunkt, Voraussetzungen und Kombination über den sinnvollen Weg.', focus:['Maßnahmen und Voraussetzungen klären','Arbeiten, Kosten, Reihenfolge und mögliche Förderwege ordnen.'], risk:['Förderung erst nach Auftrag prüfen','Je nach Programm können Zeitpunkt und Antragstellung entscheidend sein.'], next:['Fachplanung und Finanzierung verbinden','So werden Fördermöglichkeiten rechtzeitig geprüft.'], kai:'Förderung ist kein nachträglicher Bonus. Sie gehört von Anfang an in die Planung.' },
+          { id:'kauf', label:'Kauf und Sanierung verbinden', sub:'Bestandsimmobilie mit Maßnahmen', title:'Kauf und Sanierung brauchen eine gemeinsame Rechnung.', lead:'Objektpreis, Nebenkosten, Maßnahmen, Puffer und Förderweg dürfen nicht getrennt betrachtet werden.', focus:['Gesamtkosten vor dem Kauf sichtbar machen','Notwendige Maßnahmen und Reserven mit dem Kaufpreis einordnen.'], risk:['Sanierung aus dem Restbudget bezahlen','Unklare Kosten können die Finanzierung nach dem Kauf belasten.'], next:['Objekt und Maßnahmen verzahnen','Danach lässt sich prüfen, ob das Vorhaben insgesamt tragfähig ist.'], kai:'Ich finanziere die Immobilie nicht losgelöst vom Sanierungsbedarf. Beides muss Platz haben.' }
+        ]},
+        anschluss: { label:'Zinsbindung endet', sub:'Restschuld und neue Rate verstehen', question:'Wann endet deine Zinsbindung?', hint:'Eine ungefähre Einordnung reicht für den ersten Schritt.', answers:[
+          { id:'bald', label:'In weniger als zwölf Monaten', sub:'Jetzt sollte die Prüfung starten', title:'Jetzt ist der Zeitpunkt, Angebote und Optionen aktiv zu ordnen.', lead:'Restschuld, Vertragsfristen, neue Zinsbindung und mögliche Wechselwege sollten ohne unnötigen Zeitdruck geprüft werden.', focus:['Restschuld und Fristen klären','Die wichtigsten Daten des bestehenden Darlehens vollständig zusammenlegen.'], risk:['Nur das Verlängerungsangebot annehmen','Ohne Vergleich bleibt unklar, ob Rate, Laufzeit und Flexibilität noch passen.'], next:['Verlängerung und Wechselwege vergleichen','So kannst du rechtzeitig und mit einem klaren Plan entscheiden.'], kai:'Wenn die Bindung bald endet, schaffen wir sofort Transparenz und danach Ruhe in der Entscheidung.' },
+          { id:'mittel', label:'In ein bis drei Jahren', sub:'Guter Zeitpunkt zur Vorbereitung', title:'Mit Vorlauf kannst du Sicherheit und Flexibilität planen.', lead:'Noch besteht kein Entscheidungsdruck. Genau deshalb lassen sich Restschuld, Ziele und Anschlusswege sauber vorbereiten.', focus:['Zielrate und Restschuld vorausplanen','Prüfe, wie sich Tilgung und Restschuld bis zum Ende entwickeln.'], risk:['Vorbereitung bis zum letzten Jahr verschieben','Dann bleibt weniger Zeit, Strategien in Ruhe zu bewerten.'], next:['Einen Fahrplan bis zum Zinsende festlegen','So weißt du, wann welche Prüfung sinnvoll wird.'], kai:'Der Vorlauf ist dein Vorteil. Wir können heute planen, ohne heute schon festlegen zu müssen.' },
+          { id:'spaeter', label:'Später oder noch unbekannt', sub:'Erst Möglichkeiten einordnen', title:'Ein früher Überblick schafft Sicherheit, ohne dich festzulegen.', lead:'Auch bei längerer Laufzeit kann es sinnvoll sein, Vertrag, Restschuld und spätere Handlungsmöglichkeiten zu verstehen.', focus:['Deinen Vertrag verstehen','Zinsbindung, Tilgung, Sondertilgung und erwartete Restschuld klären.'], risk:['Wichtige Fristen aus dem Blick verlieren','Fehlender Überblick führt später unnötig zu Zeitdruck.'], next:['Einen Erinnerungsfahrplan erstellen','Damit prüfst du Optionen dann, wenn es wirklich sinnvoll wird.'], kai:'Du musst heute nichts ändern. Aber du solltest wissen, wann dein Vertrag wieder Aufmerksamkeit braucht.' }
+        ]},
+        optimierung: { label:'Finanzierung verbessern', sub:'Rate, Sicherheit oder Flexibilität', question:'Was möchtest du verbessern?', hint:'Wähle den Punkt, der dich am meisten beschäftigt.', answers:[
+          { id:'rate', label:'Monatliche Rate neu ordnen', sub:'Mehr Luft im Alltag', title:'Mehr Luft entsteht nur, wenn die Gesamtkosten mitgedacht werden.', lead:'Eine niedrigere Rate kann helfen, darf aber Laufzeit, Zinskosten und Restschuld nicht unsichtbar machen.', focus:['Belastung und Laufzeit gemeinsam prüfen','Welche Rate passt heute und welche Folgen hätte eine Veränderung?'], risk:['Nur auf die Monatsrate schauen','Eine kleinere Rate kann durch längere Laufzeit insgesamt teurer werden.'], next:['Varianten transparent gegenüberstellen','So erkennst du, ob eine Änderung entlastet oder nur verschiebt.'], kai:'Ich drücke nicht einfach die Rate. Wir prüfen, ob dein gesamter Weg dadurch besser wird.' },
+          { id:'sicherheit', label:'Zins und Sicherheit prüfen', sub:'Planbarkeit einschätzen', title:'Sicherheit bedeutet mehr als einen festen Zinssatz.', lead:'Zinsbindung, Restschuld, Rücklagen und Flexibilität müssen gemeinsam zu deinem Sicherheitsbedürfnis passen.', focus:['Gewünschte Planbarkeit definieren','Welche Rate und Laufzeit tragen sich auch bei Veränderungen gut?'], risk:['Sicherheit mit maximaler Bindung verwechseln','Zu wenig Flexibilität kann später ebenfalls belasten.'], next:['Sicherheitsvarianten vergleichen','So entscheidest du bewusst zwischen Bindung, Tilgung und Spielraum.'], kai:'Wir suchen die Struktur, die zu deinem Sicherheitsgefühl passt, nicht einfach die längste Bindung.' },
+          { id:'flexibel', label:'Flexibler werden', sub:'Tilgung oder Laufzeit verändern', title:'Flexibilität muss zu Vertrag und Ziel passen.', lead:'Sondertilgung, Tilgungswechsel oder ein anderer Aufbau können sinnvoll sein, wenn der Nutzen die Kosten rechtfertigt.', focus:['Dein Flexibilitätsziel benennen','Geht es um Liquidität, schnellere Rückzahlung oder veränderte Lebenspläne?'], risk:['Ändern, ohne Folgen zu vergleichen','Gebühren, Zinsbindung und Restschuld können Vorteile aufheben.'], next:['Bestehenden Weg gegen Alternativen prüfen','Nur bei erkennbarem Mehrwert sollte neu geplant werden.'], kai:'Wir klären zuerst, welche Freiheit dir fehlt. Danach prüfen wir, welcher Weg wirklich sinnvoll ist.' }
+        ]}
+      };
+
+      const grid = root.querySelector('#situation-grid');
+      Object.entries(data).forEach(([key, item]) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'situation-card';
+        button.dataset.situation = key;
+        button.innerHTML = `<span class="icon-orb" aria-hidden="true">${icons[key]}</span><strong>${item.label}</strong><span>${item.sub}</span>`;
+        button.addEventListener('click', () => renderQuestion(key));
+        grid.append(button);
+      });
+
+      const screens = [...root.querySelectorAll('[data-screen]')];
+      const segments = [...root.querySelectorAll('.step-track i')];
+      const selected = root.querySelector('#selected-situation');
+      const options = root.querySelector('#answer-options');
+      const mobileAction = root.querySelector('#mobile-action');
+      const mobileBar = root.querySelector('.mobile-bar');
+      const fundingSituations = new Set(['neubau', 'kauf', 'sanierung']);
+      let currentSituation = null;
+      let currentAnswer = null;
+      let currentStep = 1;
+
+      function track(name, detail = {}) {
+        window.baufiEvents = window.baufiEvents || [];
+        const event = { name, detail, at: new Date().toISOString() };
+        window.baufiEvents.push(event);
+        window.dispatchEvent(new CustomEvent('baufi:track', { detail:event }));
+      }
+
+      function showScreen(step) {
+        currentStep = step;
+        screens.forEach(screen => { screen.hidden = Number(screen.dataset.screen) !== step; });
+        segments.forEach((segment, index) => { segment.className = index + 1 < step ? 'is-done' : index + 1 === step ? 'is-active' : ''; });
+        root.querySelector('#step-label').textContent = `Schritt ${step} von 3`;
+        root.querySelector('#step-name').textContent = step === 1 ? 'Situation' : step === 2 ? 'Einordnung' : 'Dein Kompass';
+        if (step === 1) mobileAction.textContent = 'Situation auswählen';
+        if (step === 2) mobileAction.textContent = 'Antwort auswählen';
+        if (step === 3) mobileAction.textContent = currentSituation === 'anschluss' ? 'Restschuld prüfen' : fundingSituations.has(currentSituation) ? 'Förder-Chancen prüfen' : 'Nächsten Schritt klären';
+        syncMobileBar();
+        if (innerWidth < 700) root.querySelector('#compass-app').scrollIntoView({ behavior:'smooth', block:'start' });
+      }
+
+      function renderQuestion(key) {
+        const item = data[key];
+        currentSituation = key;
+        currentAnswer = null;
+        selected.innerHTML = `<span class="mini-orb" aria-hidden="true">${icons[key]}</span><span>${item.label}</span>`;
+        root.querySelector('#question-title').textContent = item.question;
+        root.querySelector('#question-hint').textContent = item.hint;
+        options.replaceChildren();
+        item.answers.forEach(answer => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'answer-option';
+          button.innerHTML = `<span><strong>${answer.label}</strong><small>${answer.sub}</small></span><span class="chevron" aria-hidden="true">›</span>`;
+          button.addEventListener('click', () => renderResult(item, answer));
+          options.append(button);
+        });
+        track('situation_selected', { situation:key });
+        showScreen(2);
+      }
+
+      function renderResult(item, answer) {
+        currentAnswer = answer.id;
+        root.querySelector('#result-kicker').textContent = `${item.label} · ${answer.label}`;
+        root.querySelector('#result-title').textContent = answer.title;
+        root.querySelector('#result-lead').textContent = answer.lead;
+        root.querySelector('#focus-title').textContent = answer.focus[0];
+        root.querySelector('#focus-copy').textContent = answer.focus[1];
+        root.querySelector('#risk-title').textContent = answer.risk[0];
+        root.querySelector('#risk-copy').textContent = answer.risk[1];
+        root.querySelector('#next-title').textContent = answer.next[0];
+        root.querySelector('#next-copy').textContent = answer.next[1];
+        root.querySelector('#kai-copy').textContent = answer.kai;
+        const isRest = currentSituation === 'anschluss';
+        const isFunding = fundingSituations.has(currentSituation);
+        root.querySelector('#rest-teaser').hidden = !isRest;
+        root.querySelector('#funding-teaser').hidden = !isFunding;
+        root.querySelector('#standard-actions').hidden = isRest || isFunding;
+        quickSection.hidden = true;
+        fundingSection.hidden = true;
+        track('compass_completed', { situation:currentSituation, answer:answer.id });
+        showScreen(3);
+      }
+
+      root.querySelectorAll('[data-back]').forEach(button => button.addEventListener('click', () => showScreen(Number(button.dataset.back))));
+
+      const fields = [
+        { key:'loan', eyebrow:'Dein Darlehen', question:'Wie hoch war das Darlehen zu Beginn?', hint:'Eine ungefähre Zahl reicht für die erste Orientierung.', min:50000, max:800000, step:10000, value:300000, format:value => `${formatNumber(value)} €`, minLabel:'50.000 €', maxLabel:'800.000 €', label:'Darlehenssumme' },
+        { key:'interest', eyebrow:'Dein Vertrag', question:'Wie hoch ist dein aktueller Sollzins?', hint:'Du findest ihn in deinem Darlehensvertrag.', min:0.5, max:5, step:0.1, value:1.2, format:value => `${formatDecimal(value)} %`, minLabel:'0,5 %', maxLabel:'5,0 %', label:'Aktueller Sollzins' },
+        { key:'rate', eyebrow:'Deine Belastung', question:'Wie hoch ist deine heutige Monatsrate?', hint:'Bitte nur die Kreditrate ohne Nebenkosten.', min:200, max:3500, step:25, value:1000, format:value => `${formatNumber(value)} €`, minLabel:'200 €', maxLabel:'3.500 €', label:'Monatsrate' },
+        { key:'years', eyebrow:'Deine Zinsbindung', question:'Wie lang ist die gesamte Sollzinsbindung?', hint:'Gemeint ist die vereinbarte Dauer ab Beginn des Darlehens.', min:5, max:20, step:1, value:10, format:value => `${value} Jahre`, minLabel:'5 Jahre', maxLabel:'20 Jahre', label:'Dauer der Sollzinsbindung' }
+      ];
+      const values = Object.fromEntries(fields.map(field => [field.key, field.value]));
+      let quickIndex = 0;
+      let scenarioInterest = 3.8;
+      const quickSection = root.querySelector('#quick-check-section');
+      const quickRange = root.querySelector('#quick-range');
+      const quickInput = root.querySelector('#quick-input-screen');
+      const calcResult = root.querySelector('#calc-result');
+
+      function formatNumber(value) { return Math.round(Number(value)).toLocaleString('de-DE'); }
+      function formatDecimal(value) { return Number(value).toLocaleString('de-DE', { minimumFractionDigits:1, maximumFractionDigits:1 }); }
+
+      function openQuick() {
+        quickSection.hidden = false;
+        fundingSection.hidden = true;
+        quickInput.hidden = false;
+        calcResult.hidden = true;
+        quickIndex = 0;
+        renderQuick();
+        track('restschuld_check_started', { situation:currentSituation, answer:currentAnswer });
+        syncMobileBar();
+        quickSection.scrollIntoView({ behavior:'smooth', block:'start' });
+      }
+
+      function renderQuick() {
+        const field = fields[quickIndex];
+        root.querySelector('#quick-label').textContent = `Angabe ${quickIndex + 1} von ${fields.length}`;
+        root.querySelector('#quick-eyebrow').textContent = field.eyebrow;
+        root.querySelector('#quick-question').textContent = field.question;
+        root.querySelector('#quick-hint').textContent = field.hint;
+        root.querySelector('#quick-range-label').textContent = field.label;
+        root.querySelector('#quick-value').textContent = field.format(values[field.key]);
+        root.querySelector('#range-min').textContent = field.minLabel;
+        root.querySelector('#range-max').textContent = field.maxLabel;
+        quickRange.min = field.min;
+        quickRange.max = field.max;
+        quickRange.step = field.step;
+        quickRange.value = values[field.key];
+        root.querySelector('#quick-back').hidden = quickIndex === 0;
+        root.querySelector('#quick-next').textContent = quickIndex === fields.length - 1 ? 'Ergebnis zeigen' : 'Weiter';
+        [...root.querySelectorAll('.quick-progress i')].forEach((segment, index) => segment.classList.toggle('is-on', index <= quickIndex));
+      }
+
+      quickRange.addEventListener('input', () => {
+        const field = fields[quickIndex];
+        values[field.key] = Number(quickRange.value);
+        root.querySelector('#quick-value').textContent = field.format(values[field.key]);
+      });
+      root.querySelector('#quick-next').addEventListener('click', () => {
+        if (quickIndex < fields.length - 1) { quickIndex += 1; renderQuick(); }
+        else showCalculation();
+      });
+      root.querySelector('#quick-back').addEventListener('click', () => { if (quickIndex > 0) { quickIndex -= 1; renderQuick(); } });
+
+      function calculate() {
+        const loan = values.loan;
+        const interest = values.interest / 100;
+        const annualPayment = values.rate * 12;
+        const factor = 1 + interest;
+        const rest = interest === 0 ? Math.max(0, loan - annualPayment * values.years) : Math.max(0, loan * Math.pow(factor, values.years) - annualPayment * (Math.pow(factor, values.years) - 1) / interest);
+        const initialRepayment = Math.max(0.001, annualPayment / loan - interest);
+        const newRate = rest * (scenarioInterest / 100 + initialRepayment) / 12;
+        return { rest, newRate };
+      }
+
+      function updateCalculation() {
+        const result = calculate();
+        root.querySelector('#rest-value').textContent = `${formatNumber(result.rest)} €`;
+        root.querySelector('#old-rate').textContent = `${formatNumber(values.rate)} €`;
+        root.querySelector('#new-rate').textContent = `${formatNumber(result.newRate)} €`;
+        root.querySelector('#rest-explanation').textContent = `Von ursprünglich ${formatNumber(values.loan)} € könnten nach ${values.years} Jahren noch etwa ${formatNumber(result.rest)} € offen sein.`;
+      }
+
+      function showCalculation() {
+        quickInput.hidden = true;
+        calcResult.hidden = false;
+        root.querySelector('#quick-label').textContent = 'Deine erste Orientierung';
+        updateCalculation();
+        track('restschuld_check_completed', { situation:currentSituation, answer:currentAnswer });
+        mobileAction.textContent = 'Diese Zahl mit Kai prüfen';
+        syncMobileBar();
+      }
+
+      root.querySelectorAll('[data-interest]').forEach(button => button.addEventListener('click', () => {
+        scenarioInterest = Number(button.dataset.interest);
+        root.querySelectorAll('[data-interest]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+        updateCalculation();
+      }));
+      root.querySelector('#start-rest').addEventListener('click', openQuick);
+      root.querySelector('#edit-check').addEventListener('click', () => { quickInput.hidden = false; calcResult.hidden = true; quickIndex = 0; renderQuick(); });
+      root.querySelector('#close-quick').addEventListener('click', () => { quickSection.hidden = true; root.querySelector('#compass-app').scrollIntoView({ behavior:'smooth', block:'start' }); });
+
+      const fundingSection = root.querySelector('#funding-check-section');
+      const fundingQuestionScreen = root.querySelector('#funding-question-screen');
+      const fundingResult = root.querySelector('#funding-result');
+      const fundingOptions = root.querySelector('#funding-options');
+      const fundingAnswers = {};
+      let fundingIndex = 0;
+      let activeFundingQuestions = [];
+
+      const purchaseTypeQuestion = {
+        key:'project', eyebrow:'Deine Immobilie', question:'Was möchtest du kaufen?', hint:'Damit unterscheiden wir Neubau und Bestand.', options:[
+          { id:'neubau', icon:'N', label:'Einen Neubau', sub:'Fertig kaufen oder selbst bauen lassen' },
+          { id:'bestand', icon:'B', label:'Eine Bestandsimmobilie', sub:'Mit oder ohne spätere Modernisierung' }
+        ]
+      };
+      const commonFundingQuestions = [
+        { key:'selfUse', eyebrow:'Deine Nutzung', question:'Wirst du selbst dort wohnen?', hint:'Einige Förderwege setzen die eigene Nutzung voraus.', options:[
+          { id:'yes', icon:'✓', label:'Ja, selbst bewohnen', sub:'Die Immobilie wird mein Zuhause' },
+          { id:'no', icon:'○', label:'Nein, anders nutzen', sub:'Zum Beispiel vermieten oder weitergeben' }
+        ]},
+        { key:'children', eyebrow:'Dein Haushalt', question:'Leben Kinder unter 18 Jahren im Haushalt?', hint:'Für Familien können eigene Programme infrage kommen.', options:[
+          { id:'yes', icon:'✓', label:'Ja', sub:'Mindestens ein Kind unter 18 Jahren' },
+          { id:'no', icon:'○', label:'Nein', sub:'Aktuell kein Kind unter 18 Jahren' }
+        ]},
+        { key:'energy', eyebrow:'Energie und Klima', question:answers => answers.project === 'neubau' ? 'Ist ein klimafreundlicher Neubau geplant?' : 'Sind energetische Maßnahmen geplant?', hint:'Eine grobe Einschätzung reicht. Die technischen Voraussetzungen werden später fachlich geprüft.', options:[
+          { id:'yes', icon:'✓', label:'Ja', sub:'Energie oder Klimastandard ist Teil des Vorhabens' },
+          { id:'unsure', icon:'?', label:'Noch unklar', sub:'Genau das möchte ich prüfen lassen' },
+          { id:'no', icon:'○', label:'Eher nicht', sub:'Aktuell stehen andere Themen im Vordergrund' }
+        ]},
+        { key:'region', type:'select', eyebrow:'Dein Standort', question:'In welchem Bundesland liegt dein Vorhaben?', hint:'Damit kann Kai neben der KfW auch Landes- und mögliche kommunale Programme mitprüfen.', options:[
+          { id:'unknown', label:'Noch nicht festgelegt' },
+          { id:'bw', label:'Baden-Württemberg' },
+          { id:'by', label:'Bayern' },
+          { id:'be', label:'Berlin' },
+          { id:'bb', label:'Brandenburg' },
+          { id:'hb', label:'Bremen' },
+          { id:'hh', label:'Hamburg' },
+          { id:'he', label:'Hessen' },
+          { id:'mv', label:'Mecklenburg-Vorpommern' },
+          { id:'ni', label:'Niedersachsen' },
+          { id:'nw', label:'Nordrhein-Westfalen' },
+          { id:'rp', label:'Rheinland-Pfalz' },
+          { id:'sl', label:'Saarland' },
+          { id:'sn', label:'Sachsen' },
+          { id:'st', label:'Sachsen-Anhalt' },
+          { id:'sh', label:'Schleswig-Holstein' },
+          { id:'th', label:'Thüringen' }
+        ]}
+      ];
+
+      const fundingPrograms = {
+        p300: { number:'KfW 300', title:'Wohneigentum für Familien, Neubau', copy:'Bei einem selbst genutzten klimafreundlichen Neubau mit Kindern könnte dieses Familienprogramm eine wichtige Prüfspur sein.' },
+        p297: { number:'KfW 297/298', title:'Klimafreundlicher Neubau', copy:'Wenn der geplante Neubau die geforderten Klima- und Effizienzstandards erreicht, sollte dieser Kreditweg genauer geprüft werden.' },
+        p124: { number:'KfW 124', title:'Wohneigentumsprogramm', copy:'Für Bau oder Kauf einer selbst genutzten Immobilie kann das Wohneigentumsprogramm grundsätzlich eine Prüfspur sein.' },
+        p308: { number:'KfW 308', title:'Jung kauft Alt', copy:'Für Familien, die eine Bestandsimmobilie kaufen und energetisch sanieren, könnte dieser Weg relevant werden.' },
+        p261: { number:'KfW 261', title:'Wohngebäude-Kredit', copy:'Bei einer Sanierung zum Effizienzhaus oder beim Kauf eines frisch sanierten Objekts sollte dieser Förderkredit geprüft werden.' },
+        other: { number:'WEITERE', title:'Regionale und ergänzende Förderwege', copy:'Auch wenn hier kein KfW-Weg eindeutig auffällt, können regionale Programme oder sinnvolle Kombinationen geprüft werden.' }
+      };
+
+      function inferredFundingProject() {
+        if (currentSituation === 'neubau') return 'neubau';
+        if (currentSituation === 'sanierung') return currentAnswer === 'kauf' ? 'bestand' : 'sanierung';
+        return null;
+      }
+
+      function openFunding() {
+        Object.keys(fundingAnswers).forEach(key => delete fundingAnswers[key]);
+        const inferredProject = inferredFundingProject();
+        if (inferredProject) fundingAnswers.project = inferredProject;
+        activeFundingQuestions = currentSituation === 'kauf' ? [purchaseTypeQuestion, ...commonFundingQuestions] : [...commonFundingQuestions];
+        const progress = root.querySelector('.funding-progress');
+        progress.replaceChildren(...activeFundingQuestions.map(() => document.createElement('i')));
+        fundingIndex = 0;
+        fundingSection.hidden = false;
+        quickSection.hidden = true;
+        fundingQuestionScreen.hidden = false;
+        fundingResult.hidden = true;
+        renderFundingQuestion();
+        track('funding_check_started', { situation:currentSituation, answer:currentAnswer, project:fundingAnswers.project || null });
+        syncMobileBar();
+        fundingSection.scrollIntoView({ behavior:'smooth', block:'start' });
+      }
+
+      function renderFundingQuestion() {
+        const question = activeFundingQuestions[fundingIndex];
+        const questionText = typeof question.question === 'function' ? question.question(fundingAnswers) : question.question;
+        root.querySelector('#funding-label').textContent = `Frage ${fundingIndex + 1} von ${activeFundingQuestions.length}`;
+        root.querySelector('#funding-eyebrow').textContent = question.eyebrow;
+        root.querySelector('#funding-question').textContent = questionText;
+        root.querySelector('#funding-hint').textContent = question.hint;
+        root.querySelector('#funding-back').hidden = fundingIndex === 0;
+        [...root.querySelectorAll('.funding-progress i')].forEach((segment, index) => segment.classList.toggle('is-on', index <= fundingIndex));
+        fundingOptions.replaceChildren();
+        if (question.type === 'select') {
+          const wrap = document.createElement('div');
+          wrap.className = 'funding-select-wrap';
+          const label = document.createElement('label');
+          label.className = 'funding-select-label';
+          label.htmlFor = 'funding-region-select';
+          label.textContent = 'Bundesland auswählen';
+          const select = document.createElement('select');
+          select.className = 'funding-select';
+          select.id = 'funding-region-select';
+          const placeholder = document.createElement('option');
+          placeholder.value = '';
+          placeholder.textContent = 'Bitte auswählen';
+          placeholder.disabled = true;
+          select.append(placeholder);
+          question.options.forEach(option => {
+            const item = document.createElement('option');
+            item.value = option.id;
+            item.textContent = option.label;
+            select.append(item);
+          });
+          select.value = fundingAnswers[question.key] || '';
+          const next = document.createElement('button');
+          next.type = 'button';
+          next.className = 'primary-btn funding-select-action';
+          next.textContent = 'Region übernehmen';
+          next.disabled = !select.value;
+          select.addEventListener('change', () => { next.disabled = !select.value; });
+          next.addEventListener('click', () => { if (select.value) advanceFunding(question, select.value); });
+          wrap.append(label, select, next);
+          fundingOptions.append(wrap);
+          return;
+        }
+        question.options.forEach(option => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'funding-option';
+          button.innerHTML = `<span class="funding-option-icon" aria-hidden="true">${option.icon}</span><span><strong>${option.label}</strong><small>${option.sub}</small></span><span class="chevron" aria-hidden="true">›</span>`;
+          button.addEventListener('click', () => advanceFunding(question, option.id));
+          fundingOptions.append(button);
+        });
+      }
+
+      function advanceFunding(question, answer) {
+        fundingAnswers[question.key] = answer;
+        track('funding_answered', { question:question.key, answer });
+        if (fundingIndex < activeFundingQuestions.length - 1) {
+          fundingIndex += 1;
+          renderFundingQuestion();
+        } else {
+          showFundingResult();
+        }
+      }
+
+      function getFundingPrograms() {
+        const project = fundingAnswers.project;
+        const selfUse = fundingAnswers.selfUse === 'yes';
+        const children = fundingAnswers.children === 'yes';
+        const energyPossible = fundingAnswers.energy !== 'no';
+        const programs = [];
+        if (project === 'neubau' && selfUse && children && energyPossible) programs.push(fundingPrograms.p300);
+        if (project === 'neubau' && energyPossible) programs.push(fundingPrograms.p297);
+        if (project === 'bestand' && selfUse && children && energyPossible) programs.push(fundingPrograms.p308);
+        if ((project === 'bestand' || project === 'sanierung') && energyPossible) programs.push(fundingPrograms.p261);
+        if ((project === 'neubau' || project === 'bestand') && selfUse) programs.push(fundingPrograms.p124);
+        if (!programs.length) programs.push(fundingPrograms.other);
+        return programs.slice(0, 3);
+      }
+
+      function showFundingResult() {
+        const programs = getFundingPrograms();
+        const regionQuestion = commonFundingQuestions.find(question => question.key === 'region');
+        const region = regionQuestion.options.find(option => option.id === fundingAnswers.region);
+        fundingQuestionScreen.hidden = true;
+        fundingResult.hidden = false;
+        root.querySelector('#funding-label').textContent = 'Deine Förder-Chancen';
+        root.querySelector('#funding-result-copy').textContent = fundingAnswers.energy === 'unsure'
+          ? 'Weil der energetische Standard noch offen ist, sind diese Möglichkeiten bewusst als Prüfspuren markiert.'
+          : 'Diese Möglichkeiten passen zu deinen ersten Angaben und sollten vor jeder Entscheidung genauer geprüft werden.';
+        const list = root.querySelector('#program-list');
+        list.replaceChildren();
+        programs.forEach(program => {
+          const card = document.createElement('article');
+          card.className = 'program-card';
+          card.innerHTML = `<span class="program-number">${program.number}</span><div><h4>${program.title}</h4><p>${program.copy}</p><span class="program-fit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>Das prüfen wir für dein Vorhaben</span></div>`;
+          list.append(card);
+        });
+        root.querySelector('#regional-title').textContent = region && region.id !== 'unknown' ? `${region.label}: weitere Förderwege prüfen` : 'Landes- und kommunale Förderwege mitprüfen';
+        root.querySelector('#regional-copy').textContent = region && region.id !== 'unknown'
+          ? 'Zusätzlich zur KfW prüft Kai, ob Programme der Landesförderbank oder der Kommune zu Vorhaben, Haushalt und Zeitpunkt passen könnten.'
+          : 'Sobald der Standort feststeht, prüft Kai zusätzlich mögliche Programme des Bundeslandes und der Kommune.';
+        [...root.querySelectorAll('.funding-progress i')].forEach(segment => segment.classList.add('is-on'));
+        track('funding_check_completed', { situation:currentSituation, answer:currentAnswer, funding:{...fundingAnswers}, programs:programs.map(program => program.number) });
+        mobileAction.textContent = 'Förderwege mit Kai prüfen';
+        syncMobileBar();
+      }
+
+      root.querySelector('#start-funding').addEventListener('click', openFunding);
+      root.querySelector('#funding-back').addEventListener('click', () => { if (fundingIndex > 0) { fundingIndex -= 1; renderFundingQuestion(); } });
+      root.querySelector('#edit-funding').addEventListener('click', () => { fundingIndex = 0; fundingQuestionScreen.hidden = false; fundingResult.hidden = true; renderFundingQuestion(); });
+      root.querySelector('#close-funding').addEventListener('click', () => {
+        fundingSection.hidden = true;
+        mobileAction.textContent = 'Förder-Chancen prüfen';
+        root.querySelector('#compass-app').scrollIntoView({ behavior:'smooth', block:'start' });
+      });
+      root.querySelector('#discuss-funding').addEventListener('click', () => {
+        track('funding_discussion_clicked', { situation:currentSituation, answer:currentAnswer, funding:{...fundingAnswers} });
+        root.querySelector('#contact-title').textContent = 'Förderwege nicht raten. Gemeinsam prüfen.';
+        root.querySelector('#contact-copy').textContent = 'Kai ordnet mit dir ein, welche Voraussetzungen, Kombinationen und Zeitpunkte für dein Vorhaben genauer geprüft werden müssen.';
+        root.querySelector('#contact').scrollIntoView({ behavior:'smooth', block:'start' });
+      });
+
+      root.querySelectorAll('[data-scroll]').forEach(button => button.addEventListener('click', () => {
+        const target = root.querySelector(`#${button.dataset.scroll}`);
+        if (target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+      }));
+
+      mobileAction.addEventListener('click', () => {
+        if (!quickSection.hidden && calcResult.hidden === false) { root.querySelector('#contact').scrollIntoView({ behavior:'smooth', block:'start' }); return; }
+        if (!fundingSection.hidden && fundingResult.hidden === false) { root.querySelector('#discuss-funding').click(); return; }
+        if (currentStep === 3 && currentSituation === 'anschluss') { openQuick(); return; }
+        if (currentStep === 3 && fundingSituations.has(currentSituation)) { openFunding(); return; }
+        if (currentStep === 3) { root.querySelector('#contact').scrollIntoView({ behavior:'smooth', block:'start' }); return; }
+        root.querySelector('#compass-app').scrollIntoView({ behavior:'smooth', block:'start' });
+      });
+
+      function syncMobileBar() {
+        const contactTop = root.querySelector('#contact').getBoundingClientRect().top;
+        const appRect = root.querySelector('#compass-app').getBoundingClientRect();
+        const resultButtonRect = root.querySelector('#discuss-result').getBoundingClientRect();
+        const fundingButtonRect = root.querySelector('#discuss-funding').getBoundingClientRect();
+        const appIsVisible = appRect.top < innerHeight * 0.78 && appRect.bottom > 70;
+        const resultButtonIsVisible = !quickSection.hidden && !calcResult.hidden && resultButtonRect.top < innerHeight - 70 && resultButtonRect.bottom > 70;
+        const inputCheckIsOpen = !quickSection.hidden && !quickInput.hidden;
+        const fundingInputIsOpen = !fundingSection.hidden && !fundingQuestionScreen.hidden;
+        const fundingButtonIsVisible = !fundingSection.hidden && !fundingResult.hidden && fundingButtonRect.top < innerHeight - 70 && fundingButtonRect.bottom > 70;
+        const shouldShow = innerWidth <= 520 && scrollY > 520 && contactTop > innerHeight * 0.45 && !(currentStep < 3 && appIsVisible) && !inputCheckIsOpen && !fundingInputIsOpen && !resultButtonIsVisible && !fundingButtonIsVisible;
+        mobileBar.classList.toggle('is-visible', shouldShow);
+      }
+      addEventListener('scroll', syncMobileBar, { passive:true });
+      addEventListener('resize', syncMobileBar);
+      syncMobileBar();
+
+      const toast = root.querySelector('#toast');
+      let toastTimer;
+      function showToast(text) {
+        toast.textContent = text;
+        toast.classList.add('is-showing');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('is-showing'), 3600);
+      }
+      root.querySelector('#calendar-button').addEventListener('click', () => {
+        track('calendar_clicked', { situation:currentSituation, answer:currentAnswer });
+        if (typeof window.baufiOpenCalendar === 'function') window.baufiOpenCalendar();
+      });
+      root.querySelector('#optout-button').addEventListener('click', () => {
+        track('optout_clicked');
+        if (typeof window.baufiOptOut === 'function') window.baufiOptOut();
+      });
+      root.querySelector('#discuss-result').addEventListener('click', () => track('restschuld_discussion_clicked'));
+
+      const revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); revealObserver.unobserve(entry.target); } });
+      }, { threshold:0.12 });
+      root.querySelectorAll('.reveal').forEach(element => revealObserver.observe(element));
+    })();
+  </script>
+  <script type="module" src="/js/baufi.js?v=2"></script>
+</body>
+</html>
