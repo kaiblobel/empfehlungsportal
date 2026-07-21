@@ -1,22 +1,7 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.121 Beta** · Persönlicher Baufinanzierungs-Kompass mit echtem Empfehlungs-, Opt-out- und Lead-Ablauf.
-
----
-
-## v1.121 Beta - Phase 94 · Finanzierungskompass live
-**2026-07-21**
-
-- Baufinanzierungs-Empfehlungen öffnen jetzt einen eigenen mobilen Finanzierungskompass mit sechs verständlichen Ausgangssituationen.
-- Neubau, Kauf und Modernisierung führen in einen vorsichtigen KfW- und Regionalförder-Chancencheck. Die Ergebnisse sind klar als Prüfspuren und nicht als Förderzusage gekennzeichnet.
-- Bei auslaufender Zinsbindung steht zusätzlich ein lokaler Restschuld-Schnellcheck bereit. Eingegebene Zahlen und Förderantworten werden nicht übertragen.
-- Empfehlungsgeber, Empfänger und Berater werden aus der echten Empfehlung geladen. Beraterfoto, Rolle, Kalender, Impressum und Datenschutz werden passend gebrandet.
-- Das Öffnen wird wie bisher erfasst. Eine abgeschlossene Kompass-Einordnung markiert echtes Interesse, der Kalender öffnet den persönlichen Buchungsweg und die Abmeldung nutzt den bestehenden sicheren Opt-out-Ablauf.
-- Alte Empfehlungslinks ohne Themenparameter werden anhand der gespeicherten Vorlage richtig aufgelöst. Alle anderen Themenseiten bleiben unverändert.
-- Cache: baufi.js v1, config.js v1.121 Beta, sw.js v96.
-
----
+Aktuelle Version: **v1.120 Beta** · Empfängerstrecke und Finanzcheck als durchgängiger Kundenfunnel finalisiert.
 
 ## v1.120 Beta - Phase 93 · Durchgängiger Empfänger- und Finanzcheck-Funnel
 **2026-07-21**
