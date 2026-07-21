@@ -519,7 +519,7 @@ if (page === 'empfaenger') {
       if (v.quickcheck_url) {
         const current = new URL(cta.href, location.href);
         const target = new URL(v.quickcheck_url, location.href);
-        ['from', 'schwerpunkt'].forEach(key => {
+        ['from', 'schwerpunkt', 'v'].forEach(key => {
           const value = current.searchParams.get(key);
           if (value && !target.searchParams.has(key)) target.searchParams.set(key, value);
         });
