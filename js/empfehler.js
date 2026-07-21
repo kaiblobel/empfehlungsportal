@@ -8,8 +8,8 @@ import {
   createEmpfehlung,
   setEmpfehlerZiel,
   updateEmpfehlungKontext,
-  parseDbDate,
 } from './supabase.js';
+import { parseDbDate } from './date-utils.js';
 import { applyBeraterBrand } from './berater-brand.js';
 
 const params = new URLSearchParams(window.location.search);

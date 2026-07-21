@@ -3,7 +3,8 @@
  * Zeigt verdiente Prämien (erreichte Belohnungsstufen je Empfehler) und lässt sie
  * als ausgezahlt markieren / Variante + Notiz festhalten. Admin-only.
  */
-import { getPraemien, updatePraemie, syncPraemien, auszahlenPraemie, getKundenJeEmpfehler, deletePraemie, parseDbDate } from './supabase.js';
+import { getPraemien, updatePraemie, syncPraemien, auszahlenPraemie, getKundenJeEmpfehler, deletePraemie } from './supabase.js';
+import { parseDbDate } from './date-utils.js';
 import { requireAuth, logout, applyBeraterHeader, getCurrentBerater } from './dashboard.js';
 
 document.getElementById('logoutBtn').addEventListener('click', logout);

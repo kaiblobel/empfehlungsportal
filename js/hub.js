@@ -1,4 +1,5 @@
-import { supabase, parseDbDate, touchPresence, getTeamActivity, getTeamPresence } from './supabase.js';
+import { supabase, touchPresence, getTeamActivity, getTeamPresence } from './supabase.js';
+import { parseDbDate } from './date-utils.js';
 import { requireAuth, logout, formatDate, loadFunnel, applyBeraterHeader } from './dashboard.js';
 import { icon, hydrateIcons } from './icons.js';
 import { watchHotLeads } from './hot-lead-watcher.js';

@@ -11,6 +11,7 @@ Aktuelle Version: **v1.117 Beta** · Live-TÜV: Zeit, Funnel, Vorschauen und Tei
 - Live-TÜV: Ein neuer Anrufwunsch um 12:44 Uhr erschien im Hub als 10:44 Uhr und "vor 2 Std".
 - Ursache: PostgreSQL-Felder vom Typ `timestamp without time zone` kamen ohne Zeitzonenangabe an und wurden vom Browser fälschlich als deutsche Ortszeit gelesen.
 - Neue zentrale Funktion `parseDbDate`: Zeitwerte ohne Zone werden als UTC behandelt, echte Werte mit `Z` oder Offset bleiben unverändert.
+- Die Datumsfunktion wird direkt geladen und bleibt dadurch auch beim Übergang vom alten App-Cache zur neuen Version kompatibel.
 - Korrigiert in Hub, Aktivitätsverlauf, Hot Leads, Team-Momentum, Dashboard-Datumsformatierung, Promoter-Feed und Prämienansichten.
 - Der Teilen-Endpunkt liest seine Parameter jetzt mit der modernen URL-API statt über die veraltete Node-Auswertung.
 - Themenvorschauen laufen ohne Test-Token und erzeugen dadurch keine künstlichen Öffnungen oder Benachrichtigungen mehr.

@@ -1,4 +1,5 @@
-import { supabase, parseDbDate } from '../js/supabase.js';
+import { supabase } from '../js/supabase.js';
+import { parseDbDate } from './date-utils.js';
 
 /* ---------- Auth ---------- */
 

@@ -2,7 +2,8 @@
  * Phase 16 · Beleg/Quittung für eine ausgezahlte Empfehlungsprämie.
  * Liest ?id=<praemie>, baut ein druckbares Dokument (adaptiv nach Auszahlungsart).
  */
-import { getPraemie, parseDbDate } from './supabase.js';
+import { getPraemie } from './supabase.js';
+import { parseDbDate } from './date-utils.js';
 import { requireAuth, getCurrentBerater } from './dashboard.js';
 
 const EUR = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' });
