@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.121 Beta** · Persönlicher Baufinanzierungs-Kompass mit echtem Empfehlungs-, Opt-out- und Lead-Ablauf.
+Aktuelle Version: **v1.122 Beta** · Persönlicher Baufinanzierungs-Kompass mit echtem Empfehlungs-, Opt-out- und Lead-Ablauf.
+
+---
+
+## v1.122 Beta - Phase 95 · Impressum & Datenschutz auf allgemeiner Themenseite
+**2026-07-22**
+
+- Die allgemeine Empfängerseite (`empfaenger.html`, Standard-Vorlage für alle Themen außer Baufi) hat jetzt eine feste, dezente Fußzeile mit Impressum und Datenschutz — bisher fehlten diese Pflichtlinks ausgerechnet auf der am häufigsten genutzten Seite (Baufi hatte sie bereits).
+- Die Links sind auf allen fünf Schritten sichtbar, auf Desktop und Mobil, und werden über `data-bb` pro Berater passend gebrandet (Kais DVAG-Impressum/-Datenschutz als Vorlage).
+- Rein additive Änderung: keine bestehenden Texte, kein Ablauf und keine Datenlogik verändert.
 
 ---
 
