@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.117 Beta** · Live-TÜV: Zeit, Funnel, Vorschauen und Teilen-Endpunkt korrigiert.
+Aktuelle Version: **v1.118 Beta** · Premium-Empfängerseite mit Finanzcheck, Personalisierung und echten Rezensionen.
+
+---
+
+## v1.118 Beta - Phase 91 · Premium-Empfängerseite
+**2026-07-21**
+
+- Empfängerseite vollständig als hochwertiger persönlicher Empfehlungsfunnel neu aufgebaut.
+- Empfänger und Empfehlungsgeber werden aus den bestehenden Empfehlungsdaten persönlich angesprochen.
+- Finanzcheck mit Potenzial-Landkarte, Ergebnisvorschau und sieben Fragen visuell in den Funnel eingebettet.
+- Echte Google-Rezension sowie der öffentlich einsehbare Bewertungsstand ergänzt.
+- Anrufprozess transparent dargestellt: Kai meldet sich persönlich, alternativ lassen sich Zeitfenster oder Kalendertermin wählen.
+- Diskrete Austragung bleibt mit dem Empfehlungs-Token verknüpft.
+- Bestehendes Öffnungs-Tracking, Multi-Tenant-Branding, Anrufwunsch und Beraterlinks bleiben erhalten.
+- Mobile Fassung gekürzt und auf Ergebnis, Vertrauen und nächste Handlung fokussiert.
+- Cache: app.js v41, sw.js v93.
 
 ---
 

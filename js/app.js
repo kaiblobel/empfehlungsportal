@@ -457,6 +457,8 @@ if (page === 'empfaenger') {
   // Austragen-Link
   const optoutLink = document.getElementById('austragenLink');
   if (optoutLink && token) optoutLink.href = `austragen.html?token=${token}`;
+  const optoutFooter = document.getElementById('austragenFooter');
+  if (optoutFooter && token) optoutFooter.href = `austragen.html?token=${token}`;
 
   // Link-Öffnung tracken
   if (token) updateLinkGeoeffnet(token);
@@ -546,37 +548,19 @@ if (page === 'empfaenger') {
     if (!inner) return;
     const name = (d.empfehler_name || '').trim();
     const msg  = (d.empfehler_nachricht || '').trim();
-
-    let html;
-    if (name && msg) {
-      html = `
-        <p class="e-eyebrow">Warum diese Seite</p>
-        <h2 class="e-h2">${escapeHtml(name)}<br>hat an dich gedacht.</h2>
-        <p class="e-body" style="margin: 0 auto;">
-          Diese Empfehlung kommt nicht aus einer Datenbank — ${escapeHtml(name)} hat dich ganz bewusst vorgeschlagen.
-        </p>
-        <div class="e-quote-card" style="margin-top: 20px;">
-          <blockquote>„${escapeHtml(msg)}"</blockquote>
-          <cite>— ${escapeHtml(name)}</cite>
-        </div>`;
-    } else if (name) {
-      html = `
-        <p class="e-eyebrow">Warum diese Seite</p>
-        <h2 class="e-h2">${escapeHtml(name)}<br>hat an dich gedacht.</h2>
-        <p class="e-body" style="margin: 0 auto;">
-          ${escapeHtml(name)} glaubt, dass ein Gespräch für dich interessant sein könnte — und hat dich bewusst vorgeschlagen.
-        </p>`;
-    } else {
-      html = `
-        <p class="e-eyebrow">Warum diese Seite</p>
-        <h2 class="e-h2">Menschen empfehlen<br>keine Produkte.</h2>
-        <p class="e-lede" style="margin: 8px auto 0;">Sie empfehlen Erfahrungen.</p>
-        <p class="e-body" style="margin: 24px auto 0;">
-          Jemand aus deinem Umfeld hat den Eindruck, dass diese Informationen für dich interessant sein könnten.
-        </p>`;
+    const recipient = (d.empfaenger_name || '').trim().split(/\s+/)[0] || '';
+    const promoterLabel = name || 'Dein Empfehlungsgeber';
+    document.querySelectorAll('[data-promoter]').forEach((el) => { el.textContent = promoterLabel; });
+    const mark = inner.querySelector('.recommendation-mark');
+    if (mark && name) mark.textContent = name.charAt(0).toUpperCase();
+    const message = document.getElementById('ePromoterMessage');
+    if (message && msg) message.textContent = ` „${msg}“`;
+    if (recipient) {
+      const personalName = document.querySelector('.personal-name');
+      const headlineStart = document.querySelector('.headline-start');
+      if (personalName) { personalName.textContent = `${recipient}, `; personalName.style.display = 'inline'; }
+      if (headlineStart) headlineStart.textContent = 'vielleicht';
     }
-    inner.innerHTML = html;
-    inner.querySelectorAll('p, h2, div').forEach((el) => { el.classList.add('e-reveal'); io.observe(el); });
   }
 
   function renderErfolge(list) {

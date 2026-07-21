@@ -33,6 +33,12 @@ export function applyBeraterBrand(b) {
   const telRaw = (b.telefon || '').replace(/[^\d+]/g, '');
   const telNum = telRaw ? (telRaw.startsWith('+') ? telRaw : '+' + telRaw.replace(/^0+/, '')) : '';
   const vorname = (b.name || '').trim().split(/\s+/)[0] || '';
+  const envId = (typeof window !== 'undefined') ? window.ENV_BERATER_ID : null;
+  const isDefaultBerater = envId ? b.id === envId : b.slug === 'kai-blobel';
+
+  if (!isDefaultBerater) {
+    document.querySelectorAll('[data-default-berater-only]').forEach((el) => { el.style.display = 'none'; });
+  }
 
   document.querySelectorAll('[data-bb]').forEach((el) => {
     switch (el.dataset.bb) {
@@ -96,9 +102,7 @@ export function applyBeraterBrand(b) {
       case 'finanzcheck': {
         // Der Finanzcheck-Link gehört dem Standard-Berater (ENV_BERATER_ID = Kai).
         // Für andere Berater → eigener Buchungslink; fehlt der, Button ausblenden.
-        const envId = (typeof window !== 'undefined') ? window.ENV_BERATER_ID : null;
-        const isDefault = envId ? b.id === envId : b.slug === 'kai-blobel';
-        if (!isDefault) {
+        if (!isDefaultBerater) {
           if (b.bookings_url) el.href = b.bookings_url;
           else el.style.display = 'none';
         }
