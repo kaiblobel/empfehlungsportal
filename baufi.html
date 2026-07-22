@@ -309,7 +309,24 @@
     .step-track { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
     .step-track i { height: 4px; border-radius: 99px; background: #e5e2da; transition: background 220ms ease; }
     .step-track i.is-active, .step-track i.is-done { background: var(--gold); }
-    .app-close-space { width: 18px; }
+    .app-home {
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #f8f6f0;
+      color: var(--ink);
+      font-size: 11px;
+      font-weight: 780;
+      cursor: pointer;
+      transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+    }
+    .app-home:hover { border-color: rgba(184,146,47,0.48); background: #fff; transform: translateY(-1px); }
+    .app-home svg { width: 15px; height: 15px; }
     .app-screen { padding: clamp(24px, 5vw, 44px); }
     .screen-intro { margin-bottom: 25px; }
     .screen-intro h3 { font-size: clamp(25px, 4vw, 34px); }
@@ -775,8 +792,9 @@
       .hero-trust { gap: 10px 14px; }
       .portrait-stage { padding: 15px; }
       .portrait-card { border-radius: 39% 39% 24px 24px; }
-      .app-head { grid-template-columns: 1fr; gap: 9px; }
-      .app-close-space { display: none; }
+      .app-head { grid-template-columns: 1fr auto; gap: 9px 12px; padding: 14px 16px; }
+      .step-track { grid-column: 1 / -1; grid-row: 2; }
+      .app-home { grid-column: 2; grid-row: 1; min-height: 36px; padding-inline: 11px; }
       .step-copy { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
       .situation-grid { gap: 9px; }
       .situation-card { min-height: 142px; padding: 14px; border-radius: 17px; }
@@ -924,7 +942,10 @@
             <div class="app-head">
               <div class="step-copy"><strong id="step-label">Schritt 1 von 3</strong><span id="step-name">Situation</span></div>
               <div class="step-track" aria-hidden="true"><i class="is-active"></i><i></i><i></i></div>
-              <span class="app-close-space"></span>
+              <button class="app-home" id="compass-home" type="button" aria-label="Zur Startseite">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m4 11 8-7 8 7"/><path d="M6.5 10v10h11V10M10 20v-6h4v6"/></svg>
+                <span>Startseite</span>
+              </button>
             </div>
 
             <section class="app-screen" data-screen="1">
@@ -1241,7 +1262,7 @@
         window.dispatchEvent(new CustomEvent('baufi:track', { detail:event }));
       }
 
-      function showScreen(step) {
+      function showScreen(step, shouldScroll = true) {
         currentStep = step;
         screens.forEach(screen => { screen.hidden = Number(screen.dataset.screen) !== step; });
         segments.forEach((segment, index) => { segment.className = index + 1 < step ? 'is-done' : index + 1 === step ? 'is-active' : ''; });
@@ -1251,7 +1272,7 @@
         if (step === 2) mobileAction.textContent = 'Antwort auswählen';
         if (step === 3) mobileAction.textContent = currentSituation === 'anschluss' ? 'Restschuld prüfen' : fundingSituations.has(currentSituation) ? 'Förder-Chancen prüfen' : 'Nächsten Schritt klären';
         syncMobileBar();
-        if (innerWidth < 700) root.querySelector('#compass-app').scrollIntoView({ behavior:'smooth', block:'start' });
+        if (shouldScroll && innerWidth < 700) root.querySelector('#compass-app').scrollIntoView({ behavior:'smooth', block:'start' });
       }
 
       function renderQuestion(key) {
@@ -1299,6 +1320,16 @@
       }
 
       root.querySelectorAll('[data-back]').forEach(button => button.addEventListener('click', () => showScreen(Number(button.dataset.back))));
+
+      root.querySelector('#compass-home').addEventListener('click', () => {
+        currentSituation = null;
+        currentAnswer = null;
+        quickSection.hidden = true;
+        fundingSection.hidden = true;
+        showScreen(1, false);
+        track('compass_home_clicked');
+        scrollTo({ top:0, behavior:'smooth' });
+      });
 
       const fields = [
         { key:'loan', eyebrow:'Dein Darlehen', question:'Wie hoch war das Darlehen zu Beginn?', hint:'Eine ungefähre Zahl reicht für die erste Orientierung.', min:50000, max:800000, step:10000, value:300000, format:value => `${formatNumber(value)} €`, minLabel:'50.000 €', maxLabel:'800.000 €', label:'Darlehenssumme' },
