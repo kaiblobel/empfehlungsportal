@@ -288,12 +288,14 @@
     .compass-app {
       max-width: 900px;
       margin: 0 auto;
+      scroll-margin-top: 82px;
       border: 1px solid rgba(23,24,23,0.08);
       border-radius: var(--radius-xl);
       background: var(--surface);
       box-shadow: var(--shadow);
       overflow: hidden;
     }
+    .compass-app.is-starting { animation: compass-start 760ms ease; }
     .app-head {
       padding: 18px 22px;
       display: grid;
@@ -758,6 +760,10 @@
     .reveal.is-visible { opacity: 1; transform: none; }
     @keyframes halo { to { transform: rotate(360deg); } }
     @keyframes enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    @keyframes compass-start {
+      0%, 100% { border-color: rgba(23,24,23,0.08); box-shadow: var(--shadow); }
+      42% { border-color: rgba(184,146,47,0.62); box-shadow: 0 0 0 5px rgba(184,146,47,0.12), var(--shadow); }
+    }
 
     :focus-visible { outline: 3px solid rgba(184,146,47,0.48); outline-offset: 3px; }
 
@@ -1321,12 +1327,32 @@
 
       root.querySelectorAll('[data-back]').forEach(button => button.addEventListener('click', () => showScreen(Number(button.dataset.back))));
 
-      root.querySelector('#compass-home').addEventListener('click', () => {
+      function resetCompass() {
         currentSituation = null;
         currentAnswer = null;
         quickSection.hidden = true;
+        quickInput.hidden = false;
+        calcResult.hidden = true;
+        quickIndex = 0;
         fundingSection.hidden = true;
+        fundingQuestionScreen.hidden = false;
+        fundingResult.hidden = true;
+        fundingIndex = 0;
         showScreen(1, false);
+      }
+
+      function startCompass() {
+        resetCompass();
+        const app = root.querySelector('#compass-app');
+        app.classList.remove('is-starting');
+        requestAnimationFrame(() => app.classList.add('is-starting'));
+        setTimeout(() => app.classList.remove('is-starting'), 820);
+        track('compass_started');
+        app.scrollIntoView({ behavior:'smooth', block:'start' });
+      }
+
+      root.querySelector('#compass-home').addEventListener('click', () => {
+        resetCompass();
         track('compass_home_clicked');
         scrollTo({ top:0, behavior:'smooth' });
       });
@@ -1633,6 +1659,7 @@
       });
 
       root.querySelectorAll('[data-scroll]').forEach(button => button.addEventListener('click', () => {
+        if (button.dataset.scroll === 'compass') { startCompass(); return; }
         const target = root.querySelector(`#${button.dataset.scroll}`);
         if (target) target.scrollIntoView({ behavior:'smooth', block:'start' });
       }));
