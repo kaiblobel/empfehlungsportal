@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.128 Beta** · Emotionale Bildwelten im Finanzierungskompass.
+Aktuelle Version: **v1.129 Beta** · Emotionale Nutzenfolie in der Empfehlungspräsentation.
+
+---
+
+## v1.129 Beta - Phase 99 · Emotionale Nutzenfolie in der Empfehlungspräsentation
+**2026-07-22**
+
+- Die bisher zahlenlastige Förderfolie stellt jetzt zuerst den Menschen in den Mittelpunkt, dem eine Empfehlung helfen könnte.
+- Ein neues Freundschaftsmotiv, die Auswahl zwischen bestem Freund, Familie und Lieblingskollege sowie eine kurze persönliche Reaktion machen die Folie im Kundengespräch interaktiv.
+- Die Altersvorsorgereform wird als eigener Deutschland-Baustein mit Gesetzesstatus, Start zum 1. Januar 2027 und direkter Quelle der Bundesregierung erklärt.
+- Die Beispielrechnung bleibt erhalten, ist aber klar als erste Orientierung ohne Zusage gekennzeichnet.
+- Die Folie ist bei 1.600 × 842 und 2.048 × 1.120 Pixeln vollständig ohne Scrollen lesbar.
+- Die Eurobeträge der Beispielrechnung bleiben auch auf schmaleren Präsentationsflächen sicher innerhalb der Ergebniskarte.
+- Die Karten der Alltagsfolie nutzen die Präsentationsfläche jetzt großzügiger und bleiben trotzdem vollständig ohne Scrollen sichtbar.
+- Die beiden fertigen Themenwelten werden jetzt als große emotionale Bildkarten inszeniert. Die sechs weiteren Themen bleiben bewusst ruhig, damit die Folie hochwertig statt wie ein Fotokatalog wirkt.
+- Cache: programm.css v66, programm.js v38, config.js v1.129 Beta, sw.js v100.
 
 ---
 

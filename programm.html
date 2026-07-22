@@ -14,7 +14,7 @@
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
   <link rel="stylesheet" href="css/style.css?v=32" />
-  <link rel="stylesheet" href="css/programm.css?v=61" />
+  <link rel="stylesheet" href="css/programm.css?v=66" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="programm">
@@ -240,18 +240,57 @@
     </div>
   </section>
 
-  <!-- ===== 0b · Förder-Rechner (Live-Tool im Pitch) ===== -->
+  <!-- ===== 0b · Der Tipp bekommt ein Gesicht ===== -->
   <section class="section foerder-rechner" id="foerder">
-    <div class="inner">
-      <p class="t-eyebrow reveal" style="text-align:center;">Konkret werden</p>
-      <h2 class="t-h2 reveal d1" style="text-align:center;">
-        Was bringt <em>dein Tipp</em><br>jedes <em>Jahr?</em>
-      </h2>
-      <p class="t-lede reveal d2" style="text-align:center; margin: 0 auto 36px; max-width:620px;">
-        Lass uns kurz rechnen. Sag mir, was du über die Person weißt. So sehen wir grob, was an Förderungen drin ist.
-      </p>
+    <div class="foerder-story">
+      <div class="foerder-story-shade" aria-hidden="true"></div>
+      <div class="foerder-story-copy reveal">
+        <p class="t-eyebrow">Ein Tipp, der Zukunft verändern kann</p>
+        <h2>Was könnte dein Tipp einem Menschen bringen, der dir wichtig ist?</h2>
+        <p>Vielleicht ist es dein bester Freund. Vielleicht jemand aus deiner Familie. Manchmal beginnt etwas Gutes mit einem einzigen Hinweis.</p>
+      </div>
 
-      <div class="foerder-tool reveal d3">
+      <div class="foerder-person-card reveal d2">
+        <span>An wen denkst du gerade?</span>
+        <div class="foerder-person-switch" aria-label="Nahestehende Person auswählen">
+          <button type="button" class="active" data-foerder-person="freund">Bester Freund</button>
+          <button type="button" data-foerder-person="familie">Familie</button>
+          <button type="button" data-foerder-person="kollege">Lieblingskollege</button>
+        </div>
+        <p id="foerderPersonLine">Für deinen besten Freund könnte dein Tipp der Moment sein, an dem er seine Zukunft endlich anpackt.</p>
+      </div>
+    </div>
+
+    <div class="foerder-stage">
+      <article class="reform-card reveal d1">
+        <div class="reform-card-topline" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="reform-card-head">
+          <div class="reform-document" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h6"/></svg>
+          </div>
+          <div>
+            <p>Deutschland · Altersvorsorge 2027</p>
+            <span>Beschlossen und in Kraft</span>
+          </div>
+        </div>
+        <h3>Die Regeln werden neu aufgestellt.</h3>
+        <p class="reform-card-copy">Ab 1. Januar 2027 starten neue geförderte Vorsorgeprodukte. Dazu gehört auch das Altersvorsorgedepot mit Fonds und ETFs.</p>
+        <div class="reform-facts">
+          <span>Neue Möglichkeiten ab 2027</span>
+          <span>Bestehende Riester-Verträge bleiben</span>
+        </div>
+        <a href="https://www.bundesregierung.de/breg-de/aktuelles/reform-private-altersvorsorge-2400072" target="_blank" rel="noopener">Quelle: Bundesregierung</a>
+      </article>
+
+      <div class="foerder-tool reveal d2">
+        <div class="foerder-tool-head">
+          <div>
+            <span class="foerder-tool-kicker">Erste Orientierung</span>
+            <h3>Was könnte heute schon drin sein?</h3>
+          </div>
+          <p>Keine Zusage, sondern ein Gesprächseinstieg.</p>
+        </div>
+
         <div class="foerder-inputs">
           <div class="foerder-input-group">
             <label>Alter</label>
@@ -261,13 +300,20 @@
             </div>
           </div>
           <div class="foerder-input-group">
+            <label>Brutto-Einkommen</label>
+            <div class="foerder-slider">
+              <input type="range" min="20000" max="120000" step="2500" value="45000" id="foerderEinkommen" aria-label="Brutto-Einkommen pro Jahr" />
+              <span class="foerder-slider-val"><span id="foerderEinkommenVal">45.000</span> €</span>
+            </div>
+          </div>
+          <div class="foerder-input-group foerder-input-compact">
             <label>Familienstand</label>
             <div class="foerder-btn-group" data-field="familie">
               <button type="button" data-val="single" class="active">Single</button>
               <button type="button" data-val="verheiratet">Verheiratet</button>
             </div>
           </div>
-          <div class="foerder-input-group">
+          <div class="foerder-input-group foerder-input-compact">
             <label>Kinder</label>
             <div class="foerder-btn-group" data-field="kinder">
               <button type="button" data-val="0" class="active">0</button>
@@ -276,28 +322,23 @@
               <button type="button" data-val="3">3+</button>
             </div>
           </div>
-          <div class="foerder-input-group">
-            <label>Brutto-Einkommen pro Jahr</label>
-            <div class="foerder-slider">
-              <input type="range" min="20000" max="120000" step="2500" value="45000" id="foerderEinkommen" aria-label="Brutto-Einkommen" />
-              <span class="foerder-slider-val"><span id="foerderEinkommenVal">45.000</span> €</span>
-            </div>
-          </div>
         </div>
 
         <div class="foerder-result">
-          <p class="foerder-result-label">Möglicher Förder-Vorteil pro Jahr</p>
-          <p class="foerder-result-amount">
-            <span id="foerderAmount" class="foerder-result-amount-num">0</span><span class="foerder-result-amount-unit">€</span>
-          </p>
-          <p class="foerder-result-sub">Das ist eine grobe Schätzung. Im Detail oft deutlich mehr.</p>
+          <div class="foerder-result-summary">
+            <p class="foerder-result-label">Mögliche Vorteile im Beispiel pro Jahr</p>
+            <p class="foerder-result-amount"><span id="foerderAmount" class="foerder-result-amount-num">0</span><span class="foerder-result-amount-unit">€</span></p>
+            <p class="foerder-result-sub">Förderungen, Arbeitgeberleistungen und Beitragsvorteile. Was wirklich passt, prüfen wir persönlich.</p>
+          </div>
           <ul class="foerder-result-breakdown" id="foerderBreakdown"></ul>
           <a class="foerder-cta" data-bb="finanzcheck" href="https://finanzcheck.kaiblobel.de?from=empfehlung" target="_blank" rel="noopener">
-            Detail-Analyse starten
+            Persönlich prüfen
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
         </div>
       </div>
+
+      <p class="foerder-stage-closing reveal d3"><span>Ein Tipp.</span> Ein Gespräch. Vielleicht ein echter Unterschied.</p>
     </div>
   </section>
 
@@ -1012,6 +1053,6 @@
   </nav>
 
   <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
-  <script type="module" src="js/programm.js?v=37"></script>
+  <script type="module" src="js/programm.js?v=38"></script>
 </body>
 </html>

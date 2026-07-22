@@ -16,6 +16,8 @@ const beraterSlug = new URLSearchParams(window.location.search).get('berater');
   const breakdownEl= document.getElementById('foerderBreakdown');
   const familieBtns= document.querySelectorAll('[data-field="familie"] button');
   const kinderBtns = document.querySelectorAll('[data-field="kinder"] button');
+  const personBtns = document.querySelectorAll('[data-foerder-person]');
+  const personLineEl = document.getElementById('foerderPersonLine');
   const alltagSumEl= document.getElementById('alltagFoerderSum');
   if (!alterEl || !amountEl) return;
 
@@ -139,6 +141,17 @@ const beraterSlug = new URLSearchParams(window.location.search).get('berater');
     kinderBtns.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     render();
+  }));
+
+  const personLines = {
+    freund: 'Für deinen besten Freund könnte dein Tipp der Moment sein, an dem er seine Zukunft endlich anpackt.',
+    familie: 'Für jemanden aus deiner Familie könnte dein Tipp bedeuten, Chancen nicht länger liegen zu lassen.',
+    kollege: 'Für deinen Lieblingskollegen könnte dein Tipp der Anstoß sein, sich endlich einen klaren Überblick zu verschaffen.',
+  };
+  personBtns.forEach(btn => btn.addEventListener('click', () => {
+    personBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    if (personLineEl) personLineEl.textContent = personLines[btn.dataset.foerderPerson] || personLines.freund;
   }));
 
   render();
