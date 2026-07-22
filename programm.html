@@ -14,7 +14,7 @@
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
   <link rel="stylesheet" href="css/style.css?v=32" />
-  <link rel="stylesheet" href="css/programm.css?v=66" />
+  <link rel="stylesheet" href="css/programm.css?v=69" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="programm">
@@ -343,7 +343,7 @@
   </section>
 
   <!-- ===== 0c · Vorteile unserer Zusammenarbeit (Orbit) ===== -->
-  <section class="section vorteile-section" id="vorteile">
+  <section class="section vorteile-section" id="vorteile" data-presentation="skip">
     <div class="inner">
       <p class="t-eyebrow reveal" style="text-align:center;">Deine Vorteile</p>
       <h2 class="t-h2 reveal d1" style="text-align:center;">
@@ -464,7 +464,7 @@
   </section>
 
   <!-- ===== 1 · Hero (Split-Layout) ===== -->
-  <section class="section hero hero-split" id="hero-haupt">
+  <section class="section hero hero-split" id="hero-haupt" data-presentation="skip">
     <div class="inner hero-split-inner">
       <div class="hero-split-text">
         <p class="t-eyebrow reveal">Empfehlung</p>
@@ -486,35 +486,43 @@
     </div>
   </section>
 
-  <!-- ===== 1a · Persönliches Video ===== -->
-  <section class="section video-pitch">
-    <div class="inner">
-      <p class="t-eyebrow reveal" style="text-align:center;">Eine Nachricht von mir</p>
-      <h2 class="t-h2 reveal d1" style="text-align:center;">
-        In <em>30 Sekunden</em> erkläre<br>ich dir, was dahintersteckt.
+  <!-- ===== 1a · Persönliche Botschaft an den Empfehlungsgeber ===== -->
+  <section class="section promoter-message">
+    <div class="promoter-message-copy">
+      <p class="promoter-message-eyebrow reveal">Eine persönliche Bitte</p>
+      <h2 class="reveal d1">
+        Du verkaufst nichts.<br>
+        Du öffnest nur <em>eine Tür.</em>
       </h2>
-      <p class="t-lede reveal d2" style="text-align:center; margin: 0 auto; max-width:680px;">
-        Kurz und ehrlich: was du davon hast und was ich mir davon erhoffe.
+      <p class="promoter-message-lede reveal d2">
+        Wenn du an einen Menschen denkst, dem ein Gespräch mit mir helfen könnte,
+        dann stell uns einfach einander vor. <strong>Mehr musst du nicht tun.</strong>
       </p>
 
-      <div class="video-frame reveal d3">
-        <!-- Wenn echtes Video bereit: ersetze .video-placeholder durch <video> oder Vimeo/YouTube-Iframe -->
-        <div class="video-placeholder" role="button" tabindex="0" aria-label="Video abspielen">
-          <img class="video-poster" id="t-FotoVideo" src="" alt="" />
-          <div class="video-overlay">
-            <span class="video-rec"><span class="video-rec-dot"></span> REC</span>
-            <div class="video-overlay-center">
-              <span class="video-overlay-name" data-bb="name">Kai Blobel</span>
-              <span class="video-overlay-role" data-bb="rolle">Initiator</span>
-              <span class="video-overlay-sub">hat eine persönliche Nachricht für dich.</span>
-            </div>
-            <button class="video-play-btn" type="button" aria-label="Video starten">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M8 5v14l11-7z"/>
-              </svg>
-            </button>
-          </div>
+      <div class="promoter-message-facts reveal d3" aria-label="So einfach ist die Empfehlung">
+        <div>
+          <span>30 Sekunden</span>
+          <b>Ein persönlicher Link ist schnell erstellt.</b>
         </div>
+        <div>
+          <span>Keine Erklärung</span>
+          <b>Die passende Themenseite übernimmt den Einstieg.</b>
+        </div>
+        <div>
+          <span>Freie Entscheidung</span>
+          <b>Die Person schaut in Ruhe und entscheidet selbst.</b>
+        </div>
+      </div>
+    </div>
+
+    <div class="promoter-message-light" aria-hidden="true">
+      <div class="promoter-door-glow"></div>
+      <div class="promoter-door-frame">
+        <div class="promoter-door-opening"></div>
+      </div>
+      <div class="promoter-message-signature">
+        <span>Danke für dein Vertrauen.</span>
+        <b data-bb="name">Kai Blobel</b>
       </div>
     </div>
   </section>

@@ -1,7 +1,37 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.129 Beta** · Emotionale Nutzenfolie in der Empfehlungspräsentation.
+Aktuelle Version: **v1.132 Beta** · Ruhigerer Porträt-Ausschnitt im Präsentationseinstieg.
+
+---
+
+## v1.132 Beta - Phase 102 · Ruhigerer Porträt-Ausschnitt
+
+- Das Porträt auf der ersten Folie ist im Präsentationsmodus etwa zehn Prozent kleiner inszeniert.
+- Mehr Schulter und Bildraum reduzieren den Druck bei der Frage nach einer ehrlichen Bewertung.
+- Das Zitat ist etwas kleiner und konkurriert nicht mehr mit der eigentlichen Einstiegsfrage.
+- Cache: programm.css v69, config.js v1.132 Beta, sw.js v103.
+
+---
+
+## v1.131 Beta - Phase 101 · Vollständig lesbare Vorteile-Folie
+
+- Die Folie „Folgende Vorteile erwarten dich“ ist im Präsentationsmodus vollständig sichtbar.
+- Die lange Web-Galerie wird im Pitch ausgeblendet. Sie bleibt auf der normalen Webseite unverändert erhalten.
+- Gezeigt werden die beiden Vorteilsbereiche, die Kernaussage, die Belohnungslogik und die Stufen-Roadmap.
+- Cache: programm.css v68, config.js v1.131 Beta, sw.js v102.
+
+---
+
+## v1.130 Beta - Phase 100 · Gestraffte Präsentation mit persönlicher Botschaft
+**2026-07-22**
+
+- Die doppelte Vorteilsfolie wird in der Präsentationsansicht übersprungen, weil der Kunde seinen persönlichen Mehrwert bereits selbst benannt hat.
+- Die erneute Begeisterungsfrage entfällt, weil sie den persönlichen Einstieg wiederholt und den Übergang zum Ablauf verzögert.
+- Die bisherige Videofolie mit funktionslosem Abspielknopf wird durch eine persönliche Botschaft an den Empfehlungsgeber ersetzt.
+- Die Aussage „Du verkaufst nichts. Du öffnest nur eine Tür.“ wird ohne zweites Beraterporträt inszeniert. Ein warmer Lichtspalt greift das Bild der geöffneten Tür auf.
+- Die Präsentation führt jetzt in dreizehn statt fünfzehn Folien schneller von der eigenen Erfahrung zum einfachen Empfehlungsweg.
+- Cache: programm.css v67, config.js v1.130 Beta, sw.js v101.
 
 ---
 
