@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.123 Beta** · Persönlicher Baufinanzierungs-Kompass mit echtem Empfehlungs-, Opt-out- und Lead-Ablauf.
+Aktuelle Version: **v1.127 Beta** · Interaktive Empfehlungspräsentation für das persönliche Kundengespräch.
+
+---
+
+## v1.127 Beta - Phase 97 · Empfehlungspräsentation neu inszeniert
+**2026-07-22**
+
+- Die Präsentationsansicht läuft als echtes horizontales Deck mit 15 Folien, Pfeilnavigation und klaren Übergängen statt als lange Scroll-Seite.
+- Der Einstieg verbindet eine ehrliche Zufriedenheitsfrage mit persönlichem Porträt und passender Reaktion auf die gewählte Bewertung.
+- Die Folie „Ein Ansprechpartner“ zeigt ein modernes Lebensmotiv und öffnet bei Bedarf eine interaktive Übersicht über alle Beratungsthemen.
+- Der Ablauf nach einer Empfehlung erklärt jetzt korrekt die Opt-out-Variante: Die empfohlene Person kann sich informieren, einen Termin wählen, widersprechen oder auf den persönlichen Anruf warten.
+- Die Themenfolie öffnet echte Vorschauen für die allgemeine Empfehlung und die Baufinanzierung direkt innerhalb der Präsentation.
+- Die Alltagsfolie wurde für das Querformat neu geordnet. Alle Beispiele, beide Empfehlungskarten und die interaktive Karriere-Rückseite sind ohne Scrollen vollständig lesbar.
+- Cache: programm.css v61, programm.js v37, config.js v1.127 Beta, sw.js v98.
 
 ---
 

@@ -14,7 +14,7 @@
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
   <link rel="stylesheet" href="css/style.css?v=32" />
-  <link rel="stylesheet" href="css/programm.css?v=54" />
+  <link rel="stylesheet" href="css/programm.css?v=61" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="programm">
@@ -24,16 +24,21 @@
 
   <!-- ===== 0 · Pre-Hero · Reflexions-Sektion mit NPS-Skala ===== -->
   <section class="section pre-hero" id="reflexion">
-    <div class="inner pre-hero-inner">
-      <p class="t-eyebrow reveal">Eine kurze Frage vorweg</p>
+    <div class="pre-hero-layout">
+      <div class="pre-hero-content">
+      <p class="t-eyebrow reveal">Bevor es um Empfehlungen geht</p>
       <h1 class="t-h1 pre-hero-h1 reveal d1">
-        Wie <em>zufrieden</em> bist du<br>wirklich mit unserer<br>Zusammenarbeit?
+        Würdest du dich heute<br><em>wieder für mich entscheiden?</em>
       </h1>
       <p class="t-lede reveal d2">
-        Klick eine Zahl an. Sei ehrlich. Es hilft mir, dich besser zu verstehen.
+        Nicht, was du glaubst, dass ich hören möchte. Sondern was du wirklich denkst.
       </p>
 
       <div class="nps-block reveal d3">
+        <div class="nps-question">
+          <span>Deine ehrliche Einschätzung</span>
+          <strong>Wie zufrieden bist du mit unserer Zusammenarbeit?</strong>
+        </div>
         <div class="nps-scale" id="npsScale" role="radiogroup" aria-label="Zufriedenheit auf einer Skala von 1 bis 10">
           <button class="nps-btn" type="button" data-score="1" role="radio" aria-checked="false">1</button>
           <button class="nps-btn" type="button" data-score="2" role="radio" aria-checked="false">2</button>
@@ -47,8 +52,8 @@
           <button class="nps-btn" type="button" data-score="10" role="radio" aria-checked="false">10</button>
         </div>
         <div class="nps-scale-labels">
-          <span>Gar nicht</span>
-          <span>Total zufrieden</span>
+          <span>Da fehlt noch etwas</span>
+          <span>Jederzeit wieder</span>
         </div>
       </div>
 
@@ -90,6 +95,15 @@
           </div>
         </div>
       </div>
+      </div>
+
+      <figure class="pre-hero-portrait reveal d2">
+        <img src="assets/images/kai-portrait.jpg" alt="Kai Blobel" />
+        <figcaption>
+          <span class="pre-hero-name">Kai Blobel</span>
+          <blockquote>„Deine ehrliche Antwort ist mir wichtiger als eine perfekte Zahl.“</blockquote>
+        </figcaption>
+      </figure>
     </div>
   </section>
 
@@ -128,38 +142,101 @@
     </div>
   </section>
 
-  <!-- ===== 0b · Win-Recap · Was wir gemeinsam erreicht haben (aus Kais Sicht) ===== -->
-  <section class="section win-recap">
-    <div class="inner">
-      <p class="t-eyebrow reveal" style="text-align:center;">Und aus meiner Sicht</p>
-      <h2 class="t-h2 reveal d1" style="text-align:center;">
-        Was wir gemeinsam<br>schon <em>bewegt</em> haben.
-      </h2>
-      <p class="t-lede reveal d2" style="text-align:center; margin: 0 auto; max-width:640px;">
-        Bei jedem geht es anders zu. Aber bei dir war was dabei, das wir zusammen sortiert haben:
-      </p>
-      <ul class="recap-list reveal d3">
-        <li><span class="recap-mark">+</span> Übersicht über deine Lage</li>
-        <li><span class="recap-mark">+</span> Entscheidungen, die lange offen waren</li>
-        <li><span class="recap-mark">+</span> Geld, das du sonst übersehen hättest</li>
-        <li><span class="recap-mark">+</span> Lücken, die jetzt zu sind</li>
-      </ul>
-      <p class="t-body reveal d3" style="text-align:center; margin: 28px auto 0; max-width:560px; font-style:italic; color:var(--muted);">
-        Was dir geholfen hat, kann auch deinen Liebsten helfen.
-      </p>
-    </div>
-  </section>
-
   <!-- ===== 0a2 · Teamwork-Botschaft (kompakt im Einstieg) ===== -->
   <section class="section teamwork-intro">
-    <div class="inner">
-      <p class="t-eyebrow reveal" style="text-align:center;">Wir als Team</p>
-      <h2 class="t-h2 reveal d1" style="text-align:center;">
-        Du hast nicht nur einen Berater.<br>Du hast <em>einen Partner</em> für alles, was mit Geld zu tun hat.
+    <div class="inner teamwork-story">
+      <p class="t-eyebrow reveal">Ein Leben. Viele Entscheidungen.</p>
+      <h2 class="t-h2 reveal d1">
+        Ein Ansprechpartner.<br><em>Für alles, was mit Geld zu tun hat.</em>
       </h2>
-      <p class="t-lede reveal d2" style="text-align:center; margin: 0 auto; max-width:680px;">
-        Das ist der Unterschied zu jemandem, der dich nur für eine Sache kennt. Wenn bei dir was Neues aufpoppt, an das du gerade noch nicht gedacht hast: ich bin da.
+      <p class="t-lede reveal d2">
+        Wenn sich dein Leben verändert, musst du nicht jedes Mal bei null anfangen. Ich kenne deine Ziele, sehe die Zusammenhänge und hole bei Bedarf die passenden Spezialisten dazu.
       </p>
+      <p class="teamwork-promise reveal d3">
+        <span class="teamwork-promise-mark" aria-hidden="true">✓</span>
+        Du erzählst deine Geschichte nur einmal.
+      </p>
+      <button class="market-open reveal d3" id="marketOpen" type="button" aria-haspopup="dialog" aria-controls="marketOverlay">
+        <span>Was alles dazugehört</span>
+        <span class="market-open-icon" aria-hidden="true">+</span>
+      </button>
+    </div>
+
+    <div class="market-overlay" id="marketOverlay" role="dialog" aria-modal="true" aria-labelledby="marketOverlayTitle" aria-hidden="true" hidden>
+      <button class="market-close" id="marketClose" type="button" aria-label="Marktübersicht schließen">
+        <span aria-hidden="true">×</span>
+      </button>
+
+      <div class="market-overlay-head">
+        <p class="market-eyebrow">Was alles dazugehört</p>
+        <h2 id="marketOverlayTitle">Ein Ansprechpartner.&nbsp;<em>Das ganze Bild.</em></h2>
+        <p>Klicke auf ein Thema, wenn du genauer hinschauen möchtest.</p>
+      </div>
+
+      <div class="market-map" id="marketMap">
+        <svg class="market-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <line x1="50" y1="50" x2="50" y2="8" />
+          <line x1="50" y1="50" x2="72" y2="13" />
+          <line x1="50" y1="50" x2="88" y2="32" />
+          <line x1="50" y1="50" x2="88" y2="64" />
+          <line x1="50" y1="50" x2="72" y2="82" />
+          <line x1="50" y1="50" x2="50" y2="90" />
+          <line x1="50" y1="50" x2="28" y2="82" />
+          <line x1="50" y1="50" x2="12" y2="64" />
+          <line x1="50" y1="50" x2="12" y2="32" />
+          <line x1="50" y1="50" x2="28" y2="13" />
+        </svg>
+
+        <button class="market-node" type="button" style="--market-x:50%; --market-y:8%; --market-delay:1;" data-market-icon="Sparkles" data-title="Energie &amp; Versorgung" data-details="Kosten dauerhaft im Blick behalten|Anbieter und Versorgung passend strukturieren">
+          <span class="market-node-icon" aria-hidden="true"></span>
+          <span>Energie &amp;<br>Versorgung</span>
+        </button>
+        <button class="market-node" type="button" style="--market-x:72%; --market-y:13%; --market-delay:2;" data-market-icon="Heart" data-title="Gesundheit" data-details="Gesundheit langfristig absichern|Vorsorge und Notfallplanung mitdenken">
+          <span class="market-node-icon" aria-hidden="true"></span>
+          <span>Gesundheit</span>
+        </button>
+        <button class="market-node" type="button" style="--market-x:88%; --market-y:32%; --market-delay:3;" data-market-icon="Banknote" data-title="Liquidität &amp; Banking" data-details="Finanzen übersichtlich ordnen|Liquidität und Reserven sinnvoll planen">
+          <span class="market-node-icon" aria-hidden="true"></span>
+          <span>Liquidität &amp;<br>Banking</span>
+        </button>
+        <button class="market-node" type="button" style="--market-x:88%; --market-y:64%; --market-delay:4;" data-market-icon="Home" data-title="Immobilien" data-details="Den Weg ins Eigenheim planen|Finanzierung und Modernisierung zusammendenken">
+          <span class="market-node-icon" aria-hidden="true"></span>
+          <span>Immobilien</span>
+        </button>
+        <button class="market-node" type="button" style="--market-x:72%; --market-y:82%; --market-delay:5;" data-market-icon="TrendingUp" data-title="Vermögensaufbau" data-details="Ziele und Zeithorizonte festlegen|Vermögen Schritt für Schritt aufbauen">
+          <span class="market-node-icon" aria-hidden="true"></span>
+          <span>Vermögensaufbau</span>
+        </button>
+        <button class="market-node" type="button" style="--market-x:50%; --market-y:90%; --market-delay:6;" data-market-icon="FileText" data-title="Finanzierung" data-details="Vorhaben solide finanzieren|Bestehende Verbindlichkeiten im Blick behalten">
+          <span class="market-node-icon" aria-hidden="true"></span>
+          <span>Finanzierung</span>
+        </button>
+        <button class="market-node" type="button" style="--market-x:28%; --market-y:82%; --market-delay:7;" data-market-icon="FileText" data-title="Steueroptimierung" data-details="Mögliche Steuervorteile prüfen|Entscheidungen sauber aufeinander abstimmen">
+          <span class="market-node-icon" aria-hidden="true"></span>
+          <span>Steueroptimierung</span>
+        </button>
+        <button class="market-node" type="button" style="--market-x:12%; --market-y:64%; --market-delay:8;" data-market-icon="ShieldCheck" data-title="Staatliche Förderung" data-details="Fördermöglichkeiten prüfen|Staatliche Vorteile sinnvoll einbeziehen">
+          <span class="market-node-icon" aria-hidden="true"></span>
+          <span>Staatliche<br>Förderung</span>
+        </button>
+        <button class="market-node" type="button" style="--market-x:12%; --market-y:32%; --market-delay:9;" data-market-icon="Briefcase" data-title="Arbeitgeberlösungen" data-details="Betriebliche Möglichkeiten nutzen|Mitarbeiterbindung und Absicherung verbinden">
+          <span class="market-node-icon" aria-hidden="true"></span>
+          <span>Arbeitgeber-<br>lösungen</span>
+        </button>
+        <button class="market-node" type="button" style="--market-x:28%; --market-y:13%; --market-delay:10;" data-market-icon="Compass" data-title="Mobilität &amp; KFZ" data-details="Fahrzeuge passend absichern|Kosten und Schutz gemeinsam betrachten">
+          <span class="market-node-icon" aria-hidden="true"></span>
+          <span>Mobilität &amp; KFZ</span>
+        </button>
+
+        <div class="market-center" aria-live="polite">
+          <span class="market-center-kicker" id="marketDetailKicker">Deine Ziele</span>
+          <h3 id="marketDetailTitle">Ganzheitlich gedacht.</h3>
+          <p id="marketDetailHint">Wähle ein Themenfeld aus.</p>
+          <ul id="marketDetailList" hidden></ul>
+        </div>
+      </div>
+
+      <p class="market-overlay-foot">Ein Ansprechpartner, der die Zusammenhänge im Blick behält.</p>
     </div>
   </section>
 
@@ -291,7 +368,7 @@
     <div class="inner">
       <p class="t-eyebrow reveal" style="text-align:center;">Was wir alle tun</p>
       <h2 class="t-h2 reveal d1" style="text-align:center;">
-        Empfehlen gehört<br>zum <em>Alltag</em>.
+        Empfehlen gehört <br>zum <em>Alltag</em>.
       </h2>
       <p class="t-lede reveal d2" style="text-align:center; margin: 0 auto 36px; max-width:600px;">
         Wir tun es jeden Tag, ohne lang darüber nachzudenken:
@@ -447,7 +524,7 @@
   </section>
 
   <!-- ===== 2a · Inspiration: Worüber Kunden empfehlen ===== -->
-  <section class="section alt inspiration" id="inspiration">
+  <section class="section alt inspiration" id="inspiration" data-presentation="skip">
     <div class="inner wide">
       <p class="t-eyebrow reveal" style="text-align:center;">Wie spreche ich meine Kontakte an?</p>
       <h2 class="t-h2 reveal d1" style="text-align:center;">
@@ -475,27 +552,48 @@
   <!-- ===== 2b · Themen-Auswahl ===== -->
   <section class="section topics" id="themen">
     <div class="inner wide">
-      <p class="t-eyebrow reveal" style="text-align:center;">Worüber kannst du mich empfehlen</p>
-      <h2 class="t-h2 reveal d1" style="text-align:center;">
-        Sieben Themen.<br>Für jede <em>Lebenssituation</em>.
-      </h2>
-      <p class="t-lede reveal d2" style="text-align:center; margin: 0 auto; max-width:680px;">
-        Beim Empfehlen wählst du das Thema aus, das gerade bei deinem Bekannten dran ist. So weiß ich vorher, worum es geht, und kann mich richtig darauf vorbereiten.
-      </p>
+      <div class="topics-head">
+        <p class="t-eyebrow reveal">Der passende Gedanke zur richtigen Zeit</p>
+        <h2 class="t-h2 reveal d1">
+          Menschen empfehlen keine Produkte.<br>Sie empfehlen, <em>was gerade helfen könnte.</em>
+        </h2>
+        <p class="t-lede reveal d2">
+          Du wählst die Themenwelt, die zum Leben der Person passt. Oder du empfiehlst mich einfach ganz allgemein.
+        </p>
+      </div>
 
-      <div class="topics-grid" id="t-Topics">
-        <!-- Skeleton während Load -->
-        <div class="topic-card-skel"></div>
-        <div class="topic-card-skel"></div>
-        <div class="topic-card-skel"></div>
-        <div class="topic-card-skel"></div>
-        <div class="topic-card-skel"></div>
+      <div class="topics-grid" id="t-Topics" aria-live="polite">
         <div class="topic-card-skel"></div>
         <div class="topic-card-skel"></div>
       </div>
 
-      <div class="section-cta reveal">
-        <a class="btn btn-primary" href="#anmelden">Jetzt empfehlen</a>
+      <p class="topics-footnote reveal">Die Person sieht nur den passenden Einstieg und entscheidet selbst, wie weit sie gehen möchte.</p>
+    </div>
+
+    <div class="topic-preview" id="topicPreview" role="dialog" aria-modal="true" aria-labelledby="topicPreviewTitle" aria-hidden="true" hidden>
+      <button class="topic-preview-close" id="topicPreviewClose" type="button" aria-label="Vorschau schließen">
+        <span aria-hidden="true">×</span>
+      </button>
+      <div class="topic-preview-shell">
+        <aside class="topic-preview-copy">
+          <p class="topic-preview-eyebrow">So kommt die Empfehlung an</p>
+          <span class="topic-preview-icon" id="topicPreviewIcon" aria-hidden="true"></span>
+          <h2 id="topicPreviewTitle">Themenwelt</h2>
+          <p id="topicPreviewText">Eine persönliche Seite, passend zum Anlass der Empfehlung.</p>
+          <div class="topic-preview-actions">
+            <a class="topic-preview-open" id="topicPreviewOpen" href="#" target="_blank" rel="noopener">Themenseite groß öffnen</a>
+            <button class="topic-preview-back" id="topicPreviewBack" type="button">Zur Themenauswahl</button>
+          </div>
+          <p class="topic-preview-note">Die Namen in der Vorschau sind nur Beispiele.</p>
+        </aside>
+        <div class="topic-preview-browser">
+          <div class="topic-preview-browserbar">
+            <span class="topic-preview-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span id="topicPreviewAddress">Persönliche Empfehlung</span>
+            <span class="topic-preview-live">Interaktive Vorschau</span>
+          </div>
+          <iframe id="topicPreviewFrame" title="Vorschau der Themenwelt" loading="lazy"></iframe>
+        </div>
       </div>
     </div>
   </section>
@@ -503,40 +601,37 @@
   <!-- ===== 2c · Trust-Brücke: Was die empfohlene Person bekommt ===== -->
   <section class="section trust-bridge">
     <div class="inner">
-      <p class="t-eyebrow reveal" style="text-align:center;">Was passiert nach deiner Empfehlung</p>
-      <h2 class="t-h2 reveal d1" style="text-align:center;">
-        Ich rufe selbst an.<br>Mit <em>Ruhe</em> und Zeit.
+      <p class="t-eyebrow reveal" style="text-align:center;">Was nach deiner Empfehlung passiert</p>
+      <h2 class="t-h2 reveal d1 trust-bridge-title" style="text-align:center;">
+        Ich rufe <em>selbst</em> an.
       </h2>
-      <p class="t-lede reveal d2" style="text-align:center; margin: 0 auto; max-width:680px;">
-        Du gibst den Hinweis, ich melde mich in den nächsten Tagen. Wir telefonieren kurz, und dann sieht die Person selbst, ob ein weiteres Gespräch sich lohnt. So habe ich das auch bei dir gemacht.
-      </p>
 
       <div class="trust-points reveal d3">
         <div class="trust-point">
           <span class="trust-point-mark">✓</span>
           <div class="trust-point-body">
-            <span class="trust-point-title">Du erreichst direkt mich</span>
-            <span class="trust-point-text">Ich rufe selbst an. Es geht nichts über einen Mitarbeiter oder eine Hotline.</span>
+            <span class="trust-point-title">Erst einmal in Ruhe anschauen</span>
+            <span class="trust-point-text">Dein Kontakt erhält deinen Link und kann sich vorab ansehen, worum es geht.</span>
           </div>
         </div>
         <div class="trust-point">
           <span class="trust-point-mark">✓</span>
           <div class="trust-point-body">
-            <span class="trust-point-title">Ein Gespräch, sonst nichts</span>
-            <span class="trust-point-text">Wir lernen uns kennen und reden über die Lage. Wer danach kein Interesse hat, sagt das einfach.</span>
+            <span class="trust-point-title">Alle Möglichkeiten bleiben offen</span>
+            <span class="trust-point-text">Direkt einen Termin wählen, die Kontaktaufnahme ablehnen oder einfach abwarten.</span>
           </div>
         </div>
         <div class="trust-point">
           <span class="trust-point-mark">✓</span>
           <div class="trust-point-body">
-            <span class="trust-point-title">Daten bleiben bei mir</span>
-            <span class="trust-point-text">Ich gebe sie nirgendwohin weiter und schicke auch keine Newsletter. Ein einziger Anruf, mehr nicht.</span>
+            <span class="trust-point-title">Dann übernehme ich persönlich</span>
+            <span class="trust-point-text">Wenn kein Termin gewählt und nicht abgelehnt wurde, melde ich mich in den nächsten Tagen. Kein Callcenter, keine Hotline.</span>
           </div>
         </div>
       </div>
 
       <p class="trust-bridge-close reveal d3" style="text-align:center;">
-        Genau so, wie ich auch dich kennengelernt habe.
+        Du gibst den Hinweis. Dein Kontakt behält die Kontrolle. Ich kümmere mich persönlich um den Rest.
       </p>
     </div>
   </section>
@@ -917,6 +1012,6 @@
   </nav>
 
   <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
-  <script type="module" src="js/programm.js?v=35"></script>
+  <script type="module" src="js/programm.js?v=37"></script>
 </body>
 </html>

@@ -203,46 +203,75 @@ const beraterSlug = new URLSearchParams(window.location.search).get('berater');
 
   // Sektionen ausser dem letzten Footer als Slides erfassen
   const allSections = Array.from(document.querySelectorAll('main > section.section, section.section'));
-  // (Optional: bestimmte Sektionen aus dem Slide-Modus rausnehmen, z.B. footer)
-  const slides = allSections;
+  // Einzelne Inhalte bleiben auf der Webseite erhalten, werden aber nicht als Folie gezeigt.
+  const slides = allSections.filter(section => section.dataset.presentation !== 'skip');
   totalEl.textContent = String(slides.length);
 
   let isActive = false;
   let currentIdx = 0;
+  let wheelLocked = false;
 
-  function activate() {
+  function indexFromPageScroll() {
+    const y = window.scrollY + window.innerHeight / 2;
+    let idx = 0;
+    for (let i = 0; i < slides.length; i++) {
+      if (slides[i].offsetTop <= y) idx = i;
+    }
+    return idx;
+  }
+
+  function updateNavState() {
+    currentEl.textContent = String(currentIdx + 1);
+    prevBtn.disabled = currentIdx === 0;
+    nextBtn.disabled = currentIdx === slides.length - 1;
+  }
+
+  function activate(startAtBeginning = false) {
+    currentIdx = startAtBeginning ? 0 : indexFromPageScroll();
     document.documentElement.classList.add('present-active');
     document.body.classList.add('presentation-mode');
     nav.hidden = false;
     toggleBtn.setAttribute('aria-pressed', 'true');
     isActive = true;
     document.addEventListener('keydown', onKey, { passive: false });
-    updateCounterFromScroll();
-    // Erste Slide focus
-    setTimeout(() => goTo(0, true), 50);
+    document.addEventListener('wheel', onWheel, { passive: false });
+    goTo(currentIdx, true);
   }
 
   function deactivate() {
+    const exitSlide = slides[currentIdx];
     document.documentElement.classList.remove('present-active');
     document.body.classList.remove('presentation-mode');
     nav.hidden = true;
     toggleBtn.setAttribute('aria-pressed', 'false');
     isActive = false;
     document.removeEventListener('keydown', onKey);
+    document.removeEventListener('wheel', onWheel);
+    slides.forEach(slide => {
+      slide.classList.remove('present-before', 'present-current', 'present-after');
+      slide.removeAttribute('aria-hidden');
+    });
+    requestAnimationFrame(() => exitSlide?.scrollIntoView({ behavior: 'auto', block: 'start' }));
   }
 
   function goTo(idx, instant = false) {
     if (idx < 0) idx = 0;
     if (idx >= slides.length) idx = slides.length - 1;
     currentIdx = idx;
-    const el = slides[idx];
-    if (el) {
-      el.scrollIntoView({
-        behavior: instant ? 'auto' : 'smooth',
-        block: 'start',
-      });
+    if (instant) document.documentElement.classList.add('present-no-motion');
+    slides.forEach((slide, slideIdx) => {
+      slide.classList.toggle('present-before', slideIdx < idx);
+      slide.classList.toggle('present-current', slideIdx === idx);
+      slide.classList.toggle('present-after', slideIdx > idx);
+      slide.setAttribute('aria-hidden', slideIdx === idx ? 'false' : 'true');
+      if (slideIdx === idx) slide.scrollTop = 0;
+    });
+    updateNavState();
+    if (instant) {
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        document.documentElement.classList.remove('present-no-motion');
+      }));
     }
-    currentEl.textContent = String(idx + 1);
   }
 
   function next() { goTo(currentIdx + 1); }
@@ -250,8 +279,10 @@ const beraterSlug = new URLSearchParams(window.location.search).get('berater');
 
   function onKey(e) {
     if (!isActive) return;
+    if (document.body.classList.contains('market-overview-open') || document.body.classList.contains('topic-preview-open')) return;
     // Editor-Fokus nicht abfangen
     const tag = (e.target?.tagName || '').toLowerCase();
+    if (e.target?.isContentEditable) return;
     if (['input','textarea','select','button'].includes(tag) && e.target !== document.body) {
       // Pfeile in Inputs erlauben
       if (['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)) return;
@@ -285,40 +316,28 @@ const beraterSlug = new URLSearchParams(window.location.search).get('berater');
     }
   }
 
-  // Counter aktualisiert via IntersectionObserver (welche Slide ist 'mostly visible')
-  const io = new IntersectionObserver((entries) => {
-    if (!isActive) return;
-    let best = null;
-    let bestRatio = 0;
-    entries.forEach(ent => {
-      if (ent.intersectionRatio > bestRatio) {
-        bestRatio = ent.intersectionRatio;
-        best = ent.target;
-      }
-    });
-    if (best) {
-      const idx = slides.indexOf(best);
-      if (idx >= 0 && idx !== currentIdx) {
-        currentIdx = idx;
-        currentEl.textContent = String(idx + 1);
-      }
+  function onWheel(e) {
+    if (!isActive || Math.abs(e.deltaY) < 18) return;
+    if (document.body.classList.contains('market-overview-open') || document.body.classList.contains('topic-preview-open')) {
+      e.preventDefault();
+      return;
     }
-  }, { threshold: [0.3, 0.5, 0.7] });
+    const activeSlide = slides[currentIdx];
+    const hasInnerScroll = activeSlide.scrollHeight > activeSlide.clientHeight + 2;
+    const atTop = activeSlide.scrollTop <= 1;
+    const atBottom = activeSlide.scrollTop + activeSlide.clientHeight >= activeSlide.scrollHeight - 1;
 
-  slides.forEach(s => io.observe(s));
+    if (hasInnerScroll && ((e.deltaY > 0 && !atBottom) || (e.deltaY < 0 && !atTop))) return;
 
-  function updateCounterFromScroll() {
-    const y = window.scrollY + window.innerHeight / 2;
-    let idx = 0;
-    for (let i = 0; i < slides.length; i++) {
-      const top = slides[i].offsetTop;
-      if (top <= y) idx = i;
-    }
-    currentIdx = idx;
-    currentEl.textContent = String(idx + 1);
+    e.preventDefault();
+    if (wheelLocked) return;
+    wheelLocked = true;
+    if (e.deltaY > 0) next();
+    else prev();
+    window.setTimeout(() => { wheelLocked = false; }, 720);
   }
 
-  toggleBtn.addEventListener('click', () => isActive ? deactivate() : activate());
+  toggleBtn.addEventListener('click', () => isActive ? deactivate() : activate(false));
   prevBtn.addEventListener('click', prev);
   nextBtn.addEventListener('click', next);
   exitBtn.addEventListener('click', deactivate);
@@ -328,15 +347,105 @@ const beraterSlug = new URLSearchParams(window.location.search).get('berater');
     const params = new URLSearchParams(window.location.search);
     if (params.get('mode') === 'slides') {
       // Kurz warten bis Layout steht
-      setTimeout(activate, 80);
+      setTimeout(() => activate(true), 80);
     }
   } catch (_) {}
+})();
+
+// === Interaktive Marktübersicht auf Folie 3 ===
+(function initMarketOverview() {
+  const openBtn = document.getElementById('marketOpen');
+  const overlay = document.getElementById('marketOverlay');
+  const closeBtn = document.getElementById('marketClose');
+  if (!openBtn || !overlay || !closeBtn) return;
+
+  const nodes = Array.from(overlay.querySelectorAll('.market-node'));
+  const kicker = document.getElementById('marketDetailKicker');
+  const title = document.getElementById('marketDetailTitle');
+  const hint = document.getElementById('marketDetailHint');
+  const list = document.getElementById('marketDetailList');
+  let hideTimer = null;
+
+  nodes.forEach(node => {
+    const iconName = node.dataset.marketIcon;
+    const iconEl = node.querySelector('.market-node-icon');
+    if (iconEl && ICONS[iconName]) iconEl.innerHTML = lucideIcon(iconName, { size: 24 });
+  });
+
+  function resetDetails() {
+    nodes.forEach(node => {
+      node.classList.remove('is-active');
+      node.setAttribute('aria-pressed', 'false');
+    });
+    kicker.textContent = 'Deine Ziele';
+    title.textContent = 'Ganzheitlich gedacht.';
+    hint.textContent = 'Wähle ein Themenfeld aus.';
+    hint.hidden = false;
+    list.hidden = true;
+    list.replaceChildren();
+  }
+
+  function showDetails(node) {
+    nodes.forEach(item => {
+      const isActive = item === node;
+      item.classList.toggle('is-active', isActive);
+      item.setAttribute('aria-pressed', String(isActive));
+    });
+
+    kicker.textContent = 'Im Blick behalten';
+    title.textContent = node.dataset.title || '';
+    hint.hidden = true;
+    list.replaceChildren();
+    (node.dataset.details || '').split('|').filter(Boolean).forEach(detail => {
+      const item = document.createElement('li');
+      item.textContent = detail;
+      list.appendChild(item);
+    });
+    list.hidden = false;
+  }
+
+  function openOverview() {
+    window.clearTimeout(hideTimer);
+    resetDetails();
+    overlay.hidden = false;
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('market-overview-open');
+    requestAnimationFrame(() => {
+      overlay.classList.add('is-open');
+      closeBtn.focus({ preventScroll: true });
+    });
+  }
+
+  function closeOverview() {
+    overlay.classList.remove('is-open');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('market-overview-open');
+    hideTimer = window.setTimeout(() => {
+      overlay.hidden = true;
+      openBtn.focus({ preventScroll: true });
+    }, 320);
+  }
+
+  openBtn.addEventListener('click', openOverview);
+  closeBtn.addEventListener('click', closeOverview);
+  nodes.forEach(node => node.addEventListener('click', () => showDetails(node)));
+
+  document.addEventListener('keydown', event => {
+    if (!overlay.classList.contains('is-open')) return;
+    event.stopImmediatePropagation();
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeOverview();
+    }
+  }, true);
 })();
 
 // === NPS-Skala (Phase 50i): Reflexions-Frage mit Skala 1-10 ===
 (function initNps() {
   const scale = document.getElementById('npsScale');
   if (!scale) return;
+
+  const section = scale.closest('.pre-hero');
 
   const responses = {
     low:  document.getElementById('npsResponseLow'),
@@ -345,7 +454,11 @@ const beraterSlug = new URLSearchParams(window.location.search).get('berater');
   };
 
   function hideAllResponses() {
-    Object.values(responses).forEach(el => { if (el) el.hidden = true; });
+    Object.values(responses).forEach(el => {
+      if (!el) return;
+      el.hidden = true;
+      el.classList.remove('show');
+    });
   }
 
   function bandFor(score) {
@@ -369,10 +482,14 @@ const beraterSlug = new URLSearchParams(window.location.search).get('berater');
       const band = bandFor(score);
       const card = responses[band];
       if (card) {
+        section?.classList.add('has-nps-response');
         card.hidden = false;
         requestAnimationFrame(() => card.classList.add('show'));
-        // Smooth-Scroll zur Reaktions-Karte
-        setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'center' }), 160);
+        // Auf der normalen Seite zur Antwort scrollen. Im Präsentationsmodus
+        // erscheint sie direkt auf dem Porträt und bleibt vollständig sichtbar.
+        if (!document.body.classList.contains('presentation-mode')) {
+          setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'center' }), 160);
+        }
       }
 
       // Score lokal merken für Re-Render bei Reload
@@ -673,63 +790,143 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
   });
 })();
 
-// Themen-Auswahl (Vorlagen aus DB)
-(async () => {
+// Themen-Auswahl mit direkter Vorschau der fertigen Themenwelten
+(async function initTopicShowcase() {
   const wrap = document.getElementById('t-Topics');
+  const preview = document.getElementById('topicPreview');
+  const previewClose = document.getElementById('topicPreviewClose');
+  const previewBack = document.getElementById('topicPreviewBack');
+  const previewFrame = document.getElementById('topicPreviewFrame');
+  const previewTitle = document.getElementById('topicPreviewTitle');
+  const previewText = document.getElementById('topicPreviewText');
+  const previewIcon = document.getElementById('topicPreviewIcon');
+  const previewOpen = document.getElementById('topicPreviewOpen');
+  const previewAddress = document.getElementById('topicPreviewAddress');
   if (!wrap) return;
-  try {
-    // "allgemein" ist die generische Fallback-Vorlage und gehört nicht ins Themen-Grid
-    const vorlagen = (await getVorlagen()).filter(v => v.slug !== 'allgemein');
-    if (!vorlagen?.length) {
-      wrap.innerHTML = '';
-      return;
+
+  const readyPages = {
+    allgemein: {
+      title: 'Ganz allgemein',
+      kicker: 'Für alle, die erst einmal Klarheit wollen',
+      question: 'Vielleicht steckt in den eigenen Finanzen mehr, als man gerade sieht.',
+      text: 'Ein persönlicher Einstieg ohne festes Thema. Sieben Fragen führen zu einer ersten Orientierung.',
+      icon: 'Compass',
+      url: '/empfaenger.html?von=Thomas&an=Max',
+      address: 'Persönliche Empfehlung für Max',
+      tone: 'champagne'
+    },
+    baufi: {
+      title: 'Baufinanzierung',
+      kicker: 'Für Kauf, Neubau und Anschluss',
+      question: 'Was ist möglich, ohne dass das Leben nur noch aus Rate besteht?',
+      text: 'Ein interaktiver Finanzierungskompass, der zuerst die Situation versteht und dann den nächsten sinnvollen Schritt zeigt.',
+      icon: 'Home',
+      url: '/baufi.html?von=Thomas&an=Max',
+      address: 'Finanzierungskompass für Max',
+      tone: 'olive'
     }
-    wrap.innerHTML = vorlagen.map(v => {
-      const iconKey = v.icon || '';
-      // Mehrfach-Fallback: ICONS-Map → lokales TOPIC_ICON_SVG → Default-Sparkle
-      let iconHtml;
-      if (ICONS[iconKey]) {
-        iconHtml = lucideIcon(iconKey, { size: 28 });
-      } else if (TOPIC_ICON_SVG[iconKey]) {
-        iconHtml = TOPIC_ICON_SVG[iconKey];
-      } else {
-        iconHtml = '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>';
-      }
-      const vorteile = [v.vorteil_1_titel, v.vorteil_2_titel, v.vorteil_3_titel]
-        .filter(Boolean)
-        .map(t => `<li>${escapeHtml(t)}</li>`).join('');
-      return `
-        <article class="topic-card topic-flip reveal" data-slug="${escapeAttr(v.slug || '')}" tabindex="0" role="button" aria-label="${escapeAttr(v.titel)} – Details anzeigen">
-          <div class="topic-card-inner">
-            <div class="topic-face topic-front">
-              <span class="topic-icon">${iconHtml}</span>
-              <h3 class="topic-title">${escapeHtml(v.titel)}</h3>
-              <p class="topic-sub">${escapeHtml(v.headline || '')}</p>
-              <span class="topic-flip-hint">Mehr dazu <span aria-hidden="true">→</span></span>
-            </div>
-            <div class="topic-face topic-back">
-              <h3 class="topic-back-title">${escapeHtml(v.titel)}</h3>
-              <p class="topic-back-sub">${escapeHtml(v.subtext || '')}</p>
-              ${vorteile ? `<ul class="topic-vorteile">${vorteile}</ul>` : ''}
-              <span class="topic-flip-hint">Zurück <span aria-hidden="true">↩</span></span>
-            </div>
-          </div>
-        </article>
-      `;
-    }).join('');
-    // Tap/Klick + Tastatur dreht die Kachel (mobil-sicher, kein :hover)
-    wrap.querySelectorAll('.topic-flip').forEach((card) => {
-      const toggle = () => card.classList.toggle('flipped');
-      card.addEventListener('click', toggle);
-      card.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
-      });
+  };
+
+  const renderIcon = (iconKey, size = 28) => {
+    if (ICONS[iconKey]) return lucideIcon(iconKey, { size });
+    if (TOPIC_ICON_SVG[iconKey]) return TOPIC_ICON_SVG[iconKey];
+    return lucideIcon('Compass', { size });
+  };
+
+  const renderFeature = (page, template = {}) => `
+    <button class="topic-feature topic-feature-${page.tone}" type="button" data-page-key="${escapeAttr(template.slug || '')}">
+      <span class="topic-feature-status"><i aria-hidden="true"></i> Fertige Themenseite</span>
+      <span class="topic-feature-icon" aria-hidden="true">${renderIcon(page.icon, 34)}</span>
+      <span class="topic-feature-kicker">${escapeHtml(page.kicker)}</span>
+      <strong>${escapeHtml(page.title)}</strong>
+      <span class="topic-feature-question">${escapeHtml(page.question)}</span>
+      <span class="topic-feature-action">Vorschau ansehen <span aria-hidden="true">→</span></span>
+      <span class="topic-feature-orbit" aria-hidden="true"></span>
+    </button>
+  `;
+
+  const renderCompact = (template) => `
+    <article class="topic-compact" data-slug="${escapeAttr(template.slug || '')}">
+      <span class="topic-compact-icon" aria-hidden="true">${renderIcon(template.icon || 'Compass', 22)}</span>
+      <span class="topic-compact-copy">
+        <strong>${escapeHtml(template.titel || '')}</strong>
+        <small>${escapeHtml(template.headline || template.subtext || '')}</small>
+      </span>
+    </article>
+  `;
+
+  let hideTimer = null;
+
+  function openTopicPreview(pageKey) {
+    const page = readyPages[pageKey];
+    if (!page || !preview) return;
+    window.clearTimeout(hideTimer);
+    previewTitle.textContent = page.title;
+    previewText.textContent = page.text;
+    previewIcon.innerHTML = renderIcon(page.icon, 34);
+    previewOpen.href = page.url;
+    previewAddress.textContent = page.address;
+    previewFrame.title = `Vorschau: ${page.title}`;
+    previewFrame.src = page.url;
+    preview.hidden = false;
+    preview.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('topic-preview-open');
+    requestAnimationFrame(() => {
+      preview.classList.add('is-open');
+      previewClose?.focus({ preventScroll: true });
     });
-    wrap.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  }
+
+  function closeTopicPreview() {
+    if (!preview) return;
+    preview.classList.remove('is-open');
+    preview.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('topic-preview-open');
+    hideTimer = window.setTimeout(() => {
+      preview.hidden = true;
+      previewFrame.src = 'about:blank';
+      wrap.querySelector('[data-page-key]')?.focus({ preventScroll: true });
+    }, 320);
+  }
+
+  try {
+    const templates = await getVorlagen();
+    const generalTemplate = templates.find(v => v.slug === 'allgemein') || { slug: 'allgemein', titel: 'Ganz allgemein', icon: 'Compass' };
+    const baufiTemplate = templates.find(v => v.slug === 'baufi') || { slug: 'baufi', titel: 'Baufinanzierung', icon: 'Home' };
+    const compactTemplates = templates.filter(v => !['allgemein', 'baufi'].includes(v.slug));
+
+    wrap.innerHTML = `
+      <div class="topics-featured">
+        ${renderFeature(readyPages.allgemein, generalTemplate)}
+        ${renderFeature(readyPages.baufi, baufiTemplate)}
+      </div>
+      <div class="topics-more-head">
+        <span>Weitere Themenwelten</span>
+        <small>Für das, was im Leben gerade ansteht</small>
+      </div>
+      <div class="topics-compact-grid">
+        ${compactTemplates.map(renderCompact).join('')}
+      </div>
+    `;
+
+    wrap.querySelectorAll('[data-page-key]').forEach(card => {
+      card.addEventListener('click', () => openTopicPreview(card.dataset.pageKey));
+    });
   } catch (e) {
     console.warn('[Themen] Konnte nicht geladen werden:', e);
     wrap.innerHTML = '';
   }
+
+  previewClose?.addEventListener('click', closeTopicPreview);
+  previewBack?.addEventListener('click', closeTopicPreview);
+  document.addEventListener('keydown', event => {
+    if (!preview?.classList.contains('is-open')) return;
+    event.stopImmediatePropagation();
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeTopicPreview();
+    }
+  }, true);
 })();
 
 // Karriere-Karte (alltag) drehen – Tap/Klick + Tastatur, mobil-sicher
