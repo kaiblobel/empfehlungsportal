@@ -555,13 +555,19 @@ if (page === 'empfaenger') {
     const inner = document.getElementById('eEmpfehlerInner');
     const name = (d.empfehler_name || '').trim();
     const msg  = (d.empfehler_nachricht || '').trim();
+    const standard = (d.empfehler_standard_nachricht || '').trim();
+    const personal = msg || standard; // Empfaenger-Satz schlaegt Promoter-Standard
     const recipient = (d.empfaenger_name || '').trim().split(/\s+/)[0] || '';
     const promoterLabel = name || 'Dein Empfehlungsgeber';
     document.querySelectorAll('[data-promoter]').forEach((el) => { el.textContent = promoterLabel; });
     const mark = document.querySelector('.recommendation-mark, .promoter-avatar');
     if (mark && name) mark.textContent = name.charAt(0).toUpperCase();
+    const initial = document.getElementById('ePromoterInitial');
+    if (initial) initial.textContent = (promoterLabel.charAt(0) || 'E').toUpperCase();
+    const card = document.getElementById('ePromoterCard');
+    if (card) card.classList.toggle('has-personal', !!personal);
     const message = document.getElementById('ePromoterMessage');
-    if (message) message.textContent = msg ? `„${msg}“` : `${promoterLabel} hat diese Seite erst nach eurem Gespräch weitergegeben.`;
+    if (message) message.textContent = personal ? `„${personal}“` : `${promoterLabel} hat diese Seite erst nach eurem Gespräch weitergegeben.`;
     document.querySelectorAll('[data-recipient]').forEach((el) => { if (recipient) el.textContent = recipient; });
     if (recipient) {
       const personalName = document.querySelector('.personal-name');

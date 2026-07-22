@@ -305,6 +305,19 @@ export async function setEmpfehlerZiel(code, stufe) {
   }
 }
 
+// Standard-Empfehlungssatz des Promoters (gilt fuer alle seine Empfohlenen)
+export async function updateEmpfehlerStandardNachricht(code, text) {
+  if (!supabase) return { error: null };
+  try {
+    const { error } = await supabase.rpc('update_empfehler_standard_nachricht', { p_code: code, p_text: text || null });
+    if (error) throw error;
+    return { error: null };
+  } catch (err) {
+    console.error('[updateEmpfehlerStandardNachricht]', err);
+    return { error: err };
+  }
+}
+
 export async function getEmpfehlerStats(code) {
   if (!supabase) return { data: null, error: null };
   try {

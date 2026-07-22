@@ -8,6 +8,7 @@ import {
   createEmpfehlung,
   setEmpfehlerZiel,
   updateEmpfehlungKontext,
+  updateEmpfehlerStandardNachricht,
 } from './supabase.js';
 import { parseDbDate } from './date-utils.js';
 import { applyBeraterBrand } from './berater-brand.js';
@@ -85,6 +86,7 @@ async function init() {
   }
 
   renderGreeting();
+  renderStandardMsg();
   renderZiel();
   renderRewardsList();
   renderFeed(empfehlungen);
@@ -107,6 +109,29 @@ async function refresh() {
   renderZiel();
   renderRewardsList();
   renderFeed(listRes.data || []);
+}
+
+/* ---------- Standard-Empfehlungssatz (gilt fuer alle Empfohlenen) ---------- */
+function renderStandardMsg() {
+  const ta = document.getElementById('p7StandardMsg');
+  const count = document.getElementById('p7StandardCount');
+  const save = document.getElementById('p7StandardSave');
+  if (!ta || !save) return;
+  ta.value = (empfehler && empfehler.standard_nachricht) || '';
+  const updateCount = () => { if (count) count.textContent = `${ta.value.length}/240`; };
+  updateCount();
+  ta.addEventListener('input', updateCount);
+  save.addEventListener('click', async () => {
+    save.disabled = true;
+    const prev = save.textContent;
+    save.textContent = 'Speichere…';
+    const { error } = await updateEmpfehlerStandardNachricht(code, ta.value.trim());
+    save.disabled = false;
+    save.textContent = prev;
+    if (error) { toast('Konnte nicht speichern, bitte nochmal.'); return; }
+    if (empfehler) empfehler.standard_nachricht = ta.value.trim();
+    toast('Gespeichert — dein Satz erscheint jetzt bei deinen Empfehlungen. 🙌');
+  });
 }
 
 function renderGreeting() {

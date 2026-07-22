@@ -771,6 +771,24 @@
       *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition-duration: 0.01ms !important; }
       .reveal { opacity: 1; transform: none; }
     }
+
+    /* --- Professionelle Rundungen: ruhig statt verspielt (v1.123) --- */
+    :root { --radius-xl: 14px; --radius-lg: 12px; --radius-md: 10px; }
+    /* Foto: sauberes Portraet statt Blob, ohne Glow-Halo */
+    .portrait-card { border-radius: 12px; }
+    .portrait-card::after { border-radius: 0 0 12px 12px; }
+    .portrait-halo { display: none; }
+    /* Karten & Container auf eine ruhige Skala */
+    .situation-card, .answer-option, .funding-option, .program-card,
+    .difference-card, .concept-rail, .result-card, .kai-quote,
+    .rest-teaser, .funding-teaser, .compass-app, .funding-check,
+    .quick-check, .floating-proof, .regional-program { border-radius: 11px; }
+    /* Buttons: klare Kante */
+    .primary-btn, .secondary-btn, .funding-select,
+    .funding-select-action, .next-step .primary-btn { border-radius: 9px; }
+    .recommendation, .header-action, .result-kicker { border-radius: 8px; }
+    /* Icon-Bubbles etwas ruhiger, aber weich */
+    .icon-orb, .funding-option-icon, .concept-icon { border-radius: 10px; }
   </style>
 </head>
 <body data-page="baufi">

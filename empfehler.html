@@ -33,6 +33,21 @@
     </div>
   </section>
 
+  <!-- Persönlicher Empfehlungs-Satz · Standard für alle Empfohlenen -->
+  <section class="e-section">
+    <div class="e-inner">
+      <p class="e-eyebrow">Deine persönliche Note</p>
+      <h2 class="e-h2">Ein Satz, den jeder<br>Empfohlene sieht.</h2>
+      <div class="e-hairline"></div>
+      <p class="e-body">Warum empfiehlst du mich? Dieser Satz erscheint als deine persönliche Nachricht ganz oben bei allen, die du empfiehlst — außer du hinterlegst pro Person etwas Eigenes. Freiwillig, jederzeit änderbar.</p>
+      <div class="e-fe-field"><textarea id="p7StandardMsg" maxlength="240" rows="3" placeholder="z. B. Kai hat mir meine Finanzen in Ruhe erklärt – ohne Druck, ohne Fachchinesisch. Ihm kannst du vertrauen."></textarea></div>
+      <div style="display:flex;align-items:center;gap:14px;margin-top:8px;flex-wrap:wrap;">
+        <span id="p7StandardCount" style="font-size:12px;color:#707274;">0/240</span>
+        <button type="button" class="e-btn e-btn-primary" id="p7StandardSave" style="width:auto;min-width:180px;">Speichern</button>
+      </div>
+    </div>
+  </section>
+
   <!-- Belohnungs-Treppe · Ziel wählen -->
   <section class="e-section">
     <div class="e-inner">
@@ -102,6 +117,6 @@
 
   <div class="e-toast" id="p7Toast"></div>
 
-  <script type="module" src="js/empfehler.js?v=37"></script>
+  <script type="module" src="js/empfehler.js?v=38"></script>
 </body>
 </html>

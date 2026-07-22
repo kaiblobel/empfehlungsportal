@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.122 Beta** · Persönlicher Baufinanzierungs-Kompass mit echtem Empfehlungs-, Opt-out- und Lead-Ablauf.
+Aktuelle Version: **v1.123 Beta** · Persönlicher Baufinanzierungs-Kompass mit echtem Empfehlungs-, Opt-out- und Lead-Ablauf.
+
+---
+
+## v1.123 Beta - Phase 96 · Persönliche Promoter-Botschaft & ruhigere Optik
+**2026-07-22**
+
+- **Persönliche Empfehlungs-Botschaft:** Empfehlungsgeber können in ihrem Bereich einen Satz hinterlegen ("Ein Satz, den jeder Empfohlene sieht"). Der Empfohlene sieht ihn auf der Empfängerseite als **Sprechblase** mit "Das hat <Name> dir mitgegeben". Modell BEIDES: ein Standard-Satz pro Promoter, pro Empfänger überschreibbar. Freiwillig, mit sauberem Rückfall (Empfänger-Satz → Standard → neutraler Satz, nie leer). Klar getrennt von echten Google-Rezensionen, keine erfundenen Sterne.
+- **Baufi-Landingpage:** Foto entrundet (kein Blob, kein Glow-Halo, sauberes Porträt) und Rundungen auf eine ruhige Skala (Karten 11px, Buttons 9px) — professioneller, weniger verspielt.
+- **Finanzcheck** (separates Projekt, dort v1.6): Antwort-Kacheln und Karten von 16px auf 7px, Buttons von Pille (999px) auf 8px.
+- **DB:** neues Feld `empfehler.standard_nachricht` + anon-fähige RPC `update_empfehler_standard_nachricht`; `get_empfehlung_public` und `get_empfehler_by_code` erweitert (`schema-phase96.sql`).
+- Cache: app.js v44, empfehler.js v38, sw.js v97.
 
 ---
 
