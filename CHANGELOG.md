@@ -9,7 +9,7 @@ Aktuelle Version: **v1.133 Beta** · Mobile-first Promoterbereich mit geführter
 **2026-07-22**
 
 - Der Promoter startet jetzt direkt im ersten Handybildschirm eine neue Empfehlung, statt erst durch Statistiken und Belohnungen zu scrollen.
-- Ein geführter Ablauf führt in vier Schritten von Vorname und Telefonnummer über die Themenauswahl bis zur persönlichen Nachricht und Linkvorschau.
+- Ein geführter Ablauf führt in vier Schritten von Vorname und Handynummer über die Themenauswahl bis zur persönlichen Nachricht und Linkvorschau. Beide Angaben werden vor dem Linkaufbau verständlich geprüft.
 - Die acht aktiven Themen werden direkt aus Supabase geladen und als leicht verständliche Auswahlkarten dargestellt.
 - Der Verlauf unterscheidet ehrlich zwischen „Link erstellt“, „Versand bestätigt“, „Link geöffnet“, Gesprächswunsch, Kontakt und Kunde.
 - Die Versandbestätigung wird dauerhaft über den vorhandenen Promoter-Kontext gespeichert. Es wurde keine parallele Datenhaltung eingeführt.
@@ -17,7 +17,7 @@ Aktuelle Version: **v1.133 Beta** · Mobile-first Promoterbereich mit geführter
 - Neuigkeiten, Wirkung, Wunschziel, persönliche Nachricht und Zusatzinfos sind in einer kompakten mobilen Arbeitsfläche zusammengeführt.
 - Der Stand wird beim erneuten Öffnen sowie alle 60 Sekunden aktualisiert, solange die Seite sichtbar ist.
 - Die Rollenbezeichnung im Promoterbereich lautet verständlich „Finanzierungsspezialist“.
-- Cache: empfehler-mobile.css v1, empfehler-mobile.js v2, config.js v1.133 Beta, sw.js v104.
+- Cache: empfehler-mobile.css v1, empfehler-mobile.js v3, config.js v1.133 Beta, sw.js v104.
 
 ---
 

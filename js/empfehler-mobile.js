@@ -443,9 +443,10 @@ function previousOrSave() {
 
 function nextStep() {
   captureFunnelFields();
-  if (funnel.step === 1 && !funnel.name) {
+  if (funnel.step === 1 && (!funnel.name || !funnel.phone)) {
+    $('#step1Error').textContent = !funnel.name ? 'Bitte trage den Vornamen ein.' : 'Bitte trage die Handynummer ein.';
     $('#step1Error').classList.add('visible');
-    $('#contactName').focus();
+    (!funnel.name ? $('#contactName') : $('#contactPhone')).focus();
     return;
   }
   $('#step1Error').classList.remove('visible');
