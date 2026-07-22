@@ -61,6 +61,15 @@ const messageTemplates = {
   neutral: (name, topic, advisor) => `Hi ${name}, falls ${topic} für dich gerade ein Thema ist: Hier findest du eine persönliche Übersicht von ${advisor}. Du entscheidest in Ruhe, ob du Kontakt möchtest:`,
 };
 
+const GOAL_IMAGE_FALLBACKS = [
+  [/restaurant/i, '/assets/images/programm/restaurant.jpg'],
+  [/weber|grill|apple watch/i, '/assets/images/programm/applewatch.jpg'],
+  [/gold/i, '/assets/images/programm/goldbarren.jpg'],
+  [/ipad/i, '/assets/images/programm/ipad.jpg'],
+  [/mallorca|urlaub|reise/i, '/assets/images/programm/mallorca.jpg'],
+  [/bonus/i, '/assets/images/programm/kundenlos.jpg'],
+];
+
 let empfehler = null;
 let stats = null;
 let empfehlungen = [];
@@ -72,10 +81,12 @@ let isRefreshing = false;
 let pendingRecommendationId = null;
 let pendingRecommendationName = '';
 let sessionChanges = [];
+let activePlanIndex = null;
 
 const draftKey = () => `empfehler_mobile_draft_${code}`;
 const snapshotKey = () => `empfehler_mobile_snapshot_${code}`;
 const notificationKey = () => `empfehler_mobile_frequency_${code}`;
+const goalPlanKey = () => `empfehler_mobile_goal_plan_${code}`;
 const funnel = { step: 1, name: '', phone: '', topic: '', topicTitle: '', template: 'warm', message: '' };
 
 if (!code) {
@@ -199,6 +210,12 @@ function selectedGoal() {
     || null;
 }
 
+function goalImage(item) {
+  if (item?.bild_url) return item.bild_url;
+  const title = item?.titel || '';
+  return GOAL_IMAGE_FALLBACKS.find(([pattern]) => pattern.test(title))?.[1] || '';
+}
+
 function renderReward() {
   const card = $('#rewardCard');
   const goal = selectedGoal();
@@ -209,9 +226,10 @@ function renderReward() {
   const reached = stats.kunde || 0;
   const remaining = Math.max(0, goal.stufe - reached);
   const progress = Math.min(100, Math.round((reached / Math.max(1, goal.stufe)) * 100));
+  const image = goalImage(goal);
   card.innerHTML = `
     <div class="reward-top">
-      <div class="reward-mark">${escapeHtml(goal.icon || 'ZIEL')}</div>
+      <div class="reward-mark${image ? ' has-image' : ''}">${image ? `<img src="${escapeAttr(image)}" alt="${escapeAttr(goal.titel)}">` : escapeHtml(goal.icon || 'ZIEL')}</div>
       <div class="reward-copy"><strong>${remaining ? `Noch ${remaining} bis ${escapeHtml(goal.titel)}` : `${escapeHtml(goal.titel)} erreicht`}</strong><span>${empfehler.ziel_stufe ? 'Dein ausgewähltes Wunschziel.' : 'Das ist dein nächstes erreichbares Ziel.'}</span></div>
     </div>
     <div class="progress" aria-label="${reached} von ${goal.stufe} erfolgreichen Empfehlungen"><i style="width:${progress}%"></i></div>
@@ -223,8 +241,9 @@ function renderGoalList() {
   wrap.innerHTML = stufen.map(item => {
     const active = item.stufe === empfehler.ziel_stufe;
     const remaining = Math.max(0, item.stufe - (stats.kunde || 0));
+    const image = goalImage(item);
     return `<button type="button" class="goal-option${active ? ' active' : ''}" data-goal="${item.stufe}">
-      <span class="goal-option-icon">${escapeHtml(item.icon || '★')}</span>
+      <span class="goal-option-media">${image ? `<img src="${escapeAttr(image)}" alt="" loading="lazy">` : escapeHtml(item.icon || '★')}</span>
       <span><strong>${escapeHtml(item.titel)}</strong><span>${remaining ? `Noch ${remaining} erfolgreiche ${remaining === 1 ? 'Empfehlung' : 'Empfehlungen'}` : 'Bereits erreicht'}</span></span>
       <b>${active ? 'Dein Ziel' : 'Wählen'}</b>
     </button>`;
@@ -246,7 +265,82 @@ async function chooseGoal(goal) {
     return;
   }
   closeOverlay($('#goalOverlay'));
-  toast('Dein Wunschziel ist gespeichert.');
+  renderGoalPlan();
+  openOverlay($('#goalPlanOverlay'));
+  toast('Dein Wunschziel ist gespeichert. Die passenden Plätze sind vorbereitet.');
+}
+
+function loadGoalPlan() {
+  try {
+    const value = JSON.parse(localStorage.getItem(goalPlanKey()) || '[]');
+    return Array.isArray(value) ? value.slice(0, 15) : [];
+  } catch (_) { return []; }
+}
+
+function saveGoalPlan(entries) {
+  try { localStorage.setItem(goalPlanKey(), JSON.stringify(entries.slice(0, 15))); } catch (_) {}
+}
+
+function captureGoalPlan() {
+  const entries = loadGoalPlan();
+  $$('.goal-slot').forEach(row => {
+    const index = Number(row.dataset.planIndex);
+    entries[index] = {
+      name: $('[data-plan-name]', row)?.value.trim() || '',
+      phone: $('[data-plan-phone]', row)?.value.trim() || '',
+    };
+  });
+  saveGoalPlan(entries);
+  return entries;
+}
+
+function renderGoalPlan() {
+  const goal = selectedGoal();
+  if (!goal) return;
+  const reached = stats.kunde || 0;
+  const remaining = Math.max(0, goal.stufe - reached);
+  const entries = loadGoalPlan();
+  const image = goalImage(goal);
+  $('#goalPlanSummary').innerHTML = `
+    ${image ? `<img src="${escapeAttr(image)}" alt="${escapeAttr(goal.titel)}">` : `<div class="goal-fallback">${escapeHtml(goal.icon || '★')}</div>`}
+    <div><small>Dein Wunschziel</small><strong>${escapeHtml(goal.titel)}</strong><span>${remaining ? `Noch ${remaining} erfolgreiche ${remaining === 1 ? 'Empfehlung' : 'Empfehlungen'} bis zu deinem Ziel.` : 'Dieses Ziel hast du bereits erreicht.'}</span></div>`;
+  const list = $('#goalPlanList');
+  if (!remaining) {
+    list.innerHTML = '<div class="goal-plan-empty">Ziel erreicht. Du kannst jederzeit ein neues Wunschziel wählen.</div>';
+    return;
+  }
+  list.innerHTML = Array.from({ length: remaining }, (_, index) => {
+    const entry = entries[index] || {};
+    const ready = Boolean(entry.name && entry.phone);
+    return `<div class="goal-slot" data-plan-index="${index}">
+      <span class="goal-slot-number">${index + 1}</span>
+      <input data-plan-name value="${escapeAttr(entry.name || '')}" placeholder="Vorname" autocomplete="off" maxlength="80" aria-label="Vorname für Empfehlung ${index + 1}">
+      <input data-plan-phone type="tel" inputmode="tel" value="${escapeAttr(entry.phone || '')}" placeholder="Handynummer" autocomplete="off" maxlength="40" aria-label="Handynummer für Empfehlung ${index + 1}">
+      <button class="goal-slot-start" type="button" data-start-plan="${index}" aria-label="Empfehlung ${index + 1} starten"${ready ? '' : ' disabled'}>→</button>
+    </div>`;
+  }).join('');
+  $$('.goal-slot input', list).forEach(input => input.addEventListener('input', () => {
+    const row = input.closest('.goal-slot');
+    const name = $('[data-plan-name]', row).value.trim();
+    const phone = $('[data-plan-phone]', row).value.trim();
+    $('[data-start-plan]', row).disabled = !(name && phone);
+    captureGoalPlan();
+  }));
+  $$('[data-start-plan]', list).forEach(button => button.addEventListener('click', () => startPlannedRecommendation(Number(button.dataset.startPlan))));
+}
+
+function startPlannedRecommendation(index) {
+  const entries = captureGoalPlan();
+  const entry = entries[index];
+  if (!entry?.name || !entry?.phone) return;
+  activePlanIndex = index;
+  closeOverlay($('#goalPlanOverlay'));
+  openFunnel(false);
+  funnel.name = entry.name;
+  funnel.phone = entry.phone;
+  $('#contactName').value = entry.name;
+  $('#contactPhone').value = entry.phone;
+  saveDraft();
 }
 
 function renderTopics() {
@@ -384,6 +478,9 @@ function bindStaticControls() {
   });
   $('#changeGoal').addEventListener('click', () => openOverlay($('#goalOverlay')));
   $('#closeGoal').addEventListener('click', () => closeOverlay($('#goalOverlay')));
+  $('#closeGoalPlan').addEventListener('click', () => { captureGoalPlan(); closeOverlay($('#goalPlanOverlay')); });
+  $('#goalPlanLater').addEventListener('click', () => { captureGoalPlan(); closeOverlay($('#goalPlanOverlay')); toast('Deine vorbereiteten Empfehlungen bleiben gespeichert.'); });
+  $('#changeGoalFromPlan').addEventListener('click', () => { captureGoalPlan(); closeOverlay($('#goalPlanOverlay')); openOverlay($('#goalOverlay')); });
   $('#noticeOpen').addEventListener('click', openNotices);
   $('#noticeClose').addEventListener('click', closeNotices);
   $('#noticePanel').addEventListener('click', event => { if (event.target === $('#noticePanel')) closeNotices(); });
@@ -401,6 +498,7 @@ function bindStaticControls() {
     if ($('#funnelOverlay').classList.contains('open')) closeFunnel();
     if ($('#noticePanel').classList.contains('open')) closeNotices();
     if ($('#goalOverlay').classList.contains('open')) closeOverlay($('#goalOverlay'));
+    if ($('#goalPlanOverlay').classList.contains('open')) { captureGoalPlan(); closeOverlay($('#goalPlanOverlay')); }
   });
 }
 
@@ -532,6 +630,12 @@ async function createAndShareRecommendation() {
   const message = `${funnel.message || buildMessage()} ${link}`;
   pendingRecommendationId = data.id;
   pendingRecommendationName = funnel.name;
+  if (activePlanIndex !== null) {
+    const entries = loadGoalPlan();
+    entries[activePlanIndex] = { name: '', phone: '' };
+    saveGoalPlan(entries);
+    activePlanIndex = null;
+  }
   clearDraft();
   closeOverlay($('#funnelOverlay'));
 
