@@ -259,22 +259,26 @@
       color: #fff;
     }
     .portrait-label strong, .portrait-label span { display: block; }
-    .portrait-label strong { font-size: 20px; }
-    .portrait-label span { margin-top: 4px; font-size: 12px; color: rgba(255,255,255,0.80); }
-    .floating-proof {
-      position: absolute;
-      z-index: 4;
-      right: -12px;
-      top: 24%;
-      width: 152px;
-      padding: 14px 15px;
-      border: 1px solid rgba(255,255,255,0.9);
-      border-radius: 18px;
-      background: rgba(255,255,255,0.91);
-      box-shadow: var(--shadow-soft);
+    .portrait-label strong { font-size: 23px; letter-spacing: -0.025em; }
+    .portrait-label .portrait-role { margin-top: 4px; color: rgba(255,255,255,0.88); font-size: 13px; }
+    .portrait-label .portrait-proofline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      color: #f0dfaa;
+      font-size: 11px;
+      font-weight: 760;
     }
-    .floating-proof strong { display: block; font-size: 13px; }
-    .floating-proof span { display: block; margin-top: 4px; color: var(--muted); font-size: 11px; line-height: 1.4; }
+    .portrait-proofline::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: #d9c071;
+      box-shadow: 0 0 0 3px rgba(217,192,113,0.18);
+    }
 
     .section { padding: 76px 0; }
     .section.soft { background: #eeebe3; }
@@ -350,6 +354,63 @@
       pointer-events: none;
     }
     .icon-orb svg { width: 27px; height: 27px; position: relative; z-index: 1; }
+
+    .situation-scene {
+      position: relative;
+      min-height: clamp(210px, 34vw, 292px);
+      margin: clamp(-44px, -5vw, -24px) clamp(-44px, -5vw, -24px) 26px;
+      overflow: hidden;
+      isolation: isolate;
+      background: linear-gradient(145deg, #d9d4c8, #a59f91);
+    }
+    .situation-scene::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(180deg, rgba(13,18,18,0.04) 18%, rgba(13,18,18,0.16) 55%, rgba(13,18,18,0.78) 100%),
+        linear-gradient(90deg, rgba(13,18,18,0.24), transparent 58%);
+      pointer-events: none;
+    }
+    .situation-scene img {
+      width: 100%;
+      height: 100%;
+      min-height: inherit;
+      position: absolute;
+      inset: 0;
+      object-fit: cover;
+      opacity: 0;
+      transform: scale(1.035);
+      transition: opacity 360ms ease, transform 900ms cubic-bezier(.2,.7,.2,1);
+    }
+    .situation-scene img.is-ready { opacity: 1; transform: scale(1); }
+    .scene-caption {
+      position: absolute;
+      left: clamp(20px, 4vw, 34px);
+      right: clamp(20px, 4vw, 34px);
+      bottom: clamp(18px, 3.6vw, 28px);
+      z-index: 2;
+      color: #fff;
+      text-shadow: 0 2px 18px rgba(0,0,0,0.32);
+    }
+    .scene-caption span, .scene-caption strong { display: block; }
+    .scene-caption span {
+      margin-bottom: 6px;
+      color: rgba(255,255,255,0.72);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .scene-caption strong {
+      max-width: 560px;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      font-size: clamp(24px, 4vw, 36px);
+      line-height: 1.02;
+      letter-spacing: -0.035em;
+    }
+    .situation-scene.is-result { min-height: clamp(178px, 28vw, 236px); }
 
     .selected-situation {
       display: inline-flex;
@@ -692,7 +753,6 @@
       .hero-lead { margin-inline: auto; }
       .hero-actions, .hero-trust { justify-content: center; }
       .portrait-stage { width: min(360px, 92%); }
-      .floating-proof { right: -6px; }
       .section { padding: 58px 0; }
       .situation-grid { grid-template-columns: repeat(2, 1fr); }
       .result-grid, .difference-grid { grid-template-columns: 1fr; }
@@ -715,7 +775,6 @@
       .hero-trust { gap: 10px 14px; }
       .portrait-stage { padding: 15px; }
       .portrait-card { border-radius: 39% 39% 24px 24px; }
-      .floating-proof { width: 142px; right: -2px; top: 18%; }
       .app-head { grid-template-columns: 1fr; gap: 9px; }
       .app-close-space { display: none; }
       .step-copy { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
@@ -725,6 +784,13 @@
       .situation-card strong { font-size: 14px; }
       .situation-card span { font-size: 11px; }
       .app-screen { padding: 23px 16px 25px; }
+      .situation-scene {
+        min-height: 188px;
+        margin: -23px -16px 22px;
+      }
+      .situation-scene.is-result { min-height: 164px; }
+      .scene-caption { left: 18px; right: 18px; bottom: 17px; }
+      .scene-caption strong { max-width: 310px; font-size: 25px; }
       .answer-option { min-height: 72px; padding: 14px; }
       .result-grid { gap: 9px; }
       .result-card { padding: 15px; }
@@ -770,6 +836,7 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition-duration: 0.01ms !important; }
       .reveal { opacity: 1; transform: none; }
+      .situation-scene img { transform: none; }
     }
 
     /* --- Professionelle Rundungen: ruhig statt verspielt (v1.123) --- */
@@ -782,7 +849,7 @@
     .situation-card, .answer-option, .funding-option, .program-card,
     .difference-card, .concept-rail, .result-card, .kai-quote,
     .rest-teaser, .funding-teaser, .compass-app, .funding-check,
-    .quick-check, .floating-proof, .regional-program { border-radius: 11px; }
+    .quick-check, .regional-program { border-radius: 11px; }
     /* Buttons: klare Kante */
     .primary-btn, .secondary-btn, .funding-select,
     .funding-select-action, .next-step .primary-btn { border-radius: 9px; }
@@ -835,9 +902,12 @@
             <div class="portrait-halo" aria-hidden="true"></div>
             <div class="portrait-card">
               <img data-bb="foto" src="/assets/images/kai-portrait.jpg" alt="Kai Blobel">
-              <div class="portrait-label"><strong data-bb="name">Kai Blobel</strong><span data-bb="rolle">Regionaldirektion</span></div>
+              <div class="portrait-label">
+                <strong data-bb="name">Kai Blobel</strong>
+                <span class="portrait-role">Finanzierungsspezialist</span>
+                <span class="portrait-proofline">20 Jahre Erfahrung · über 400 Banken im Vergleich</span>
+              </div>
             </div>
-            <div class="floating-proof"><strong>Konzept vor Produkt</strong><span>Erst dein Gesamtbild. Dann die passende Finanzierung.</span></div>
           </div>
         </div>
       </section>
@@ -863,6 +933,10 @@
             </section>
 
             <section class="app-screen" data-screen="2" hidden>
+              <div class="situation-scene" aria-live="polite">
+                <img id="question-scene-image" src="" alt="" decoding="async">
+                <div class="scene-caption"><span>Dein Vorhaben</span><strong id="question-scene-title"></strong></div>
+              </div>
               <div class="selected-situation" id="selected-situation"></div>
               <div class="screen-intro"><h3 id="question-title"></h3><p id="question-hint"></p></div>
               <div class="option-list" id="answer-options"></div>
@@ -870,6 +944,10 @@
             </section>
 
             <section class="app-screen" data-screen="3" hidden>
+              <div class="situation-scene is-result">
+                <img id="result-scene-image" src="" alt="" decoding="async">
+                <div class="scene-caption"><span>Dein persönlicher Kompass</span><strong id="result-scene-title"></strong></div>
+              </div>
               <span class="result-kicker" id="result-kicker"></span>
               <div class="screen-intro"><h3 id="result-title"></h3><p class="result-lead" id="result-lead"></p></div>
               <div class="result-grid">
@@ -1039,7 +1117,7 @@
     </main>
 
     <footer class="footer">
-      <div class="wrap footer-inner"><span>© 2026 <span data-bb="name">Kai Blobel</span> &amp; Team · Finanzierungskompass · v1.121 Beta</span><span><a data-bb="impressum" href="https://www.dvag.de/kai.blobel/impressum.html" target="_blank" rel="noopener">Impressum</a> · <a data-bb="datenschutz" href="https://www.dvag.de/kai.blobel/datenschutz.html" target="_blank" rel="noopener">Datenschutz</a></span></div>
+      <div class="wrap footer-inner"><span>© 2026 <span data-bb="name">Kai Blobel</span> &amp; Team · Finanzierungskompass · v1.128 Beta</span><span><a data-bb="impressum" href="https://www.dvag.de/kai.blobel/impressum.html" target="_blank" rel="noopener">Impressum</a> · <a data-bb="datenschutz" href="https://www.dvag.de/kai.blobel/datenschutz.html" target="_blank" rel="noopener">Datenschutz</a></span></div>
     </footer>
 
     <div class="mobile-bar"><button class="primary-btn" type="button" id="mobile-action">Kompass starten</button></div>
@@ -1068,6 +1146,38 @@
         anschluss:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 19V8l7-4 7 4v11M8 19h8M9 10h6"/><path d="M18 3v5M15.5 5.5h5"/></svg>',
         optimierung:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h10M18 7h2M4 17h2M10 17h10M14 4v6M6 14v6"/></svg>'
       };
+
+      const scenes = {
+        orientierung: { src:'/assets/images/baufi/scenes-v1/orientierung.webp', alt:'Architekturplanung mit Hausmodell und Blick ins Grüne' },
+        neubau: { src:'/assets/images/baufi/scenes-v1/neubau.webp', alt:'Modernes Architektenhaus im warmen Abendlicht' },
+        kauf: { src:'/assets/images/baufi/scenes-v1/kauf.webp', alt:'Einladende Bestandsimmobilie mit beleuchtetem Eingang' },
+        sanierung: { src:'/assets/images/baufi/scenes-v1/sanierung.webp', alt:'Hochwertiger Umbau zwischen Bestand und neuem Wohnraum' },
+        anschluss: { src:'/assets/images/baufi/scenes-v1/anschluss.webp', alt:'Ruhige Finanzierungsplanung mit Haus im Hintergrund' },
+        optimierung: { src:'/assets/images/baufi/scenes-v1/optimierung.webp', alt:'Hausmodell und geordnete Bausteine einer flexiblen Finanzierung' }
+      };
+
+      function updateSituationScene(imageId, titleId, key, title) {
+        const scene = scenes[key];
+        const image = root.querySelector(`#${imageId}`);
+        const titleElement = root.querySelector(`#${titleId}`);
+        if (!scene || !image || !titleElement) return;
+        titleElement.textContent = title;
+        image.alt = scene.alt;
+        image.classList.remove('is-ready');
+        const reveal = () => requestAnimationFrame(() => image.classList.add('is-ready'));
+        if (image.getAttribute('src') !== scene.src) {
+          image.addEventListener('load', reveal, { once:true });
+          image.src = scene.src;
+          if (image.complete) reveal();
+        } else {
+          reveal();
+        }
+      }
+
+      function applySituationScene(key, title) {
+        updateSituationScene('question-scene-image', 'question-scene-title', key, title);
+        updateSituationScene('result-scene-image', 'result-scene-title', key, title);
+      }
 
       const data = {
         orientierung: { label:'Erst orientieren', sub:'Möglichkeiten und Rahmen verstehen', question:'Wie konkret ist dein Wunsch?', hint:'Es gibt kein zu früh. Wähle, was heute am besten passt.', answers:[
@@ -1148,6 +1258,7 @@
         const item = data[key];
         currentSituation = key;
         currentAnswer = null;
+        applySituationScene(key, item.label);
         selected.innerHTML = `<span class="mini-orb" aria-hidden="true">${icons[key]}</span><span>${item.label}</span>`;
         root.querySelector('#question-title').textContent = item.question;
         root.querySelector('#question-hint').textContent = item.hint;

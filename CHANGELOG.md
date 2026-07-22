@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.127 Beta** · Interaktive Empfehlungspräsentation für das persönliche Kundengespräch.
+Aktuelle Version: **v1.128 Beta** · Emotionale Bildwelten im Finanzierungskompass.
+
+---
+
+## v1.128 Beta - Phase 98 · Emotionale Bildwelten im Finanzierungskompass
+**2026-07-22**
+
+- Die sechs Ausgangssituationen öffnen jetzt jeweils eine eigene, hochwertige Bildwelt: Orientierung, Neubau, Kauf, Sanierung, Anschlussfinanzierung und Optimierung.
+- Die Motive werden erst nach der Auswahl geladen. So bleibt der Einstieg schnell und die Seite wirkt trotzdem deutlich emotionaler.
+- Das Beraterporträt zeigt jetzt klar „Finanzierungsspezialist“ sowie „20 Jahre Erfahrung · über 400 Banken im Vergleich“.
+- Die wenig aussagekräftige Rollenbezeichnung „Regionaldirektion“ und die Karte „Konzept vor Produkt“ wurden aus diesem Kundenbereich entfernt.
+- Cache: config.js v1.128 Beta, sw.js v99.
 
 ---
 
