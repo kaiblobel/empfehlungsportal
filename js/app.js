@@ -560,10 +560,10 @@ if (page === 'empfaenger') {
     const recipient = (d.empfaenger_name || '').trim().split(/\s+/)[0] || '';
     const promoterLabel = name || 'Dein Empfehlungsgeber';
     document.querySelectorAll('[data-promoter]').forEach((el) => { el.textContent = promoterLabel; });
-    const mark = document.querySelector('.recommendation-mark, .promoter-avatar');
+    const mark = document.querySelector('.recommendation-mark, .promoter-avatar:not([data-static-icon])');
     if (mark && name) mark.textContent = name.charAt(0).toUpperCase();
     const initial = document.getElementById('ePromoterInitial');
-    if (initial) initial.textContent = (promoterLabel.charAt(0) || 'E').toUpperCase();
+    if (initial && !initial.hasAttribute('data-static-icon')) initial.textContent = (promoterLabel.charAt(0) || 'E').toUpperCase();
     const card = document.getElementById('ePromoterCard');
     if (card) card.classList.toggle('has-personal', !!personal);
     const message = document.getElementById('ePromoterMessage');
