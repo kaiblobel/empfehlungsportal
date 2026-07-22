@@ -1,122 +1,200 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#FAF8F5" />
-  <meta name="robots" content="noindex,nofollow" />
-  <title>Mein Empfehlungs-Dashboard · Kai Blobel</title>
-  <link rel="stylesheet" href="css/empfehler.css?v=34" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f4f2ed">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Dein Empfehlungsbereich | Kai Blobel</title>
+  <link rel="stylesheet" href="css/empfehler-mobile.css?v=1">
   <script src="js/config.js"></script>
 </head>
 <body data-page="empfehler">
+  <div class="phone-shell" id="top">
+    <header class="topbar" id="topbar">
+      <img class="advisor-photo" data-bb="foto" src="assets/images/kai-portrait.jpg" alt="Kai Blobel">
+      <div class="top-copy">
+        <strong id="helloName">Dein Empfehlungsbereich</strong>
+        <span>Persönlich begleitet von <span data-bb="vorname">Kai</span></span>
+      </div>
+      <button class="icon-button" id="noticeOpen" type="button" aria-label="Neuigkeiten öffnen">
+        <span class="bell" aria-hidden="true"></span><span class="unread" id="unreadDot" hidden></span>
+      </button>
+    </header>
 
-  <!-- Hero · Persönliche Begrüßung + Stats -->
-  <section class="e-section">
-    <div class="e-inner">
-      <div class="e-hero">
-        <img class="e-hero-portrait" data-bb="foto" src="assets/images/kai-portrait.jpg" alt="Berater" />
-        <div class="e-hero-greet">
-          <p class="e-eyebrow" id="p7Greet">Mein Dashboard</p>
-          <h1 class="e-h1" id="p7Hallo">Hallo.</h1>
-          <p class="e-lede" id="p7Status">Lade…</p>
+    <main id="dashboardMain">
+      <section class="hero" aria-labelledby="heroTitle">
+        <div class="eyebrow">Heute jemandem helfen</div>
+        <h1 id="heroTitle">Wem möchtest du gerade etwas Gutes tun?</h1>
+        <p id="heroText">Vier kurze Schritte. Dein persönlicher Empfehlungslink ist sofort bereit.</p>
+        <button class="primary start-funnel" id="heroStart" type="button" disabled>
+          <span class="plus-ring">+</span>Jetzt empfehlen
+        </button>
+        <button class="draft-button" id="resumeDraft" type="button">Gespeicherten Entwurf fortsetzen</button>
+        <div class="hero-proof">
+          <span class="proof-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span id="heroProof">Deine Empfehlungen bleiben für dich sichtbar.</span>
         </div>
-      </div>
+      </section>
 
-      <div class="e-stats">
-        <span class="e-stats-big" id="p7StatsBig">–</span>
-        <span class="e-stats-label">Erfolgreiche Empfehlungen</span>
-        <p class="e-stats-next" id="p7NextStufe"></p>
-      </div>
+      <section class="section" aria-labelledby="impactTitle">
+        <div class="section-head"><div><div class="eyebrow">Deine Wirkung</div><h2 id="impactTitle">Auf einen Blick</h2></div></div>
+        <div class="metric-grid">
+          <div class="metric"><strong id="recommendedCount">0</strong><span>Menschen empfohlen</span><small>alles erfasst</small></div>
+          <div class="metric"><strong id="openedCount">0</strong><span>Link geöffnet</span><small>Interesse entsteht</small></div>
+          <div class="metric"><strong id="customerCount">0</strong><span>Kunde geworden</span><small>echte Wirkung</small></div>
+        </div>
+      </section>
 
-      <div class="e-ziel" id="p7ZielBanner" hidden></div>
-    </div>
-  </section>
+      <section class="section" id="activity" aria-labelledby="activityTitle">
+        <div class="section-head">
+          <div><div class="eyebrow">Seit deinem letzten Besuch</div><h2 id="activityTitle">Was sich verändert hat</h2></div>
+          <button class="text-button" id="markRead" type="button">Gelesen</button>
+        </div>
+        <div class="activity-list" id="activityList"><div class="empty-card">Deine Neuigkeiten werden geladen.</div></div>
+      </section>
 
-  <!-- Persönlicher Empfehlungs-Satz · Standard für alle Empfohlenen -->
-  <section class="e-section">
-    <div class="e-inner">
-      <p class="e-eyebrow">Deine persönliche Note</p>
-      <h2 class="e-h2">Ein Satz, den jeder<br>Empfohlene sieht.</h2>
-      <div class="e-hairline"></div>
-      <p class="e-body">Warum empfiehlst du mich? Dieser Satz erscheint als deine persönliche Nachricht ganz oben bei allen, die du empfiehlst — außer du hinterlegst pro Person etwas Eigenes. Freiwillig, jederzeit änderbar.</p>
-      <div class="e-fe-field"><textarea id="p7StandardMsg" maxlength="240" rows="3" placeholder="z. B. Kai hat mir meine Finanzen in Ruhe erklärt – ohne Druck, ohne Fachchinesisch. Ihm kannst du vertrauen."></textarea></div>
-      <div style="display:flex;align-items:center;gap:14px;margin-top:8px;flex-wrap:wrap;">
-        <span id="p7StandardCount" style="font-size:12px;color:#707274;">0/240</span>
-        <button type="button" class="e-btn e-btn-primary" id="p7StandardSave" style="width:auto;min-width:180px;">Speichern</button>
-      </div>
-    </div>
-  </section>
+      <section class="section" aria-labelledby="rewardTitle">
+        <div class="section-head">
+          <div><div class="eyebrow">Dein Dankeschön</div><h2 id="rewardTitle">Du bist auf dem Weg</h2></div>
+          <button class="text-button" id="changeGoal" type="button">Ziel ändern</button>
+        </div>
+        <div class="reward-card" id="rewardCard"><div class="empty-inline">Dein Fortschritt wird geladen.</div></div>
+      </section>
 
-  <!-- Belohnungs-Treppe · Ziel wählen -->
-  <section class="e-section">
-    <div class="e-inner">
-      <p class="e-eyebrow">Dein Fortschritt</p>
-      <h2 class="e-h2">Wähle dein Ziel.</h2>
-      <div class="e-hairline"></div>
-      <p class="e-body">Tippe auf eine Belohnung, um sie als dein Ziel zu setzen — dann öffnet sich direkt dein Eingabefeld.</p>
-      <div class="e-rewards" id="p7RewardsList"></div>
-    </div>
-  </section>
+      <section class="section" id="history" aria-labelledby="historyTitle">
+        <div class="section-head">
+          <div><div class="eyebrow">Deine Empfehlungen</div><h2 id="historyTitle">Du siehst, was passiert</h2></div>
+          <button class="text-button" type="button" id="refreshButton">Aktualisieren</button>
+        </div>
+        <div class="recommendation-list" id="recommendationList"><div class="empty-card">Deine Empfehlungen werden geladen.</div></div>
+      </section>
 
-  <!-- Empfehlungen eintragen -->
-  <section class="e-section alt" id="p7Eintragen">
-    <div class="e-inner">
-      <p class="e-eyebrow">Loslegen</p>
-      <h2 class="e-h2">Wen darf ich für dich<br>begeistern?</h2>
-      <div class="e-hairline"></div>
-      <p class="e-body">Trag die Menschen ein, an die du gerade denkst. Für jeden erstellst du mit einem Klick deinen persönlichen Link und schickst ihn direkt per WhatsApp los.</p>
-
-      <div class="potenzial-tool">
-        <div class="potenzial-count">
-          <span class="potenzial-count-label">Wie viele Kontakte?</span>
-          <div class="potenzial-chips" id="p7Chips">
-            <button type="button" class="potenzial-chip" data-count="3">3</button>
-            <button type="button" class="potenzial-chip active" data-count="5">5</button>
-            <button type="button" class="potenzial-chip" data-count="10">10</button>
-            <label class="potenzial-chip potenzial-chip-free">eigene:
-              <input type="number" id="p7Free" min="1" max="15" inputmode="numeric" placeholder="#" aria-label="Eigene Anzahl" />
-            </label>
+      <section class="section" id="settings" aria-label="Persönliche Einstellungen">
+        <details>
+          <summary>Persönliche Nachricht und Benachrichtigungen</summary>
+          <div class="settings-body">
+            <div class="setting-row">
+              <label for="defaultMessage">Deine Standardnachricht</label>
+              <textarea id="defaultMessage" maxlength="240" placeholder="Warum empfiehlst du Kai? Dieser Satz wird persönlich über dem Link angezeigt."></textarea>
+              <div class="setting-meta"><span id="defaultMessageCount">0/240</span><button type="button" id="saveDefaultMessage">Nachricht speichern</button></div>
+            </div>
+            <div class="setting-row">
+              <label>Wie oft möchtest du hier erinnert werden?</label>
+              <div class="choice-row" id="notifyChoices">
+                <button type="button" class="choice-chip active" data-frequency="sofort">Sofort</button>
+                <button type="button" class="choice-chip" data-frequency="taeglich">Täglich</button>
+                <button type="button" class="choice-chip" data-frequency="woechentlich">Wöchentlich</button>
+                <button type="button" class="choice-chip" data-frequency="aus">Aus</button>
+              </div>
+              <p class="setting-note">Die Auswahl gilt auf diesem Gerät. Wichtige Änderungen erscheinen immer im Verlauf.</p>
+            </div>
           </div>
+        </details>
+      </section>
+
+      <footer class="footer">
+        <strong><span data-bb="name">Kai Blobel</span> &amp; Team</strong><br>
+        Finanzierungsspezialist · persönlich für dich da
+      </footer>
+    </main>
+
+    <section class="error-state" id="errorState" hidden>
+      <div class="error-mark">!</div>
+      <h1>Dieser Zugang ist nicht gültig.</h1>
+      <p>Bitte öffne noch einmal den persönlichen Link, den du erhalten hast.</p>
+    </section>
+  </div>
+
+  <nav class="bottom-nav" id="bottomNav" aria-label="Hauptnavigation">
+    <button class="nav-button active" id="navHome" type="button"><span class="nav-icon home" aria-hidden="true"></span><span>Start</span></button>
+    <button class="nav-button nav-main start-funnel" type="button" disabled><span class="nav-plus">+</span><span>Empfehlen</span></button>
+    <button class="nav-button" id="navHistory" type="button"><span class="nav-icon list" aria-hidden="true"></span><span>Verlauf</span></button>
+  </nav>
+
+  <div class="overlay" id="funnelOverlay" aria-hidden="true">
+    <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="funnelTitle">
+      <header class="sheet-head">
+        <div class="sheet-top">
+          <button class="close" id="closeFunnel" type="button" aria-label="Schließen">×</button>
+          <div class="sheet-title"><strong id="funnelTitle">Neue Empfehlung</strong><span>Auf diesem Gerät automatisch gespeichert</span></div>
+          <span class="step-number" id="stepNumber">1 von 4</span>
         </div>
-        <div class="potenzial-rows" id="p7Rows"></div>
-        <div class="potenzial-foot">
-          <p class="potenzial-hint">Name und Telefonnummer genügen. Mit dem Thema weiß ich vorher, worum es geht.</p>
-          <button type="button" class="potenzial-clear" id="p7Clear">Liste leeren</button>
-        </div>
-        <p style="text-align:center;margin-top:6px;width:100%;">
-          <a id="p7CtaEmpfehlen" style="font-size:13px;color:var(--e-muted);text-decoration:underline;">Lieber einzeln empfehlen →</a>
-        </p>
+        <div class="step-progress" id="stepProgress" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></div>
+      </header>
+
+      <div class="step-content">
+        <section class="step active" data-step="1">
+          <h2>Wem möchtest du helfen?</h2>
+          <p>Der Vorname reicht. Die Handynummer wird nur für diese Empfehlung verwendet.</p>
+          <div class="field"><label for="contactName">Vorname</label><input id="contactName" autocomplete="given-name" placeholder="z. B. Anna" maxlength="80"></div>
+          <div class="field"><label for="contactPhone">Handynummer</label><input id="contactPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="z. B. 0171 2345678" maxlength="40"><div class="input-hint">Die Nummer erscheint nicht öffentlich und wird nicht für Werbung verwendet.</div></div>
+          <div class="error" id="step1Error">Bitte trage mindestens den Vornamen ein.</div>
+        </section>
+
+        <section class="step" data-step="2">
+          <h2>Worum geht es?</h2>
+          <p>Wähle das Thema, das am besten zur aktuellen Situation passt.</p>
+          <div class="topic-grid" id="topicGrid"></div>
+          <div class="error" id="step2Error">Bitte wähle ein Thema aus.</div>
+        </section>
+
+        <section class="step" data-step="3">
+          <h2>Wie möchtest du es sagen?</h2>
+          <p>Wähle einen Ton. Du kannst den Text jederzeit persönlich verändern.</p>
+          <div class="template-list" id="templateList">
+            <button class="template-card active" type="button" data-template="warm"><span class="radio"></span><span><strong>Herzlich und persönlich</strong><span>Eine warme Empfehlung aus eigener Erfahrung.</span></span></button>
+            <button class="template-card" type="button" data-template="short"><span class="radio"></span><span><strong>Kurz und direkt</strong><span>Gut, wenn ihr ohnehin gerade darüber sprecht.</span></span></button>
+            <button class="template-card" type="button" data-template="neutral"><span class="radio"></span><span><strong>Zurückhaltend</strong><span>Ohne Druck, nur als hilfreiches Angebot.</span></span></button>
+          </div>
+          <div class="field"><label for="personalMessage">Deine Nachricht</label><textarea id="personalMessage" maxlength="600"></textarea><div class="input-hint">Der persönliche Link wird automatisch ergänzt.</div></div>
+        </section>
+
+        <section class="step" data-step="4">
+          <h2>Alles bereit</h2>
+          <p>Prüfe kurz, ob sich die Nachricht wirklich nach dir anhört.</p>
+          <div class="preview-card">
+            <div class="preview-title"><div class="avatar" id="previewInitials">AN</div><div><strong id="previewName">Anna</strong><span id="previewTopic">Baufinanzierung</span></div></div>
+            <div class="message-bubble" id="messagePreview"></div>
+          </div>
+          <div class="honesty"><b>i</b><span>Erst nach deiner Bestätigung steht im Verlauf „versendet“. Sobald der Link geöffnet wird, aktualisiert sich der Status automatisch.</span></div>
+        </section>
       </div>
+
+      <footer class="sheet-actions">
+        <button class="primary" id="nextStep" type="button">Weiter</button>
+        <button class="secondary" id="saveLater" type="button">Für später speichern</button>
+      </footer>
+    </section>
+  </div>
+
+  <div class="overlay" id="confirmOverlay" aria-hidden="true">
+    <section class="sheet confirm-sheet" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <div class="confirm-mark">✓</div>
+      <h2 id="confirmTitle">Der Link ist erstellt.</h2>
+      <p>Hat WhatsApp die Nachricht versendet? Wir tragen nur ein, was wirklich passiert ist.</p>
+      <button class="primary" id="confirmSent" type="button">Ja, Nachricht wurde versendet</button>
+      <button class="secondary" id="confirmLater" type="button">Noch nicht, im Verlauf merken</button>
+    </section>
+  </div>
+
+  <div class="overlay" id="goalOverlay" aria-hidden="true">
+    <section class="sheet goal-sheet" role="dialog" aria-modal="true" aria-labelledby="goalTitle">
+      <header class="sheet-head"><div class="sheet-top"><button class="close" id="closeGoal" type="button" aria-label="Schließen">×</button><div class="sheet-title"><strong id="goalTitle">Dein Wunschziel</strong><span>Du kannst es jederzeit ändern</span></div></div></header>
+      <div class="goal-list" id="goalList"></div>
+    </section>
+  </div>
+
+  <div class="notice-panel" id="noticePanel" aria-hidden="true">
+    <div class="notice-inner">
+      <div class="notice-head"><h2>Neuigkeiten</h2><button class="close" id="noticeClose" type="button" aria-label="Schließen">×</button></div>
+      <div id="noticeList"></div>
+      <div class="notice-foot">Die Seite aktualisiert sich beim Öffnen und regelmäßig, solange sie sichtbar ist.</div>
     </div>
-  </section>
+  </div>
 
-  <!-- Empfehlungen-Feed -->
-  <section class="e-section alt">
-    <div class="e-inner">
-      <p class="e-eyebrow">Deine Empfehlungen</p>
-      <h2 class="e-h2">Wer wurde durch dich empfohlen?</h2>
-      <div class="e-hairline"></div>
-      <div id="p7Feed" style="width:100%;"></div>
-    </div>
-  </section>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <!-- Footer · CTA -->
-  <footer class="e-section dark center">
-    <div class="e-inner" style="align-items:center;">
-      <p class="e-eyebrow" style="text-align:center;">Weitermachen</p>
-      <h2 class="e-h2" style="text-align:center;">Noch jemand im Kopf?</h2>
-      <a class="e-btn e-btn-light" id="p7CtaNeu" style="max-width:360px;margin-top:8px;">
-        Weitere Empfehlung abgeben
-      </a>
-      <div style="height: 40px;"></div>
-      <p class="e-footer-name"><span data-bb="name">Kai Blobel</span> · Team Wachsbleiche</p>
-      <p class="e-footer-sub"><span data-bb="rolle">Regionaldirektion</span> · Deutsche Vermögensberatung</p>
-    </div>
-  </footer>
-
-  <div class="e-toast" id="p7Toast"></div>
-
-  <script type="module" src="js/empfehler.js?v=38"></script>
+  <script type="module" src="js/empfehler-mobile.js?v=2"></script>
 </body>
 </html>

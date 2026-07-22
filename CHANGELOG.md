@@ -1,7 +1,23 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.132 Beta** · Ruhigerer Porträt-Ausschnitt im Präsentationseinstieg.
+Aktuelle Version: **v1.133 Beta** · Mobile-first Promoterbereich mit geführter Empfehlung und verständlichem Verlauf.
+
+---
+
+## v1.133 Beta - Phase 103 · Mobile-first Promoterbereich
+**2026-07-22**
+
+- Der Promoter startet jetzt direkt im ersten Handybildschirm eine neue Empfehlung, statt erst durch Statistiken und Belohnungen zu scrollen.
+- Ein geführter Ablauf führt in vier Schritten von Vorname und Telefonnummer über die Themenauswahl bis zur persönlichen Nachricht und Linkvorschau.
+- Die acht aktiven Themen werden direkt aus Supabase geladen und als leicht verständliche Auswahlkarten dargestellt.
+- Der Verlauf unterscheidet ehrlich zwischen „Link erstellt“, „Versand bestätigt“, „Link geöffnet“, Gesprächswunsch, Kontakt und Kunde.
+- Die Versandbestätigung wird dauerhaft über den vorhandenen Promoter-Kontext gespeichert. Es wurde keine parallele Datenhaltung eingeführt.
+- Entwürfe bleiben auf dem jeweiligen Gerät gespeichert und können später fortgesetzt werden.
+- Neuigkeiten, Wirkung, Wunschziel, persönliche Nachricht und Zusatzinfos sind in einer kompakten mobilen Arbeitsfläche zusammengeführt.
+- Der Stand wird beim erneuten Öffnen sowie alle 60 Sekunden aktualisiert, solange die Seite sichtbar ist.
+- Die Rollenbezeichnung im Promoterbereich lautet verständlich „Finanzierungsspezialist“.
+- Cache: empfehler-mobile.css v1, empfehler-mobile.js v2, config.js v1.133 Beta, sw.js v104.
 
 ---
 
