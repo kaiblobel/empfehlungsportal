@@ -567,7 +567,12 @@ if (page === 'empfaenger') {
     const card = document.getElementById('ePromoterCard');
     if (card) card.classList.toggle('has-personal', !!personal);
     const message = document.getElementById('ePromoterMessage');
-    if (message) message.textContent = personal ? `„${personal}“` : `${promoterLabel} hat diese Seite erst nach eurem Gespräch weitergegeben.`;
+    if (message) {
+      const beraterVorname = document.querySelector('[data-bb="vorname"]')?.textContent?.trim() || 'Kai';
+      message.textContent = personal
+        ? `„${personal}“`
+        : `Ich habe dir ${beraterVorname} empfohlen und dir diese Seite nach unserem Gespräch weitergeschickt.`;
+    }
     document.querySelectorAll('[data-recipient]').forEach((el) => { if (recipient) el.textContent = recipient; });
     if (recipient) {
       const personalName = document.querySelector('.personal-name');
