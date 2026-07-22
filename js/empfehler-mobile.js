@@ -176,12 +176,26 @@ function renderMetrics() {
 
 function activityFor(item) {
   const name = firstName(item.empfaenger_name) || 'Deine Empfehlung';
-  if (item.status === 'kunde') return { rank: 5, icon: 'ZIEL', tone: 'sage', title: `${name} ist Kunde geworden`, text: 'Deine Empfehlung hat wirklich geholfen.', time: formatRelative(item.created_at) };
-  if (item.status === 'anrufwunsch') return { rank: 4, icon: 'TER', tone: 'marine', title: `${name} möchte ein Gespräch`, text: `${beraterName} übernimmt den nächsten Schritt persönlich.`, time: formatRelative(item.created_at) };
-  if (item.status === 'kontaktiert') return { rank: 3, icon: 'KON', tone: 'marine', title: `${name} ist jetzt im Gespräch`, text: 'Der persönliche Kontakt ist hergestellt.', time: formatRelative(item.created_at) };
+  if (item.status === 'kunde') return { rank: 8, icon: 'ZIEL', tone: 'sage', title: `${name} ist Kunde geworden`, text: 'Deine Empfehlung hat wirklich geholfen.', time: formatRelative(item.created_at) };
+  if (item.status === 'kontaktiert') return { rank: 7, icon: 'KON', tone: 'marine', title: `${name} ist jetzt im Gespräch`, text: 'Der persönliche Kontakt ist hergestellt.', time: formatRelative(item.created_at) };
+  if (item.booking_state === 'cancelled') return { rank: 7, icon: 'NEU', tone: 'terra', title: `${name}s Termin wurde abgesagt`, text: `${beraterName} stimmt den nächsten Schritt persönlich ab.`, time: formatRelative(item.booking_cancelled_at || item.booking_updated_at || item.created_at) };
+  if (item.booking_state === 'confirmed') return { rank: 6, icon: 'TER', tone: 'marine', title: `${name} hat einen Termin vereinbart`, text: `${beraterName} hat die bestätigte Buchung erhalten.`, time: formatRelative(item.booking_updated_at || item.booking_confirmed_at || item.created_at) };
+  if (item.status === 'anrufwunsch') return { rank: 5, icon: 'TER', tone: 'marine', title: `${name} möchte ein Gespräch`, text: `${beraterName} übernimmt den nächsten Schritt persönlich.`, time: formatRelative(item.created_at) };
+  if (item.booking_state === 'started') return { rank: 3, icon: 'KAL', tone: '', title: `${name} hat die Terminwahl geöffnet`, text: 'Eine Buchung ist noch nicht bestätigt.', time: formatRelative(item.booking_started_at || item.created_at) };
   if (item.link_geoeffnet) return { rank: 2, icon: 'AUF', tone: '', title: `${name} hat deinen Link geöffnet`, text: 'Der erste wichtige Schritt ist geschafft.', time: formatRelative(item.link_geoeffnet_at || item.created_at) };
   if (item.empfehler_vorinformiert) return { rank: 1, icon: 'VER', tone: '', title: `Empfehlung an ${name} versendet`, text: 'Du erfährst hier, sobald der Link geöffnet wird.', time: formatRelative(item.created_at) };
   return { rank: 0, icon: 'NEU', tone: 'terra', title: `Link für ${name} erstellt`, text: 'Der Versand wurde noch nicht bestätigt.', time: formatRelative(item.created_at) };
+}
+
+function recommendationSignature(item) {
+  return [
+    item.status,
+    Boolean(item.link_geoeffnet),
+    Boolean(item.empfehler_vorinformiert),
+    item.booking_state || '',
+    item.booking_updated_at || '',
+    item.booking_start_at || '',
+  ].join('|');
 }
 
 function renderActivities() {
@@ -388,13 +402,17 @@ function recommendationHtml(item, index) {
   const theme = vorlagen.find(template => template.slug === item.vorlage_slug)?.titel || item.vorlage_slug || 'Allgemein';
   const opened = Boolean(item.link_geoeffnet);
   const status = item.status || 'offen';
-  const sent = Boolean(item.empfehler_vorinformiert || opened || status !== 'offen');
-  const thirdDone = opened || ['anrufwunsch', 'kontaktiert', 'kunde'].includes(status);
+  const bookingState = item.booking_state || '';
+  const sent = Boolean(item.empfehler_vorinformiert || opened || bookingState || status !== 'offen');
+  const thirdDone = opened || bookingState || ['anrufwunsch', 'kontaktiert', 'kunde'].includes(status);
   let pill = sent ? 'Versand bestätigt' : 'Link erstellt';
   let pillClass = sent ? 'marine' : '';
   let thirdLabel = 'Geöffnet';
   if (opened) pill = 'Link geöffnet';
+  if (bookingState === 'started') { pill = 'Terminwahl geöffnet'; thirdLabel = 'Terminwahl'; }
   if (status === 'anrufwunsch') { pill = 'Gespräch gewünscht'; pillClass = 'marine'; thirdLabel = 'Terminwunsch'; }
+  if (bookingState === 'confirmed') { pill = 'Termin vereinbart'; pillClass = 'marine'; thirdLabel = 'Termin'; }
+  if (bookingState === 'cancelled') { pill = 'Termin abgesagt'; pillClass = 'terra'; thirdLabel = 'Neu abstimmen'; }
   if (status === 'kontaktiert') { pill = 'Im Gespräch'; pillClass = 'marine'; thirdLabel = 'Kontakt'; }
   if (status === 'kunde') { pill = 'Kunde geworden'; pillClass = 'sage'; thirdLabel = 'Kunde'; }
   if (status === 'kein_interesse') { pill = 'Kein Interesse'; pillClass = 'terra'; thirdLabel = 'Rückmeldung'; }
@@ -763,7 +781,7 @@ function saveNotificationChoice(chip) {
 function detectChanges(list) {
   let previous = null;
   try { previous = JSON.parse(localStorage.getItem(snapshotKey()) || 'null'); } catch (_) {}
-  const current = Object.fromEntries(list.map(item => [item.id, `${item.status}|${Boolean(item.link_geoeffnet)}|${Boolean(item.empfehler_vorinformiert)}`]));
+  const current = Object.fromEntries(list.map(item => [item.id, recommendationSignature(item)]));
   sessionChanges = [];
   if (previous) {
     list.forEach(item => {
@@ -803,7 +821,7 @@ function closeNotices() {
 function markNoticesRead(showToast = true) {
   sessionChanges = [];
   $('#unreadDot').hidden = true;
-  const current = Object.fromEntries(empfehlungen.map(item => [item.id, `${item.status}|${Boolean(item.link_geoeffnet)}|${Boolean(item.empfehler_vorinformiert)}`]));
+  const current = Object.fromEntries(empfehlungen.map(item => [item.id, recommendationSignature(item)]));
   try { localStorage.setItem(snapshotKey(), JSON.stringify(current)); } catch (_) {}
   if (showToast) toast('Alles als gelesen markiert.');
 }
@@ -828,9 +846,9 @@ async function refreshData({ quiet = true } = {}) {
   const [statsRes, listRes] = await Promise.all([getEmpfehlerStats(code), getEmpfehlerEmpfehlungen(code)]);
   if (statsRes.data) stats = statsRes.data;
   if (!listRes.error) {
-    const previousSignatures = Object.fromEntries(empfehlungen.map(item => [item.id, `${item.status}|${Boolean(item.link_geoeffnet)}|${Boolean(item.empfehler_vorinformiert)}`]));
+    const previousSignatures = Object.fromEntries(empfehlungen.map(item => [item.id, recommendationSignature(item)]));
     empfehlungen = listRes.data || [];
-    const changedNow = empfehlungen.filter(item => previousSignatures[item.id] && previousSignatures[item.id] !== `${item.status}|${Boolean(item.link_geoeffnet)}|${Boolean(item.empfehler_vorinformiert)}`);
+    const changedNow = empfehlungen.filter(item => previousSignatures[item.id] && previousSignatures[item.id] !== recommendationSignature(item));
     if (changedNow.length) {
       sessionChanges = [...changedNow, ...sessionChanges.filter(old => !changedNow.some(item => item.id === old.id))];
       $('#unreadDot').hidden = false;

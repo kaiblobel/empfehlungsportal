@@ -1,6 +1,5 @@
 import {
   createEmpfehlung,
-  updateLinkGeoeffnet,
   updateAusgetragen,
   markInteressiert,
   markAnrufwunsch,
@@ -459,9 +458,6 @@ if (page === 'empfaenger') {
   if (optoutLink && token) optoutLink.href = `austragen.html?token=${token}`;
   const optoutFooter = document.getElementById('austragenFooter');
   if (optoutFooter && token) optoutFooter.href = `austragen.html?token=${token}`;
-
-  // Link-Öffnung tracken
-  if (token) updateLinkGeoeffnet(token);
 
   // IntersectionObserver
   const io = new IntersectionObserver((entries) => {

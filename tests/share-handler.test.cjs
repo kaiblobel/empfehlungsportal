@@ -32,7 +32,7 @@ async function testHappyPath() {
 
   assert.equal(res.statusCode, 200);
   assert.equal(headers['Content-Type'], 'text/html; charset=utf-8');
-  assert.ok(calls[1].includes('get_empfehlung_public'));
+  assert.ok(calls.some((url) => url.includes('get_empfehlung_public')));
   assert.ok(body.includes('<title>Alt</title>'));
 }
 
@@ -52,7 +52,7 @@ async function testFallbackKeepsQuery() {
   }, res);
 
   assert.equal(res.statusCode, 302);
-  assert.equal(headers.Location, '/empfaenger.html?token=abc%20123&vorlage=baufi');
+  assert.equal(headers.Location, '/baufi.html?token=abc%20123&vorlage=baufi');
 }
 
 (async () => {

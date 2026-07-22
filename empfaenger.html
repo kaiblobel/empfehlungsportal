@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="utf-8">
-  <!-- Empfängerseite v1.127 · Beraterkarte zeigt Kundenvorteile statt Funktionsbezeichnung -->
+  <!-- Empfängerseite v1.135 · zuverlässiges Öffnungs- und Bookings-Tracking -->
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>Deine persönliche Empfehlung · Kai Blobel</title>
   <meta name="description" content="Eine persönliche Empfehlung und ein geführter erster Blick auf deine finanziellen Möglichkeiten." />
@@ -108,6 +108,7 @@
     document.querySelectorAll('.time').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.time').forEach(b=>b.classList.remove('selected'));btn.classList.add('selected');document.getElementById('eSlot').value=btn.dataset.value;document.getElementById('eAnrufConfirm').classList.remove('visible')}));
     document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')show(step-1);if(e.key==='ArrowRight'&&!(step===2&&!interest))show(step+1)});
   </script>
-  <script type="module" src="js/app.js?v=44"></script>
+  <script src="/js/referral-tracking.js?v=2"></script>
+  <script type="module" src="js/app.js?v=45"></script>
 </body>
 </html>

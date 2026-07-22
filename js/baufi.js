@@ -3,7 +3,6 @@ import {
   getBeraterPublicBySlug,
   getEmpfehlungByToken,
   markInteressiert,
-  updateLinkGeoeffnet,
 } from './supabase.js';
 import { applyBeraterBrand } from './berater-brand.js';
 
@@ -134,8 +133,6 @@ window.baufiOptOut = () => {
 
 (async () => {
   setRecommendation();
-  if (token) void updateLinkGeoeffnet(token);
-
   let recommendation = null;
   if (token) {
     const result = await getEmpfehlungByToken(token);

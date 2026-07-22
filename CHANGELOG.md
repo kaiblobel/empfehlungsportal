@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.133 Beta** · Mobile-first Promoterbereich mit geführter Empfehlung und verständlichem Verlauf.
+Aktuelle Version: **v1.135 Beta** · Zuverlässiges Empfänger- und Bookings-Tracking.
+
+---
+
+## v1.135 Beta - Phase 105 · Empfänger- und Bookings-Tracking
+**2026-07-22**
+
+- Linköffnungen werden über einen eigenen Portal-Endpunkt gespeichert und hängen nicht mehr vom extern geladenen Supabase-Modul ab. Dadurch funktioniert das Tracking auch in mobilen WhatsApp-Browsern zuverlässiger.
+- Der Klick auf Microsoft Bookings wird ehrlich als „Terminwahl geöffnet“ gespeichert. Er gilt noch nicht als vereinbarter Termin.
+- Erst der offizielle Microsoft-Bookings-Auslöser in Power Automate darf einen Termin als bestätigt, geändert oder abgesagt zurückmelden.
+- Die Zuordnung erfolgt nur zu einer zuvor geöffneten Terminwahl und über die bereits vorhandene Telefonnummer. Name und E-Mail aus Bookings werden nicht zusätzlich gespeichert.
+- Der Promoterbereich unterscheidet Link geöffnet, Terminwahl geöffnet, Termin vereinbart und Termin abgesagt und erkennt diese Änderungen bei der regelmäßigen Aktualisierung.
+- Neue abgesicherte Vercel-Endpunkte: `/api/referral-event` und `/api/bookings-event`.
+- Cache: app.js v45, baufi.js v3, empfehler-mobile.js v5, referral-tracking.js v2, sw.js v105.
 
 ---
 
