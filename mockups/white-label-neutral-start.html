@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>White-Label · neutrale Ausgangslage (Mock)</title>
+<style>
+  :root{
+    --ink:#1a1a1a; --sub:#6b6660; --line:#e7e2d9; --bg:#faf8f4; --card:#fff;
+    --champ:#c9b98a; --sage:#7a8b6f; --terra:#c28447; --marine:#2e5266; --bad:#b23b3b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;color:var(--ink);background:var(--bg);padding:28px}
+  h1{font-size:22px;margin:0 0 4px}
+  .lede{color:var(--sub);max-width:760px;margin:0 0 22px}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;margin:0 0 22px;font-size:13px;color:var(--sub)}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+  .col h2{font-size:13px;text-transform:uppercase;letter-spacing:.06em;margin:0 0 8px}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;vertical-align:middle;margin-left:6px}
+  .tag.bad{background:#fbeaea;color:var(--bad)}
+  .tag.ok{background:#eaf1e7;color:#4a6b3c}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .slide{padding:22px 20px;text-align:center;border-bottom:1px solid var(--line)}
+  .eyebrow{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--champ);font-weight:700}
+  .foto{width:96px;height:96px;border-radius:50%;object-fit:cover;margin:12px auto 10px;display:block;border:3px solid #fff;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+  .foto-ph{width:96px;height:96px;border-radius:50%;margin:12px auto 10px;display:flex;align-items:center;justify-content:center;background:var(--champ);color:#fffcf7;font-weight:600;font-size:34px}
+  .nm{font-weight:700;font-size:18px}
+  .rl{color:var(--sub);font-size:13px;min-height:18px}
+  .claims{padding:14px 20px;border-bottom:1px solid var(--line);font-size:13px}
+  .claim{display:inline-block;background:#f3efe6;border-radius:8px;padding:4px 9px;margin:3px 3px 0 0}
+  .reviews{padding:14px 20px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sub)}
+  .stars{color:var(--terra);letter-spacing:2px}
+  .contact{padding:14px 20px;border-bottom:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap}
+  .btn{font-size:12px;font-weight:600;padding:6px 12px;border-radius:999px;border:1px solid var(--line);color:var(--ink);background:#fff}
+  .btn.wa{border-color:#25d366;color:#128c36}
+  .legalrow{padding:12px 20px;font-size:12px;color:var(--sub)}
+  .muted{color:#b7b1a8}
+  .none{color:var(--sub);font-style:italic;font-size:13px}
+  .note{padding:12px 16px;font-size:12.5px;color:var(--sub);background:#faf7f1;border-top:1px dashed var(--line)}
+  .note b{color:var(--ink)}
+  .x{color:var(--bad);font-weight:700}
+  .c{color:#4a6b3c;font-weight:700}
+  footer{margin-top:24px;color:var(--sub);font-size:12.5px;max-width:820px}
+  code{background:#f0ece3;padding:1px 5px;border-radius:5px;font-size:12px}
+</style>
+</head>
+<body>
+  <h1>White-Label · neutrale Ausgangslage</h1>
+  <p class="lede">Prinzip-Umkehr: die erste Präsentationsfolie startet <b>neutral</b> und zeigt <b>ausschließlich den ermittelten Berater</b>.
+  Fehlt etwas, steht ein neutraler Platzhalter oder es ist ausgeblendet — <b>nie Kai</b>. Persönliche Leistungszahlen und Bewertungen erscheinen nur beim eigenen Berater.</p>
+
+  <div class="legend">
+    <span><span class="x">✗</span> = Fremd-Inhalt / Leak &nbsp;·&nbsp; <span class="c">✓</span> = korrekt &nbsp;·&nbsp; grauer Kreis = neutrales Initialen-Bild</span>
+  </div>
+
+  <div class="grid">
+
+    <!-- 1 JETZT / FEHLER -->
+    <div class="col">
+      <h2>Jetzt (Fehler)<span class="tag bad">Leak</span></h2>
+      <div class="card">
+        <div class="slide">
+          <div class="eyebrow">Eine persönliche Empfehlung</div>
+          <img class="foto" alt="" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='96'%20height='96'%3E%3Crect%20width='96'%20height='96'%20fill='%232e5266'/%3E%3Ctext%20x='50%25'%20y='54%25'%20text-anchor='middle'%20font-family='Arial'%20font-size='12'%20fill='%23fff'%3EKai-Foto%3C/text%3E%3C/svg%3E" />
+          <div class="nm">Kai Blobel <span class="x">✗</span></div>
+          <div class="rl">Regionaldirektion · Team Wachsbleiche <span class="x">✗</span></div>
+        </div>
+        <div class="claims">
+          <span class="claim">20+ Jahre <span class="x">✗</span></span>
+          <span class="claim">3.000+ Haushalte <span class="x">✗</span></span>
+          <span class="claim">über 400 Banken <span class="x">✗</span></span>
+        </div>
+        <div class="reviews"><span class="stars">★★★★★</span> 5,0 · 15 Google-Bewertungen (von Kai) <span class="x">✗</span></div>
+        <div class="contact">
+          <span class="btn wa">WhatsApp: +49 151 5477… <span class="x">✗</span></span>
+          <span class="btn">Termin bei Kai <span class="x">✗</span></span>
+        </div>
+        <div class="legalrow">Impressum · Datenschutz → <span class="muted">dvag.de/kai.blobel/… <span class="x">✗</span></span></div>
+        <div class="note">Ein Link eines <b>anderen</b> Beraters (oder mit fehlenden Daten) zeigt trotzdem Kais Foto, Namen, Zahlen, Bewertungen, Nummer und Rechtslinks — auch kurz beim Laden.</div>
+      </div>
+    </div>
+
+    <!-- 2 NEUTRALE BASIS -->
+    <div class="col">
+      <h2>Neu · neutrale Basis<span class="tag ok">kein Kai</span></h2>
+      <div class="card">
+        <div class="slide">
+          <div class="eyebrow">Eine persönliche Empfehlung</div>
+          <div class="foto-ph" aria-hidden="true">•</div>
+          <div class="nm none">Dein Berater</div>
+          <div class="rl">&nbsp;</div>
+        </div>
+        <div class="claims"><span class="none">— keine Leistungszahlen —</span></div>
+        <div class="reviews"><span class="none">— keine Bewertungen —</span></div>
+        <div class="contact"><span class="none">— kein Kontakt hinterlegt —</span></div>
+        <div class="legalrow"><span class="none">— Rechtslinks nur wenn hinterlegt —</span></div>
+        <div class="note"><b>Ausgangszustand vor JS / wenn JS fehlschlägt / ohne ermittelten Berater.</b> Nichts von Kai — weder Foto noch Name, Nummer, Zahlen oder Rechtslinks. Statischer HTML-Default ist bereits neutral.</div>
+      </div>
+    </div>
+
+    <!-- 3 MIT BERATER -->
+    <div class="col">
+      <h2>Neu · mit Berater<span class="tag ok">personalisiert</span></h2>
+      <div class="card">
+        <div class="slide">
+          <div class="eyebrow">Eine persönliche Empfehlung</div>
+          <div class="foto-ph" style="background:var(--sage)" aria-hidden="true">CS</div>
+          <div class="nm">Claudia Sommer <span class="c">✓</span></div>
+          <div class="rl">Vermögensberaterin <span class="c">✓</span></div>
+        </div>
+        <div class="claims"><span class="none">— keine Leistungszahlen (nur bei Kai) —</span></div>
+        <div class="reviews"><span class="none">— keine fremden Bewertungen —</span></div>
+        <div class="contact">
+          <span class="btn wa">WhatsApp: Claudias Nr. <span class="c">✓</span></span>
+          <span class="btn">Termin bei Claudia <span class="c">✓</span></span>
+        </div>
+        <div class="legalrow">Impressum · Datenschutz → <span class="muted">dvag.de/claudia.sommer/… <span class="c">✓</span></span></div>
+        <div class="note">Nur echte, eigene Daten. Hat Claudia z. B. kein Foto → neutrales Initialen-Bild „CS", nie Kai. Leistungszahlen/Kai-Bewertungen bleiben ausgeblendet.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p><b>Was der Mock festlegt (zur Freigabe):</b></p>
+    <ul>
+      <li>Statischer HTML-Default aller öffentlichen Seiten = <b>neutral</b> (Initialen-Platzhalter, „Dein Berater", leere/ausgeblendete Kontakte & Rechtslinks) — kein Kai, auch nicht als Flash.</li>
+      <li>Branding füllt nur echte Felder des ermittelten Beraters; fehlt eins → neutral/ausgeblendet.</li>
+      <li>„20+ Jahre / 3.000+ Haushalte / über 400 Banken" und Kai-Bewertungen: <b>nur bei Kai</b> sichtbar.</li>
+      <li>WhatsApp/Tel/Bookings/Impressum/Datenschutz: nur wenn der Berater sie selbst hat.</li>
+    </ul>
+    <p>Reiner Entwurf, keine Live-Änderung. Betrifft danach: <code>programm.html</code>, <code>empfaenger.html</code>, <code>baufi.html</code>, <code>empfehlen/​empfehler/​danke/​austragen</code> nach demselben Muster.</p>
+  </footer>
+</body>
+</html>

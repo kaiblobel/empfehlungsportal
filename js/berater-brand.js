@@ -33,8 +33,10 @@ export function applyBeraterBrand(b) {
   const telRaw = (b.telefon || '').replace(/[^\d+]/g, '');
   const telNum = telRaw ? (telRaw.startsWith('+') ? telRaw : '+' + telRaw.replace(/^0+/, '')) : '';
   const vorname = (b.name || '').trim().split(/\s+/)[0] || '';
+  // Punkt 6: Kai-eigene Inhalte (Leistungszahlen, Bewertungen) ausschließlich über
+  // die eindeutige Berater-ID freischalten — nie über Name oder frei änderbaren Slug.
   const envId = (typeof window !== 'undefined') ? window.ENV_BERATER_ID : null;
-  const isDefaultBerater = envId ? b.id === envId : b.slug === 'kai-blobel';
+  const isDefaultBerater = !!envId && b.id === envId;
 
   if (!isDefaultBerater) {
     document.querySelectorAll('[data-default-berater-only]').forEach((el) => { el.style.display = 'none'; });
@@ -54,7 +56,9 @@ export function applyBeraterBrand(b) {
         if (vorname) el.textContent = vorname;
         break;
       case 'rolle':
-        if (b.rolle) el.textContent = b.rolle;
+        // Immer setzen: fehlt die Rolle, NEUTRAL leeren statt Kais „Regionaldirektion"
+        // stehenzulassen. (Aktive Berater müssen ohnehin eine Rolle haben — Gate.)
+        el.textContent = b.rolle || '';
         break;
       case 'initialen':
         if (b.name) {
@@ -115,4 +119,39 @@ export function applyBeraterBrand(b) {
   if (b.name && document.title.includes('·')) {
     document.title = document.title.replace(/·[^·]*$/, `· ${b.name}`);
   }
+}
+
+/**
+ * Neutraler Basiszustand für Lade- und Fehlerfall: KEIN Kai.
+ * Setzt Foto auf ein neutrales Platzhalter-Bild, leert Namens-/Rollen-Texte und
+ * blendet Kontakt-, Rechtslink- und „nur-Standard-Berater"-Elemente aus.
+ * Wird vor der Berater-Ermittlung bzw. im Fehlerzustand aufgerufen.
+ */
+export function renderNeutralBrand() {
+  document.querySelectorAll('[data-default-berater-only]').forEach((el) => { el.style.display = 'none'; });
+  document.querySelectorAll('[data-bb]').forEach((el) => {
+    switch (el.dataset.bb) {
+      case 'foto':
+        el.src = initialsAvatar(''); // neutrales „?"-Bild, nie Kai
+        el.alt = '';
+        break;
+      case 'name':
+      case 'vorname':
+      case 'rolle':
+      case 'initialen':
+        el.textContent = '';
+        break;
+      case 'booking':
+      case 'whatsapp':
+      case 'tel':
+      case 'tel-text':
+      case 'email':
+      case 'email-text':
+      case 'impressum':
+      case 'datenschutz':
+      case 'finanzcheck':
+        el.style.display = 'none';
+        break;
+    }
+  });
 }
