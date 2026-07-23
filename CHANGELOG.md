@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.136 Beta** · Sicherheit & Stabilität.
+Aktuelle Version: **v1.137 Beta** · Serverseitiges Rate-Limiting.
+
+---
+
+## v1.137 Beta - Phase 107 · Serverseitiges Rate-Limiting
+**2026-07-23**
+
+- Missbrauch wird jetzt serverseitig gebremst: pro Internet-Anschluss (IP) gelten Obergrenzen direkt in der Datenbank — sie greifen auch bei Aufrufen, die am Server vorbei direkt an die Datenbank gehen, nicht nur im Browser.
+- Höchstens 20 neue Empfehlungen pro Stunde je Anschluss (gegen Massen-Spam).
+- Höchstens 40 „Interessiert"-Meldungen pro Stunde je Anschluss (gegen eine Flut an Benachrichtigungen).
+- Höchstens 60 Ladevorgänge des Promoter-Bereichs pro 10 Minuten je Anschluss (gegen automatisiertes Ausprobieren von Promoter-Codes). Ein normaler Ladevorgang zählt dreifach; für echte Nutzung bleibt reichlich Luft.
+- Terminbestätigungen (Bookings) und das „Link geöffnet"-Tracking bleiben bewusst ohne Limit.
+- Rein datenbankseitig (schema-phase107.sql) — keine Änderung an den Seiten; bestehende Abläufe unverändert.
 
 ---
 
