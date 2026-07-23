@@ -1,7 +1,17 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.137 Beta** · Serverseitiges Rate-Limiting.
+Aktuelle Version: **v1.138 Beta** · Stärkere Promoter-Codes.
+
+---
+
+## v1.138 Beta - Phase 108 · Stärkere Promoter-Codes
+**2026-07-23**
+
+- Neue Promoter bekommen ab jetzt einen deutlich stärkeren, nicht mehr erratbaren Code (14 zufällige Zeichen statt 4) — egal ob manuell angelegt oder automatisch beim ersten Empfehlungseingang.
+- Alle bestehenden Codes bleiben unverändert gültig; alte Links, QR-Codes und Lesezeichen funktionieren weiter.
+- Keine sichtbare Änderung für Nutzer, kein Umbau der Seiten.
+- Intern: gemeinsamer Code-Generator mit Kollisionsprüfung; ein Zählfeld (`code_version`) unterscheidet alte und neue Codes fürs Monitoring.
 
 ---
 

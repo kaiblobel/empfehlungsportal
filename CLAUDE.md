@@ -1,6 +1,6 @@
 <!-- odysseus-passport
 purpose: Empfehlungs-HUB für DVAG-Berater — Vanilla JS + eigene Supabase; Funnel Klick→Interesse→Kunde, Momentum, Champions, Prämien; Cockpit-Brücke
-status: live (Beta) — v1.137 Sicherheits-Härtung (RLS-Löcher zu, deterministische Booking-Zuordnung, serverseitiges IP-Rate-Limiting in der DB); Power Automate durch fehlende Premium-Lizenz blockiert
+status: live (Beta) — v1.138 Sicherheits-Härtung (RLS-Löcher zu, deterministische Booking-Zuordnung, serverseitiges IP-Rate-Limiting, starke Promoter-Codes); Power Automate durch fehlende Premium-Lizenz blockiert
 live_url: https://empfehlungsportal.vercel.app
 tags: portal, supabase, empfehlung, promoter, mobile-first, live, baufinanzierung, kfw, bookings, power-automate
 -->
