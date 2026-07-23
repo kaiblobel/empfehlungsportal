@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.138 Beta** · Stärkere Promoter-Codes.
+Aktuelle Version: **v1.139 Beta** · Datensparsame Berater-Leserechte.
+
+---
+
+## v1.139 Beta - Phase 109 · Datensparsame Berater-Leserechte
+**2026-07-23**
+
+- Ein eingeloggter Berater kann jetzt nur noch seinen eigenen Berater-Datensatz lesen — nicht mehr die Stammdaten (Name, E-Mail, Telefon) der Kollegen. Admins sehen weiterhin alle (für die Team-Übersicht).
+- Dashboard, Leads, Branding und Team-Ansicht bleiben unverändert (laufen über eigene, abgesicherte Wege).
+- Rein datenbankseitig (zwei RLS-Leseregeln), keine Client-/UX-Änderung.
 
 ---
 
