@@ -359,7 +359,13 @@ if (page === 'empfehlen') {
   [vornameEl, nachnameEl, telefonEl].forEach((el) => el.addEventListener('input', updatePreview));
   updatePreview();
 
+  let submitting = false;
   async function submitFlow(viaWhatsapp) {
+    if (submitting) return;                 // Doppel-Submit sperren: ein Klick = ein Lead
+    submitting = true;
+    if (shareBtn) shareBtn.disabled = true;
+    const release = () => { submitting = false; if (shareBtn) shareBtn.disabled = false; };
+
     const vorname = vornameEl.value.trim();
     const nachname = nachnameEl.value.trim();
     const telefon = normalizePhoneDE(telefonEl.value);
@@ -375,6 +381,7 @@ if (page === 'empfehlen') {
 
     if (!vorname || !nachname || !telefon) {
       showToast('Bitte alle Pflichtfelder ausfüllen');
+      release();
       return;
     }
 
@@ -405,6 +412,7 @@ if (page === 'empfehlen') {
 
     if (error && !data) {
       showToast('Speichern fehlgeschlagen. Bitte erneut versuchen.');
+      release();
       return;
     }
 
@@ -420,7 +428,7 @@ if (page === 'empfehlen') {
           await navigator.share({ text: finalMsg, url: link });
           window.location.href = 'danke.html';
         } catch (e) {
-          // user cancelled
+          release(); // Nutzer hat abgebrochen → erneuter Versuch möglich
         }
       } else {
         try {
@@ -429,6 +437,7 @@ if (page === 'empfehlen') {
           setTimeout(() => { window.location.href = 'danke.html'; }, 1200);
         } catch (e) {
           showToast('Teilen nicht möglich');
+          release();
         }
       }
     }
@@ -628,14 +637,20 @@ if (page === 'empfaenger') {
       if (!slot) { slotEl.focus(); return; }
       anrufBtn.disabled = true;
       anrufBtn.textContent = 'Sende…';
-      if (token) {
-        const { error } = await markAnrufwunsch(token, slot);
-        if (error) {
-          anrufBtn.disabled = false;
-          anrufBtn.textContent = 'Anrufwunsch bestätigen';
-          alert('Übermittlung fehlgeschlagen, bitte erneut versuchen.');
-          return;
-        }
+      // Kein Token = unvollständiger Link → NICHT still bestätigen, sonst liest
+      // der Empfänger „Danke, ich rufe an", obwohl nichts gespeichert wurde.
+      if (!token) {
+        anrufBtn.disabled = false;
+        anrufBtn.textContent = 'Anrufwunsch bestätigen';
+        alert('Dieser Link ist unvollständig. Bitte öffne den Original-Link aus deiner Nachricht.');
+        return;
+      }
+      const { error } = await markAnrufwunsch(token, slot);
+      if (error) {
+        anrufBtn.disabled = false;
+        anrufBtn.textContent = 'Anrufwunsch bestätigen';
+        alert('Übermittlung fehlgeschlagen, bitte erneut versuchen.');
+        return;
       }
       revealAnrufConfirm(slot);
     });

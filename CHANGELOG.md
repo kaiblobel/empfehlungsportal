@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.135 Beta** · Zuverlässiges Empfänger- und Bookings-Tracking.
+Aktuelle Version: **v1.136 Beta** · Sicherheit & Stabilität.
+
+---
+
+## v1.136 Beta - Phase 106 · Sicherheit & Stabilität
+**2026-07-23**
+
+- Fremde können keine erfundenen Empfehlungen mehr direkt in die Datenbank schreiben. Neue Empfehlungen entstehen ausschließlich über den geprüften Weg des Portals — das schützt auch die Prämien vor erfundenen „Kunden".
+- Die Kontaktdaten der Berater (E-Mail, Telefon) sind nicht mehr öffentlich abrufbar, sondern nur noch für angemeldete Berater. Name und Foto auf den Empfänger-Seiten kommen weiterhin über den dafür vorgesehenen, begrenzten Weg.
+- Ein bestätigter Termin wird nur noch eindeutig zugeordnet: Empfehlen zwei Promoter dieselbe Person mit gleicher Nummer, wird nichts geraten — so kann eine Prämie nie beim falschen Promoter landen.
+- Beim Rückrufwunsch erscheint die Bestätigung „Ich rufe dich an" nur noch, wenn der Wunsch wirklich gespeichert wurde. Bei unvollständigem Link gibt es einen ehrlichen Hinweis statt einer falschen Bestätigung.
+- Das Empfehlungs-Formular lässt sich nicht mehr durch schnelles Doppelklicken doppelt absenden — ein Klick, ein Lead.
+- Eingaben werden serverseitig auf sinnvolle Längen begrenzt und Pflichtfelder geprüft.
+- Cache: app.js v46 (Empfänger), app.js v42 (Empfehlen), sw.js v106.
 
 ---
 
