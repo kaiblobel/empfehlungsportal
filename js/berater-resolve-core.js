@@ -17,13 +17,16 @@
 
 export const KAI_SLUG = 'kai-blobel';
 
-// Parameterlose Adressen, die ausdrücklich dem Standard-Tenant Kai gehören.
-export const LEGACY_KAI_PAGES = new Set(['/programm.html', '/empfehlen.html']);
+// Legacy-Regel: NUR diese exakten Root-Pfade gehören dem Standard-Tenant Kai.
+// Bewusst als volle Pfade (nicht nur Dateiname) — /irgendwo/programm ist KEIN Legacy-Pfad.
+export const LEGACY_KAI_PATHS = new Set([
+  '/programm', '/programm.html', '/empfehlen', '/empfehlen.html',
+]);
 
 // Seiten, die zwingend Token/Code/durchgereichten Berater brauchen. Fehlt er →
-// Fehlerzustand, NIEMALS Kai.
-export const STRICT_PAGES = new Set([
-  '/empfaenger.html', '/baufi.html', '/danke.html', '/austragen.html',
+// Fehlerzustand, NIEMALS Kai. Match über den Dateinamen (überall gültig, sichere Richtung).
+export const STRICT_FILES = new Set([
+  'empfaenger.html', 'baufi.html', 'danke.html', 'austragen.html',
 ]);
 
 function clean(v) {
@@ -31,14 +34,17 @@ function clean(v) {
   return s || null;
 }
 
-// /programm → /programm.html; Verzeichnisse und Groß/Klein tolerant.
+// Vollen Pfad normalisieren: klein, ohne abschließenden Slash.
 export function normalizePath(pathname) {
-  let p = String(pathname || '').toLowerCase();
-  const slash = p.lastIndexOf('/');
-  let file = slash >= 0 ? p.slice(slash + 1) : p;
-  if (file === '' || file === 'index.html') return '/' + file;
-  if (!file.endsWith('.html')) file = file + '.html'; // /programm → programm.html
-  return '/' + file;
+  let p = String(pathname || '').toLowerCase().replace(/\/+$/, '');
+  return p === '' ? '/' : p;
+}
+
+// Reiner Dateiname (mit .html-Ergänzung), für die Strikt-Erkennung.
+function fileOf(normPath) {
+  let file = normPath.slice(normPath.lastIndexOf('/') + 1);
+  if (file && !file.endsWith('.html')) file += '.html';
+  return file;
 }
 
 /**
@@ -61,11 +67,11 @@ export function planResolution({ pathname, search = '', hash = '', hasSession = 
 
   // 4. Ohne URL-Parameter UND ohne Login:
   const norm = normalizePath(pathname);
-  if (LEGACY_KAI_PAGES.has(norm)) {
-    // Enge, dokumentierte Legacy-Regel — nur diese Adressen, nur hier.
+  if (LEGACY_KAI_PATHS.has(norm)) {
+    // Enge, dokumentierte Legacy-Regel — NUR diese exakten Root-Pfade.
     return { by: 'redirect', redirectSlug: KAI_SLUG, source: 'legacy' };
   }
-  if (STRICT_PAGES.has(norm)) {
+  if (STRICT_FILES.has(fileOf(norm))) {
     return { by: 'error', source: 'strict-no-context' };
   }
   // Sonstige Seiten: gespeicherter Code nur hier (nie auf Legacy/Strikt).

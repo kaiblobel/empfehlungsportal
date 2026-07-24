@@ -89,12 +89,27 @@ test('eingeloggter Berater gewinnt vor Legacy (bare /programm mit Login → Sess
   assert.equal(r.by, 'session');
 });
 
-test('normalizePath: /programm → /programm.html', () => {
-  assert.equal(normalizePath('/programm'), '/programm.html');
+test('normalizePath: voller Pfad, klein, ohne Trailing-Slash', () => {
+  assert.equal(normalizePath('/programm'), '/programm');
   assert.equal(normalizePath('/PROGRAMM.HTML'), '/programm.html');
-  assert.equal(normalizePath('/empfehlen'), '/empfehlen.html');
+  assert.equal(normalizePath('/empfehlen/'), '/empfehlen');
+  assert.equal(normalizePath('/x/programm'), '/x/programm');
 });
 
 test('sonstige Seite ohne Kontext bleibt neutral (kein Kai)', () => {
   assert.equal(planResolution({ pathname: '/irgendwas.html' }).by, 'neutral');
+});
+
+test('/irgendwo/programm ist KEIN Kai-Legacy-Pfad (kein Redirect zu Kai)', () => {
+  const r = planResolution({ pathname: '/irgendwo/programm' });
+  assert.notEqual(r.by, 'redirect');
+  assert.equal(r.by, 'neutral');
+});
+
+test('/unterordner/programm.html leitet NICHT zu Kai', () => {
+  assert.notEqual(planResolution({ pathname: '/promo/programm.html' }).by, 'redirect');
+});
+
+test('Strikt-Seite auch im Unterordner: Fehler, nie Kai', () => {
+  assert.equal(planResolution({ pathname: '/x/empfaenger.html' }).by, 'error');
 });
