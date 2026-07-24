@@ -9,7 +9,18 @@
  *   applyBeraterBrand(b) → zeigt Berater b (b darf null sein → neutral)
  *   renderNeutralBrand() → neutraler Zustand (kein Kai), für Laden/Fehler
  */
-import { brandPlan, LINK_KEYS } from './berater-brand-core.js';
+import { brandPlan, LINK_KEYS, buildWhatsAppHref } from './berater-brand-core.js';
+
+// Ursprünglicher Seitentitel (einmalig), damit Berater→neutral keinen alten Namen behält.
+let baseTitle = null;
+function applyTitle(name) {
+  if (typeof document === 'undefined') return;
+  if (baseTitle === null) baseTitle = document.title;
+  if (!baseTitle.includes('·')) return;
+  document.title = name
+    ? baseTitle.replace(/·[^·]*$/, `· ${name}`)
+    : baseTitle.replace(/\s*·[^·]*$/, ''); // neutral: Namen entfernen
+}
 
 /** Neutraler Initialen-Avatar (Inline-SVG, kein externer Request). „?" wenn leer. */
 function initialsAvatar(name) {
@@ -41,7 +52,8 @@ export function applyBrand(b) {
   document.querySelectorAll('[data-default-berater-only]').forEach((el) => setShown(el, plan.defaultOnly));
 
   document.querySelectorAll('[data-bb]').forEach((el) => {
-    const spec = plan.bb[el.dataset.bb];
+    const key = el.dataset.bb;
+    const spec = plan.bb[key];
     if (!spec) return;
 
     if ('src' in spec) {
@@ -49,19 +61,23 @@ export function applyBrand(b) {
       el.alt = spec.alt || '';
     }
     if ('text' in spec) el.textContent = spec.text;
-    if ('href' in spec) setHref(el, spec.href);
 
+    if (key === 'whatsapp') {
+      // href IMMER aus der eigenen Nummer + vorgesehener Nachricht (data-wa-text)
+      // neu bauen — nie aus einem alten href. Kein Text im DOM → nur die Nummer.
+      const href = spec.number ? buildWhatsAppHref(spec.number, el.dataset.waText || '') : null;
+      setHref(el, href);
+      setShown(el, !!spec.number);
+      return;
+    }
+
+    if ('href' in spec) setHref(el, spec.href);
     // Sichtbarkeit: Link-Elemente folgen `shown`; Text-/Bild-Elemente bleiben sichtbar
     // (neutral = leerer Text bzw. Platzhalter-Bild).
-    if (LINK_KEYS.has(el.dataset.bb)) setShown(el, !!spec.shown);
-    else setShown(el, true);
+    setShown(el, LINK_KEYS.has(key) ? !!spec.shown : true);
   });
 
-  // Tab-/SEO-Titel nur bei echtem Berater anpassen.
-  const name = b && b.name;
-  if (name && document.title.includes('·')) {
-    document.title = document.title.replace(/·[^·]*$/, `· ${name}`);
-  }
+  applyTitle(b && b.name ? b.name : null);
 }
 
 /** Zeigt Berater b (b darf null sein → neutral). */

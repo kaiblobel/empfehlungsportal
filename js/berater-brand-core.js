@@ -26,12 +26,32 @@ export const LINK_KEYS = new Set([
   'impressum', 'datenschutz', 'finanzcheck',
 ]);
 
+// Zentrale Konfiguration (eindeutige Ziele des Standard-Tenants Kai),
+// NICHT aus einem vorherigen DOM-Link ableiten.
+export const KAI_FINANZCHECK_URL = 'https://finanzcheck.kaiblobel.de?from=empfehlung';
+
 function initialsOf(name) {
   return String(name || '').trim().split(/\s+/).map((s) => s[0] || '').join('').slice(0, 2).toUpperCase();
 }
 function link(href) {
   const h = href || null;
   return { href: h, shown: !!h };
+}
+
+/** Nur Ziffern der WhatsApp-Nummer. */
+export function normalizeWa(whatsapp) {
+  return whatsapp ? String(whatsapp).replace(/[^\d]/g, '') : '';
+}
+
+/**
+ * Baut den WhatsApp-Link aus der EIGENEN Beraternummer + der vorgesehenen
+ * Nachricht. Nummer und Text kommen NIE aus einem alten href.
+ */
+export function buildWhatsAppHref(whatsapp, text) {
+  const num = normalizeWa(whatsapp);
+  if (!num) return null;
+  const t = (text || '').trim();
+  return `https://wa.me/${num}${t ? `?text=${encodeURIComponent(t)}` : ''}`;
 }
 
 export function brandPlan(b, envId) {
@@ -53,16 +73,19 @@ export function brandPlan(b, envId) {
     initialen: { text: initialsOf(name) },
 
     booking: link(has ? b.bookings_url : ''),
-    whatsapp: link(waNum ? `https://wa.me/${waNum}` : ''),
+    // Nummer separat mitgeben: der Anwender kombiniert sie mit der vorgesehenen
+    // Nachricht (data-wa-text) — der href hier ist die Nummer ohne Text.
+    whatsapp: { number: waNum || null, href: waNum ? `https://wa.me/${waNum}` : null, shown: !!waNum },
     tel: link(telNum ? `tel:${telNum}` : ''),
     'tel-text': { ...link(telNum ? `tel:${telNum}` : ''), text: telNum ? (has ? (b.telefon || '') : '') : '' },
     email: link(email ? `mailto:${email}` : ''),
     'email-text': { ...link(email ? `mailto:${email}` : ''), text: email || '' },
     impressum: link(has ? b.impressum_url : ''),
     datenschutz: link(has ? b.datenschutz_url : ''),
-    // Standard-Berater behält seinen statischen Finanzcheck-Link (kein href-Eingriff),
-    // andere Berater → eigener Bookings-Link, neutral → aus + href entfernt.
-    finanzcheck: isDefault ? { shown: true } : link(has ? b.bookings_url : ''),
+    // Standard-Berater: vollständiges Kai-Ziel aus zentraler Konfiguration
+    // (nicht aus einem alten DOM-Link). Andere Berater → eigener Bookings-Link,
+    // neutral/ohne Bookings → aus + href entfernt.
+    finanzcheck: isDefault ? { href: KAI_FINANZCHECK_URL, shown: true } : link(has ? b.bookings_url : ''),
   };
 
   return { defaultOnly: isDefault, bb };

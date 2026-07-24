@@ -1,6 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { brandPlan, BB_KEYS, LINK_KEYS } from '../js/berater-brand-core.js';
+import {
+  brandPlan, BB_KEYS, LINK_KEYS, buildWhatsAppHref, KAI_FINANZCHECK_URL,
+} from '../js/berater-brand-core.js';
 
 const KAI_ID = 'b3cbf981-ea3e-4e6d-a993-2fe158ca0d48';
 
@@ -87,4 +89,40 @@ test('Kai-Freischaltung strikt über ID, nicht über Slug/Name', () => {
   const fremdMitKaiName = { ...claudia, name: 'Kai Blobel', slug: 'kai-blobel' };
   assert.equal(brandPlan(fremdMitKaiName, KAI_ID).defaultOnly, false);
   assert.equal(brandPlan(kai, KAI_ID).defaultOnly, true);
+});
+
+// ---- Rückfall 1: WhatsApp-Nachricht erhalten ----
+
+test('WhatsApp: neutral → Claudia = Claudias Nummer + vorgesehener Nachrichtentext', () => {
+  const p = brandPlan(claudia, KAI_ID);
+  assert.equal(p.bb.whatsapp.number, '491700000000'); // Claudias EIGENE Nummer
+  const href = buildWhatsAppHref(p.bb.whatsapp.number, 'Hallo, ich empfehle dich gern weiter.');
+  assert.equal(href, 'https://wa.me/491700000000?text=Hallo%2C%20ich%20empfehle%20dich%20gern%20weiter.');
+});
+
+test('WhatsApp: nie eine fremde/alte Nummer; ohne Nummer kein Link', () => {
+  assert.equal(buildWhatsAppHref('', 'irgendtext'), null);
+  assert.equal(brandPlan(null, KAI_ID).bb.whatsapp.number, null);
+  // Kais Plan trägt Kais Nummer, Claudias Plan Claudias — nie vermischt.
+  assert.equal(brandPlan(kai, KAI_ID).bb.whatsapp.number, '4915154776159');
+});
+
+// ---- Rückfall 2: Finanzcheck-Ziel aus Konfiguration ----
+
+test('Finanzcheck neutral → Kai: sichtbar + korrektes Ziel aus Konfiguration', () => {
+  const p = brandPlan(kai, KAI_ID);
+  assert.equal(p.bb.finanzcheck.shown, true);
+  assert.equal(p.bb.finanzcheck.href, KAI_FINANZCHECK_URL);
+});
+
+test('Finanzcheck neutral → Claudia mit Bookings: zeigt auf Claudias Bookings', () => {
+  const p = brandPlan({ ...claudia, bookings_url: 'https://book/claudia' }, KAI_ID);
+  assert.equal(p.bb.finanzcheck.shown, true);
+  assert.equal(p.bb.finanzcheck.href, 'https://book/claudia');
+});
+
+test('Finanzcheck neutral → Berater ohne Bookings: verborgen und ohne href', () => {
+  const p = brandPlan(claudia, KAI_ID); // bookings_url = null
+  assert.equal(p.bb.finanzcheck.shown, false);
+  assert.equal(p.bb.finanzcheck.href, null);
 });
