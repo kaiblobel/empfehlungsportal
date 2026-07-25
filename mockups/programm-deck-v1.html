@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Empfehlungs-Präsentation · Deck-Mock v1</title>
+<style>
+  :root{
+    --ivory:#FAF8F5; --warm-white:#FFFCF7; --anthracite:#1C1C1E; --deep-black:#0A0A0B;
+    --muted:#6E6E73; --champagne:#C9B98A; --champagne-dark:#8B7355;
+    --champagne-soft:rgba(201,185,138,.16); --hairline:rgba(28,28,30,.09);
+    --sage:#7A8B6F; --terracotta:#C28447; --marine:#2E5266; --burnt:#B5651D;
+    --card:#FFFFFF; --shadow:0 1px 2px rgba(20,18,12,.04),0 18px 50px -22px rgba(28,28,30,.18);
+    --font:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif;
+    --display:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:var(--ivory); color:var(--anthracite); font-family:var(--font);
+    -webkit-font-smoothing:antialiased; overflow:hidden;
+  }
+
+  /* ---------- Deck-Mechanik ---------- */
+  .deck{position:fixed;inset:0}
+  .slide{
+    position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    padding:clamp(40px,6vh,90px) clamp(32px,7vw,140px);
+    opacity:0;visibility:hidden;transform:translateY(14px);
+    transition:opacity .5s cubic-bezier(.22,1,.36,1),transform .5s cubic-bezier(.22,1,.36,1),visibility .5s;
+    text-align:center;
+  }
+  .slide.active{opacity:1;visibility:visible;transform:none}
+  .slide-inner{width:100%;max-width:1180px;display:flex;flex-direction:column;align-items:center}
+
+  .eyebrow{
+    font-size:clamp(12px,1vw,15px);font-weight:600;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--champagne-dark);margin-bottom:clamp(18px,2.4vh,34px)
+  }
+  h1.big{
+    font-family:var(--display);font-weight:800;letter-spacing:-.03em;line-height:1.04;
+    font-size:clamp(38px,5.2vw,82px);color:var(--deep-black);
+  }
+  h1.big em{font-style:normal;color:var(--champagne-dark)}
+  .lede{
+    margin-top:clamp(18px,2.6vh,34px);font-size:clamp(17px,1.5vw,25px);
+    font-weight:400;color:var(--muted);line-height:1.5;max-width:820px
+  }
+  .punch{margin-top:clamp(24px,3vh,40px);font-size:clamp(18px,1.5vw,26px);font-weight:600;color:var(--anthracite)}
+  .punch em{font-style:normal;color:var(--champagne-dark)}
+
+  /* ---------- Navigation ---------- */
+  .nav-zone{position:fixed;top:0;bottom:0;width:22%;z-index:40;cursor:pointer}
+  .nav-zone.left{left:0}.nav-zone.right{right:0}
+  .dots{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);display:flex;gap:9px;z-index:50}
+  .dot{width:8px;height:8px;border-radius:50%;background:rgba(28,28,30,.16);transition:.3s;cursor:pointer}
+  .dot.on{background:var(--champagne-dark);width:26px;border-radius:5px}
+  .arrows{position:fixed;bottom:22px;right:30px;display:flex;gap:10px;z-index:50}
+  .arrow{
+    width:52px;height:44px;border:1px solid var(--hairline);background:var(--card);border-radius:11px;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--anthracite);
+    box-shadow:var(--shadow);transition:.2s;font-size:20px
+  }
+  .arrow:hover{transform:translateY(-2px)}
+  .arrow[disabled]{opacity:.35;pointer-events:none}
+  .counter{position:fixed;top:22px;left:30px;z-index:50;font-size:13px;font-weight:600;letter-spacing:.06em;color:var(--muted)}
+  .brand{position:fixed;top:20px;right:30px;z-index:50;display:flex;align-items:center;gap:10px}
+  .brand-mark{width:34px;height:34px;border-radius:50%;background:var(--champagne);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
+  .brand-name{font-size:13px;font-weight:600}
+  .brand-name small{display:block;color:var(--muted);font-weight:400;font-size:11px}
+
+  /* ---------- Bausteine ---------- */
+  .card{background:var(--card);border:1px solid var(--hairline);border-radius:16px;box-shadow:var(--shadow)}
+
+  /* NPS */
+  .nps{display:flex;gap:clamp(6px,.7vw,12px);margin-top:clamp(20px,3vh,40px);flex-wrap:wrap;justify-content:center}
+  .nps button{
+    width:clamp(48px,4.4vw,74px);height:clamp(48px,4.4vw,74px);border-radius:14px;border:1px solid var(--hairline);
+    background:var(--card);font-size:clamp(17px,1.5vw,24px);font-weight:600;cursor:pointer;transition:.18s;color:var(--anthracite)
+  }
+  .nps button:hover{border-color:var(--champagne);transform:translateY(-3px)}
+  .nps button.sel{background:var(--champagne-dark);color:#fff;border-color:var(--champagne-dark)}
+  .nps-labels{display:flex;justify-content:space-between;width:100%;max-width:720px;margin-top:14px;font-size:13px;color:var(--muted)}
+
+  /* Mehrwert-Felder */
+  .mehrwert{width:100%;max-width:760px;margin-top:clamp(20px,3vh,40px);display:flex;flex-direction:column;gap:14px}
+  .mw-row{display:flex;align-items:center;gap:16px;background:var(--card);border:1px solid var(--hairline);border-radius:14px;padding:6px 6px 6px 20px;box-shadow:var(--shadow)}
+  .mw-num{width:34px;height:34px;flex:none;border-radius:50%;background:var(--champagne-soft);color:var(--champagne-dark);font-weight:700;display:flex;align-items:center;justify-content:center}
+  .mw-in{flex:1;padding:16px 8px;font-size:clamp(16px,1.3vw,20px);font-family:var(--font);border:none;outline:none;background:transparent;color:var(--anthracite)}
+  .mw-in::placeholder{color:#B7B2AA}
+
+  /* Orbit / Partner */
+  .orbit{margin-top:clamp(20px,3vh,44px);display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;max-width:900px}
+  .orbit .center{grid-column:2;background:var(--champagne-dark);color:#fff;border:none}
+  .orbit .center b{font-family:var(--display);font-weight:800;font-size:clamp(18px,1.6vw,26px);line-height:1.15;letter-spacing:-.02em}
+  .opill{padding:18px 14px;border-radius:14px;font-weight:600;font-size:clamp(14px,1.1vw,18px);display:flex;align-items:center;justify-content:center;text-align:center;min-height:78px}
+  .opill:not(.center){background:var(--card);border:1px solid var(--hairline);box-shadow:var(--shadow)}
+
+  /* Alltag-Zitate */
+  .quotes{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:clamp(20px,3vh,40px);max-width:900px}
+  .q{background:var(--card);border:1px solid var(--hairline);border-radius:999px;padding:14px 24px;font-size:clamp(15px,1.2vw,20px);font-weight:500;box-shadow:var(--shadow)}
+  .q.gold{background:var(--champagne-dark);color:#fff;border:none;font-weight:600}
+
+  /* Hero / Foto */
+  .hero-row{display:flex;align-items:center;gap:clamp(30px,4vw,72px);text-align:left;margin-top:10px}
+  .hero-row .txt{flex:1}
+  .portrait{width:clamp(200px,20vw,320px);height:clamp(240px,24vw,380px);border-radius:20px;object-fit:cover;background:linear-gradient(140deg,#EDE7DA,#D9CDB4);flex:none;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;color:var(--champagne-dark);font-weight:700;font-size:15px}
+
+  /* Rechner */
+  .calc{margin-top:clamp(20px,3vh,40px);display:grid;grid-template-columns:1fr 1fr;gap:22px;width:100%;max-width:960px;text-align:left}
+  .calc .panel{padding:26px 28px}
+  .calc label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin:16px 0 8px;letter-spacing:.02em}
+  .calc label:first-child{margin-top:0}
+  .calc input[type=range]{width:100%;accent-color:var(--champagne-dark)}
+  .seg{display:flex;gap:8px;flex-wrap:wrap}
+  .seg button{padding:9px 16px;border-radius:10px;border:1px solid var(--hairline);background:var(--ivory);font-weight:600;cursor:pointer;font-size:14px;color:var(--anthracite)}
+  .seg button.on{background:var(--champagne-dark);color:#fff;border-color:var(--champagne-dark)}
+  .rval{font-weight:700;color:var(--anthracite)}
+  .result{background:linear-gradient(155deg,#FFFDF9,#F6EFDF);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:30px}
+  .result .rlabel{font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--champagne-dark)}
+  .result .ramt{font-family:var(--display);font-weight:800;font-size:clamp(30px,3.4vw,52px);letter-spacing:-.02em;margin:10px 0 4px;color:var(--deep-black)}
+  .result .rsub{font-size:14px;color:var(--muted);max-width:280px}
+  .rtags{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:16px}
+  .rtag{background:#fff;border:1px solid var(--hairline);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:var(--champagne-dark)}
+
+  /* Trust-Points */
+  .tpoints{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:clamp(22px,3vh,42px);width:100%;max-width:960px;text-align:left}
+  .tp{padding:24px}
+  .tp .chk{width:32px;height:32px;border-radius:50%;background:var(--sage);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;margin-bottom:14px}
+  .tp b{display:block;font-size:clamp(16px,1.2vw,19px);margin-bottom:6px}
+  .tp span{font-size:14px;color:var(--muted);line-height:1.5}
+
+  /* Steps */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:clamp(22px,3vh,42px);width:100%;max-width:1000px;text-align:left}
+  .step{padding:26px;position:relative}
+  .step .n{font-family:var(--display);font-weight:800;font-size:40px;color:var(--champagne);letter-spacing:-.03em;line-height:1}
+  .step.hl{background:var(--champagne-dark);color:#fff;border:none}
+  .step.hl .n{color:rgba(255,255,255,.55)}
+  .step b{display:block;margin:14px 0 8px;font-size:clamp(16px,1.2vw,19px)}
+  .step p{font-size:14px;color:var(--muted);line-height:1.55}
+  .step.hl p{color:rgba(255,255,255,.85)}
+
+  /* Themen */
+  .topics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:clamp(22px,3vh,42px);width:100%;max-width:1000px}
+  .topic{padding:22px 16px;text-align:center}
+  .topic .ic{font-size:30px;margin-bottom:10px}
+  .topic b{font-size:clamp(14px,1.1vw,17px)}
+
+  /* Belohnungen A/B */
+  .ab{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:clamp(20px,3vh,38px);width:100%;max-width:1000px;text-align:left}
+  .ab .var{padding:28px;position:relative}
+  .ab .tag{position:absolute;top:-13px;left:24px;background:var(--anthracite);color:#fff;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 12px;border-radius:999px}
+  .ab .var.b .tag{background:var(--sage)}
+  .ab h3{font-family:var(--display);font-weight:800;font-size:clamp(20px,1.8vw,28px);letter-spacing:-.02em;margin:8px 0 6px}
+  .ab .cap{font-size:13px;color:var(--muted);margin-bottom:16px}
+  .roadmap{display:flex;align-items:center;gap:5px;margin:14px 0}
+  .roadmap i{flex:1;height:6px;border-radius:3px;background:var(--champagne-soft)}
+  .roadmap i.big{background:var(--champagne-dark);height:10px}
+  .abli{list-style:none;display:flex;flex-direction:column;gap:10px}
+  .abli li{display:flex;gap:10px;font-size:15px;align-items:flex-start}
+  .abli li::before{content:"✓";color:var(--sage);font-weight:800;flex:none}
+  .bigfin{margin-top:12px;font-family:var(--display);font-weight:800;font-size:clamp(22px,2vw,32px);color:var(--deep-black);letter-spacing:-.02em}
+  .bigfin small{display:block;font-family:var(--font);font-weight:500;font-size:13px;color:var(--muted);letter-spacing:0}
+
+  /* Testimonials */
+  .tmeta{display:flex;align-items:center;gap:12px;margin-top:clamp(18px,2.4vh,30px);font-size:15px}
+  .stars{color:var(--champagne);letter-spacing:2px;font-size:19px}
+  .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px;width:100%;max-width:1000px;text-align:left}
+  .tcard{padding:22px}
+  .tcard .s{color:var(--champagne);letter-spacing:2px;margin-bottom:10px}
+  .tcard p{font-size:15px;line-height:1.55;margin-bottom:14px}
+  .tcard .who{display:flex;align-items:center;gap:10px}
+  .tav{width:34px;height:34px;border-radius:50%;background:var(--champagne-soft);color:var(--champagne-dark);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
+  .tcard .who b{font-size:14px;display:block}
+  .tcard .who span{font-size:12px;color:var(--muted)}
+
+  /* FAQ */
+  .faq{margin-top:clamp(20px,3vh,40px);width:100%;max-width:820px;text-align:left;display:flex;flex-direction:column;gap:12px}
+  .faq .fi{padding:20px 24px}
+  .faq .fq{font-weight:600;font-size:clamp(16px,1.2vw,19px)}
+  .faq .fa{font-size:15px;color:var(--muted);margin-top:8px;line-height:1.55}
+
+  /* Abschluss */
+  .cta-btn{margin-top:clamp(26px,3.4vh,44px);background:var(--champagne-dark);color:#fff;border:none;padding:20px 44px;border-radius:14px;font-size:clamp(17px,1.4vw,22px);font-weight:700;font-family:var(--font);cursor:pointer;box-shadow:var(--shadow)}
+  .next-hint{margin-top:20px;display:inline-flex;align-items:center;gap:10px;font-size:14px;color:var(--muted);background:var(--card);border:1px solid var(--hairline);border-radius:999px;padding:10px 18px}
+  .next-hint .ph{font-size:17px}
+
+  @media(max-width:820px){
+    .calc,.tpoints,.steps,.ab,.tgrid,.orbit{grid-template-columns:1fr}
+    .topics{grid-template-columns:repeat(2,1fr)}
+    .hero-row{flex-direction:column;text-align:center}
+  }
+</style>
+</head>
+<body>
+
+<div class="counter"><span id="cur">1</span> / <span id="tot">13</span></div>
+<div class="brand"><div class="brand-mark">KB</div><div class="brand-name">Kai Blobel<small>Deutsche Vermögensberatung</small></div></div>
+
+<div class="deck" id="deck">
+
+  <!-- 1 · NPS -->
+  <section class="slide active">
+    <div class="slide-inner">
+      <p class="eyebrow">Eine kurze Frage vorweg</p>
+      <h1 class="big">Wie <em>zufrieden</em> bist du<br>mit unserer Zusammenarbeit?</h1>
+      <p class="lede">Klick eine Zahl an. Sei ehrlich – es hilft mir, dich besser zu verstehen.</p>
+      <div class="nps" id="nps"></div>
+      <div class="nps-labels" style="max-width:720px"><span>Gar nicht</span><span>Total zufrieden</span></div>
+    </div>
+  </section>
+
+  <!-- 2 · Mehrwert -->
+  <section class="slide">
+    <div class="slide-inner">
+      <p class="eyebrow">Jetzt mal du</p>
+      <h1 class="big">Welchen <em>Mehrwert</em> hast<br>du durch mich?</h1>
+      <p class="lede">Was haben wir zusammen erreicht? Klick in die Felder – ich schreibe live mit.</p>
+      <div class="mehrwert">
+        <div class="mw-row"><span class="mw-num">1</span><input class="mw-in" placeholder="z. B. „Endlich Überblick über meine Verträge“"></div>
+        <div class="mw-row"><span class="mw-num">2</span><input class="mw-in" placeholder="z. B. „Ich spare jetzt, ohne es zu merken“"></div>
+        <div class="mw-row"><span class="mw-num">3</span><input class="mw-in" placeholder="z. B. „Endlich jemand, der mitdenkt“"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · Partner -->
+  <section class="slide">
+    <div class="slide-inner">
+      <p class="eyebrow">Wir als Team</p>
+      <h1 class="big">Du hast nicht nur einen Berater.<br>Du hast <em>einen Partner</em>.</h1>
+      <p class="lede">Für alles, was mit Geld zu tun hat. Kommt bei dir etwas Neues auf – ich bin da.</p>
+      <div class="orbit">
+        <div class="opill">Ein Ansprechpartner</div>
+        <div class="opill center"><b>Klarheit.<br>Sicherheit.<br>Vermögen.</b></div>
+        <div class="opill">Strategie statt Produkte</div>
+        <div class="opill">Verträge im Blick</div>
+        <div class="opill">Mehr aus deinem Geld</div>
+        <div class="opill">Ein Leben lang begleitet</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · Alltag -->
+  <section class="slide">
+    <div class="slide-inner">
+      <p class="eyebrow">Was wir alle tun</p>
+      <h1 class="big">Empfehlen gehört<br>zum <em>Alltag</em>.</h1>
+      <div class="quotes">
+        <span class="q">„Geh in das Restaurant.“</span>
+        <span class="q">„Schau diesen Film.“</span>
+        <span class="q">„Frag den Handwerker.“</span>
+        <span class="q">„Geh zu meinem Hausarzt.“</span>
+        <span class="q gold">„Empfiehl meine Beratung.“</span>
+      </div>
+      <p class="punch">Beim Restaurant ist es ein guter Abend.<br><em>Beim Geld ist es die Zukunft.</em></p>
+    </div>
+  </section>
+
+  <!-- 5 · Angebot -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="hero-row">
+        <div class="txt">
+          <p class="eyebrow">Und deshalb</p>
+          <h1 class="big">Du bist <em>zufrieden</em>?</h1>
+          <p class="lede">Dann mache ich es dir jetzt maximal leicht, mich weiterzugeben – an die Menschen, die du im Kopf hast.</p>
+        </div>
+        <div class="portrait">[ Dein Foto ]</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · Was dein Freund davon hat (Rechner NEU) -->
+  <section class="slide">
+    <div class="slide-inner">
+      <p class="eyebrow">Das Schönste daran</p>
+      <h1 class="big">Du tust <em>deinem Freund</em><br>etwas Gutes.</h1>
+      <p class="lede">Nicht nur du profitierst. Der Mensch, den du empfiehlst, bekommt zuerst etwas – einen ehrlichen Blick auf sein Geld.</p>
+      <div class="calc">
+        <div class="card panel">
+          <label>Ungefähres Alter: <span class="rval" id="cAlterV">35</span> Jahre</label>
+          <input type="range" min="20" max="60" value="35" id="cAlter">
+          <label>Lebenssituation</label>
+          <div class="seg" id="cFam">
+            <button class="on" data-v="single">Single</button>
+            <button data-v="familie">Familie / Kinder</button>
+            <button data-v="immo">Eigenheim geplant</button>
+          </div>
+          <label>Einkommen: eher…</label>
+          <div class="seg" id="cInc">
+            <button data-v="0" class="on">durchschnittlich</button>
+            <button data-v="1">gut</button>
+          </div>
+        </div>
+        <div class="card result">
+          <span class="rlabel">Möglicher Mehrwert für deinen Freund</span>
+          <span class="ramt" id="cAmt">mehrere hundert €</span>
+          <span class="rsub">grobe Orientierung pro Jahr – im echten Gespräch oft mehr</span>
+          <div class="rtags" id="cTags"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · Ich rufe selbst an -->
+  <section class="slide">
+    <div class="slide-inner">
+      <p class="eyebrow">Was nach deiner Empfehlung passiert</p>
+      <h1 class="big">Ich rufe <em>selbst</em> an.<br>Mit Ruhe und Zeit.</h1>
+      <div class="tpoints">
+        <div class="card tp"><div class="chk">✓</div><b>Direkt ich</b><span>Kein Callcenter, keine Hotline. Ich melde mich persönlich.</span></div>
+        <div class="card tp"><div class="chk">✓</div><b>Ein Gespräch, sonst nichts</b><span>Wir lernen uns kennen. Wer kein Interesse hat, sagt das einfach.</span></div>
+        <div class="card tp"><div class="chk">✓</div><b>Daten bleiben bei mir</b><span>Keine Weitergabe, keine Newsletter. Ein Anruf, mehr nicht.</span></div>
+      </div>
+      <p class="punch">Genau so, wie ich auch <em>dich</em> kennengelernt habe.</p>
+    </div>
+  </section>
+
+  <!-- 8 · So funktioniert es -->
+  <section class="slide">
+    <div class="slide-inner">
+      <p class="eyebrow">So einfach geht's</p>
+      <h1 class="big">In <em>drei Schritten</em> empfohlen.</h1>
+      <div class="steps">
+        <div class="card step"><span class="n">01</span><b>Link erstellen</b><p>Namen eintragen, persönlichen Empfehlungs-Link bekommen. 30 Sekunden.</p></div>
+        <div class="card step hl"><span class="n">02</span><b>Per WhatsApp teilen</b><p>Kein langer Text nötig – die Vorlage ist schon fertig. Ein Tipp, abgeschickt.</p></div>
+        <div class="card step"><span class="n">03</span><b>Belohnung aussuchen</b><p>Wird die Person Kunde, bekommst du etwas zurück. Du wählst: Geld, Sache oder Spende.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · Themen -->
+  <section class="slide">
+    <div class="slide-inner">
+      <p class="eyebrow">Worüber</p>
+      <h1 class="big">Sieben Themen.<br>Für jede <em>Lebenssituation</em>.</h1>
+      <p class="lede">Du wählst beim Empfehlen das Thema, das gerade dran ist. So weiß ich vorher, worum es geht.</p>
+      <div class="topics">
+        <div class="card topic"><div class="ic">🏠</div><b>Baufinanzierung</b></div>
+        <div class="card topic"><div class="ic">🛡️</div><b>Vorsorge</b></div>
+        <div class="card topic"><div class="ic">💶</div><b>Förderungen</b></div>
+        <div class="card topic"><div class="ic">💡</div><b>Energie</b></div>
+        <div class="card topic"><div class="ic">👶</div><b>Kinder</b></div>
+        <div class="card topic"><div class="ic">📈</div><b>Karriere</b></div>
+        <div class="card topic"><div class="ic">🧭</div><b>Überblick</b></div>
+        <div class="card topic"><div class="ic">＋</div><b>… und mehr</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · Belohnungen A/B -->
+  <section class="slide">
+    <div class="slide-inner">
+      <p class="eyebrow">Was du bekommst · welche Variante gefällt dir?</p>
+      <h1 class="big">Dein <em>Dankeschön</em>.</h1>
+      <div class="ab">
+        <div class="card var a">
+          <span class="tag">Variante A · großes Finale</span>
+          <h3>Stufen bis Mallorca</h3>
+          <p class="cap">15 Stufen, Gamification, großer Zug-Effekt</p>
+          <div class="roadmap"><i></i><i></i><i class="big"></i><i></i><i></i><i class="big"></i><i></i><i></i><i></i><i class="big"></i></div>
+          <ul class="abli">
+            <li>Zwischendrin 100 € Bonus</li>
+            <li>An Meilensteinen Premium-Belohnungen</li>
+            <li>Großes Finale: Reise nach Mallorca</li>
+          </ul>
+          <div class="bigfin">bis zu 4.800 €<small>Gesamtwert über alle 15 Stufen</small></div>
+        </div>
+        <div class="card var b">
+          <span class="tag">Variante B · ruhig & seriös</span>
+          <h3>Ehrliches Dankeschön</h3>
+          <p class="cap">Kein Gewinnspiel-Gefühl, mehr Wertschätzung</p>
+          <ul class="abli" style="margin-top:14px">
+            <li>Schon ab der <b>1.</b> Empfehlung ein Dankeschön</li>
+            <li>Mit jeder weiteren wird es größer</li>
+            <li>Du wählst frei: <b>Geld · Sache · Spende</b></li>
+          </ul>
+          <div class="bigfin">Du entscheidest<small>was zu dir passt – ohne Zirkus</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · Testimonials -->
+  <section class="slide">
+    <div class="slide-inner">
+      <p class="eyebrow">Was andere sagen</p>
+      <h1 class="big">Vertrauen entsteht aus<br><em>Erfahrungen</em>.</h1>
+      <div class="tmeta"><span class="stars">★★★★★</span><span><b>5,0 von 5</b> · 15 Google-Bewertungen</span></div>
+      <div class="tgrid">
+        <div class="card tcard"><div class="s">★★★★★</div><p>„Erstklassige Beratung und Betreuung, kann ich nur weiterempfehlen.“</p><div class="who"><span class="tav">MB</span><div><b>Martin Böhm</b><span>Google-Bewertung</span></div></div></div>
+        <div class="card tcard"><div class="s">★★★★★</div><p>„Fachlich exzellent, menschlich super angenehm.“</p><div class="who"><span class="tav">SH</span><div><b>Sandra Heinze</b><span>Local Guide · Google</span></div></div></div>
+        <div class="card tcard"><div class="s">★★★★★</div><p>„Seit 2006 betreut mich Herr Blobel. Immer verlässlich.“</p><div class="who"><span class="tav">TM</span><div><b>Torsten Memczak</b><span>Google-Bewertung</span></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 · FAQ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <p class="eyebrow">Noch Fragen?</p>
+      <h1 class="big">Das werde ich <em>oft</em> gefragt.</h1>
+      <div class="faq">
+        <div class="card fi"><div class="fq">Kostet mich das etwas?</div><div class="fa">Nein. Empfehlen kostet dich nichts – und die Person, die du empfiehlst, auch nicht.</div></div>
+        <div class="card fi"><div class="fq">Wann bekomme ich die Belohnung?</div><div class="fa">Sobald eine direkte Empfehlung Kunde wird, mit dem ersten Geldeingang.</div></div>
+        <div class="card fi"><div class="fq">Was passiert mit den Daten?</div><div class="fa">Sie bleiben bei mir. Keine Weitergabe, keine Newsletter. Ein Anruf, mehr nicht.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 · Abschluss -->
+  <section class="slide">
+    <div class="slide-inner">
+      <p class="eyebrow">Loslegen</p>
+      <h1 class="big">An wen denkst du<br><em>gerade</em>?</h1>
+      <p class="lede">Sag mir einfach einen Namen – den Rest richten wir jetzt gemeinsam ein.</p>
+      <button class="cta-btn">Jetzt gemeinsam anlegen</button>
+      <div class="next-hint"><span class="ph">📱</span> Ab hier geht's auf dem iPhone weiter – dein persönlicher Promoter-Bereich.</div>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav-zone left" onclick="go(-1)"></div>
+<div class="nav-zone right" onclick="go(1)"></div>
+<div class="dots" id="dots"></div>
+<div class="arrows"><div class="arrow" id="prev" onclick="go(-1)">‹</div><div class="arrow" id="next" onclick="go(1)">›</div></div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  const tot=slides.length; let i=0;
+  document.getElementById('tot').textContent=tot;
+  const dots=document.getElementById('dots');
+  slides.forEach((_,n)=>{const d=document.createElement('div');d.className='dot'+(n===0?' on':'');d.onclick=()=>jump(n);dots.appendChild(d);});
+  const dotEls=[...dots.children];
+  function render(){
+    slides.forEach((s,n)=>s.classList.toggle('active',n===i));
+    dotEls.forEach((d,n)=>d.classList.toggle('on',n===i));
+    document.getElementById('cur').textContent=i+1;
+    document.getElementById('prev').toggleAttribute('disabled',i===0);
+    document.getElementById('next').toggleAttribute('disabled',i===tot-1);
+  }
+  function go(dir){const n=i+dir;if(n>=0&&n<tot){i=n;render();}}
+  function jump(n){i=n;render();}
+  window.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(1);}
+    if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(-1);}
+  });
+
+  // NPS
+  const nps=document.getElementById('nps');
+  for(let n=1;n<=10;n++){const b=document.createElement('button');b.textContent=n;b.onclick=()=>{[...nps.children].forEach(x=>x.classList.remove('sel'));b.classList.add('sel');};nps.appendChild(b);}
+
+  // Rechner (Spanne statt Punktzahl)
+  const cAlter=document.getElementById('cAlter'),cAlterV=document.getElementById('cAlterV');
+  const cFam=document.getElementById('cFam'),cInc=document.getElementById('cInc');
+  const cAmt=document.getElementById('cAmt'),cTags=document.getElementById('cTags');
+  let fam='single',inc=0;
+  function seg(box,cb){[...box.children].forEach(btn=>btn.onclick=()=>{[...box.children].forEach(x=>x.classList.remove('on'));btn.classList.add('on');cb(btn.dataset.v);calc();});}
+  seg(cFam,v=>fam=v); seg(cInc,v=>inc=+v);
+  cAlter.oninput=()=>{cAlterV.textContent=cAlter.value;calc();};
+  function calc(){
+    const tagsBy={single:['Förderungen','Altersvorsorge','Verträge prüfen'],familie:['Kinder-Förderung','Absicherung Familie','Steuer-Vorteile'],immo:['KfW & Förderung','Baufinanzierung','Wohn-Riester']};
+    const t=tagsBy[fam];
+    cTags.innerHTML=t.map(x=>`<span class="rtag">${x}</span>`).join('');
+    let base = fam==='immo'?'mehrere hundert bis über 1.000 €':(fam==='familie'?'mehrere hundert €':'einige hundert €');
+    if(inc===1 && fam!=='single') base='oft vierstellig pro Jahr';
+    cAmt.textContent=base;
+  }
+  calc();
+</script>
+</body>
+</html>

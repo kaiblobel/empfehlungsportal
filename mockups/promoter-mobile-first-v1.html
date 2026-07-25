@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f4f2ed">
+  <title>Dein Empfehlungsbereich | Mobile Vorschau</title>
+  <style>
+    :root {
+      --ink: #171817;
+      --muted: #686963;
+      --paper: #f4f2ed;
+      --card: #fffefa;
+      --line: rgba(23, 24, 23, .09);
+      --champagne: #c9b98a;
+      --champagne-soft: #eee8d8;
+      --sage: #77816f;
+      --sage-soft: #e9eee6;
+      --marine: #2e5266;
+      --marine-soft: #e5edf1;
+      --terracotta: #ad6847;
+      --terracotta-soft: #f2e6df;
+      --shadow: 0 14px 36px rgba(32, 31, 27, .08);
+      --radius: 22px;
+      --safe-bottom: max(14px, env(safe-area-inset-bottom));
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: #dfddd7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; min-height: 100vh; background: #dfddd7; }
+    button, input, textarea { font: inherit; }
+    button { color: inherit; }
+    button, [role="button"] { -webkit-tap-highlight-color: transparent; }
+    .phone-shell {
+      width: min(100%, 520px);
+      min-height: 100vh;
+      margin: 0 auto;
+      background: var(--paper);
+      position: relative;
+      overflow: clip;
+      padding-bottom: 112px;
+      box-shadow: 0 0 60px rgba(30, 29, 25, .10);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: max(16px, env(safe-area-inset-top)) 20px 12px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(244, 242, 237, .96);
+      border-bottom: 1px solid transparent;
+    }
+    .topbar.scrolled { border-color: var(--line); }
+    .advisor-photo {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: 50% 18%;
+      border: 2px solid white;
+      box-shadow: 0 2px 12px rgba(0,0,0,.12);
+    }
+    .top-copy { flex: 1; min-width: 0; }
+    .top-copy strong { display: block; font-size: 16px; letter-spacing: -.2px; }
+    .top-copy span { display: block; margin-top: 2px; color: var(--muted); font-size: 12px; }
+    .icon-button {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: var(--card);
+      display: grid;
+      place-items: center;
+      position: relative;
+      cursor: pointer;
+    }
+    .bell {
+      width: 15px;
+      height: 17px;
+      border: 2px solid var(--ink);
+      border-radius: 8px 8px 5px 5px;
+      border-top-width: 1.5px;
+      position: relative;
+    }
+    .bell::before { content: ""; position: absolute; width: 5px; height: 2px; border-radius: 4px; background: var(--ink); left: 3px; bottom: -5px; }
+    .bell::after { content: ""; position: absolute; width: 3px; height: 3px; border-radius: 50%; background: var(--ink); left: 4px; top: -4px; }
+    .unread {
+      position: absolute;
+      right: 2px;
+      top: 2px;
+      width: 9px;
+      height: 9px;
+      background: var(--terracotta);
+      border-radius: 50%;
+      border: 2px solid var(--card);
+    }
+
+    main { padding: 8px 16px 22px; }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 302px;
+      padding: 26px 24px 24px;
+      border-radius: 28px;
+      background: var(--ink);
+      color: white;
+      box-shadow: 0 18px 42px rgba(23, 24, 23, .18);
+    }
+    .hero::before, .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero::before { width: 230px; height: 230px; right: -112px; top: -100px; border: 1px solid rgba(201,185,138,.30); }
+    .hero::after { width: 130px; height: 130px; right: -58px; top: -50px; border: 26px solid rgba(201,185,138,.08); }
+    .eyebrow { text-transform: uppercase; letter-spacing: 1.6px; font-size: 10px; font-weight: 750; color: var(--champagne); }
+    .hero h1 { font-size: clamp(28px, 8.2vw, 38px); line-height: 1.04; letter-spacing: -1.25px; margin: 14px 0 12px; max-width: 390px; }
+    .hero p { font-size: 14px; line-height: 1.55; color: rgba(255,255,255,.70); max-width: 310px; margin: 0 0 22px; }
+    .primary, .secondary {
+      min-height: 54px;
+      border-radius: 16px;
+      border: 0;
+      padding: 0 18px;
+      font-weight: 750;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .primary { width: 100%; color: var(--ink); background: var(--champagne); box-shadow: inset 0 0 0 1px rgba(255,255,255,.24); }
+    .primary:active { transform: scale(.985); }
+    .plus-ring { width: 24px; height: 24px; border: 1px solid currentColor; border-radius: 50%; display: grid; place-items: center; font-size: 20px; font-weight: 400; line-height: 1; }
+    .draft-button {
+      display: none;
+      margin-top: 10px;
+      width: 100%;
+      min-height: 42px;
+      border: 0;
+      background: transparent;
+      color: rgba(255,255,255,.78);
+      font-weight: 650;
+      cursor: pointer;
+    }
+    .draft-button.visible { display: block; }
+    .hero-proof { display: flex; gap: 8px; align-items: center; margin-top: 16px; font-size: 11px; color: rgba(255,255,255,.54); }
+    .proof-dots { display: flex; }
+    .proof-dots i { display: block; width: 18px; height: 18px; margin-left: -4px; border: 2px solid var(--ink); background: var(--champagne); border-radius: 50%; }
+    .proof-dots i:nth-child(2) { background: var(--sage); }
+    .proof-dots i:nth-child(3) { background: var(--marine); }
+
+    .section { margin-top: 30px; scroll-margin-top: 84px; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin: 0 4px 13px; }
+    .section-head h2 { font-size: 20px; line-height: 1.15; letter-spacing: -.55px; margin: 5px 0 0; }
+    .text-button { border: 0; padding: 4px 0; background: transparent; font-size: 12px; color: var(--marine); font-weight: 700; cursor: pointer; }
+    .metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .metric {
+      min-height: 102px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 15px 12px;
+      box-shadow: 0 8px 24px rgba(32,31,27,.04);
+    }
+    .metric strong { display: block; font-size: 28px; letter-spacing: -1px; }
+    .metric span { display: block; margin-top: 5px; font-size: 11px; line-height: 1.25; color: var(--muted); }
+    .metric small { display: flex; align-items: center; gap: 4px; margin-top: 8px; font-size: 9px; color: var(--sage); font-weight: 750; }
+    .metric small::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+    .activity-list, .recommendation-list { display: grid; gap: 9px; }
+    .activity-card, .recommendation-card, .reward-card, details {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 24px rgba(32,31,27,.04);
+    }
+    .activity-card { display: grid; grid-template-columns: 42px 1fr auto; align-items: center; gap: 12px; padding: 14px; }
+    .activity-icon { width: 42px; height: 42px; border-radius: 14px; background: var(--champagne-soft); display: grid; place-items: center; color: #635a42; font-size: 11px; font-weight: 800; }
+    .activity-card:nth-child(2) .activity-icon { background: var(--marine-soft); color: var(--marine); }
+    .activity-card:nth-child(3) .activity-icon { background: var(--sage-soft); color: var(--sage); }
+    .activity-copy strong { display: block; font-size: 13px; }
+    .activity-copy span { display: block; margin-top: 3px; font-size: 11px; line-height: 1.35; color: var(--muted); }
+    .time { font-size: 9px; color: #96978f; align-self: start; margin-top: 3px; white-space: nowrap; }
+
+    .reward-card { padding: 18px; position: relative; overflow: hidden; }
+    .reward-top { display: flex; align-items: center; gap: 13px; }
+    .reward-mark { width: 48px; height: 48px; flex: 0 0 auto; border-radius: 16px; background: var(--champagne-soft); display: grid; place-items: center; font-weight: 900; color: #655c43; font-size: 13px; }
+    .reward-copy { min-width: 0; }
+    .reward-copy strong { display: block; font-size: 14px; line-height: 1.25; }
+    .reward-copy span { display: block; color: var(--muted); font-size: 11px; margin-top: 4px; }
+    .progress { height: 7px; margin-top: 16px; border-radius: 9px; background: #eceae3; overflow: hidden; }
+    .progress i { display: block; width: 20%; height: 100%; background: var(--champagne); border-radius: inherit; }
+    .progress-meta { display: flex; justify-content: space-between; color: var(--muted); font-size: 10px; margin-top: 8px; }
+
+    .recommendation-card { padding: 16px; }
+    .rec-top { display: flex; align-items: center; gap: 11px; }
+    .avatar { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: white; background: var(--marine); font-size: 12px; font-weight: 800; }
+    .avatar.sage { background: var(--sage); }
+    .avatar.terra { background: var(--terracotta); }
+    .rec-name { flex: 1; min-width: 0; }
+    .rec-name strong { display: block; font-size: 13px; }
+    .rec-name span { display: block; font-size: 10px; color: var(--muted); margin-top: 3px; }
+    .pill { padding: 6px 9px; border-radius: 999px; background: var(--champagne-soft); font-size: 9px; font-weight: 750; color: #695f43; white-space: nowrap; }
+    .pill.sage { background: var(--sage-soft); color: #56614f; }
+    .pill.marine { background: var(--marine-soft); color: var(--marine); }
+    .timeline { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 16px; position: relative; }
+    .timeline::before { content: ""; height: 2px; background: #e9e7e0; position: absolute; left: 8px; right: 8px; top: 5px; }
+    .timeline span { position: relative; z-index: 1; font-size: 8px; color: #999a93; padding-top: 15px; text-align: center; }
+    .timeline span::before { content: ""; width: 8px; height: 8px; position: absolute; top: 2px; left: calc(50% - 4px); border-radius: 50%; background: #d6d5d0; box-shadow: 0 0 0 3px var(--card); }
+    .timeline span.done { color: var(--ink); font-weight: 650; }
+    .timeline span.done::before { background: var(--sage); }
+    .rec-action { margin-top: 12px; width: 100%; min-height: 40px; border: 1px solid var(--line); border-radius: 12px; background: #f7f5ef; font-size: 11px; font-weight: 750; cursor: pointer; }
+
+    details { padding: 0 16px; }
+    summary { list-style: none; cursor: pointer; min-height: 58px; display: flex; align-items: center; font-size: 13px; font-weight: 750; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; margin-left: auto; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: var(--paper); font-size: 18px; font-weight: 400; }
+    details[open] summary::after { content: "−"; }
+    .settings-body { padding: 0 0 17px; border-top: 1px solid var(--line); }
+    .setting-row { padding-top: 15px; }
+    .setting-row label { display: block; font-size: 11px; font-weight: 750; margin-bottom: 8px; }
+    .setting-row textarea { width: 100%; min-height: 86px; resize: vertical; border: 1px solid var(--line); border-radius: 13px; background: #faf9f5; padding: 12px; font-size: 12px; line-height: 1.45; color: var(--ink); }
+    .choice-row { display: flex; flex-wrap: wrap; gap: 7px; }
+    .choice-chip { border: 1px solid var(--line); border-radius: 999px; min-height: 34px; padding: 0 12px; background: #faf9f5; font-size: 10px; font-weight: 700; cursor: pointer; }
+    .choice-chip.active { background: var(--ink); color: white; border-color: var(--ink); }
+    .footer { text-align: center; padding: 30px 20px 8px; color: var(--muted); font-size: 10px; line-height: 1.6; }
+    .footer strong { color: var(--ink); }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      width: min(100%, 520px);
+      transform: translateX(-50%);
+      z-index: 30;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      align-items: end;
+      min-height: calc(70px + var(--safe-bottom));
+      padding: 8px 18px var(--safe-bottom);
+      background: rgba(255,254,250,.97);
+      border-top: 1px solid var(--line);
+      box-shadow: 0 -8px 30px rgba(30,29,25,.06);
+    }
+    .nav-button { border: 0; background: transparent; min-height: 46px; display: grid; place-items: center; align-content: center; gap: 5px; font-size: 9px; color: var(--muted); cursor: pointer; }
+    .nav-button.active { color: var(--ink); font-weight: 750; }
+    .nav-icon { width: 18px; height: 18px; border: 1.7px solid currentColor; border-radius: 6px; position: relative; }
+    .nav-icon.home::before { content: ""; position: absolute; width: 8px; height: 8px; border-left: 1.7px solid currentColor; border-top: 1.7px solid currentColor; transform: rotate(45deg); left: 3px; top: -4px; background: var(--card); }
+    .nav-icon.list::before, .nav-icon.list::after { content: ""; position: absolute; left: 3px; right: 3px; height: 1.5px; background: currentColor; }
+    .nav-icon.list::before { top: 5px; } .nav-icon.list::after { top: 10px; }
+    .nav-main { transform: translateY(-12px); }
+    .nav-plus { width: 54px; height: 54px; display: grid; place-items: center; border-radius: 19px; background: var(--ink); color: var(--champagne); box-shadow: 0 10px 24px rgba(23,24,23,.22); font-size: 30px; line-height: 1; }
+    .nav-main span:last-child { color: var(--ink); font-weight: 800; }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      background: rgba(12,13,12,.48);
+    }
+    .overlay.open { display: flex; }
+    .sheet {
+      width: min(100%, 520px);
+      height: min(94vh, 920px);
+      border-radius: 28px 28px 0 0;
+      background: var(--paper);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 -30px 80px rgba(0,0,0,.20);
+      animation: rise .28s cubic-bezier(.2,.8,.2,1);
+    }
+    @keyframes rise { from { transform: translateY(30px); opacity: .4; } }
+    .sheet-head { padding: 14px 18px 12px; background: var(--paper); border-bottom: 1px solid var(--line); }
+    .sheet-top { display: flex; align-items: center; gap: 12px; }
+    .close { border: 0; background: var(--card); width: 38px; height: 38px; border-radius: 50%; font-size: 20px; cursor: pointer; }
+    .sheet-title { flex: 1; }
+    .sheet-title strong { font-size: 13px; display: block; }
+    .sheet-title span { font-size: 9px; color: var(--muted); display: block; margin-top: 2px; }
+    .step-number { font-size: 10px; font-weight: 750; color: var(--muted); }
+    .step-progress { display: grid; grid-template-columns: repeat(4,1fr); gap: 5px; margin-top: 13px; }
+    .step-progress i { height: 3px; border-radius: 5px; background: #dcdad3; }
+    .step-progress i.on { background: var(--ink); }
+    .step-content { flex: 1; overflow-y: auto; padding: 25px 18px 20px; }
+    .step { display: none; }
+    .step.active { display: block; }
+    .step h2 { margin: 0; font-size: 28px; line-height: 1.07; letter-spacing: -.9px; }
+    .step > p { color: var(--muted); font-size: 13px; line-height: 1.5; margin: 10px 0 23px; }
+    .field { margin-bottom: 15px; }
+    .field label { display: block; margin: 0 0 7px 2px; font-size: 10px; font-weight: 750; color: #53544f; }
+    .field input, .field textarea { width: 100%; border: 1px solid var(--line); background: var(--card); border-radius: 15px; padding: 15px; outline: none; color: var(--ink); }
+    .field input { height: 54px; }
+    .field textarea { min-height: 118px; resize: vertical; line-height: 1.5; font-size: 13px; }
+    .field input:focus, .field textarea:focus { border-color: var(--champagne); box-shadow: 0 0 0 3px rgba(201,185,138,.16); }
+    .input-hint { color: var(--muted); font-size: 9px; margin: 7px 2px 0; line-height: 1.4; }
+    .topic-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 9px; }
+    .topic-card { min-height: 106px; text-align: left; padding: 14px; border: 1px solid var(--line); background: var(--card); border-radius: 18px; cursor: pointer; }
+    .topic-card.active { border: 2px solid var(--ink); padding: 13px; box-shadow: 0 8px 22px rgba(23,24,23,.08); }
+    .topic-symbol { width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center; background: var(--champagne-soft); color: #695f43; font-size: 9px; font-weight: 850; }
+    .topic-card:nth-child(2) .topic-symbol, .topic-card:nth-child(5) .topic-symbol { background: var(--marine-soft); color: var(--marine); }
+    .topic-card:nth-child(3) .topic-symbol, .topic-card:nth-child(6) .topic-symbol { background: var(--sage-soft); color: var(--sage); }
+    .topic-card strong { display: block; margin-top: 12px; font-size: 12px; }
+    .topic-card span { display: block; margin-top: 3px; color: var(--muted); font-size: 9px; line-height: 1.3; }
+    .template-list { display: grid; gap: 9px; margin-bottom: 18px; }
+    .template-card { display: grid; grid-template-columns: 20px 1fr; gap: 10px; text-align: left; border: 1px solid var(--line); background: var(--card); border-radius: 15px; padding: 13px; cursor: pointer; }
+    .template-card.active { border-color: var(--ink); }
+    .radio { width: 18px; height: 18px; border: 1px solid #b7b6b0; border-radius: 50%; margin-top: 1px; position: relative; }
+    .template-card.active .radio { border-color: var(--ink); }
+    .template-card.active .radio::after { content: ""; position: absolute; inset: 4px; background: var(--ink); border-radius: 50%; }
+    .template-card strong { display: block; font-size: 11px; }
+    .template-card span { display: block; font-size: 10px; line-height: 1.4; color: var(--muted); margin-top: 4px; }
+    .preview-card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
+    .preview-title { padding: 16px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 11px; }
+    .preview-title .avatar { width: 38px; height: 38px; }
+    .preview-title strong { display: block; font-size: 12px; }
+    .preview-title span { display: block; color: var(--muted); font-size: 9px; margin-top: 3px; }
+    .message-bubble { margin: 17px; padding: 14px; background: #e8f1e7; border-radius: 16px 16px 4px 16px; font-size: 11px; line-height: 1.5; }
+    .message-link { display: block; margin-top: 9px; color: var(--marine); text-decoration: underline; }
+    .honesty { display: flex; gap: 10px; align-items: flex-start; margin-top: 14px; padding: 13px; border-radius: 14px; background: var(--champagne-soft); color: #5f573f; font-size: 10px; line-height: 1.45; }
+    .honesty b { flex: 0 0 auto; width: 18px; height: 18px; display: grid; place-items: center; border: 1px solid currentColor; border-radius: 50%; }
+    .sheet-actions { padding: 12px 18px calc(14px + env(safe-area-inset-bottom)); background: var(--card); border-top: 1px solid var(--line); }
+    .sheet-actions .primary { background: var(--ink); color: white; }
+    .sheet-actions .secondary { width: 100%; min-height: 42px; background: transparent; color: var(--muted); font-size: 11px; margin-top: 4px; }
+    .error { display: none; color: #9b4e35; font-size: 10px; margin: -6px 2px 12px; }
+    .error.visible { display: block; }
+
+    .confirm-sheet { height: auto; min-height: 400px; padding: 28px 20px calc(22px + env(safe-area-inset-bottom)); }
+    .confirm-mark { width: 58px; height: 58px; border-radius: 19px; background: var(--sage-soft); color: var(--sage); display: grid; place-items: center; font-size: 26px; margin-bottom: 20px; }
+    .confirm-sheet h2 { font-size: 28px; line-height: 1.08; letter-spacing: -.9px; margin: 0; }
+    .confirm-sheet p { color: var(--muted); font-size: 13px; line-height: 1.5; margin: 11px 0 22px; }
+    .confirm-sheet .primary { background: var(--ink); color: white; }
+    .confirm-sheet .secondary { width: 100%; background: transparent; color: var(--muted); margin-top: 5px; }
+
+    .notice-panel { position: fixed; z-index: 90; inset: 0; display: none; background: rgba(12,13,12,.35); justify-content: center; align-items: flex-start; }
+    .notice-panel.open { display: flex; }
+    .notice-inner { width: min(100%,520px); max-height: 78vh; overflow-y: auto; background: var(--paper); border-radius: 0 0 28px 28px; padding: max(20px, env(safe-area-inset-top)) 18px 22px; box-shadow: 0 24px 60px rgba(0,0,0,.18); }
+    .notice-head { display: flex; align-items: center; margin-bottom: 18px; }
+    .notice-head h2 { flex: 1; margin: 0; font-size: 23px; letter-spacing: -.6px; }
+    .notice-item { padding: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 17px; margin-top: 8px; }
+    .notice-item strong { font-size: 12px; display: block; }
+    .notice-item p { font-size: 10px; color: var(--muted); line-height: 1.4; margin: 5px 0 0; }
+    .notice-item.new { border-left: 3px solid var(--champagne); }
+    .toast { position: fixed; left: 50%; bottom: 95px; transform: translate(-50%, 20px); width: calc(min(100%,520px) - 32px); max-width: 488px; padding: 14px 16px; border-radius: 15px; background: var(--ink); color: white; font-size: 11px; line-height: 1.4; opacity: 0; pointer-events: none; transition: .25s ease; z-index: 120; box-shadow: 0 15px 35px rgba(0,0,0,.22); }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    @media (min-width: 720px) {
+      body { padding: 24px 0; }
+      .phone-shell { min-height: calc(100vh - 48px); border-radius: 30px; }
+      .bottom-nav { bottom: 24px; border-radius: 0 0 30px 30px; }
+      .overlay, .notice-panel { align-items: center; }
+      .sheet { height: min(88vh, 860px); border-radius: 28px; }
+      .confirm-sheet { border-radius: 28px; }
+      .notice-inner { border-radius: 28px; }
+    }
+    @media (max-width: 360px) {
+      main { padding-left: 12px; padding-right: 12px; }
+      .hero { padding-left: 20px; padding-right: 20px; }
+      .metric { padding-left: 9px; padding-right: 9px; }
+      .metric strong { font-size: 25px; }
+      .metric span { font-size: 10px; }
+      .activity-card { grid-template-columns: 38px 1fr; }
+      .time { display: none; }
+      .topic-grid { gap: 7px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <div class="phone-shell" id="top">
+    <header class="topbar" id="topbar">
+      <img class="advisor-photo" src="../assets/images/kai-portrait.jpg" alt="Kai Blobel">
+      <div class="top-copy"><strong id="helloName">Hallo Max</strong><span>Dein Empfehlungsbereich</span></div>
+      <button class="icon-button" id="noticeOpen" type="button" aria-label="Neuigkeiten öffnen"><span class="bell" aria-hidden="true"></span><span class="unread" id="unreadDot"></span></button>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="heroTitle">
+        <div class="eyebrow">Heute jemandem helfen</div>
+        <h1 id="heroTitle">Wem möchtest du gerade etwas Gutes tun?</h1>
+        <p>Vier kurze Schritte. Dein persönlicher Empfehlungslink ist sofort bereit.</p>
+        <button class="primary start-funnel" type="button"><span class="plus-ring">+</span>Jetzt empfehlen</button>
+        <button class="draft-button" id="resumeDraft" type="button">Gespeicherten Entwurf fortsetzen</button>
+        <div class="hero-proof"><span class="proof-dots"><i></i><i></i><i></i></span><span>7 Menschen empfohlen. Jeder Kontakt bleibt für dich sichtbar.</span></div>
+      </section>
+
+      <section class="section" aria-labelledby="impactTitle">
+        <div class="section-head"><div><div class="eyebrow">Deine Wirkung</div><h2 id="impactTitle">Auf einen Blick</h2></div></div>
+        <div class="metric-grid">
+          <div class="metric"><strong id="recommendedCount">7</strong><span>Menschen empfohlen</span><small>alles erfasst</small></div>
+          <div class="metric"><strong id="openedCount">3</strong><span>Link geöffnet</span><small>Interesse entsteht</small></div>
+          <div class="metric"><strong>1</strong><span>Kunde geworden</span><small>echte Wirkung</small></div>
+        </div>
+      </section>
+
+      <section class="section" id="activity" aria-labelledby="activityTitle">
+        <div class="section-head"><div><div class="eyebrow">Neu seit deinem letzten Besuch</div><h2 id="activityTitle">Was sich verändert hat</h2></div><button class="text-button" id="markRead" type="button">Gelesen</button></div>
+        <div class="activity-list" id="activityList">
+          <article class="activity-card"><div class="activity-icon">AUF</div><div class="activity-copy"><strong>Anna hat deinen Link geöffnet</strong><span>Der erste wichtige Schritt ist geschafft.</span></div><span class="time">vor 12 Min.</span></article>
+          <article class="activity-card"><div class="activity-icon">TER</div><div class="activity-copy"><strong>Mit Michael ist ein Gespräch geplant</strong><span>Kai übernimmt ab hier persönlich.</span></div><span class="time">heute</span></article>
+          <article class="activity-card"><div class="activity-icon">ZIEL</div><div class="activity-copy"><strong>Lisa ist Kundin geworden</strong><span>Deine Empfehlung hat wirklich geholfen.</span></div><span class="time">gestern</span></article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="rewardTitle">
+        <div class="section-head"><div><div class="eyebrow">Dein Dankeschön</div><h2 id="rewardTitle">Du bist auf dem Weg</h2></div></div>
+        <div class="reward-card">
+          <div class="reward-top"><div class="reward-mark">ZIEL</div><div class="reward-copy"><strong>Noch 4 bis Weber-Grill oder Apple Watch</strong><span>Du entscheidest später, was besser zu dir passt.</span></div></div>
+          <div class="progress" aria-label="1 von 5 erfolgreichen Empfehlungen"><i></i></div>
+          <div class="progress-meta"><span>1 erfolgreiche Empfehlung</span><span>Ziel: 5</span></div>
+        </div>
+      </section>
+
+      <section class="section" id="history" aria-labelledby="historyTitle">
+        <div class="section-head"><div><div class="eyebrow">Deine Empfehlungen</div><h2 id="historyTitle">Du siehst, was passiert</h2></div><button class="text-button" type="button" id="filterButton">Alle anzeigen</button></div>
+        <div class="recommendation-list" id="recommendationList">
+          <article class="recommendation-card"><div class="rec-top"><div class="avatar">AN</div><div class="rec-name"><strong>Anna</strong><span>Baufinanzierung · heute</span></div><span class="pill">Link geöffnet</span></div><div class="timeline"><span class="done">Erstellt</span><span class="done">Versendet</span><span class="done">Geöffnet</span></div></article>
+          <article class="recommendation-card"><div class="rec-top"><div class="avatar sage">MI</div><div class="rec-name"><strong>Michael</strong><span>Finanz-Check · vor 2 Tagen</span></div><span class="pill marine">Gespräch geplant</span></div><div class="timeline"><span class="done">Erstellt</span><span class="done">Geöffnet</span><span class="done">Kontakt</span></div></article>
+          <article class="recommendation-card"><div class="rec-top"><div class="avatar terra">LI</div><div class="rec-name"><strong>Lisa</strong><span>Altersvorsorge · vor 3 Wochen</span></div><span class="pill sage">Kundin geworden</span></div><div class="timeline"><span class="done">Empfohlen</span><span class="done">Beraten</span><span class="done">Kundin</span></div></article>
+        </div>
+      </section>
+
+      <section class="section" aria-label="Persönliche Einstellungen">
+        <details>
+          <summary>Persönliche Nachricht und Benachrichtigungen</summary>
+          <div class="settings-body">
+            <div class="setting-row"><label for="defaultMessage">Deine Standardnachricht</label><textarea id="defaultMessage">Hi {Name}, ich möchte dir meinen Finanzberater Kai empfehlen. Er schaut sich deine Situation persönlich an und meldet sich nur, wenn du das möchtest.</textarea></div>
+            <div class="setting-row"><label>Wann möchtest du informiert werden?</label><div class="choice-row" id="notifyChoices"><button type="button" class="choice-chip active">Sofort</button><button type="button" class="choice-chip">Täglich</button><button type="button" class="choice-chip">Wöchentlich</button><button type="button" class="choice-chip">Aus</button></div></div>
+          </div>
+        </details>
+      </section>
+
+      <footer class="footer"><strong>Kai Blobel &amp; Team</strong><br>Finanzierungsspezialist · persönlich für dich da</footer>
+    </main>
+  </div>
+
+  <nav class="bottom-nav" aria-label="Hauptnavigation">
+    <button class="nav-button active" id="navHome" type="button"><span class="nav-icon home"></span><span>Start</span></button>
+    <button class="nav-button nav-main start-funnel" type="button"><span class="nav-plus">+</span><span>Empfehlen</span></button>
+    <button class="nav-button" id="navHistory" type="button"><span class="nav-icon list"></span><span>Verlauf</span></button>
+  </nav>
+
+  <div class="overlay" id="funnelOverlay" aria-hidden="true">
+    <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="funnelTitle">
+      <header class="sheet-head">
+        <div class="sheet-top"><button class="close" id="closeFunnel" type="button" aria-label="Schließen">×</button><div class="sheet-title"><strong id="funnelTitle">Neue Empfehlung</strong><span>Deine Eingaben werden auf diesem Gerät gespeichert</span></div><span class="step-number" id="stepNumber">1 von 4</span></div>
+        <div class="step-progress" id="stepProgress"><i class="on"></i><i></i><i></i><i></i></div>
+      </header>
+      <div class="step-content">
+        <section class="step active" data-step="1"><h2>Wem möchtest du helfen?</h2><p>Der Vorname reicht. Die Handynummer wird nur für diese Empfehlung verwendet.</p><div class="field"><label for="contactName">Vorname</label><input id="contactName" autocomplete="given-name" placeholder="z. B. Anna"></div><div class="field"><label for="contactPhone">Handynummer</label><input id="contactPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="z. B. 0171 2345678"><div class="input-hint">Die Nummer erscheint nicht öffentlich und wird nicht für Werbung verwendet.</div></div><div class="error" id="step1Error">Bitte trage mindestens den Vornamen ein.</div></section>
+        <section class="step" data-step="2"><h2>Worum geht es?</h2><p>Wähle das Thema, das am besten zur aktuellen Situation passt.</p><div class="topic-grid" id="topicGrid"><button class="topic-card" type="button" data-topic="Baufinanzierung"><span class="topic-symbol">HAUS</span><strong>Baufinanzierung</strong><span>Kauf, Neubau oder Anschluss</span></button><button class="topic-card" type="button" data-topic="Finanz-Check"><span class="topic-symbol">CHECK</span><strong>Finanz-Check</strong><span>Ordnung und Überblick schaffen</span></button><button class="topic-card" type="button" data-topic="Altersvorsorge"><span class="topic-symbol">PLUS</span><strong>Altersvorsorge</strong><span>Heute an später denken</span></button><button class="topic-card" type="button" data-topic="Absicherung"><span class="topic-symbol">SCHUTZ</span><strong>Absicherung</strong><span>Familie und Einkommen schützen</span></button><button class="topic-card" type="button" data-topic="Geldanlage"><span class="topic-symbol">WERT</span><strong>Geldanlage</strong><span>Vermögen sinnvoll aufbauen</span></button><button class="topic-card" type="button" data-topic="Noch offen"><span class="topic-symbol">OFFEN</span><strong>Noch offen</strong><span>Kai findet das im Gespräch heraus</span></button></div><div class="error" id="step2Error">Bitte wähle ein Thema aus.</div></section>
+        <section class="step" data-step="3"><h2>Wie möchtest du es sagen?</h2><p>Wähle einen Ton. Du kannst den Text jederzeit persönlich verändern.</p><div class="template-list" id="templateList"><button class="template-card active" type="button" data-template="warm"><span class="radio"></span><span><strong>Herzlich und persönlich</strong><span>Eine warme Empfehlung aus eigener Erfahrung.</span></span></button><button class="template-card" type="button" data-template="short"><span class="radio"></span><span><strong>Kurz und direkt</strong><span>Gut, wenn ihr ohnehin gerade darüber sprecht.</span></span></button><button class="template-card" type="button" data-template="neutral"><span class="radio"></span><span><strong>Zurückhaltend</strong><span>Ohne Druck, nur als hilfreiches Angebot.</span></span></button></div><div class="field"><label for="personalMessage">Deine Nachricht</label><textarea id="personalMessage"></textarea></div></section>
+        <section class="step" data-step="4"><h2>Alles bereit</h2><p>Prüfe kurz, ob sich die Nachricht wirklich nach dir anhört.</p><div class="preview-card"><div class="preview-title"><div class="avatar" id="previewInitials">AN</div><div><strong id="previewName">Anna</strong><span id="previewTopic">Baufinanzierung</span></div></div><div class="message-bubble" id="messagePreview"></div></div><div class="honesty"><b>i</b><span>Erst nach deiner Bestätigung steht im Verlauf „versendet“. Sobald der Link geöffnet wird, aktualisiert sich der Status automatisch.</span></div></section>
+      </div>
+      <footer class="sheet-actions"><button class="primary" id="nextStep" type="button">Weiter</button><button class="secondary" id="saveLater" type="button">Für später speichern</button></footer>
+    </section>
+  </div>
+
+  <div class="overlay" id="confirmOverlay" aria-hidden="true"><section class="sheet confirm-sheet" role="dialog" aria-modal="true" aria-labelledby="confirmTitle"><div class="confirm-mark">✓</div><h2 id="confirmTitle">Der Link für Anna ist erstellt.</h2><p>Hat WhatsApp die Nachricht versendet? Wir tragen nur ein, was wirklich passiert ist.</p><button class="primary" id="confirmSent" type="button">Ja, Nachricht wurde versendet</button><button class="secondary" id="confirmLater" type="button">Noch nicht, im Verlauf merken</button></section></div>
+
+  <div class="notice-panel" id="noticePanel" aria-hidden="true"><div class="notice-inner"><div class="notice-head"><h2>Neuigkeiten</h2><button class="close" id="noticeClose" type="button" aria-label="Schließen">×</button></div><div class="eyebrow">Heute</div><article class="notice-item new"><strong>Anna hat deinen Link geöffnet</strong><p>vor 12 Minuten · Baufinanzierung</p></article><article class="notice-item new"><strong>Gespräch mit Michael geplant</strong><p>Kai hat den nächsten Schritt übernommen.</p></article><div class="eyebrow" style="margin-top:22px">Deine Einstellung</div><article class="notice-item"><strong>Nur wichtige Veränderungen</strong><p>Du erhältst eine Nachricht bei Linköffnung, Interesse, Termin, Kunde und Belohnung.</p></article></div></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      const $ = (selector, root = document) => root.querySelector(selector);
+      const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+      const draftKey = 'promoter-mobile-v1-draft';
+      const params = new URLSearchParams(location.search);
+      const promoter = params.get('promoter') || params.get('von') || 'Max';
+      $('#helloName').textContent = `Hallo ${promoter}`;
+
+      const state = { step: 1, name: '', phone: '', topic: '', template: 'warm', message: '', pendingCard: null };
+      const overlay = $('#funnelOverlay');
+      const confirmOverlay = $('#confirmOverlay');
+      const messageTemplates = {
+        warm: (name, topic) => `Hi ${name}, ich möchte dir Kai empfehlen. Er hat mir selbst schon sehr geholfen und schaut sich das Thema ${topic} wirklich persönlich an. Hier kannst du ganz in Ruhe sehen, worum es geht:`,
+        short: (name, topic) => `Hi ${name}, ich glaube, Kai könnte dir beim Thema ${topic} helfen. Schau dir das gern einmal unverbindlich an:`,
+        neutral: (name, topic) => `Hi ${name}, falls ${topic} für dich gerade ein Thema ist: Hier findest du eine persönliche Übersicht von Kai. Du entscheidest in Ruhe, ob du Kontakt möchtest:`
+      };
+
+      function toast(text) {
+        const el = $('#toast');
+        el.textContent = text;
+        el.classList.add('show');
+        clearTimeout(window.toastTimer);
+        window.toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+      }
+
+      function saveDraft() {
+        state.name = $('#contactName').value.trim();
+        state.phone = $('#contactPhone').value.trim();
+        state.message = $('#personalMessage').value.trim();
+        const hasContent = Boolean(state.name || state.phone || state.topic || state.message);
+        if (!hasContent) {
+          $('#resumeDraft').classList.toggle('visible', Boolean(localStorage.getItem(draftKey)));
+          return;
+        }
+        localStorage.setItem(draftKey, JSON.stringify({ name: state.name, phone: state.phone, topic: state.topic, template: state.template, message: state.message, step: state.step }));
+        $('#resumeDraft').classList.add('visible');
+      }
+
+      function clearDraft() { localStorage.removeItem(draftKey); $('#resumeDraft').classList.remove('visible'); }
+
+      function loadDraft() {
+        try {
+          const draft = JSON.parse(localStorage.getItem(draftKey));
+          if (!draft) return false;
+          Object.assign(state, draft);
+          $('#contactName').value = state.name || '';
+          $('#contactPhone').value = state.phone || '';
+          if (state.topic) $(`.topic-card[data-topic="${CSS.escape(state.topic)}"]`)?.classList.add('active');
+          $$('.template-card').forEach(el => el.classList.toggle('active', el.dataset.template === state.template));
+          $('#personalMessage').value = state.message || buildMessage();
+          $('#resumeDraft').classList.add('visible');
+          return true;
+        } catch { localStorage.removeItem(draftKey); return false; }
+      }
+
+      function buildMessage() {
+        const name = state.name || $('#contactName').value.trim() || 'Anna';
+        const topic = state.topic || 'deinem Finanzthema';
+        return messageTemplates[state.template](name, topic);
+      }
+
+      function renderStep() {
+        $$('.step').forEach(el => el.classList.toggle('active', Number(el.dataset.step) === state.step));
+        $$('#stepProgress i').forEach((el, index) => el.classList.toggle('on', index < state.step));
+        $('#stepNumber').textContent = `${state.step} von 4`;
+        $('#nextStep').textContent = state.step === 4 ? 'Link erstellen und WhatsApp öffnen' : 'Weiter';
+        $('#saveLater').textContent = state.step === 1 ? 'Für später speichern' : 'Zurück';
+        if (state.step === 3 && !$('#personalMessage').value.trim()) $('#personalMessage').value = buildMessage();
+        if (state.step === 4) renderPreview();
+        $('.step-content').scrollTop = 0;
+      }
+
+      function renderPreview() {
+        state.name = $('#contactName').value.trim() || 'Anna';
+        state.message = $('#personalMessage').value.trim() || buildMessage();
+        $('#previewName').textContent = state.name;
+        $('#previewInitials').textContent = state.name.slice(0,2).toUpperCase();
+        $('#previewTopic').textContent = state.topic;
+        $('#messagePreview').innerHTML = `${escapeHtml(state.message).replace(/\n/g, '<br>')}<span class="message-link">Dein persönlicher Empfehlungslink</span>`;
+      }
+
+      function escapeHtml(value) { const div = document.createElement('div'); div.textContent = value; return div.innerHTML; }
+
+      function openFunnel(useDraft = false) {
+        if (!useDraft) {
+          Object.assign(state, { step: 1, name: '', phone: '', topic: '', template: 'warm', message: '' });
+          $('#contactName').value = '';
+          $('#contactPhone').value = '';
+          $('#personalMessage').value = '';
+          $$('.topic-card').forEach(el => el.classList.remove('active'));
+          $$('.template-card').forEach(el => el.classList.toggle('active', el.dataset.template === 'warm'));
+        } else loadDraft();
+        renderStep();
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => $('#contactName').focus(), 220);
+      }
+
+      function closeFunnel() { saveDraft(); overlay.classList.remove('open'); overlay.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; toast('Entwurf auf diesem Gerät gespeichert.'); }
+
+      function next() {
+        if (state.step === 1) {
+          state.name = $('#contactName').value.trim(); state.phone = $('#contactPhone').value.trim();
+          const invalid = !state.name;
+          $('#step1Error').classList.toggle('visible', invalid);
+          if (invalid) return;
+        }
+        if (state.step === 2 && !state.topic) { $('#step2Error').classList.add('visible'); return; }
+        if (state.step === 3) state.message = $('#personalMessage').value.trim() || buildMessage();
+        if (state.step < 4) { state.step += 1; saveDraft(); renderStep(); return; }
+        createRecommendation();
+      }
+
+      function createRecommendation() {
+        const card = document.createElement('article');
+        card.className = 'recommendation-card';
+        card.innerHTML = `<div class="rec-top"><div class="avatar">${escapeHtml(state.name.slice(0,2).toUpperCase())}</div><div class="rec-name"><strong>${escapeHtml(state.name)}</strong><span>${escapeHtml(state.topic)} · gerade eben</span></div><span class="pill" data-status>Link erstellt</span></div><div class="timeline"><span class="done">Erstellt</span><span data-sent>Versendet</span><span>Geöffnet</span></div><button class="rec-action" type="button" data-confirm>Versand jetzt bestätigen</button>`;
+        $('#recommendationList').prepend(card);
+        state.pendingCard = card;
+        const count = Number($('#recommendedCount').textContent) + 1;
+        $('#recommendedCount').textContent = count;
+        card.querySelector('[data-confirm]').addEventListener('click', () => showConfirm(card));
+        clearDraft();
+        overlay.classList.remove('open');
+        overlay.setAttribute('aria-hidden','true');
+        showConfirm(card);
+      }
+
+      function showConfirm(card) {
+        state.pendingCard = card;
+        $('#confirmTitle').textContent = `Der Link für ${state.name || card.querySelector('.rec-name strong').textContent} ist erstellt.`;
+        confirmOverlay.classList.add('open');
+        confirmOverlay.setAttribute('aria-hidden','false');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function confirmSent() {
+        const card = state.pendingCard;
+        if (card) {
+          card.querySelector('[data-status]').textContent = 'Versand bestätigt';
+          card.querySelector('[data-status]').classList.add('marine');
+          card.querySelector('[data-sent]').classList.add('done');
+          card.querySelector('[data-confirm]')?.remove();
+          const activity = document.createElement('article');
+          activity.className = 'activity-card';
+          const name = card.querySelector('.rec-name strong').textContent;
+          activity.innerHTML = `<div class="activity-icon">NEU</div><div class="activity-copy"><strong>Empfehlung an ${escapeHtml(name)} versendet</strong><span>Du erfährst hier, sobald der Link geöffnet wird.</span></div><span class="time">gerade</span>`;
+          $('#activityList').prepend(activity);
+        }
+        confirmOverlay.classList.remove('open');
+        confirmOverlay.setAttribute('aria-hidden','true');
+        document.body.style.overflow = '';
+        $('#history').scrollIntoView({behavior:'smooth', block:'start'});
+        toast('Versand bestätigt. Ab jetzt bleibt der Status automatisch aktuell.');
+      }
+
+      $$('.start-funnel').forEach(button => button.addEventListener('click', () => openFunnel(false)));
+      $('#resumeDraft').addEventListener('click', () => openFunnel(true));
+      $('#closeFunnel').addEventListener('click', closeFunnel);
+      $('#nextStep').addEventListener('click', next);
+      $('#saveLater').addEventListener('click', () => { if (state.step > 1) { state.step -= 1; renderStep(); } else closeFunnel(); });
+      $$('.topic-card').forEach(card => card.addEventListener('click', () => { $$('.topic-card').forEach(el => el.classList.remove('active')); card.classList.add('active'); state.topic = card.dataset.topic; $('#step2Error').classList.remove('visible'); saveDraft(); }));
+      $$('.template-card').forEach(card => card.addEventListener('click', () => { $$('.template-card').forEach(el => el.classList.remove('active')); card.classList.add('active'); state.template = card.dataset.template; $('#personalMessage').value = buildMessage(); saveDraft(); }));
+      $('#confirmSent').addEventListener('click', confirmSent);
+      $('#confirmLater').addEventListener('click', () => { confirmOverlay.classList.remove('open'); confirmOverlay.setAttribute('aria-hidden','true'); document.body.style.overflow=''; $('#history').scrollIntoView({behavior:'smooth'}); toast('Im Verlauf gemerkt. Du kannst den Versand später bestätigen.'); });
+      $('#noticeOpen').addEventListener('click', () => { $('#noticePanel').classList.add('open'); $('#noticePanel').setAttribute('aria-hidden','false'); $('#unreadDot').style.display = 'none'; });
+      $('#noticeClose').addEventListener('click', () => { $('#noticePanel').classList.remove('open'); $('#noticePanel').setAttribute('aria-hidden','true'); });
+      $('#noticePanel').addEventListener('click', event => { if (event.target === $('#noticePanel')) $('#noticeClose').click(); });
+      $('#markRead').addEventListener('click', () => { $('#unreadDot').style.display='none'; toast('Alles als gelesen markiert.'); });
+      $('#navHome').addEventListener('click', () => { $('#top').scrollIntoView({behavior:'smooth'}); });
+      $('#navHistory').addEventListener('click', () => { $('#history').scrollIntoView({behavior:'smooth'}); });
+      $('#filterButton').addEventListener('click', () => toast('In der Live-Version öffnet sich hier die vollständige Übersicht.'));
+      $$('#notifyChoices .choice-chip').forEach(chip => chip.addEventListener('click', () => { $$('#notifyChoices .choice-chip').forEach(el => el.classList.remove('active')); chip.classList.add('active'); toast(`Benachrichtigungen: ${chip.textContent}`); }));
+      window.addEventListener('scroll', () => $('#topbar').classList.toggle('scrolled', window.scrollY > 8), {passive:true});
+      overlay.addEventListener('click', event => { if (event.target === overlay) closeFunnel(); });
+      document.addEventListener('keydown', event => { if (event.key === 'Escape') { if (overlay.classList.contains('open')) closeFunnel(); if ($('#noticePanel').classList.contains('open')) $('#noticeClose').click(); } });
+      if (localStorage.getItem(draftKey)) $('#resumeDraft').classList.add('visible');
+    })();
+  </script>
+</body>
+</html>

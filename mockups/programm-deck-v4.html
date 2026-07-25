@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Empfehlungs-Präsentation · Deck-Mock v4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --font-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --font-text:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --font-body:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    --serif:'Fraunces','Times New Roman',serif;
+    --ivory:#FAF8F5; --bg:#FAF8F5; --surface:#FFFCF7; --warm-white:#FFFCF7;
+    --anthracite:#1C1C1E; --deep-black:#0A0A0B; --champagne:#C9B98A; --champagne-dark:#8B7355;
+    --champagne-soft:rgba(201,185,138,.16); --sage:#7A8B6F; --marine:#2E5266;
+    --hairline:rgba(28,28,30,.09); --ink-muted:#6B6660; --muted:#6E6660; --text-muted:#6E6E73;
+    --card:#FFFFFF; --shadow:0 1px 2px rgba(20,18,12,.04),0 18px 50px -22px rgba(28,28,30,.20);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{background:#000;color:var(--anthracite);font-family:var(--font-body);-webkit-font-smoothing:antialiased;overflow:hidden}
+
+  /* Deck-Mechanik */
+  .deck{position:fixed;inset:0}
+  .slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:clamp(36px,5vh,72px) clamp(28px,6vw,120px);text-align:center;background:var(--ivory);
+    opacity:0;visibility:hidden;transform:scale(1.02);
+    transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1),visibility .6s;overflow:auto}
+  .slide.active{opacity:1;visibility:visible;transform:none}
+  .slide-inner{width:100%;max-width:1180px;display:flex;flex-direction:column;align-items:center;margin:auto}
+  .slide.photo{color:#fff}
+  .slide.photo::before{content:"";position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;background-image:var(--bg2)}
+  .slide.photo::after{content:"";position:absolute;inset:0;z-index:1;background:var(--ov,linear-gradient(180deg,rgba(10,10,11,.35),rgba(10,10,11,.72)))}
+  .slide.photo .slide-inner{position:relative;z-index:2}
+  .slide.photo .lede{color:rgba(255,255,255,.9)} .slide.photo .eyebrow{color:var(--champagne)}
+
+  /* Deck-Header-Typo */
+  .eyebrow,.t-eyebrow{font-family:var(--font-text);font-size:clamp(12px,1vw,14px);font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--champagne-dark);margin:0 0 clamp(12px,1.8vh,24px)}
+  h1.big{font-family:var(--serif);font-weight:300;letter-spacing:-.02em;line-height:1.05;font-size:clamp(36px,5vw,78px);color:var(--deep-black)}
+  h1.big em{font-style:italic;color:var(--champagne-dark)} .slide.photo h1.big{color:#fff} .slide.photo h1.big em{color:var(--champagne)}
+  .t-h2{font-family:var(--serif);font-weight:300;font-size:clamp(30px,4.2vw,54px);line-height:1.08;letter-spacing:-.02em;color:var(--deep-black);margin:0}
+  .t-h2 em{font-style:italic;color:var(--champagne-dark)}
+  .lede,.t-lede{margin-top:clamp(12px,2vh,26px);font-size:clamp(16px,1.35vw,23px);color:var(--muted);line-height:1.5;max-width:820px}
+  .t-body{font-size:clamp(15px,1.2vw,19px);color:var(--anthracite);line-height:1.55}
+  .punch{margin-top:clamp(16px,2.4vh,32px);font-size:clamp(18px,1.5vw,27px);font-weight:500;font-family:var(--serif)} .punch em{font-style:italic;color:var(--champagne)}
+  .reveal{opacity:1!important;transform:none!important}
+  .inner{width:100%;margin:0 auto}.inner.wide{max-width:1120px}
+  .section-cta{margin-top:26px}
+  .btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-family:var(--font-body);font-weight:600;font-size:15px;padding:13px 26px;border-radius:12px;cursor:pointer;border:1px solid transparent}
+  .btn-primary{background:var(--champagne-dark);color:#fff} .btn-secondary{background:var(--card);border-color:var(--champagne);color:var(--champagne-dark)}
+
+  /* Nav */
+  .nav-zone{position:fixed;top:0;bottom:0;width:16%;z-index:40;cursor:pointer}.nav-zone.left{left:0}.nav-zone.right{right:0}
+  .dots{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:50;flex-wrap:wrap;max-width:55%;justify-content:center}
+  .dot{width:8px;height:8px;border-radius:50%;background:rgba(140,134,128,.4);transition:.3s;cursor:pointer}.dot.on{background:var(--champagne-dark);width:24px;border-radius:5px}
+  .arrows{position:fixed;bottom:16px;right:24px;display:flex;gap:10px;z-index:50}
+  .arrow{width:50px;height:42px;border:1px solid var(--hairline);background:var(--card);border-radius:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--anthracite);box-shadow:var(--shadow);transition:.2s;font-size:22px}
+  .arrow:hover{transform:translateY(-2px)}.arrow[disabled]{opacity:.35;pointer-events:none}
+  .counter{position:fixed;top:16px;left:24px;z-index:50;font-size:13px;font-weight:700;letter-spacing:.06em;color:#fff;mix-blend-mode:difference}
+  .brand{position:fixed;top:12px;right:24px;z-index:50}.brand-mark{width:34px;height:34px;border-radius:50%;background:var(--champagne);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
+
+  .card{background:var(--card);border:1px solid var(--hairline);border-radius:16px;box-shadow:var(--shadow)}
+  .glass{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(6px);border-radius:16px}
+  .ghost-btn{margin-top:22px;display:inline-flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--champagne);color:var(--champagne-dark);font-weight:600;font-size:15px;padding:12px 22px;border-radius:12px;cursor:pointer;box-shadow:var(--shadow);font-family:var(--font-body)}
+  .ghost-btn:hover{background:var(--champagne-soft)}
+
+  /* NPS + split + mehrwert + rechner (Deck-eigene) */
+  .split{display:flex;align-items:center;gap:clamp(28px,4vw,60px);text-align:left;width:100%}.split .txt{flex:1}
+  .split .shot{width:clamp(210px,23vw,360px);height:clamp(270px,29vw,460px);border-radius:22px;object-fit:cover;flex:none;box-shadow:var(--shadow)}
+  .split .team{width:clamp(320px,42vw,600px);max-height:62vh;border-radius:18px;object-fit:contain;background:#EEE9E0;flex:none;box-shadow:var(--shadow)}
+  @media(max-width:820px){.split{flex-direction:column;text-align:center}}
+  .nps{display:flex;gap:clamp(5px,.6vw,10px);margin-top:clamp(16px,2.4vh,30px);flex-wrap:wrap}
+  .nps button{width:clamp(44px,4vw,66px);height:clamp(44px,4vw,66px);border-radius:14px;border:1px solid var(--hairline);background:var(--card);font-size:clamp(16px,1.3vw,21px);font-weight:600;cursor:pointer;transition:.18s;color:var(--anthracite)}
+  .nps button:hover{border-color:var(--champagne);transform:translateY(-3px)}.nps button.sel{background:var(--champagne-dark);color:#fff;border-color:var(--champagne-dark)}
+  .nps-labels{display:flex;justify-content:space-between;width:100%;margin-top:10px;font-size:13px;color:var(--muted)}
+  .mehrwert{width:100%;max-width:760px;margin-top:clamp(16px,2.4vh,32px);display:flex;flex-direction:column;gap:12px}
+  .mw-row{display:flex;align-items:center;gap:16px;background:var(--card);border:1px solid var(--hairline);border-radius:14px;padding:4px 4px 4px 20px;box-shadow:var(--shadow)}
+  .mw-num{width:34px;height:34px;flex:none;border-radius:50%;background:var(--champagne-soft);color:var(--champagne-dark);font-weight:700;display:flex;align-items:center;justify-content:center}
+  .mw-in{flex:1;padding:15px 8px;font-size:clamp(16px,1.3vw,20px);font-family:var(--font-body);border:none;outline:none;background:transparent;color:var(--anthracite)}.mw-in::placeholder{color:#B7B2AA}
+  .calc{margin-top:clamp(14px,2vh,28px);display:grid;grid-template-columns:1fr 1.1fr;gap:20px;width:100%;max-width:1000px;text-align:left}
+  .calc .panel{padding:24px 26px}.calc label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin:14px 0 7px}.calc label:first-child{margin-top:0}
+  .calc input[type=range]{width:100%;accent-color:var(--champagne-dark)}
+  .seg{display:flex;gap:8px;flex-wrap:wrap}.seg button{padding:9px 15px;border-radius:10px;border:1px solid var(--hairline);background:var(--ivory);font-weight:600;cursor:pointer;font-size:14px;color:var(--anthracite)}
+  .seg button.on{background:var(--champagne-dark);color:#fff;border-color:var(--champagne-dark)}.rval{font-weight:700;color:var(--anthracite)}
+  .result{background:linear-gradient(155deg,#FFFDF9,#F1E7D2);padding:24px 26px;display:flex;flex-direction:column}
+  .result .rlabel{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--champagne-dark)}
+  .rlist{list-style:none;margin:14px 0 0;display:flex;flex-direction:column;gap:11px}.rlist li{display:flex;align-items:baseline;gap:10px;font-size:15px}
+  .rlist li .cg{color:var(--sage);font-weight:800;flex:none}.rlist li b{margin-left:auto;font-weight:700;color:var(--deep-black);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .rsum{margin-top:16px;padding-top:14px;border-top:1px dashed var(--hairline);display:flex;align-items:baseline;justify-content:space-between}.rsum span{font-size:13px;color:var(--muted)}.rsum b{font-family:var(--serif);font-style:italic;font-size:clamp(22px,2vw,30px);color:var(--deep-black)}
+  .rnote{margin-top:10px;font-size:12px;color:var(--muted);line-height:1.4}
+  .tpoints{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:clamp(20px,3vh,38px);width:100%;max-width:980px;text-align:left}
+  .tp{padding:22px}.tp .chk{width:32px;height:32px;border-radius:50%;background:var(--sage);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;margin-bottom:12px}
+  .tp b{display:block;font-size:clamp(16px,1.2vw,19px);margin-bottom:6px;color:#fff}.tp span{font-size:14px;color:rgba(255,255,255,.85);line-height:1.5}
+  .cta-btn{margin-top:clamp(20px,3vh,38px);background:var(--champagne);color:#1C1C1E;border:none;padding:19px 44px;border-radius:14px;font-size:clamp(17px,1.4vw,22px);font-weight:700;font-family:var(--font-body);cursor:pointer;box-shadow:0 12px 30px rgba(0,0,0,.3)}
+  .next-hint{margin-top:18px;display:inline-flex;align-items:center;gap:10px;font-size:14px;color:#fff;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:10px 18px}.next-hint .ph{font-size:17px}
+
+  /* ============ ORIGINAL-KOMPONENTEN (1:1) ============ */
+
+  /* --- Alltag --- */
+  .alltag-quotes{display:grid;gap:16px;margin:0 auto;max-width:1080px;width:100%}
+  .alltag-quotes-standard{grid-template-columns:repeat(3,1fr)}
+  .alltag-quotes-hero{grid-template-columns:repeat(2,1fr);margin-top:16px}
+  @media(max-width:900px){.alltag-quotes-standard{grid-template-columns:repeat(2,1fr)}.alltag-quotes-hero{grid-template-columns:1fr}}
+  .alltag-quote{position:relative;isolation:isolate;font-family:var(--font-display);font-style:italic;font-weight:400;font-size:clamp(18px,2.2vw,24px);line-height:1.3;color:#fff;background-color:#1A1A1A;background-size:cover;background-position:center;background-repeat:no-repeat;border:0;border-radius:14px;padding:34px 24px;min-height:150px;display:flex;align-items:flex-end;text-align:left;letter-spacing:-.008em;box-shadow:0 12px 30px rgba(0,0,0,.14);overflow:hidden;transition:transform .28s cubic-bezier(.22,1,.36,1),box-shadow .28s ease}
+  .alltag-quote::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.10) 0%,rgba(0,0,0,.45) 55%,rgba(0,0,0,.78) 100%);z-index:-1}
+  .alltag-quote:hover{transform:translateY(-3px);box-shadow:0 20px 44px rgba(0,0,0,.22)}
+  .alltag-quote[data-mood="restaurant"]{background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900&q=80&auto=format&fit=crop')}
+  .alltag-quote[data-mood="film"]{background-image:url('https://images.unsplash.com/photo-1485846234645-a62644f84728?w=900&q=80&auto=format&fit=crop')}
+  .alltag-quote[data-mood="handwerker"]{background-image:url('https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=900&q=80&auto=format&fit=crop')}
+  .alltag-quote[data-mood="baecker"]{background-image:url('https://images.unsplash.com/photo-1509440159596-0249088772ff?w=900&q=80&auto=format&fit=crop')}
+  .alltag-quote[data-mood="arzt"]{background-image:url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=900&q=80&auto=format&fit=crop')}
+  .alltag-quote[data-mood="buch"]{background-image:url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=900&q=80&auto=format&fit=crop')}
+  .alltag-quote.alltag-quote-hero{border:1px solid rgba(255,255,255,.18);flex-direction:column;align-items:flex-start;justify-content:space-between;text-align:left;padding:26px 26px;min-height:200px;isolation:auto;position:relative;overflow:hidden}
+  .alltag-quote.alltag-quote-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(120% 60% at 0% 0%,rgba(255,255,255,.22) 0%,rgba(255,255,255,0) 50%),radial-gradient(80% 70% at 100% 100%,rgba(0,0,0,.18) 0%,rgba(0,0,0,0) 60%);z-index:0;pointer-events:none}
+  .alltag-quote.alltag-quote-hero>*{position:relative;z-index:1}
+  .alltag-quote-hero-gold{background-image:linear-gradient(135deg,#C9B98A 0%,#B8A570 60%,#A28A52 100%);color:#1A1A1A;box-shadow:0 0 0 1px rgba(184,165,112,.40),0 18px 40px rgba(184,165,112,.32),0 28px 60px rgba(0,0,0,.18)}
+  .alltag-quote-hero-marine{background-image:linear-gradient(135deg,#3E6A82 0%,#2E5266 55%,#1E3A4C 100%);color:#FAF8F5;box-shadow:0 0 0 1px rgba(46,82,102,.50),0 18px 40px rgba(46,82,102,.34),0 28px 60px rgba(0,0,0,.22)}
+  .alltag-quote.alltag-quote-hero.alltag-flip{padding:0;cursor:pointer;outline:none;perspective:1200px}
+  .alltag-flip-inner{position:relative;width:100%;height:100%;min-height:200px;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.32,.72,.4,1)}
+  .alltag-flip.flipped .alltag-flip-inner{transform:rotateY(180deg)}
+  .alltag-face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;padding:26px 26px}
+  .alltag-back{transform:rotateY(180deg);justify-content:flex-start;gap:14px}
+  .alltag-flip-hint{font-family:var(--font-text);font-size:12.5px;font-weight:600;color:rgba(244,228,184,.92)}
+  .alltag-perspektive{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+  .alltag-perspektive li{position:relative;padding-left:26px;font-family:var(--font-text);font-size:15px;font-weight:500;line-height:1.35;color:#FAF8F5}
+  .alltag-perspektive li::before{content:'✓';position:absolute;left:0;top:0;color:#F4E4B8;font-weight:700}
+  .alltag-quote-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(26,26,26,.18);backdrop-filter:blur(6px);color:#2A1F0A;font-family:var(--font-text);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:5px 11px;border-radius:999px;margin-bottom:12px;font-style:normal}
+  .alltag-quote-badge::before{content:'★';font-size:11px;font-style:normal}
+  .alltag-quote-text{font-family:var(--font-display);font-style:italic;font-weight:500;font-size:clamp(21px,2.6vw,27px);line-height:1.2;letter-spacing:-.012em;display:block}
+  .alltag-quote-hero-gold .alltag-quote-text{color:#1A1A1A}.alltag-quote-hero-gold .alltag-quote-text em{font-style:italic;font-weight:700;color:#2A1F0A}
+  .alltag-quote-hero-gold .alltag-quote-tipp-value{border-top:1px solid rgba(26,26,26,.18);color:rgba(26,26,26,.78)}.alltag-quote-hero-gold .alltag-quote-tipp-value strong{color:#2A1F0A}
+  .alltag-quote-hero-marine .alltag-quote-text{color:#FAF8F5}.alltag-quote-hero-marine .alltag-quote-text em{font-style:italic;font-weight:700;color:#F4E4B8}
+  .alltag-quote-tipp-value{display:block;margin-top:14px;padding-top:14px;font-family:var(--font-text);font-style:normal;font-size:13px;font-weight:500;line-height:1.4}
+  .alltag-quote-tipp-value strong{display:inline-block;font-family:var(--font-display);font-style:normal;font-weight:700;font-size:clamp(18px,2vw,24px);letter-spacing:-.022em;margin:0 2px;font-variant-numeric:tabular-nums;vertical-align:-2px}
+  .alltag-status{display:inline-flex;align-items:center;gap:8px;background:rgba(250,248,245,.16);color:#FAF8F5;font-family:var(--font-text);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px 5px 10px;border-radius:999px;margin-bottom:12px;font-style:normal}
+  .alltag-status-dot{width:8px;height:8px;border-radius:50%;background:#7FD18C;flex:0 0 8px;animation:alltagStatusPulse 2.2s ease-out infinite}
+  @keyframes alltagStatusPulse{0%{box-shadow:0 0 0 0 rgba(127,209,140,.55)}70%{box-shadow:0 0 0 7px rgba(127,209,140,0)}100%{box-shadow:0 0 0 0 rgba(127,209,140,0)}}
+  .alltag-front-body{display:flex;flex-direction:column}
+  .alltag-tagline{display:block;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.20);font-family:var(--font-text);font-style:normal;font-weight:600;font-size:14px;line-height:1.4;color:#F4E4B8}
+
+  /* --- WhatsApp --- */
+  .wa-mockup{margin-top:14px;background:#E5DDD5;border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(20,18,12,.10)}
+  .wa-mockup-head{background:#075E54;color:#fff;padding:10px 12px;display:flex;align-items:center;gap:10px}
+  .wa-mockup-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#25D366 0%,#128C7E 100%);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-family:var(--font-text);font-weight:700;font-size:13px;flex-shrink:0}
+  .wa-mockup-meta{display:flex;flex-direction:column;gap:1px}
+  .wa-mockup-name{font-family:var(--font-text);font-size:13px;font-weight:600;color:#fff;line-height:1.2}
+  .wa-mockup-status{font-family:var(--font-text);font-size:11px;color:rgba(255,255,255,.75);display:inline-flex;align-items:center;gap:5px}
+  .wa-mockup-dot{width:6px;height:6px;border-radius:50%;background:#4ADE80;animation:wa-pulse 1.8s ease-in-out infinite}
+  @keyframes wa-pulse{0%,100%{opacity:1}50%{opacity:.5}}
+  .wa-mockup-body{background:radial-gradient(circle at 20% 30%,rgba(7,94,84,.04) 0,transparent 50%),radial-gradient(circle at 80% 70%,rgba(7,94,84,.04) 0,transparent 50%),#E5DDD5;padding:14px 12px 18px;min-height:100px;display:flex;flex-direction:column;justify-content:flex-end}
+  .wa-mockup-bubble{background:#DCF8C6;border-radius:8px 8px 2px 8px;padding:8px 10px 5px;max-width:88%;align-self:flex-end;font-family:var(--font-text);font-size:13px;line-height:1.45;color:#111B21;letter-spacing:-.005em;box-shadow:0 1px .5px rgba(11,20,26,.13);position:relative;word-wrap:break-word}
+  .wa-mockup-bubble strong{font-weight:700;color:#111B21}
+  .wa-mockup-link{color:#027EB5;text-decoration:underline;text-underline-offset:2px;word-break:break-all}
+  .wa-mockup-time{display:inline-flex;align-items:center;gap:3px;float:right;margin-top:4px;margin-left:8px;font-size:10.5px;color:rgba(17,27,33,.55)}
+  .wa-mockup-check{color:#34B7F1;font-weight:700;letter-spacing:-1px}
+  /* iPhone-Rahmen um WhatsApp */
+  .iphone{width:300px;max-width:82vw;margin:6px auto 0;background:#0b0b0d;border-radius:44px;padding:11px;box-shadow:0 30px 60px -20px rgba(0,0,0,.5),0 0 0 2px #2a2a2e}
+  .iphone .screen{background:#E5DDD5;border-radius:34px;overflow:hidden;position:relative}
+  .iphone .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:26px;background:#0b0b0d;border-radius:0 0 16px 16px;z-index:5}
+  .iphone .wa-mockup{margin:0;border-radius:0;box-shadow:none}
+  .iphone .wa-mockup-head{padding-top:30px}
+
+  /* --- Themen --- */
+  .topics-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:28px auto 0;width:100%;max-width:1100px}
+  @media(min-width:960px){.topics-grid{grid-template-columns:1fr 1fr 1fr 1fr}}
+  .topic-flip{display:block;position:relative;background:transparent;border:0;padding:0;height:190px;perspective:1200px;cursor:pointer;outline:none}
+  .topic-card-inner{position:absolute;inset:0;transition:transform .6s cubic-bezier(.32,.72,.4,1);transform-style:preserve-3d}
+  .topic-flip.flipped .topic-card-inner{transform:rotateY(180deg)}
+  .topic-face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;border:1px solid var(--hairline);border-radius:14px;padding:18px 16px;display:flex;flex-direction:column;gap:8px;overflow:hidden;text-align:left}
+  .topic-front{background:var(--bg)}.topic-back{background:#fff;transform:rotateY(180deg);gap:8px}
+  .topic-icon{width:48px;height:48px;border-radius:12px;background:rgba(201,185,138,.12);border:1px solid rgba(201,185,138,.22);color:#8B7355;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+  .topic-icon svg{width:26px;height:26px;stroke-width:1.8;display:block}
+  .topic-title{font-family:var(--font-display);font-size:17px;font-weight:700;letter-spacing:-.015em;color:var(--anthracite);margin:0;line-height:1.25}
+  .topic-sub{font-family:var(--font-text);font-size:13px;line-height:1.4;color:var(--ink-muted);margin:0}
+  .topic-flip-hint{margin-top:auto;font-family:var(--font-text);font-size:12px;font-weight:600;color:var(--champagne)}
+  .topic-back-title{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--anthracite);margin:0}
+  .topic-back-sub{font-family:var(--font-text);font-size:12px;line-height:1.4;color:var(--ink-muted);margin:0}
+  .topic-vorteile{list-style:none;margin:2px 0 0;padding:0;display:flex;flex-direction:column;gap:5px}
+  .topic-vorteile li{position:relative;padding-left:18px;font-family:var(--font-text);font-size:12px;font-weight:500;color:var(--anthracite);line-height:1.25}
+  .topic-vorteile li::before{content:'✓';position:absolute;left:0;top:0;color:var(--sage);font-weight:700}
+  .topic-flip{--topic-color:#C9B98A}
+  .topic-flip[data-slug="baufi"]{--topic-color:#9C8D5C}.topic-flip[data-slug="foerderungen"]{--topic-color:#C8A85A}.topic-flip[data-slug="selbstaendige"]{--topic-color:#2E5266}.topic-flip[data-slug="investment"]{--topic-color:#7A8B6F}.topic-flip[data-slug="absicherung"]{--topic-color:#C28447}.topic-flip[data-slug="karriere"]{--topic-color:#4F6045}.topic-flip[data-slug="allgemein"]{--topic-color:#C9B98A}
+  .topic-flip .topic-front{background:color-mix(in srgb,var(--topic-color) 6%,var(--bg));border-top:2px solid var(--topic-color)}
+  .topic-flip .topic-icon{background:color-mix(in srgb,var(--topic-color) 14%,transparent)!important;border-color:color-mix(in srgb,var(--topic-color) 28%,transparent);color:var(--topic-color)}
+  .topic-flip .topic-title{color:color-mix(in srgb,var(--topic-color) 78%,#1A1A1A)}
+  .topic-flip:hover .topic-face{border-color:color-mix(in srgb,var(--topic-color) 40%,transparent);box-shadow:0 12px 32px color-mix(in srgb,var(--topic-color) 16%,transparent)}
+
+  /* --- Belohnungen kurz --- */
+  .rewshort{width:100%;max-width:760px;margin-top:clamp(14px,2.2vh,28px);padding:28px;text-align:center}
+  .rewchips-mini{display:flex;gap:12px;justify-content:center;margin:16px 0;flex-wrap:wrap}
+  .rewchip-mini{background:var(--ivory);border:1px solid var(--hairline);border-radius:12px;padding:14px 20px;font-weight:600;font-size:15px}.rewchip-mini .ic{font-size:22px;display:block;margin-bottom:5px}
+  .prodrow-mini{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:8px}
+  .prodcard-mini{border-radius:14px;overflow:hidden;box-shadow:var(--shadow);background:var(--card);border:1px solid var(--hairline)}
+  .prodcard-mini .pic{height:88px;background-size:cover;background-position:center}.prodcard-mini .cap{padding:10px 12px;font-size:13px}.prodcard-mini .cap b{display:block;font-size:14px}
+  .rewfull{margin-top:22px;width:100%;max-width:1100px;text-align:left;display:none}.rewfull.open{display:block}
+
+  /* --- Belohnungen ausführlich (Original) --- */
+  .rewards-explain{max-width:760px;margin:0 auto 8px}
+  .rewards-explain-card{display:flex;gap:14px;align-items:flex-start;background:rgba(201,185,138,.08);border:1px solid rgba(201,185,138,.28);border-radius:16px;padding:20px 22px}
+  .rewards-explain-icon{font-size:22px;color:var(--champagne-dark);font-weight:700}
+  .rewards-explain-card p{margin:0;font-family:var(--font-text);font-size:15px;line-height:1.55;color:var(--anthracite)}
+  .rewards-explain-note{display:block;margin-top:8px;padding-top:8px;border-top:1px dashed rgba(201,185,138,.25);font-size:13px;font-style:italic;color:var(--ink-muted)}
+  .rewards-roadmap{position:relative;margin:26px 0 8px;padding:24px 0 48px;overflow-x:hidden}
+  .roadmap-line{position:absolute;left:4%;right:4%;top:50%;height:2px;background:linear-gradient(90deg,rgba(201,185,138,0) 0%,rgba(201,185,138,.45) 10%,rgba(201,185,138,.45) 90%,rgba(201,185,138,0) 100%);transform:translateY(-50%);pointer-events:none}
+  .roadmap-stufen{display:grid;grid-template-columns:repeat(15,1fr);gap:4px;width:100%;padding:0;position:relative;z-index:1}
+  .roadmap-stufe{position:relative;background:transparent;border:none;padding:0;cursor:default;display:flex;flex-direction:column;align-items:center;font-family:var(--font-text);color:inherit}
+  .roadmap-stufe.premium{cursor:pointer}
+  .roadmap-num{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;font-family:var(--font-display);font-weight:700;line-height:1;transition:transform .22s,box-shadow .22s}
+  .roadmap-stufe.premium .roadmap-num{width:32px;height:32px;background:linear-gradient(135deg,#C9B98A 0%,#A89070 100%);color:#1A1A1A;font-size:13px;box-shadow:0 4px 14px rgba(201,185,138,.35),0 0 0 4px rgba(201,185,138,.10)}
+  .roadmap-stufe.premium:hover .roadmap-num{transform:scale(1.12);box-shadow:0 6px 18px rgba(201,185,138,.5),0 0 0 6px rgba(201,185,138,.18)}
+  .roadmap-stufe.standard .roadmap-num{width:14px;height:14px;background:var(--surface);border:1.5px solid rgba(201,185,138,.45);color:rgba(201,185,138,.7);font-size:0;margin-top:9px}
+  .roadmap-reward-label{display:block;margin-top:5px;font-family:var(--font-text);font-size:9px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);text-align:center;max-width:46px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .reward-mode-switch{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px auto 28px;max-width:1100px}
+  @media(max-width:820px){.reward-mode-switch{grid-template-columns:1fr 1fr}}
+  .reward-mode-chip{background:var(--bg);border:1px solid var(--hairline);border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:14px;text-align:left;cursor:pointer;font-family:var(--font-text);color:var(--anthracite);transition:.22s}
+  .reward-mode-chip:hover{background:rgba(201,185,138,.06);border-color:rgba(201,185,138,.3);transform:translateY(-1px)}
+  .reward-mode-chip.active{background:linear-gradient(180deg,rgba(201,185,138,.16),rgba(201,185,138,.08));border-color:rgba(201,185,138,.5);box-shadow:0 6px 18px rgba(201,185,138,.18),0 0 0 1px rgba(201,185,138,.25)}
+  .reward-mode-icon{width:44px;height:44px;border-radius:12px;background:rgba(201,185,138,.12);border:1px solid rgba(201,185,138,.22);color:#8B7355;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+  .reward-mode-icon svg{width:22px;height:22px;stroke-width:1.8;display:block}
+  .reward-mode-chip.active .reward-mode-icon{background:rgba(201,185,138,.25);border-color:rgba(201,185,138,.5)}
+  .reward-mode-label{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .reward-mode-label strong{font-family:var(--font-display);font-size:15px;font-weight:700;line-height:1.25}
+  .reward-mode-label span{font-family:var(--font-text);font-size:12.5px;color:var(--ink-muted);line-height:1.4}
+  .reward-gallery{display:flex;flex-direction:column;gap:16px;margin-top:8px}
+  .reward-gallery .reward{background:var(--surface);border:1px solid var(--hairline);border-radius:16px;padding:20px;display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:center;position:relative;transition:.25s}
+  @media(min-width:720px){.reward-gallery .reward{grid-template-columns:150px 1fr;padding:24px 28px;gap:30px}.reward-gallery .reward:nth-child(even){grid-template-columns:1fr 150px}.reward-gallery .reward:nth-child(even) .reward-img{order:2}.reward-gallery .reward:nth-child(even) .reward-body{order:1}}
+  .reward-gallery .reward:hover{transform:translateY(-3px);box-shadow:0 28px 60px -22px rgba(28,28,30,.18)}
+  .reward-gallery .reward.highlight{background:linear-gradient(180deg,rgba(201,185,138,.10) 0%,rgba(255,255,255,0) 70%),var(--surface);border-color:rgba(201,185,138,.4)}
+  .reward-gallery .reward.highlight::before{content:'Top-Belohnung';position:absolute;top:16px;right:24px;font-family:var(--font-body);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8B7355;background:rgba(201,185,138,.15);padding:4px 10px;border-radius:999px}
+  .reward-gallery .reward-img{width:120px;height:120px;border-radius:12px;object-fit:cover;display:block}
+  @media(min-width:720px){.reward-gallery .reward-img{width:150px;height:150px}}
+  .reward-gallery .reward-body{display:flex;flex-direction:column;gap:8px}
+  .reward-gallery .reward-body h3{font-family:var(--font-display);font-weight:600;font-size:20px;letter-spacing:-.018em;line-height:1.25;color:var(--anthracite);margin:0}
+  @media(min-width:720px){.reward-gallery .reward-body h3{font-size:22px}}
+  .reward-meta{font-family:var(--font-text);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--champagne)}
+  .reward-gallery .reward-body p{font-family:var(--font-text);font-size:14.5px;line-height:1.6;color:var(--ink-muted);margin:0}
+  .reward-gallery .reward-body .wert{display:inline-block;margin-top:4px;font-family:var(--font-text);font-size:12.5px;font-weight:600;color:var(--anthracite);background:rgba(201,185,138,.12);padding:4px 10px;border-radius:999px;width:max-content}
+  .reward-gallery .reward-bonus{background:rgba(250,248,245,.7)}.reward-gallery .reward-bonus h3{font-weight:500}
+  .rewards-total-card{margin:40px auto 0;max-width:720px;padding:34px 30px;background:linear-gradient(180deg,rgba(201,185,138,.10),rgba(201,185,138,.03));border:1px solid rgba(201,185,138,.32);border-radius:22px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;box-shadow:0 12px 40px rgba(201,185,138,.12);position:relative;overflow:hidden}
+  .rewards-total-eyebrow{font-family:var(--font-text);font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#8B7355}
+  .rewards-total-value{font-family:var(--font-display);font-size:clamp(38px,6vw,60px);font-weight:800;letter-spacing:-.035em;line-height:1.05;color:var(--anthracite);font-variant-numeric:tabular-nums}
+  .rewards-total-sub{font-family:var(--font-text);font-size:14px;color:var(--ink-muted);line-height:1.5;max-width:540px}
+
+  /* --- Testimonials --- */
+  .testimonials-meta{display:flex;align-items:center;justify-content:center;gap:14px;margin:clamp(16px,2.4vh,32px) auto 0;flex-wrap:wrap}
+  .stars-mini{font-size:22px;letter-spacing:.04em;color:#E8B842;line-height:1}
+  .testimonials-meta-text{font-family:var(--font-text);font-size:14px;color:var(--ink-muted)}.testimonials-meta-text strong{font-weight:700;color:var(--anthracite)}
+  .testimonials-marquee{margin-top:36px;overflow:hidden;position:relative;width:100vw;max-width:100vw;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 4%,#000 96%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0%,#000 4%,#000 96%,transparent 100%)}
+  .testimonials-track{display:flex;gap:20px;width:max-content;animation:tscroll 55s linear infinite}
+  .testimonials-marquee:hover .testimonials-track{animation-play-state:paused}
+  @keyframes tscroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  .testimonials-track-reverse{animation:tscroll-rev 50s linear infinite}
+  @keyframes tscroll-rev{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
+  .testimonial-card{flex:0 0 auto;width:clamp(280px,80vw,360px);background:var(--surface);border:1px solid var(--hairline);border-radius:14px;padding:24px 22px;display:flex;flex-direction:column;gap:14px;box-shadow:0 1px 3px rgba(20,18,12,.04);text-align:left}
+  .testimonial-stars{font-size:16px;letter-spacing:.06em;color:#E8B842;line-height:1}
+  .testimonial-quote{font-family:var(--font-display);font-size:15.5px;font-weight:500;line-height:1.5;color:var(--anthracite);margin:0;flex:1}
+  .testimonial-author{display:flex;align-items:center;gap:12px;padding-top:14px;border-top:1px solid var(--hairline)}
+  .testimonial-avatar{width:38px;height:38px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-family:var(--font-text);font-weight:700;font-size:13px;color:#1A1A1A;flex-shrink:0}
+  .testimonial-avatar[data-color="champagne"]{background:linear-gradient(135deg,#C9B98A,#A89070)}.testimonial-avatar[data-color="sage"]{background:linear-gradient(135deg,#7A8B6F,#5F7256);color:#fff}.testimonial-avatar[data-color="terracotta"]{background:linear-gradient(135deg,#C28447,#A06832);color:#fff}.testimonial-avatar[data-color="marine"]{background:linear-gradient(135deg,#2E5266,#1F3A47);color:#fff}
+  .testimonial-author-text{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .testimonial-name{font-family:var(--font-display);font-size:14px;font-weight:700;color:var(--anthracite);line-height:1.2}
+  .testimonial-context{font-family:var(--font-text);font-size:12px;color:var(--ink-muted)}
+
+  .faq{margin-top:clamp(14px,2.2vh,30px);width:100%;max-width:820px;text-align:left;display:flex;flex-direction:column;gap:11px}
+  .faq .fi{padding:18px 24px}.faq .fq{font-weight:600;font-size:clamp(16px,1.2vw,19px)}.faq .fa{font-size:15px;color:var(--muted);margin-top:7px;line-height:1.55}
+
+  /* Marktfolie Overlay */
+  .market{position:fixed;inset:0;z-index:80;background:radial-gradient(circle at 50% 45%,#FFFDF8,#F3ECDD);display:none;flex-direction:column;align-items:center;justify-content:center;padding:40px}
+  .market.open{display:flex}
+  .market .mhead{position:absolute;top:24px;left:50%;transform:translateX(-50%);font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--champagne-dark);font-weight:600}
+  .market .close{position:absolute;top:18px;right:24px;width:44px;height:44px;border-radius:50%;border:1px solid var(--hairline);background:#fff;font-size:22px;cursor:pointer;box-shadow:var(--shadow)}
+  .orbit{position:relative;width:min(88vw,980px);height:min(80vh,720px)}
+  .orbit .center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:clamp(140px,16vw,200px);height:clamp(140px,16vw,200px);border-radius:50%;border:2px solid var(--champagne);background:radial-gradient(circle,#fff,#FBF4E4);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 20px 50px -18px rgba(201,185,138,.6);z-index:3}
+  .orbit .center b{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(20px,2vw,30px);color:var(--champagne-dark);line-height:1.1}
+  .orbit .center small{margin-top:8px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .orbit .node{position:absolute;transform:translate(-50%,-50%);width:clamp(104px,11vw,142px);height:clamp(104px,11vw,142px);border-radius:50%;background:rgba(255,255,255,.72);border:1px solid var(--hairline);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px;box-shadow:var(--shadow);z-index:2}
+  .orbit .node .ni{color:var(--champagne-dark);margin-bottom:4px}.orbit .node .ni svg{width:22px;height:22px}
+  .orbit .node b{font-size:clamp(11px,1vw,13.5px);color:var(--anthracite);line-height:1.15}.orbit .node small{font-size:9.5px;color:var(--muted);margin-top:2px;line-height:1.2}
+  .orbit svg.lines{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}.orbit svg.lines line{stroke:var(--champagne);stroke-width:1;stroke-dasharray:3 5;opacity:.5}
+  .market .mfoot{position:absolute;bottom:24px;left:50%;transform:translateX(-50%)}
+  .mfoot a{display:inline-flex;align-items:center;gap:8px;background:var(--champagne-dark);color:#fff;text-decoration:none;font-weight:600;font-size:14px;padding:12px 22px;border-radius:12px;box-shadow:var(--shadow)}
+
+  @media(max-width:820px){.calc,.tpoints{grid-template-columns:1fr}.prodrow-mini{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+
+<div class="counter"><span id="cur">1</span> / <span id="tot">13</span></div>
+<div class="brand"><div class="brand-mark">KB</div></div>
+<div class="deck" id="deck">
+
+  <!-- 1 NPS -->
+  <section class="slide"><div class="slide-inner"><div class="split"><div class="txt">
+    <p class="eyebrow">Eine kurze Frage vorweg</p>
+    <h1 class="big">Wie <em>zufrieden</em><br>bist du?</h1>
+    <p class="lede">Mit unserer Zusammenarbeit. Klick eine Zahl an – sei ehrlich.</p>
+    <div class="nps" id="nps"></div><div class="nps-labels"><span>Gar nicht</span><span>Total zufrieden</span></div>
+  </div><img class="shot" src="https://empfehlungsportal.vercel.app/assets/images/kai-portrait.jpg" alt="Kai"></div></div></section>
+
+  <!-- 2 Mehrwert -->
+  <section class="slide"><div class="slide-inner">
+    <p class="eyebrow">Jetzt mal du</p><h1 class="big">Welchen <em>Mehrwert</em><br>hast du durch mich?</h1>
+    <p class="lede">Klick in die Felder – ich schreibe live mit.</p>
+    <div class="mehrwert">
+      <div class="mw-row"><span class="mw-num">1</span><input class="mw-in" placeholder="z. B. „Endlich Überblick über meine Verträge“"></div>
+      <div class="mw-row"><span class="mw-num">2</span><input class="mw-in" placeholder="z. B. „Ich spare jetzt, ohne es zu merken“"></div>
+      <div class="mw-row"><span class="mw-num">3</span><input class="mw-in" placeholder="z. B. „Endlich jemand, der mitdenkt“"></div>
+    </div></div></section>
+
+  <!-- 3 Partner -->
+  <section class="slide"><div class="slide-inner"><div class="split"><div class="txt">
+    <p class="eyebrow">Wir als Team</p><h1 class="big">Kein Berater.<br><em>Ein Partner</em><br>für alles.</h1>
+    <p class="lede">Für alles rund ums Geld – ein Ansprechpartner, ein Leben lang. Strategie statt Einzelprodukte.</p>
+    <button class="ghost-btn" onclick="openMarket()">▸ Marktüberblick zeigen</button>
+  </div><img class="team" src="https://empfehlungsportal.vercel.app/assets/images/programm/teamwork.jpg" alt="Team"></div></div></section>
+
+  <!-- 4 Angebot -->
+  <section class="slide photo" style="--bg2:url('https://empfehlungsportal.vercel.app/assets/images/praesentation/s5-leben.jpg')"><div class="slide-inner">
+    <p class="eyebrow">Und deshalb</p><h1 class="big">Du bist <em>zufrieden</em>?</h1>
+    <p class="lede">Dann mache ich es dir jetzt maximal leicht, mich weiterzugeben – an die Menschen, die du im Kopf hast.</p></div></section>
+
+  <!-- 5 Rechner -->
+  <section class="slide"><div class="slide-inner">
+    <p class="eyebrow">Das Schönste daran</p><h1 class="big">Du tust <em>deinem Freund</em> etwas Gutes.</h1>
+    <p class="lede">Diese Vorteile stehen ihm zu – er muss sie nur abrufen. Sag mir grob, wen du im Kopf hast.</p>
+    <div class="calc">
+      <div class="card panel">
+        <label>Ungefähres Alter: <span class="rval" id="cAlterV">35</span> Jahre</label><input type="range" min="20" max="60" value="35" id="cAlter">
+        <label>Lebenssituation</label><div class="seg" id="cFam"><button class="on" data-v="single">Single</button><button data-v="familie">Familie / Kinder</button><button data-v="immo">Eigenheim geplant</button></div>
+        <label>Angestellt mit Arbeitgeber-Leistungen?</label><div class="seg" id="cJob"><button class="on" data-v="1">Ja</button><button data-v="0">Eher nicht</button></div>
+      </div>
+      <div class="card result"><span class="rlabel">Das steht deinem Freund zu</span><ul class="rlist" id="rlist"></ul>
+        <div class="rsum"><span>Zusammen im Jahr oft</span><b id="rsum">vierstellig</b></div>
+        <p class="rnote">Richtwerte, je nach Voraussetzung – im persönlichen Gespräch prüfen wir, was wirklich für ihn drin ist.</p>
+      </div></div></div></section>
+
+  <!-- 6 Alltag (ORIGINAL 1:1) -->
+  <section class="slide"><div class="slide-inner"><div class="inner">
+    <p class="t-eyebrow" style="text-align:center">Was wir alle tun</p>
+    <h2 class="t-h2" style="text-align:center">Empfehlen gehört<br>zum <em>Alltag</em>.</h2>
+    <p class="t-lede" style="text-align:center;margin:14px auto 24px;max-width:600px">Wir tun es jeden Tag, ohne lang darüber nachzudenken:</p>
+    <div class="alltag-quotes alltag-quotes-standard">
+      <div class="alltag-quote" data-mood="restaurant">„Geh in das eine Restaurant."</div>
+      <div class="alltag-quote" data-mood="film">„Schau diesen Film."</div>
+      <div class="alltag-quote" data-mood="handwerker">„Frag den Handwerker."</div>
+      <div class="alltag-quote" data-mood="baecker">„Kauf bei dem Bäcker."</div>
+      <div class="alltag-quote" data-mood="arzt">„Geh zu meinem Hausarzt."</div>
+      <div class="alltag-quote" data-mood="buch">„Lies dieses Buch."</div>
+    </div>
+    <div class="alltag-quotes alltag-quotes-hero">
+      <div class="alltag-quote alltag-quote-hero alltag-quote-hero-gold" data-mood="finanz">
+        <span class="alltag-quote-badge">Worum es hier geht</span>
+        <span class="alltag-quote-text">„Empfiehl meine <em>Beratung</em>."</span>
+        <span class="alltag-quote-tipp-value">Im Schnitt ca. <strong id="alltagFoerderSum">750&nbsp;€</strong> im Jahr für die empfohlene Person.</span>
+      </div>
+      <div class="alltag-quote alltag-quote-hero alltag-quote-hero-marine alltag-flip" data-mood="karriere" tabindex="0" role="button" aria-label="Berufliche Perspektive – Details">
+        <div class="alltag-flip-inner">
+          <div class="alltag-face alltag-front">
+            <span class="alltag-status"><span class="alltag-status-dot"></span>5 Positionen · jetzt gesucht</span>
+            <div class="alltag-front-body"><span class="alltag-quote-text">„Empfiehl eine neue <em>berufliche</em> Perspektive."</span><span class="alltag-tagline">Fünf Wege. Ein Team. Dein Einstieg.</span></div>
+            <span class="alltag-flip-hint">Was dahintersteckt →</span>
+          </div>
+          <div class="alltag-face alltag-back">
+            <span class="alltag-quote-badge">Deine Perspektive</span>
+            <ul class="alltag-perspektive"><li>Vom ersten Tag an verdienen</li><li>Klare Aufstiegsperspektive im Team</li><li>Arbeit, die wirklich Sinn ergibt</li></ul>
+            <span class="alltag-flip-hint">Zurück ↩</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="t-body" style="text-align:center;margin:24px auto 0;max-width:680px">Beim Restaurant ist es ein guter Abend. Beim Hausarzt ist es Gesundheit.<br><strong>Beim Geld ist es die Zukunft. Bei der Karriere ist es ein neues Leben.</strong></p>
+  </div></div></section>
+
+  <!-- 7 Ich rufe an -->
+  <section class="slide photo" style="--bg2:url('https://empfehlungsportal.vercel.app/assets/images/praesentation/s1-vertrauen.jpg');--ov:linear-gradient(180deg,rgba(10,10,11,.45),rgba(10,10,11,.78))"><div class="slide-inner">
+    <p class="eyebrow">Was nach deiner Empfehlung passiert</p><h1 class="big">Ich rufe <em>selbst</em> an.</h1>
+    <div class="tpoints">
+      <div class="glass tp"><div class="chk">✓</div><b>Direkt ich</b><span>Kein Callcenter, keine Hotline. Ich melde mich persönlich.</span></div>
+      <div class="glass tp"><div class="chk">✓</div><b>Ein Gespräch, sonst nichts</b><span>Wir lernen uns kennen. Wer kein Interesse hat, sagt das einfach.</span></div>
+      <div class="glass tp"><div class="chk">✓</div><b>Daten bleiben bei mir</b><span>Keine Weitergabe, keine Newsletter. Ein Anruf, mehr nicht.</span></div>
+    </div><p class="punch">Genau so, wie ich auch <em>dich</em> kennengelernt habe.</p></div></section>
+
+  <!-- 8 Drei Schritte + echtes WhatsApp im iPhone -->
+  <section class="slide"><div class="slide-inner">
+    <p class="eyebrow">So einfach geht's</p><h1 class="big">In <em>drei Schritten</em> empfohlen.</h1>
+    <div class="split" style="margin-top:26px;align-items:center;gap:40px">
+      <div class="txt" style="flex:1;display:flex;flex-direction:column;gap:18px">
+        <div class="card" style="padding:20px 22px;text-align:left"><b style="font-size:18px">1 · Link erstellen</b><p style="color:var(--muted);margin-top:6px;font-size:14.5px">Namen eintragen, persönlichen Empfehlungs-Link bekommen. 30 Sekunden.</p></div>
+        <div class="card" style="padding:20px 22px;text-align:left;border-color:var(--champagne)"><b style="font-size:18px">2 · Per WhatsApp teilen</b><p style="color:var(--muted);margin-top:6px;font-size:14.5px">Die Nachricht ist schon fertig – ein Tipp, abgeschickt. →</p></div>
+        <div class="card" style="padding:20px 22px;text-align:left"><b style="font-size:18px">3 · Belohnung aussuchen</b><p style="color:var(--muted);margin-top:6px;font-size:14.5px">Wird die Person Kunde, wählst du dein Dankeschön: Geld, Sache oder Spende.</p></div>
+      </div>
+      <div class="iphone"><div class="screen"><div class="notch"></div>
+        <div class="wa-mockup">
+          <div class="wa-mockup-head"><span class="wa-mockup-avatar">A</span><div class="wa-mockup-meta"><span class="wa-mockup-name">Anna</span><span class="wa-mockup-status"><span class="wa-mockup-dot"></span>online</span></div></div>
+          <div class="wa-mockup-body"><div class="wa-mockup-bubble">Hi Anna, ich wollte dir kurz <strong>Kai Blobel</strong> empfehlen, er hat mir bei meiner Baufi sehr geholfen. Schau dir das hier mal kurz an: <span class="wa-mockup-link">empfehlung.de/anna</span><span class="wa-mockup-time">12:34 <span class="wa-mockup-check">✓✓</span></span></div></div>
+        </div>
+      </div></div>
+    </div></div></section>
+
+  <!-- 9 Themen (ORIGINAL topic-flip) -->
+  <section class="slide"><div class="slide-inner"><div class="inner wide">
+    <p class="t-eyebrow" style="text-align:center">Worüber du mich empfiehlst</p>
+    <h2 class="t-h2" style="text-align:center">Wähl die <em>Themenwelt</em>.</h2>
+    <p class="t-lede" style="text-align:center;margin:14px auto 0;max-width:680px">Beim Erstellen des Links wählst du, worum es geht – oder empfiehlst mich ganz allgemein.</p>
+    <div class="topics-grid" id="topics"></div>
+    <div class="section-cta" style="text-align:center"><button class="ghost-btn" onclick="window.open('https://empfehlungsportal.vercel.app/baufi.html','_blank')">▸ Beispiel-Themenseite öffnen</button></div>
+  </div></div></section>
+
+  <!-- 10 Belohnungen kurz + ausführlich -->
+  <section class="slide"><div class="slide-inner">
+    <p class="eyebrow">Was du bekommst</p><h1 class="big">Dein <em>Dankeschön</em>.</h1>
+    <div class="card rewshort">
+      <p style="font-size:16px;color:var(--muted);max-width:520px;margin:0 auto">Schon ab der <b style="color:var(--anthracite)">1. Empfehlung</b> gibt es etwas zurück – und mit jeder weiteren wird es größer.</p>
+      <div class="rewchips-mini"><div class="rewchip-mini"><span class="ic">💶</span>Geldwert</div><div class="rewchip-mini"><span class="ic">🎁</span>Sache & Erlebnis</div><div class="rewchip-mini"><span class="ic">❤️</span>Für guten Zweck</div></div>
+      <div class="prodrow-mini">
+        <div class="prodcard-mini"><div class="pic" style="background-image:url('https://empfehlungsportal.vercel.app/assets/images/programm/applewatch.jpg')"></div><div class="cap"><b>Apple Watch</b>Stufe 5</div></div>
+        <div class="prodcard-mini"><div class="pic" style="background-image:url('https://empfehlungsportal.vercel.app/assets/images/programm/goldbarren.jpg')"></div><div class="cap"><b>Goldbarren</b>Stufe 7</div></div>
+        <div class="prodcard-mini"><div class="pic" style="background-image:url('https://empfehlungsportal.vercel.app/assets/images/programm/ipad.jpg')"></div><div class="cap"><b>iPad Air</b>Stufe 10</div></div>
+        <div class="prodcard-mini"><div class="pic" style="background-image:url('https://empfehlungsportal.vercel.app/assets/images/programm/mallorca.jpg')"></div><div class="cap"><b>Mallorca ✈</b>Finale</div></div>
+      </div>
+      <button class="ghost-btn" id="rewToggle" onclick="toggleRew()">⬇ Alle 15 Stufen & das ganze System zeigen</button>
+    </div>
+
+    <div class="rewfull" id="rewfull">
+      <div class="rewards-explain"><div class="rewards-explain-card"><span class="rewards-explain-icon">↑</span><p><strong>Zwischendrin 100 € Bonus, an den Meilenstein-Stufen eine Premium-Belohnung, am Ende Mallorca.</strong><span class="rewards-explain-note">Du suchst dir bei jeder Stufe selbst aus, was du nimmst.</span></p></div></div>
+      <div class="rewards-roadmap"><div class="roadmap-line"></div><div class="roadmap-stufen" id="roadmap"></div></div>
+      <div class="reward-mode-switch">
+        <button class="reward-mode-chip active"><span class="reward-mode-icon" data-icon="Sparkles"></span><span class="reward-mode-label"><strong>Alle Belohnungen</strong><span>Zeig mir das ganze System</span></span></button>
+        <button class="reward-mode-chip"><span class="reward-mode-icon" data-icon="Banknote"></span><span class="reward-mode-label"><strong>Geldwert</strong><span>Wunschgutschein, PayPal oder Bargeld</span></span></button>
+        <button class="reward-mode-chip"><span class="reward-mode-icon" data-icon="Gift"></span><span class="reward-mode-label"><strong>Sache &amp; Erlebnis</strong><span>Apple Watch, Goldbarren, Mallorca, …</span></span></button>
+        <button class="reward-mode-chip"><span class="reward-mode-icon" data-icon="Heart"></span><span class="reward-mode-label"><strong>Für guten Zweck</strong><span>Spende an deine Hilfsorganisation</span></span></button>
+      </div>
+      <div class="reward-gallery" id="gallery"></div>
+      <div class="rewards-total-card"><span class="rewards-total-eyebrow">✦ Im besten Fall wartet auf dich</span><span class="rewards-total-value">bis zu 4.800&nbsp;€</span><span class="rewards-total-sub">Gesamt-Wert der Stufen 1 bis 15 · alle Geld-Boni plus Premium-Belohnungen bis zum Mallorca-Finale</span></div>
+    </div>
+  </div></section>
+
+  <!-- 11 Testimonials (ORIGINAL Marquee) -->
+  <section class="slide"><div class="slide-inner" style="max-width:100%">
+    <p class="t-eyebrow" style="text-align:center">Was meine Kunden sagen</p>
+    <h2 class="t-h2" style="text-align:center">Vertrauen entsteht nicht<br>aus <em>Worten</em>. Sondern aus Erfahrungen.</h2>
+    <div class="testimonials-meta"><span class="stars-mini">★★★★★</span><span class="testimonials-meta-text"><strong>5,0 von 5</strong> · 15 Google-Bewertungen</span></div>
+    <div class="testimonials-marquee"><div class="testimonials-track" id="trow1"></div></div>
+    <div class="testimonials-marquee" style="margin-top:16px"><div class="testimonials-track testimonials-track-reverse" id="trow2"></div></div>
+  </div></section>
+
+  <!-- 12 FAQ -->
+  <section class="slide"><div class="slide-inner">
+    <p class="eyebrow">Noch Fragen?</p><h1 class="big">Das werde ich <em>oft</em> gefragt.</h1>
+    <div class="faq">
+      <div class="card fi"><div class="fq">Kostet mich das etwas?</div><div class="fa">Nein. Empfehlen kostet dich nichts – und die Person, die du empfiehlst, auch nicht.</div></div>
+      <div class="card fi"><div class="fq">Wann bekomme ich die Belohnung?</div><div class="fa">Sobald eine direkte Empfehlung Kunde wird, mit dem ersten Geldeingang.</div></div>
+      <div class="card fi"><div class="fq">Was passiert mit den Daten?</div><div class="fa">Sie bleiben bei mir. Keine Weitergabe, keine Newsletter. Ein Anruf, mehr nicht.</div></div>
+    </div></div></section>
+
+  <!-- 13 Abschluss -->
+  <section class="slide photo" style="--bg2:url('https://empfehlungsportal.vercel.app/assets/images/praesentation/s7-aktion.jpg');--ov:linear-gradient(180deg,rgba(10,10,11,.35),rgba(10,10,11,.72))"><div class="slide-inner">
+    <p class="eyebrow">Loslegen</p><h1 class="big">An wen denkst du <em>gerade</em>?</h1>
+    <p class="lede">Sag mir einfach einen Namen – den Rest richten wir jetzt gemeinsam ein.</p>
+    <button class="cta-btn">Jetzt gemeinsam anlegen</button>
+    <div class="next-hint"><span class="ph">📱</span> Ab hier geht's auf dem iPhone weiter – dein persönlicher Promoter-Bereich.</div></div></section>
+
+</div>
+
+<div class="market" id="market">
+  <span class="mhead">Finanzcoach · Ganzheitliche Beratung</span>
+  <button class="close" onclick="closeMarket()">✕</button>
+  <div class="orbit" id="orbit"><svg class="lines" id="orbitLines"></svg><div class="center"><b>Ihr<br>Potenzial</b><small>ganzheitlich gedacht</small></div></div>
+  <div class="mfoot"><a href="https://empfehlungsportal.vercel.app/" target="_blank" rel="noopener">▸ In voller Größe im Präsentations-HUB öffnen</a></div>
+</div>
+
+<div class="nav-zone left" onclick="go(-1)"></div><div class="nav-zone right" onclick="go(1)"></div>
+<div class="dots" id="dots"></div>
+<div class="arrows"><div class="arrow" id="prev" onclick="go(-1)">‹</div><div class="arrow" id="next" onclick="go(1)">›</div></div>
+
+<script>
+  const SVG=(p)=>`<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+  const IC={
+    Home:'<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+    Banknote:'<rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/>',
+    TrendingUp:'<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
+    ShieldCheck:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+    Heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+    Sparkles:'<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.582a.5.5 0 0 1 0 .962L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>',
+    Briefcase:'<path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/>',
+    Gift:'<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8"/><path d="M16.5 8a2.5 2.5 0 0 0 0-5C13 3 12 8 12 8"/>'
+  };
+
+  // Themen
+  const TOPICS=[
+    {slug:'allgemein',icon:'Sparkles',titel:'Allgemein empfehlen',front:'Auf Basis des Förder-Checks.',sub:'Für alle, die den Überblick wollen.',v:['Ein ehrlicher Rundum-Blick','Ohne festes Thema','Du gibst nur den Hinweis']},
+    {slug:'baufi',icon:'Home',titel:'Baufinanzierung',front:'Eine Analyse, 402 Banken.',sub:'Ob Neubau, Kauf oder Anschluss.',v:['402 Banken, eine Analyse','Ein Ansprechpartner','Die ganze Laufzeit im Blick']},
+    {slug:'foerderungen',icon:'Banknote',titel:'Staatliche Förderungen',front:'Rechne deine Förderung nach.',sub:'Zulagen & Boni abrufen.',v:['Was für dich infrage kommt','Auch rückwirkend','Ohne Papierkram-Frust']},
+    {slug:'investment',icon:'TrendingUp',titel:'Geldanlage & Investment',front:'Was dein Geld tun kann.',sub:'Vermögen ruhig aufbauen.',v:['Begleitung, die bleibt','Kein Schema F','Den Überblick behalten']},
+    {slug:'absicherung',icon:'ShieldCheck',titel:'Absicherung & Familie',front:'Abgesichert, was zählt.',sub:'Nur was wirklich nötig ist.',v:['Berufsunfähigkeit','Familie absichern','Nur was nötig ist']},
+    {slug:'kinder',icon:'Heart',titel:'Für deine Kinder',front:'Früh starten lohnt sich.',sub:'Später danken sie es dir.',v:['Früh anfangen','Zinseszins nutzen','Förderung mitnehmen']},
+    {slug:'karriere',icon:'Sparkles',titel:'Berufliche Perspektive',front:'Bereit für was Eigenes?',sub:'Fünf Wege ins Team.',v:['Vom ersten Tag verdienen','Klare Perspektive','Sinnvolle Arbeit']},
+    {slug:'selbstaendige',icon:'Briefcase',titel:'Selbständige',front:'Abgesichert. Vorgesorgt.',sub:'Ein stabiles Fundament.',v:['Basisrente','Berufsunfähigkeit','Liquidität erhalten']}
+  ];
+  document.getElementById('topics').innerHTML=TOPICS.map(t=>`
+    <article class="topic-flip" data-slug="${t.slug}" tabindex="0" role="button">
+      <div class="topic-card-inner">
+        <div class="topic-face topic-front"><span class="topic-icon">${SVG(IC[t.icon])}</span><h3 class="topic-title">${t.titel}</h3><p class="topic-sub">${t.front}</p><span class="topic-flip-hint">Mehr dazu →</span></div>
+        <div class="topic-face topic-back"><h3 class="topic-back-title">${t.titel}</h3><p class="topic-back-sub">${t.sub}</p><ul class="topic-vorteile">${t.v.map(x=>`<li>${x}</li>`).join('')}</ul><span class="topic-flip-hint">Zurück ↩</span></div>
+      </div></article>`).join('');
+
+  // Belohnungs-Roadmap
+  const PREM={1:'Empfehlungs-Bonus',2:'Restaurantbesuch',3:'Empfehlungs-Bonus',5:'Weber-Grill',7:'Goldbarren',10:'iPad',15:'Mallorca'};
+  let rm='';for(let s=1;s<=15;s++){const p=PREM[s];rm+=`<button class="roadmap-stufe ${p?'premium':'standard'}" type="button"><span class="roadmap-num">${s}</span>${p?`<span class="roadmap-reward-label">${p}</span>`:''}</button>`;}
+  document.getElementById('roadmap').innerHTML=rm;
+
+  // Reward-Galerie (Modus alle)
+  const IMG='https://empfehlungsportal.vercel.app/assets/images/programm/';
+  const GAL=[
+    {m:'1. Empfehlung',h:'Empfehlungs-Bonus',p:'100 € als Wunschgutschein, PayPal-Auszahlung oder Spende deiner Wahl.',w:'Wert 100 €',img:'kundenlos.jpg'},
+    {m:'2. Empfehlung',h:'Restaurantbesuch deiner Wahl',p:'Du und eine Begleitperson genießen einen Restaurantbesuch nach Wahl.',w:'Wert 150 €',img:'restaurant.jpg'},
+    {m:'3. Empfehlung',h:'Empfehlungs-Bonus',p:'Wieder 100 € als Wunschgutschein, PayPal-Auszahlung oder Spende.',w:'Wert 100 €',img:'standard.jpg'},
+    {m:'4. Empfehlung',h:'Empfehlungsbonus',p:'100 € als Wunschgutschein, PayPal-Auszahlung oder Spende deiner Wahl.',w:'Wert 100 €',img:'kundenlos.jpg',bonus:1},
+    {m:'5. Empfehlung',h:'Weber-Grill oder Apple Watch',p:'Wähle zwischen einem Weber Gasgrill oder der aktuellen Apple Watch.',w:'Wert 449 €',img:'applewatch.jpg'},
+    {m:'6. Empfehlung',h:'Empfehlungsbonus',p:'100 € als Wunschgutschein, PayPal-Auszahlung oder Spende deiner Wahl.',w:'Wert 100 €',img:'kundenlos.jpg',bonus:1},
+    {m:'7. Empfehlung',h:'Goldbarren im Wert von 500 €',p:'Ein echter Goldbarren. Werterhalt zum Anfassen, den du behältst.',w:'Wert 500 €',img:'goldbarren.jpg'},
+    {m:'8.–9. Empfehlung',h:'Empfehlungsbonus',p:'Je 100 € als Wunschgutschein, PayPal-Auszahlung oder Spende deiner Wahl.',w:'Wert je 100 €',img:'kundenlos.jpg',bonus:1},
+    {m:'10. Empfehlung',h:'iPad Air',p:'Das iPad Air – eines der vielseitigsten Tablets auf dem Markt.',w:'Wert 699 €',img:'ipad.jpg'},
+    {m:'11.–14. Empfehlung',h:'Empfehlungsbonus',p:'Je 100 € als Wunschgutschein, PayPal-Auszahlung oder Spende deiner Wahl.',w:'Wert je 100 €',img:'kundenlos.jpg',bonus:1},
+    {m:'15. Empfehlung',h:'Mallorca-Urlaub',p:'Auf meine Kosten – mit einer Begleitperson nach Mallorca, Sonne inklusive.',w:'Wert 2.000 €',img:'mallorca.jpg',hi:1}
+  ];
+  document.getElementById('gallery').innerHTML=GAL.map(r=>`
+    <article class="reward${r.hi?' highlight':''}${r.bonus?' reward-bonus':''}">
+      <img class="reward-img" src="${IMG}${r.img}" alt="${r.h}" loading="lazy"/>
+      <div class="reward-body"><span class="reward-meta">${r.m}</span><h3>${r.h}</h3><p>${r.p}</p><span class="wert">${r.w}</span></div>
+    </article>`).join('');
+
+  // Mode-Chip-Icons
+  document.querySelectorAll('.reward-mode-icon[data-icon]').forEach(e=>e.innerHTML=SVG(IC[e.dataset.icon]));
+  document.querySelectorAll('.reward-mode-chip').forEach(c=>c.onclick=()=>{document.querySelectorAll('.reward-mode-chip').forEach(x=>x.classList.remove('active'));c.classList.add('active');});
+
+  // Testimonials
+  const T1=[['MB','champagne','Martin Böhm','Google-Bewertung','„Erstklassige Beratung und Betreuung, kann ich nur weiterempfehlen."'],['SH','terracotta','Sandra Heinze','Local Guide · Google','„Fachlich exzellent, menschlich super angenehm."'],['JB','champagne','Josephine Bürger','Google-Bewertung','„Modern, sympathisch und ehrlich."'],['CK','terracotta','Cindy Kühn','Google-Bewertung','„Angenehme und vertrauensvolle Zusammenarbeit."']];
+  const T2=[['MG','sage','Mike Gerber','Local Guide · Google','„Ich werde seit vielen Jahren in unterschiedlichen Finanzangelegenheiten erfolgreich durch Herrn Blobel beraten."'],['TM','marine','Torsten Memczak','Google-Bewertung','„Seit 2006 betreut mich Herr Blobel und hilft mir bei Versicherungsfragen."'],['LS','sage','Lucas Schmidt','Google-Bewertung','„Sehr nette und kompetente Beratung bei jeglichen Fragen und Themen."'],['MM','marine','Mathias M.','Local Guide · Google','„Sehr lockere Gespräche. Die Atmosphäre passt auch."']];
+  const tcard=t=>`<article class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p class="testimonial-quote">${t[4]}</p><div class="testimonial-author"><span class="testimonial-avatar" data-color="${t[1]}">${t[0]}</span><div class="testimonial-author-text"><span class="testimonial-name">${t[2]}</span><span class="testimonial-context">${t[3]}</span></div></div></article>`;
+  document.getElementById('trow1').innerHTML=(T1.concat(T1)).map(tcard).join('');
+  document.getElementById('trow2').innerHTML=(T2.concat(T2)).map(tcard).join('');
+
+  // Deck-Mechanik
+  const slides=[...document.querySelectorAll('.slide')];const tot=slides.length;let i=0;
+  document.getElementById('tot').textContent=tot;
+  const dots=document.getElementById('dots');slides.forEach((_,n)=>{const d=document.createElement('div');d.className='dot'+(n===0?' on':'');d.onclick=()=>jump(n);dots.appendChild(d);});
+  const dotEls=[...dots.children];
+  function render(){slides.forEach((s,n)=>s.classList.toggle('active',n===i));dotEls.forEach((d,n)=>d.classList.toggle('on',n===i));document.getElementById('cur').textContent=i+1;document.getElementById('prev').toggleAttribute('disabled',i===0);document.getElementById('next').toggleAttribute('disabled',i===tot-1);}
+  function go(d){if(document.getElementById('market').classList.contains('open'))return;const n=i+d;if(n>=0&&n<tot){i=n;render();}}
+  function jump(n){i=n;render();}
+  window.addEventListener('keydown',e=>{if(e.key==='Escape')closeMarket();if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(1);}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(-1);}});
+
+  // Flips
+  document.querySelectorAll('.alltag-flip,.topic-flip').forEach(card=>{const t=()=>card.classList.toggle('flipped');card.addEventListener('click',t);card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t();}});});
+
+  // NPS
+  const nps=document.getElementById('nps');for(let n=1;n<=10;n++){const b=document.createElement('button');b.textContent=n;b.onclick=()=>{[...nps.children].forEach(x=>x.classList.remove('sel'));b.classList.add('sel');};nps.appendChild(b);}
+
+  // Rechner
+  const cAlter=document.getElementById('cAlter'),cAlterV=document.getElementById('cAlterV'),cFam=document.getElementById('cFam'),cJob=document.getElementById('cJob'),rlist=document.getElementById('rlist'),rsum=document.getElementById('rsum'),aFS=document.getElementById('alltagFoerderSum');
+  let fam='single',job=1;
+  function seg(box,cb){[...box.children].forEach(btn=>btn.onclick=()=>{[...box.children].forEach(x=>x.classList.remove('on'));btn.classList.add('on');cb(btn.dataset.v);calc();});}
+  seg(cFam,v=>fam=v);seg(cJob,v=>job=+v);cAlter.oninput=()=>cAlterV.textContent=cAlter.value;
+  function calc(){const it=[['Gesundheitsbonus der Kasse','bis 300 €']];if(job){it.push(['Vermögenswirksame Leistungen','bis 480 €']);it.push(['Betriebliche Altersvorsorge','+15 % AG']);}it.push(['Riester-Grundzulage','175 €']);if(fam==='familie')it.push(['Riester-Kinderzulage','300 € / Kind']);if(fam==='immo'){it.push(['Wohn-Riester & Wohnungsbauprämie','bis 700 €']);it.push(['KfW-Förderung','zinsgünstig']);}
+    rlist.innerHTML=it.map(x=>`<li><span class="cg">✓</span>${x[0]}<b>${x[1]}</b></li>`).join('');
+    let s=(fam==='single'&&!job)?'mehrere hundert €':(fam==='immo'?'über 1.500 €':'oft vierstellig');rsum.textContent=s;
+    let euro=(fam==='single'&&!job)?'ca. 550 €':(fam==='immo'?'ca. 1.800 €':(fam==='familie'?'ca. 1.200 €':'ca. 950 €'));aFS.innerHTML=euro.replace(' ','&nbsp;');}
+  calc();
+
+  function toggleRew(){const f=document.getElementById('rewfull'),b=document.getElementById('rewToggle');f.classList.toggle('open');b.textContent=f.classList.contains('open')?'⬆ Wieder einklappen':'⬇ Alle 15 Stufen & das ganze System zeigen';}
+
+  // Marktfolie
+  const NODES=[['Energie & Versorgung','Kosten senken','Banknote'],['Gesundheit','Abgesichert','ShieldCheck'],['Liquidität & Banking','Rendite aufs Konto','TrendingUp'],['Immobilien','Eigenheim & Sachwert','Home'],['Vermögensaufbau','Kapital mehren','TrendingUp'],['Finanzierung','Liquidität schaffen','Banknote'],['Steueroptimierung','Vorteile nutzen','Briefcase'],['Staatliche Förderung','Chancen sichern','Banknote'],['Arbeitgeberlösungen','Mitarbeiter binden','Briefcase'],['Mobilität & KFZ','Clever absichern','Home']];
+  function buildOrbit(){const orbit=document.getElementById('orbit'),svg=document.getElementById('orbitLines');if(orbit.dataset.b)return;orbit.dataset.b=1;const N=NODES.length;let ln='';NODES.forEach((nd,k)=>{const a=(-90+k*(360/N))*Math.PI/180,x=50+42*Math.cos(a),y=50+42*Math.sin(a);const el=document.createElement('div');el.className='node';el.style.left=x+'%';el.style.top=y+'%';el.innerHTML=`<span class="ni">${SVG(IC[nd[2]])}</span><b>${nd[0]}</b><small>${nd[1]}</small>`;orbit.appendChild(el);ln+=`<line x1="50%" y1="50%" x2="${x}%" y2="${y}%"/>`;});svg.innerHTML=ln;}
+  function openMarket(){buildOrbit();document.getElementById('market').classList.add('open');}
+  function closeMarket(){document.getElementById('market').classList.remove('open');}
+</script>
+</body>
+</html>

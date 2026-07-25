@@ -16,6 +16,10 @@ Microsoft stellt für Bookings in Power Automate die Auslöser „When an appoin
 
 `https://empfehlungsportal.vercel.app/api/bookings-event`
 
+Wichtig: Der Bookings-Auslöser ist ein Standard-Connector. Die anschließende HTTP-Aktion ist in Power Automate jedoch eine Premium-Funktion. Ohne Power-Automate-Premium lässt sich der Flow speichern, aber nicht verwenden.
+
+Falls die Bookings-Seite wegen eines Microsoft-Tokenfehlers nicht in der Auswahlliste erscheint, kann die SMTP-Adresse der Bookings-Seite als benutzerdefinierter Wert eingetragen werden. Das ist der von Microsoft dokumentierte Ersatzweg.
+
 Erforderlicher Header:
 
 `x-bookings-secret: <BOOKINGS_WEBHOOK_SECRET>`
@@ -49,3 +53,10 @@ Für Änderungen wird `event` auf `updated`, für Absagen auf `cancelled` gesetz
 3. Den SHA-256-Hash als Datensatz `bookings_power_automate` in `private.integration_secrets` hinterlegen.
 4. Die drei Power-Automate-Flows für Erstellen, Ändern und Absagen anlegen.
 5. Mit einer klar bezeichneten Testempfehlung den vollständigen Weg prüfen.
+
+## Aktueller Aktivierungsstand
+
+- Bookings-Verbindung: aktiv
+- Produktionsschlüssel in Vercel und passender Hash in Supabase: aktiv
+- Flow „Termin erstellt“: vollständig angelegt und gespeichert
+- Blocker: Das DVAG-Konto benötigt für die HTTP-Aktion eine Power-Automate-Premium-Lizenz. Bis zur Freigabe kann der Flow nicht ausgeführt werden.
