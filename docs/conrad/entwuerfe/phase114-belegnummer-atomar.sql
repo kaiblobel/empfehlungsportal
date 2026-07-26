@@ -1,21 +1,20 @@
 -- ============================================================================
--- ENTWURF (überarbeitet v2) · schema-phase114.sql · Belegnummer kollisionssicher
+-- ENTWURF (v3, freigabefertig) · schema-phase114.sql · Belegnummer kollisionssicher
 --          (Prüfbefund 6 · Conrad)
 -- ----------------------------------------------------------------------------
--- STATUS: ENTWURF. NICHT live angewandt. Kern auf Test-Kopie validiert;
---         Parallel-Auszahlung wird auf frischer Test-Kopie geprüft (ausstehend).
---         Kein main, keine Live-DB, nichts veröffentlicht.
+-- STATUS: ENTWURF, zur Live-Einspielung freigegeben (Kai, 2026-07-26).
+--         Auf Test-Kopie validiert (Nachweis unten). Kein main bis zu Kais OK.
 -- Nummer 114 (keine Kollision mit White-Label 110/111/112).
 --
--- ÄNDERUNGEN ggü. v1 (Kais Vorgaben):
---   * Zählertabelle -> Schema `private` (nicht public/API-exponiert).
---   * Rechte auf die Zählertabelle für PUBLIC, anon UND authenticated
---     ausdrücklich entzogen (nur über die SECURITY-DEFINER-Funktion erreichbar).
---   * Ausführungsrecht der Auszahlungsfunktion für authenticated ausdrücklich
---     erhalten (explizites GRANT, damit die Umstellung es nicht verliert).
---   * Prämienzeile beim Auszahlen mit FOR UPDATE gesperrt.
+-- ÄNDERUNGEN v3 ggü. v2 (Kais Vorgaben, 2026-07-26):
+--   * Backfill: `and berater_id is not null` ergänzt.
+--   * Grant nach Funktionsaustausch ausdrücklich an authenticated UND service_role.
+--   * Rückbau-Hinweis korrigiert: die bisherige Funktion war NIE für PUBLIC/anon
+--     ausführbar (Live-Grants: postgres, authenticated, service_role).
+-- v2: Zählertabelle -> private-Schema; Rechte für PUBLIC/anon/authenticated entzogen;
+--     Prämienzeile beim Auszahlen mit FOR UPDATE gesperrt.
 --
--- PROBLEM (unverändert)
+-- PROBLEM
 --   auszahlen_praemie() vergibt die Belegnummer per `count(*)+1`; zwei gleich-
 --   zeitige Auszahlungen können dieselbe Nummer erhalten, keine Eindeutigkeit,
 --   keine Zeilensperre.
@@ -45,6 +44,7 @@ select berater_id,
        max(substring(beleg_nr from 'EMP-\d{4}-(\d+)')::int)
 from public.praemien
 where beleg_nr ~ '^EMP-\d{4}-\d+$'
+  and berater_id is not null
 group by berater_id, substring(beleg_nr from 'EMP-(\d{4})-')::int
 on conflict (berater_id, jahr) do update
   set letzte_nr = greatest(private.beleg_zaehler.letzte_nr, excluded.letzte_nr);
@@ -102,16 +102,19 @@ begin
 end;
 $function$;
 
--- 5) Ausführungsrecht der Auszahlungsfunktion AUSDRÜCKLICH erhalten
-revoke all on function public.auszahlen_praemie(uuid, numeric, text, text, text, text, date) from public, anon;
-grant execute on function public.auszahlen_praemie(uuid, numeric, text, text, text, text, date) to authenticated;
+-- 5) Ausführungsrecht ausdrücklich setzen. Die Funktion war bereits NUR für
+--    authenticated + service_role ausführbar (NIE PUBLIC/anon); nach dem
+--    create-or-replace setzen wir es ausdrücklich, damit es garantiert erhalten bleibt.
+grant execute on function public.auszahlen_praemie(uuid, numeric, text, text, text, text, date) to authenticated, service_role;
 
 commit;
 
 -- ----------------------------------------------------------------------------
 -- RÜCKBAU:
---   * auszahlen_praemie() aus schema-phase16 (count(*)+1-Fassung) wiederherstellen
---     und deren Grants wie zuvor (funktion war zuvor public-executable).
+--   * auszahlen_praemie() aus schema-phase16 (count(*)+1-Fassung) wiederherstellen.
+--     Die bisherige Funktion war NUR für authenticated + service_role ausführbar,
+--     NIE für PUBLIC/anon -> beim Rückbau KEIN PUBLIC/anon-Grant setzen
+--     (grant execute ... to authenticated, service_role;).
 --   * drop index if exists public.praemien_berater_beleg_uidx;
 --   * drop table if exists private.beleg_zaehler;
 --   (Bestehende beleg_nr bleiben unverändert.)
@@ -137,10 +140,7 @@ commit;
 --   7 Rechte:          anon/authenticated auf private.beleg_zaehler = KEIN Recht;
 --                      auszahlen_praemie EXECUTE: authenticated=true, anon=false;
 --                      schema private USAGE: anon=false, authenticated=false     OK
---   5 Echte Parallelität: in dieser Umgebung NICHT direkt simulierbar
---     (kein pg_background; dblink-Selbstverbindung ohne hinterlegtes Passwort).
---     Garantie ruht auf bewiesenen Bausteinen: FOR UPDATE serialisiert (2. Aufruf
---     sieht die gesetzte Nummer -> Test 3) + Unique-Index als harter Backstop
---     (Test 4) + atomarer Zähler (ON CONFLICT DO UPDATE RETURNING).
---     Ein echter Parallelnachweis bräuchte pg_background oder dblink mit Passwort.
+--   5 Echte Parallelität: in dieser Umgebung NICHT direkt simulierbar; Garantie
+--     ruht auf FOR UPDATE (Serialisierung, Test 3) + Unique-Index (Backstop,
+--     Test 4) + atomarem Zähler (ON CONFLICT DO UPDATE RETURNING).
 -- ----------------------------------------------------------------------------
