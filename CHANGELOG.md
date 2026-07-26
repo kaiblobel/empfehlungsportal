@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.140 Beta** · Anonyme Kennzahlen-Zugriffe gesperrt.
+Aktuelle Version: **v1.141 Beta** · Belegnummern kollisionssicher.
+
+---
+
+## v1.141 Beta - Phase 114 · Belegnummern kollisionssicher
+**2026-07-26**
+
+- Belegnummern für Prämien-Auszahlungen werden jetzt über einen sicheren, fortlaufenden Zähler pro Berater und Jahr vergeben (statt „Anzahl + 1") — auch bei gleichzeitigen Auszahlungen kann keine Nummer doppelt entstehen.
+- Die Auszahlung sperrt die Prämienzeile kurz, sodass ein Doppelklick keine zweite Nummer erzeugt; bereits vergebene Nummern bleiben unverändert.
+- Intern: neuer Zähler im geschützten `private`-Bereich (kein direkter Zugriff), Eindeutigkeitsregel auf der Belegnummer.
 
 ---
 
