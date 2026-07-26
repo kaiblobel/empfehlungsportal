@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.139 Beta** · Datensparsame Berater-Leserechte.
+Aktuelle Version: **v1.140 Beta** · Anonyme Kennzahlen-Zugriffe gesperrt.
+
+---
+
+## v1.140 Beta - Phase 115 · Anonyme Kennzahlen-Zugriffe gesperrt
+**2026-07-26**
+
+- Kennzahl- und Team-Funktionen (Momentum-/Trend-Charts, Team-Aktivität und -Präsenz, Promoter-Score, KPI-Tagessnapshot) sowie das Löschen von Promotern können jetzt **nicht mehr anonym** aufgerufen werden — nur noch eingeloggte Berater bzw. interne Systemrollen.
+- Der öffentliche Empfänger-/Promoter-Weg (Empfehlung öffnen, absenden, Interesse melden) bleibt unverändert; das Team-Dashboard und der nächtliche Kennzahlen-Lauf (Rolle `postgres`) laufen wie bisher.
+- Rein datenbankseitig (Ausführungsrechte entzogen), keine Client-/UX-Änderung.
 
 ---
 
