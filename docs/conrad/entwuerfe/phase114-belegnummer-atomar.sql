@@ -128,7 +128,19 @@ commit;
 --   7. Fremdzugriff / anon -> kein EXECUTE bzw. 'Kein Zugriff'.
 --   8. Zählertabelle: anon/authenticated haben KEIN Recht auf private.beleg_zaehler.
 --
--- TESTNACHWEIS v1 (Kern, alte Test-Kopie, atomarer Zähler):
---   Berater A 2026 x3 -> 0003; A 2027 x1 -> 0001; B 2026 x1 -> 0001 (getrennt).
---   Parallel-Test (Punkt 3/4/8) folgt auf frischer Test-Kopie.
+-- TESTNACHWEIS v2 (frische Test-Kopie, echte LIVE-Definitionen repliziert):
+--   1 Backfill:        (A,2026) letzte_nr = 7  (aus EMP-2026-0007)            OK
+--   2 Fortlaufend:     Prämie1 -> EMP-2026-0008, Prämie2 -> EMP-2026-0009      OK
+--   3 Idempotenz:      Prämie1 erneut -> beleg_nr bleibt 0008, Zähler bleibt 9 OK
+--   4 Unique-Backstop: 2x gleiche Nr -> 23505 unique_violation (Duplikat unmöglich) OK
+--   6 Fremdzugriff:    Berater B auf A-Prämie -> Exception 'Kein Zugriff'       OK
+--   7 Rechte:          anon/authenticated auf private.beleg_zaehler = KEIN Recht;
+--                      auszahlen_praemie EXECUTE: authenticated=true, anon=false;
+--                      schema private USAGE: anon=false, authenticated=false     OK
+--   5 Echte Parallelität: in dieser Umgebung NICHT direkt simulierbar
+--     (kein pg_background; dblink-Selbstverbindung ohne hinterlegtes Passwort).
+--     Garantie ruht auf bewiesenen Bausteinen: FOR UPDATE serialisiert (2. Aufruf
+--     sieht die gesetzte Nummer -> Test 3) + Unique-Index als harter Backstop
+--     (Test 4) + atomarer Zähler (ON CONFLICT DO UPDATE RETURNING).
+--     Ein echter Parallelnachweis bräuchte pg_background oder dblink mit Passwort.
 -- ----------------------------------------------------------------------------
