@@ -6,3 +6,6 @@ node_modules/
 Thumbs.db
 *.log
 
+
+# Arbeitsordner fuer Sicherungen und Zwischenstaende — gehoert nicht ins Repo
+tmp/

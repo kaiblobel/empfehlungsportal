@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mock · Themen-Seiten Editor v1</title>
+  <link rel="stylesheet" href="../css/style.css?v=32" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=45" />
+  <link rel="stylesheet" href="../css/hub.css?v=45" />
+  <style>
+    /* ====== Mock-Rahmen (nur damit die Seite ohne Login etwas zeigt) ====== */
+    body { background: var(--bg); }
+    .mock-note {
+      max-width: 980px; margin: 0 auto 18px; padding: 12px 16px;
+      background: var(--accent-soft); border: 1px solid var(--accent);
+      border-radius: 10px; font-size: 13px; color: var(--ink-muted);
+    }
+    .mock-wrap { max-width: 980px; margin: 0 auto; padding: 28px 20px 80px; }
+
+    /* ====== Kopf des Bereichs ====== */
+    .te-intro { margin-bottom: 22px; }
+    .te-intro h1 {
+      font-size: clamp(22px, 3vw, 28px); font-weight: 800; letter-spacing: -0.02em;
+      margin: 0 0 6px; color: var(--ink);
+    }
+    .te-intro p { margin: 0; font-size: 14.5px; line-height: 1.55; color: var(--ink-muted); max-width: 68ch; }
+
+    /* ====== Themen-Karte ====== */
+    .te-list { display: flex; flex-direction: column; gap: 12px; }
+    .te-card {
+      background: var(--surface); border: 1px solid var(--hairline);
+      border-radius: 14px; box-shadow: var(--shadow-card);
+      overflow: hidden; transition: box-shadow .18s ease, transform .18s ease;
+    }
+    .te-card:hover { box-shadow: var(--shadow-card-hover); }
+    .te-head {
+      display: grid; grid-template-columns: 56px minmax(0,1fr) auto;
+      align-items: center; gap: 14px; padding: 14px 16px;
+      cursor: pointer; user-select: none; background: none; border: 0; width: 100%; text-align: left;
+      font: inherit; color: inherit;
+    }
+    .te-thumb {
+      width: 56px; height: 42px; border-radius: 8px; object-fit: cover;
+      background: var(--surface-2); border: 1px solid var(--hairline);
+    }
+    .te-head-text { min-width: 0; }
+    .te-name { font-size: 16px; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; }
+    .te-sub { font-size: 12.5px; color: var(--ink-soft); margin-top: 2px; }
+    .te-head-right { display: flex; align-items: center; gap: 10px; }
+    .te-pill {
+      font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px;
+      background: var(--surface-2); color: var(--ink-muted); white-space: nowrap;
+    }
+    .te-pill.wip { background: #F6EDD6; color: #8A6D1B; }
+    .te-pill.live { background: var(--sage-soft); color: var(--sage-dark); }
+    .te-chevron { color: var(--ink-soft); transition: transform .2s ease; }
+    .te-card.open .te-chevron { transform: rotate(180deg); }
+
+    .te-body { display: none; border-top: 1px solid var(--hairline); }
+    .te-card.open .te-body { display: block; }
+
+    /* ====== Zwei Spalten: Formular + Vorschau ====== */
+    .te-split { display: grid; grid-template-columns: minmax(0,1fr); }
+    @media (min-width: 900px) {
+      .te-split { grid-template-columns: minmax(0,1fr) 300px; }
+      .te-preview-col { border-left: 1px solid var(--hairline); }
+    }
+
+    .te-form { padding: 6px 18px 18px; }
+    .te-group { padding: 16px 0 4px; border-bottom: 1px solid var(--hairline); }
+    .te-group:last-of-type { border-bottom: 0; }
+    .te-group-title {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--accent-hover); margin-bottom: 2px;
+    }
+    .te-group-sub { font-size: 12.5px; color: var(--ink-soft); margin: 0 0 14px; line-height: 1.45; }
+
+    .te-field { margin-bottom: 14px; }
+    .te-field > label {
+      display: block; font-size: 13.5px; font-weight: 600; color: var(--ink); margin-bottom: 4px;
+    }
+    .te-hint { display: block; font-size: 12px; color: var(--ink-soft); margin-bottom: 6px; line-height: 1.4; }
+    .te-field input[type="text"],
+    .te-field input[type="number"],
+    .te-field textarea {
+      width: 100%; box-sizing: border-box; padding: 10px 12px;
+      border: 1px solid var(--hairline); border-radius: 9px;
+      font: inherit; font-size: 14px; background: var(--surface); color: var(--ink);
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+    .te-field input:focus, .te-field textarea:focus {
+      outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    .te-field textarea { min-height: 78px; resize: vertical; line-height: 1.5; }
+    .te-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 620px) { .te-row-2 { grid-template-columns: 1fr; } }
+
+    /* Symbol-Auswahl statt Namen tippen */
+    .te-icons { display: flex; flex-wrap: wrap; gap: 8px; }
+    .te-icon {
+      width: 42px; height: 42px; border-radius: 10px; border: 1px solid var(--hairline);
+      background: var(--surface); display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer; color: var(--ink-muted); transition: all .15s ease;
+    }
+    .te-icon:hover { border-color: var(--hairline-strong); color: var(--ink); }
+    .te-icon.active { border-color: var(--accent); background: var(--accent-soft); color: var(--accent-hover); }
+    .te-icon svg { width: 20px; height: 20px; }
+
+    /* Bild mit Vorschau */
+    .te-img-row { display: grid; grid-template-columns: 88px minmax(0,1fr); gap: 12px; align-items: start; }
+    .te-img-prev {
+      width: 88px; height: 66px; border-radius: 9px; object-fit: cover;
+      border: 1px solid var(--hairline); background: var(--surface-2);
+    }
+
+    /* Schalter für "In Arbeit" */
+    .te-switch { display: flex; align-items: center; gap: 12px; }
+    .te-switch input { position: absolute; opacity: 0; pointer-events: none; }
+    .te-switch-track {
+      width: 42px; height: 24px; border-radius: 999px; background: var(--hairline-strong);
+      position: relative; transition: background .18s ease; flex-shrink: 0; cursor: pointer;
+    }
+    .te-switch-track::after {
+      content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px;
+      border-radius: 50%; background: #fff; transition: transform .18s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,.2);
+    }
+    .te-switch input:checked + .te-switch-track { background: var(--accent); }
+    .te-switch input:checked + .te-switch-track::after { transform: translateX(18px); }
+    .te-switch-text strong { display: block; font-size: 13.5px; font-weight: 600; color: var(--ink); }
+    .te-switch-text span { font-size: 12px; color: var(--ink-soft); }
+
+    /* Speicherleiste */
+    .te-actions {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      padding: 14px 18px; border-top: 1px solid var(--hairline); background: var(--surface-soft);
+    }
+    .te-btn {
+      padding: 9px 18px; border-radius: 999px; border: 1px solid var(--hairline);
+      background: var(--surface); color: var(--ink); font: inherit; font-size: 13.5px; font-weight: 600;
+      cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .te-btn.primary { background: var(--ink); border-color: var(--ink); color: #fff; }
+    .te-btn:hover { border-color: var(--hairline-strong); }
+    .te-btn.primary:hover { opacity: .9; }
+    .te-dirty { font-size: 12.5px; color: var(--warn); margin-left: auto; display: none; }
+    .te-card.dirty .te-dirty { display: inline; }
+
+    /* Vorschau-Spalte */
+    .te-preview-col { padding: 18px; background: var(--surface-soft); }
+    .te-preview-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--accent-hover); margin-bottom: 4px;
+    }
+    .te-preview-sub { font-size: 12px; color: var(--ink-soft); margin: 0 0 12px; line-height: 1.4; }
+    .te-phone {
+      background: var(--surface); border: 1px solid var(--hairline); border-radius: 12px;
+      overflow: hidden; box-shadow: var(--shadow-card);
+    }
+    .te-phone img { width: 100%; height: 96px; object-fit: cover; display: block; background: var(--surface-2); }
+    .te-phone-body { padding: 12px 14px 16px; }
+    .te-phone-h { font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.3; margin-bottom: 6px; }
+    .te-phone-t { font-size: 12.5px; color: var(--ink-muted); line-height: 1.5; margin-bottom: 12px; }
+    .te-phone-cta {
+      display: inline-block; padding: 8px 14px; border-radius: 999px;
+      background: var(--accent); color: #2A2519; font-size: 12.5px; font-weight: 700;
+    }
+    .te-preview-open { display: block; margin-top: 12px; font-size: 12.5px; color: var(--accent-hover); font-weight: 600; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="mock-wrap">
+    <div class="mock-note">
+      <strong>Mock</strong> — nur zum Anschauen. Zwei Beispiel-Themen, echte Schriften und Farben aus dem Hub.
+      Nichts hier speichert etwas.
+    </div>
+
+    <div class="te-intro">
+      <h1>Themen-Seiten</h1>
+      <p>
+        Jedes Thema ist eine eigene Seite, die dein Kontakt beim Klick auf den Empfehlungs-Link öffnet.
+        Änderungen sind sofort live — mit „Vorschau öffnen" siehst du das Ergebnis, bevor du es jemandem schickst.
+      </p>
+    </div>
+
+    <div class="te-list">
+
+      <!-- ============ Karte 1: offen ============ -->
+      <div class="te-card open" id="card1">
+        <button class="te-head" type="button" onclick="document.getElementById('card1').classList.toggle('open')">
+          <img class="te-thumb" id="thumb1" src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=200&q=80" alt="" />
+          <span class="te-head-text">
+            <span class="te-name" id="name1">Allgemein</span>
+            <span class="te-sub">Für alle, die erst einmal Klarheit wollen</span>
+          </span>
+          <span class="te-head-right">
+            <span class="te-pill wip">In Arbeit</span>
+            <span class="te-chevron" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </span>
+          </span>
+        </button>
+
+        <div class="te-body">
+          <div class="te-split">
+            <div class="te-form">
+
+              <div class="te-group">
+                <div class="te-group-title">Der erste Eindruck</div>
+                <p class="te-group-sub">Das sieht dein Kontakt, wenn er den Link öffnet.</p>
+
+                <div class="te-row-2">
+                  <div class="te-field">
+                    <label for="f-titel">Name des Themas</label>
+                    <span class="te-hint">Steht in der Themen-Auswahl deiner Präsentation.</span>
+                    <input id="f-titel" type="text" value="Allgemein" oninput="document.getElementById('name1').textContent = this.value" />
+                  </div>
+                  <div class="te-field">
+                    <label>Symbol</label>
+                    <span class="te-hint">Erscheint neben dem Namen.</span>
+                    <div class="te-icons" id="iconPick">
+                      <span class="te-icon active" title="Kompass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></span>
+                      <span class="te-icon" title="Haus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>
+                      <span class="te-icon" title="Geldschein"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg></span>
+                      <span class="te-icon" title="Aktentasche"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg></span>
+                      <span class="te-icon" title="Aufwärtstrend"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>
+                      <span class="te-icon" title="Schutzschild"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>
+                      <span class="te-icon" title="Herz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></span>
+                      <span class="te-icon" title="Funken"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.582a.5.5 0 0 1 0 .962L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg></span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="te-field">
+                  <label>Bild</label>
+                  <span class="te-hint">Steht groß über dem Finanzcheck. Adresse eines Bildes, z. B. von Unsplash.</span>
+                  <div class="te-img-row">
+                    <img class="te-img-prev" id="imgPrev" src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=300&q=80" alt="" />
+                    <input type="text" value="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1200&q=80"
+                           oninput="document.getElementById('imgPrev').src = this.value; document.getElementById('thumb1').src = this.value; document.getElementById('pvImg').src = this.value;" />
+                  </div>
+                </div>
+
+                <div class="te-field">
+                  <label for="f-head">Überschrift</label>
+                  <span class="te-hint">Die große Zeile über dem Finanzcheck.</span>
+                  <input id="f-head" type="text" value="Was liegt bei dir gerade rum?"
+                         oninput="document.getElementById('pvH').textContent = this.value" />
+                </div>
+              </div>
+
+              <div class="te-group">
+                <div class="te-group-title">Der Knopf zum Finanzcheck</div>
+                <p class="te-group-sub">Der einzige Weg, den dein Kontakt von hier aus weitergeht.</p>
+                <div class="te-row-2">
+                  <div class="te-field">
+                    <label for="f-cta">Beschriftung</label>
+                    <input id="f-cta" type="text" value="Zeig mir, was bei mir drin ist →"
+                           oninput="document.getElementById('pvCta').textContent = this.value" />
+                  </div>
+                  <div class="te-field">
+                    <label for="f-url">Wohin er führt</label>
+                    <input id="f-url" type="text" value="https://finanzcheck.kaiblobel.de/" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="te-group">
+                <div class="te-group-title">Die drei Vorteile</div>
+                <p class="te-group-sub">Stehen als Kacheln unter dem Finanzcheck. Kurze Überschrift, ein Satz Erklärung.</p>
+
+                <div class="te-field">
+                  <label>Vorteil 1</label>
+                  <input type="text" value="Dein Zahlen-Bild" style="margin-bottom:8px;" />
+                  <textarea>Du siehst auf einen Blick, wo du stehst und wo bei dir konkret Geld liegen bleibt.</textarea>
+                </div>
+                <div class="te-field">
+                  <label>Vorteil 2</label>
+                  <input type="text" value="Bares Potenzial" style="margin-bottom:8px;" />
+                  <textarea>Förderungen, Steuervorteile und bessere Konditionen, von denen die meisten nicht wissen, dass sie ihnen zustehen.</textarea>
+                </div>
+                <div class="te-field">
+                  <label>Vorteil 3</label>
+                  <input type="text" value="Auf dein Leben gerechnet" style="margin-bottom:8px;" />
+                  <textarea>Keine Standard-Tipps. Was in deiner Situation wirklich etwas bringt.</textarea>
+                </div>
+              </div>
+
+              <div class="te-group">
+                <div class="te-group-title">Nur für dich</div>
+                <p class="te-group-sub">Sieht kein Kunde.</p>
+
+                <div class="te-field te-switch">
+                  <input type="checkbox" id="wip1" checked />
+                  <label class="te-switch-track" for="wip1"></label>
+                  <span class="te-switch-text">
+                    <strong>Noch in Arbeit</strong>
+                    <span>Markiert das Thema in dieser Liste. Für deine Kontakte ändert sich nichts.</span>
+                  </span>
+                </div>
+
+                <div class="te-field" style="max-width:220px;">
+                  <label for="f-sort">Reihenfolge</label>
+                  <span class="te-hint">Kleinere Zahl steht in der Auswahl weiter oben.</span>
+                  <input id="f-sort" type="number" value="0" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Vorschau -->
+            <aside class="te-preview-col">
+              <div class="te-preview-label">So kommt es an</div>
+              <p class="te-preview-sub">Der obere Teil der Seite, die dein Kontakt öffnet.</p>
+              <div class="te-phone">
+                <img id="pvImg" src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=80" alt="" />
+                <div class="te-phone-body">
+                  <div class="te-phone-h" id="pvH">Was liegt bei dir gerade rum?</div>
+                  <div class="te-phone-t">Die meisten verschenken jeden Monat Geld, ohne es zu merken.</div>
+                  <span class="te-phone-cta" id="pvCta">Zeig mir, was bei mir drin ist →</span>
+                </div>
+              </div>
+              <a class="te-preview-open" href="#" onclick="return false;">Ganze Seite öffnen ↗</a>
+            </aside>
+          </div>
+
+          <div class="te-actions">
+            <button class="te-btn primary" type="button">Speichern</button>
+            <a class="te-btn" href="#" onclick="return false;">Vorschau öffnen ↗</a>
+            <span class="te-dirty">Nicht gespeichert</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ Karte 2: zu ============ -->
+      <div class="te-card" id="card2">
+        <button class="te-head" type="button" onclick="document.getElementById('card2').classList.toggle('open')">
+          <img class="te-thumb" src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=200&q=80" alt="" />
+          <span class="te-head-text">
+            <span class="te-name">Baufinanzierung</span>
+            <span class="te-sub">Für Kauf, Neubau und Anschluss</span>
+          </span>
+          <span class="te-head-right">
+            <span class="te-pill live">Fertig</span>
+            <span class="te-chevron" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </span>
+          </span>
+        </button>
+        <div class="te-body"><div class="te-form" style="padding:18px;color:var(--ink-soft);font-size:13.5px;">… gleiche Felder wie oben …</div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Symbol-Auswahl im Mock
+    document.querySelectorAll('#iconPick .te-icon').forEach((el) => {
+      el.addEventListener('click', () => {
+        document.querySelectorAll('#iconPick .te-icon').forEach(x => x.classList.remove('active'));
+        el.classList.add('active');
+      });
+    });
+    // "Nicht gespeichert" erscheint, sobald etwas getippt wird
+    document.querySelectorAll('#card1 input, #card1 textarea').forEach((el) => {
+      el.addEventListener('input', () => document.getElementById('card1').classList.add('dirty'));
+    });
+  </script>
+</body>
+</html>

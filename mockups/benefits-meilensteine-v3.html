@@ -1,0 +1,1020 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Mockup: Deine Belohnungsreise</title>
+  <style>
+    :root {
+      --ivory: #faf8f5;
+      --surface: #fffdf9;
+      --ink: #1b1b1d;
+      --muted: #6e6e73;
+      --champagne: #c9b98a;
+      --champagne-light: #e9dfc4;
+      --champagne-dark: #8c7648;
+      --marine: #2e5266;
+      --sage: #7a8b6f;
+      --terracotta: #b5653d;
+      --line: rgba(28, 28, 30, .10);
+      --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+      --font-text: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--ivory);
+      color: var(--ink);
+      font-family: var(--font-text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button { font: inherit; }
+
+    .draft-label {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 20;
+      padding: 8px 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 999px;
+      background: rgba(20,20,21,.86);
+      color: rgba(255,255,255,.72);
+      font-size: 10px;
+      font-weight: 720;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 480px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 78% 24%, rgba(201,185,138,.20), transparent 27rem),
+        linear-gradient(135deg, #171718 0%, #252525 55%, #3b3529 100%);
+      color: #fff;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,185,138,.7), transparent);
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: minmax(0, .88fr) minmax(460px, 1.12fr);
+      align-items: center;
+      gap: clamp(36px, 6vw, 92px);
+      width: min(1280px, calc(100% - 64px));
+      min-height: 480px;
+      margin: 0 auto;
+      padding: 72px 0 92px;
+    }
+
+    .eyebrow {
+      margin: 0 0 17px;
+      color: var(--champagne-light);
+      font-size: 10px;
+      font-weight: 760;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 620px;
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(42px, 5vw, 72px);
+      font-weight: 760;
+      line-height: 1.02;
+      letter-spacing: -.048em;
+    }
+
+    .hero-copy {
+      max-width: 570px;
+      margin: 24px 0 0;
+      color: rgba(255,255,255,.66);
+      font-size: clamp(16px, 1.5vw, 19px);
+      line-height: 1.55;
+    }
+
+    .hero-proof {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 27px;
+    }
+
+    .hero-proof span {
+      padding: 8px 11px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 999px;
+      color: rgba(255,255,255,.70);
+      font-size: 10px;
+      font-weight: 690;
+    }
+
+    .hero-collage {
+      position: relative;
+      min-height: 350px;
+    }
+
+    .hero-trip {
+      position: absolute;
+      inset: 0 0 0 17%;
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 18px;
+      box-shadow: 0 38px 80px rgba(0,0,0,.35);
+    }
+
+    .hero-trip img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-trip::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.04) 15%, rgba(0,0,0,.78) 100%);
+    }
+
+    .hero-trip-copy {
+      position: absolute;
+      left: 25px;
+      right: 25px;
+      bottom: 24px;
+      z-index: 2;
+    }
+
+    .hero-trip-copy small {
+      color: var(--champagne-light);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .hero-trip-copy strong {
+      display: block;
+      margin-top: 7px;
+      font-family: var(--font-display);
+      font-size: clamp(27px, 3vw, 42px);
+      line-height: 1.05;
+      letter-spacing: -.04em;
+    }
+
+    .hero-trip-copy span {
+      display: block;
+      margin-top: 7px;
+      color: rgba(255,255,255,.70);
+      font-size: 12px;
+    }
+
+    .hero-money {
+      position: absolute;
+      left: 0;
+      bottom: 27px;
+      z-index: 4;
+      width: 190px;
+      padding: 20px;
+      border: 1px solid rgba(201,185,138,.44);
+      border-radius: 16px;
+      background: #f4eedf;
+      color: var(--ink);
+      box-shadow: 0 24px 55px rgba(0,0,0,.34);
+    }
+
+    .hero-money small {
+      color: var(--champagne-dark);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .hero-money strong {
+      display: block;
+      margin-top: 8px;
+      font-family: var(--font-display);
+      font-size: 38px;
+      letter-spacing: -.05em;
+    }
+
+    .hero-money span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.35;
+    }
+
+    .page {
+      width: min(1280px, calc(100% - 64px));
+      margin: 0 auto;
+      padding: 0 0 84px;
+    }
+
+    .roadmap-panel {
+      position: relative;
+      z-index: 5;
+      margin-top: -38px;
+      padding: 25px 28px 22px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: 0 28px 70px -40px rgba(28,28,30,.46);
+    }
+
+    .roadmap-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 17px;
+    }
+
+    .roadmap-head strong {
+      font-family: var(--font-display);
+      font-size: 17px;
+      letter-spacing: -.02em;
+    }
+
+    .roadmap-head span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .step-rail {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(15, minmax(0, 1fr));
+      align-items: center;
+      gap: 5px;
+      padding: 9px 0 2px;
+    }
+
+    .step-rail::before {
+      content: '';
+      position: absolute;
+      top: 25px;
+      left: 2.5%;
+      right: 2.5%;
+      height: 2px;
+      background: linear-gradient(90deg, #e8e4da, var(--champagne), #e8e4da);
+    }
+
+    .step {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      justify-items: center;
+      gap: 7px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+    }
+
+    .step b {
+      display: grid;
+      place-items: center;
+      width: 31px;
+      height: 31px;
+      border: 4px solid var(--surface);
+      border-radius: 50%;
+      background: #e9e7e1;
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+    .step span {
+      min-height: 15px;
+      font-size: 8px;
+      font-weight: 760;
+      letter-spacing: .04em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .step.premium { color: #574a2d; cursor: pointer; }
+
+    .step.premium b {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(145deg, #ddcfaa, #ad9964);
+      color: #2c281d;
+      font-size: 11px;
+      box-shadow: 0 8px 18px rgba(141,118,72,.24);
+    }
+
+    .bonus-band {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 31px auto 0;
+      color: #6e6042;
+      font-size: 12px;
+      font-weight: 670;
+      text-align: center;
+    }
+
+    .bonus-band i {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: #efe6ce;
+      color: var(--champagne-dark);
+      font-style: normal;
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .reward-section {
+      padding-top: 76px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 32px;
+    }
+
+    .section-head .eyebrow { color: var(--champagne-dark); margin-bottom: 11px; }
+
+    .section-head h2 {
+      max-width: 720px;
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4.2vw, 54px);
+      line-height: 1.05;
+      letter-spacing: -.045em;
+    }
+
+    .section-head p {
+      max-width: 360px;
+      margin: 0 0 4px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .early-win {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      min-height: 245px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: #fff;
+      box-shadow: 0 18px 54px -38px rgba(28,28,30,.38);
+    }
+
+    .early-win-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 31px;
+    }
+
+    .level {
+      color: var(--champagne-dark);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .17em;
+      text-transform: uppercase;
+    }
+
+    .early-win h3 {
+      margin: 12px 0 0;
+      font-family: var(--font-display);
+      font-size: 28px;
+      letter-spacing: -.035em;
+    }
+
+    .early-win-value {
+      margin-top: 15px;
+      font-family: var(--font-display);
+      font-size: 38px;
+      font-weight: 780;
+      letter-spacing: -.05em;
+    }
+
+    .early-win p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .early-win img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .reward-deck {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: end;
+      gap: 15px;
+      margin-top: 24px;
+    }
+
+    .reward-card {
+      position: relative;
+      height: var(--card-height);
+      min-height: 360px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.20);
+      border-radius: 17px;
+      background: #222;
+      box-shadow: 0 26px 60px -36px rgba(28,28,30,.58);
+      isolation: isolate;
+      transition: transform .24s ease, box-shadow .24s ease;
+    }
+
+    .reward-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 34px 70px -34px rgba(28,28,30,.60);
+    }
+
+    .reward-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .5s ease;
+    }
+
+    .reward-card:hover img { transform: scale(1.025); }
+
+    .reward-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.02) 20%, rgba(0,0,0,.80) 88%);
+      z-index: 1;
+    }
+
+    .reward-card.goal15::after {
+      background: linear-gradient(180deg, rgba(0,0,0,.01) 12%, rgba(24,19,10,.78) 92%);
+    }
+
+    .reward-number {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      z-index: 3;
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(255,255,255,.40);
+      border-radius: 50%;
+      background: rgba(18,18,18,.72);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 820;
+    }
+
+    .reward-badge {
+      position: absolute;
+      top: 17px;
+      right: 15px;
+      z-index: 3;
+      padding: 7px 9px;
+      border-radius: 999px;
+      background: rgba(255,253,249,.92);
+      color: #544726;
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+    }
+
+    .reward-copy {
+      position: absolute;
+      left: 19px;
+      right: 19px;
+      bottom: 19px;
+      z-index: 3;
+      color: #fff;
+    }
+
+    .reward-copy small {
+      color: var(--champagne-light);
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .reward-copy h3 {
+      margin: 8px 0 0;
+      font-family: var(--font-display);
+      font-size: 21px;
+      line-height: 1.08;
+      letter-spacing: -.035em;
+    }
+
+    .reward-copy strong {
+      display: block;
+      margin-top: 11px;
+      font-family: var(--font-display);
+      font-size: 29px;
+      line-height: 1;
+      letter-spacing: -.045em;
+    }
+
+    .reward-copy p {
+      margin: 7px 0 0;
+      color: rgba(255,255,255,.68);
+      font-size: 10px;
+      line-height: 1.35;
+    }
+
+    .reward-card.goal5 { --card-height: 370px; }
+    .reward-card.goal7 { --card-height: 400px; }
+    .reward-card.goal10 { --card-height: 430px; }
+    .reward-card.goal15 { --card-height: 465px; }
+
+    .reward-card.goal5 img { object-position: 50% 55%; }
+    .reward-card.goal7 img { object-position: 52% center; }
+    .reward-card.goal10 img { object-position: 50% 48%; }
+    .reward-card.goal15 img { object-position: 50% center; }
+
+    .money-steps {
+      margin-top: 22px;
+      padding: 20px 22px;
+      border: 1px solid rgba(201,185,138,.34);
+      border-radius: 15px;
+      background: linear-gradient(105deg, #f6f0e1, #fffdf9);
+    }
+
+    .money-steps-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .money-steps-head strong {
+      font-family: var(--font-display);
+      font-size: 17px;
+      letter-spacing: -.02em;
+    }
+
+    .money-steps-head span {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .coin-row {
+      display: grid;
+      grid-template-columns: repeat(10, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .coin {
+      padding: 10px 6px;
+      border: 1px solid rgba(141,118,72,.18);
+      border-radius: 10px;
+      background: rgba(255,255,255,.72);
+      text-align: center;
+    }
+
+    .coin b {
+      display: block;
+      color: var(--champagne-dark);
+      font-size: 9px;
+    }
+
+    .coin strong {
+      display: block;
+      margin-top: 4px;
+      font-family: var(--font-display);
+      font-size: 14px;
+      letter-spacing: -.02em;
+    }
+
+    .choice-section {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 16px;
+      margin-top: 70px;
+    }
+
+    .choice-main,
+    .choice-quiet {
+      border-radius: 17px;
+      padding: 29px;
+    }
+
+    .choice-main {
+      background: #1f2021;
+      color: #fff;
+    }
+
+    .choice-main .eyebrow { margin-bottom: 11px; }
+
+    .choice-main h2 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 30px;
+      letter-spacing: -.035em;
+    }
+
+    .choice-main p {
+      max-width: 650px;
+      margin: 10px 0 0;
+      color: rgba(255,255,255,.62);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .choice-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .choice-options span {
+      padding: 9px 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 999px;
+      color: rgba(255,255,255,.78);
+      font-size: 10px;
+      font-weight: 720;
+    }
+
+    .choice-quiet {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .choice-quiet strong {
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: -.025em;
+    }
+
+    .choice-quiet p {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .photo-credit {
+      margin: 18px 0 0;
+      color: #96969b;
+      font-size: 8px;
+      text-align: right;
+    }
+
+    .flash {
+      animation: flash 1s ease;
+    }
+
+    @keyframes flash {
+      0%, 100% { box-shadow: 0 26px 60px -36px rgba(28,28,30,.58); }
+      35% { box-shadow: 0 0 0 5px rgba(201,185,138,.58), 0 30px 70px -32px rgba(28,28,30,.58); }
+    }
+
+    @media (max-width: 980px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+        width: min(760px, calc(100% - 40px));
+        padding-bottom: 80px;
+      }
+
+      .hero-collage { min-height: 420px; }
+      .page { width: min(760px, calc(100% - 40px)); }
+
+      .step-rail {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 9px;
+      }
+
+      .step-rail::before { display: none; }
+
+      .step {
+        min-height: 62px;
+        padding: 8px 4px;
+        border-radius: 10px;
+        background: #f2f0eb;
+      }
+
+      .step.premium { background: #eee4ca; }
+      .step b, .step.premium b { border: 0; }
+
+      .section-head { align-items: start; flex-direction: column; }
+      .section-head p { max-width: 620px; }
+
+      .reward-deck {
+        grid-template-columns: 1fr 1fr;
+        align-items: stretch;
+      }
+
+      .reward-card.goal5,
+      .reward-card.goal7,
+      .reward-card.goal10,
+      .reward-card.goal15 { height: 410px; }
+
+      .coin-row { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+      .choice-section { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      .draft-label { position: absolute; top: 12px; right: 12px; }
+      .hero { min-height: 0; }
+
+      .hero-inner {
+        width: calc(100% - 28px);
+        gap: 34px;
+        padding: 64px 0 72px;
+      }
+
+      h1 { font-size: 42px; }
+      .hero-copy { font-size: 15px; }
+      .hero-collage { min-height: 370px; }
+      .hero-trip { inset: 0; }
+      .hero-money { left: 13px; bottom: 13px; width: 164px; padding: 16px; }
+      .hero-money strong { font-size: 32px; }
+      .hero-trip-copy { left: 20px; right: 20px; bottom: 118px; }
+
+      .page { width: calc(100% - 28px); }
+      .roadmap-panel { margin-top: -29px; padding: 18px 14px; }
+      .roadmap-head { align-items: start; flex-direction: column; gap: 5px; }
+      .step-rail { gap: 6px; }
+      .step { min-height: 58px; }
+      .step b, .step.premium b { width: 27px; height: 27px; font-size: 8px; }
+      .step span { font-size: 7px; }
+      .bonus-band { align-items: flex-start; font-size: 11px; }
+
+      .reward-section { padding-top: 58px; }
+      .section-head { margin-bottom: 24px; }
+      .section-head h2 { font-size: 36px; }
+
+      .early-win {
+        grid-template-columns: 1fr;
+      }
+
+      .early-win-copy { padding: 23px; }
+      .early-win img { height: 220px; }
+
+      .reward-deck {
+        grid-template-columns: none;
+        grid-auto-flow: column;
+        grid-auto-columns: 84%;
+        align-items: stretch;
+        gap: 12px;
+        margin-right: -14px;
+        padding: 2px 14px 18px 0;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+      }
+
+      .reward-deck::-webkit-scrollbar { display: none; }
+
+      .reward-card.goal5,
+      .reward-card.goal7,
+      .reward-card.goal10,
+      .reward-card.goal15 {
+        height: 430px;
+        scroll-snap-align: start;
+      }
+
+      .money-steps { padding: 18px 14px; }
+      .money-steps-head { align-items: start; flex-direction: column; gap: 6px; }
+      .coin-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+      .choice-section { margin-top: 52px; }
+      .choice-main, .choice-quiet { padding: 23px; }
+      .photo-credit { text-align: left; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="draft-label">Lokaler Entwurf</div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Deine Belohnungsreise</p>
+        <h1>Jeder Erfolg bringt dich näher an dein Traumziel.</h1>
+        <p class="hero-copy">Sobald aus deiner Empfehlung ein neuer Kunde wird, erreichst du die nächste Stufe. Dazwischen warten Geldboni, an den großen Meilensteinen besondere Wünsche.</p>
+        <div class="hero-proof">
+          <span>Geldbonus</span>
+          <span>Materielle Wünsche</span>
+          <span>Erlebnisse und Reisen</span>
+          <span>Spende möglich</span>
+        </div>
+      </div>
+
+      <div class="hero-collage" aria-label="Erster Bonus und Traumziel">
+        <figure class="hero-trip">
+          <img src="https://images.unsplash.com/photo-1672264430465-781cd9154896?auto=format&amp;fit=crop&amp;q=84&amp;w=1400" alt="Türkisfarbene Bucht auf Mallorca">
+          <figcaption class="hero-trip-copy">
+            <small>Stufe 15</small>
+            <strong>Mallorca für zwei</strong>
+            <span>Reiseguthaben im Wert von 2.000 €</span>
+          </figcaption>
+        </figure>
+
+        <div class="hero-money">
+          <small>Schon bei Stufe 1</small>
+          <strong>100 €</strong>
+          <span>Auszahlen, als Gutschein nehmen oder spenden</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="roadmap-panel" aria-labelledby="roadmapTitle">
+      <div class="roadmap-head">
+        <strong id="roadmapTitle">Dein Weg von 1 bis 15</strong>
+        <span>Tippe auf einen großen Meilenstein</span>
+      </div>
+
+      <div class="step-rail" aria-label="Belohnungsstufen 1 bis 15">
+        <button class="step" type="button"><b>1</b><span>100 €</span></button>
+        <button class="step premium" type="button" data-target="goal2"><b>2</b><span>Restaurant</span></button>
+        <button class="step" type="button"><b>3</b><span>100 €</span></button>
+        <button class="step" type="button"><b>4</b><span>100 €</span></button>
+        <button class="step premium" type="button" data-target="goal5"><b>5</b><span>Watch</span></button>
+        <button class="step" type="button"><b>6</b><span>100 €</span></button>
+        <button class="step premium" type="button" data-target="goal7"><b>7</b><span>Gold</span></button>
+        <button class="step" type="button"><b>8</b><span>100 €</span></button>
+        <button class="step" type="button"><b>9</b><span>100 €</span></button>
+        <button class="step premium" type="button" data-target="goal10"><b>10</b><span>iPad</span></button>
+        <button class="step" type="button"><b>11</b><span>100 €</span></button>
+        <button class="step" type="button"><b>12</b><span>100 €</span></button>
+        <button class="step" type="button"><b>13</b><span>100 €</span></button>
+        <button class="step" type="button"><b>14</b><span>100 €</span></button>
+        <button class="step premium" type="button" data-target="goal15"><b>15</b><span>Mallorca</span></button>
+      </div>
+
+      <div class="bonus-band"><i aria-hidden="true">€</i>Die 100-Euro-Boni halten die Reise in Bewegung. Die großen Ziele bei 5, 7, 10 und 15 sorgen für Vorfreude.</div>
+    </section>
+
+    <section class="reward-section" aria-labelledby="rewardTitle">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Die besonderen Ziele</p>
+          <h2 id="rewardTitle">Erst greifbar. Dann außergewöhnlich.</h2>
+        </div>
+        <p>Die Bilder zeigen echte Wünsche. Der Wert bleibt flexibel, damit die Belohnung zum Menschen passt und nicht umgekehrt.</p>
+      </div>
+
+      <article class="early-win" id="goal2">
+        <div class="early-win-copy">
+          <span class="level">Stufe 2</span>
+          <h3>Ein richtig schöner Abend zu zweit</h3>
+          <strong class="early-win-value">150 €</strong>
+          <p>Restaurant deiner Wahl oder ein anderes Erlebnis im gleichen Wert.</p>
+        </div>
+        <img src="../assets/images/programm/restaurant.jpg" alt="Modernes Restaurant für einen besonderen Abend">
+      </article>
+
+      <div class="reward-deck" aria-label="Große Meilensteine">
+        <article class="reward-card goal5" id="goal5">
+          <img src="../assets/images/programm/applewatch.jpg" alt="Apple Watch als Beispiel für die Belohnung bei Stufe 5">
+          <span class="reward-number">05</span>
+          <span class="reward-badge">Freie Wahl</span>
+          <div class="reward-copy">
+            <small>5 gewonnene Kunden</small>
+            <h3>Apple Watch oder Weber-Grill</h3>
+            <strong>449 €</strong>
+            <p>Materieller Wunsch, Geldwert oder Spende</p>
+          </div>
+        </article>
+
+        <article class="reward-card goal7" id="goal7">
+          <img src="../assets/images/programm/goldbarren.jpg" alt="Goldbarren als Beispiel für die Belohnung bei Stufe 7">
+          <span class="reward-number">07</span>
+          <span class="reward-badge">Wert, der bleibt</span>
+          <div class="reward-copy">
+            <small>7 gewonnene Kunden</small>
+            <h3>Goldbarren oder Wunschwert</h3>
+            <strong>500 €</strong>
+            <p>Gold, Erlebnis, Auszahlung oder Spende</p>
+          </div>
+        </article>
+
+        <article class="reward-card goal10" id="goal10">
+          <img src="../assets/images/programm/ipad.jpg" alt="iPad als Beispiel für die Belohnung bei Stufe 10">
+          <span class="reward-number">10</span>
+          <span class="reward-badge">Großer Wunsch</span>
+          <div class="reward-copy">
+            <small>10 gewonnene Kunden</small>
+            <h3>iPad Air oder freie Wahl</h3>
+            <strong>699 €</strong>
+            <p>Technik, Reise, Auszahlung oder Spende</p>
+          </div>
+        </article>
+
+        <article class="reward-card goal15" id="goal15">
+          <img src="https://images.unsplash.com/photo-1672264430465-781cd9154896?auto=format&amp;fit=crop&amp;q=84&amp;w=1200" alt="Türkisfarbene Bucht auf Mallorca als Traumziel bei Stufe 15">
+          <span class="reward-number">15</span>
+          <span class="reward-badge">Traumziel</span>
+          <div class="reward-copy">
+            <small>15 gewonnene Kunden</small>
+            <h3>Mallorca für zwei</h3>
+            <strong>2.000 €</strong>
+            <p>Reiseguthaben, Wunschreise oder Spende</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="money-steps">
+        <div class="money-steps-head">
+          <strong>Und dazwischen immer wieder 100 €</strong>
+          <span>Jede erreichte Stufe kommt zusätzlich</span>
+        </div>
+        <div class="coin-row" aria-label="100-Euro-Zwischenstufen">
+          <div class="coin"><b>Stufe 1</b><strong>100 €</strong></div>
+          <div class="coin"><b>Stufe 3</b><strong>100 €</strong></div>
+          <div class="coin"><b>Stufe 4</b><strong>100 €</strong></div>
+          <div class="coin"><b>Stufe 6</b><strong>100 €</strong></div>
+          <div class="coin"><b>Stufe 8</b><strong>100 €</strong></div>
+          <div class="coin"><b>Stufe 9</b><strong>100 €</strong></div>
+          <div class="coin"><b>Stufe 11</b><strong>100 €</strong></div>
+          <div class="coin"><b>Stufe 12</b><strong>100 €</strong></div>
+          <div class="coin"><b>Stufe 13</b><strong>100 €</strong></div>
+          <div class="coin"><b>Stufe 14</b><strong>100 €</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="choice-section" aria-label="Wahlmöglichkeiten">
+      <div class="choice-main">
+        <p class="eyebrow">Dein Dankeschön, deine Entscheidung</p>
+        <h2>Geld, ein echter Wunsch oder etwas Gutes tun.</h2>
+        <p>Der sichtbare Meilenstein schafft Vorfreude. Bei der Einlösung entscheidest du, welche Form der gleiche Wert für dich bekommen soll.</p>
+        <div class="choice-options">
+          <span>Auszahlung</span>
+          <span>Materielle Belohnung</span>
+          <span>Erlebnis oder Reise</span>
+          <span>Spende</span>
+        </div>
+      </div>
+
+      <div class="choice-quiet">
+        <strong>Auch einfach so.</strong>
+        <p>Du möchtest jemanden weiterbringen, ohne ein Dankeschön anzunehmen? Natürlich kannst du auch ohne Prämie empfehlen.</p>
+      </div>
+    </section>
+
+    <p class="photo-credit">Mallorca-Foto: Artem Zhukov, Unsplash</p>
+  </main>
+
+  <script>
+    document.querySelectorAll('.step.premium[data-target]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const target = document.getElementById(button.dataset.target);
+        if (!target) return;
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        target.classList.remove('flash');
+        requestAnimationFrame(() => target.classList.add('flash'));
+        window.setTimeout(() => target.classList.remove('flash'), 1100);
+      });
+    });
+  </script>
+</body>
+</html>

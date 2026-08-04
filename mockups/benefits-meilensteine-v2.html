@@ -1,0 +1,844 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Mockup: Dein Dankeschön</title>
+  <style>
+    :root {
+      --ivory: #faf8f5;
+      --surface: #fffdf9;
+      --surface-strong: #ffffff;
+      --ink: #1c1c1e;
+      --muted: #6e6e73;
+      --champagne: #c9b98a;
+      --champagne-dark: #8d7a4d;
+      --champagne-soft: #f2ede0;
+      --marine: #2e5266;
+      --marine-soft: #edf2f4;
+      --sage: #7a8b6f;
+      --sage-soft: #f0f3ee;
+      --terracotta: #b56d43;
+      --line: rgba(28, 28, 30, 0.09);
+      --shadow: 0 18px 46px -30px rgba(28, 28, 30, 0.28);
+      --shadow-hover: 0 24px 58px -28px rgba(28, 28, 30, 0.33);
+      --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+      --font-text: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { color-scheme: light; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 50% -10%, rgba(201,185,138,.15), transparent 32rem),
+        var(--ivory);
+      color: var(--ink);
+      font-family: var(--font-text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button { font: inherit; }
+
+    .mock-shell {
+      width: min(1320px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 30px 0 72px;
+    }
+
+    .mock-note {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 34px;
+    }
+
+    .mock-note span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.72);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+      box-shadow: var(--shadow);
+    }
+
+    .mock-note i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--champagne);
+    }
+
+    .hero {
+      max-width: 830px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      color: var(--champagne-dark);
+      font-size: 11px;
+      font-weight: 750;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(38px, 5.2vw, 68px);
+      font-weight: 760;
+      line-height: 1.03;
+      letter-spacing: -.045em;
+    }
+
+    .hero-copy {
+      max-width: 680px;
+      margin: 22px auto 0;
+      color: var(--muted);
+      font-size: clamp(16px, 1.5vw, 19px);
+      line-height: 1.55;
+    }
+
+    .choice-bar {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      width: min(760px, 100%);
+      margin: 32px auto 0;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,.68);
+      box-shadow: var(--shadow);
+    }
+
+    .choice {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 48px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      color: #4d4d50;
+      font-size: 13px;
+      font-weight: 680;
+    }
+
+    .choice:first-child { background: var(--champagne-soft); }
+    .choice:nth-child(2) { background: var(--marine-soft); }
+    .choice:nth-child(3) { background: var(--sage-soft); }
+
+    .choice-mark {
+      display: grid;
+      place-items: center;
+      width: 25px;
+      height: 25px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.75);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .start-card {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 24px;
+      width: min(960px, 100%);
+      margin: 48px auto 0;
+      padding: 22px 26px;
+      border: 1px solid rgba(201,185,138,.48);
+      border-radius: 18px;
+      background: linear-gradient(120deg, #fffdf8, #f5efdf);
+      box-shadow: 0 24px 60px -34px rgba(141,122,77,.55);
+    }
+
+    .start-number {
+      display: grid;
+      place-items: center;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #ded2ad, #b9a772);
+      color: #2b281f;
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 780;
+      box-shadow: 0 10px 24px rgba(141,122,77,.24);
+    }
+
+    .start-copy small,
+    .milestone small {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--champagne-dark);
+      font-size: 10px;
+      font-weight: 760;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    .start-copy h2 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 720;
+      letter-spacing: -.025em;
+    }
+
+    .start-copy p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .start-value {
+      min-width: 150px;
+      text-align: right;
+    }
+
+    .start-value strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 34px;
+      letter-spacing: -.04em;
+    }
+
+    .start-value span {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 650;
+    }
+
+    .journey {
+      margin-top: 68px;
+    }
+
+    .journey-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 26px;
+    }
+
+    .journey-head h2 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(27px, 3vw, 40px);
+      letter-spacing: -.035em;
+    }
+
+    .journey-head p {
+      max-width: 520px;
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .view-switch {
+      display: inline-grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: rgba(255,255,255,.74);
+    }
+
+    .view-switch button {
+      min-width: 124px;
+      padding: 10px 13px;
+      border: 0;
+      border-radius: 9px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 720;
+      transition: background .18s ease, color .18s ease, box-shadow .18s ease;
+    }
+
+    .view-switch button.active {
+      background: var(--surface-strong);
+      color: var(--ink);
+      box-shadow: 0 5px 15px rgba(28,28,30,.08);
+    }
+
+    .milestone-view {
+      position: relative;
+      padding-top: 38px;
+    }
+
+    .track-line {
+      position: absolute;
+      top: 61px;
+      left: 8%;
+      right: 8%;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(201,185,138,.25), var(--champagne), rgba(201,185,138,.25));
+    }
+
+    .milestones {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .milestone {
+      position: relative;
+      min-width: 0;
+      padding: 42px 18px 20px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,.86);
+      box-shadow: var(--shadow);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+
+    .milestone:hover {
+      transform: translateY(-3px);
+      border-color: rgba(201,185,138,.46);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .milestone-number {
+      position: absolute;
+      top: -23px;
+      left: 50%;
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border: 5px solid var(--ivory);
+      border-radius: 50%;
+      background: var(--surface-strong);
+      color: var(--champagne-dark);
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 790;
+      box-shadow: 0 7px 18px rgba(28,28,30,.12);
+      transform: translateX(-50%);
+    }
+
+    .milestone.final {
+      border-color: rgba(201,185,138,.55);
+      background: linear-gradient(155deg, #fffdf7, #f0e6ca);
+    }
+
+    .milestone.final .milestone-number {
+      background: linear-gradient(145deg, #dccc9c, #ad9962);
+      color: #2b281f;
+    }
+
+    .milestone h3 {
+      min-height: 50px;
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 720;
+      line-height: 1.25;
+      letter-spacing: -.025em;
+    }
+
+    .milestone-value {
+      display: block;
+      margin-top: 16px;
+      font-family: var(--font-display);
+      font-size: 30px;
+      font-weight: 790;
+      letter-spacing: -.045em;
+    }
+
+    .milestone p {
+      min-height: 38px;
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 15px;
+    }
+
+    .tag {
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: #f4f3ef;
+      color: #626267;
+      font-size: 9px;
+      font-weight: 690;
+    }
+
+    .bonus-row {
+      display: grid;
+      grid-template-columns: 1fr .75fr .75fr 1.25fr;
+      gap: 10px;
+      margin: 14px 8% 0;
+    }
+
+    .bonus {
+      padding: 9px 10px;
+      border: 1px dashed rgba(141,122,77,.35);
+      border-radius: 10px;
+      background: rgba(242,237,224,.56);
+      color: #6f6244;
+      text-align: center;
+      font-size: 10px;
+      font-weight: 720;
+    }
+
+    .truth-note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      margin-top: 26px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 630;
+    }
+
+    .truth-note i {
+      display: grid;
+      place-items: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--sage-soft);
+      color: var(--sage);
+      font-style: normal;
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .all-view[hidden], .milestone-view[hidden] { display: none; }
+
+    .all-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .all-step {
+      min-height: 106px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: rgba(255,255,255,.78);
+    }
+
+    .all-step.premium {
+      border-color: rgba(201,185,138,.44);
+      background: linear-gradient(145deg, #fffdf9, #f4eddb);
+    }
+
+    .all-step-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .all-step-num {
+      display: grid;
+      place-items: center;
+      width: 27px;
+      height: 27px;
+      border-radius: 50%;
+      background: #f0efeb;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .all-step.premium .all-step-num {
+      background: var(--champagne);
+      color: #2d291f;
+    }
+
+    .all-step strong {
+      font-family: var(--font-display);
+      font-size: 17px;
+      letter-spacing: -.02em;
+    }
+
+    .all-step p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .closing {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin-top: 46px;
+      padding: 24px 26px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #1f2021;
+      color: #fff;
+      box-shadow: 0 28px 60px -34px rgba(0,0,0,.55);
+    }
+
+    .closing strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 20px;
+      letter-spacing: -.025em;
+    }
+
+    .closing span {
+      display: block;
+      margin-top: 5px;
+      color: rgba(255,255,255,.62);
+      font-size: 12px;
+    }
+
+    .closing-badge {
+      flex: 0 0 auto;
+      padding: 10px 14px;
+      border: 1px solid rgba(201,185,138,.42);
+      border-radius: 999px;
+      color: #e4d8b7;
+      font-size: 11px;
+      font-weight: 720;
+    }
+
+    @media (max-width: 900px) {
+      .mock-shell { width: min(100% - 32px, 720px); }
+
+      .journey-head {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .view-switch { align-self: flex-start; }
+
+      .milestone-view { padding-top: 8px; }
+      .track-line { display: none; }
+
+      .milestones {
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+
+      .milestone {
+        padding: 20px;
+      }
+
+      .milestone-number {
+        position: static;
+        width: 38px;
+        height: 38px;
+        margin-bottom: 16px;
+        border: 0;
+        transform: none;
+      }
+
+      .milestone h3,
+      .milestone p { min-height: 0; }
+
+      .bonus-row {
+        grid-template-columns: 1fr 1fr;
+        margin: 14px 0 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .mock-shell {
+        width: min(100% - 28px, 430px);
+        padding-top: 18px;
+      }
+
+      .mock-note { margin-bottom: 28px; }
+      h1 { font-size: 38px; }
+      .hero-copy { font-size: 15px; }
+
+      .choice-bar {
+        grid-template-columns: 1fr;
+        margin-top: 24px;
+      }
+
+      .choice { justify-content: flex-start; min-height: 44px; }
+
+      .start-card {
+        grid-template-columns: auto 1fr;
+        gap: 16px;
+        margin-top: 32px;
+        padding: 18px;
+      }
+
+      .start-number { width: 52px; height: 52px; }
+      .start-copy h2 { font-size: 20px; }
+      .start-copy p { font-size: 12px; }
+
+      .start-value {
+        grid-column: 1 / -1;
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        min-width: 0;
+        padding-top: 14px;
+        border-top: 1px solid rgba(141,122,77,.18);
+        text-align: left;
+      }
+
+      .start-value strong { font-size: 29px; }
+
+      .journey { margin-top: 52px; }
+      .journey-head h2 { font-size: 30px; }
+
+      .view-switch { width: 100%; }
+      .view-switch button { min-width: 0; }
+
+      .milestones {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding-left: 24px;
+      }
+
+      .milestones::before {
+        content: '';
+        position: absolute;
+        top: 18px;
+        bottom: 18px;
+        left: 8px;
+        width: 1px;
+        background: linear-gradient(var(--champagne), rgba(201,185,138,.18));
+      }
+
+      .milestone {
+        display: grid;
+        grid-template-columns: 42px 1fr auto;
+        gap: 0 12px;
+        align-items: start;
+        padding: 16px;
+      }
+
+      .milestone-number {
+        grid-column: 1;
+        grid-row: 1 / span 4;
+        width: 38px;
+        height: 38px;
+        margin: 0;
+      }
+
+      .milestone small,
+      .milestone h3,
+      .milestone p,
+      .milestone .tag-row { grid-column: 2 / -1; }
+
+      .milestone small { margin-top: 2px; }
+      .milestone h3 { font-size: 17px; }
+
+      .milestone-value {
+        grid-column: 3;
+        grid-row: 1 / span 2;
+        margin: 0;
+        font-size: 22px;
+        white-space: nowrap;
+      }
+
+      .milestone p { margin-top: 8px; }
+      .tag-row { margin-top: 11px; }
+
+      .bonus-row {
+        grid-template-columns: 1fr;
+        margin-left: 24px;
+      }
+
+      .truth-note {
+        align-items: flex-start;
+        justify-content: flex-start;
+        margin-left: 24px;
+        font-size: 12px;
+      }
+
+      .all-grid { grid-template-columns: 1fr 1fr; }
+
+      .closing {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 20px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="mock-shell">
+    <div class="mock-note"><span><i aria-hidden="true"></i>Lokaler Entwurf, noch nicht live</span></div>
+
+    <section class="hero" aria-labelledby="mockTitle">
+      <p class="eyebrow">Dein Dankeschön</p>
+      <h1 id="mockTitle">Du hilfst jemandem.<br>Ich sage Danke.</h1>
+      <p class="hero-copy">Sobald aus deiner Empfehlung ein neuer Kunde wird, wächst dein Dankeschön. Du entscheidest in Ruhe, was zu dir passt.</p>
+
+      <div class="choice-bar" aria-label="Möglichkeiten für das Dankeschön">
+        <div class="choice"><span class="choice-mark" aria-hidden="true">€</span>Auszahlen lassen</div>
+        <div class="choice"><span class="choice-mark" aria-hidden="true">◆</span>Wunsch erfüllen</div>
+        <div class="choice"><span class="choice-mark" aria-hidden="true">♥</span>Weitergeben und spenden</div>
+      </div>
+    </section>
+
+    <section class="start-card" aria-labelledby="startTitle">
+      <div class="start-number" aria-hidden="true">01</div>
+      <div class="start-copy">
+        <small>Dein erster Erfolg</small>
+        <h2 id="startTitle">Das erste Dankeschön ist nah</h2>
+        <p>Bereits beim ersten gewonnenen Kunden bekommst du eine frei wählbare Prämie.</p>
+      </div>
+      <div class="start-value">
+        <strong>100 €</strong>
+        <span>Auszahlung, Gutschein oder Spende</span>
+      </div>
+    </section>
+
+    <section class="journey" aria-labelledby="journeyTitle">
+      <div class="journey-head">
+        <div>
+          <p class="eyebrow">Dein Weg</p>
+          <h2 id="journeyTitle">Die großen Meilensteine</h2>
+          <p>Keine winzigen Punkte und kein endloser Katalog. Du siehst zuerst die besonderen Ziele. Alle Zwischenstufen bleiben jederzeit nachvollziehbar.</p>
+        </div>
+
+        <div class="view-switch" role="tablist" aria-label="Ansicht wählen">
+          <button type="button" id="milestoneTab" class="active" role="tab" aria-selected="true" aria-controls="milestoneView">Meilensteine</button>
+          <button type="button" id="allTab" role="tab" aria-selected="false" aria-controls="allView">Alle 15 Stufen</button>
+        </div>
+      </div>
+
+      <div class="milestone-view" id="milestoneView" role="tabpanel" aria-labelledby="milestoneTab">
+        <div class="track-line" aria-hidden="true"></div>
+
+        <div class="milestones">
+          <article class="milestone">
+            <span class="milestone-number">02</span>
+            <small>2 gewonnene Kunden</small>
+            <h3>Ein schöner Abend</h3>
+            <strong class="milestone-value">150 €</strong>
+            <p>Erlebnis nach deiner Wahl</p>
+            <div class="tag-row"><span class="tag">Restaurant</span><span class="tag">Konzert</span><span class="tag">Wellness</span></div>
+          </article>
+
+          <article class="milestone">
+            <span class="milestone-number">05</span>
+            <small>5 gewonnene Kunden</small>
+            <h3>Deine Wunschprämie</h3>
+            <strong class="milestone-value">450 €</strong>
+            <p>Du bestimmst, was Freude macht</p>
+            <div class="tag-row"><span class="tag">Watch</span><span class="tag">Grill</span><span class="tag">Kurztrip</span></div>
+          </article>
+
+          <article class="milestone">
+            <span class="milestone-number">07</span>
+            <small>7 gewonnene Kunden</small>
+            <h3>Etwas, das bleibt</h3>
+            <strong class="milestone-value">500 €</strong>
+            <p>Wertprämie nach deiner Wahl</p>
+            <div class="tag-row"><span class="tag">Gold</span><span class="tag">Erlebnis</span><span class="tag">Spende</span></div>
+          </article>
+
+          <article class="milestone">
+            <span class="milestone-number">10</span>
+            <small>10 gewonnene Kunden</small>
+            <h3>Der große Wunsch</h3>
+            <strong class="milestone-value">700 €</strong>
+            <p>Technik, Reise oder etwas Eigenes</p>
+            <div class="tag-row"><span class="tag">iPad</span><span class="tag">Reise</span><span class="tag">Wunsch</span></div>
+          </article>
+
+          <article class="milestone final">
+            <span class="milestone-number">15</span>
+            <small>15 gewonnene Kunden</small>
+            <h3>Dein Traumziel</h3>
+            <strong class="milestone-value">2.000 €</strong>
+            <p>Reiseguthaben oder freie Wahl</p>
+            <div class="tag-row"><span class="tag">Mallorca</span><span class="tag">Wunschreise</span><span class="tag">Spende</span></div>
+          </article>
+        </div>
+
+        <div class="bonus-row" aria-label="Zwischenstufen">
+          <div class="bonus">Stufe 3 und 4: je 100 €</div>
+          <div class="bonus">Stufe 6: 100 €</div>
+          <div class="bonus">Stufe 8 und 9: je 100 €</div>
+          <div class="bonus">Stufe 11 bis 14: je 100 €</div>
+        </div>
+
+        <div class="truth-note"><i aria-hidden="true">✓</i>Jede erreichte Stufe kommt zusätzlich. Nichts verfällt.</div>
+      </div>
+
+      <div class="all-view" id="allView" role="tabpanel" aria-labelledby="allTab" hidden>
+        <div class="all-grid">
+          <article class="all-step"><div class="all-step-head"><span class="all-step-num">01</span><strong>100 €</strong></div><p>Wunschprämie</p></article>
+          <article class="all-step premium"><div class="all-step-head"><span class="all-step-num">02</span><strong>150 €</strong></div><p>Erlebnis nach Wahl</p></article>
+          <article class="all-step"><div class="all-step-head"><span class="all-step-num">03</span><strong>100 €</strong></div><p>Zusatzbonus</p></article>
+          <article class="all-step"><div class="all-step-head"><span class="all-step-num">04</span><strong>100 €</strong></div><p>Zusatzbonus</p></article>
+          <article class="all-step premium"><div class="all-step-head"><span class="all-step-num">05</span><strong>450 €</strong></div><p>Wunschprämie</p></article>
+          <article class="all-step"><div class="all-step-head"><span class="all-step-num">06</span><strong>100 €</strong></div><p>Zusatzbonus</p></article>
+          <article class="all-step premium"><div class="all-step-head"><span class="all-step-num">07</span><strong>500 €</strong></div><p>Wertprämie</p></article>
+          <article class="all-step"><div class="all-step-head"><span class="all-step-num">08</span><strong>100 €</strong></div><p>Zusatzbonus</p></article>
+          <article class="all-step"><div class="all-step-head"><span class="all-step-num">09</span><strong>100 €</strong></div><p>Zusatzbonus</p></article>
+          <article class="all-step premium"><div class="all-step-head"><span class="all-step-num">10</span><strong>700 €</strong></div><p>Großer Wunsch</p></article>
+          <article class="all-step"><div class="all-step-head"><span class="all-step-num">11</span><strong>100 €</strong></div><p>Zusatzbonus</p></article>
+          <article class="all-step"><div class="all-step-head"><span class="all-step-num">12</span><strong>100 €</strong></div><p>Zusatzbonus</p></article>
+          <article class="all-step"><div class="all-step-head"><span class="all-step-num">13</span><strong>100 €</strong></div><p>Zusatzbonus</p></article>
+          <article class="all-step"><div class="all-step-head"><span class="all-step-num">14</span><strong>100 €</strong></div><p>Zusatzbonus</p></article>
+          <article class="all-step premium"><div class="all-step-head"><span class="all-step-num">15</span><strong>2.000 €</strong></div><p>Traumziel</p></article>
+        </div>
+
+        <div class="truth-note"><i aria-hidden="true">✓</i>Alle 15 Stufen sind klar benannt und gelten zusätzlich.</div>
+      </div>
+    </section>
+
+    <section class="closing" aria-label="Abschluss">
+      <div><strong>Du empfiehlst aus Überzeugung.</strong><span>Das Dankeschön ist eine Anerkennung, nicht der Grund.</span></div>
+      <div class="closing-badge">Auch ohne Prämie möglich</div>
+    </section>
+  </main>
+
+  <script>
+    const milestoneTab = document.getElementById('milestoneTab');
+    const allTab = document.getElementById('allTab');
+    const milestoneView = document.getElementById('milestoneView');
+    const allView = document.getElementById('allView');
+
+    function setView(showAll) {
+      milestoneTab.classList.toggle('active', !showAll);
+      allTab.classList.toggle('active', showAll);
+      milestoneTab.setAttribute('aria-selected', String(!showAll));
+      allTab.setAttribute('aria-selected', String(showAll));
+      milestoneView.hidden = showAll;
+      allView.hidden = !showAll;
+    }
+
+    milestoneTab.addEventListener('click', () => setView(false));
+    allTab.addEventListener('click', () => setView(true));
+  </script>
+</body>
+</html>

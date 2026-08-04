@@ -1,0 +1,1705 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#171718">
+  <title>Mockup: Vertikale Belohnungsreise, Mobile First</title>
+  <style>
+    :root {
+      --ivory: #faf8f5;
+      --surface: #fffdf9;
+      --ink: #1b1b1d;
+      --muted: #6e6e73;
+      --champagne: #c9b98a;
+      --champagne-light: #e9dfc4;
+      --champagne-dark: #8c7648;
+      --marine: #2e5266;
+      --sage: #7a8b6f;
+      --line: rgba(28, 28, 30, .10);
+      --shadow: 0 24px 60px -38px rgba(28, 28, 30, .48);
+      --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+      --font-text: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 18px;
+    }
+
+    body {
+      min-width: 320px;
+      margin: 0;
+      padding-bottom: calc(82px + env(safe-area-inset-bottom));
+      overflow-x: hidden;
+      background: var(--ivory);
+      color: var(--ink);
+      font-family: var(--font-text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button,
+    a { font: inherit; }
+
+    button { -webkit-tap-highlight-color: transparent; }
+
+    button:focus-visible,
+    a:focus-visible {
+      outline: 3px solid rgba(201,185,138,.76);
+      outline-offset: 3px;
+    }
+
+    .draft-label {
+      position: absolute;
+      top: max(12px, env(safe-area-inset-top));
+      right: 12px;
+      z-index: 20;
+      padding: 7px 9px;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 999px;
+      background: rgba(17,17,18,.74);
+      color: rgba(255,255,255,.78);
+      font-size: 9px;
+      font-weight: 760;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 85% 78%, rgba(201,185,138,.18), transparent 23rem),
+        linear-gradient(145deg, #171718 0%, #262525 62%, #3b3529 100%);
+      color: #fff;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,185,138,.7), transparent);
+    }
+
+    .hero-inner {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 14px 54px;
+    }
+
+    .hero-collage {
+      position: relative;
+      width: calc(100% + 28px);
+      height: clamp(410px, 118vw, 500px);
+      margin-left: -14px;
+    }
+
+    .hero-trip {
+      position: absolute;
+      inset: 0;
+      margin: 0;
+      overflow: hidden;
+      border-radius: 0 0 24px 24px;
+      background: #222;
+    }
+
+    .hero-trip img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% center;
+    }
+
+    .hero-trip::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.05) 15%, rgba(0,0,0,.12) 38%, rgba(0,0,0,.82) 100%);
+    }
+
+    .hero-trip-copy {
+      position: absolute;
+      right: 20px;
+      bottom: 115px;
+      left: 20px;
+      z-index: 2;
+    }
+
+    .hero-trip-copy small,
+    .eyebrow,
+    .level,
+    .reward-copy small {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .17em;
+      text-transform: uppercase;
+    }
+
+    .hero-trip-copy small,
+    .eyebrow,
+    .reward-copy small { color: var(--champagne-light); }
+
+    .hero-trip-copy strong {
+      display: block;
+      margin-top: 7px;
+      font-family: var(--font-display);
+      font-size: clamp(30px, 9vw, 40px);
+      line-height: 1.02;
+      letter-spacing: -.045em;
+    }
+
+    .hero-trip-copy span {
+      display: block;
+      margin-top: 7px;
+      color: rgba(255,255,255,.76);
+      font-size: 12px;
+    }
+
+    .hero-money {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      left: 18px;
+      z-index: 4;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      grid-template-rows: auto auto;
+      column-gap: 15px;
+      align-items: center;
+      padding: 14px 15px;
+      border: 1px solid rgba(201,185,138,.48);
+      border-radius: 16px;
+      background: rgba(250,246,235,.96);
+      color: var(--ink);
+      box-shadow: 0 20px 44px rgba(0,0,0,.30);
+    }
+
+    .hero-money small {
+      grid-column: 2;
+      color: var(--champagne-dark);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+
+    .hero-money strong {
+      grid-row: 1 / 3;
+      font-family: var(--font-display);
+      font-size: 34px;
+      line-height: 1;
+      letter-spacing: -.05em;
+    }
+
+    .hero-money span {
+      grid-column: 2;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.3;
+    }
+
+    .hero-message { padding: 32px 2px 0; }
+
+    .eyebrow { margin: 0 0 13px; }
+
+    h1 {
+      max-width: 610px;
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(36px, 10.5vw, 46px);
+      font-weight: 770;
+      line-height: 1.01;
+      letter-spacing: -.048em;
+    }
+
+    .hero-copy {
+      max-width: 570px;
+      margin: 18px 0 0;
+      color: rgba(255,255,255,.70);
+      font-size: 15px;
+      line-height: 1.52;
+    }
+
+    .hero-proof {
+      display: flex;
+      gap: 8px;
+      margin: 22px -14px 0 0;
+      padding: 0 14px 4px 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+      scroll-snap-type: x proximity;
+    }
+
+    .hero-proof::-webkit-scrollbar,
+    .step-rail::-webkit-scrollbar,
+    .reward-deck::-webkit-scrollbar,
+    .coin-row::-webkit-scrollbar { display: none; }
+
+    .hero-proof span {
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+      padding: 9px 11px;
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 999px;
+      color: rgba(255,255,255,.76);
+      font-size: 10px;
+      font-weight: 690;
+    }
+
+    .page {
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 14px 32px;
+    }
+
+    .roadmap-panel {
+      position: relative;
+      z-index: 5;
+      margin-top: -20px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .roadmap-head {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 20px 18px 5px;
+    }
+
+    .roadmap-head strong {
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: -.025em;
+    }
+
+    .roadmap-head span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .step-rail {
+      display: flex;
+      align-items: stretch;
+      gap: 8px;
+      margin: 0;
+      padding: 13px 18px 15px;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      scroll-padding-left: 18px;
+      scroll-snap-type: x mandatory;
+      touch-action: pan-x;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .step {
+      position: relative;
+      display: flex;
+      flex: 0 0 66px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 76px;
+      gap: 7px;
+      padding: 8px 5px;
+      scroll-snap-align: start;
+      border: 1px solid rgba(28,28,30,.07);
+      border-radius: 14px;
+      background: #f2f0eb;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    button.step {
+      cursor: pointer;
+      appearance: none;
+    }
+
+    .step b {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #dfdcd4;
+      color: #64615a;
+      font-size: 9px;
+      font-weight: 820;
+    }
+
+    .step span {
+      font-size: 8px;
+      font-weight: 780;
+      line-height: 1.15;
+      letter-spacing: .03em;
+      text-transform: uppercase;
+    }
+
+    .step.premium {
+      flex-basis: 92px;
+      border-color: rgba(141,118,72,.22);
+      background: linear-gradient(145deg, #f5eedc, #e9ddbe);
+      color: #574a2d;
+      box-shadow: 0 9px 20px rgba(141,118,72,.12);
+    }
+
+    .step.premium b {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(145deg, #ddcfaa, #ad9964);
+      color: #2c281d;
+      font-size: 11px;
+      box-shadow: 0 7px 16px rgba(141,118,72,.22);
+    }
+
+    .bonus-band {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 0;
+      padding: 2px 18px 20px;
+      color: #6e6042;
+      font-size: 11px;
+      font-weight: 670;
+      line-height: 1.42;
+    }
+
+    .bonus-band i {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: #efe6ce;
+      color: var(--champagne-dark);
+      font-style: normal;
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .reward-section { padding-top: 55px; }
+
+    .section-head {
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+      margin-bottom: 23px;
+    }
+
+    .section-head .eyebrow {
+      margin-bottom: 10px;
+      color: var(--champagne-dark);
+    }
+
+    .section-head h2 {
+      max-width: 720px;
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(34px, 9.2vw, 44px);
+      line-height: 1.03;
+      letter-spacing: -.045em;
+    }
+
+    .section-head p {
+      max-width: 520px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .early-win {
+      display: grid;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: var(--shadow);
+      scroll-margin-top: 18px;
+    }
+
+    .early-win img {
+      display: block;
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    .early-win-copy { padding: 22px; }
+
+    .level { color: var(--champagne-dark); }
+
+    .early-win h3 {
+      margin: 10px 0 0;
+      font-family: var(--font-display);
+      font-size: 25px;
+      line-height: 1.08;
+      letter-spacing: -.035em;
+    }
+
+    .early-win-value {
+      display: block;
+      margin-top: 14px;
+      font-family: var(--font-display);
+      font-size: 36px;
+      letter-spacing: -.05em;
+    }
+
+    .early-win p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .swipe-hint {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 24px 2px 9px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 690;
+    }
+
+    .swipe-hint span {
+      color: var(--champagne-dark);
+      font-size: 21px;
+      line-height: 1;
+    }
+
+    .reward-deck {
+      display: grid;
+      grid-auto-columns: 86%;
+      grid-auto-flow: column;
+      gap: 12px;
+      margin: 0 -14px 0 0;
+      padding: 2px 14px 18px 0;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      scroll-padding-left: 0;
+      scroll-snap-type: x mandatory;
+      touch-action: pan-x;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .reward-card {
+      position: relative;
+      height: 445px;
+      min-width: 0;
+      overflow: hidden;
+      scroll-margin-top: 18px;
+      scroll-snap-align: start;
+      border: 1px solid rgba(255,255,255,.20);
+      border-radius: 18px;
+      background: #222;
+      box-shadow: var(--shadow);
+      isolation: isolate;
+      transition: transform .22s ease, box-shadow .22s ease;
+    }
+
+    .reward-card:active { transform: scale(.99); }
+
+    .reward-card img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .reward-card::after {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.02) 22%, rgba(0,0,0,.82) 90%);
+    }
+
+    .reward-card.goal15::after {
+      background: linear-gradient(180deg, rgba(0,0,0,.01) 15%, rgba(24,19,10,.80) 93%);
+    }
+
+    .reward-number {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      z-index: 3;
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(255,255,255,.42);
+      border-radius: 50%;
+      background: rgba(18,18,18,.72);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 820;
+    }
+
+    .reward-badge {
+      position: absolute;
+      top: 17px;
+      right: 15px;
+      z-index: 3;
+      padding: 7px 9px;
+      border-radius: 999px;
+      background: rgba(255,253,249,.93);
+      color: #544726;
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+    }
+
+    .reward-copy {
+      position: absolute;
+      right: 20px;
+      bottom: 21px;
+      left: 20px;
+      z-index: 3;
+      color: #fff;
+    }
+
+    .reward-copy h3 {
+      margin: 8px 0 0;
+      font-family: var(--font-display);
+      font-size: 26px;
+      line-height: 1.04;
+      letter-spacing: -.04em;
+    }
+
+    .reward-copy strong {
+      display: block;
+      margin-top: 12px;
+      font-family: var(--font-display);
+      font-size: 34px;
+      line-height: 1;
+      letter-spacing: -.05em;
+    }
+
+    .reward-copy p {
+      margin: 8px 0 0;
+      color: rgba(255,255,255,.73);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .reward-card.goal5 img { object-position: 50% 55%; }
+    .reward-card.goal7 img { object-position: 52% center; }
+    .reward-card.goal10 img { object-position: 50% 48%; }
+    .reward-card.goal15 img { object-position: 50% center; }
+
+    .deck-dots {
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+      margin-top: 1px;
+    }
+
+    .deck-dot {
+      width: 8px;
+      height: 8px;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background: #d8d3c7;
+      cursor: pointer;
+      transition: width .2s ease, background .2s ease;
+    }
+
+    .deck-dot.active {
+      width: 24px;
+      background: var(--champagne-dark);
+    }
+
+    .money-steps {
+      margin-top: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(201,185,138,.34);
+      border-radius: 17px;
+      background: linear-gradient(135deg, #f6f0e1, #fffdf9);
+    }
+
+    .money-steps-head {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 20px 18px 0;
+    }
+
+    .money-steps-head strong {
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: -.025em;
+    }
+
+    .money-steps-head span {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .coin-row {
+      display: flex;
+      gap: 8px;
+      margin: 0;
+      padding: 15px 18px 20px;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      scroll-padding-left: 18px;
+      scroll-snap-type: x mandatory;
+      touch-action: pan-x;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .coin {
+      flex: 0 0 106px;
+      padding: 11px 8px;
+      scroll-snap-align: start;
+      border: 1px solid rgba(141,118,72,.18);
+      border-radius: 12px;
+      background: rgba(255,255,255,.76);
+      text-align: center;
+    }
+
+    .coin b {
+      display: block;
+      color: var(--champagne-dark);
+      font-size: 9px;
+    }
+
+    .coin strong {
+      display: block;
+      margin-top: 5px;
+      font-family: var(--font-display);
+      font-size: 16px;
+      letter-spacing: -.025em;
+    }
+
+    .choice-section {
+      display: grid;
+      gap: 12px;
+      margin-top: 52px;
+    }
+
+    .choice-main,
+    .choice-quiet {
+      padding: 23px;
+      border-radius: 18px;
+    }
+
+    .choice-main {
+      background: #1f2021;
+      color: #fff;
+    }
+
+    .choice-main .eyebrow { margin-bottom: 10px; }
+
+    .choice-main h2 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 29px;
+      line-height: 1.05;
+      letter-spacing: -.04em;
+    }
+
+    .choice-main p {
+      margin: 10px 0 0;
+      color: rgba(255,255,255,.66);
+      font-size: 13px;
+      line-height: 1.48;
+    }
+
+    .choice-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 19px;
+    }
+
+    .choice-options span {
+      padding: 9px 11px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 999px;
+      color: rgba(255,255,255,.82);
+      font-size: 10px;
+      font-weight: 720;
+    }
+
+    .choice-quiet {
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .choice-quiet strong {
+      font-family: var(--font-display);
+      font-size: 20px;
+      letter-spacing: -.025em;
+    }
+
+    .choice-quiet p {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .mobile-action {
+      position: fixed;
+      right: 10px;
+      bottom: calc(10px + env(safe-area-inset-bottom));
+      left: 10px;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-height: 64px;
+      padding: 8px 8px 8px 15px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 18px;
+      background: rgba(28,28,29,.96);
+      color: #fff;
+      box-shadow: 0 16px 42px rgba(0,0,0,.34);
+    }
+
+    .mobile-action-copy {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .mobile-action small {
+      display: block;
+      color: rgba(255,255,255,.55);
+      font-size: 9px;
+    }
+
+    .mobile-action strong {
+      display: block;
+      margin-top: 3px;
+      overflow: hidden;
+      font-size: 12px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .mobile-action button {
+      min-height: 48px;
+      flex: 0 0 auto;
+      padding: 0 16px;
+      border: 0;
+      border-radius: 13px;
+      background: linear-gradient(145deg, #dfd0a8, #bca569);
+      color: #29251b;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .mock-toast {
+      position: fixed;
+      right: 18px;
+      bottom: calc(88px + env(safe-area-inset-bottom));
+      left: 18px;
+      z-index: 40;
+      padding: 13px 15px;
+      transform: translateY(12px);
+      border-radius: 13px;
+      background: #fff;
+      color: var(--ink);
+      box-shadow: 0 16px 38px rgba(0,0,0,.22);
+      font-size: 12px;
+      line-height: 1.4;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+
+    .mock-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .journey-section {
+      position: relative;
+    }
+
+    .next-goal-card {
+      position: relative;
+      z-index: 5;
+      display: grid;
+      grid-template-columns: 76px minmax(0, 1fr);
+      gap: 14px;
+      align-items: center;
+      margin-top: -20px;
+      padding: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(141,118,72,.22);
+      border-radius: 19px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .next-goal-card img {
+      display: block;
+      width: 76px;
+      height: 94px;
+      object-fit: cover;
+      object-position: 50% 55%;
+      border-radius: 13px;
+    }
+
+    .next-goal-content { min-width: 0; }
+
+    .next-goal-content small {
+      color: var(--champagne-dark);
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .next-goal-content strong {
+      display: block;
+      margin-top: 5px;
+      font-family: var(--font-display);
+      font-size: 17px;
+      line-height: 1.12;
+      letter-spacing: -.025em;
+    }
+
+    .next-progress {
+      height: 5px;
+      margin-top: 11px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e9e6de;
+    }
+
+    .next-progress span {
+      display: block;
+      width: 40%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--champagne-dark), var(--champagne));
+    }
+
+    .next-goal-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 7px;
+    }
+
+    .next-goal-bottom span {
+      color: var(--muted);
+      font-size: 9px;
+    }
+
+    .next-goal-bottom button {
+      min-width: 44px;
+      min-height: 44px;
+      padding: 0 10px;
+      border: 0;
+      border-radius: 999px;
+      background: #eee5cf;
+      color: #655532;
+      font-size: 9px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .journey-intro {
+      margin: 52px 2px 26px;
+    }
+
+    .journey-intro .eyebrow {
+      margin-bottom: 10px;
+      color: var(--champagne-dark);
+    }
+
+    .journey-intro h2 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(34px, 9.2vw, 44px);
+      line-height: 1.03;
+      letter-spacing: -.045em;
+    }
+
+    .journey-intro > p:last-child {
+      margin: 13px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .journey {
+      position: relative;
+      display: grid;
+      gap: 11px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .journey::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      bottom: 30px;
+      left: 19px;
+      width: 2px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #ddd7c8 0%, var(--champagne) 48%, #9c8553 100%);
+    }
+
+    .journey-item {
+      position: relative;
+      display: grid;
+      grid-template-columns: 40px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      scroll-margin-top: 18px;
+    }
+
+    .journey-marker {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border: 5px solid var(--ivory);
+      border-radius: 50%;
+      background: #e6e2d9;
+      color: #68645b;
+      font-size: 10px;
+      font-weight: 850;
+    }
+
+    .journey-item.major .journey-marker {
+      background: linear-gradient(145deg, #ddcfaa, #aa945d);
+      color: #2c281d;
+      box-shadow: 0 7px 17px rgba(141,118,72,.24);
+    }
+
+    .journey-item.final .journey-marker {
+      background: #242322;
+      color: var(--champagne-light);
+      box-shadow: 0 0 0 1px var(--champagne), 0 8px 20px rgba(28,28,30,.22);
+    }
+
+    .cash-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 58px;
+      padding: 10px 13px;
+      border: 1px solid rgba(141,118,72,.18);
+      border-radius: 14px;
+      background: linear-gradient(105deg, #fff, #f8f1df);
+      box-shadow: 0 12px 32px -28px rgba(28,28,30,.50);
+    }
+
+    .cash-card small {
+      display: block;
+      color: var(--champagne-dark);
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+    }
+
+    .cash-card strong {
+      display: block;
+      margin-top: 3px;
+      font-size: 12px;
+    }
+
+    .cash-card b {
+      flex: 0 0 auto;
+      font-family: var(--font-display);
+      font-size: 21px;
+      letter-spacing: -.035em;
+    }
+
+    .milestone-card {
+      position: relative;
+      height: 350px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.20);
+      border-radius: 18px;
+      background: #222;
+      box-shadow: var(--shadow);
+      isolation: isolate;
+      transition: transform .22s ease, box-shadow .22s ease;
+    }
+
+    .journey-item.stage2 .milestone-card { height: 255px; }
+    .journey-item.stage5 .milestone-card { height: 350px; }
+    .journey-item.stage7 .milestone-card { height: 365px; }
+    .journey-item.stage10 .milestone-card { height: 385px; }
+    .journey-item.stage15 .milestone-card { height: 430px; }
+
+    .milestone-card img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .journey-item.stage2 img { object-position: 50% center; }
+    .journey-item.stage5 img { object-position: 50% 55%; }
+    .journey-item.stage7 img { object-position: 52% center; }
+    .journey-item.stage10 img { object-position: 50% 48%; }
+    .journey-item.stage15 img { object-position: 50% center; }
+
+    .milestone-card::after {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.02) 20%, rgba(0,0,0,.84) 92%);
+    }
+
+    .journey-item.stage15 .milestone-card::after {
+      background: linear-gradient(180deg, rgba(0,0,0,.01) 14%, rgba(24,19,10,.82) 94%);
+    }
+
+    .milestone-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 3;
+      padding: 7px 9px;
+      border-radius: 999px;
+      background: rgba(255,253,249,.93);
+      color: #544726;
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    .milestone-copy {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      left: 18px;
+      z-index: 3;
+      color: #fff;
+    }
+
+    .milestone-copy small {
+      color: var(--champagne-light);
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    .milestone-copy h3 {
+      margin: 7px 0 0;
+      font-family: var(--font-display);
+      font-size: 24px;
+      line-height: 1.05;
+      letter-spacing: -.04em;
+    }
+
+    .milestone-copy strong {
+      display: block;
+      margin-top: 10px;
+      font-family: var(--font-display);
+      font-size: 31px;
+      line-height: 1;
+      letter-spacing: -.05em;
+    }
+
+    .milestone-copy p {
+      margin: 7px 0 0;
+      color: rgba(255,255,255,.72);
+      font-size: 10px;
+      line-height: 1.35;
+    }
+
+    .journey-finish {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 16px 0 0 50px;
+      color: #655532;
+      font-size: 11px;
+      font-weight: 750;
+    }
+
+    .journey-finish::before {
+      content: '✓';
+      display: grid;
+      place-items: center;
+      width: 27px;
+      height: 27px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: #eee5cf;
+      color: var(--champagne-dark);
+      font-size: 12px;
+    }
+
+    @media (min-width: 700px) {
+      .next-goal-card,
+      .journey-intro,
+      .journey,
+      .journey-finish {
+        width: min(690px, 100%);
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .next-goal-card {
+        grid-template-columns: 94px minmax(0, 1fr);
+        gap: 18px;
+        padding: 14px;
+      }
+
+      .next-goal-card img {
+        width: 94px;
+        height: 112px;
+      }
+
+      .next-goal-content strong { font-size: 21px; }
+      .journey-intro { margin-top: 62px; margin-bottom: 31px; }
+      .journey-intro h2 { font-size: 48px; }
+      .journey { gap: 13px; }
+      .journey::before { left: 23px; }
+
+      .journey-item {
+        grid-template-columns: 48px minmax(0, 1fr);
+        gap: 15px;
+      }
+
+      .journey-marker { width: 48px; height: 48px; font-size: 11px; }
+      .cash-card { min-height: 64px; padding: 12px 16px; }
+      .cash-card strong { font-size: 13px; }
+      .cash-card b { font-size: 24px; }
+      .journey-item.stage2 .milestone-card { height: 310px; }
+      .journey-item.stage5 .milestone-card { height: 410px; }
+      .journey-item.stage7 .milestone-card { height: 425px; }
+      .journey-item.stage10 .milestone-card { height: 445px; }
+      .journey-item.stage15 .milestone-card { height: 485px; }
+      .milestone-copy { right: 24px; bottom: 24px; left: 24px; }
+      .milestone-copy h3 { font-size: 30px; }
+      .milestone-copy strong { font-size: 36px; }
+      .journey-finish { padding-left: 63px; }
+    }
+
+    @media (min-width: 1024px) {
+      .next-goal-card,
+      .journey-intro,
+      .journey,
+      .journey-finish { width: min(780px, 100%); }
+
+      .next-goal-card { margin-top: -38px; }
+      .journey-intro { margin-top: 76px; }
+      .journey-intro h2 { font-size: 54px; }
+      .journey-item.stage2 .milestone-card { height: 340px; }
+      .journey-item.stage5 .milestone-card { height: 430px; }
+      .journey-item.stage7 .milestone-card { height: 445px; }
+      .journey-item.stage10 .milestone-card { height: 465px; }
+      .journey-item.stage15 .milestone-card { height: 520px; }
+
+      .milestone-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 34px 70px -34px rgba(28,28,30,.60);
+      }
+    }
+
+    .flash { animation: flash 1s ease; }
+
+    @keyframes flash {
+      0%, 100% { box-shadow: var(--shadow); }
+      35% { box-shadow: 0 0 0 5px rgba(201,185,138,.58), 0 30px 70px -32px rgba(28,28,30,.58); }
+    }
+
+    @media (min-width: 700px) {
+      body { padding-bottom: 0; }
+
+      .hero-inner {
+        width: min(760px, calc(100% - 40px));
+        padding-right: 0;
+        padding-bottom: 72px;
+        padding-left: 0;
+      }
+
+      .hero-collage {
+        width: 100%;
+        height: 500px;
+        margin-left: 0;
+      }
+
+      .hero-trip { border-radius: 0 0 24px 24px; }
+      .hero-message { padding-top: 42px; }
+      h1 { font-size: 54px; }
+      .hero-proof { flex-wrap: wrap; overflow: visible; }
+
+      .page {
+        width: min(760px, calc(100% - 40px));
+        padding-right: 0;
+        padding-bottom: 76px;
+        padding-left: 0;
+      }
+
+      .roadmap-head {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .step-rail {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        overflow: visible;
+      }
+
+      .step,
+      .step.premium { min-width: 0; }
+
+      .section-head h2 { font-size: 48px; }
+
+      .early-win { grid-template-columns: .9fr 1.1fr; }
+      .early-win-copy { display: flex; flex-direction: column; justify-content: center; padding: 28px; }
+      .early-win img { height: 100%; min-height: 270px; }
+
+      .reward-deck {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-flow: row;
+        gap: 15px;
+        margin-right: 0;
+        padding-right: 0;
+        overflow: visible;
+      }
+
+      .reward-card { height: 430px; }
+      .deck-dots,
+      .swipe-hint { display: none; }
+
+      .coin-row {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        overflow: visible;
+      }
+
+      .coin { min-width: 0; }
+      .choice-section { grid-template-columns: 1fr; }
+      .mobile-action,
+      .mock-toast { display: none; }
+    }
+
+    @media (min-width: 1024px) {
+      .draft-label {
+        position: fixed;
+        top: 18px;
+        right: 18px;
+      }
+
+      .hero { min-height: 570px; }
+
+      .hero-inner {
+        display: grid;
+        grid-template-columns: minmax(0, .88fr) minmax(460px, 1.12fr);
+        align-items: center;
+        gap: clamp(36px, 6vw, 92px);
+        width: min(1280px, calc(100% - 64px));
+        min-height: 570px;
+        padding: 72px 0 92px;
+      }
+
+      .hero-message {
+        grid-column: 1;
+        grid-row: 1;
+        padding-top: 0;
+      }
+
+      .hero-collage {
+        grid-column: 2;
+        grid-row: 1;
+        height: 380px;
+      }
+
+      .hero-trip {
+        inset: 0 0 0 17%;
+        border: 1px solid rgba(255,255,255,.15);
+        border-radius: 18px;
+        box-shadow: 0 38px 80px rgba(0,0,0,.35);
+      }
+
+      .hero-money {
+        right: auto;
+        bottom: 27px;
+        left: 0;
+        display: block;
+        width: 190px;
+        padding: 20px;
+      }
+
+      .hero-money small { display: block; }
+      .hero-money strong { display: block; margin-top: 8px; font-size: 38px; }
+      .hero-money span { display: block; margin-top: 5px; }
+      .hero-trip-copy { right: 25px; bottom: 24px; left: 25px; }
+      .hero-trip-copy strong { font-size: 42px; }
+      h1 { font-size: clamp(48px, 5vw, 72px); }
+      .hero-copy { font-size: 17px; }
+
+      .page {
+        width: min(1280px, calc(100% - 64px));
+        padding-bottom: 84px;
+      }
+
+      .roadmap-panel { margin-top: -38px; }
+      .roadmap-head { padding: 25px 28px 5px; }
+
+      .step-rail {
+        grid-template-columns: repeat(15, minmax(0, 1fr));
+        gap: 5px;
+        padding: 13px 28px 15px;
+      }
+
+      .step,
+      .step.premium {
+        min-height: 70px;
+        padding: 7px 3px;
+      }
+
+      .step.premium b { width: 40px; height: 40px; }
+      .bonus-band { justify-content: center; padding: 4px 28px 22px; text-align: center; }
+
+      .reward-section { padding-top: 76px; }
+
+      .section-head {
+        flex-direction: row;
+        align-items: end;
+        justify-content: space-between;
+        gap: 30px;
+        margin-bottom: 32px;
+      }
+
+      .section-head h2 { font-size: 54px; }
+      .section-head p { max-width: 360px; }
+
+      .early-win {
+        grid-template-columns: 1.1fr .9fr;
+        min-height: 245px;
+      }
+
+      .early-win-copy { padding: 31px; }
+      .early-win img { min-height: 245px; }
+
+      .reward-deck {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        align-items: end;
+        margin-top: 24px;
+      }
+
+      .reward-card.goal5 { height: 370px; }
+      .reward-card.goal7 { height: 400px; }
+      .reward-card.goal10 { height: 430px; }
+      .reward-card.goal15 { height: 465px; }
+
+      .reward-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 34px 70px -34px rgba(28,28,30,.60);
+      }
+
+      .money-steps { margin-top: 22px; }
+      .money-steps-head {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 22px 0;
+      }
+
+      .coin-row {
+        grid-template-columns: repeat(10, minmax(0, 1fr));
+        padding: 16px 22px 20px;
+      }
+
+      .choice-section {
+        grid-template-columns: 1.25fr .75fr;
+        gap: 16px;
+        margin-top: 70px;
+      }
+
+      .choice-main,
+      .choice-quiet { padding: 29px; }
+
+      .choice-quiet { display: flex; flex-direction: column; justify-content: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="draft-label">Vertikaler Entwurf</div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-collage" aria-label="Erster Bonus und Traumziel">
+        <figure class="hero-trip">
+          <img src="../assets/images/programm/mallorca.jpg" alt="Türkisfarbene Bucht auf Mallorca">
+          <figcaption class="hero-trip-copy">
+            <small>Das große Ziel bei Stufe 15</small>
+            <strong>Mallorca für zwei</strong>
+            <span>Reiseguthaben im Wert von 2.000 €</span>
+          </figcaption>
+        </figure>
+
+        <div class="hero-money">
+          <small>Schon bei Stufe 1</small>
+          <strong>100 €</strong>
+          <span>Auszahlen, als Gutschein nehmen oder spenden</span>
+        </div>
+      </div>
+
+      <div class="hero-message">
+        <p class="eyebrow">Deine Belohnungsreise</p>
+        <h1>Deine Empfehlungen. Deine Meilensteine.</h1>
+        <p class="hero-copy">Wird aus deiner Empfehlung ein neuer Kunde, rückst du deinem nächsten Wunsch näher. Kleine Geldboni halten die Reise in Bewegung. Die großen Ziele sorgen für echte Vorfreude.</p>
+        <div class="hero-proof" aria-label="Mögliche Belohnungsarten">
+          <span>Geldbonus</span>
+          <span>Materielle Wünsche</span>
+          <span>Erlebnisse und Reisen</span>
+          <span>Spende möglich</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="journey-section" aria-labelledby="journeyTitle">
+      <aside class="next-goal-card" aria-label="Beispiel für das nächste persönliche Ziel">
+        <img src="../assets/images/programm/applewatch.jpg" alt="Apple Watch als nächstes großes Ziel">
+        <div class="next-goal-content">
+          <small>Beispiel: dein nächstes großes Ziel</small>
+          <strong>Stufe 5: Apple Watch oder Weber-Grill</strong>
+          <div class="next-progress" role="progressbar" aria-label="Beispielstand" aria-valuemin="0" aria-valuemax="5" aria-valuenow="2"><span></span></div>
+          <div class="next-goal-bottom">
+            <span>Noch 3 Erfolge bis Stufe 5</span>
+            <button type="button" data-target="goal5">Ansehen</button>
+          </div>
+        </div>
+      </aside>
+
+      <div class="journey-intro">
+        <p class="eyebrow">Deine Reise von 1 bis 15</p>
+        <h2 id="journeyTitle">Jede Stufe sichtbar. Jedes große Ziel spürbar.</h2>
+        <p>Du scrollst ganz natürlich nach unten. Kleine Geldboni bleiben kompakt. Die besonderen Belohnungen bekommen den Raum und die Bilder, die sie verdienen.</p>
+      </div>
+
+      <ol class="journey" aria-label="Belohnungsreise von Stufe 1 bis Stufe 15">
+        <li class="journey-item cash-step">
+          <span class="journey-marker">1</span>
+          <div class="cash-card">
+            <div><small>Stufe 1</small><strong>Geldbonus</strong></div>
+            <b>100 €</b>
+          </div>
+        </li>
+
+        <li class="journey-item major stage2" id="goal2">
+          <span class="journey-marker">2</span>
+          <article class="milestone-card">
+            <img src="../assets/images/programm/restaurant.jpg" alt="Modernes Restaurant für einen besonderen Abend">
+            <span class="milestone-badge">Erstes Erlebnis</span>
+            <div class="milestone-copy">
+              <small>2 gewonnene Kunden</small>
+              <h3>Ein schöner Abend zu zweit</h3>
+              <strong>150 €</strong>
+              <p>Restaurant deiner Wahl oder ein anderes Erlebnis</p>
+            </div>
+          </article>
+        </li>
+
+        <li class="journey-item cash-step">
+          <span class="journey-marker">3</span>
+          <div class="cash-card"><div><small>Stufe 3</small><strong>Geldbonus</strong></div><b>100 €</b></div>
+        </li>
+
+        <li class="journey-item cash-step">
+          <span class="journey-marker">4</span>
+          <div class="cash-card"><div><small>Stufe 4</small><strong>Geldbonus</strong></div><b>100 €</b></div>
+        </li>
+
+        <li class="journey-item major stage5" id="goal5">
+          <span class="journey-marker">5</span>
+          <article class="milestone-card">
+            <img src="../assets/images/programm/applewatch.jpg" alt="Apple Watch als Beispiel für die Belohnung bei Stufe 5">
+            <span class="milestone-badge">Freie Wahl</span>
+            <div class="milestone-copy">
+              <small>5 gewonnene Kunden</small>
+              <h3>Apple Watch oder Weber-Grill</h3>
+              <strong>449 €</strong>
+              <p>Materieller Wunsch, Geldwert oder Spende</p>
+            </div>
+          </article>
+        </li>
+
+        <li class="journey-item cash-step">
+          <span class="journey-marker">6</span>
+          <div class="cash-card"><div><small>Stufe 6</small><strong>Geldbonus</strong></div><b>100 €</b></div>
+        </li>
+
+        <li class="journey-item major stage7" id="goal7">
+          <span class="journey-marker">7</span>
+          <article class="milestone-card">
+            <img src="../assets/images/programm/goldbarren.jpg" alt="Goldbarren als Beispiel für die Belohnung bei Stufe 7">
+            <span class="milestone-badge">Wert, der bleibt</span>
+            <div class="milestone-copy">
+              <small>7 gewonnene Kunden</small>
+              <h3>Goldbarren oder Wunschwert</h3>
+              <strong>500 €</strong>
+              <p>Gold, Erlebnis, Auszahlung oder Spende</p>
+            </div>
+          </article>
+        </li>
+
+        <li class="journey-item cash-step">
+          <span class="journey-marker">8</span>
+          <div class="cash-card"><div><small>Stufe 8</small><strong>Geldbonus</strong></div><b>100 €</b></div>
+        </li>
+
+        <li class="journey-item cash-step">
+          <span class="journey-marker">9</span>
+          <div class="cash-card"><div><small>Stufe 9</small><strong>Geldbonus</strong></div><b>100 €</b></div>
+        </li>
+
+        <li class="journey-item major stage10" id="goal10">
+          <span class="journey-marker">10</span>
+          <article class="milestone-card">
+            <img src="../assets/images/programm/ipad.jpg" alt="iPad als Beispiel für die Belohnung bei Stufe 10">
+            <span class="milestone-badge">Großer Wunsch</span>
+            <div class="milestone-copy">
+              <small>10 gewonnene Kunden</small>
+              <h3>iPad Air oder freie Wahl</h3>
+              <strong>699 €</strong>
+              <p>Technik, Reise, Auszahlung oder Spende</p>
+            </div>
+          </article>
+        </li>
+
+        <li class="journey-item cash-step">
+          <span class="journey-marker">11</span>
+          <div class="cash-card"><div><small>Stufe 11</small><strong>Geldbonus</strong></div><b>100 €</b></div>
+        </li>
+
+        <li class="journey-item cash-step">
+          <span class="journey-marker">12</span>
+          <div class="cash-card"><div><small>Stufe 12</small><strong>Geldbonus</strong></div><b>100 €</b></div>
+        </li>
+
+        <li class="journey-item cash-step">
+          <span class="journey-marker">13</span>
+          <div class="cash-card"><div><small>Stufe 13</small><strong>Geldbonus</strong></div><b>100 €</b></div>
+        </li>
+
+        <li class="journey-item cash-step">
+          <span class="journey-marker">14</span>
+          <div class="cash-card"><div><small>Stufe 14</small><strong>Geldbonus</strong></div><b>100 €</b></div>
+        </li>
+
+        <li class="journey-item major final stage15" id="goal15">
+          <span class="journey-marker">15</span>
+          <article class="milestone-card">
+            <img src="../assets/images/programm/mallorca.jpg" alt="Türkisfarbene Bucht auf Mallorca als Traumziel bei Stufe 15">
+            <span class="milestone-badge">Das Traumziel</span>
+            <div class="milestone-copy">
+              <small>15 gewonnene Kunden</small>
+              <h3>Mallorca für zwei</h3>
+              <strong>2.000 €</strong>
+              <p>Reiseguthaben, Wunschreise oder Spende</p>
+            </div>
+          </article>
+        </li>
+      </ol>
+
+      <p class="journey-finish">15 Stufen, ein sichtbarer Weg und echte Vorfreude.</p>
+    </section>
+
+    <section class="choice-section" aria-label="Wahlmöglichkeiten">
+      <div class="choice-main">
+        <p class="eyebrow">Dein Dankeschön, deine Entscheidung</p>
+        <h2>Geld, ein echter Wunsch oder etwas Gutes tun.</h2>
+        <p>Der Meilenstein schafft Vorfreude. Bei der Einlösung entscheidest du, welche Form der gleiche Wert für dich bekommen soll.</p>
+        <div class="choice-options">
+          <span>Auszahlung</span>
+          <span>Materielle Belohnung</span>
+          <span>Erlebnis oder Reise</span>
+          <span>Spende</span>
+        </div>
+      </div>
+
+      <div class="choice-quiet">
+        <strong>Auch einfach so.</strong>
+        <p>Du möchtest jemanden weiterbringen, ohne ein Dankeschön anzunehmen? Natürlich kannst du auch ohne Prämie empfehlen.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="mobile-action" aria-label="Empfehlung starten">
+    <div class="mobile-action-copy">
+      <small>Bereit für deine nächste Stufe?</small>
+      <strong>Jemandem etwas Gutes tun</strong>
+    </div>
+    <button id="mockCta" type="button">Jetzt empfehlen</button>
+  </div>
+
+  <div class="mock-toast" id="mockToast" role="status" aria-live="polite">Im echten Portal startet hier direkt die Empfehlung.</div>
+
+  <script>
+    function showReward(target) {
+      if (!target) return;
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const card = target.querySelector('.milestone-card') || target;
+      card.classList.remove('flash');
+      requestAnimationFrame(() => card.classList.add('flash'));
+      window.setTimeout(() => card.classList.remove('flash'), 1100);
+    }
+
+    document.querySelectorAll('[data-target]').forEach((button) => {
+      button.addEventListener('click', () => showReward(document.getElementById(button.dataset.target)));
+    });
+
+    const mockCta = document.getElementById('mockCta');
+    const mockToast = document.getElementById('mockToast');
+    let toastTimer;
+
+    mockCta.addEventListener('click', () => {
+      window.clearTimeout(toastTimer);
+      mockToast.classList.add('show');
+      toastTimer = window.setTimeout(() => mockToast.classList.remove('show'), 2400);
+    });
+  </script>
+</body>
+</html>
