@@ -46,6 +46,7 @@
   <!-- Schnell-Menü (Rechtsklick auf einen Promoter) -->
   <div id="ctxMenu" class="ctx-menu" role="menu" hidden>
     <div class="ctx-head" id="ctxHead">Promoter</div>
+    <button class="ctx-item" role="menuitem" data-act="invite">Einladungs-Link senden…</button>
     <button class="ctx-item ctx-open" role="menuitem" data-act="open">Promoter-Ansicht öffnen &rsaquo;</button>
     <button class="ctx-item" role="menuitem" data-act="new">Neuer Promoter…</button>
     <div class="ctx-sep"></div>
@@ -92,6 +93,7 @@
   <script type="module">
     import { requireAuth, logout, loadEmpfehlerList, formatDate, applyBeraterHeader, getCurrentBerater } from '../js/dashboard.js';
     import { deleteEmpfehler, createEmpfehler, updateEmpfehler, getEmpfehlerIdByCode } from '../js/supabase.js';
+    import { openPromoterInvite } from '../js/promoter-invite.js';
 
     applyBeraterHeader();
     document.getElementById('logoutBtn').addEventListener('click', logout);
@@ -118,7 +120,8 @@
       allItems.sort((a, b) => (b.kunde - a.kunde) || (b.gesamt - a.gesamt));
       wrap.innerHTML = '<div class="feed">' + allItems.map(e => `
         <a class="feed-row" href="promoter.html?id=${encodeURIComponent(e.id)}"
-           data-id="${e.id}" data-code="${escapeHtml(e.code)}" data-name="${escapeHtml(e.name)}" data-gesamt="${e.gesamt}">
+           data-id="${e.id}" data-code="${escapeHtml(e.code)}" data-name="${escapeHtml(e.name)}" data-gesamt="${e.gesamt}"
+           data-tel="${escapeHtml(e.telefon || '')}" data-email="${escapeHtml(e.email || '')}">
           <div class="feed-main">
             <div class="feed-name">${escapeHtml(e.name)}</div>
             <div class="feed-meta">
@@ -167,6 +170,8 @@
         id: row.dataset.id,
         code: row.dataset.code,
         name: row.dataset.name,
+        telefon: row.dataset.tel || '',
+        email: row.dataset.email || '',
         gesamt: Number(row.dataset.gesamt) || 0,
         href: row.getAttribute('href'),
       };
@@ -190,8 +195,11 @@
     ctxMenu.addEventListener('click', async (e) => {
       const btn = e.target.closest('.ctx-item');
       if (!btn || !ctxTarget) return;
-      const { id, code, name, gesamt } = ctxTarget;
+      const { id, code, name, telefon, email, gesamt } = ctxTarget;
       const act = btn.dataset.act;
+
+      // Einladungs-Link — beliebig oft, falls der Promoter ihn verloren hat
+      if (act === 'invite') { hideCtx(); openPromoterInvite({ name, code, telefon, email }); return; }
 
       // "Promoter-Ansicht öffnen" = die öffentliche Promoter-Sicht (wie der Kunde sie sieht)
       if (act === 'open') { window.open('../empfehler.html?code=' + encodeURIComponent(code), '_blank', 'noopener'); hideCtx(); return; }
@@ -267,8 +275,16 @@
           if (id) await updateEmpfehler(id, extra);
         }
         closeNewModal();
-        showToast('Promoter angelegt');
         await refresh();
+        // Direkt den Link zeigen — ohne ihn kommt der Promoter nicht in seinen
+        // Bereich, das ist der eigentliche Abschluss des Anlegens.
+        openPromoterInvite({
+          name,
+          code,
+          telefon: newTel.value.trim(),
+          email: newEmail.value.trim(),
+          neu: true,
+        });
       } catch (err) {
         console.warn('[new] createEmpfehler fehlgeschlagen', err);
         showToast('Fehler beim Anlegen');

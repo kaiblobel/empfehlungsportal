@@ -4,6 +4,7 @@
  */
 import { requireAuth, logout, applyBeraterHeader, formatDate } from './dashboard.js';
 import { getEmpfehler, updateEmpfehler, getEmpfehlerStats, getEmpfehlerEmpfehlungen, getBelohnungsStufenPublic } from './supabase.js';
+import { openPromoterInvite } from './promoter-invite.js';
 
 const STATUS_LABEL = {
   offen: 'Offen', anrufwunsch: 'Anrufwunsch', kontaktiert: 'Kontaktiert',
@@ -48,7 +49,8 @@ function renderAll(stats, feed) {
   const s = stats || {};
   document.getElementById('pdBody').innerHTML = `
     <div class="pd-actions">
-      <a class="pd-btn primary" href="../empfehlen.html?code=${encodeURIComponent(p.code)}" target="_blank" rel="noopener">Neue Empfehlung aussprechen</a>
+      <button class="pd-btn primary" id="pdInvite" type="button">Einladungs-Link senden</button>
+      <a class="pd-btn" href="../empfehlen.html?code=${encodeURIComponent(p.code)}" target="_blank" rel="noopener">Neue Empfehlung aussprechen</a>
       <a class="pd-btn" href="../empfehler.html?code=${encodeURIComponent(p.code)}" target="_blank" rel="noopener">Promoter-Ansicht öffnen ↗</a>
     </div>
 
@@ -98,6 +100,13 @@ function renderAll(stats, feed) {
   renderZielInfo();
   document.getElementById('pdSave').addEventListener('click', onSave);
   document.getElementById('pdZiel').addEventListener('change', onZielChange);
+  // Immer erreichbar: Link erneut schicken, wenn der Promoter ihn verlegt hat.
+  document.getElementById('pdInvite').addEventListener('click', () => openPromoterInvite({
+    name: promoter.name,
+    code: promoter.code,
+    telefon: promoter.telefon,
+    email: promoter.email,
+  }));
 }
 
 function renderZielInfo() {

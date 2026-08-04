@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.142 Beta** · Belohnungen entdoppelt + Promoter-Einladung korrigiert.
+Aktuelle Version: **v1.143 Beta** · Einladungs-Link für Promoter verschicken.
+
+---
+
+## v1.143 Beta - Phase 117 · Einladungs-Link für Promoter verschicken
+**2026-08-04**
+
+- **Der Link zum Promoter-Bereich lässt sich jetzt direkt aus dem Dashboard verschicken.** Bisher gab es ihn nirgends zum Mitnehmen: Man musste den Code aus der Liste ablesen oder die Promoter-Ansicht öffnen und die Adresszeile kopieren. Ohne diesen Link kommt ein Promoter gar nicht in seinen Bereich — er kann weder sein Ziel wählen noch empfehlen.
+- **Nach dem Anlegen** öffnet sich das Einladungs-Fenster automatisch: fertiger Link, „Kopieren", „Per WhatsApp senden" (an die hinterlegte Nummer), „Per E-Mail senden" und „Nachricht kopieren" mit vorformuliertem Text für jeden anderen Kanal.
+- **Jederzeit erneut schicken**, wenn ein Promoter seinen Link verlegt hat: Rechtsklick auf den Promoter in der Liste → „Einladungs-Link senden…", oder auf der Promoter-Detailseite der erste Button. Der Link bleibt derselbe und funktioniert weiter.
+- Beim ersten Versand hängt `&neu=1` am Link — der Promoter wird dann mit „Dein persönlicher Bereich ist bereit" begrüßt statt mit dem Wiederkehrer-Text.
+- Im Fenster steht der Hinweis, dass der Link der persönliche Zugang des Promoters ist und nicht in Gruppen gehört.
+- Neu: `js/promoter-invite.js` — ein Modul für alle drei Einstiege, damit Text und Link überall identisch sind.
 
 ---
 
