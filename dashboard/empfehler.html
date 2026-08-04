@@ -116,8 +116,11 @@
         wrap.innerHTML = '<div class="empty-state">Noch keine Promoter. Lege einen an oder verteile den Link /programm.</div>';
         return;
       }
-      // Sortieren: Promoter mit den meisten erfolgreichen Empfehlungen zuerst
-      allItems.sort((a, b) => (b.kunde - a.kunde) || (b.gesamt - a.gesamt));
+      // Neueste zuerst: wer gerade angelegt wurde, steht oben. (Vorher nach
+      // Erfolg sortiert — da landete ein frischer Promoter mitten in der Liste.)
+      // String-Vergleich statt new Date(): das Zeitformat ist einheitlich und
+      // sortiert damit chronologisch, ohne Parser-Eigenheiten der Browser.
+      allItems.sort((a, b) => String(b.created_at || '').localeCompare(String(a.created_at || '')));
       wrap.innerHTML = '<div class="feed">' + allItems.map(e => `
         <a class="feed-row" href="promoter.html?id=${encodeURIComponent(e.id)}"
            data-id="${e.id}" data-code="${escapeHtml(e.code)}" data-name="${escapeHtml(e.name)}" data-gesamt="${e.gesamt}"

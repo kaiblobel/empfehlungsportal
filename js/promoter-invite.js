@@ -134,23 +134,25 @@ export function openPromoterInvite({ name, code, telefon, email, neu = false }) 
   const ways = modal.querySelector('#piWays');
   ways.replaceChildren();
 
+  // WhatsApp geht immer: mit hinterlegter Nummer direkt in den Chat, ohne
+  // Nummer öffnet WhatsApp mit fertigem Text und man wählt den Empfänger.
   const tel = normalizePhoneDE(telefon);
-  if (tel) {
-    const wa = document.createElement('a');
-    wa.className = 'pi-way';
-    wa.target = '_blank';
-    wa.rel = 'noopener';
-    wa.href = `https://wa.me/${tel.replace(/\D/g, '')}?text=${encodeURIComponent(text)}`;
-    wa.innerHTML = `<span class="pi-way-ico" aria-hidden="true">💬</span><span>Per WhatsApp senden<small>${tel}</small></span>`;
-    ways.appendChild(wa);
-  }
-  if (email) {
-    const ml = document.createElement('a');
-    ml.className = 'pi-way';
-    ml.href = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent('Dein persönlicher Empfehlungs-Link')}&body=${encodeURIComponent(text)}`;
-    ml.innerHTML = `<span class="pi-way-ico" aria-hidden="true">✉️</span><span>Per E-Mail senden<small>${email}</small></span>`;
-    ways.appendChild(ml);
-  }
+  const wa = document.createElement('a');
+  wa.className = 'pi-way';
+  wa.target = '_blank';
+  wa.rel = 'noopener';
+  wa.href = tel
+    ? `https://wa.me/${tel.replace(/\D/g, '')}?text=${encodeURIComponent(text)}`
+    : `https://wa.me/?text=${encodeURIComponent(text)}`;
+  wa.innerHTML = `<span class="pi-way-ico" aria-hidden="true">💬</span><span>Per WhatsApp senden<small>${tel || 'Empfänger in WhatsApp auswählen'}</small></span>`;
+  ways.appendChild(wa);
+
+  // E-Mail ebenso: ohne Adresse öffnet sich das Mailprogramm mit leerem An-Feld.
+  const ml = document.createElement('a');
+  ml.className = 'pi-way';
+  ml.href = `mailto:${email ? encodeURIComponent(email) : ''}?subject=${encodeURIComponent('Dein persönlicher Empfehlungs-Link')}&body=${encodeURIComponent(text)}`;
+  ml.innerHTML = `<span class="pi-way-ico" aria-hidden="true">✉️</span><span>Per E-Mail senden<small>${email || 'Empfänger im Mailprogramm eintragen'}</small></span>`;
+  ways.appendChild(ml);
   // Für jeden anderen Kanal (SMS, Signal, Messenger): fertige Nachricht kopieren
   const copyMsg = document.createElement('button');
   copyMsg.type = 'button';
@@ -168,10 +170,10 @@ export function openPromoterInvite({ name, code, telefon, email, neu = false }) 
   });
   ways.appendChild(copyMsg);
 
-  if (!tel && !email) {
+  if (!tel) {
     const hint = document.createElement('p');
     hint.className = 'pi-note';
-    hint.textContent = 'Für WhatsApp oder E-Mail direkt von hier fehlen Telefon und Adresse. Trag sie im Promoter-Profil nach, dann geht es mit einem Klick.';
+    hint.textContent = 'Ohne hinterlegte Telefonnummer musst du den Empfänger in WhatsApp selbst auswählen. Nummer im Promoter-Profil nachtragen, dann geht es direkt.';
     ways.appendChild(hint);
   }
 

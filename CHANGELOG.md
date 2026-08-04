@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.143 Beta** · Einladungs-Link für Promoter verschicken.
+Aktuelle Version: **v1.144 Beta** · Promoter-Liste nach Datum, WhatsApp immer verfügbar.
+
+---
+
+## v1.144 Beta - Phase 118 · Promoter-Liste nach Datum, WhatsApp immer verfügbar
+**2026-08-04**
+
+- **Die Promoter-Liste sortiert jetzt nach Datum**, neueste zuerst. Vorher stand oben, wer die meisten erfolgreichen Empfehlungen hatte — ein frisch angelegter Promoter landete damit irgendwo mittendrin und war schwer wiederzufinden.
+- **„Per WhatsApp senden" erscheint jetzt immer.** Bisher tauchte der Weg nur auf, wenn beim Promoter eine Telefonnummer hinterlegt war. Ohne Nummer öffnet WhatsApp jetzt mit fertigem Text, und der Empfänger wird dort ausgewählt; mit Nummer geht es weiterhin direkt in den richtigen Chat.
+- Dasselbe für E-Mail: ohne hinterlegte Adresse öffnet sich das Mailprogramm mit vorbereitetem Betreff und Text, nur das An-Feld bleibt leer.
 
 ---
 

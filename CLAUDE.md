@@ -1,6 +1,6 @@
 <!-- odysseus-passport
 purpose: Empfehlungs-HUB für DVAG-Berater — Vanilla JS + eigene Supabase; Funnel Klick→Interesse→Kunde, Momentum, Champions, Prämien; Cockpit-Brücke
-status: live (Beta) — v1.143 Einladungs-Link für Promoter direkt aus dem Dashboard verschickbar (nach Anlegen, Rechtsklick, Detailseite); v1.142 Belohnungen/Themen entdoppelt (Klon-Zeilen eines zweiten Beraters werden gefiltert), Roadmap-Bonusstufen + Belohnungs-Filter korrigiert, Promoter-Einladung führt wieder ins Empfehlungs-Formular; Power Automate durch fehlende Premium-Lizenz blockiert
+status: live (Beta) — v1.144 Einladungs-Link für Promoter direkt aus dem Dashboard verschickbar (nach Anlegen, Rechtsklick, Detailseite; WhatsApp/Mail/Kopieren), Promoter-Liste nach Datum; v1.142 Belohnungen/Themen entdoppelt (Klon-Zeilen eines zweiten Beraters werden gefiltert), Roadmap-Bonusstufen + Belohnungs-Filter korrigiert, Promoter-Einladung führt wieder ins Empfehlungs-Formular; Power Automate durch fehlende Premium-Lizenz blockiert
 live_url: https://empfehlungsportal.vercel.app
 tags: portal, supabase, empfehlung, promoter, mobile-first, live, baufinanzierung, kfw, bookings, power-automate
 -->
