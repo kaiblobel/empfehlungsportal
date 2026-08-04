@@ -37,15 +37,15 @@ export const NAV_ITEMS = [
   // "Champions" bleibt dem Hub-Abschnitt der Top 3 vorbehalten — hier steht die
   // vollständige Liste, und die heißt auf jeder Folgeseite Promoter.
   { id: 'champions',   label: 'Promoter',      icon: 'Trophy',          href: path('dashboard/empfehler.html'),       bottom: false },
-  // Prämien ist der einzige Punkt mit Zähler (offene Auszahlungen) — also eine
+  // Auszahlungen ist der einzige Punkt mit Zähler (offene Auszahlungen) — also eine
   // wartende Aufgabe und damit Tagesgeschäft, nicht Verwaltung.
-  { id: 'praemien',    label: 'Prämien',       icon: 'Banknote',        href: path('praemien.html'),                  bottom: false, adminOnly: true },
+  { id: 'praemien',    label: 'Auszahlungen',  icon: 'Banknote',        href: path('praemien.html'),                  bottom: false, adminOnly: true },
   { id: 'praesentation',label: 'Präsentation', icon: 'Presentation',    href: path('programm.html?mode=slides'),      bottom: false },
   { id: 'analysen',    label: 'Analysen',      icon: 'BarChart3',       href: path('dashboard/overview.html'),        bottom: false },
 
   { divider: true, label: 'Verwaltung' },
 
-  { id: 'programm',    label: 'Programm',      icon: 'Gift',            href: path('programm-verwalten.html'),        bottom: false, adminOnly: true,
+  { id: 'programm',    label: 'Bonusprogramm', icon: 'Gift',            href: path('programm-verwalten.html'),        bottom: false, adminOnly: true,
     subs: [
       { label: 'Belohnungen',       href: path('programm-verwalten.html#belohnungen') },
       { label: 'Erfolgsgeschichten',href: path('programm-verwalten.html#erfolgsgeschichten') },

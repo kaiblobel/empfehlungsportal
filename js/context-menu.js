@@ -5,7 +5,7 @@
  * NIE auf den öffentlichen Kundenseiten (die laden nav.js nicht).
  *
  * Koexistenz mit den bestehenden reichhaltigen Item-Menüs
- * (Empfehlungen/Promoter/Prämien): Die rufen bei Rechtsklick auf eine Zeile
+ * (Empfehlungen/Promoter/Auszahlungen): Die rufen bei Rechtsklick auf eine Zeile
  * `preventDefault()`. Da unser Listener im Bubble-Phase NACH den Zeilen-Listenern
  * läuft, sehen wir dort `defaultPrevented === true` und halten uns bewusst zurück.
  * Überall sonst zeigen wir das globale Menü statt des rohen Browser-Menüs.
@@ -29,10 +29,10 @@ const PAGE_TITLES = [
   [/\/dashboard\/promoter/,      'Promoter'],
   [/\/dashboard\/overview/,      'Analysen'],
   [/\/dashboard\/settings/,      'Einstellungen'],
-  [/\/praemien/,                 'Prämien'],
-  [/\/berater\.html/,            'Berater'],
+  [/\/praemien/,                 'Auszahlungen'],
+  [/\/berater\.html/,            'Team'],
   [/\/vorlagen/,                 'Themen-Seiten'],
-  [/\/programm-verwalten/,       'Programm'],
+  [/\/programm-verwalten/,       'Bonusprogramm'],
   [/\/changelog/,                'Changelog'],
 ];
 function pageTitle() {
@@ -126,7 +126,7 @@ function buildActions(e) {
   acts.push({ label: 'Zum Dashboard', icon: 'LayoutDashboard', run: () => go('/hub.html') });
   acts.push({ label: 'Empfehlungen', icon: 'Users', run: () => go('/dashboard/empfehlungen.html') });
   acts.push({ label: 'Promoter', icon: 'Trophy', run: () => go('/dashboard/empfehler.html') });
-  if (isAdmin) acts.push({ label: 'Prämien', icon: 'Banknote', run: () => go('/praemien.html') });
+  if (isAdmin) acts.push({ label: 'Auszahlungen', icon: 'Banknote', run: () => go('/praemien.html') });
   acts.push({ label: 'Einstellungen', icon: 'Settings', run: () => go('/dashboard/settings.html') });
   acts.push({ sep: true });
 
@@ -178,7 +178,7 @@ export function mountContextMenu() {
   if (window.__ctxMenuMounted) return;
   window.__ctxMenuMounted = true;
 
-  // Admin-Status einmalig ermitteln (steuert die Sichtbarkeit des Prämien-Sprungs).
+  // Admin-Status einmalig ermitteln (steuert die Sichtbarkeit des Auszahlungs-Sprungs).
   (async () => {
     try {
       const m = await import('./dashboard.js');

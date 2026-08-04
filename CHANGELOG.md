@@ -1,7 +1,17 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.149 Beta** · Menü aufgeräumt, Admin-Bereiche geschützt.
+Aktuelle Version: **v1.150 Beta** · Klare Namen: Bonusprogramm, Auszahlungen, Team.
+
+---
+
+## v1.150 Beta - Phase 124 · Klare Namen: Bonusprogramm, Auszahlungen, Team
+**2026-08-04**
+
+- **„Programm" heißt jetzt „Bonusprogramm".** Direkt darüber steht „Präsentation", und beide führten zu Seiten mit ähnlichem Namen — wer „Programm" las, wusste nicht, ob er dort etwas einrichtet oder etwas zeigt.
+- **„Prämien" heißt jetzt „Auszahlungen".** Der Name sagt, was du dort tust: fällige Beträge abarbeiten und als ausgezahlt markieren. Die Belohnungen selbst heißen in der Liste weiterhin Prämien — das sind die Dinge, die Auszahlung ist die Handlung.
+- Beide Namen wurden **überall** nachgezogen: Menü, Seitentitel im Browser-Tab, Kopfzeile der Seite und Rechtsklick-Menü. Auch die Team-Seite (vormals „Berater") heißt jetzt durchgehend Team.
+- Damit gibt es im Berater-Bereich keinen Menüpunkt mehr, der anders heißt als die Seite, auf der man landet.
 
 ---
 
