@@ -21,11 +21,15 @@
 --   Promoter mit mindestens einem gewonnenen Kunden ...... 7
 --   höchste Kundenzahl eines Promoters ................... 3
 --   bestehende Prämien (davon offen) ..................... 11 (9)
---   zusätzliche Prämien durch diese Migration ............ 0
---   zusätzlicher Gegenwert ............................... 0 €
+--   zusätzliche Prämien durch die neuen Stufen ........... 0
+--   offene Stufe-1-Prämien ohne Wertangabe ............... 7
+--   nachzutragender zugesagter Wert (7 × 100 €) .......... 700 €
 --   Grund: die neuen Stufen beginnen bei 4, niemand hat bisher mehr als
 --   3 Kunden. Die Rückwirkung ist heute folgenlos — mit jedem weiteren
---   gewonnenen Kunden kann sich das ändern.
+--   gewonnenen Kunden kann sich das ändern. Die sieben vorhandenen
+--   Stufe-1-Prämien sind bereits verdient; bei ihnen fehlt nur der bisher
+--   auf der Kundenseite zugesagte Wert. `betrag` bleibt bis zur tatsächlichen
+--   Auszahlung unverändert null.
 --
 -- GELTUNGSBEREICH
 --   Nur der Datensatz von Kai Blobel. Die übrigen Berater haben keine eigenen
@@ -34,6 +38,32 @@
 -- ============================================================================
 
 begin;
+
+-- Sicherheitsstopp: Die Freigabe basiert darauf, dass heute niemand Stufe 4
+-- erreicht hat. Ändert sich das vor dem Anwenden, muss die Rückwirkung neu
+-- geprüft werden, statt unbemerkt weitere Ansprüche vorzubereiten.
+do $$
+declare
+  v_max_kunden integer;
+begin
+  select coalesce(max(x.kunden), 0)
+    into v_max_kunden
+    from (
+      select count(*)::integer as kunden
+        from public.empfehlungen
+       where berater_id = 'b3cbf981-ea3e-4e6d-a993-2fe158ca0d48'::uuid
+         and status = 'kunde'
+         and empfehler_id is not null
+       group by empfehler_id
+    ) x;
+
+  if v_max_kunden > 3 then
+    raise exception
+      'Phase 127 abgebrochen: Ein Promoter hat inzwischen % Kunden. Rückwirkung neu prüfen.',
+      v_max_kunden;
+  end if;
+end
+$$;
 
 -- 1 · Die acht fehlenden Geldbonus-Stufen anlegen -----------------------------
 insert into public.belohnungs_stufen
@@ -59,14 +89,23 @@ update public.belohnungs_stufen
    and stufe = 1
    and wert_label is null;
 
--- 3 · Meilensteine ehrlich kennzeichnen --------------------------------------
+-- 3 · Bereits verdiente Stufe-1-Prämien vervollständigen ----------------------
+-- `wert_label` ist der zugesagte Prämienwert. `betrag` ist dagegen der später
+-- tatsächlich ausgezahlte Betrag und wird deshalb hier bewusst nicht gesetzt.
+update public.praemien
+   set wert_label = '100 €'
+ where berater_id = 'b3cbf981-ea3e-4e6d-a993-2fe158ca0d48'
+   and stufe = 1
+   and wert_label is null;
+
+-- 4 · Meilensteine ehrlich kennzeichnen --------------------------------------
 -- Die Oberfläche unterscheidet danach über highlight, nicht mehr über einen
 -- Titel-Treffer auf /bonus/i.
 update public.belohnungs_stufen
    set highlight = (stufe in (2, 5, 7, 10, 15))
  where berater_id = 'b3cbf981-ea3e-4e6d-a993-2fe158ca0d48';
 
--- 4 · Sortierung an die Stufe angleichen -------------------------------------
+-- 5 · Sortierung an die Stufe angleichen -------------------------------------
 update public.belohnungs_stufen
    set sort_order = stufe
  where berater_id = 'b3cbf981-ea3e-4e6d-a993-2fe158ca0d48';
@@ -83,12 +122,26 @@ commit;
 -- select count(*) from belohnungs_stufen
 --  where berater_id='b3cbf981-ea3e-4e6d-a993-2fe158ca0d48'
 --    and wert_label is null;                                                --  0
+-- select count(*) from praemien
+--  where berater_id='b3cbf981-ea3e-4e6d-a993-2fe158ca0d48'
+--    and stufe=1 and wert_label is null;                                    --  0
+-- select count(*) from praemien
+--  where berater_id='b3cbf981-ea3e-4e6d-a993-2fe158ca0d48';                 -- 11
 
 -- ============================================================================
 -- ROLLBACK — stellt den Stand von vor der Migration wieder her (2026-08-04)
 -- ============================================================================
 /*
 begin;
+
+-- Stellt den am 04.08.2026 geprüften Altbestand wieder her. Nur noch offene,
+-- nicht ausgezahlte Stufe-1-Prämien werden zurückgesetzt.
+update public.praemien set wert_label = null
+ where berater_id = 'b3cbf981-ea3e-4e6d-a993-2fe158ca0d48'
+   and stufe = 1
+   and status = 'offen'
+   and betrag is null
+   and wert_label = '100 €';
 
 delete from public.belohnungs_stufen
  where berater_id = 'b3cbf981-ea3e-4e6d-a993-2fe158ca0d48'

@@ -124,19 +124,22 @@ Gefahren am 04.08.2026 gegen die Live-Datenbank, ausschließlich `select`:
 | bestehende Prämien insgesamt | 11 |
 | davon offen | 9 |
 | **zusätzliche Prämien durch die Migration** | **0** |
-| **zusätzlicher Gegenwert** | **0 €** |
+| offene Stufe-1-Prämien ohne Wertangabe | 7 |
+| **nachzutragender zugesagter Wert** | **700 €** |
 
-Die neuen Stufen beginnen bei 4, niemand hat bisher mehr als 3 gewonnene Kunden. Die Rückwirkung ist heute folgenlos — mit jedem weiteren gewonnenen Kunden kann sie es aufhören zu sein.
+Die neuen Stufen beginnen bei 4, niemand hat bisher mehr als 3 gewonnene Kunden. Deshalb entstehen heute keine zusätzlichen Prämienzeilen. Bei sieben bereits verdienten und offenen Stufe-1-Prämien fehlt jedoch der schon auf der Kundenseite zugesagte Wert von jeweils 100 €. Phase 127 trägt dort nur `wert_label = '100 €'` nach. Der tatsächliche Auszahlungsbetrag `betrag` bleibt bis zur Auszahlung unverändert leer.
+
+Das SQL enthält zusätzlich einen Sicherheitsstopp: Hat vor dem Anwenden inzwischen ein Promoter vier oder mehr Kunden, bricht es vollständig ab und verlangt eine neue Auswirkungsprüfung.
 
 ---
 
 ## 7 · Offene Entscheidungen für Kai
 
-1. **Migration anwenden?** `schema-phase127.sql`. Ohne sie zeigt die Seite nur 7 statt 15 Stufen (sie erfindet nichts mehr) — der Präsentations-Effekt der Reise wäre halbiert.
-2. **Rückwirkung** — siehe Abschnitt 6, heute ohne Kosten.
+1. **Migration anwenden?** Die vollständige Vorbereitung von `schema-phase127.sql` ist von Kai freigegeben. Das Anwenden auf Live bleibt ein eigener Freigabeschritt. Ohne die Migration zeigt die Seite nur 7 statt 15 Stufen (sie erfindet nichts mehr).
+2. **Rückwirkung** — keine neue Prämienzeile, aber sieben bereits offene Stufe-1-Prämien werden mit dem fehlenden zugesagten Wert von je 100 € vervollständigt.
 3. **Gegenwerte und Wahlfreiheit** — 100 / 150 / 449 / 500 / 699 / 2.000 €; ob Premium-Prämien voll in Geld auszahlbar sind; ob Spenden immer in gleicher Höhe möglich sind; ob Versand und Reisenebenkosten enthalten sind.
 4. **Bedingungen und Compliance** — die Seite sagt jetzt „Gezählt wird, wer Kunde wird". Die FAQ nennt zusätzlich den ersten Geldeingang als Auszahlungszeitpunkt; beides sollte fachlich abgenommen werden. Eine rechtliche Prüfung ist diese Arbeit ausdrücklich nicht.
-5. **Mallorca-Bild — erledigt, aber noch unversioniert.** Im Arbeitsbaum liegt bereits ein ersetztes `assets/images/programm/mallorca.jpg` (1.200 × 1.500, 4:5) samt `assets/images/programm/BILDQUELLEN.md`. Die dort dokumentierte Prüfsumme `99AB93…C312EC` stimmt mit der Datei überein. Beides stammt **nicht** von mir und ist laut Arbeitsgrenze nicht angefasst worden — es liegt weiterhin unversioniert da und muss beim Freigabeschritt mit eingecheckt werden. Die Reise bindet das Bild bereits ein: Sie zieht die Adresse aus `bild_url` der Datenbank, dort steht `/assets/images/programm/mallorca.jpg`.
+5. **Mallorca-Bild — erledigt und auf dem Zweig gesichert.** `assets/images/programm/mallorca.jpg` (1.200 × 1.500, 4:5) und `assets/images/programm/BILDQUELLEN.md` sind in Commit `3f7bd4b` enthalten. Die dokumentierte Prüfsumme `99AB93…C312EC` stimmt mit der Datei überein. Die Reise zieht die Adresse aus `bild_url` der Datenbank, dort steht `/assets/images/programm/mallorca.jpg`.
 6. **Version und Veröffentlichung** — `js/config.js` und `CLAUDE.md` sind unberührt; die Versionsnummer vergibst du im Freigabeschritt.
 
 ---

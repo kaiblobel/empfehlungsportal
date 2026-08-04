@@ -17,6 +17,7 @@ Aktuelle Version: **v1.152 Beta** · Themen-Editor entrümpelt.
 - Ein Satz sagt jetzt, was zählt: **gezählt wird, wer Kunde wird** — nicht der weitergegebene Name.
 - Die Wunschziele im Promoter-Bereich und in der Berater-Detailseite zeigen nur noch die Meilensteine; ein früher gewähltes Ziel bleibt trotzdem sichtbar.
 - Im Präsentations-Modus bleiben nur die fünf Bildkarten, die Geldstufen stehen als ein Satz darunter.
+- Die Live-Vorprüfung fand sieben bereits offene Stufe-1-Prämien ohne Wertangabe. Die vorbereitete Migration ergänzt dort den zugesagten Wert von jeweils 100 €, lässt den tatsächlichen Auszahlungsbetrag aber bis zur Auszahlung leer. Ein Sicherheitsstopp verhindert das Anwenden, falls vor der Freigabe inzwischen jemand Stufe 4 erreicht.
 - Aufgeräumt: 117 tote Regelblöcke der alten Roadmap und Galerie aus `css/programm.css` entfernt (7.614 → 6.882 Zeilen), bevor die neuen mobilen Regeln dazukamen.
 
 ---

@@ -165,12 +165,13 @@ Die Datenbank sollte die Wahrheit sein. Deshalb:
 
 1. Für jede Stufe von 1 bis 15 eine echte Zeile in `belohnungs_stufen` vorsehen.
 2. `wert_label` für jede Stufe vollständig pflegen, insbesondere Stufe 1.
-3. `highlight = true` für die Bildmeilensteine 2, 5, 7, 10 und 15 verwenden.
-4. `highlight = false` für die zehn Geldbonus-Stufen verwenden.
-5. Die Klassifizierung im Frontend nicht mehr über `/bonus/i` aus dem Titel ableiten.
-6. Keine fehlenden Stufen mit 100 Euro im Browser erfinden.
-7. Die Migration als neue, reversible SQL-Datei vorbereiten, aber nicht auf Live anwenden.
-8. Vor dem Schreiben eine reine Auswirkungsabfrage für mögliche rückwirkende Prämien liefern.
+3. Bereits verdiente Stufe-1-Prämien ohne Wertangabe mit `wert_label = '100 €'` vervollständigen; den tatsächlichen Auszahlungsbetrag `betrag` dabei nicht setzen.
+4. `highlight = true` für die Bildmeilensteine 2, 5, 7, 10 und 15 verwenden.
+5. `highlight = false` für die zehn Geldbonus-Stufen verwenden.
+6. Die Klassifizierung im Frontend nicht mehr über `/bonus/i` aus dem Titel ableiten.
+7. Keine fehlenden Stufen mit 100 Euro im Browser erfinden.
+8. Die Migration als neue, reversible SQL-Datei vorbereiten, aber nicht auf Live anwenden.
+9. Vor dem Schreiben eine reine Auswirkungsabfrage für mögliche rückwirkende Prämien liefern.
 
 Die vorhandene Funktion `sync_praemien_for_empfehler()` kann alle 15 Stufen grundsätzlich materialisieren, sobald alle Zeilen existieren. Conrad muss trotzdem mit synthetischen Daten prüfen:
 
