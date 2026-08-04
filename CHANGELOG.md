@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.148 Beta** · Ein Name für den Promoter-Bereich.
+Aktuelle Version: **v1.149 Beta** · Menü aufgeräumt, Admin-Bereiche geschützt.
+
+---
+
+## v1.149 Beta - Phase 123 · Menü aufgeräumt, Admin-Bereiche geschützt
+**2026-08-04**
+
+- **Das Menü ist jetzt in zwei Blöcke geteilt.** Oben das Tagesgeschäft (Dashboard, Empfehlungen, Promoter, Prämien, Präsentation, Analysen), darunter eine feine Trennlinie mit der Überschrift „Verwaltung" und dahinter das, was man nur gelegentlich einrichtet (Programm, Team, Einstellungen). Vorher saß die Programm-Verwaltung mitten im Tagesgeschäft.
+- **„Prämien" ist nach oben gewandert.** Es ist der einzige Menüpunkt mit einem Zähler für offene Auszahlungen — also eine wartende Aufgabe und kein Verwaltungskram. Vorher stand es fast unten.
+- **„Berater" heißt jetzt „Team".** Berater bist du selbst; gemeint sind die Kolleginnen und Kollegen. Der Punkt hatte außerdem dasselbe Symbol wie „Empfehlungen" und hat jetzt ein eigenes.
+- **Die drei „Admin · …"-Abschnitte in den Einstellungen sind nicht mehr für alle sichtbar.** Bisher sah jeder eingeloggte Berater die Links zu Repository, Hosting, Datenbank-Editor, Telegram-Bot und Bookings-Seite. Einbrechen konnte damit niemand, aber es ist interne Werkstatt und gehört nicht vor fremde Augen. Sie erscheinen jetzt nur noch für Admins.
+- **Kein Springen mehr beim Laden:** Die Admin-Menüpunkte wurden erst nach der Netz-Antwort eingeblendet. Jetzt merkt sich das Menü den Status vom letzten Besuch und korrigiert still, falls er sich geändert hat. Beim Abmelden wird der Merker gelöscht.
 
 ---
 

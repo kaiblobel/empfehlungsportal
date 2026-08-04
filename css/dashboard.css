@@ -1482,3 +1482,36 @@ body.nav-collapsed .nav-tp-icon {
 }
 .edit-btn.primary:hover { opacity: 0.88; background: var(--ink, #1A1A1A); }
 .edit-btn:disabled { opacity: 0.55; cursor: default; }
+
+/* ============================================================
+   Phase 123 · Trennlinie zwischen Tagesgeschäft und Verwaltung
+   ------------------------------------------------------------
+   Oben steht, was täglich benutzt wird; unter der Linie das, was
+   man gelegentlich einrichtet. Die Linie erscheint nur für Admins
+   — für alle anderen gibt es unten nichts zu trennen.
+   ============================================================ */
+.nav-divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0 4px;
+  padding: 0 10px;
+}
+.nav-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-light, #E8E5E0);
+}
+.nav-divider-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted, #6E6660);
+  opacity: 0.7;
+  white-space: nowrap;
+}
+/* Eingeklappte Sidebar: nur die Linie, kein Text */
+body.nav-collapsed .nav-divider-label { display: none; }
+body.nav-collapsed .nav-divider { padding: 0 8px; margin: 10px 0 4px; }

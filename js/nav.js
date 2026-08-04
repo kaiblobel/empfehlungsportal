@@ -19,7 +19,12 @@ function path(p) {
   return p.startsWith('/') ? p : '/' + p;
 }
 
-/** Nav-Item-Definitionen */
+/**
+ * Nav-Item-Definitionen — bewusst in zwei Blöcken:
+ *   1. Tagesgeschäft: was du täglich anfasst.
+ *   2. Verwaltung (unter der Trennlinie): was du gelegentlich einrichtest.
+ * Ein `divider: true`-Eintrag setzt die Trennlinie samt Blocktitel.
+ */
 export const NAV_ITEMS = [
   { id: 'dashboard',   label: 'Dashboard',     icon: 'LayoutDashboard', href: path('hub.html'),                       bottom: true },
   { id: 'empfehlungen',label: 'Empfehlungen',  icon: 'Users',           href: path('dashboard/empfehlungen.html'),    bottom: true,
@@ -29,19 +34,25 @@ export const NAV_ITEMS = [
       { label: 'Interesse',    href: path('dashboard/empfehlungen.html?status=interessiert'), icon: 'HeartHandshake' },
       { label: 'Offen',        href: path('dashboard/empfehlungen.html?status=offen') },
     ] },
+  // "Champions" bleibt dem Hub-Abschnitt der Top 3 vorbehalten — hier steht die
+  // vollständige Liste, und die heißt auf jeder Folgeseite Promoter.
+  { id: 'champions',   label: 'Promoter',      icon: 'Trophy',          href: path('dashboard/empfehler.html'),       bottom: false },
+  // Prämien ist der einzige Punkt mit Zähler (offene Auszahlungen) — also eine
+  // wartende Aufgabe und damit Tagesgeschäft, nicht Verwaltung.
+  { id: 'praemien',    label: 'Prämien',       icon: 'Banknote',        href: path('praemien.html'),                  bottom: false, adminOnly: true },
+  { id: 'praesentation',label: 'Präsentation', icon: 'Presentation',    href: path('programm.html?mode=slides'),      bottom: false },
+  { id: 'analysen',    label: 'Analysen',      icon: 'BarChart3',       href: path('dashboard/overview.html'),        bottom: false },
+
+  { divider: true, label: 'Verwaltung' },
+
   { id: 'programm',    label: 'Programm',      icon: 'Gift',            href: path('programm-verwalten.html'),        bottom: false, adminOnly: true,
     subs: [
       { label: 'Belohnungen',       href: path('programm-verwalten.html#belohnungen') },
       { label: 'Erfolgsgeschichten',href: path('programm-verwalten.html#erfolgsgeschichten') },
       { label: 'Themen-Seiten',     href: path('vorlagen.html'), icon: 'FileText' },
     ] },
-  // "Champions" bleibt dem Hub-Abschnitt der Top 3 vorbehalten — hier steht die
-  // vollständige Liste, und die heißt auf jeder Folgeseite Promoter.
-  { id: 'champions',   label: 'Promoter',      icon: 'Trophy',          href: path('dashboard/empfehler.html'),       bottom: false },
-  { id: 'praesentation',label: 'Präsentation', icon: 'Presentation',    href: path('programm.html?mode=slides'),      bottom: false },
-  { id: 'analysen',    label: 'Analysen',      icon: 'BarChart3',       href: path('dashboard/overview.html'),        bottom: false },
-  { id: 'berater',     label: 'Berater',       icon: 'Users',           href: path('berater.html'),                   bottom: false, adminOnly: true },
-  { id: 'praemien',    label: 'Prämien',       icon: 'Banknote',        href: path('praemien.html'),                  bottom: false, adminOnly: true },
+  // "Berater" bist du selbst — gemeint sind die Kolleginnen und Kollegen.
+  { id: 'berater',     label: 'Team',          icon: 'UserPlus',        href: path('berater.html'),                   bottom: false, adminOnly: true },
   { id: 'einstellungen',label: 'Einstellungen',icon: 'Settings',        href: path('dashboard/settings.html'),        bottom: false },
 ];
 
@@ -62,6 +73,15 @@ function isActive(item) {
 
 /** Render an item as sidebar-row */
 function sidebarItem(item) {
+  // Trennlinie + Blocktitel zwischen Tagesgeschäft und Verwaltung.
+  // Die Verwaltung sieht nur, wer Admin ist — deshalb wird auch die Linie
+  // zusammen mit den Admin-Punkten ein-/ausgeblendet.
+  if (item.divider) {
+    return `
+    <div class="nav-divider nav-admin-only" style="display:none">
+      <span class="nav-divider-label">${item.label || ''}</span>
+    </div>`;
+  }
   const active = isActive(item) ? ' active' : '';
   // Admin-only Items (z. B. Berater-Verwaltung) standardmäßig verstecken; werden
   // nur eingeblendet, wenn der eingeloggte Berater Admin ist (siehe revealAdminItems).
@@ -223,10 +243,30 @@ export function renderNav(opts = {}) {
       } catch (e) { console.warn('logout failed', e); }
     });
 
+    // Admin-Punkte sofort zeigen, wenn beim letzten Besuch klar war, dass du
+    // Admin bist. Ohne das erscheinen sie erst nach der Netz-Antwort und das
+    // Menü springt beim Laden. Die Prüfung unten korrigiert notfalls.
+    if (readAdminFlag()) revealAdminItems(sidebar, true);
+
     // Multi-Tenant: Funnel-Links (programm/empfehlen) mit dem Slug des
     // eingeloggten Beraters versehen → Adressleiste zeigt den teilbaren Link.
     applyBeraterSlugToLinks(sidebar);
   }
+}
+
+/* ---------- Admin-Punkte: gemerkter Status gegen das Aufploppen ---------- */
+const ADMIN_CACHE_KEY = 'berater_ist_admin_v1';
+
+function readAdminFlag() {
+  try { return localStorage.getItem(ADMIN_CACHE_KEY) === '1'; } catch (_) { return false; }
+}
+function writeAdminFlag(istAdmin) {
+  try { localStorage.setItem(ADMIN_CACHE_KEY, istAdmin ? '1' : '0'); } catch (_) {}
+}
+function revealAdminItems(root, sichtbar) {
+  root.querySelectorAll('.nav-admin-only').forEach((el) => {
+    el.style.display = sichtbar ? '' : 'none';
+  });
 }
 
 async function applyBeraterSlugToLinks(root) {
@@ -238,9 +278,10 @@ async function applyBeraterSlugToLinks(root) {
     const m = await import('./dashboard.js');
     const b = await m.getCurrentBerater();
     if (!b) return;
-    // Admin-only Items (Berater-Verwaltung) nur für Admins einblenden.
+    // Admin-only Items (Verwaltungsblock) nur für Admins einblenden.
+    writeAdminFlag(!!b.ist_admin);
+    revealAdminItems(root, !!b.ist_admin);
     if (b.ist_admin) {
-      root.querySelectorAll('.nav-admin-only').forEach((el) => { el.style.display = ''; });
       // Badge: offene Prämien am Prämien-Menüpunkt — ploppt auf, sobald eine Empfehlung Kunde wird.
       try {
         const { getOffenePraemienCount } = await import('./supabase.js');

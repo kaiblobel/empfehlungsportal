@@ -31,9 +31,12 @@ export async function login(email, password) {
 }
 
 export async function logout() {
-  // Gemerktes Branding mitnehmen, sonst begrüßt der nächste Login kurz mit
-  // Foto und Namen des vorherigen Beraters.
-  try { localStorage.removeItem(BRAND_CACHE_KEY); } catch (_) {}
+  // Gemerktes Branding und den Admin-Merker mitnehmen, sonst begrüßt der
+  // nächste Login kurz mit Foto, Namen und Menü des vorherigen Beraters.
+  try {
+    localStorage.removeItem(BRAND_CACHE_KEY);
+    localStorage.removeItem('berater_ist_admin_v1');
+  } catch (_) {}
   if (supabase) await supabase.auth.signOut();
   window.location.href = '/dashboard/index.html';
 }
