@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.157 Beta** · Tastatursteuerung, FAQ und Bewertungen raus.
+Aktuelle Version: **v1.158 Beta** · Inspirations-Zitate raus.
+
+---
+
+## v1.158 Beta - Phase 132 · Inspirations-Zitate raus
+**2026-08-04**
+
+- **Der Abschnitt „Worüber Menschen mich weiterempfehlen" mit den elf Zitaten ist entfernt.** Im Gespräch erzählt Kai diese Geschichten selbst — besser, als sie von der Wand abzulesen. Und die Themen-Auswahl direkt danach beantwortet dieselbe Frage als Werkzeug statt als Textwand.
+- Beim Aufräumen mitgenommen: die Stile der **Potenzialliste**, deren Funktion schon in Phase 116 entfallen war. 38 Regeln für ein Bauteil, das es seit heute früh nicht mehr gibt.
+- Die Seite hat jetzt 13 Abschnitte; `css/programm.css` ist bei 5.863 Zeilen — heute früh waren es 7.614.
 
 ---
 
