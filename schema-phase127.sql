@@ -1,7 +1,10 @@
 -- ============================================================================
 -- schema-phase127.sql · Phase 127 · Die 15 Stufen wirklich anlegen
 -- ----------------------------------------------------------------------------
--- STATUS: ENTWURF — NICHT ANGEWANDT. Erst nach Kais Freigabe ausführen.
+-- STATUS: LIVE angewandt am 2026-08-04 nach Kais Freigabe.
+--   Gegenproben direkt danach: 15 Stufen · 5 Meilensteine (2, 5, 7, 10, 15) ·
+--   0 Stufen ohne wert_label · 0 Stufe-1-Prämien ohne wert_label ·
+--   weiterhin 11 Prämien (keine neue Zeile) · 2 Prämien mit betrag unberührt.
 --
 -- PROBLEM
 --   Die Kundenseite leitet aus den Lücken zwischen den vorhandenen Zeilen
