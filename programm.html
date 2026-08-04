@@ -14,7 +14,7 @@
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
   <link rel="stylesheet" href="css/style.css?v=32" />
-  <link rel="stylesheet" href="css/programm.css?v=71" />
+  <link rel="stylesheet" href="css/programm.css?v=72" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="programm">
@@ -738,62 +738,66 @@
         <span>Deine erste Belohnung ist nur eine Empfehlung entfernt. <span class="bww-emoji">🎁</span></span>
       </div>
 
-      <div class="rewards-explain reveal d2">
-        <div class="rewards-explain-card">
-          <span class="rewards-explain-icon" aria-hidden="true">↑</span>
-          <p>
-            <strong>Zwischendrin 100 € Bonus, an den Meilenstein-Stufen eine Premium-Belohnung, am Ende Mallorca.</strong>
-            <span class="rewards-explain-note">Du suchst dir bei jeder Stufe selbst aus, was du nimmst.</span>
-          </p>
-        </div>
+      <!-- Zählweise: einmal klar sagen, was als Erfolg zählt -->
+      <div class="reise-zaehlweise reveal d2">
+        <span class="reise-zaehlweise-dot" aria-hidden="true"></span>
+        <p>
+          <strong>Gezählt wird, wer Kunde wird.</strong>
+          Ein weitergegebener Name ist der erste Schritt — die Stufe steigt, sobald aus der Empfehlung
+          eine echte Zusammenarbeit geworden ist.
+        </p>
       </div>
 
-      <!-- Stufen-Roadmap -->
-      <div class="rewards-roadmap reveal d2" id="t-Roadmap" aria-label="Belohnungs-Roadmap Stufe 1 bis 15">
-        <!-- JS rendert 15 Stufen-Punkte mit Linie -->
+      <!-- Senkrechte Reise Stufe 1 bis 15 · JS füllt sie aus den echten Stufen -->
+      <div class="reise-intro reveal d2">
+        <p class="t-eyebrow">Deine Reise von 1 bis 15</p>
+        <h3 class="reise-intro-h">Jede Stufe sichtbar.<br>Jedes große Ziel spürbar.</h3>
+        <p class="reise-intro-p">
+          Die kleinen Boni bleiben kompakt. Die besonderen Belohnungen bekommen den Raum,
+          den sie verdienen — bis zum Finale.
+        </p>
       </div>
 
-      <!-- Belohnungs-Modus-Wahl (Filter) -->
-      <div class="reward-mode-switch reveal d2" role="tablist" aria-label="Belohnungs-Art wählen">
-        <button class="reward-mode-chip active" data-mode="alle" role="tab" aria-selected="true">
-          <span class="reward-mode-icon" data-icon="Sparkles"></span>
-          <span class="reward-mode-label">
-            <strong>Alle Belohnungen</strong>
-            <span>Zeig mir das ganze System</span>
-          </span>
-        </button>
-        <button class="reward-mode-chip" data-mode="geld" role="tab" aria-selected="false">
-          <span class="reward-mode-icon" data-icon="Banknote"></span>
-          <span class="reward-mode-label">
-            <strong>Geldwert</strong>
-            <span>Wunschgutschein, PayPal oder Bargeld</span>
-          </span>
-        </button>
-        <button class="reward-mode-chip" data-mode="sache" role="tab" aria-selected="false">
-          <span class="reward-mode-icon" data-icon="Gift"></span>
-          <span class="reward-mode-label">
-            <strong>Sache &amp; Erlebnis</strong>
-            <span>Apple Watch, Goldbarren, Mallorca, ...</span>
-          </span>
-        </button>
-        <button class="reward-mode-chip" data-mode="spende" role="tab" aria-selected="false">
-          <span class="reward-mode-icon" data-icon="Heart"></span>
-          <span class="reward-mode-label">
-            <strong>Für guten Zweck</strong>
-            <span>Spende an deine Hilfsorganisation</span>
-          </span>
-        </button>
-      </div>
+      <ol class="reise" id="t-Reise" aria-label="Belohnungsreise von Stufe 1 bis Stufe 15">
+        <li class="reise-skeleton" aria-hidden="true"></li>
+        <li class="reise-skeleton" aria-hidden="true"></li>
+        <li class="reise-skeleton" aria-hidden="true"></li>
+      </ol>
 
-      <div class="reward-gallery" id="t-Rewards"></div>
+      <!-- Nur im Präsentations-Modus: die Geldstufen als ein Satz statt als zehn Zeilen -->
+      <p class="reise-geld-summary" id="t-ReiseGeldSummary"></p>
 
-      <!-- Gesamt-Wert-Counter -->
+      <p class="reise-finish reveal" id="t-ReiseFinish">15 Stufen, ein sichtbarer Weg und echte Vorfreude.</p>
+
+      <!-- Gesamtwert · Zahl kommt aus den echten Stufen -->
       <div class="rewards-total-card reveal" id="t-RewardsTotal">
         <span class="rewards-total-eyebrow">✦ Im besten Fall wartet auf dich</span>
         <span class="rewards-total-value">
-          bis zu <span class="rewards-total-counter" data-target="4800">0</span>&nbsp;€
+          bis zu <span class="rewards-total-counter" data-target="4798">0</span>&nbsp;€
         </span>
-        <span class="rewards-total-sub">Gesamt-Wert der Stufen 1 bis 15 · alle Geld-Boni plus Premium-Belohnungen bis zum Mallorca-Finale</span>
+        <span class="rewards-total-sub">Gesamt-Wert der Stufen 1 bis 15 · alle Geld-Boni plus die fünf großen Meilensteine</span>
+      </div>
+
+      <!-- Wahlfreiheit + der ruhige Hinweis, dass es auch ohne geht -->
+      <div class="reise-wahl reveal d2">
+        <div class="reise-wahl-main">
+          <p class="t-eyebrow">Dein Dankeschön, deine Entscheidung</p>
+          <h3>Geld, ein echter Wunsch oder etwas Gutes tun.</h3>
+          <p class="reise-wahl-p">
+            Der Meilenstein schafft die Vorfreude. Beim Einlösen entscheidest du, welche Form
+            der gleiche Wert für dich bekommen soll.
+          </p>
+          <ul class="reise-wahl-optionen">
+            <li>Auszahlung</li>
+            <li>Materielle Belohnung</li>
+            <li>Erlebnis oder Reise</li>
+            <li>Spende</li>
+          </ul>
+        </div>
+        <div class="reise-wahl-quiet">
+          <strong>Auch einfach so.</strong>
+          <p>Du möchtest jemanden weiterbringen, ohne ein Dankeschön anzunehmen? Auch das geht — sag mir einfach Bescheid.</p>
+        </div>
       </div>
 
       <div class="section-cta reveal">
@@ -1062,6 +1066,6 @@
   </nav>
 
   <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
-  <script type="module" src="js/programm.js?v=39"></script>
+  <script type="module" src="js/programm.js?v=40"></script>
 </body>
 </html>

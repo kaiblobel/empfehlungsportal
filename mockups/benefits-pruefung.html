@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prüfseite · Belohnungs-Reise in allen Breiten</title>
+  <link rel="stylesheet" href="../css/programm.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 24px 20px 60px;
+      background: #EFECE6;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", sans-serif;
+      color: #1C1C1E;
+    }
+    .pruef-kopf { max-width: 1400px; margin: 0 auto 24px; }
+    .pruef-kopf h1 { margin: 0 0 6px; font-size: 22px; letter-spacing: -0.02em; }
+    .pruef-kopf p { margin: 0; font-size: 13.5px; line-height: 1.55; color: #55524C; max-width: 80ch; }
+    .pruef-kopf code { background: #FFF; padding: 1px 5px; border-radius: 4px; font-size: 12.5px; }
+
+    .pruef-liste { max-width: 1400px; margin: 18px auto 28px; padding: 14px 18px; background: #FFF; border-radius: 12px; }
+    .pruef-liste h2 { margin: 0 0 8px; font-size: 14px; }
+    .pruef-liste ul { margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.75; color: #55524C; }
+
+    .rahmen-reihe {
+      display: flex;
+      gap: 22px;
+      align-items: flex-start;
+      overflow-x: auto;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding-bottom: 18px;
+    }
+    .rahmen { flex: 0 0 auto; }
+    .rahmen-label {
+      margin: 0 0 8px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #6E6E73;
+    }
+    .rahmen-viewport {
+      height: 780px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      background: #FAF8F5;
+      border: 1px solid #D9D5CD;
+      border-radius: 14px;
+      box-shadow: 0 18px 40px -28px rgba(0,0,0,.5);
+      /* Überlauf sichtbar machen: Wenn Inhalt breiter ist als der Rahmen,
+         entsteht hier eine waagerechte Leiste — genau das darf nicht passieren. */
+      resize: horizontal;
+    }
+    .rahmen-inner { padding: 18px 16px 40px; }
+    .breit-320 { width: 320px; }
+    .breit-390 { width: 390px; }
+    .breit-430 { width: 430px; }
+    .breit-768 { width: 768px; }
+    .warnung {
+      margin: 8px 0 0;
+      font-size: 11.5px;
+      color: #B53D3D;
+      font-weight: 600;
+      min-height: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="pruef-kopf">
+    <h1>Belohnungs-Reise · Sichtprüfung</h1>
+    <p>
+      Diese Seite rendert die <strong>echte</strong> Reise: dasselbe Modul <code>js/belohnungs-reise.js</code>
+      und dasselbe Stylesheet <code>css/programm.css</code> wie die Kundenseite. Die Stufen kommen aus einer
+      synthetischen Fixture — keine Verbindung zur Datenbank, kein Netz.
+      Jeder Rahmen ist ein eigener Viewport; scrolle innerhalb der Rahmen.
+    </p>
+  </div>
+
+  <div class="pruef-liste">
+    <h2>Worauf zu achten ist</h2>
+    <ul>
+      <li>Kein waagerechtes Scrollen in einem der Rahmen — besonders bei 320 px.</li>
+      <li>Alle 15 Stufen stehen untereinander, in der richtigen Reihenfolge.</li>
+      <li>Die Geldzeilen sind auf einen Blick erfassbar und mindestens 58 px hoch.</li>
+      <li>Die Texte auf den Bildkarten sind vollständig lesbar (nichts abgeschnitten).</li>
+      <li>Stufe 15 wirkt deutlich größer als Stufe 5, Stufe 2 ist die kleinste Bildkarte.</li>
+      <li>Fehlt ein Bild, bleibt die Karte ruhig (dunkler Grund, Text lesbar) — siehe letzter Rahmen.</li>
+      <li>Mit Tabulator durchgehen: sichtbarer Fokus, nichts unerreichbar.</li>
+    </ul>
+  </div>
+
+  <div class="rahmen-reihe" id="rahmenReihe"></div>
+
+  <script type="module">
+    import { baueReise, reiseHtml, geldSummary, gesamtwert } from '../js/belohnungs-reise.js';
+
+    /* Synthetische Fixture — entspricht der freigegebenen Belohnungsmatrix. */
+    const MEILENSTEINE = {
+      2:  { titel: 'Ein schöner Abend zu zweit', wert_label: '150 €',
+            beschreibung: 'Restaurant deiner Wahl oder ein anderes Erlebnis',
+            bild_url: '../assets/images/programm/restaurant.jpg' },
+      5:  { titel: 'Apple Watch oder Weber-Grill', wert_label: '449 €',
+            beschreibung: 'Materieller Wunsch, Geldwert oder Spende',
+            bild_url: '../assets/images/programm/applewatch.jpg' },
+      7:  { titel: 'Goldbarren oder Wunschwert', wert_label: '500 €',
+            beschreibung: 'Werterhalt zum Anfassen, den du behältst',
+            bild_url: '../assets/images/programm/goldbarren.jpg' },
+      10: { titel: 'iPad Air oder freie Wahl', wert_label: '699 €',
+            beschreibung: 'Eines der vielseitigsten Tablets — oder etwas ganz anderes',
+            bild_url: '../assets/images/programm/ipad.jpg' },
+      15: { titel: 'Mallorca für zwei', wert_label: '2.000 €',
+            beschreibung: 'Auf meine Kosten, mit einer Begleitperson',
+            bild_url: '../assets/images/programm/mallorca.jpg' },
+    };
+
+    function fixture({ ohneBilder = false } = {}) {
+      const rows = [];
+      for (let stufe = 1; stufe <= 15; stufe++) {
+        const m = MEILENSTEINE[stufe];
+        if (m) {
+          rows.push({ stufe, ...m, highlight: true, bild_url: ohneBilder ? null : m.bild_url });
+        } else {
+          rows.push({ stufe, titel: 'Empfehlungs-Bonus', wert_label: '100 €', highlight: false });
+        }
+      }
+      return rows;
+    }
+
+    const BREITEN = [
+      { klasse: 'breit-320', label: '320 × 780 · kleinstes Handy' },
+      { klasse: 'breit-390', label: '390 × 780 · iPhone' },
+      { klasse: 'breit-430', label: '430 × 780 · großes Handy' },
+      { klasse: 'breit-768', label: '768 × 780 · Tablet' },
+    ];
+
+    const reise = baueReise(fixture());
+    const reiseOhneBilder = baueReise(fixture({ ohneBilder: true }));
+
+    const abschnitt = (r, extraTitel = '') => `
+      <div class="reise-zaehlweise">
+        <span class="reise-zaehlweise-dot"></span>
+        <p><strong>Gezählt wird, wer Kunde wird.</strong> Ein weitergegebener Name ist der erste Schritt.</p>
+      </div>
+      <div class="reise-intro">
+        <p class="t-eyebrow">Deine Reise von 1 bis 15${extraTitel}</p>
+        <h3 class="reise-intro-h">Jede Stufe sichtbar.<br>Jedes große Ziel spürbar.</h3>
+      </div>
+      <ol class="reise">${reiseHtml(r)}</ol>
+      <p class="reise-finish">15 Stufen, ein sichtbarer Weg und echte Vorfreude.</p>
+      <div class="rewards-total-card" style="opacity:1;transform:none;">
+        <span class="rewards-total-eyebrow">✦ Im besten Fall wartet auf dich</span>
+        <span class="rewards-total-value">bis zu <span class="rewards-total-counter">${gesamtwert(fixture()).toLocaleString('de-DE')}</span>&nbsp;€</span>
+        <span class="rewards-total-sub">Gesamt-Wert der Stufen 1 bis 15</span>
+      </div>
+      <div class="reise-wahl">
+        <div class="reise-wahl-main">
+          <p class="t-eyebrow">Dein Dankeschön, deine Entscheidung</p>
+          <h3>Geld, ein echter Wunsch oder etwas Gutes tun.</h3>
+          <ul class="reise-wahl-optionen">
+            <li>Auszahlung</li><li>Materielle Belohnung</li><li>Erlebnis oder Reise</li><li>Spende</li>
+          </ul>
+        </div>
+        <div class="reise-wahl-quiet">
+          <strong>Auch einfach so.</strong>
+          <p>Du möchtest jemanden weiterbringen, ohne ein Dankeschön anzunehmen? Auch das geht.</p>
+        </div>
+      </div>`;
+
+    /* Zwei Sonderansichten für echte Viewport-Aufnahmen:
+       ?einzeln       → eine Reise über die volle Fensterbreite (Handy-Nachweis)
+       ?einzeln&leer  → dieselbe Ansicht ohne Bilder (Rückfall-Nachweis)
+       ?folie         → wie im Präsentations-Modus (Folien-Nachweis)          */
+    const params = new URLSearchParams(location.search);
+    if (params.has('einzeln') || params.has('folie')) {
+      const daten = params.has('leer') ? reiseOhneBilder : reise;
+      document.querySelectorAll('.pruef-kopf, .pruef-liste, .rahmen-reihe').forEach(el => el.remove());
+      document.body.style.cssText = 'margin:0;padding:0;background:#FAF8F5;';
+      const buehne = document.createElement('div');
+      if (params.has('folie')) {
+        document.body.classList.add('presentation-mode');
+        buehne.id = 'belohnungen';
+        buehne.style.cssText = 'padding:26px 30px;';
+        buehne.innerHTML = `
+          <p class="t-eyebrow" style="text-align:center;">Deine Benefits</p>
+          <ol class="reise">${reiseHtml(daten)}</ol>
+          <p class="reise-geld-summary" style="display:block;">${geldSummary(daten)}</p>`;
+      } else {
+        buehne.style.cssText = 'padding:18px 16px 40px;';
+        buehne.innerHTML = abschnitt(daten);
+      }
+      document.body.appendChild(buehne);
+      requestAnimationFrame(() => {
+        const ueberlauf = document.documentElement.scrollWidth - document.documentElement.clientWidth;
+        console.log('waagerechter Ueberlauf:', ueberlauf, 'px');
+        document.title = ueberlauf > 1 ? `UEBERLAUF ${ueberlauf}px` : 'kein Ueberlauf';
+      });
+    } else {
+
+    const reihe = document.getElementById('rahmenReihe');
+    reihe.innerHTML = BREITEN.map(b => `
+      <div class="rahmen">
+        <p class="rahmen-label">${b.label}</p>
+        <div class="rahmen-viewport ${b.klasse}"><div class="rahmen-inner">${abschnitt(reise)}</div></div>
+        <p class="warnung" data-warn="${b.klasse}"></p>
+      </div>`).join('') + `
+      <div class="rahmen">
+        <p class="rahmen-label">390 px · ohne Bilder (Rückfall)</p>
+        <div class="rahmen-viewport breit-390"><div class="rahmen-inner">${abschnitt(reiseOhneBilder, ' · ohne Bilder')}</div></div>
+        <p class="warnung"></p>
+      </div>`;
+
+    // Waagerechten Überlauf messen statt nur hinschauen
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.rahmen-viewport').forEach((vp, i) => {
+        const warn = vp.parentElement.querySelector('.warnung');
+        const ueberlauf = vp.scrollWidth - vp.clientWidth;
+        if (ueberlauf > 1) warn.textContent = `⚠ waagerechter Überlauf: ${ueberlauf} px`;
+        else warn.textContent = '✓ kein waagerechter Überlauf';
+        warn.style.color = ueberlauf > 1 ? '#B53D3D' : '#1F6B30';
+      });
+      console.log('Präsentations-Satz:', geldSummary(baueReise(fixture())));
+    });
+    }
+  </script>
+</body>
+</html>

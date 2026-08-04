@@ -1,6 +1,7 @@
 import { getBelohnungsStufenPublic, getVorlagenPublic, createEmpfehler, getBeraterPublicBySlug, supabase } from './supabase.js';
 import { icon as lucideIcon, ICONS } from './icons.js';
 import { applyBeraterBrand } from './berater-brand.js';
+import { baueReise, reiseHtml, geldSummary } from './belohnungs-reise.js';
 
 // Multi-Tenant: Berater-Einstieg via ?berater=slug (z. B. ?berater=sven-augustin).
 // Wird unten zum Branding genutzt + an create_empfehler durchgereicht.
@@ -634,222 +635,75 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
 document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
-// Belohnungs-Cards rendern (mit Bild) + Modus-Filter + Roadmap + Total-Counter
+// === Belohnungs-Reise (Phase 127) ===========================================
+// Eine einzige senkrechte Reise von Stufe 1 bis 15, gerendert aus den echten
+// Zeilen in belohnungs_stufen. Bewusst OHNE abgeleitete Zwischenstufen: die
+// alte Fassung hat aus den Lücken 100-€-Boni erfunden, die
+// sync_praemien_for_empfehler() später nie als Prämie angelegt hat.
 (async () => {
+  const wrap = document.getElementById('t-Reise');
+  if (!wrap) return;
+
   const brandBerater = await beraterPromise.catch(() => null);
-  const stufen = await getBelohnungsStufenPublic(brandBerater?.id || window.ENV_BERATER_ID);
-  const wrap = document.getElementById('t-Rewards');
-  if (!stufen.length) {
-    wrap.innerHTML = '<p class="t-body" style="color:var(--text-muted);">Belohnungen konnten nicht geladen werden.</p>';
+  const rows = await getBelohnungsStufenPublic(brandBerater?.id || window.ENV_BERATER_ID);
+  const reise = baueReise(rows);
+
+  if (!reise.stationen.length) {
+    wrap.innerHTML = '<li class="reise-leer">Die Belohnungen konnten gerade nicht geladen werden. Bitte lade die Seite neu.</li>';
     return;
   }
 
-  // Bonus-Stufen ("Empfehlungs-Bonus") sind Zwischenstufen, keine Meilensteine.
-  const istBonus = (s) => /bonus/i.test(s?.titel || '');
-  const MAX_STUFE = 15;
-  const BONUS_WERT = 100;
-  // Premium = die Meilenstein-Belohnungen (Restaurant, Grill, Gold, iPad, Mallorca)
-  const premiumStufen = stufen.filter(s => !istBonus(s)).slice().sort((a, b) => a.stufe - b.stufe);
-  // Die Lücken dazwischen sind die 100-€-Bonus-Stufen: [von, bis]
-  const bonusLuecken = [];
-  {
-    let prev = 0;
-    for (const p of premiumStufen) {
-      if (prev + 1 <= p.stufe - 1) bonusLuecken.push([prev + 1, p.stufe - 1]);
-      prev = p.stufe;
-    }
-    // Stufen oberhalb der letzten Premium-Belohnung nicht verschlucken
-    if (prev < MAX_STUFE) bonusLuecken.push([prev + 1, MAX_STUFE]);
-  }
-  const bonusStufenAnzahl = bonusLuecken.reduce((n, [a, b]) => n + (b - a + 1), 0);
-
-  // Lucide-Icons für Modus-Chips hydrieren
-  document.querySelectorAll('.reward-mode-icon[data-icon]').forEach(el => {
-    const name = el.dataset.icon;
-    if (ICONS[name]) el.innerHTML = lucideIcon(name, { size: 22 });
-  });
-
-  // === Roadmap rendern (Stufen 1-15) ===
-  const roadmapEl = document.getElementById('t-Roadmap');
-  if (roadmapEl) {
-    // Nur Meilensteine sind Premium-Punkte. Die Bonus-Zeilen aus der Tabelle
-    // (Stufe 1, 3) sind normale 100-€-Stufen — sonst tragen sie ein Label und
-    // ihr Klick zeigt auf eine Karte, die es in der Galerie gar nicht gibt.
-    const stufenMap = new Map(premiumStufen.map(s => [s.stufe, s]));
-    let html = '<div class="roadmap-line" aria-hidden="true"></div><div class="roadmap-stufen">';
-    for (let i = 1; i <= MAX_STUFE; i++) {
-      const s = stufenMap.get(i);
-      const isPremium = !!s;
-      const targetId = isPremium ? `reward-stufe-${i}` : '';
-      const label = isPremium
-        ? escapeAttr(`${s.stufe}. Empfehlung · ${s.titel}`)
-        : `${i}. Empfehlung · Empfehlungsbonus 100 €`;
-      const shortLabel = isPremium ? escapeHtml(s.titel.split(' ')[0]) : '';
-      html += `
-        <button
-          class="roadmap-stufe ${isPremium ? 'premium' : 'standard'}"
-          data-stufe="${i}"
-          data-target="${targetId}"
-          aria-label="${label}"
-          type="button"
-        >
-          <span class="roadmap-num">${i}</span>
-          ${isPremium && shortLabel ? `<span class="roadmap-reward-label">${shortLabel}</span>` : ''}
-          <span class="roadmap-tip">${label}</span>
-        </button>
-      `;
-    }
-    html += '</div>';
-    roadmapEl.innerHTML = html;
-
-    // Click → Smooth-Scroll zur Galerie-Karte
-    roadmapEl.querySelectorAll('.roadmap-stufe.premium').forEach(btn => {
-      btn.addEventListener('click', () => {
-        // Steht die Galerie gerade auf einem Filter, in dem die Karte nicht
-        // vorkommt, erst zurück auf "Alle Belohnungen" — sonst führt der
-        // Klick ins Leere.
-        if (!document.getElementById(btn.dataset.target)) zeigeAlleBelohnungen();
-        const tgt = document.getElementById(btn.dataset.target);
-        if (tgt) {
-          tgt.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          tgt.classList.add('reward-flash');
-          setTimeout(() => tgt.classList.remove('reward-flash'), 1400);
-        }
-      });
-    });
+  // Lücken werden gemeldet, nicht gefüllt. Der Besucher sieht eine ruhige
+  // Reise ohne erfundene Stufen, die Einzelheiten stehen in der Konsole.
+  if (reise.fehlt.length) {
+    console.warn('[Belohnungen] Diese Stufen fehlen in der Datenbank und werden nicht angezeigt:', reise.fehlt.join(', '));
   }
 
-  // === Counter-Up für Total-Card ===
+  const fmtEUR = (n) => Math.round(n).toLocaleString('de-DE');
+
+  // Markup kommt aus dem reinen Modul — dieselbe Quelle nutzt die Prüfseite
+  // mockups/benefits-pruefung.html, damit beide nicht auseinanderlaufen.
+  wrap.innerHTML = reiseHtml(reise);
+
+  // Gesamtwert aus den echten Stufen — keine feste Zahl im HTML mehr.
   const counterEl = document.querySelector('.rewards-total-counter');
   if (counterEl) {
-    // Gesamtwert aus den echten Stufen rechnen (alle Boni + alle Premium-
-    // Belohnungen), damit der Betrag nicht bei jeder Prämien-Änderung im HTML
-    // nachgezogen werden muss. Fällt das Parsen aus, bleibt der Wert im HTML.
-    const wertAusLabel = (label) => {
-      const roh = String(label || '').replace(/[^\d.,]/g, '').replace(/\./g, '').replace(',', '.');
-      const n = parseFloat(roh);
-      return Number.isFinite(n) ? n : 0;
-    };
-    const premiumSumme = premiumStufen.reduce((sum, s) => sum + wertAusLabel(s.wert_label), 0);
-    const gerechnet = Math.round(premiumSumme + bonusStufenAnzahl * BONUS_WERT);
-    const target = gerechnet > 0 ? gerechnet : (parseInt(counterEl.dataset.target, 10) || 0);
+    const target = Math.round(reise.gesamtwert) || (parseInt(counterEl.dataset.target, 10) || 0);
     const counterIO = new IntersectionObserver((entries) => {
       entries.forEach(e => {
-        if (e.isIntersecting) {
-          const duration = 1600;
-          const start = performance.now();
-          const formatter = new Intl.NumberFormat('de-DE');
-          const tick = (now) => {
-            const p = Math.min(1, (now - start) / duration);
-            const eased = 1 - Math.pow(1 - p, 3); // ease-out-cubic
-            counterEl.textContent = formatter.format(Math.round(target * eased));
-            if (p < 1) requestAnimationFrame(tick);
-          };
-          requestAnimationFrame(tick);
-          counterIO.unobserve(e.target);
-        }
+        if (!e.isIntersecting) return;
+        const duration = 1600;
+        const start = performance.now();
+        const formatter = new Intl.NumberFormat('de-DE');
+        const tick = (now) => {
+          const p = Math.min(1, (now - start) / duration);
+          const eased = 1 - Math.pow(1 - p, 3);
+          counterEl.textContent = formatter.format(Math.round(target * eased));
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+        counterIO.unobserve(e.target);
       });
     }, { threshold: 0.4 });
     counterIO.observe(counterEl);
-  }
-
-  // === Belohnungs-Galerie: Premium-Karten + gruppierte Bonus-Kacheln ===
-  // (Bonus als feste Kachel je Lücke: Stufe 3–4 eine Kachel, 8–9 eine Kachel …)
-  const BONUS_IMG = '/assets/images/programm/kundenlos.jpg';
-  const BONUS_DESC = '100 € als Wunschgutschein, PayPal-Auszahlung oder Spende deiner Wahl.';
-
-  const rewardCardHTML = (s) => {
-    const isBonus = /bonus/i.test(s.titel || '');
-    const img = isBonus ? BONUS_IMG : s.bild_url;
-    const titel = isBonus ? 'Empfehlungsbonus' : s.titel;
-    return `
-      <article class="reward ${s.highlight ? 'highlight' : ''} reveal visible" id="reward-stufe-${s.stufe}">
-        ${img ? `<img class="reward-img" src="${escapeAttr(img)}" alt="${escapeAttr(titel)}" loading="lazy" />` : ''}
-        <div class="reward-body">
-          <span class="t-meta reward-meta">${s.stufe}. Empfehlung</span>
-          <h3>${escapeHtml(titel)}</h3>
-          <p>${escapeHtml(s.beschreibung || '')}</p>
-          ${s.wert_label ? `<span class="wert">Wert ${escapeHtml(s.wert_label)}</span>` : ''}
-          <button type="button" class="reward-eintragen" data-start="1">Jetzt starten →</button>
-        </div>
-      </article>`;
-  };
-
-  // Gruppierte Bonus-Kachel für einen Stufenbereich (a..b)
-  const bonusCardHTML = (a, b) => {
-    const meta = (a === b) ? `${a}. Empfehlung` : `${a}.–${b}. Empfehlung`;
-    const wert = (a === b) ? '100 €' : 'je 100 €';
-    return `
-      <article class="reward reward-bonus reveal visible">
-        <img class="reward-img" src="${BONUS_IMG}" alt="Empfehlungsbonus" loading="lazy" />
-        <div class="reward-body">
-          <span class="t-meta reward-meta">${meta}</span>
-          <h3>Empfehlungsbonus</h3>
-          <p>${escapeHtml(BONUS_DESC)}</p>
-          <span class="wert">Wert ${wert}</span>
-        </div>
-      </article>`;
-  };
-
-  function renderStufen(mode) {
-    if (mode === 'alle') {
-      // Bonus-Kacheln und Meilensteine abwechselnd, in Stufen-Reihenfolge
-      const teile = [];
-      bonusLuecken.forEach(([a, b]) => teile.push({ stufe: a, html: bonusCardHTML(a, b) }));
-      premiumStufen.forEach(p => teile.push({ stufe: p.stufe, html: rewardCardHTML(p) }));
-      wrap.innerHTML = teile.sort((x, y) => x.stufe - y.stufe).map(t => t.html).join('');
-      return;
+    // Wer die Bewegung reduziert hat, sieht die Zahl sofort.
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      counterEl.textContent = fmtEUR(target);
+      counterIO.unobserve(counterEl);
     }
-
-    // Geld / Spende: das sind die 100-€-Bonus-Stufen. Sie stehen in der
-    // Tabelle nur als ein, zwei Beispiel-Zeilen — gezeigt wird trotzdem jede
-    // Bonus-Stufe, sonst wirkt der Filter wie zwei zufällige Karten.
-    const bonusModus = ['geld', 'spende'].includes(mode);
-    const passendePremium = premiumStufen.filter(s => Array.isArray(s.kategorien) && s.kategorien.includes(mode));
-    const teile = passendePremium.map(p => ({ stufe: p.stufe, html: rewardCardHTML(p) }));
-    if (bonusModus) bonusLuecken.forEach(([a, b]) => teile.push({ stufe: a, html: bonusCardHTML(a, b) }));
-
-    if (!teile.length) {
-      wrap.innerHTML = `<p class="t-body" style="color:var(--text-muted); text-align:center; padding:24px;">Für diesen Modus sind aktuell keine Belohnungen hinterlegt.</p>`;
-      return;
-    }
-    wrap.innerHTML = teile.sort((x, y) => x.stufe - y.stufe).map(t => t.html).join('');
   }
 
-  // Filter zurück auf "Alle Belohnungen" setzen (Chip + Galerie)
-  function zeigeAlleBelohnungen() {
-    document.querySelectorAll('.reward-mode-chip').forEach(c => {
-      const aktiv = c.dataset.mode === 'alle';
-      c.classList.toggle('active', aktiv);
-      c.setAttribute('aria-selected', String(aktiv));
-    });
-    renderStufen('alle');
+  // Schlusszeile an die tatsächliche Stufenzahl anpassen
+  const finishEl = document.getElementById('t-ReiseFinish');
+  if (finishEl) {
+    const hoechste = reise.stationen[reise.stationen.length - 1].stufe;
+    finishEl.textContent = `${hoechste} Stufen, ein sichtbarer Weg und echte Vorfreude.`;
   }
 
-  // Initial: alle
-  renderStufen('alle');
-
-  // Modus-Switch-Buttons
-  const chips = document.querySelectorAll('.reward-mode-chip');
-  chips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      chips.forEach(c => {
-        c.classList.remove('active');
-        c.setAttribute('aria-selected', 'false');
-      });
-      chip.classList.add('active');
-      chip.setAttribute('aria-selected', 'true');
-      renderStufen(chip.dataset.mode);
-    });
-  });
-
-  // "Jetzt starten" → zum Anmelde-Formular (Promoter anlegen); das Eintragen der
-  // Empfehlungen passiert danach auf dem individuellen Link (empfehler.html?code=…).
-  wrap.addEventListener('click', (e) => {
-    const btn = e.target.closest('.reward-eintragen');
-    if (!btn) return;
-    document.getElementById('anmelden')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
+  // Präsentations-Modus: die Geldstufen als ein Satz statt als zehn Zeilen.
+  // Steht immer im HTML, wird aber nur auf der Folie eingeblendet.
+  const summaryEl = document.getElementById('t-ReiseGeldSummary');
+  if (summaryEl) summaryEl.textContent = geldSummary(reise);
 })();
 
 // Themen-Auswahl mit direkter Vorschau der fertigen Themenwelten
