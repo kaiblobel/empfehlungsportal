@@ -1,7 +1,7 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.154 Beta** · Hero als Einstieg, Zufriedenheitsfrage danach.
+Aktuelle Version: **v1.155 Beta** · Einrasten beim Scrollen.
 
 ---
 

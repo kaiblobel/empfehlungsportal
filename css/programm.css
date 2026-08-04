@@ -7241,3 +7241,33 @@ body.presentation-mode .pre-hero {
   .reise-station,
   .reise-karte { transition: none !important; }
 }
+
+/* ============================================================
+   Phase 129 · Einrasten beim Scrollen
+   ------------------------------------------------------------
+   Kai trägt die Seite scrollend vor. Ohne Einrasten bleibt man
+   leicht zwischen zwei Themen stehen — halbe Überschrift oben,
+   halbe Karte unten. Mit "proximity" rastet der Abschnitt nur
+   ein, wenn er ohnehin fast steht: Man behält die volle Kontrolle
+   und landet trotzdem sauber.
+   Bewusst NICHT "mandatory": Abschnitte wie die Belohnungs-Reise
+   sind höher als der Bildschirm — mandatory würde einen zwingen,
+   sie zu überspringen, statt sie durchscrollen zu lassen.
+   ============================================================ */
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-snap-type: y proximity;
+    scroll-behavior: smooth;
+  }
+  .section {
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
+  }
+  /* Abschnitte, die höher als der Bildschirm sind, dürfen nicht am
+     Anfang festhängen — sie rasten am Ende ebenfalls sauber aus. */
+  .section.alt#belohnungen,
+  .section#faq,
+  .section.testimonials {
+    scroll-snap-align: none;
+  }
+}
