@@ -38,52 +38,122 @@ applyBeraterHeader();
   attachHandlers(list);
 })();
 
+/**
+ * Auswahl statt Tippen: Symbole, die für Themen taugen. Vorher musste hier der
+ * englische Lucide-Name eingetippt werden.
+ */
+const SYMBOL_AUSWAHL = [
+  ['Compass', 'Kompass'], ['Home', 'Haus'], ['Banknote', 'Geldschein'],
+  ['Briefcase', 'Aktentasche'], ['TrendingUp', 'Aufwärtstrend'], ['ShieldCheck', 'Schutzschild'],
+  ['Heart', 'Herz'], ['Sparkles', 'Funken'], ['Users', 'Menschen'], ['FileText', 'Dokument'],
+];
+
+function renderSymbolAuswahl(aktuell) {
+  const gewaehlt = aktuell || 'Compass';
+  const knoepfe = SYMBOL_AUSWAHL.map(([name, titel]) => `
+    <button type="button" class="cms-symbol${name === gewaehlt ? ' active' : ''}"
+            data-symbol="${escapeAttr(name)}" title="${escapeAttr(titel)}" aria-label="${escapeAttr(titel)}">
+      ${ICONS[name] || ''}
+    </button>`).join('');
+  return `<div class="cms-symbols">${knoepfe}<input type="hidden" data-f="icon" value="${escapeAttr(gewaehlt)}" /></div>`;
+}
+
+/**
+ * Bewusst nur die Felder, die auch irgendwo ankommen (Phase 126).
+ * Bild, die drei Vorteile und der Subtext standen zwar im Editor, wurden aber
+ * von keiner Seite mehr gelesen: die Empfänger-Seite wurde umgebaut und ihre
+ * Anker (eFinanzImg, eV1Titel …) existieren nicht mehr. Die Werte bleiben in
+ * der Datenbank stehen — sie werden hier nur nicht mehr angeboten.
+ */
 function renderCard(v) {
+  const vorschau = v.slug === 'baufi'
+    ? 'baufi.html?vorlage=baufi'
+    : `empfaenger.html?vorlage=${encodeURIComponent(v.slug)}`;
   return `
     <details class="cms-card" data-slug="${v.slug}">
       <summary>
         ${renderIcon(v.icon)}
         <span class="titel">${escapeHtml(v.titel)}</span>
         <span class="slug">${escapeHtml(v.slug)}</span>
-        ${v.in_arbeit ? '<span class="wip-badge" style="margin-left:8px;padding:2px 9px;border-radius:999px;background:#FBEEC8;color:#8A6D1B;font-size:11px;font-weight:700;">🚧 In Arbeit</span>' : ''}
+        ${v.in_arbeit ? '<span class="cms-pill wip">In Arbeit</span>' : ''}
       </summary>
       <div class="cms-body">
-        <label class="pv-check" style="display:inline-flex;align-items:center;gap:7px;margin-bottom:6px;font-size:13.5px;">
-          <input type="checkbox" data-f-check="in_arbeit" ${v.in_arbeit ? 'checked' : ''}/> In Arbeit (Markierung nur für dich, Kunden sehen die Seite normal)
-        </label>
-        <div class="cms-row-2">
-          <div><label>Titel</label><input data-f="titel" value="${escapeAttr(v.titel || '')}" /></div>
-          <div><label>Icon (Lucide-Name, z. B. Home, Banknote, ShieldCheck)</label><input data-f="icon" value="${escapeAttr(v.icon || '')}" /></div>
-        </div>
-        <div><label>Subtext (Hero-Body auf Empfänger-Seite)</label><textarea data-f="subtext">${escapeHtml(v.subtext || '')}</textarea></div>
-        <div><label>Headline (Finanzcheck)</label><input data-f="headline" value="${escapeAttr(v.headline || '')}" /></div>
-        <div>
-          <label>Hero-Bild URL</label>
-          <input data-f="hero_bild_url" value="${escapeAttr(v.hero_bild_url || '')}" />
-          ${v.hero_bild_url ? `<img class="cms-img-preview" src="${escapeAttr(v.hero_bild_url)}" alt="" onerror="this.style.display='none'"/>` : ''}
-        </div>
-        <div><label>Quickcheck-URL (CTA-Link)</label><input data-f="quickcheck_url" value="${escapeAttr(v.quickcheck_url || '')}" /></div>
-        <div><label>CTA-Text</label><input data-f="cta_text" value="${escapeAttr(v.cta_text || '')}" /></div>
 
-        <div class="cms-row-2">
-          <div><label>Vorteil 1 · Titel</label><input data-f="vorteil_1_titel" value="${escapeAttr(v.vorteil_1_titel || '')}" /></div>
-          <div><label>Sort-Order</label><input data-f="sort_order" type="number" value="${v.sort_order ?? 0}" /></div>
+        <div class="cms-group">
+          <div class="cms-group-title">In der Themen-Auswahl</div>
+          <p class="cms-group-sub">So erscheint das Thema in deiner Präsentation und im Empfehlungs-Formular des Promoters.</p>
+
+          <div class="cms-field">
+            <label>Name des Themas</label>
+            <input data-f="titel" type="text" value="${escapeAttr(v.titel || '')}" />
+          </div>
+
+          <div class="cms-field">
+            <label>Symbol</label>
+            <span class="cms-hint">Steht links neben dem Namen.</span>
+            ${renderSymbolAuswahl(v.icon)}
+          </div>
+
+          <div class="cms-field">
+            <label>Unterzeile</label>
+            <span class="cms-hint">Die kleine Zeile unter dem Namen — ein Satz, worum es geht.</span>
+            <input data-f="headline" type="text" value="${escapeAttr(v.headline || '')}" />
+          </div>
+
+          <div class="cms-field cms-field-schmal">
+            <label>Reihenfolge</label>
+            <span class="cms-hint">Kleinere Zahl steht weiter oben.</span>
+            <input data-f="sort_order" type="number" value="${v.sort_order ?? 0}" />
+          </div>
         </div>
-        <div><label>Vorteil 1 · Text</label><textarea data-f="vorteil_1_text">${escapeHtml(v.vorteil_1_text || '')}</textarea></div>
-        <div><label>Vorteil 2 · Titel</label><input data-f="vorteil_2_titel" value="${escapeAttr(v.vorteil_2_titel || '')}" /></div>
-        <div><label>Vorteil 2 · Text</label><textarea data-f="vorteil_2_text">${escapeHtml(v.vorteil_2_text || '')}</textarea></div>
-        <div><label>Vorteil 3 · Titel</label><input data-f="vorteil_3_titel" value="${escapeAttr(v.vorteil_3_titel || '')}" /></div>
-        <div><label>Vorteil 3 · Text</label><textarea data-f="vorteil_3_text">${escapeHtml(v.vorteil_3_text || '')}</textarea></div>
+
+        <div class="cms-group">
+          <div class="cms-group-title">Der Knopf zum Finanzcheck</div>
+          <p class="cms-group-sub">Der Weg, den dein Kontakt von der Themen-Seite aus weitergeht.</p>
+
+          <div class="cms-field">
+            <label>Beschriftung</label>
+            <input data-f="cta_text" type="text" value="${escapeAttr(v.cta_text || '')}" />
+          </div>
+          <div class="cms-field">
+            <label>Wohin er führt</label>
+            <input data-f="quickcheck_url" type="text" value="${escapeAttr(v.quickcheck_url || '')}" />
+          </div>
+        </div>
+
+        <div class="cms-group">
+          <div class="cms-group-title">Nur für dich</div>
+          <label class="cms-switch">
+            <input type="checkbox" data-f-check="in_arbeit" ${v.in_arbeit ? 'checked' : ''} />
+            <span class="cms-switch-track"></span>
+            <span class="cms-switch-text">
+              <strong>Noch in Arbeit</strong>
+              <span>Markiert das Thema nur in dieser Liste. Für deine Kontakte ändert sich nichts.</span>
+            </span>
+          </label>
+        </div>
 
         <div class="cms-actions">
           <button class="cms-save" type="button" data-save="${v.slug}">Speichern</button>
-          <a class="cms-preview-link" href="${v.slug === 'baufi' ? 'baufi.html?vorlage=baufi' : `empfaenger.html?vorlage=${encodeURIComponent(v.slug)}`}" target="_blank">Vorschau öffnen ↗</a>
+          <a class="cms-preview-link" href="${vorschau}" target="_blank">Vorschau öffnen ↗</a>
         </div>
       </div>
     </details>`;
 }
 
 function attachHandlers(list) {
+  // Symbol-Auswahl: Klick setzt das versteckte Feld, das gespeichert wird.
+  document.querySelectorAll('.cms-symbols').forEach(gruppe => {
+    const feld = gruppe.querySelector('[data-f="icon"]');
+    gruppe.querySelectorAll('.cms-symbol').forEach(btn => {
+      btn.addEventListener('click', () => {
+        gruppe.querySelectorAll('.cms-symbol').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        if (feld) feld.value = btn.dataset.symbol;
+      });
+    });
+  });
+
   document.querySelectorAll('[data-save]').forEach(btn => {
     btn.addEventListener('click', async () => {
       const slug = btn.dataset.save;
@@ -92,9 +162,11 @@ function attachHandlers(list) {
       const data = {};
       fields.forEach(f => {
         const k = f.dataset.f;
-        let v = f.value;
-        if (k === 'sort_order') v = parseInt(v, 10) || 0;
-        if (typeof v === 'string') v = v.trim();
+        // Reihenfolge ist eine Zahl: die 0 muss eine 0 bleiben. Vorher lief sie
+        // durch `v || null` und wurde beim Speichern zu NULL — die erste
+        // Themenseite (sort_order 0) rutschte damit ans Ende der Auswahl.
+        if (k === 'sort_order') { data[k] = parseInt(f.value, 10) || 0; return; }
+        const v = String(f.value).trim();
         data[k] = v || null;
       });
       // In-Arbeit-Marker (Checkbox, nicht data-f)
@@ -115,14 +187,16 @@ function attachHandlers(list) {
         return;
       }
 
-      toast(`Vorlage "${slug}" gespeichert.`);
+      toast('Gespeichert. Die Änderung ist sofort live.');
       btn.disabled = false;
       btn.textContent = 'Speichern';
 
-      // Bild-Preview ggf. updaten
-      const preview = card.querySelector('.cms-img-preview');
-      const imgEl = card.querySelector('[data-f="hero_bild_url"]');
-      if (preview && imgEl) preview.src = imgEl.value || '';
+      // Kopfzeile der Karte mitziehen, damit Name und Symbol stimmen
+      const summary = card.querySelector('summary');
+      const titelEl = summary?.querySelector('.titel');
+      if (titelEl && data.titel) titelEl.textContent = data.titel;
+      const iconEl = summary?.querySelector('.icon');
+      if (iconEl && data.icon) iconEl.outerHTML = renderIcon(data.icon);
     });
   });
 }

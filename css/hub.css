@@ -2697,3 +2697,107 @@ body[data-page="vorlagen-cms"] {
   .h-side-activity .h-activity-top { align-items: flex-start !important; }
   .h-side-activity .h-activity-time { padding-top: 1px; }
 }
+
+/* ============================================================
+   Phase 126 · Themen-Editor entrümpelt
+   ------------------------------------------------------------
+   Die Labels standen in geschriebenen Großbuchstaben (verstößt gegen
+   die Design-Regeln des Projekts) und trugen Fachbegriffe wie
+   "Lucide-Name" oder "Hero-Body". Jetzt: normale Beschriftungen mit
+   einem Hinweis darunter, gruppiert nach dem Ort der Wirkung.
+   ============================================================ */
+
+/* Labels wieder in Satzschrift statt Versalien */
+.cms-body label {
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: var(--ink, #1A1A1A) !important;
+  margin: 0 0 4px !important;
+}
+.cms-hint {
+  display: block;
+  font-size: 12px;
+  color: var(--ink-soft, #8C8680);
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.cms-group {
+  padding: 18px 0 6px;
+  border-bottom: 1px solid var(--border-light);
+}
+.cms-group:last-of-type { border-bottom: 0; }
+.cms-group-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--accent-hover, #8B7355);
+  margin-bottom: 2px;
+}
+.cms-group-sub {
+  font-size: 12.5px;
+  color: var(--ink-soft, #8C8680);
+  margin: 0 0 14px;
+  line-height: 1.45;
+}
+.cms-field { margin-bottom: 14px; }
+.cms-field:last-child { margin-bottom: 4px; }
+.cms-field-schmal { max-width: 220px; }
+.cms-body input:focus,
+.cms-body textarea:focus {
+  border-color: var(--accent, #C9B98A);
+  box-shadow: 0 0 0 3px var(--accent-soft, rgba(201,185,138,0.13));
+}
+
+/* Symbol-Auswahl statt Namen tippen */
+.cms-symbols { display: flex; flex-wrap: wrap; gap: 8px; }
+.cms-symbol {
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  border: 1px solid var(--border-light);
+  background: var(--bg-secondary);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--ink-muted, #6B6660);
+  cursor: pointer;
+  transition: border-color .15s ease, background .15s ease, color .15s ease;
+}
+.cms-symbol:hover { border-color: var(--hairline-strong, #D4CFC6); color: var(--ink, #1A1A1A); }
+.cms-symbol.active {
+  border-color: var(--accent, #C9B98A);
+  background: var(--accent-soft, rgba(201,185,138,0.13));
+  color: var(--accent-hover, #8B7355);
+}
+.cms-symbol svg { width: 20px; height: 20px; }
+
+/* Statuszeichen in der Kopfzeile */
+.cms-pill {
+  font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 999px;
+  background: var(--surface-2, #F5F5F2);
+  color: var(--ink-muted, #6B6660);
+  white-space: nowrap;
+}
+.cms-pill.wip { background: #F6EDD6; color: #8A6D1B; }
+
+/* "Noch in Arbeit" als Schalter statt Häkchen mit Klammersatz */
+.cms-switch { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+.cms-switch input { position: absolute; opacity: 0; pointer-events: none; }
+.cms-switch-track {
+  width: 42px; height: 24px; border-radius: 999px;
+  background: var(--hairline-strong, #D4CFC6);
+  position: relative; flex-shrink: 0;
+  transition: background .18s ease;
+}
+.cms-switch-track::after {
+  content: ''; position: absolute; top: 3px; left: 3px;
+  width: 18px; height: 18px; border-radius: 50%; background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,.2);
+  transition: transform .18s ease;
+}
+.cms-switch input:checked + .cms-switch-track { background: var(--accent, #C9B98A); }
+.cms-switch input:checked + .cms-switch-track::after { transform: translateX(18px); }
+.cms-switch-text strong { display: block; font-size: 13.5px; font-weight: 600; color: var(--ink, #1A1A1A); }
+.cms-switch-text span { font-size: 12px; color: var(--ink-soft, #8C8680); line-height: 1.4; }

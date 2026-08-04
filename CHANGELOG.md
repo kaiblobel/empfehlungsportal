@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.151 Beta** · Eine Seite, ein Name: Überblick.
+Aktuelle Version: **v1.152 Beta** · Themen-Editor entrümpelt.
+
+---
+
+## v1.152 Beta - Phase 126 · Themen-Editor entrümpelt
+**2026-08-04**
+
+- **Acht von dreizehn Feldern im Themen-Editor hatten keine Wirkung mehr.** Bild, die drei Vorteile (sechs Felder) und der Subtext wurden von keiner Seite mehr gelesen: Die Empfänger-Seite wurde irgendwann neu gebaut, ihre Anker (`eFinanzImg`, `eV1Titel` …) existieren nicht mehr. Der Code lief weiter, fand die Elemente nicht und tat still nichts — deshalb ist es nie aufgefallen.
+- Der Editor zeigt jetzt nur noch, was ankommt: **Name, Symbol, Unterzeile, Reihenfolge, Knopf-Beschriftung, Knopf-Ziel** — plus den Schalter „Noch in Arbeit". Die alten Werte bleiben in der Datenbank stehen, sie werden nur nicht mehr angeboten.
+- **Das Symbol wird ausgewählt statt getippt.** Vorher musste man den englischen Lucide-Namen kennen („Home", „ShieldCheck"); jetzt stehen zehn Symbole zur Auswahl.
+- Beschriftungen in normaler Schrift statt geschriebener Großbuchstaben, mit einem Hinweis darunter, wo das Feld auftaucht. Die Felder sind nach Wirkungsort gruppiert.
+- **Fehler behoben:** Beim Speichern wurde eine Reihenfolge von 0 zu einem leeren Wert — die erste Themenseite rutschte damit ans Ende der Auswahl. Fiel bisher kaum auf, weil selten gespeichert wurde.
+- Noch offen: Ob ein Thema überhaupt angezeigt wird (`aktiv`), lässt sich weiterhin nur in der Datenbank umstellen. Dafür bräuchte es ein zusätzliches Leserecht, sonst würde ein ausgeblendetes Thema auch aus dem Editor verschwinden.
 
 ---
 
