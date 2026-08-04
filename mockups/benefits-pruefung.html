@@ -167,6 +167,36 @@
         </div>
       </div>`;
 
+    /* Zwei Sonderansichten für echte Viewport-Aufnahmen:
+       ?einzeln       → eine Reise über die volle Fensterbreite (Handy-Nachweis)
+       ?einzeln&leer  → dieselbe Ansicht ohne Bilder (Rückfall-Nachweis)
+       ?folie         → wie im Präsentations-Modus (Folien-Nachweis)          */
+    const params = new URLSearchParams(location.search);
+    if (params.has('einzeln') || params.has('folie')) {
+      const daten = params.has('leer') ? reiseOhneBilder : reise;
+      document.querySelectorAll('.pruef-kopf, .pruef-liste, .rahmen-reihe').forEach(el => el.remove());
+      document.body.style.cssText = 'margin:0;padding:0;background:#FAF8F5;';
+      const buehne = document.createElement('div');
+      if (params.has('folie')) {
+        document.body.classList.add('presentation-mode');
+        buehne.id = 'belohnungen';
+        buehne.style.cssText = 'padding:26px 30px;';
+        buehne.innerHTML = `
+          <p class="t-eyebrow" style="text-align:center;">Deine Benefits</p>
+          <ol class="reise">${reiseHtml(daten)}</ol>
+          <p class="reise-geld-summary" style="display:block;">${geldSummary(daten)}</p>`;
+      } else {
+        buehne.style.cssText = 'padding:18px 16px 40px;';
+        buehne.innerHTML = abschnitt(daten);
+      }
+      document.body.appendChild(buehne);
+      requestAnimationFrame(() => {
+        const ueberlauf = document.documentElement.scrollWidth - document.documentElement.clientWidth;
+        console.log('waagerechter Ueberlauf:', ueberlauf, 'px');
+        document.title = ueberlauf > 1 ? `UEBERLAUF ${ueberlauf}px` : 'kein Ueberlauf';
+      });
+    } else {
+
     const reihe = document.getElementById('rahmenReihe');
     reihe.innerHTML = BREITEN.map(b => `
       <div class="rahmen">
@@ -191,6 +221,7 @@
       });
       console.log('Präsentations-Satz:', geldSummary(baueReise(fixture())));
     });
+    }
   </script>
 </body>
 </html>

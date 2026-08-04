@@ -27,7 +27,11 @@ Stand: 04.08.2026 · Auftrag: `docs/2026-08-04-conrad-benefits-meilensteine.md`
 
 **Abweichung 3 — Testbefehl.** `node --test tests/` schlägt fehl (Node nimmt das Verzeichnis nicht als Testziel an). Richtig ist `node --test tests/*.test.mjs tests/*.test.cjs`.
 
-**Abweichung 4 — Bildnachweise.** In meiner Umgebung lässt sich kein Browser öffnen. Statt Screenshots liefere ich eine messende Prüfseite (Abschnitt 5). Die Sichtprüfung steht noch aus und ist Voraussetzung für jede Freigabe.
+**Abweichung 4 — Bildnachweise: liegen jetzt vor.** In der ersten Fassung dieser Übergabe stand, ich könne keine Screenshots erzeugen. Das war falsch: Chrome ist installiert und lässt sich über das DevTools-Protokoll fernsteuern. Die Nachweise liegen unter `docs/nachweise-benefits/` (Abschnitt 5).
+
+Zwei Fallstricke dabei, damit sie niemand erneut tritt:
+- `--window-size` wirkt in diesem Chrome **nicht** auf den Layout-Viewport (er rechnete stur mit 497 px und schnitt erst beim Aufnehmen auf die Zielbreite). Ein erster Screenshot sah deshalb aus, als liefe der Inhalt rechts aus dem Bild — ein Messfehler, kein Layoutfehler. Verlässlich ist nur `Emulation.setDeviceMetricsOverride`.
+- Bilder mit `loading="lazy"` werden ohne Scrollen nicht geladen; die Aufnahme muss vorher bis ans Seitenende scrollen, sonst fehlen genau die Motive, die man prüfen will.
 
 ---
 
@@ -78,15 +82,34 @@ Der neue Test deckt die im Auftrag geforderten Fälle ab — alle gegen syntheti
 
 ---
 
-## 5 · Sichtprüfung — **steht noch aus**
+## 5 · Sichtprüfung — durchgeführt
 
-Öffnen: `mockups/benefits-pruefung.html`
+Aufnahmen unter `docs/nachweise-benefits/`, erzeugt mit echtem Chrome über das DevTools-Protokoll gegen einen lokalen Server; Daten aus der Fixture, kein Netz, keine Datenbank.
 
-Die Seite rendert die echte Reise mit dem echten Stylesheet in vier Rahmen (320 / 390 / 430 / 768 px) plus einem Rahmen ohne Bilder. Unter jedem Rahmen misst sie den waagerechten Überlauf und schreibt „✓ kein waagerechter Überlauf" oder eine Warnung mit Pixelzahl.
+| Datei | Ansicht |
+|---|---|
+| `01-handy-320.jpeg` | 320 × 700, ganze Seite |
+| `02-handy-390.jpeg` | 390 × 844, ganze Seite |
+| `03-handy-430.jpeg` | 430 × 932, ganze Seite |
+| `04-folie-1024.jpeg` | Präsentations-Modus 1024 × 768 |
+| `05-folie-1440.jpeg` | Präsentations-Modus 1440 × 900 |
+| `06-rueckfall-ohne-bilder.jpeg` | alle Motive fehlen — Rückfall |
 
-Zusätzlich per Auge zu prüfen: Reihenfolge der 15 Stufen, Lesbarkeit der Kartentexte, Stufe 15 sichtbar größer als Stufe 5, Tastaturfokus, Verhalten bei reduzierter Bewegung.
+Gemessen im selben Lauf:
 
-Der Präsentations-Modus lässt sich nur auf der echten Seite prüfen (`programm.html?mode=slides`) bei 1024×768 und 1440×900: nur die fünf Bildkarten, die Geldstufen als ein Satz, kein Gesamtwertblock, Foliennavigation unverändert.
+| Breite | Viewport | scrollWidth | Elemente über den Rand | Bildkarten | Geldzeilen | Bilder geladen |
+|---|---|---|---|---|---|---|
+| 320 | 320 | 320 | 0 | 5 | 10 | 5/5 |
+| 390 | 390 | 390 | 0 | 5 | 10 | 5/5 |
+| 430 | 430 | 430 | 0 | 5 | 10 | 5/5 |
+| 1024 Folie | 1024 | 1024 | 0 | 5 | 10 | 5/5 |
+| 1440 Folie | 1440 | 1440 | 0 | 5 | 10 | 5/5 |
+
+**Kein waagerechtes Scrollen auf keiner Breite.** Der Folienmodus baut 382 px hoch (1024) bzw. 417 px (1440) — passt ohne Abschneiden auf eine Folie.
+
+Beim Durchsehen nachgebessert: Auf hellen Motiven (Apple Watch, iPad) ging die kleine Zeile „5 gewonnene Kunden" im Bild unter. Die Kartentexte haben jetzt einen weichen Schatten; auf dunklen Motiven ist er nicht wahrnehmbar.
+
+Noch offen und nur auf der echten Seite prüfbar: `programm.html?mode=slides` mit der Foliennavigation (Pfeiltasten, Folienzahl) sowie das Verhalten mit Tastatur und reduzierter Bewegung im echten Seitenfluss.
 
 ---
 

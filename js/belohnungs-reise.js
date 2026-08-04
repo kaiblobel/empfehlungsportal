@@ -132,13 +132,17 @@ export function geldZeileHtml(station) {
 
 export function meilensteinHtml(station, istFinale = false) {
   const d = station.daten;
+  // Fehlt das Bild oder lädt es nicht, bekommt die Karte einen ruhigen
+  // Farbverlauf statt des Kaputt-Symbols. Das onerror steht bewusst im Markup:
+  // so gilt es auch auf der Prüfseite, ohne dass dort Code doppelt liegt.
   const bild = d.bild_url
-    ? `<img src="${escapeHtml(d.bild_url)}" alt="${escapeHtml(d.titel || '')}" loading="lazy" decoding="async" />`
+    ? `<img src="${escapeHtml(d.bild_url)}" alt="${escapeHtml(d.titel || 'Belohnung')}" loading="lazy" decoding="async"
+            onerror="this.closest('.reise-karte').classList.add('reise-karte-ohne-bild'); this.remove();" />`
     : '';
   return `
     <li class="reise-station reise-meilenstein stufe-${station.stufe}${istFinale ? ' reise-finale' : ''}" data-stufe="${station.stufe}">
       <span class="reise-punkt">${station.stufe}</span>
-      <article class="reise-karte">
+      <article class="reise-karte${d.bild_url ? '' : ' reise-karte-ohne-bild'}">
         ${bild}
         <span class="reise-badge">${istFinale ? 'Das Finale' : 'Freie Wahl'}</span>
         <div class="reise-karte-copy">
