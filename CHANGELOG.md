@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.159 Beta** · Versionsanzeige wieder verlässlich.
+Aktuelle Version: **v1.160 Beta** · Belohnungs-Einstieg gestrafft.
+
+---
+
+## v1.160 Beta - Phase 134 · Belohnungs-Einstieg gestrafft
+**2026-08-04**
+
+- Die beiden Karten „Dein Bekannter bekommt" und „Du bekommst" sind aus der Präsentationsseite entfernt. Sie wiederholten bereits erklärte Punkte und rückten die Belohnung unnötig früh in den Vordergrund.
+- Der zusätzliche Hinweis „Deine erste Belohnung ist nur eine Empfehlung entfernt" ist ebenfalls entfernt. Die klare Regel direkt darunter bleibt: Gezählt wird, wer Kunde wird.
+- Die nicht mehr benötigten Stile des entfernten Blocks wurden mit aufgeräumt. `programm.css` wird mit einem neuen Cache-Stempel geladen.
 
 ---
 
