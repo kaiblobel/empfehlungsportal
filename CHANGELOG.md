@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.158 Beta** · Inspirations-Zitate raus.
+Aktuelle Version: **v1.159 Beta** · Versionsanzeige wieder verlässlich.
+
+---
+
+## v1.159 Beta - Phase 133 · Versionsanzeige wieder verlässlich
+**2026-08-04**
+
+- **Die Versionsnummer in der Seitenleiste blieb nach Veröffentlichungen stehen.** Sie kommt aus `js/config.js` — der einzigen Datei ohne Versionsnummer im Namen, und sie wurde zuerst aus dem Zwischenspeicher geliefert. Wer die Seite vor einer Freigabe geöffnet hatte, sah tagelang die alte Nummer, obwohl längst neuer Code lief.
+- `js/config.js` wird jetzt **immer zuerst aus dem Netz** geholt; der Zwischenspeicher ist nur noch der Notnagel ohne Verbindung. Damit kann die angezeigte Version nicht mehr von der ausgelieferten abweichen.
+- Der Cache-Stempel wurde hochgezählt, damit vorhandene Zwischenspeicher verworfen werden. Im Kopf von `sw.js` steht jetzt ausdrücklich, dass er bei **jeder** Veröffentlichung hochzuzählen ist — genau das war bei den letzten beiden Freigaben unterblieben.
 
 ---
 

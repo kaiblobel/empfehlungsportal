@@ -3,12 +3,17 @@
  *
  * Strategie:
  *  - Pre-Cache: Hub-Shell + CSS + Lucide-Icons-Module beim Install
- *  - Network-First mit Cache-Fallback für HTML
+ *  - Network-First mit Cache-Fallback für HTML und js/config.js
  *  - Cache-First für statische Assets (CSS/JS/Images/Fonts)
  *  - Niemals cachen: Supabase-API, externe CDN-Fonts
+ *
+ * WICHTIG bei jeder Veröffentlichung: CACHE_VERSION hochzählen. Sonst liefert
+ * der Zwischenspeicher weiter alte Dateien aus. config.js ist seit Phase 133
+ * davon ausgenommen (Network-First), weil sie die sichtbare Versionsnummer
+ * trägt — die darf nie veraltet sein.
  */
 
-const CACHE_VERSION = 'v116-2026-08-04';
+const CACHE_VERSION = 'v117-2026-08-04';
 const SHELL_CACHE = `shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `assets-${CACHE_VERSION}`;
 
@@ -81,6 +86,26 @@ self.addEventListener('fetch', (event) => {
           return res;
         })
         .catch(() => caches.match(request).then((r) => r || caches.match('/hub.html')))
+    );
+    return;
+  }
+
+  // config.js trägt die Versionsnummer und die Umgebung — und sie hat als
+  // einzige Datei KEINE Version im Namen. Cache-First hat dazu geführt, dass
+  // nach einer Veröffentlichung noch tagelang die alte Versionsnummer in der
+  // Seitenleiste stand, obwohl längst neuer Code lief. Deshalb: immer erst
+  // das Netz fragen, der Zwischenspeicher ist nur der Notnagel ohne Verbindung.
+  if (url.pathname.endsWith('/js/config.js')) {
+    event.respondWith(
+      fetch(request)
+        .then((res) => {
+          if (res.ok) {
+            const copy = res.clone();
+            caches.open(SHELL_CACHE).then((c) => c.put(request, copy)).catch(() => {});
+          }
+          return res;
+        })
+        .catch(() => caches.match(request))
     );
     return;
   }
