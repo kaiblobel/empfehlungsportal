@@ -328,69 +328,6 @@ body[data-page="programm"] * { box-sizing: border-box; }
 }
 
 /* ---------- Rewards (Editorial Product Cards) ---------- */
-.rewards {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 36px;
-  width: 100%;
-  max-width: 940px;
-  margin-top: 48px;
-}
-.reward {
-  background: var(--warm-white);
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  box-shadow: 0 16px 40px -22px rgba(28,28,30,0.10);
-  transition: transform 0.5s ease, box-shadow 0.5s ease;
-}
-.reward:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 28px 60px -22px rgba(28,28,30,0.18);
-}
-.reward.highlight { background: linear-gradient(180deg, #FFFCF7 0%, #FFF6E1 100%); }
-.reward-img {
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
-  display: block;
-}
-.reward-body {
-  padding: 32px 30px 36px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-.reward-meta { color: var(--champagne); letter-spacing: 0.2em; }
-.reward h3 {
-  font-family: 'Fraunces', serif;
-  font-weight: 400;
-  font-size: clamp(22px, 4vw, 28px);
-  letter-spacing: -0.01em;
-  color: var(--deep-black);
-  margin: 0;
-}
-.reward p {
-  font-size: 15px;
-  color: var(--text-muted);
-  line-height: 1.6;
-  margin: 0;
-}
-.reward .wert {
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-muted);
-  letter-spacing: 0.08em;
-  padding-top: 12px;
-  border-top: 1px solid var(--hairline);
-  margin-top: 4px;
-}
-@media (min-width: 760px) {
-  .rewards { grid-template-columns: 1fr 1fr; gap: 48px; }
-  .reward.highlight { grid-column: 1 / -1; }
-  .reward.highlight .reward-img { aspect-ratio: 21 / 9; }
-}
 
 /* ---------- Win-Win-Win Triple ---------- */
 .win-triple {
@@ -764,116 +701,9 @@ body[data-page="programm"] * { box-sizing: border-box; }
 }
 
 /* === Belohnungs-Galerie · alternierend === */
-.reward-gallery {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 48px;
-}
-.reward-gallery .reward {
-  background: var(--surface, #FFFCF7);
-  border: 1px solid var(--hairline, #E8E5E0);
-  border-radius: 16px;
-  padding: 24px;
-  display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 24px;
-  align-items: center;
-  transition: transform .25s ease, box-shadow .25s ease;
-}
-.reward-gallery .reward.highlight {
-  background: linear-gradient(180deg, rgba(201,185,138,0.10) 0%, rgba(255,255,255,0) 70%), var(--surface, #FFFCF7);
-  border-color: rgba(201,185,138,0.4);
-  box-shadow: 0 8px 28px rgba(20,18,12,0.06);
-}
-.reward-gallery .reward.highlight::before {
-  content: 'Top-Belohnung';
-  position: absolute;
-  top: 16px;
-  right: 24px;
-  font-family: 'Inter', sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #8B7355;
-  background: rgba(201,185,138,0.15);
-  padding: 4px 10px;
-  border-radius: 999px;
-}
-.reward-gallery .reward { position: relative; }
 
-.reward-gallery .reward-img {
-  width: 120px;
-  height: 120px;
-  border-radius: 12px;
-  object-fit: cover;
-  display: block;
-}
-.reward-gallery .reward-body {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.reward-gallery .reward-body h3 {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 20px;
-  font-weight: 500;
-  color: var(--anthracite, #1A1A1A);
-  margin: 0;
-  letter-spacing: -0.01em;
-  line-height: 1.25;
-}
-.reward-gallery .reward-meta {
-  font-family: 'Inter', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--champagne, #C9B98A);
-}
-.reward-gallery .reward-body p {
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  color: var(--ink-muted, #6B6660);
-  line-height: 1.55;
-  margin: 0;
-}
-.reward-gallery .reward-body .wert {
-  display: inline-block;
-  margin-top: 4px;
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--anthracite, #1A1A1A);
-  background: rgba(201,185,138,0.12);
-  padding: 4px 10px;
-  border-radius: 999px;
-  width: max-content;
-}
 
 /* Desktop alternierend: ungerade Image-Left, gerade Image-Right */
-@media (min-width: 720px) {
-  .reward-gallery .reward {
-    grid-template-columns: 160px 1fr;
-    padding: 28px 32px;
-    gap: 32px;
-  }
-  .reward-gallery .reward-img {
-    width: 160px;
-    height: 160px;
-  }
-  .reward-gallery .reward:nth-child(even) {
-    grid-template-columns: 1fr 160px;
-  }
-  .reward-gallery .reward:nth-child(even) .reward-img {
-    order: 2;
-  }
-  .reward-gallery .reward:nth-child(even) .reward-body {
-    order: 1;
-  }
-  .reward-gallery .reward-body h3 { font-size: 22px; }
-}
 
 /* === FAQ-Grid === */
 .faq-grid {
@@ -1011,32 +841,6 @@ body[data-page="programm"] * { box-sizing: border-box; }
 }
 
 /* === Reward-Gallery Typo === */
-.reward-gallery .reward-body h3 {
-  font-family: 'Fraunces', serif;
-  font-size: 24px;
-  font-weight: 500;
-  letter-spacing: -0.018em;
-  line-height: 1.2;
-}
-.reward-gallery .reward-meta {
-  font-family: 'Inter', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-}
-.reward-gallery .reward-body p {
-  font-size: 15px;
-  line-height: 1.6;
-}
-.reward-gallery .reward-body .wert {
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-@media (min-width: 720px) {
-  .reward-gallery .reward-body h3 { font-size: 26px; }
-}
 
 /* === FAQ Typo · Editorial === */
 .faq-mark {
@@ -1159,80 +963,11 @@ body[data-page="programm"] {
 }
 
 /* Reward-Gallery · SF */
-.reward-gallery .reward-body h3 {
-  font-family: var(--font-display) !important;
-  font-weight: 600 !important;
-  font-size: 20px !important;
-  letter-spacing: -0.018em !important;
-  line-height: 1.25 !important;
-}
-.reward-gallery .reward-meta {
-  font-family: var(--font-text) !important;
-  font-size: 11px !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.16em !important;
-  text-transform: uppercase !important;
-}
-.reward-gallery .reward-body p {
-  font-family: var(--font-text);
-  font-size: 14.5px;
-  line-height: 1.6;
-}
-.reward-gallery .reward-body .wert {
-  font-family: var(--font-text);
-  font-size: 12.5px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-@media (min-width: 720px) {
-  .reward-gallery .reward-body h3 { font-size: 22px !important; }
-}
 
 /* Bonus-Kacheln dezent gegenüber den Premium-Belohnungen (damit Premium heraussticht) */
-.reward-gallery .reward-bonus { background: rgba(250,248,245,0.7); }
-.reward-gallery .reward-bonus .reward-body h3 { font-weight: 500 !important; }
-.reward-gallery .reward-bonus .reward-img { opacity: .96; }
 
 /* iPhone-Optimierung: kompaktere Karten, damit nicht 2 den ganzen Schirm füllen.
    Auf dem Handy als Flex (Karte umschließt den Inhalt) statt Grid mit fixer Zeilenhöhe. */
-@media (max-width: 600px) {
-  .reward-gallery { gap: 12px; margin-top: 32px; }
-  .reward-gallery .reward {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 14px;
-    padding: 12px 14px;
-    border-radius: 14px;
-  }
-  .reward-gallery .reward-img {
-    width: 84px;
-    height: 84px;
-    flex: 0 0 84px;
-    border-radius: 10px;
-    aspect-ratio: auto;
-  }
-  .reward-gallery .reward-body {
-    flex: 1 1 auto;
-    min-width: 0;
-    gap: 5px;
-    padding: 0;
-    align-self: center;
-    justify-content: flex-start;
-    min-height: 0;
-  }
-  .reward-gallery .reward-body h3 { font-size: 16px !important; }
-  .reward-gallery .reward-body p {
-    font-size: 12.5px;
-    line-height: 1.45;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .reward-gallery .reward-body .wert { font-size: 11px; padding: 3px 9px; }
-  .reward-gallery .reward.highlight::before { top: 10px; right: 12px; font-size: 9px; padding: 3px 8px; }
-}
 
 /* FAQ · SF */
 .faq-mark {
@@ -2465,52 +2200,7 @@ body[data-page="programm"] {
 }
 
 /* === Stufen-Erklärung vor Belohnungs-Galerie === */
-.rewards-explain {
-  margin: 40px auto 0;
-  max-width: 760px;
-}
 
-.rewards-explain-card {
-  background: linear-gradient(180deg, rgba(201,185,138,0.10) 0%, rgba(201,185,138,0.04) 100%);
-  border: 1px solid rgba(201,185,138,0.28);
-  border-radius: 14px;
-  padding: 22px 26px;
-  display: flex;
-  align-items: flex-start;
-  gap: 18px;
-}
-
-.rewards-explain-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #C9B98A 0%, #A89070 100%);
-  color: #1A1A1A;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 18px;
-  flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(201,185,138,0.25);
-}
-
-.rewards-explain-card p {
-  font-family: var(--font-text);
-  font-size: 14.5px;
-  line-height: 1.6;
-  color: var(--ink-muted, #6B6660);
-  margin: 0;
-  letter-spacing: -0.005em;
-}
-
-.rewards-explain-card p strong {
-  color: var(--anthracite, #1A1A1A);
-  font-weight: 700;
-  display: block;
-  margin-bottom: 4px;
-}
 
 /* Win-Win-Paar: was Bekannter + du bekommen */
 .benefit-winwin {
@@ -2905,115 +2595,9 @@ body[data-page="programm"] {
    Plus "Alle" als Default
    ============================================================ */
 
-.reward-mode-switch {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-  margin: 36px auto 32px;
-  max-width: 1100px;
-}
-
-@media (min-width: 600px) {
-  .reward-mode-switch { grid-template-columns: 1fr 1fr; }
-}
-
-@media (min-width: 960px) {
-  .reward-mode-switch { grid-template-columns: repeat(4, 1fr); gap: 12px; }
-}
-
-.reward-mode-chip {
-  background: var(--bg, #FAF8F5);
-  border: 1px solid var(--hairline, #E8E5E0);
-  border-radius: 14px;
-  padding: 16px 18px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  text-align: left;
-  cursor: pointer;
-  font-family: var(--font-text);
-  color: var(--anthracite, #1A1A1A);
-  transition: background .22s ease, border-color .22s ease, transform .22s ease, box-shadow .22s ease;
-}
-
-.reward-mode-chip:hover {
-  background: rgba(201,185,138,0.06);
-  border-color: rgba(201,185,138,0.3);
-  transform: translateY(-1px);
-}
-
-.reward-mode-chip.active {
-  background: linear-gradient(180deg, rgba(201,185,138,0.16) 0%, rgba(201,185,138,0.08) 100%);
-  border-color: rgba(201,185,138,0.5);
-  box-shadow: 0 6px 18px rgba(201,185,138,0.18),
-              0 0 0 1px rgba(201,185,138,0.25);
-}
-
-.reward-mode-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: rgba(201,185,138,0.12);
-  border: 1px solid rgba(201,185,138,0.22);
-  color: #8B7355;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: background .22s ease, border-color .22s ease;
-}
-
-.reward-mode-icon svg {
-  width: 22px;
-  height: 22px;
-  stroke-width: 1.8;
-  display: block;
-}
-
-.reward-mode-chip.active .reward-mode-icon {
-  background: rgba(201,185,138,0.25);
-  border-color: rgba(201,185,138,0.5);
-}
-
-.reward-mode-label {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-
-.reward-mode-label strong {
-  font-family: var(--font-display);
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: -0.012em;
-  line-height: 1.25;
-}
-
-.reward-mode-label span {
-  font-family: var(--font-text);
-  font-size: 12.5px;
-  font-weight: 400;
-  color: var(--ink-muted, #6B6660);
-  letter-spacing: -0.005em;
-  line-height: 1.4;
-}
 
 /* Smooth Re-Render */
-.reward-gallery {
-  animation: reward-gallery-fade .35s ease;
-}
 
-@keyframes reward-gallery-fade {
-  0%   { opacity: 0; transform: translateY(8px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-@media (min-width: 720px) {
-  .reward-mode-chip { padding: 18px 20px; }
-  .reward-mode-label strong { font-size: 16px; }
-  .reward-mode-label span { font-size: 13px; }
-}
 
 /* ============================================================
    Phase 66 · Belohnungs-System Erweiterung
@@ -3023,196 +2607,24 @@ body[data-page="programm"] {
    ============================================================ */
 
 /* === Mikrohinweis in der Stufen-Erklär-Card === */
-.rewards-explain-note {
-  display: block;
-  margin-top: 8px;
-  padding-top: 8px;
-  border-top: 1px dashed rgba(201,185,138,0.25);
-  font-size: 13px;
-  font-style: italic;
-  color: var(--ink-muted, #6B6660);
-  line-height: 1.5;
-}
 
 /* === Roadmap === */
-.rewards-roadmap {
-  position: relative;
-  margin: 32px 0 8px;
-  padding: 32px 0 56px;
-  overflow-x: auto;
-  overflow-y: visible;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(201,185,138,0.4) transparent;
-  -webkit-overflow-scrolling: touch;
-}
-.rewards-roadmap::-webkit-scrollbar { height: 6px; }
-.rewards-roadmap::-webkit-scrollbar-thumb { background: rgba(201,185,138,0.4); border-radius: 3px; }
 
-.roadmap-line {
-  position: absolute;
-  left: 4%;
-  right: 4%;
-  top: 50%;
-  height: 2px;
-  background: linear-gradient(90deg,
-    rgba(201,185,138,0.0) 0%,
-    rgba(201,185,138,0.45) 10%,
-    rgba(201,185,138,0.45) 90%,
-    rgba(201,185,138,0.0) 100%
-  );
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-
-.roadmap-stufen {
-  display: grid;
-  grid-template-columns: repeat(15, 1fr);
-  gap: 4px;
-  min-width: 720px;
-  padding: 0 8px;
-  position: relative;
-  z-index: 1;
-}
-
-.roadmap-stufe {
-  position: relative;
-  background: transparent;
-  border: none;
-  padding: 0;
-  cursor: default;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: var(--font-text);
-  color: inherit;
-  outline: none;
-}
-
-.roadmap-stufe.premium { cursor: pointer; }
-
-.roadmap-num {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  line-height: 1;
-  transition: transform .22s cubic-bezier(.32,.72,.4,1),
-              box-shadow .22s ease,
-              background .22s ease;
-}
 
 /* Premium-Stufe = Champagne-Gold Kreis */
-.roadmap-stufe.premium .roadmap-num {
-  width: 36px;
-  height: 36px;
-  background: linear-gradient(135deg, #C9B98A 0%, #A89070 100%);
-  color: #1A1A1A;
-  font-size: 14px;
-  box-shadow: 0 4px 14px rgba(201,185,138,0.35),
-              0 0 0 4px rgba(201,185,138,0.10);
-}
 
-.roadmap-stufe.premium:hover .roadmap-num {
-  transform: scale(1.12);
-  box-shadow: 0 6px 18px rgba(201,185,138,0.5),
-              0 0 0 6px rgba(201,185,138,0.18);
-}
 
 /* Standardvergütungs-Dot */
-.roadmap-stufe.standard .roadmap-num {
-  width: 24px;
-  height: 24px;
-  background: var(--surface, #FFFCF7);
-  border: 1.5px solid rgba(201,185,138,0.45);
-  color: rgba(201,185,138,0.7);
-  font-size: 10px;
-  margin-top: 10px;
-}
 
-.roadmap-stufe.standard:hover .roadmap-num {
-  background: rgba(201,185,138,0.15);
-  border-color: rgba(201,185,138,0.7);
-}
 
 /* Kurzbezeichnung unter Premium-Kreis */
-.roadmap-reward-label {
-  display: block;
-  margin-top: 5px;
-  font-family: var(--font-text);
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--muted, #6E6660);
-  text-align: center;
-  max-width: 42px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
 /* Tooltip */
-.roadmap-tip {
-  position: absolute;
-  bottom: -38px;
-  left: 50%;
-  transform: translateX(-50%) translateY(4px);
-  background: #1A1A1A;
-  color: #FFFCF7;
-  font-family: var(--font-text);
-  font-size: 11.5px;
-  font-weight: 500;
-  letter-spacing: -0.005em;
-  padding: 6px 10px;
-  border-radius: 8px;
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity .18s ease, transform .18s ease;
-  box-shadow: 0 6px 18px rgba(20,18,12,0.25);
-  z-index: 10;
-}
-.roadmap-tip::before {
-  content: '';
-  position: absolute;
-  top: -4px;
-  left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-  width: 8px;
-  height: 8px;
-  background: #1A1A1A;
-}
 
-.roadmap-stufe:hover .roadmap-tip,
-.roadmap-stufe:focus-visible .roadmap-tip {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
 
 /* Flash für Galerie-Karte beim Click */
-.reward.reward-flash {
-  animation: reward-flash 1.4s cubic-bezier(.32,.72,.4,1);
-}
-@keyframes reward-flash {
-  0%   { box-shadow: 0 0 0 0 rgba(201,185,138,0.0); }
-  20%  { box-shadow: 0 0 0 6px rgba(201,185,138,0.4); }
-  100% { box-shadow: 0 0 0 0 rgba(201,185,138,0); }
-}
 
 /* Mobile: weniger Padding, Scroll-Hint */
-@media (max-width: 720px) {
-  .rewards-roadmap {
-    padding: 24px 0 48px;
-    margin: 24px 0 8px;
-  }
-  .roadmap-stufen { min-width: 620px; }
-  .roadmap-stufe.premium .roadmap-num { width: 34px; height: 34px; font-size: 13px; }
-  .roadmap-stufe.standard .roadmap-num { width: 22px; height: 22px; font-size: 9px; }
-  .roadmap-tip { font-size: 11px; padding: 5px 9px; bottom: -34px; }
-}
 
 /* === Gesamt-Wert-Counter Card === */
 .rewards-total-card {
@@ -3292,88 +2704,16 @@ body[data-page="programm"] {
    ============================================================ */
 
 /* === Roadmap Mobile-First Rewrite === */
-.rewards-roadmap {
-  overflow-x: hidden !important;
-  padding: 24px 0 48px;
-}
 
-.roadmap-stufen {
-  min-width: 0 !important;
-  width: 100%;
-  padding: 0;
-}
 
 /* Mobile-Default: Premium-Stufen kleiner aber sichtbar, alle 15 Stufen passen */
-.roadmap-stufe.premium .roadmap-num {
-  width: 26px;
-  height: 26px;
-  font-size: 11px;
-  box-shadow: 0 2px 8px rgba(201,185,138,0.32),
-              0 0 0 3px rgba(201,185,138,0.08);
-}
 
-.roadmap-stufe.standard .roadmap-num {
-  width: 12px;
-  height: 12px;
-}
-
-.roadmap-tip {
-  font-size: 11px;
-  padding: 5px 8px;
-  bottom: -32px;
-  max-width: min(220px, 80vw);
-  white-space: normal;
-  text-align: center;
-  line-height: 1.3;
-}
 
 /* Tablet+ */
-@media (min-width: 640px) {
-  .roadmap-stufe.premium .roadmap-num {
-    width: 32px;
-    height: 32px;
-    font-size: 13px;
-  }
-  .roadmap-stufe.standard .roadmap-num {
-    width: 14px;
-    height: 14px;
-  }
-}
 
 /* Desktop */
-@media (min-width: 1024px) {
-  .roadmap-stufe.premium .roadmap-num {
-    width: 36px;
-    height: 36px;
-    font-size: 14px;
-    box-shadow: 0 4px 14px rgba(201,185,138,0.35),
-                0 0 0 4px rgba(201,185,138,0.10);
-  }
-  .roadmap-stufe.standard .roadmap-num {
-    width: 16px;
-    height: 16px;
-  }
-  .roadmap-tip {
-    font-size: 11.5px;
-    bottom: -38px;
-    max-width: none;
-    white-space: nowrap;
-  }
-}
 
 /* Touch-Hint: bei kleinen Viewports darunter ein zarter Hinweis */
-.roadmap-hint {
-  font-family: var(--font-text);
-  font-size: 11px;
-  color: var(--ink-muted, #6B6660);
-  text-align: center;
-  margin-top: 12px;
-  letter-spacing: 0.02em;
-  opacity: 0.65;
-}
-@media (min-width: 720px) {
-  .roadmap-hint { display: none; }
-}
 
 /* === Section overflow Schutz === */
 .section { overflow-x: hidden; }
@@ -4506,20 +3846,6 @@ body[data-page="programm"] {
   font-size: 13px;
   color: var(--text-muted, #6E6E73);
 }
-.reward-eintragen {
-  margin-top: 14px;
-  border: 0;
-  background: transparent;
-  padding: 0;
-  font-family: var(--font-body, 'Inter', sans-serif);
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--champagne, #B08D2F);
-  cursor: pointer;
-  text-align: left;
-  transition: opacity .15s ease;
-}
-.reward-eintragen:hover { opacity: 0.7; }
 @media (max-width: 720px) {
   .potenzial-row {
     grid-template-columns: 24px 1fr 1fr;
@@ -7543,71 +6869,389 @@ body.presentation-mode .pre-hero-portrait img {
     padding: 10px 20px;
   }
 
-  body.presentation-mode #belohnungen .rewards-explain {
-    width: 100%;
-    max-width: 1080px;
-    margin-top: 14px;
-  }
 
-  body.presentation-mode #belohnungen .rewards-explain-card {
-    align-items: center;
-    padding: 14px 20px;
-  }
-
-  body.presentation-mode #belohnungen .rewards-explain-icon {
-    width: 32px;
-    height: 32px;
-    font-size: 15px;
-  }
-
-  body.presentation-mode #belohnungen .rewards-explain-card p {
-    font-size: 13.5px;
-    line-height: 1.35;
-  }
-
-  body.presentation-mode #belohnungen .rewards-explain-card p strong {
-    margin-bottom: 2px;
-  }
-
-  body.presentation-mode #belohnungen .rewards-explain-note {
-    display: inline;
-    margin: 0 0 0 8px;
-    padding: 0 0 0 8px;
-    border-top: 0;
-    border-left: 1px solid rgba(201,185,138,0.35);
-    font-size: 12.5px;
-  }
-
-  body.presentation-mode #belohnungen .rewards-roadmap {
-    width: 100%;
-    max-width: 1080px;
-    margin: 10px auto 0;
-    padding: 17px 0 33px;
-    overflow: visible !important;
-  }
-
-  body.presentation-mode #belohnungen .roadmap-stufen {
-    min-width: 0 !important;
-  }
-
-  body.presentation-mode #belohnungen .roadmap-reward-label {
-    max-width: 90px;
-    font-size: 8.2px;
-    line-height: 1.08;
-    white-space: normal;
-    overflow: visible;
-    text-overflow: clip;
-  }
-
-  body.presentation-mode #belohnungen .roadmap-stufe:nth-child(1) .roadmap-reward-label,
-  body.presentation-mode #belohnungen .roadmap-stufe:nth-child(3) .roadmap-reward-label {
-    visibility: hidden;
-  }
-
-  body.presentation-mode #belohnungen .reward-mode-switch,
-  body.presentation-mode #belohnungen .reward-gallery,
+  /* Als Folie zeigen wir nur die fünf Meilensteine kompakt. Die zehn
+     Geldstufen wären als Einzelzeilen meterhoch — sie stehen stattdessen
+     als ein Satz darunter (siehe .reise-geld-summary). */
+  body.presentation-mode #belohnungen .reise-station.reise-geld,
+  body.presentation-mode #belohnungen .reise-intro,
+  body.presentation-mode #belohnungen .reise-finish,
+  body.presentation-mode #belohnungen .reise-wahl-quiet,
   body.presentation-mode #belohnungen .rewards-total-card,
   body.presentation-mode #belohnungen .section-cta {
     display: none;
   }
+
+  body.presentation-mode #belohnungen .reise {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+  }
+  body.presentation-mode #belohnungen .reise::before { display: none; }
+  body.presentation-mode #belohnungen .reise-station.reise-meilenstein {
+    display: block;
+  }
+  body.presentation-mode #belohnungen .reise-punkt {
+    position: static;
+    margin: 0 auto 8px;
+  }
+  /* Alle Meilensteine gleich hoch: auf der Folie zählt der Überblick,
+     nicht die Steigerung. */
+  body.presentation-mode #belohnungen .reise-karte,
+  body.presentation-mode #belohnungen .reise-station.reise-finale .reise-karte {
+    height: clamp(190px, 26vh, 250px);
+  }
+  body.presentation-mode #belohnungen .reise-karte-copy h4 { font-size: 15px; }
+  body.presentation-mode #belohnungen .reise-karte-copy p { display: none; }
+  body.presentation-mode #belohnungen .reise-geld-summary { display: block; }
+}
+
+/* ============================================================
+   Phase 127 · Belohnungs-Reise · mobil zuerst
+   ------------------------------------------------------------
+   Eine senkrechte Reise von Stufe 1 bis 15 statt waagerechter
+   Roadmap, Filter-Chips und getrennter Galerie. Gebaut für
+   320–430 px; Tablet und Desktop sind Erweiterungen davon.
+   Die Stufen kommen aus der Datenbank — hier steht nur, wie sie
+   aussehen, nicht welche es gibt.
+   ============================================================ */
+
+/* --- Zählweise: was als Erfolg gilt --------------------------------------- */
+.reise-zaehlweise {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 560px;
+  margin: 22px auto 0;
+  padding: 13px 16px;
+  border: 1px solid var(--champagne-soft);
+  border-radius: 12px;
+  background: var(--warm-white);
+}
+.reise-zaehlweise-dot {
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  margin-top: 7px;
+  border-radius: 50%;
+  background: var(--champagne);
+}
+.reise-zaehlweise p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+.reise-zaehlweise strong { color: var(--anthracite); }
+
+/* --- Einleitung der Reise ------------------------------------------------- */
+.reise-intro { margin: 40px 2px 22px; }
+.reise-intro .t-eyebrow { margin-bottom: 8px; }
+.reise-intro-h {
+  margin: 0;
+  font-size: clamp(26px, 7.6vw, 38px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--anthracite);
+}
+.reise-intro-p {
+  margin: 12px 0 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+/* --- Die Reise ------------------------------------------------------------ */
+.reise {
+  position: relative;
+  display: grid;
+  gap: 11px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* Fortschrittslinie hinter den Punkten */
+.reise::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  bottom: 26px;
+  left: 19px;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #DDD7C8 0%, var(--champagne) 48%, #9C8553 100%);
+}
+
+.reise-station {
+  position: relative;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  scroll-margin-top: 18px;
+}
+
+.reise-punkt {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 5px solid var(--ivory);
+  border-radius: 50%;
+  background: #E6E2D9;
+  color: #68645B;
+  font-size: 11px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.reise-meilenstein .reise-punkt {
+  background: linear-gradient(145deg, #DDCFAA, #AA945D);
+  color: #2C281D;
+  box-shadow: 0 7px 17px rgba(141,118,72,0.24);
+}
+.reise-finale .reise-punkt {
+  background: var(--anthracite);
+  color: #EFE6CC;
+  box-shadow: 0 0 0 1px var(--champagne), 0 8px 20px rgba(28,28,30,0.22);
+}
+
+/* --- Geldstufe: kurze, ruhige Zeile --------------------------------------- */
+.reise-geld-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 58px;
+  padding: 10px 14px;
+  border: 1px solid rgba(141,118,72,0.18);
+  border-radius: 14px;
+  background: linear-gradient(105deg, #FFFFFF, #F8F1DF);
+  box-shadow: 0 12px 32px -28px rgba(28,28,30,0.5);
+}
+.reise-geld-text { min-width: 0; }
+.reise-geld-text small {
+  display: block;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8B7355;
+}
+.reise-geld-text strong {
+  display: block;
+  margin-top: 3px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--anthracite);
+}
+.reise-geld-card b {
+  flex: 0 0 auto;
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--anthracite);
+}
+
+/* --- Meilenstein: Bildkarte ----------------------------------------------- */
+.reise-karte {
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #222;
+  box-shadow: var(--shadow-editorial);
+  isolation: isolate;
+}
+.reise-karte img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.reise-karte::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(0,0,0,0.02) 20%, rgba(0,0,0,0.84) 92%);
+}
+/* Je näher am Finale, desto mehr Raum bekommt die Belohnung */
+.reise-station.stufe-2  .reise-karte { height: 255px; }
+.reise-station.stufe-5  .reise-karte { height: 320px; }
+.reise-station.stufe-7  .reise-karte { height: 345px; }
+.reise-station.stufe-10 .reise-karte { height: 370px; }
+.reise-station.reise-finale .reise-karte { height: 420px; }
+.reise-station.reise-finale .reise-karte::after {
+  background: linear-gradient(180deg, rgba(0,0,0,0.01) 14%, rgba(24,19,10,0.84) 94%);
+}
+
+.reise-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 3;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(255,253,249,0.93);
+  color: #544726;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.reise-karte-copy {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  left: 18px;
+  z-index: 3;
+  color: #fff;
+}
+.reise-karte-copy small {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #E7DAB6;
+}
+.reise-karte-copy h4 {
+  margin: 7px 0 0;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  color: #fff;
+}
+.reise-karte-copy strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--champagne);
+}
+.reise-karte-copy p {
+  margin: 7px 0 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: rgba(255,255,255,0.86);
+}
+
+/* Nur im Präsentationsmodus sichtbar (siehe Folien-Block weiter oben) */
+.reise-geld-summary {
+  display: none;
+  margin: 14px 0 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.reise-finish {
+  margin: 18px 2px 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-muted);
+  text-align: center;
+}
+.reise-leer {
+  padding: 22px 18px;
+  border: 1px solid var(--hairline);
+  border-radius: 14px;
+  background: var(--warm-white);
+  color: var(--text-muted);
+  font-size: 13.5px;
+  text-align: center;
+  list-style: none;
+}
+/* Platzhalter, solange die Stufen laden */
+.reise-skeleton {
+  height: 58px;
+  border-radius: 14px;
+  background: linear-gradient(105deg, #F3F0EA, #FAF8F5);
+  list-style: none;
+}
+
+/* --- Wahlfreiheit + "Auch einfach so" ------------------------------------- */
+.reise-wahl { margin-top: 30px; }
+.reise-wahl-main h3 {
+  margin: 8px 0 0;
+  font-size: clamp(21px, 5.6vw, 27px);
+  font-weight: 700;
+  line-height: 1.16;
+  letter-spacing: -0.025em;
+  color: var(--anthracite);
+}
+.reise-wahl-p {
+  margin: 11px 0 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+.reise-wahl-optionen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.reise-wahl-optionen li {
+  padding: 9px 14px;
+  border: 1px solid var(--champagne-soft);
+  border-radius: 999px;
+  background: var(--warm-white);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--anthracite);
+}
+.reise-wahl-quiet {
+  margin-top: 20px;
+  padding: 16px 18px;
+  border: 1px dashed rgba(141,118,72,0.35);
+  border-radius: 14px;
+  background: transparent;
+}
+.reise-wahl-quiet strong {
+  display: block;
+  font-size: 14px;
+  color: var(--anthracite);
+}
+.reise-wahl-quiet p {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* --- Tablet und Desktop als Erweiterung ----------------------------------- */
+@media (min-width: 768px) {
+  .reise { gap: 14px; }
+  .reise-station { grid-template-columns: 48px minmax(0, 1fr); gap: 14px; }
+  .reise::before { left: 23px; }
+  .reise-punkt { width: 48px; height: 48px; font-size: 13px; }
+  .reise-geld-card { min-height: 64px; padding: 12px 18px; }
+  .reise-geld-text strong { font-size: 14px; }
+  .reise-geld-card b { font-size: 24px; }
+  .reise-station.stufe-2  .reise-karte { height: 300px; }
+  .reise-station.stufe-5  .reise-karte { height: 360px; }
+  .reise-station.stufe-7  .reise-karte { height: 380px; }
+  .reise-station.stufe-10 .reise-karte { height: 400px; }
+  .reise-station.reise-finale .reise-karte { height: 460px; }
+  .reise-karte-copy h4 { font-size: 26px; }
+  .reise-wahl {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+  }
+  .reise-wahl-quiet { margin-top: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reise-station,
+  .reise-karte { transition: none !important; }
 }

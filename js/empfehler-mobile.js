@@ -218,11 +218,24 @@ function renderActivities() {
     </article>`).join('');
 }
 
+/**
+ * Wunschziele sind nur die Meilensteine (highlight). Die kleinen Geldstufen
+ * verdient man automatisch nebenbei — als bildstarkes Ziel taugen sie nicht,
+ * und seit alle 15 Stufen echte Zeilen sind, wären es sonst 15 Einträge.
+ */
+function zielStufen() {
+  const nurHighlights = stufen.filter(s => s.highlight);
+  return nurHighlights.length ? nurHighlights : stufen;
+}
+
 function selectedGoal() {
   const reached = stats.kunde || 0;
+  const ziele = zielStufen();
+  // Ein früher gewähltes Ziel bleibt gültig, auch wenn es heute kein
+  // Meilenstein mehr wäre — deshalb zuerst in allen Stufen suchen.
   return stufen.find(item => item.stufe === empfehler.ziel_stufe)
-    || stufen.find(item => item.stufe > reached)
-    || stufen[stufen.length - 1]
+    || ziele.find(item => item.stufe > reached)
+    || ziele[ziele.length - 1]
     || null;
 }
 
@@ -254,7 +267,15 @@ function renderReward() {
 
 function renderGoalList() {
   const wrap = $('#goalList');
-  wrap.innerHTML = stufen.map(item => {
+  // Ein bereits gespeichertes Ziel bleibt sichtbar, selbst wenn es kein
+  // Meilenstein ist — sonst verschwindet die eigene Wahl aus der Liste.
+  const liste = zielStufen();
+  const gewaehlt = stufen.find(s => s.stufe === empfehler.ziel_stufe);
+  if (gewaehlt && !liste.some(s => s.stufe === gewaehlt.stufe)) {
+    liste.push(gewaehlt);
+    liste.sort((a, b) => a.stufe - b.stufe);
+  }
+  wrap.innerHTML = liste.map(item => {
     const active = item.stufe === empfehler.ziel_stufe;
     const remaining = Math.max(0, item.stufe - (stats.kunde || 0));
     const image = goalImage(item);

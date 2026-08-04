@@ -43,6 +43,19 @@ let stufen = [];
   renderAll(stats, feedRes.data || []);
 })();
 
+/**
+ * Als Wunschziel taugen nur die Meilensteine (highlight) — die kleinen
+ * Geldstufen verdient der Promoter automatisch nebenbei. Ein bereits
+ * gespeichertes Ziel bleibt in der Liste, auch wenn es kein Meilenstein ist.
+ */
+function zielStufen(aktuellesZiel) {
+  const highlights = stufen.filter(s => s.highlight);
+  const liste = highlights.length ? highlights.slice() : stufen.slice();
+  const gewaehlt = stufen.find(s => s.stufe === Number(aktuellesZiel));
+  if (gewaehlt && !liste.some(s => s.stufe === gewaehlt.stufe)) liste.push(gewaehlt);
+  return liste.sort((a, b) => a.stufe - b.stufe);
+}
+
 function renderAll(stats, feed) {
   const p = promoter;
   const origin = window.location.origin;
@@ -68,7 +81,7 @@ function renderAll(stats, feed) {
         <label>Ziel-Belohnung des Promoters</label>
         <select id="pdZiel">
           <option value="">— kein Ziel gewählt —</option>
-          ${stufen.map(st => `<option value="${st.stufe}"${Number(p.ziel_stufe) === st.stufe ? ' selected' : ''}>Stufe ${st.stufe} · ${escapeHtml(st.titel)}</option>`).join('')}
+          ${zielStufen(p.ziel_stufe).map(st => `<option value="${st.stufe}"${Number(p.ziel_stufe) === st.stufe ? ' selected' : ''}>Stufe ${st.stufe} · ${escapeHtml(st.titel)}</option>`).join('')}
         </select>
       </div>
       <p style="font-size:12.5px;color:var(--ink-muted,#6E6660);margin:2px 0 0;">„Woran arbeiten wir" pflegst du in der Notiz weiter unten.</p>

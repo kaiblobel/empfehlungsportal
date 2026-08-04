@@ -5,6 +5,22 @@ Aktuelle Version: **v1.152 Beta** · Themen-Editor entrümpelt.
 
 ---
 
+## Unveröffentlicht · Zweig `conrad/benefits-vertical-mobile-first`
+**Phase 127 · Belohnungen als senkrechte Reise — wartet auf Kais Freigabe**
+
+> Noch keine Versionsnummer, nicht auf `main`, Datenbank unverändert.
+> Übergabe siehe `docs/2026-08-04-conrad-benefits-uebergabe.md`.
+
+- **Die Belohnungen erfanden Stufen, die es nicht gab.** Die Seite leitete aus den Lücken zwischen den vorhandenen Zeilen zusätzliche 100-€-Boni für die Stufen 4, 6, 8, 9, 11–14 ab. In der Datenbank existieren nur 1, 2, 3, 5, 7, 10, 15 — und Prämien entstehen ausschließlich aus echten Zeilen. Ein Promoter mit vier gewonnenen Kunden hätte einen Bonus gesehen, der in den Auszahlungen nie erscheint.
+- Statt waagerechter Roadmap, vier Filter-Chips und getrennter Galerie gibt es jetzt **eine senkrechte Reise von Stufe 1 bis 15**: kleine Geldstufen als ruhige Zeilen, fünf Meilensteine als Bildkarten, die zum Finale hin größer werden. Gebaut für 320 px aufwärts.
+- Die Stufenlogik liegt in `js/belohnungs-reise.js` — reine Funktionen, ohne Browser und Datenbank prüfbar (`tests/belohnungs-reise.test.mjs`, 40 Zusicherungen).
+- Ein Satz sagt jetzt, was zählt: **gezählt wird, wer Kunde wird** — nicht der weitergegebene Name.
+- Die Wunschziele im Promoter-Bereich und in der Berater-Detailseite zeigen nur noch die Meilensteine; ein früher gewähltes Ziel bleibt trotzdem sichtbar.
+- Im Präsentations-Modus bleiben nur die fünf Bildkarten, die Geldstufen stehen als ein Satz darunter.
+- Aufgeräumt: 117 tote Regelblöcke der alten Roadmap und Galerie aus `css/programm.css` entfernt (7.614 → 6.882 Zeilen), bevor die neuen mobilen Regeln dazukamen.
+
+---
+
 ## v1.152 Beta - Phase 126 · Themen-Editor entrümpelt
 **2026-08-04**
 
