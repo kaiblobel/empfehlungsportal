@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.147 Beta** · Aktivitäts-Feed lesbar.
+Aktuelle Version: **v1.148 Beta** · Ein Name für den Promoter-Bereich.
+
+---
+
+## v1.148 Beta - Phase 122 · Ein Name für den Promoter-Bereich
+**2026-08-04**
+
+- Der Menüpunkt hieß **„Champions (Promoter)"** — führte aber auf eine Seite, die überall Promoter sagt: im Titel, in der Überschrift „Alle Promoter", auf dem Knopf „+ Neuer Promoter" und in der Detailansicht. Wer eine Übersetzung in Klammern braucht, hat den falschen Namen. Jetzt heißt der Bereich durchgehend **Promoter**.
+- Angepasst in der Seitenleiste, im Zurück-Link der Promoter-Detailseite, im Befehls- und Rechtsklick-Menü sowie auf der Kachel unter „Programm verwalten".
+- **„Deine Champions" im Hub bleibt** — der Abschnitt zeigt die Top 3 mit Gold, Silber und Bronze. Dort ist Champions kein zweiter Name für dasselbe, sondern eine Auszeichnung.
 
 ---
 

@@ -35,7 +35,9 @@ export const NAV_ITEMS = [
       { label: 'Erfolgsgeschichten',href: path('programm-verwalten.html#erfolgsgeschichten') },
       { label: 'Themen-Seiten',     href: path('vorlagen.html'), icon: 'FileText' },
     ] },
-  { id: 'champions',   label: 'Champions (Promoter)', icon: 'Trophy',     href: path('dashboard/empfehler.html'),       bottom: false },
+  // "Champions" bleibt dem Hub-Abschnitt der Top 3 vorbehalten — hier steht die
+  // vollständige Liste, und die heißt auf jeder Folgeseite Promoter.
+  { id: 'champions',   label: 'Promoter',      icon: 'Trophy',          href: path('dashboard/empfehler.html'),       bottom: false },
   { id: 'praesentation',label: 'Präsentation', icon: 'Presentation',    href: path('programm.html?mode=slides'),      bottom: false },
   { id: 'analysen',    label: 'Analysen',      icon: 'BarChart3',       href: path('dashboard/overview.html'),        bottom: false },
   { id: 'berater',     label: 'Berater',       icon: 'Users',           href: path('berater.html'),                   bottom: false, adminOnly: true },
