@@ -77,7 +77,11 @@ body[data-page="vorlagen-cms"] {
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
+  /* Ruhiger Platzhalter, solange das Foto lädt — statt eines leeren Lochs */
+  background: var(--surface-2, #F2EFEA);
 }
+/* Ohne Quelle gar nichts zeigen (kein Kaputt-Bild-Symbol) */
+.h-header-photo:not([src]) { visibility: hidden; }
 .h-header-text { min-width: 0; }
 .h-header-name {
   font-size: 15px;

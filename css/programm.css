@@ -138,6 +138,8 @@ body[data-page="programm"] * { box-sizing: border-box; }
   box-shadow: var(--shadow-editorial);
   margin: 44px auto;
 }
+/* Solange kein Foto gesetzt ist: nichts zeigen statt Kaputt-Bild-Symbol */
+.hero-portrait:not([src]) { visibility: hidden; }
 .hero-cta-stack {
   display: flex;
   flex-direction: column;

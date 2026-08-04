@@ -31,6 +31,9 @@ export async function login(email, password) {
 }
 
 export async function logout() {
+  // Gemerktes Branding mitnehmen, sonst begrüßt der nächste Login kurz mit
+  // Foto und Namen des vorherigen Beraters.
+  try { localStorage.removeItem(BRAND_CACHE_KEY); } catch (_) {}
   if (supabase) await supabase.auth.signOut();
   window.location.href = '/dashboard/index.html';
 }
@@ -69,16 +72,41 @@ export async function getCurrentBerater() {
  * hdrPhoto/hdrName). ENV_* bleibt nur Fallback, falls noch kein Foto gepflegt.
  * Gibt den Berater-Datensatz zurück.
  */
-export async function applyBeraterHeader() {
-  const b = await getCurrentBerater();
-  const foto = b?.foto_url || window.ENV_BERATER_FOTO || '';
-  const name = b?.name || window.ENV_BERATER_NAME || 'Berater';
-  const set = (id, prop, val) => { const el = document.getElementById(id); if (el) el[prop] = val; };
+const BRAND_CACHE_KEY = 'berater_brand_v1';
+
+function setzeHeaderWerte({ foto, name }) {
+  const set = (id, prop, val) => {
+    const el = document.getElementById(id);
+    if (el && val) el[prop] = val;
+  };
   set('hPhoto', 'src', foto);
   set('hdrPhoto', 'src', foto);
   set('hName', 'textContent', name);
   set('hdrName', 'textContent', name);
-  set('profName', 'textContent', b?.name || window.ENV_BERATER_NAME || '—');
+  set('profName', 'textContent', name);
+}
+
+/** Zuletzt bekanntes Branding — sonst die ENV-Werte des Haupt-Beraters. */
+function gemerktesBranding() {
+  try {
+    const roh = localStorage.getItem(BRAND_CACHE_KEY);
+    const d = roh ? JSON.parse(roh) : null;
+    if (d && (d.foto || d.name)) return d;
+  } catch (_) {}
+  return { foto: window.ENV_BERATER_FOTO || '', name: window.ENV_BERATER_NAME || '' };
+}
+
+export async function applyBeraterHeader() {
+  // Sofort das zuletzt bekannte Foto setzen. Ohne das steht beim Neuladen ein
+  // <img> ohne Quelle im Header, bis der Berater-Datensatz aus dem Netz da ist
+  // — der Browser zeigt in dieser Zeit sein Kaputt-Bild-Symbol.
+  setzeHeaderWerte(gemerktesBranding());
+
+  const b = await getCurrentBerater();
+  const foto = b?.foto_url || window.ENV_BERATER_FOTO || '';
+  const name = b?.name || window.ENV_BERATER_NAME || 'Berater';
+  setzeHeaderWerte({ foto, name });
+  try { localStorage.setItem(BRAND_CACHE_KEY, JSON.stringify({ foto, name })); } catch (_) {}
   return b;
 }
 

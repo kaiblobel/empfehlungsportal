@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.145 Beta** · Promoter-Liste sortierbar.
+Aktuelle Version: **v1.146 Beta** · Kein Bild-Flackern beim Laden.
+
+---
+
+## v1.146 Beta - Phase 120 · Kein Bild-Flackern beim Laden
+**2026-08-04**
+
+- **Beim Neuladen war das Profilbild kurz weg** und der Browser zeigte an seiner Stelle sein Kaputt-Bild-Symbol. Grund: Das Bild stand mit leerer Quelle im HTML und bekam sein Foto erst, nachdem der Berater-Datensatz aus dem Netz geladen war.
+- Der Kopfbereich zeigt jetzt sofort das zuletzt bekannte Foto und den Namen und ersetzt sie still, sobald die echten Daten da sind. Beim Abmelden wird dieser Merker gelöscht, damit der nächste Login nicht kurz mit dem Bild des Vorgängers begrüßt.
+- Bilder ohne Quelle werden nicht mehr angezeigt — kein Kaputt-Symbol mehr, stattdessen ein ruhiger Platzhalter-Kreis, solange geladen wird. Gilt auch für die Login-Seite und das Porträt in der Präsentation.
 
 ---
 

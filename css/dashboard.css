@@ -29,7 +29,9 @@
   border-radius: 50%;
   object-fit: cover;
   box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  background: var(--bg-secondary, #F2EFEA);
 }
+.login-card img.login-photo:not([src]) { visibility: hidden; }
 .login-card h1 {
   font-size: 22px;
   font-weight: 700;
@@ -99,7 +101,11 @@
   height: 36px;
   border-radius: 50%;
   object-fit: cover;
+  /* Ruhiger Platzhalter, solange das Foto lädt — statt eines leeren Lochs */
+  background: var(--bg-secondary, #F2EFEA);
 }
+/* Ohne Quelle gar nichts zeigen (kein Kaputt-Bild-Symbol) */
+.app-header-photo:not([src]) { visibility: hidden; }
 .app-header-name {
   font-size: 15px;
   font-weight: 600;
