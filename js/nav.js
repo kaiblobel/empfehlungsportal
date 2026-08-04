@@ -26,7 +26,9 @@ function path(p) {
  * Ein `divider: true`-Eintrag setzt die Trennlinie samt Blocktitel.
  */
 export const NAV_ITEMS = [
-  { id: 'dashboard',   label: 'Dashboard',     icon: 'LayoutDashboard', href: path('hub.html'),                       bottom: true },
+  // "Empfehlungs-HUB" oben in der Leiste ist der Produktname — die Seite selbst
+  // heißt "Überblick", damit nicht zwei Wörter dasselbe meinen.
+  { id: 'dashboard',   label: 'Überblick',     icon: 'LayoutDashboard', href: path('hub.html'),                       bottom: true },
   { id: 'empfehlungen',label: 'Empfehlungen',  icon: 'Users',           href: path('dashboard/empfehlungen.html'),    bottom: true,
     subs: [
       { label: 'Alle',         href: path('dashboard/empfehlungen.html') },

@@ -21,7 +21,7 @@ let isAdmin = false;
 
 /* ---------- Seitentitel für den Menü-Kopf ---------- */
 const PAGE_TITLES = [
-  [/\/hub\.html/,                'Dashboard'],
+  [/\/hub\.html/,                'Überblick'],
   [/\/dashboard\/empfehlungen/,  'Empfehlungen'],
   [/\/dashboard\/detail/,        'Empfehlung'],
   [/\/dashboard\/neu/,           'Neue Empfehlung'],
@@ -123,7 +123,7 @@ function buildActions(e) {
   acts.push({ sep: true });
 
   // Sprünge
-  acts.push({ label: 'Zum Dashboard', icon: 'LayoutDashboard', run: () => go('/hub.html') });
+  acts.push({ label: 'Zum Überblick', icon: 'LayoutDashboard', run: () => go('/hub.html') });
   acts.push({ label: 'Empfehlungen', icon: 'Users', run: () => go('/dashboard/empfehlungen.html') });
   acts.push({ label: 'Promoter', icon: 'Trophy', run: () => go('/dashboard/empfehler.html') });
   if (isAdmin) acts.push({ label: 'Auszahlungen', icon: 'Banknote', run: () => go('/praemien.html') });

@@ -1,7 +1,17 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.150 Beta** · Klare Namen: Bonusprogramm, Auszahlungen, Team.
+Aktuelle Version: **v1.151 Beta** · Eine Seite, ein Name: Überblick.
+
+---
+
+## v1.151 Beta - Phase 125 · Eine Seite, ein Name: Überblick
+**2026-08-04**
+
+- **Die Startseite hatte drei Namen:** „Empfehlungs-HUB" oben in der Leiste, „Dashboard" im Menü und „← Hub" auf den Zurück-Buttons — in den Einstellungen sogar „← Dashboard". Man klickte auf Hub und landete auf Dashboard.
+- Sie heißt jetzt überall **„Überblick"**: im Menü, im Rechtsklick-Menü und auf allen sechs Zurück-Buttons, die vorher zwischen „Hub" und „Dashboard" schwankten (auch die Pfeile waren uneinheitlich — mal ⌂, mal ←).
+- **„Empfehlungs-HUB" bleibt** als Produktname oben in der Leiste stehen — wie ein Logo. Damit meint kein Wort mehr dasselbe wie ein anderes.
+- Auch für den Promoter aufgeräumt: Im Willkommens-Fenster hieß es „Zu meinem Dashboard" und „Dein Dashboard-Link". Jetzt steht dort „Zu meinem Bereich" und „Dein persönlicher Link" — passend zum Text der Einladung, die er von dir bekommt.
 
 ---
 

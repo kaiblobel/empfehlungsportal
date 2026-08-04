@@ -1095,7 +1095,7 @@ form.addEventListener('submit', async (e) => {
     };
 
     // Schließen heißt schließen — wer nur den Link kopieren will, bleibt auf
-    // der Seite. Der Weg ins Dashboard steht als eigener Button daneben.
+    // der Seite. Der Weg in seinen Bereich steht als eigener Button daneben.
     closeBtn?.addEventListener('click', () => closeModal(), { once: true });
     backdrop?.addEventListener('click', () => closeModal(), { once: true });
 
