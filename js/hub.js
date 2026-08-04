@@ -50,7 +50,6 @@ let currentRange = parseInt(sessionStorage.getItem(RANGE_KEY) || '30', 10);
 
   renderKPIs(kpiRows, kpiSubs);
   renderHeroStats(heroStats, hotLeads);
-  renderMomentum(kpiRows, kpiSubs);
   renderHotLeads(hotLeads);
   renderFunnel(funnel);
   renderConversionStair(funnel);
@@ -688,77 +687,6 @@ function injectSidebarTopPromoter(top) {
     <span class="nav-tp-arrow">${icon('ChevronRight', { size: 14 })}</span>
   `;
   sidebar.appendChild(tag);
-}
-
-/* ---------- Phase 38 · Empfehlungs-Momentum (clientseitig) ---------- */
-function computeMomentum([empfehler, klicks, gesamt, kunden], subs) {
-  const empN = Math.min((empfehler || 0) / 20 * 30, 30);
-  const klN  = Math.min((klicks    || 0) / 100 * 30, 30);
-  const geN  = Math.min((gesamt    || 0) / 20 * 30, 30);
-  const kuN  = Math.min((kunden    || 0) / 5  * 10, 10);
-  let bonus = 0;
-  if (subs) {
-    const trends = [subs.empfehler, subs.klicks, subs.gesamt, subs.kunden];
-    let totalPct = 0, n = 0;
-    for (const t of trends) {
-      if (!t || t.base === null || t.base === 0) continue;
-      totalPct += ((t.curr - t.base) / t.base) * 100;
-      n++;
-    }
-    if (n > 0) bonus = Math.max(-10, Math.min(10, totalPct / n / 4));
-  }
-  const score = Math.max(0, Math.min(100, Math.round(empN + klN + geN + kuN + bonus)));
-  return { score, bonus, trendPct: bonus * 4 };
-}
-
-function renderMomentum(kpiRows, subs) {
-  const { score, bonus } = computeMomentum(kpiRows, subs);
-  const cardEl = document.getElementById('hMomentum');
-  const scoreEl = document.getElementById('hMomentumScore');
-  const trendEl = document.getElementById('hMomentumTrend');
-  const headEl = document.getElementById('hMomentumHeadline');
-  const explainEl = document.getElementById('hMomentumExplain');
-  const barEl = document.getElementById('hMomentumBar');
-  const metaEl = document.getElementById('hMomentumMeta');
-
-  // Phase 46 · State-Color je nach Score (Schwellen 80/60/40)
-  if (cardEl) {
-    let stateColor;
-    if (score >= 80)      stateColor = '#1A5C29'; // Dunkelgrün · Top
-    else if (score >= 60) stateColor = '#C9B98A'; // Champagne · Stabil
-    else if (score >= 40) stateColor = '#D49A4E'; // Warm Amber · Wachstum
-    else                  stateColor = '#7A8B6F'; // Sage · Aufbau
-    cardEl.style.setProperty('--momentum-state-color', stateColor);
-  }
-  if (scoreEl) scoreEl.innerHTML = `${score}<sup>/100</sup>`;
-  if (trendEl) {
-    const cls = bonus > 0 ? 'up' : (bonus < 0 ? 'down' : 'neutral');
-    const sign = bonus > 0 ? '↑ +' : (bonus < 0 ? '↓ ' : '');
-    const pct = Math.abs(Math.round(bonus * 4));
-    trendEl.className = 'h-momentum-trend ' + cls;
-    trendEl.textContent = bonus === 0 ? 'stabil zur Vorwoche' : `${sign}${pct}% zur Vorwoche`;
-  }
-  if (headEl) {
-    if (score >= 70) headEl.textContent = 'Dein Netzwerk entwickelt sich positiv.';
-    else if (score >= 40) headEl.textContent = 'Solide Basis — Luft nach oben.';
-    else headEl.textContent = 'Zeit für neuen Schwung.';
-  }
-  if (explainEl) {
-    const [emp, kl, ges, kun] = kpiRows;
-    const parts = [];
-    if (kl)  parts.push(`${kl} Link-Klicks`);
-    if (emp) parts.push(`${emp} aktive Promoter`);
-    if (kun) parts.push(`${kun} Neukunde${kun === 1 ? '' : 'n'}`);
-    explainEl.textContent = parts.length ? `Aktuell: ${parts.join(' · ')}.` : 'Sammle Empfehlungen, um deinen Score aufzubauen.';
-  }
-  if (barEl) barEl.style.width = score + '%';
-  if (metaEl) {
-    let band = 'Aufbau-Phase';
-    if (score >= 80) band = 'Top-Drittel der letzten 30 Tage';
-    else if (score >= 60) band = 'Stabiles Mittelfeld';
-    else if (score >= 40) band = 'Wachstum sichtbar';
-    metaEl.textContent = `${score} von 100 Punkten · ${band}`;
-  }
 }
 
 /* ---------- Phase 38 · Conversion-Treppe ---------- */

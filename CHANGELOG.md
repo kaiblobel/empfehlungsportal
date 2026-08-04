@@ -1,7 +1,17 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.161 Beta** · Tote Erfolgsgeschichten-Funktion entfernt.
+Aktuelle Version: **v1.162 Beta** · Echte Netzwerk-Kennzahlen statt Momentum-Score.
+
+---
+
+## v1.162 Beta - Phase 136 · Echte Kennzahlen im Fokus
+**2026-08-04**
+
+- Der frei berechnete Momentum-Score mit 86 von 100 Punkten ist entfernt. Seine Gewichtung und Aussagen wie "Top-Drittel" hatten keine verständliche fachliche Grundlage.
+- Direkt unter dem Einstieg stehen jetzt die vier echten Kennzahlen: aktive Promoter, Link-Klicks, Empfehlungen und neue Kunden.
+- Die Kennzahlen sind als ruhige, hochwertige Karten waagerecht angeordnet. Die vorhandene Entwicklung zur Vorwoche bleibt erhalten.
+- Der bisherige zweite Kennzahlenblock weiter unten ist entfernt. Datenbank und Kennzahlen-Abfragen bleiben unverändert.
 
 ---
 

@@ -1453,75 +1453,6 @@ body[data-page="vorlagen-cms"] {
   margin: 0 0 12px 0; letter-spacing: -0.005em;
 }
 
-.h-momentum {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-light);
-  border-radius: 16px; padding: 24px 28px;
-  box-shadow: var(--shadow-card);
-  display: grid;
-  grid-template-columns: minmax(160px, 0.4fr) minmax(0, 0.6fr);
-  gap: 36px; align-items: center;
-}
-.h-momentum-left { display: flex; flex-direction: column; gap: 10px; }
-.h-momentum-eyebrow {
-  font-family: 'Inter', sans-serif;
-  font-size: 11px; letter-spacing: 0.18em;
-  font-weight: 700; text-transform: uppercase;
-  color: var(--accent-gold);
-}
-.h-momentum-score {
-  font-family: 'Inter', sans-serif;
-  font-size: clamp(64px, 5.5vw, 92px);
-  font-weight: 800; color: var(--text-primary);
-  line-height: 0.95; letter-spacing: -0.045em;
-  display: inline-flex; align-items: baseline; gap: 3px;
-}
-.h-momentum-score sup {
-  font-family: 'Inter', sans-serif;
-  font-size: 14px; font-weight: 500;
-  color: var(--text-secondary);
-}
-.h-momentum-trend {
-  display: inline-flex; align-items: center; gap: 4px;
-  padding: 4px 12px; border-radius: 999px;
-  background: rgba(122,139,111,0.13); color: #5F7256;
-  font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 700;
-  width: max-content;
-}
-.h-momentum-trend.down { background: rgba(181,101,29,0.13); color: #964F12; }
-.h-momentum-trend.neutral { background: rgba(0,0,0,0.05); color: var(--text-secondary); }
-.h-momentum-right { display: flex; flex-direction: column; gap: 12px; }
-.h-momentum-headline {
-  font-family: 'Inter', sans-serif;
-  font-size: clamp(18px, 1.7vw, 22px);
-  font-weight: 700; color: var(--text-primary);
-  letter-spacing: -0.01em; line-height: 1.25;
-}
-.h-momentum-explain {
-  font-family: 'Inter', sans-serif;
-  font-size: 15px; font-weight: 400;
-  color: var(--text-secondary); line-height: 1.5;
-  margin-top: 4px;
-}
-.h-momentum-bar {
-  height: 6px; background: rgba(201,185,138,0.18);
-  border-radius: 999px; overflow: hidden; position: relative;
-}
-.h-momentum-bar-fill {
-  position: absolute; inset: 0 auto 0 0;
-  background: linear-gradient(90deg, #C9B98A 0%, #A89070 100%);
-  border-radius: 999px;
-  transition: width .6s cubic-bezier(.4,0,.2,1);
-}
-.h-momentum-bar-meta {
-  font-family: 'Inter', sans-serif;
-  font-size: 11px; color: var(--text-secondary);
-  letter-spacing: 0.04em; text-transform: uppercase;
-  margin-top: 8px;
-}
-@media (max-width: 720px) { .h-momentum { grid-template-columns: 1fr; gap: 22px; padding: 22px 18px; } }
-
 /* HOT-LEAD-CARDS */
 .h-hotleads { display: flex; flex-direction: column; gap: 10px; }
 .h-lead {
@@ -1639,6 +1570,59 @@ body[data-page="vorlagen-cms"] {
 .h-kpi-sub-pill.up { background: rgba(122,139,111,0.13); color: #5F7256; }
 .h-kpi-sub-pill.down { background: rgba(181,101,29,0.13); color: #964F12; }
 .h-kpi-sub-pill strong { color: inherit; font-weight: 700; }
+
+/* Echte Netzwerk-Kennzahlen direkt unter dem Einstieg */
+.h-network-overview .h-label {
+  margin-bottom: 12px;
+}
+.h-network-overview .h-kpis {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.h-network-overview .h-kpi {
+  min-height: 148px;
+  padding: 17px 19px 16px !important;
+  border: 1px solid rgba(44, 43, 40, 0.10) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 8px 24px -22px rgba(23, 25, 26, 0.42) !important;
+  gap: 0 !important;
+}
+.h-network-overview .h-kpi:hover {
+  box-shadow: 0 10px 28px rgba(38, 35, 29, 0.08) !important;
+}
+.h-network-overview .h-kpi-icon {
+  width: 32px !important;
+  height: 32px !important;
+  background: color-mix(in srgb, var(--kpi-color) 11%, transparent) !important;
+}
+.h-network-overview .h-kpi-body {
+  gap: 0;
+  margin-top: 15px;
+}
+.h-network-overview .h-kpi-value {
+  font-size: 34px !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.032em !important;
+  line-height: 0.95;
+  font-variant-numeric: tabular-nums;
+  color: #292B2B;
+}
+.h-network-overview .h-kpi-label {
+  margin-top: 9px !important;
+  font-size: 14px !important;
+  font-weight: 620 !important;
+  letter-spacing: -0.01em !important;
+  color: #706B64 !important;
+}
+.h-network-overview .h-kpi-sub {
+  margin-top: 5px;
+}
+@media (max-width: 900px) {
+  .h-network-overview .h-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .h-network-overview .h-kpis { grid-template-columns: 1fr; }
+}
 
 /* CONVERSION-TREPPE */
 .h-conversion-stair {
@@ -1821,22 +1805,6 @@ body[data-page="vorlagen-cms"] {
    Phase 39 · Final Mikrojustierung + Lock
    ============================================================ */
 
-/* A2 · Momentum-Score Baseline-Fix */
-.h-momentum-score {
-  gap: 0;
-}
-.h-momentum-score sup {
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  letter-spacing: 0.005em;
-  align-self: baseline;
-  vertical-align: baseline;
-  top: 0;
-  margin-left: 4px;
-}
-
 /* A3 · Header Mikrojustierung */
 .h-header-name {
   font-size: 16px !important;
@@ -2000,17 +1968,9 @@ body[data-page="vorlagen-cms"] {
 
 /* ============================================================
    Phase 44 · Subtile Akzent-Layer
-   A · Momentum-Card State-Color (Border-Left je nach Score)
-   B · Section-Eyebrow Mini-Strip (4px Champagne vor h-label)
+   Section-Eyebrow Mini-Strip (4px Champagne vor h-label)
    ============================================================ */
 
-/* A · Momentum-State-Color (set via JS inline style --momentum-state-color) */
-.h-momentum {
-  border-left: 4px solid var(--momentum-state-color, var(--accent-gold)) !important;
-  transition: border-left-color .35s ease;
-}
-
-/* B · Section-Eyebrow Mini-Strip */
 .h-label {
   display: inline-flex;
   align-items: center;
