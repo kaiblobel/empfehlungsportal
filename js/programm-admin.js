@@ -1,15 +1,13 @@
 /**
- * Phase 77 · Programm-Verwaltung (admin-only)
- * Editoren für Belohnungen (belohnungs_stufen) + Erfolgsgeschichten (erfolgsgeschichten).
+ * Phase 135 · Programm-Verwaltung (admin-only)
+ * Editor für Belohnungen (belohnungs_stufen).
  * Schreiben direkt per Client — durch RLS (is_current_berater_admin) abgesichert.
  */
 import {
   getBelohnungsStufen, updateBelohnungsStufe, insertBelohnungsStufe, deleteBelohnungsStufe,
-  listErfolgsgeschichtenAdmin, updateErfolgsgeschichte, insertErfolgsgeschichte, deleteErfolgsgeschichte,
 } from './supabase.js';
 import { requireAuth, logout, applyBeraterHeader, getCurrentBerater } from './dashboard.js';
 
-const THEMEN = ['allgemein', 'baufi', 'foerderungen', 'selbstaendige', 'investment', 'absicherung', 'karriere'];
 const KATEGORIEN = ['geld', 'sache', 'spende'];
 
 let beraterId = null;
@@ -23,10 +21,9 @@ applyBeraterHeader();
   const berater = await getCurrentBerater();
   if (!berater?.ist_admin) { window.location.href = '/hub.html'; return; }
   beraterId = berater.id;
-  await Promise.all([renderBelohnungen(), renderErfolg()]);
+  await renderBelohnungen();
 
   document.getElementById('newStufeBtn').addEventListener('click', onNewStufe);
-  document.getElementById('newErfolgBtn').addEventListener('click', onNewErfolg);
 })();
 
 /* ---------- Belohnungen ---------- */
@@ -133,96 +130,6 @@ async function onNewStufe() {
   if (error) { toast('Anlegen fehlgeschlagen: ' + (error.message || '')); return; }
   toast(`Stufe ${nextStufe} angelegt.`);
   await renderBelohnungen();
-}
-
-/* ---------- Erfolgsgeschichten ---------- */
-async function renderErfolg() {
-  const wrap = document.getElementById('erfolgList');
-  const list = await listErfolgsgeschichtenAdmin();
-  if (!list.length) {
-    wrap.innerHTML = '<div style="padding:20px;color:var(--text-secondary);font-size:14px;">Noch keine Erfolgsgeschichten. Lege eine mit „+ Neue Geschichte" an.</div>';
-    return;
-  }
-  wrap.innerHTML = list.map(erfolgCard).join('');
-  attachErfolgHandlers();
-}
-
-function erfolgCard(e) {
-  const opts = ['<option value="">— allgemein —</option>'].concat(
-    THEMEN.map(t => `<option value="${t}"${e.vorlage_slug === t ? ' selected' : ''}>${t}</option>`)
-  ).join('');
-  return `
-    <details class="cms-card" data-id="${e.id}">
-      <summary>
-        <span class="titel">${escapeHtml(e.titel)}</span>
-        <span class="slug">${e.aktiv ? 'aktiv' : 'inaktiv'}${e.vorlage_slug ? ' · ' + escapeHtml(e.vorlage_slug) : ''}</span>
-      </summary>
-      <div class="cms-body">
-        <div><label>Titel</label><input data-f="titel" value="${escapeAttr(e.titel || '')}" /></div>
-        <div><label>Vorher</label><textarea data-f="vorher">${escapeHtml(e.vorher || '')}</textarea></div>
-        <div><label>Nachher</label><textarea data-f="nachher">${escapeHtml(e.nachher || '')}</textarea></div>
-        <div class="cms-row-2">
-          <div><label>Kennzahl (key_metric)</label><input data-f="key_metric" value="${escapeAttr(e.key_metric || '')}" /></div>
-          <div><label>Thema</label><select data-f="vorlage_slug">${opts}</select></div>
-        </div>
-        <div class="cms-row-2">
-          <div><label>Sort-Order</label><input data-f="sort_order" type="number" value="${e.sort_order ?? 0}" /></div>
-          <div><label>&nbsp;</label><label class="pv-check"><input type="checkbox" data-f-check="aktiv" ${e.aktiv ? 'checked' : ''}/> Aktiv (für Kunden sichtbar)</label></div>
-        </div>
-        <div class="cms-actions">
-          <button class="cms-save" type="button" data-save-erfolg="${e.id}">Speichern</button>
-          <button class="cms-delete" type="button" data-del-erfolg="${e.id}">Löschen</button>
-        </div>
-      </div>
-    </details>`;
-}
-
-function collectErfolg(card) {
-  const g = (f) => card.querySelector(`[data-f="${f}"]`);
-  return {
-    titel: (g('titel').value || '').trim() || 'Ohne Titel',
-    vorher: (g('vorher').value || '').trim() || '—',
-    nachher: (g('nachher').value || '').trim() || '—',
-    key_metric: (g('key_metric').value || '').trim() || null,
-    vorlage_slug: g('vorlage_slug').value || null,
-    sort_order: parseInt(g('sort_order').value, 10) || 0,
-    aktiv: card.querySelector('[data-f-check="aktiv"]').checked,
-  };
-}
-
-function attachErfolgHandlers() {
-  document.querySelectorAll('[data-save-erfolg]').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      const id = btn.dataset.saveErfolg;
-      const card = btn.closest('.cms-card');
-      const data = collectErfolg(card);
-      btn.disabled = true; btn.textContent = 'Speichere…';
-      const { error } = await updateErfolgsgeschichte(id, data);
-      btn.disabled = false; btn.textContent = 'Speichern';
-      if (error) { toast('Fehler: ' + (error.message || '')); return; }
-      toast('Erfolgsgeschichte gespeichert.');
-      await renderErfolg();
-    });
-  });
-  document.querySelectorAll('[data-del-erfolg]').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      const id = btn.dataset.delErfolg;
-      if (!confirm('Diese Erfolgsgeschichte wirklich löschen?')) return;
-      const { error } = await deleteErfolgsgeschichte(id);
-      if (error) { toast('Fehler: ' + (error.message || '')); return; }
-      toast('Erfolgsgeschichte gelöscht.');
-      await renderErfolg();
-    });
-  });
-}
-
-async function onNewErfolg() {
-  const { error } = await insertErfolgsgeschichte({
-    titel: 'Neue Geschichte', vorher: '—', nachher: '—', berater_id: beraterId, aktiv: false, sort_order: 0,
-  });
-  if (error) { toast('Anlegen fehlgeschlagen: ' + (error.message || '')); return; }
-  toast('Erfolgsgeschichte angelegt (noch inaktiv).');
-  await renderErfolg();
 }
 
 /* ---------- Helpers ---------- */

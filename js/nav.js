@@ -50,7 +50,6 @@ export const NAV_ITEMS = [
   { id: 'programm',    label: 'Bonusprogramm', icon: 'Gift',            href: path('programm-verwalten.html'),        bottom: false, adminOnly: true,
     subs: [
       { label: 'Belohnungen',       href: path('programm-verwalten.html#belohnungen') },
-      { label: 'Erfolgsgeschichten',href: path('programm-verwalten.html#erfolgsgeschichten') },
       { label: 'Themen-Seiten',     href: path('vorlagen.html'), icon: 'FileText' },
     ] },
   // "Berater" bist du selbst — gemeint sind die Kolleginnen und Kollegen.

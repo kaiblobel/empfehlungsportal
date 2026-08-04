@@ -8,7 +8,6 @@ import {
   getVorlagenPublic,
   getVorlage,
   getEmpfehlerByCode,
-  getErfolgsgeschichtenPublic,
   getBeraterPublicById,
   getBeraterPublicBySlug,
   supabase,
@@ -488,7 +487,7 @@ if (page === 'empfaenger') {
     }, { threshold: 0.05 }).observe(hero);
   }
 
-  // Empfehlung + Vorlage + Erfolgsgeschichten parallel laden
+  // Empfehlung und passende Themen-Vorlage laden
   (async () => {
     let empData = null;
     if (token) {
@@ -504,14 +503,9 @@ if (page === 'empfaenger') {
 
     const slugResolved = (urlVorlage || empData?.vorlage_slug || 'allgemein').toLowerCase();
 
-    // Vorlage + Erfolge parallel — Inhalte sind GETEILT (global), nicht pro Berater
-    const [v, erfolge] = await Promise.all([
-      (async () => (await getVorlage(slugResolved)) || (await getVorlage('allgemein')))(),
-      getErfolgsgeschichtenPublic(slugResolved, empData?.berater_id || null),
-    ]);
+    const v = (await getVorlage(slugResolved)) || (await getVorlage('allgemein'));
 
     if (v) applyVorlage(v);
-    renderErfolge(erfolge);
 
     if (empData) renderEmpfehlerKarte(empData);
     if (empData?.anrufwunsch) revealAnrufConfirm(empData.anrufwunsch);
@@ -588,35 +582,6 @@ if (page === 'empfaenger') {
       if (personalName) { personalName.textContent = `${recipient}, `; personalName.style.display = 'inline'; }
       if (headlineStart) headlineStart.textContent = 'vielleicht';
     }
-  }
-
-  function renderErfolge(list) {
-    const wrap = document.getElementById('eResults');
-    if (!wrap) return;
-    if (!list?.length) {
-      wrap.innerHTML = '<p class="e-body" style="margin:0 auto;">Beispiele folgen.</p>';
-      return;
-    }
-    wrap.innerHTML = list.map(r => `
-      <article class="e-result e-reveal">
-        <div>
-          <p class="label">Fall</p>
-          <h3 class="titel">${escapeHtml(r.titel)}</h3>
-          ${r.key_metric ? `<span class="metric">${escapeHtml(r.key_metric)}</span>` : ''}
-        </div>
-        <div>
-          <div class="row">
-            <p class="label" style="margin-bottom: 4px;">Vorher</p>
-            <p>${escapeHtml(r.vorher)}</p>
-          </div>
-          <div class="row">
-            <p class="label" style="margin-bottom: 4px;">Nachher</p>
-            <p>${escapeHtml(r.nachher)}</p>
-          </div>
-        </div>
-      </article>
-    `).join('');
-    wrap.querySelectorAll('.e-reveal').forEach((el) => io.observe(el));
   }
 
   // Anrufwunsch-Submit

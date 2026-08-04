@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.160 Beta** · Belohnungs-Einstieg gestrafft.
+Aktuelle Version: **v1.161 Beta** · Tote Erfolgsgeschichten-Funktion entfernt.
+
+---
+
+## v1.161 Beta - Phase 135 · Erfolgsgeschichten entfernt
+**2026-08-04**
+
+- Der Menüpunkt und die Verwaltungsmaske für Erfolgsgeschichten sind entfernt. Die Funktion wurde auf keiner Kundenseite mehr sichtbar ausgespielt.
+- Die Empfängerseite fragt die nicht verwendeten Geschichten nicht mehr aus Supabase ab. Auch der tote Renderer und die zugehörigen Verwaltungsfunktionen sind entfernt.
+- Die vorhandenen Datensätze und die Tabelle `erfolgsgeschichten` bleiben vorerst in der Datenbank erhalten. Es wurden keine Inhalte gelöscht.
 
 ---
 

@@ -161,39 +161,6 @@ export async function getVorlagenPublic(beraterId = null) {
     .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
 }
 
-// Erfolgsgeschichten für die Empfänger-Seite: pro Geschichte nur eine Zeile.
-// Ohne diesen Filter steht jede Geschichte doppelt auf der Seite, die der
-// empfohlene Mensch zu sehen bekommt.
-export async function getErfolgsgeschichtenPublic(vorlage_slug = null, beraterId = null) {
-  const alle = await getErfolgsgeschichten(vorlage_slug);
-  return eineZeileProSchluessel(alle, (e) => `${e.vorlage_slug || ''}|${e.titel || ''}`, beraterId)
-    .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
-}
-
-export async function getErfolgsgeschichten(vorlage_slug = null, beraterId = null) {
-  if (!supabase) return [];
-  try {
-    let q = supabase
-      .from('erfolgsgeschichten')
-      .select('*')
-      .eq('aktiv', true)
-      .order('sort_order', { ascending: true });
-    if (beraterId) q = q.eq('berater_id', beraterId);
-    if (vorlage_slug) {
-      // Themen-spezifisch ODER themen-neutral (NULL)
-      q = q.or(`vorlage_slug.eq.${vorlage_slug},vorlage_slug.is.null`);
-    } else {
-      q = q.is('vorlage_slug', null);
-    }
-    const { data, error } = await q;
-    if (error) throw error;
-    return data || [];
-  } catch (err) {
-    console.error('[getErfolgsgeschichten]', err);
-    return [];
-  }
-}
-
 export async function updateVorlage(slug, data, beraterId = null) {
   if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
   try {
@@ -427,35 +394,6 @@ export async function deleteBelohnungsStufe(stufe, beraterId) {
   if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
   return await supabase.from('belohnungs_stufen').delete().eq('stufe', stufe).eq('berater_id', beraterId);
 }
-
-// Erfolgsgeschichten
-export async function listErfolgsgeschichtenAdmin() {
-  if (!supabase) return [];
-  try {
-    const { data, error } = await supabase
-      .from('erfolgsgeschichten')
-      .select('*')
-      .order('sort_order', { ascending: true });
-    if (error) throw error;
-    return data || [];
-  } catch (err) {
-    console.error('[listErfolgsgeschichtenAdmin]', err);
-    return [];
-  }
-}
-export async function updateErfolgsgeschichte(id, fields) {
-  if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
-  return await supabase.from('erfolgsgeschichten').update(fields).eq('id', id);
-}
-export async function insertErfolgsgeschichte(fields) {
-  if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
-  return await supabase.from('erfolgsgeschichten').insert(fields);
-}
-export async function deleteErfolgsgeschichte(id) {
-  if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
-  return await supabase.from('erfolgsgeschichten').delete().eq('id', id);
-}
-
 
 /* ---------- Prämien-Tracking (Admin) ---------- */
 
