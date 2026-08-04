@@ -34,6 +34,14 @@
         <div class="section-title" style="margin:0;">Alle Promoter</div>
         <button id="newBtn" class="btn-logout" style="padding:8px 14px;">+ Neuer Promoter</button>
       </div>
+
+      <div class="filter-tabs" id="sortTabs" role="group" aria-label="Sortierung" style="margin:10px 0 14px;">
+        <button class="filter-tab active" type="button" data-sort="neu">Zuletzt hinzugefügt</button>
+        <button class="filter-tab" type="button" data-sort="kunde">Meiste Kunden</button>
+        <button class="filter-tab" type="button" data-sort="gesamt">Meiste Empfehlungen</button>
+        <button class="filter-tab" type="button" data-sort="name">Name A–Z</button>
+      </div>
+
       <div id="list">
         <div class="skel-row"><div class="skel-body"><span class="skel skel-line"></span><span class="skel skel-line"></span></div><span class="skel skel-tail"></span></div>
         <div class="skel-row"><div class="skel-body"><span class="skel skel-line"></span><span class="skel skel-line"></span></div><span class="skel skel-tail"></span></div>
@@ -110,18 +118,58 @@
     })();
 
     async function refresh() {
-      const wrap = document.getElementById('list');
       allItems = await loadEmpfehlerList();
+      renderList();
+    }
+
+    /* ---------- Sortierung ---------- */
+    // Datum per String-Vergleich: das Zeitformat ist einheitlich und sortiert
+    // damit chronologisch, ohne Parser-Eigenheiten der Browser.
+    const neuesteZuerst = (a, b) => String(b.created_at || '').localeCompare(String(a.created_at || ''));
+    const SORTIERUNGEN = {
+      neu:    neuesteZuerst,
+      kunde:  (a, b) => (b.kunde - a.kunde) || (b.gesamt - a.gesamt) || neuesteZuerst(a, b),
+      gesamt: (a, b) => (b.gesamt - a.gesamt) || (b.kunde - a.kunde) || neuesteZuerst(a, b),
+      name:   (a, b) => String(a.name || '').localeCompare(String(b.name || ''), 'de', { sensitivity: 'base' }),
+    };
+    const SORT_KEY = 'promoter_sort_v1';
+
+    function ladeSortierung() {
+      try {
+        const gespeichert = localStorage.getItem(SORT_KEY);
+        if (gespeichert && SORTIERUNGEN[gespeichert]) return gespeichert;
+      } catch (_) {}
+      return 'neu';
+    }
+    let sortierung = ladeSortierung();
+
+    function markiereSortTab() {
+      document.querySelectorAll('#sortTabs .filter-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.sort === sortierung);
+      });
+    }
+
+    document.getElementById('sortTabs').addEventListener('click', (e) => {
+      const tab = e.target.closest('.filter-tab');
+      if (!tab || tab.dataset.sort === sortierung) return;
+      sortierung = tab.dataset.sort;
+      try { localStorage.setItem(SORT_KEY, sortierung); } catch (_) {}
+      markiereSortTab();
+      renderList();
+    });
+
+    function renderList() {
+      const wrap = document.getElementById('list');
+      markiereSortTab();
+      // Ohne Promoter gibt es nichts zu sortieren. Bewusst über style.display:
+      // .filter-tabs setzt display:flex und würde das hidden-Attribut aushebeln.
+      document.getElementById('sortTabs').style.display = allItems.length ? '' : 'none';
       if (!allItems.length) {
         wrap.innerHTML = '<div class="empty-state">Noch keine Promoter. Lege einen an oder verteile den Link /programm.</div>';
         return;
       }
-      // Neueste zuerst: wer gerade angelegt wurde, steht oben. (Vorher nach
-      // Erfolg sortiert — da landete ein frischer Promoter mitten in der Liste.)
-      // String-Vergleich statt new Date(): das Zeitformat ist einheitlich und
-      // sortiert damit chronologisch, ohne Parser-Eigenheiten der Browser.
-      allItems.sort((a, b) => String(b.created_at || '').localeCompare(String(a.created_at || '')));
-      wrap.innerHTML = '<div class="feed">' + allItems.map(e => `
+      const liste = allItems.slice().sort(SORTIERUNGEN[sortierung] || neuesteZuerst);
+      wrap.innerHTML = '<div class="feed">' + liste.map(e => `
         <a class="feed-row" href="promoter.html?id=${encodeURIComponent(e.id)}"
            data-id="${e.id}" data-code="${escapeHtml(e.code)}" data-name="${escapeHtml(e.name)}" data-gesamt="${e.gesamt}"
            data-tel="${escapeHtml(e.telefon || '')}" data-email="${escapeHtml(e.email || '')}">

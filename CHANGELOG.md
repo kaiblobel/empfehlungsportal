@@ -1,7 +1,17 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.144 Beta** · Promoter-Liste nach Datum, WhatsApp immer verfügbar.
+Aktuelle Version: **v1.145 Beta** · Promoter-Liste sortierbar.
+
+---
+
+## v1.145 Beta - Phase 119 · Promoter-Liste sortierbar
+**2026-08-04**
+
+- Über der Promoter-Liste stehen jetzt vier Sortierungen zur Wahl: **Zuletzt hinzugefügt** (Standard), **Meiste Kunden**, **Meiste Empfehlungen** und **Name A–Z**.
+- Bei Gleichstand wird sinnvoll weitersortiert: gleich viele Kunden → mehr Empfehlungen zuerst, danach das jüngere Datum. Die Namenssortierung ignoriert Groß-/Kleinschreibung und ordnet Umlaute richtig ein.
+- Die gewählte Sortierung bleibt gespeichert und gilt beim nächsten Besuch wieder.
+- Optisch die gleichen Filter-Chips wie auf der Empfehlungen-Seite — kein neues Bedienmuster.
 
 ---
 
