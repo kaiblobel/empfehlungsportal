@@ -1,7 +1,7 @@
 import { getBelohnungsStufenPublic, getVorlagenPublic, createEmpfehler, getBeraterPublicBySlug, supabase } from './supabase.js';
 import { icon as lucideIcon, ICONS } from './icons.js';
 import { applyBeraterBrand } from './berater-brand.js';
-import { baueReise, reiseHtml, geldSummary } from './belohnungs-reise.js';
+import { baueReise, reiseHtml } from './belohnungs-reise.js';
 
 // Multi-Tenant: Berater-Einstieg via ?berater=slug (z. B. ?berater=sven-augustin).
 // Wird unten zum Branding genutzt + an create_empfehler durchgereicht.
@@ -203,170 +203,8 @@ const beraterSlug = new URLSearchParams(window.location.search).get('berater');
   }
 })();
 
-// === Präsentations-Modus (Phase 50j): Slide-Modus für Live-Pitch ===
-(function initPresentationMode() {
-  const toggleBtn = document.getElementById('presentToggle');
-  const nav = document.getElementById('presentNav');
-  if (!toggleBtn || !nav) return;
 
-  const prevBtn = document.getElementById('presentPrev');
-  const nextBtn = document.getElementById('presentNext');
-  const exitBtn = document.getElementById('presentExit');
-  const currentEl = document.getElementById('presentCurrent');
-  const totalEl = document.getElementById('presentTotal');
-
-  // Sektionen ausser dem letzten Footer als Slides erfassen
-  const allSections = Array.from(document.querySelectorAll('main > section.section, section.section'));
-  // Einzelne Inhalte bleiben auf der Webseite erhalten, werden aber nicht als Folie gezeigt.
-  const slides = allSections.filter(section => section.dataset.presentation !== 'skip');
-  totalEl.textContent = String(slides.length);
-
-  let isActive = false;
-  let currentIdx = 0;
-  let wheelLocked = false;
-
-  function indexFromPageScroll() {
-    const y = window.scrollY + window.innerHeight / 2;
-    let idx = 0;
-    for (let i = 0; i < slides.length; i++) {
-      if (slides[i].offsetTop <= y) idx = i;
-    }
-    return idx;
-  }
-
-  function updateNavState() {
-    currentEl.textContent = String(currentIdx + 1);
-    prevBtn.disabled = currentIdx === 0;
-    nextBtn.disabled = currentIdx === slides.length - 1;
-  }
-
-  function activate(startAtBeginning = false) {
-    currentIdx = startAtBeginning ? 0 : indexFromPageScroll();
-    document.documentElement.classList.add('present-active');
-    document.body.classList.add('presentation-mode');
-    nav.hidden = false;
-    toggleBtn.setAttribute('aria-pressed', 'true');
-    isActive = true;
-    document.addEventListener('keydown', onKey, { passive: false });
-    document.addEventListener('wheel', onWheel, { passive: false });
-    goTo(currentIdx, true);
-  }
-
-  function deactivate() {
-    const exitSlide = slides[currentIdx];
-    document.documentElement.classList.remove('present-active');
-    document.body.classList.remove('presentation-mode');
-    nav.hidden = true;
-    toggleBtn.setAttribute('aria-pressed', 'false');
-    isActive = false;
-    document.removeEventListener('keydown', onKey);
-    document.removeEventListener('wheel', onWheel);
-    slides.forEach(slide => {
-      slide.classList.remove('present-before', 'present-current', 'present-after');
-      slide.removeAttribute('aria-hidden');
-    });
-    requestAnimationFrame(() => exitSlide?.scrollIntoView({ behavior: 'auto', block: 'start' }));
-  }
-
-  function goTo(idx, instant = false) {
-    if (idx < 0) idx = 0;
-    if (idx >= slides.length) idx = slides.length - 1;
-    currentIdx = idx;
-    if (instant) document.documentElement.classList.add('present-no-motion');
-    slides.forEach((slide, slideIdx) => {
-      slide.classList.toggle('present-before', slideIdx < idx);
-      slide.classList.toggle('present-current', slideIdx === idx);
-      slide.classList.toggle('present-after', slideIdx > idx);
-      slide.setAttribute('aria-hidden', slideIdx === idx ? 'false' : 'true');
-      if (slideIdx === idx) slide.scrollTop = 0;
-    });
-    updateNavState();
-    if (instant) {
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        document.documentElement.classList.remove('present-no-motion');
-      }));
-    }
-  }
-
-  function next() { goTo(currentIdx + 1); }
-  function prev() { goTo(currentIdx - 1); }
-
-  function onKey(e) {
-    if (!isActive) return;
-    if (document.body.classList.contains('market-overview-open') || document.body.classList.contains('topic-preview-open')) return;
-    // Editor-Fokus nicht abfangen
-    const tag = (e.target?.tagName || '').toLowerCase();
-    if (e.target?.isContentEditable) return;
-    if (['input','textarea','select','button'].includes(tag) && e.target !== document.body) {
-      // Pfeile in Inputs erlauben
-      if (['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)) return;
-    }
-    switch (e.key) {
-      case 'ArrowRight':
-      case 'ArrowDown':
-      case 'PageDown':
-      case ' ':
-        e.preventDefault();
-        next();
-        break;
-      case 'ArrowLeft':
-      case 'ArrowUp':
-      case 'PageUp':
-        e.preventDefault();
-        prev();
-        break;
-      case 'Escape':
-        e.preventDefault();
-        deactivate();
-        break;
-      case 'Home':
-        e.preventDefault();
-        goTo(0);
-        break;
-      case 'End':
-        e.preventDefault();
-        goTo(slides.length - 1);
-        break;
-    }
-  }
-
-  function onWheel(e) {
-    if (!isActive || Math.abs(e.deltaY) < 18) return;
-    if (document.body.classList.contains('market-overview-open') || document.body.classList.contains('topic-preview-open')) {
-      e.preventDefault();
-      return;
-    }
-    const activeSlide = slides[currentIdx];
-    const hasInnerScroll = activeSlide.scrollHeight > activeSlide.clientHeight + 2;
-    const atTop = activeSlide.scrollTop <= 1;
-    const atBottom = activeSlide.scrollTop + activeSlide.clientHeight >= activeSlide.scrollHeight - 1;
-
-    if (hasInnerScroll && ((e.deltaY > 0 && !atBottom) || (e.deltaY < 0 && !atTop))) return;
-
-    e.preventDefault();
-    if (wheelLocked) return;
-    wheelLocked = true;
-    if (e.deltaY > 0) next();
-    else prev();
-    window.setTimeout(() => { wheelLocked = false; }, 720);
-  }
-
-  toggleBtn.addEventListener('click', () => isActive ? deactivate() : activate(false));
-  prevBtn.addEventListener('click', prev);
-  nextBtn.addEventListener('click', next);
-  exitBtn.addEventListener('click', deactivate);
-
-  // Auto-Activate bei ?mode=slides (für direkten Link aus Sidebar)
-  try {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('mode') === 'slides') {
-      // Kurz warten bis Layout steht
-      setTimeout(() => activate(true), 80);
-    }
-  } catch (_) {}
-})();
-
-// === Interaktive Marktübersicht auf Folie 3 ===
+// === Interaktive Marktübersicht im Teamwork-Abschnitt ===
 (function initMarketOverview() {
   const openBtn = document.getElementById('marketOpen');
   const overlay = document.getElementById('marketOverlay');
@@ -499,11 +337,8 @@ const beraterSlug = new URLSearchParams(window.location.search).get('berater');
         section?.classList.add('has-nps-response');
         card.hidden = false;
         requestAnimationFrame(() => card.classList.add('show'));
-        // Auf der normalen Seite zur Antwort scrollen. Im Präsentationsmodus
-        // erscheint sie direkt auf dem Porträt und bleibt vollständig sichtbar.
-        if (!document.body.classList.contains('presentation-mode')) {
-          setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'center' }), 160);
-        }
+        // Zur Antwort scrollen, damit sie im Gespräch sofort im Blick ist
+        setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'center' }), 160);
       }
 
       // Score lokal merken für Re-Render bei Reload
@@ -700,10 +535,6 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
     finishEl.textContent = `${hoechste} Stufen, ein sichtbarer Weg und echte Vorfreude.`;
   }
 
-  // Präsentations-Modus: die Geldstufen als ein Satz statt als zehn Zeilen.
-  // Steht immer im HTML, wird aber nur auf der Folie eingeblendet.
-  const summaryEl = document.getElementById('t-ReiseGeldSummary');
-  if (summaryEl) summaryEl.textContent = geldSummary(reise);
 })();
 
 // Themen-Auswahl mit direkter Vorschau der fertigen Themenwelten

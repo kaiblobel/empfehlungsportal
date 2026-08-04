@@ -1,7 +1,17 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.155 Beta** · Einrasten beim Scrollen.
+Aktuelle Version: **v1.156 Beta** · Präsentations-Modus entfernt.
+
+---
+
+## v1.156 Beta - Phase 130 · Präsentations-Modus entfernt
+**2026-08-04**
+
+- **Der Folien-Modus ist raus.** Kai trägt scrollend vor — der Modus wurde nicht genutzt, kostete aber bei jeder Änderung eine zweite Prüfung. Genau daran ist an einem Tag zweimal etwas kaputtgegangen: Das Folienraster brach mit den echten Daten zusammen, und beim Hero-Umbau mussten Sonderregeln für eine Ansicht gepflegt werden, die niemand öffnet.
+- Entfernt: der Knopf unten rechts, die Foliensteuerung, 162 Zeilen Steuerlogik und 141 Regelblöcke im Stylesheet. `css/programm.css` schrumpft von 7.274 auf 6.587 Zeilen, `js/programm.js` von 983 auf 813.
+- **Alle Inhalte bleiben sichtbar.** Drei Abschnitte waren im Folien-Modus ausgeblendet (der neue Hero, die Orbit-Grafik „Deine Vorteile", die Inspirations-Zitate). Beim Scrollen sieht man sie ohnehin — jetzt gibt es nur noch eine Wahrheit.
+- Menüpunkt „Präsentation" und die Kachel unter „Bonusprogramm" führen jetzt auf die normale Seite statt auf den Folien-Start.
 
 ---
 
