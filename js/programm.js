@@ -204,6 +204,90 @@ const beraterSlug = new URLSearchParams(window.location.search).get('berater');
 })();
 
 
+// === Tastatur beim Vortragen (Phase 131) ==================================
+// Eine Taste, ein Abschnitt — ohne Folien-Modus. Der Browser scrollt mit den
+// Pfeiltasten sonst in 40-Pixel-Schritten; beim Vortragen will man springen.
+// Abschnitte, die höher als der Bildschirm sind (Belohnungs-Reise, FAQ),
+// werden zuerst seitenweise durchgeblättert und erst am Ende verlassen.
+(function initVortragTasten() {
+  const abschnitte = () => [...document.querySelectorAll('section.section')];
+
+  // In Eingabefeldern gehören die Pfeiltasten dem Feld — besonders wichtig
+  // wegen der Mehrwert-Zeilen, in die Kai im Gespräch mittippt.
+  const inEingabe = (el) => !!el && (
+    el.isContentEditable ||
+    ['input', 'textarea', 'select'].includes(el.tagName?.toLowerCase())
+  );
+
+  const overlayOffen = () =>
+    document.body.classList.contains('market-overview-open') ||
+    document.body.classList.contains('topic-preview-open');
+
+  /** Welcher Abschnitt füllt gerade den Bildschirm? */
+  function aktuellerIndex(liste) {
+    const marke = window.scrollY + window.innerHeight * 0.35;
+    let idx = 0;
+    liste.forEach((s, i) => { if (s.offsetTop <= marke) idx = i; });
+    return idx;
+  }
+
+  function springe(richtung) {
+    const liste = abschnitte();
+    if (!liste.length) return;
+    const i = aktuellerIndex(liste);
+    const s = liste[i];
+    const box = s.getBoundingClientRect();
+
+    // Hoher Abschnitt: erst innerhalb blättern, statt ihn zu überspringen
+    if (s.offsetHeight > window.innerHeight + 8) {
+      const schritt = window.innerHeight * 0.85;
+      if (richtung > 0 && box.bottom > window.innerHeight + 8) {
+        window.scrollBy({ top: schritt, behavior: 'smooth' });
+        return;
+      }
+      if (richtung < 0 && box.top < -8) {
+        window.scrollBy({ top: -schritt, behavior: 'smooth' });
+        return;
+      }
+    }
+
+    const ziel = Math.min(liste.length - 1, Math.max(0, i + richtung));
+    liste[ziel].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (overlayOffen()) return;                 // Übersicht/Vorschau hat Vorrang
+    if (inEingabe(document.activeElement)) return;
+
+    switch (e.key) {
+      case 'ArrowDown':
+      case 'ArrowRight':
+      case 'PageDown':
+        e.preventDefault(); springe(1); break;
+      case 'ArrowUp':
+      case 'ArrowLeft':
+      case 'PageUp':
+        e.preventDefault(); springe(-1); break;
+      case ' ':
+        // Leertaste nur, wenn sie nicht gerade einen Knopf auslöst
+        if (document.activeElement?.tagName?.toLowerCase() === 'button') return;
+        e.preventDefault(); springe(1); break;
+      case 'Home': {
+        e.preventDefault();
+        abschnitte()[0]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        break;
+      }
+      case 'End': {
+        e.preventDefault();
+        const l = abschnitte();
+        l[l.length - 1]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        break;
+      }
+    }
+  });
+})();
+
 // === Interaktive Marktübersicht im Teamwork-Abschnitt ===
 (function initMarketOverview() {
   const openBtn = document.getElementById('marketOpen');
@@ -402,65 +486,7 @@ beraterPromise.then((data) => {
   window.__beraterPublic = data;
   applyBeraterBrand(data);
   if (data.foto_url && fotoVideo) fotoVideo.src = data.foto_url;
-  // Die Testimonials sind echte Google-Bewertungen von Kai. Für andere
-  // Berater ausblenden, statt fremde Rezensionen unter ihrem Namen zu zeigen.
-  if (data.slug && data.slug !== 'kai-blobel') {
-    const tSection = document.getElementById('bewertungen');
-    if (tSection) tSection.style.display = 'none';
-  }
 });
-
-// === Testimonials Marquee: dynamisch befüllen mit genug Wiederholungen ===
-const TESTIMONIALS = {
-  row1: [
-    { initials: 'MB', color: 'champagne', name: 'Martin Böhm',       context: 'Google-Bewertung',     quote: 'Erstklassige Beratung und Betreuung, kann ich nur weiterempfehlen.' },
-    { initials: 'SH', color: 'terracotta', name: 'Sandra Heinze',    context: 'Local Guide · Google', quote: 'Fachlich exzellent, menschlich super angenehm.' },
-    { initials: 'JB', color: 'champagne', name: 'Josephine Bürger',  context: 'Google-Bewertung',     quote: 'Modern, sympathisch und ehrlich.' },
-    { initials: 'CK', color: 'terracotta', name: 'Cindy Kühn',       context: 'Google-Bewertung',     quote: 'Angenehme und vertrauensvolle Zusammenarbeit.' },
-  ],
-  row2: [
-    { initials: 'MG', color: 'sage',   name: 'Mike Gerber',     context: 'Local Guide · Google', quote: 'Ich werde seit vielen Jahren in unterschiedlichen Finanzangelegenheiten erfolgreich durch Herrn Blobel beraten.' },
-    { initials: 'TM', color: 'marine', name: 'Torsten Memczak', context: 'Google-Bewertung',     quote: 'Seit 2006 betreut mich Herr Blobel und hilft mir bei Versicherungsfragen.' },
-    { initials: 'LS', color: 'sage',   name: 'Lucas Schmidt',   context: 'Google-Bewertung',     quote: 'Sehr nette und kompetente Beratung bei jeglichen Fragen und Themen.' },
-    { initials: 'MM', color: 'marine', name: 'Mathias M.',      context: 'Local Guide · Google', quote: 'Sehr lockere Gespräche. Die Atmosphäre passt auch.' },
-  ],
-};
-
-function renderTestimonialCard(t, hidden) {
-  return `
-    <article class="testimonial-card"${hidden ? ' aria-hidden="true"' : ''}>
-      <div class="testimonial-stars" aria-label="5 von 5">★★★★★</div>
-      <p class="testimonial-quote">„${escapeHtml(t.quote)}"</p>
-      <div class="testimonial-author">
-        <span class="testimonial-avatar" data-color="${escapeAttr(t.color)}">${escapeHtml(t.initials)}</span>
-        <div class="testimonial-author-text">
-          <span class="testimonial-name">${escapeHtml(t.name)}</span>
-          <span class="testimonial-context">${escapeHtml(t.context)}</span>
-        </div>
-      </div>
-    </article>
-  `;
-}
-
-function fillTestimonialTrack(track, items) {
-  // Eine "Einheit" = alle Items 1x. Wir rendern 6 Einheiten:
-  // 3 sichtbar + 3 als nahtloser Loop-Puffer. Animation läuft 0 -> -50%.
-  // Das stellt sicher, dass auch auf breiten Monitoren immer Cards den
-  // Viewport füllen und kein Leerraum sichtbar wird.
-  const REPEATS = 6;
-  let html = '';
-  for (let r = 0; r < REPEATS; r++) {
-    const hidden = r >= REPEATS / 2; // zweite Hälfte ist aria-hidden Duplikat
-    for (const t of items) html += renderTestimonialCard(t, hidden);
-  }
-  track.innerHTML = html;
-}
-
-// JS rendert nur wenn Track leer ist — sonst behalte statische HTML-Cards (Mobile-Safari-Sicherheit)
-const row1 = document.querySelector('[data-row="1"]');
-const row2 = document.querySelector('[data-row="2"]');
-if (row1 && row1.children.length === 0) fillTestimonialTrack(row1, TESTIMONIALS.row1);
-if (row2 && row2.children.length === 0) fillTestimonialTrack(row2, TESTIMONIALS.row2);
 
 // IntersectionObserver — Fade-Up
 const io = new IntersectionObserver((entries) => {

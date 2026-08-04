@@ -558,15 +558,6 @@ body[data-page="programm"] * { box-sizing: border-box; }
 }
 .p7-banner .gold { color: var(--accent-gold, #B8860B); }
 
-/* ============================================================
-   Phase 47 · Conversion-Refactor
-   - Sticky Top-CTA (Desktop)
-   - Hero Split-Layout
-   - 3-Schritte-Row
-   - Belohnungs-Galerie (alternierend)
-   - FAQ-Grid
-   - Section-CTAs
-   ============================================================ */
 
 /* === Sticky Top-CTA === */
 .cta-top {
@@ -705,53 +696,6 @@ body[data-page="programm"] * { box-sizing: border-box; }
 
 /* Desktop alternierend: ungerade Image-Left, gerade Image-Right */
 
-/* === FAQ-Grid === */
-.faq-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 22px;
-  margin-top: 40px;
-}
-@media (min-width: 720px) {
-  .faq-grid { grid-template-columns: 1fr 1fr; gap: 32px 48px; }
-}
-.faq-item {
-  display: grid;
-  grid-template-columns: 40px 1fr;
-  gap: 14px;
-  align-items: flex-start;
-}
-.faq-mark {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(201,185,138,0.15);
-  color: var(--champagne, #C9B98A);
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 22px;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-.faq-body h3 {
-  font-family: 'Inter', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--anthracite, #1A1A1A);
-  margin: 0 0 6px 0;
-  letter-spacing: -0.005em;
-  line-height: 1.35;
-}
-.faq-body p {
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  color: var(--ink-muted, #6B6660);
-  line-height: 1.55;
-  margin: 0;
-}
 
 /* === Section-CTA Utility === */
 .section-cta {
@@ -842,25 +786,6 @@ body[data-page="programm"] * { box-sizing: border-box; }
 
 /* === Reward-Gallery Typo === */
 
-/* === FAQ Typo · Editorial === */
-.faq-mark {
-  font-family: 'Fraunces', serif;
-  font-style: italic;
-  font-size: 24px;
-  font-weight: 500;
-}
-.faq-body h3 {
-  font-family: 'Fraunces', serif;
-  font-size: 18px;
-  font-weight: 500;
-  letter-spacing: -0.012em;
-  line-height: 1.3;
-  color: var(--anthracite, #1A1A1A);
-}
-.faq-body p {
-  font-size: 15px;
-  line-height: 1.6;
-}
 
 /* === Vertical-Rhythm: mehr Air zwischen Sections === */
 .section {
@@ -969,25 +894,6 @@ body[data-page="programm"] {
 /* iPhone-Optimierung: kompaktere Karten, damit nicht 2 den ganzen Schirm füllen.
    Auf dem Handy als Flex (Karte umschließt den Inhalt) statt Grid mit fixer Zeilenhöhe. */
 
-/* FAQ · SF */
-.faq-mark {
-  font-family: var(--font-display) !important;
-  font-style: normal !important;
-  font-weight: 700 !important;
-  font-size: 18px !important;
-}
-.faq-body h3 {
-  font-family: var(--font-display) !important;
-  font-weight: 600 !important;
-  font-size: 16px !important;
-  letter-spacing: -0.012em !important;
-  line-height: 1.35 !important;
-}
-.faq-body p {
-  font-family: var(--font-text);
-  font-size: 14.5px;
-  line-height: 1.6;
-}
 
 /* Targets / Wins / Journey · SF */
 .target-card-body h3,
@@ -1250,179 +1156,6 @@ body[data-page="programm"] {
   animation: none;
 }
 
-/* ============================================================
-   Phase 53 · FAQ als Accordion (details/summary)
-   Plus/Minus-Toggle, kompakte Liste, single-column
-   ============================================================ */
-
-.faq-list {
-  display: flex;
-  flex-direction: column;
-  max-width: 760px;
-  margin: 40px auto 0;
-  border-top: 1px solid var(--hairline, #E8E5E0);
-}
-
-.faq-item {
-  border-bottom: 1px solid var(--hairline, #E8E5E0);
-  display: block;
-}
-
-.faq-item summary {
-  list-style: none;
-  cursor: pointer;
-  padding: 20px 4px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  font-family: var(--font-display);
-  font-size: 17px;
-  font-weight: 600;
-  letter-spacing: -0.012em;
-  color: var(--anthracite, #1A1A1A);
-  line-height: 1.4;
-  transition: color .18s ease;
-}
-
-.faq-item summary::-webkit-details-marker { display: none; }
-.faq-item summary::marker { content: ''; }
-
-.faq-item summary:hover {
-  color: var(--champagne-hover, #8B7355);
-}
-
-.faq-q {
-  flex: 1 1 auto;
-}
-
-.faq-toggle {
-  position: relative;
-  width: 22px;
-  height: 22px;
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.faq-toggle::before,
-.faq-toggle::after {
-  content: '';
-  position: absolute;
-  background: var(--champagne, #C9B98A);
-  border-radius: 1px;
-  transition: transform .25s cubic-bezier(.32,.72,.4,1);
-}
-
-.faq-toggle::before {
-  width: 14px;
-  height: 2px;
-}
-
-.faq-toggle::after {
-  width: 2px;
-  height: 14px;
-}
-
-.faq-item[open] .faq-toggle::after {
-  transform: rotate(90deg);
-  opacity: 0;
-}
-
-.faq-item[open] summary {
-  color: var(--champagne-hover, #8B7355);
-}
-
-.faq-a {
-  padding: 0 4px 20px;
-  font-family: var(--font-text);
-  font-size: 15px;
-  line-height: 1.6;
-  color: var(--ink-muted, #6B6660);
-  max-width: 640px;
-}
-
-.faq-a p {
-  margin: 0;
-}
-
-@media (min-width: 720px) {
-  .faq-item summary {
-    padding: 24px 8px;
-    font-size: 18px;
-  }
-  .faq-a {
-    padding: 0 8px 24px;
-    font-size: 16px;
-  }
-}
-
-/* ============================================================
-   Phase 54 · FAQ als 3-Spalten-Grid
-   Mobile: single column · Tablet: 2 · Desktop: 3
-   ============================================================ */
-
-.faq-list {
-  border-top: none;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px 24px;
-  max-width: 1180px;
-}
-
-.faq-item {
-  border: 1px solid var(--hairline, #E8E5E0);
-  border-radius: 12px;
-  background: var(--surface, #FFFCF7);
-  transition: border-color .2s ease, box-shadow .2s ease;
-}
-
-.faq-item:hover {
-  border-color: rgba(201,185,138,0.35);
-}
-
-.faq-item[open] {
-  border-color: rgba(201,185,138,0.4);
-  box-shadow: 0 4px 14px rgba(20,18,12,0.04);
-}
-
-.faq-item summary {
-  padding: 18px 18px;
-  font-size: 16px;
-  align-items: flex-start;
-}
-
-.faq-q {
-  line-height: 1.35;
-}
-
-.faq-a {
-  padding: 0 18px 18px;
-  font-size: 14px;
-}
-
-@media (min-width: 720px) {
-  .faq-list {
-    grid-template-columns: 1fr 1fr;
-    gap: 14px 20px;
-  }
-  .faq-item summary {
-    padding: 20px 20px;
-    font-size: 16px;
-  }
-  .faq-a {
-    padding: 0 20px 20px;
-    font-size: 14.5px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .faq-list {
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 16px 22px;
-  }
-}
 
 /* ============================================================
    Phase 55 · Trust-Brücke-Section
@@ -1605,207 +1338,13 @@ body[data-page="programm"] {
   .trust-bridge .trust-bridge-close { width: calc(100% - 32px); }
 }
 
-/* ============================================================
-   Phase 56 · Testimonials Auto-Marquee mit echten Google-Reviews
-   ============================================================ */
 
-.testimonials {
-  background: var(--bg, #FAF8F5);
-  overflow: hidden;
-}
-
-/* Meta-Header */
-.testimonials-meta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  margin: 40px auto 0;
-  flex-wrap: wrap;
-}
-.stars-mini {
-  font-size: 22px;
-  letter-spacing: 0.04em;
-  color: #E8B842;
-  line-height: 1;
-}
-.testimonials-meta-text {
-  font-family: var(--font-text);
-  font-size: 14px;
-  color: var(--ink-muted, #6B6660);
-  letter-spacing: -0.005em;
-}
-.testimonials-meta-text strong {
-  font-weight: 700;
-  color: var(--anthracite, #1A1A1A);
-}
-
-/* Marquee */
-.testimonials-marquee {
-  margin-top: 56px;
-  overflow: hidden;
-  position: relative;
-  mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
-}
-
-.testimonials-track {
-  display: flex;
-  gap: 20px;
-  width: max-content;
-  animation: testimonials-scroll 60s linear infinite;
-}
-
-.testimonials-marquee:hover .testimonials-track {
-  animation-play-state: paused;
-}
-
-@keyframes testimonials-scroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* Card */
-.testimonial-card {
-  flex: 0 0 auto;
-  width: clamp(280px, 80vw, 360px);
-  background: var(--surface, #FFFCF7);
-  border: 1px solid var(--hairline, #E8E5E0);
-  border-radius: 14px;
-  padding: 24px 22px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  box-shadow: 0 1px 3px rgba(20,18,12,0.04);
-}
-
-.testimonial-stars {
-  font-size: 16px;
-  letter-spacing: 0.06em;
-  color: #E8B842;
-  line-height: 1;
-}
-
-.testimonial-quote {
-  font-family: var(--font-display);
-  font-size: 15.5px;
-  font-weight: 500;
-  line-height: 1.5;
-  color: var(--anthracite, #1A1A1A);
-  letter-spacing: -0.008em;
-  margin: 0;
-  flex: 1;
-}
-
-.testimonial-author {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding-top: 14px;
-  border-top: 1px solid var(--hairline, #E8E5E0);
-}
-
-.testimonial-avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-text);
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: -0.02em;
-  color: #1A1A1A;
-  flex-shrink: 0;
-}
-.testimonial-avatar[data-color="champagne"] { background: linear-gradient(135deg, #C9B98A 0%, #A89070 100%); }
-.testimonial-avatar[data-color="sage"]      { background: linear-gradient(135deg, #7A8B6F 0%, #5F7256 100%); color: #fff; }
-.testimonial-avatar[data-color="terracotta"]{ background: linear-gradient(135deg, #C28447 0%, #A06832 100%); color: #fff; }
-.testimonial-avatar[data-color="marine"]    { background: linear-gradient(135deg, #2E5266 0%, #1F3A47 100%); color: #fff; }
-
-.testimonial-author-text {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-.testimonial-name {
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: -0.012em;
-  color: var(--anthracite, #1A1A1A);
-  line-height: 1.2;
-}
-.testimonial-context {
-  font-family: var(--font-text);
-  font-size: 12px;
-  color: var(--ink-muted, #6B6660);
-  letter-spacing: -0.005em;
-}
-
-/* CTA für eigene Bewertung */
-.testimonials-cta {
-  margin-top: 56px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-}
-.testimonials-cta-text {
-  font-family: var(--font-display);
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--anthracite, #1A1A1A);
-  margin: 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .testimonials-track { animation: none; }
-}
-
-/* ============================================================
-   Phase 57 · Testimonials Doppel-Reihe entgegengesetzt
-   ============================================================ */
-
-.testimonials-track-reverse {
-  animation: testimonials-scroll-reverse 55s linear infinite;
-}
-
-@keyframes testimonials-scroll-reverse {
-  0%   { transform: translateX(-50%); }
-  100% { transform: translateX(0); }
-}
-
-/* Reihen-Spacing: Erste Marquee margin-top von 56 auf 40 reduzieren,
    damit beide Reihen kompakter wirken */
-.testimonials .testimonials-marquee:first-of-type {
-  margin-top: 40px;
-}
 
 /* ============================================================
    Phase 58 · Marquee-Speed-Bump (40% schneller)
    ============================================================ */
 
-.testimonials-track {
-  animation-duration: 35s !important;
-}
-.testimonials-track-reverse {
-  animation-duration: 32s !important;
-}
-
-/* Sub-Text der Testimonials-CTA */
-.testimonials-cta-sub {
-  font-family: var(--font-text);
-  font-size: 14.5px;
-  color: var(--ink-muted, #6B6660);
-  text-align: center;
-  max-width: 480px;
-  margin: -4px 0 4px;
-  line-height: 1.55;
-  letter-spacing: -0.005em;
-}
 
 /* ============================================================
    Phase 59 · Marquee nahtlos · Lücken eliminieren
@@ -1813,14 +1352,8 @@ body[data-page="programm"] {
    - Track nutzt min-width damit immer Cards den Viewport füllen
    ============================================================ */
 
-.testimonials-marquee {
-  mask-image: linear-gradient(90deg, transparent 0%, #000 3%, #000 97%, transparent 100%) !important;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 3%, #000 97%, transparent 100%) !important;
-}
 
 /* Phase 60 · Marquee-Speed entspannter */
-.testimonials-track            { animation-duration: 55s !important; }
-.testimonials-track-reverse    { animation-duration: 50s !important; }
 
 /* ============================================================
    Phase 61 · Video-Pitch-Section + Stufen-Erklärung
@@ -2548,7 +2081,6 @@ body[data-page="programm"] {
 .topic-card[data-slug="absicherung"]   { --topic-color: #C28447; } /* Terracotta */
 .topic-card[data-slug="karriere"]      { --topic-color: #4F6045; } /* Forest */
 
-/* Card-Tönung */
 .topic-card {
   background: color-mix(in srgb, var(--topic-color) 5%, var(--bg, #FAF8F5)) !important;
   border: 1px solid color-mix(in srgb, var(--topic-color) 18%, transparent) !important;
@@ -3064,69 +2596,22 @@ body[data-page="programm"] {
   line-height: 1.4;
 }
 
-/* ============================================================
-   Phase 68 · Testimonials-Marquee Mobile-Fix
-   iOS Safari braucht Hardware-Acceleration + explizite Setup
-   ============================================================ */
-
-.testimonials-track,
-.testimonials-track-reverse {
-  /* Hardware-Acceleration für iOS Safari erzwingen */
-  will-change: transform;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
 
 /* width: max-content ist auf iOS Safari unzuverlässig — explizit Flex-Inhalt */
-.testimonials-track {
-  width: auto !important;
-  flex-wrap: nowrap;
-}
 
 /* Mobile: kürzere Animation für Snappy-Feel */
 @media (max-width: 720px) {
-  .testimonials-track            { animation-duration: 38s !important; }
-  .testimonials-track-reverse    { animation-duration: 35s !important; }
 
-  /* Cards etwas schmaler auf Mobile damit mehr passen */
-  .testimonial-card {
-    width: 280px !important;
-    padding: 18px 18px;
-  }
-  .testimonial-quote { font-size: 14px; }
 
   /* Mask-Fade etwas größer auf Mobile (sieht ruhiger aus) */
-  .testimonials-marquee {
-    mask-image: linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%) !important;
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%) !important;
-  }
 }
 
 /* Tablet · etwas snappier als Desktop */
-@media (max-width: 1024px) and (min-width: 721px) {
-  .testimonials-track            { animation-duration: 48s !important; }
-  .testimonials-track-reverse    { animation-duration: 44s !important; }
-}
 
 /* Reduced-Motion: keine harte Stoppung, sondern langsamer Lauf
    So bleibt die Section auch für Reduce-Motion-User lebendig */
-@media (prefers-reduced-motion: reduce) {
-  .testimonials-track            { animation-duration: 120s !important; }
-  .testimonials-track-reverse    { animation-duration: 110s !important; }
-}
 
 /* Section overflow-x:hidden darf Marquee nicht blockieren —
-   testimonials behält seinen eigenen Overflow-Container */
-.testimonials.section {
-  overflow-x: clip;
-}
-.testimonials .testimonials-marquee {
-  overflow-x: hidden !important;
-  overflow-y: visible !important;
-  contain: layout paint;
-}
 
 /* ============================================================
    Phase 50g · Pre-Hero · Reflexions-Sektion
@@ -6577,11 +6062,9 @@ body.topic-preview-open { overflow: hidden; }
     scroll-snap-align: start;
     scroll-snap-stop: normal;
   }
-  /* Abschnitte, die höher als der Bildschirm sind, dürfen nicht am
-     Anfang festhängen — sie rasten am Ende ebenfalls sauber aus. */
-  .section.alt#belohnungen,
-  .section#faq,
-  .section.testimonials {
+  /* Die Belohnungs-Reise ist höher als der Bildschirm — sie darf nicht am
+     Anfang festhängen, sondern wird normal durchgescrollt. */
+  .section.alt#belohnungen {
     scroll-snap-align: none;
   }
 }

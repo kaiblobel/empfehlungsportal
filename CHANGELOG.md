@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.156 Beta** · Präsentations-Modus entfernt.
+Aktuelle Version: **v1.157 Beta** · Tastatursteuerung, FAQ und Bewertungen raus.
+
+---
+
+## v1.157 Beta - Phase 131 · Tastatursteuerung, FAQ und Bewertungen raus
+**2026-08-04**
+
+- **Die Pfeiltasten blättern wieder abschnittsweise.** Mit dem Folien-Modus war auch die Tastatursteuerung verschwunden; die Pfeiltasten scrollten nur noch in Vierzig-Pixel-Schritten. Jetzt gilt: ↓ · → · Bild ab · Leertaste weiter, ↑ · ← · Bild auf zurück, Pos 1 und Ende an den Anfang bzw. ans Ende.
+- Hohe Abschnitte wie die Belohnungs-Reise werden dabei zuerst seitenweise durchgeblättert und erst am Ende verlassen — sonst würde ein Tastendruck von Stufe 1 direkt hinter das Mallorca-Finale springen.
+- In Eingabefeldern und den Mehrwert-Zeilen gehören die Pfeiltasten dem Feld, damit die Seite beim Mittippen nicht wegspringt. Die Leertaste hält sich zurück, wenn ein Knopf den Fokus hat.
+- **FAQ und Kundenbewertungen sind entfernt.** Im Gespräch beantwortet Kai Fragen selbst, und die Google-Rezensionen brauchte es vor jemandem nicht, der bereits Kunde ist.
+- Nebenwirkung, die zählt: Die Bewertungs-Laufschrift war die einzige Stelle, an der Inhalte über den Bildschirmrand ragten — 28 Elemente. Jetzt sind es null.
+- `css/programm.css` schrumpft von 6.588 auf 6.071 Zeilen, `programm.html` von 1.050 auf 927.
 
 ---
 
