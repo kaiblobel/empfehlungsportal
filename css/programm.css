@@ -6882,11 +6882,24 @@ body.presentation-mode .pre-hero-portrait img {
     display: none;
   }
 
+  /* Eine Reihe, egal wie viele Meilensteine in den Daten stehen.
+     Ein starres repeat(5, …) quetscht bei nur einem Meilenstein (heute:
+     Stufe 15) die Karte auf ein Fünftel; ein repeat(auto-fit, …) lässt bei
+     fünf Karten die letzte umbrechen. Spalten wachsen deshalb gleichmäßig,
+     die Karte selbst ist gedeckelt und sitzt mittig in ihrer Spalte. */
   body.presentation-mode #belohnungen .reise {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    justify-content: center;
     gap: 12px;
     margin-top: 16px;
+  }
+  body.presentation-mode #belohnungen .reise-station.reise-meilenstein {
+    width: 100%;
+    max-width: 240px;
+    min-width: 0;
+    margin: 0 auto;
   }
   body.presentation-mode #belohnungen .reise::before { display: none; }
   body.presentation-mode #belohnungen .reise-station.reise-meilenstein {
