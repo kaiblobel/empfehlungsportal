@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.153 Beta** · Belohnungen als senkrechte Meilensteinreise.
+Aktuelle Version: **v1.154 Beta** · Hero als Einstieg, Zufriedenheitsfrage danach.
+
+---
+
+## v1.154 Beta - Phase 128 · Hero als Einstieg, Zufriedenheitsfrage danach
+**2026-08-04**
+
+- **Die Seite beginnt jetzt mit „Du bist begeistert von unserer Zusammenarbeit?"** samt Porträt und den beiden Knöpfen. Die Zufriedenheitsfrage mit der Skala 1–10 folgt als zweiter Abschnitt. Vorher war es umgekehrt — die Frage kam ohne jede Einordnung als Erstes.
+- **Das große Porträt auf der Frage-Seite ist entfallen.** Es stand direkt unter dem Porträt der neuen Startseite, also zweimal hintereinander. Der Satz „Deine ehrliche Antwort ist mir wichtiger als eine perfekte Zahl." bleibt und steht jetzt als Zitat unter der Skala.
+- Ohne die Porträt-Spalte hätte der Text auf breiten Bildschirmen links geklebt und rechts eine leere Hälfte gelassen; der Block ist deshalb gedeckelt und mittig gesetzt.
+- Die beiden Weiter-Knöpfe unter der Skala („Trotzdem weiterlesen", „Zeig mir das Programm") zeigten auf den Hero — der steht jetzt darüber. Sie führen nun nach unten zum nächsten Abschnitt.
+- Aufgeräumt: 17 Regelblöcke für das entfallene Porträt aus `css/programm.css` entfernt.
+- Der Präsentations-Modus bleibt unverändert.
 
 ---
 

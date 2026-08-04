@@ -6557,49 +6557,12 @@ body.topic-preview-open .present-nav {
 }
 
 @media (min-width: 1024px) {
-  body.presentation-mode .pre-hero .pre-hero-portrait::before {
-    content: '';
-    position: absolute;
-    inset: -22px;
-    z-index: 0;
-    background: url('../assets/images/kai-portrait.jpg') center / cover no-repeat;
-    filter: blur(18px);
-    opacity: 0.42;
-    transform: scale(1.04);
-  }
 
-  body.presentation-mode .pre-hero .pre-hero-portrait img {
-    position: relative;
-    z-index: 1;
-    object-fit: contain;
-    object-position: 50% center;
-    transform: scale(1.11);
-    transform-origin: 50% 45%;
-  }
 
-  body.presentation-mode .pre-hero .pre-hero-portrait::after {
-    z-index: 2;
-  }
 
-  body.presentation-mode .pre-hero .pre-hero-portrait figcaption {
-    z-index: 3;
-  }
 
-  body.presentation-mode .pre-hero .pre-hero-portrait blockquote {
-    max-width: 440px;
-    font-size: clamp(21px, 1.8vw, 28px);
-    line-height: 1.18;
-  }
 
-  body.presentation-mode .pre-hero .pre-hero-portrait figcaption {
-    transition: opacity 0.28s ease, transform 0.28s ease;
-  }
 
-  body.presentation-mode .pre-hero.has-nps-response .pre-hero-portrait figcaption {
-    opacity: 0;
-    transform: translateY(12px);
-    pointer-events: none;
-  }
 
   body.presentation-mode .pre-hero .nps-response {
     position: absolute;
@@ -6621,75 +6584,65 @@ body.topic-preview-open .present-nav {
   font-size: 12px;
 }
 
-.pre-hero-portrait {
-  position: relative;
-  min-width: 0;
-  min-height: 100vh;
-  margin: 0;
-  overflow: hidden;
-  background: #DCD8CF;
-}
 
-.pre-hero-portrait::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 46%, rgba(18,18,16,0.08) 65%, rgba(18,18,16,0.76) 100%);
-  pointer-events: none;
-}
 
-.pre-hero-portrait img {
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
-  object-fit: cover;
-  object-position: 50% center;
-}
 
-.pre-hero-portrait figcaption {
-  position: absolute;
-  z-index: 2;
-  left: 38px;
-  right: 38px;
-  bottom: 66px;
-  color: #fff;
-}
 
-.pre-hero-name {
-  color: #D8C896;
-  font-size: 10px;
-  font-weight: 850;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
 
-.pre-hero-portrait blockquote {
-  max-width: 500px;
-  margin: 13px 0 0;
-  color: #fff;
-  font-size: clamp(22px, 2.2vw, 34px);
-  font-weight: 700;
-  line-height: 1.16;
-  letter-spacing: -0.035em;
-}
 
 body.presentation-mode .pre-hero {
   display: block;
   padding: 0;
 }
 
-body.presentation-mode .pre-hero-layout,
-body.presentation-mode .pre-hero-portrait,
-body.presentation-mode .pre-hero-portrait img {
-  min-height: 100vh;
+@media (max-width: 1023px) {
+  .pre-hero-content { padding: 58px 24px 74px; }
+}
+
+/* ============================================================
+   Phase 128 · Startseite ist der Hero, Zufriedenheitsfrage folgt
+   ------------------------------------------------------------
+   Das Portrait auf der Frage-Seite ist entfallen — es steht schon
+   auf der Seite darüber. Damit hat die Frage-Sektion nur noch eine
+   Spalte; der Satz von Kai rückt unter die Skala.
+   ============================================================ */
+.pre-hero-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+/* Ohne die Portrait-Spalte würde der Text auf breiten Schirmen links kleben
+   und rechts eine leere Hälfte stehen lassen. Der Block wird deshalb
+   gedeckelt und mittig gesetzt. */
+.pre-hero-content {
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.pre-hero-zitat {
+  margin: 30px 0 0;
+  padding: 0 0 0 16px;
+  border-left: 2px solid rgba(211,194,143,0.5);
+  max-width: 690px;
+}
+.pre-hero-zitat blockquote {
+  margin: 0;
+  color: rgba(255,255,255,0.82);
+  font-family: var(--font-text);
+  font-size: clamp(15px, 1.25vw, 17px);
+  font-style: italic;
+  line-height: 1.5;
+}
+.pre-hero-zitat figcaption {
+  margin-top: 8px;
+  color: #D3C28F;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 @media (max-width: 1023px) {
-  .pre-hero-layout { grid-template-columns: 1fr; }
-  .pre-hero-content { padding: 58px 24px 74px; }
-  .pre-hero-portrait { min-height: 420px; }
-  .pre-hero-portrait img { min-height: 420px; }
-  .pre-hero-portrait figcaption { bottom: 32px; }
+  .pre-hero-zitat { margin-top: 24px; }
 }
 
 /* Präsentationsfolie 6: Website-Raster in ein lesbares Querformat übersetzen. */

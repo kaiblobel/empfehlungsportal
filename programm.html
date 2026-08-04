@@ -14,13 +14,36 @@
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
   <link rel="stylesheet" href="css/style.css?v=32" />
-  <link rel="stylesheet" href="css/programm.css?v=72" />
+  <link rel="stylesheet" href="css/programm.css?v=73" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="programm">
 
   <!-- ===== Sticky Top-CTA (Desktop) ===== -->
   <a class="cta-top" href="#anmelden">Jetzt empfehlen</a>
+
+  <!-- ===== 1 · Hero (Split-Layout) ===== -->
+  <section class="section hero hero-split" id="hero-haupt" data-presentation="skip">
+    <div class="inner hero-split-inner">
+      <div class="hero-split-text">
+        <p class="t-eyebrow reveal">Empfehlung</p>
+        <h1 class="t-h1 reveal d1">
+          Du bist <em>begeistert</em><br>von unserer<br>Zusammenarbeit?
+        </h1>
+        <p class="t-lede reveal d2">
+          Dann mache ich es dir jetzt maximal leicht,
+          mich weiter zu empfehlen.
+        </p>
+        <div class="hero-cta-stack reveal d3">
+          <a class="btn btn-primary" href="#anmelden">Jetzt empfehlen</a>
+          <a class="btn btn-secondary" href="#funktioniert">So funktioniert es</a>
+        </div>
+      </div>
+      <div class="hero-split-image reveal d2">
+        <img class="hero-portrait" id="t-Foto" data-bb="foto" alt="Kai Blobel" />
+      </div>
+    </div>
+  </section>
 
   <!-- ===== 0 · Pre-Hero · Reflexions-Sektion mit NPS-Skala ===== -->
   <section class="section pre-hero" id="reflexion">
@@ -79,7 +102,7 @@
           </p>
           <div class="nps-response-actions">
             <a class="nps-cta-secondary" data-bb="tel" href="tel:+4915154776159">Kurz Feedback geben</a>
-            <a class="nps-cta-primary" href="#hero-haupt">Trotzdem weiterlesen →</a>
+            <a class="nps-cta-primary" href="#mehrwert">Trotzdem weiterlesen →</a>
           </div>
         </div>
       </div>
@@ -91,19 +114,18 @@
             Dann hab ich gleich etwas für dich: mein Empfehlungs-Programm. Ich mach es dir maximal leicht, mich an die Menschen weiterzugeben, die du im Kopf hast.
           </p>
           <div class="nps-response-actions">
-            <a class="nps-cta-primary nps-cta-pulse" href="#hero-haupt">Zeig mir das Programm →</a>
+            <a class="nps-cta-primary nps-cta-pulse" href="#mehrwert">Zeig mir das Programm →</a>
           </div>
         </div>
       </div>
-      </div>
 
-      <figure class="pre-hero-portrait reveal d2">
-        <img src="assets/images/kai-portrait.jpg" alt="Kai Blobel" />
-        <figcaption>
-          <span class="pre-hero-name">Kai Blobel</span>
-          <blockquote>„Deine ehrliche Antwort ist mir wichtiger als eine perfekte Zahl.“</blockquote>
-        </figcaption>
+      <!-- Portrait entfällt hier: Es steht schon auf der Seite darüber.
+           Der Satz bleibt, er nimmt der Frage den Prüfungscharakter. -->
+      <figure class="pre-hero-zitat reveal d3">
+        <blockquote>„Deine ehrliche Antwort ist mir wichtiger als eine perfekte Zahl."</blockquote>
+        <figcaption data-bb="name">Kai Blobel</figcaption>
       </figure>
+      </div>
     </div>
   </section>
 
@@ -463,28 +485,6 @@
     </div>
   </section>
 
-  <!-- ===== 1 · Hero (Split-Layout) ===== -->
-  <section class="section hero hero-split" id="hero-haupt" data-presentation="skip">
-    <div class="inner hero-split-inner">
-      <div class="hero-split-text">
-        <p class="t-eyebrow reveal">Empfehlung</p>
-        <h1 class="t-h1 reveal d1">
-          Du bist <em>begeistert</em><br>von unserer<br>Zusammenarbeit?
-        </h1>
-        <p class="t-lede reveal d2">
-          Dann mache ich es dir jetzt maximal leicht,
-          mich weiter zu empfehlen.
-        </p>
-        <div class="hero-cta-stack reveal d3">
-          <a class="btn btn-primary" href="#anmelden">Jetzt empfehlen</a>
-          <a class="btn btn-secondary" href="#funktioniert">So funktioniert es</a>
-        </div>
-      </div>
-      <div class="hero-split-image reveal d2">
-        <img class="hero-portrait" id="t-Foto" data-bb="foto" alt="Kai Blobel" />
-      </div>
-    </div>
-  </section>
 
   <!-- ===== 1a · Persönliche Botschaft an den Empfehlungsgeber ===== -->
   <section class="section promoter-message">
