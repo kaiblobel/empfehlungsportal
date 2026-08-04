@@ -3,7 +3,7 @@
  * Profil (bearbeitbar) + Kennzahlen + Empfehlungsliste mit gesendeten Links.
  */
 import { requireAuth, logout, applyBeraterHeader, formatDate } from './dashboard.js';
-import { getEmpfehler, updateEmpfehler, getEmpfehlerStats, getEmpfehlerEmpfehlungen, getBelohnungsStufen } from './supabase.js';
+import { getEmpfehler, updateEmpfehler, getEmpfehlerStats, getEmpfehlerEmpfehlungen, getBelohnungsStufenPublic } from './supabase.js';
 
 const STATUS_LABEL = {
   offen: 'Offen', anrufwunsch: 'Anrufwunsch', kontaktiert: 'Kontaktiert',
@@ -35,7 +35,7 @@ let stufen = [];
   const [statsRes, feedRes, stufenData] = await Promise.all([
     getEmpfehlerStats(promoter.code),
     getEmpfehlerEmpfehlungen(promoter.code),
-    getBelohnungsStufen(),
+    getBelohnungsStufenPublic(promoter.berater_id || null),
   ]);
   stats = statsRes.data || {};
   stufen = stufenData || [];

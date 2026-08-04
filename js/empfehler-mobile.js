@@ -2,9 +2,9 @@ import {
   getEmpfehlerByCode,
   getEmpfehlerStats,
   getEmpfehlerEmpfehlungen,
-  getBelohnungsStufen,
+  getBelohnungsStufenPublic,
   getBeraterPublicById,
-  getVorlagen,
+  getVorlagenPublic,
   createEmpfehlung,
   setEmpfehlerZiel,
   updateEmpfehlungKontext,
@@ -98,27 +98,29 @@ if (!code) {
 
 async function init() {
   bindStaticControls();
-  const [empRes, statsRes, listRes, stufenData] = await Promise.all([
+  const [empRes, statsRes, listRes] = await Promise.all([
     getEmpfehlerByCode(code),
     getEmpfehlerStats(code),
     getEmpfehlerEmpfehlungen(code),
-    getBelohnungsStufen(),
   ]);
 
   empfehler = empRes.data;
   stats = statsRes.data;
   empfehlungen = listRes.data || [];
-  stufen = stufenData || [];
 
   if (!empfehler || !stats) {
     showInvalidCode();
     return;
   }
 
-  const [beraterRes, templateData] = await Promise.all([
+  // Belohnungen und Themen erst hier laden: mit bekanntem Berater bleibt pro
+  // Stufe bzw. Thema genau eine Zeile übrig (sonst steht alles doppelt drin).
+  const [beraterRes, templateData, stufenData] = await Promise.all([
     empfehler.berater_id ? getBeraterPublicById(empfehler.berater_id) : Promise.resolve({ data: null }),
-    getVorlagen(empfehler.berater_id || null),
+    getVorlagenPublic(empfehler.berater_id || null),
+    getBelohnungsStufenPublic(empfehler.berater_id || null),
   ]);
+  stufen = stufenData || [];
   if (beraterRes.data) {
     applyBeraterBrand(beraterRes.data);
     beraterName = (beraterRes.data.name || 'Kai').split(' ')[0];

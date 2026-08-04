@@ -5,9 +5,10 @@ import {
   markAnrufwunsch,
   getEmpfehlungByToken,
   getVorlagen,
+  getVorlagenPublic,
   getVorlage,
   getEmpfehlerByCode,
-  getErfolgsgeschichten,
+  getErfolgsgeschichtenPublic,
   getBeraterPublicById,
   getBeraterPublicBySlug,
   supabase,
@@ -319,7 +320,9 @@ if (page === 'empfehlen') {
 
   if (grid) {
     (async () => {
-      const list = await getVorlagen();
+      // Themen des Beraters, pro Slug nur einmal — sonst steht jede Themenwelt
+      // doppelt im Raster (öffentlich lesbar sind die Zeilen aller Berater).
+      const list = await getVorlagenPublic(empfehlerData?.berater_id || berater?.id || null);
       if (!list.length) {
         grid.innerHTML = '<p style="font-size:13px;color:var(--text-secondary);">Themen-Seiten konnten nicht geladen werden.</p>';
         renderNachrichtVorlagen('allgemein');
@@ -504,7 +507,7 @@ if (page === 'empfaenger') {
     // Vorlage + Erfolge parallel — Inhalte sind GETEILT (global), nicht pro Berater
     const [v, erfolge] = await Promise.all([
       (async () => (await getVorlage(slugResolved)) || (await getVorlage('allgemein')))(),
-      getErfolgsgeschichten(slugResolved),
+      getErfolgsgeschichtenPublic(slugResolved, empData?.berater_id || null),
     ]);
 
     if (v) applyVorlage(v);

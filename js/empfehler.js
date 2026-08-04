@@ -2,9 +2,9 @@ import {
   getEmpfehlerByCode,
   getEmpfehlerStats,
   getEmpfehlerEmpfehlungen,
-  getBelohnungsStufen,
+  getBelohnungsStufenPublic,
   getBeraterPublicById,
-  getVorlagen,
+  getVorlagenPublic,
   createEmpfehlung,
   setEmpfehlerZiel,
   updateEmpfehlungKontext,
@@ -65,7 +65,7 @@ async function init() {
     getEmpfehlerByCode(code),
     getEmpfehlerStats(code),
     getEmpfehlerEmpfehlungen(code),
-    getBelohnungsStufen(),
+    getBelohnungsStufenPublic(),
   ]);
 
   empfehler = empRes.data;

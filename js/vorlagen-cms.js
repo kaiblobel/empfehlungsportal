@@ -25,7 +25,10 @@ applyBeraterHeader();
     return;
   }
 
-  const list = await getVorlagen();
+  // Nur die eigenen Zeilen bearbeiten. Ohne Filter stünde jede Themenseite
+  // mehrfach in der Liste (die Zeilen anderer Berater sind öffentlich lesbar).
+  currentBeraterId = berater.id;
+  const list = await getVorlagen(currentBeraterId);
   const wrap = document.getElementById('cmsList');
   if (!list.length) {
     wrap.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text-secondary);">Themen-Seiten konnten nicht geladen werden.</div>';
@@ -101,7 +104,9 @@ function attachHandlers(list) {
       btn.disabled = true;
       btn.textContent = 'Speichere…';
 
-      const { error } = await updateVorlage(slug, data);
+      // berater_id mitgeben, sonst trifft das Update auch die gleichnamige
+      // Themenseite eines anderen Beraters.
+      const { error } = await updateVorlage(slug, data, currentBeraterId);
 
       if (error) {
         toast('Speichern fehlgeschlagen: ' + (error.message || ''));

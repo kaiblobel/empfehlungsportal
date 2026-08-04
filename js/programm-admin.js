@@ -32,7 +32,9 @@ applyBeraterHeader();
 /* ---------- Belohnungen ---------- */
 async function renderBelohnungen() {
   const wrap = document.getElementById('belohnungenList');
-  const list = (await getBelohnungsStufen()).slice().sort((a, b) => a.stufe - b.stufe);
+  // Nur die eigenen Stufen bearbeiten — sonst steht hier jede Belohnung
+  // mehrfach (die Zeilen anderer Berater sind öffentlich lesbar).
+  const list = (await getBelohnungsStufen(beraterId)).slice().sort((a, b) => a.stufe - b.stufe);
   if (!list.length) {
     wrap.innerHTML = '<div style="padding:20px;color:var(--text-secondary);font-size:14px;">Noch keine Stufen. Lege eine mit „+ Neue Stufe" an.</div>';
     return;
@@ -123,7 +125,7 @@ function attachStufeHandlers() {
 }
 
 async function onNewStufe() {
-  const list = await getBelohnungsStufen();
+  const list = await getBelohnungsStufen(beraterId);
   const nextStufe = list.reduce((m, s) => Math.max(m, s.stufe), 0) + 1;
   const { error } = await insertBelohnungsStufe({
     stufe: nextStufe, titel: 'Neue Stufe', beschreibung: '—', berater_id: beraterId, sort_order: nextStufe,

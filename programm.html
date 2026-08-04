@@ -14,7 +14,7 @@
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
   <link rel="stylesheet" href="css/style.css?v=32" />
-  <link rel="stylesheet" href="css/programm.css?v=69" />
+  <link rel="stylesheet" href="css/programm.css?v=70" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="programm">
@@ -940,12 +940,13 @@
           <input id="t-Name" type="text" required autocomplete="name" placeholder="Anna Schmidt" />
         </div>
         <div>
-          <label for="t-Email">E-Mail (optional)</label>
+          <label for="t-Email">E-Mail</label>
           <input id="t-Email" type="email" autocomplete="email" />
         </div>
         <div>
-          <label for="t-Telefon">Telefon (optional)</label>
+          <label for="t-Telefon">Telefon</label>
           <input id="t-Telefon" type="tel" inputmode="tel" autocomplete="tel" />
+          <span class="form-hint">E-Mail oder Telefon — eins von beidem genügt, damit ich dich erreichen kann.</span>
         </div>
         <div class="form-err" id="t-Err"></div>
         <button type="submit" class="btn btn-primary" id="t-Submit">
@@ -1061,6 +1062,6 @@
   </nav>
 
   <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
-  <script type="module" src="js/programm.js?v=38"></script>
+  <script type="module" src="js/programm.js?v=39"></script>
 </body>
 </html>

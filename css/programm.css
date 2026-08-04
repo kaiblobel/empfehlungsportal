@@ -475,6 +475,15 @@ body[data-page="programm"] * { box-sizing: border-box; }
   margin: 8px 0 0;
 }
 
+/* Hinweis direkt unter einem Eingabefeld (z. B. "E-Mail oder Telefon genügt") */
+.form-hint {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
 /* ---------- Footer ---------- */
 .footer {
   padding: 72px 24px 80px;

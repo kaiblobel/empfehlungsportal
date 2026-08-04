@@ -1,7 +1,24 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.141 Beta** · Belegnummern kollisionssicher.
+Aktuelle Version: **v1.142 Beta** · Belohnungen entdoppelt + Promoter-Einladung korrigiert.
+
+---
+
+## v1.142 Beta - Phase 116 · Belohnungen entdoppelt + Promoter-Einladung korrigiert
+**2026-08-04**
+
+- **Jede Belohnung stand doppelt in der Präsentation** (Restaurantbesuch, Weber-Grill, Goldbarren, iPad, Mallorca): In der Belohnungs-Tabelle lag seit dem 23.07. ein zweiter, identischer Satz eines weiteren Beraters, und die Seite hat alle Zeilen ungefiltert geladen. Jetzt bleibt pro Stufe genau eine Karte übrig — bevorzugt die des jeweiligen Beraters, sonst die des Haupt-Beraters.
+- Gleiches Problem behoben bei den **Themenwelten** (16 statt 8 in Präsentation und Empfehlungs-Formular), der **Ziel-Auswahl im Promoter-Bereich** (14 statt 7 Ziele), dem **Ziel-Dropdown in der Promoter-Detailseite** und den **Erfolgsgeschichten auf der Empfänger-Seite**.
+- Berater ohne eigene Themen-Vorlagen bekommen jetzt den geteilten Satz statt einer fast leeren Themen-Auswahl.
+- **Ursache beseitigt:** Die Klon-Zeilen des inaktiven Beraters sind aus der Datenbank entfernt (7 Belohnungen, 8 Vorlagen, 3 Erfolgsgeschichten) — `schema-phase116.sql`, inklusive vollständigem Rollback-Block in derselben Datei. Der Client-Filter bleibt als Netz für die Zukunft.
+- **Roadmap-Punkte 1 und 3** wurden fälschlich als Meilenstein dargestellt („Empfehlungs-Bonus" als Label) und ihr Klick lief ins Leere, weil es die Zielkarte in der Galerie nicht gibt. Sie sind jetzt normale 100-€-Stufen. Klick auf einen Meilenstein schaltet die Galerie bei Bedarf zurück auf „Alle Belohnungen".
+- **Filter „Geldwert" und „Für guten Zweck"** zeigten nur zwei Beispiel-Karten aus der Tabelle. Jetzt erscheint jede der zehn 100-€-Bonus-Stufen — passend zu dem, was die Roadmap verspricht.
+- **Gesamtwert-Zähler** rechnet sich jetzt aus den echten Stufen (aktuell 4.798 €) statt fest im HTML zu stehen.
+- **Promoter-Einladung:** Im Erfolgs-Modal führten beide Buttons auf dieselbe Seite. „Erste Empfehlung aussprechen" geht jetzt wie vorgesehen zum Empfehlungs-Formular, „Zu meinem Dashboard" in den persönlichen Bereich. Das „×" schließt das Modal, statt wegzunavigieren — wer nur den Link kopieren will, bleibt jetzt auf der Seite.
+- **Anmeldung:** E-Mail oder Telefon ist jetzt Pflicht (eins von beidem genügt). Ohne Kontaktweg war ein Promoter, der seinen Link verliert, nicht mehr erreichbar — und eine Belohnung nicht auszahlbar.
+- **Programm verwalten** und **Themen-Seiten** (Admin) listeten ebenfalls alles doppelt und haben beim Speichern einer Themenseite die gleichnamige Zeile des anderen Beraters mitüberschrieben. Beide Editoren arbeiten jetzt nur noch auf den eigenen Zeilen.
+- Aufgeräumt: die alte „Potenzialliste" (Phase 71) lag noch als ~260 Zeilen im Code, ihre HTML-Blöcke sind längst raus.
 
 ---
 

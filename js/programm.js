@@ -1,4 +1,4 @@
-import { getBelohnungsStufen, getVorlagen, createEmpfehler, getBeraterPublicBySlug, createEmpfehlung, getEmpfehlerByCode, supabase } from './supabase.js';
+import { getBelohnungsStufenPublic, getVorlagenPublic, createEmpfehler, getBeraterPublicBySlug, supabase } from './supabase.js';
 import { icon as lucideIcon, ICONS } from './icons.js';
 import { applyBeraterBrand } from './berater-brand.js';
 
@@ -563,7 +563,7 @@ const beraterPromise = resolveBerater();
 
 beraterPromise.then((data) => {
   if (!data) return;
-  window.__beraterPublic = data; // für Potenzialliste (Berater-Vorname in WhatsApp-Text)
+  window.__beraterPublic = data;
   applyBeraterBrand(data);
   if (data.foto_url && fotoVideo) fotoVideo.src = data.foto_url;
   // Die Testimonials sind echte Google-Bewertungen von Kai. Für andere
@@ -636,12 +636,32 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
 // Belohnungs-Cards rendern (mit Bild) + Modus-Filter + Roadmap + Total-Counter
 (async () => {
-  const stufen = await getBelohnungsStufen();
+  const brandBerater = await beraterPromise.catch(() => null);
+  const stufen = await getBelohnungsStufenPublic(brandBerater?.id || window.ENV_BERATER_ID);
   const wrap = document.getElementById('t-Rewards');
   if (!stufen.length) {
     wrap.innerHTML = '<p class="t-body" style="color:var(--text-muted);">Belohnungen konnten nicht geladen werden.</p>';
     return;
   }
+
+  // Bonus-Stufen ("Empfehlungs-Bonus") sind Zwischenstufen, keine Meilensteine.
+  const istBonus = (s) => /bonus/i.test(s?.titel || '');
+  const MAX_STUFE = 15;
+  const BONUS_WERT = 100;
+  // Premium = die Meilenstein-Belohnungen (Restaurant, Grill, Gold, iPad, Mallorca)
+  const premiumStufen = stufen.filter(s => !istBonus(s)).slice().sort((a, b) => a.stufe - b.stufe);
+  // Die Lücken dazwischen sind die 100-€-Bonus-Stufen: [von, bis]
+  const bonusLuecken = [];
+  {
+    let prev = 0;
+    for (const p of premiumStufen) {
+      if (prev + 1 <= p.stufe - 1) bonusLuecken.push([prev + 1, p.stufe - 1]);
+      prev = p.stufe;
+    }
+    // Stufen oberhalb der letzten Premium-Belohnung nicht verschlucken
+    if (prev < MAX_STUFE) bonusLuecken.push([prev + 1, MAX_STUFE]);
+  }
+  const bonusStufenAnzahl = bonusLuecken.reduce((n, [a, b]) => n + (b - a + 1), 0);
 
   // Lucide-Icons für Modus-Chips hydrieren
   document.querySelectorAll('.reward-mode-icon[data-icon]').forEach(el => {
@@ -652,8 +672,10 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
   // === Roadmap rendern (Stufen 1-15) ===
   const roadmapEl = document.getElementById('t-Roadmap');
   if (roadmapEl) {
-    const MAX_STUFE = 15;
-    const stufenMap = new Map(stufen.map(s => [s.stufe, s]));
+    // Nur Meilensteine sind Premium-Punkte. Die Bonus-Zeilen aus der Tabelle
+    // (Stufe 1, 3) sind normale 100-€-Stufen — sonst tragen sie ein Label und
+    // ihr Klick zeigt auf eine Karte, die es in der Galerie gar nicht gibt.
+    const stufenMap = new Map(premiumStufen.map(s => [s.stufe, s]));
     let html = '<div class="roadmap-line" aria-hidden="true"></div><div class="roadmap-stufen">';
     for (let i = 1; i <= MAX_STUFE; i++) {
       const s = stufenMap.get(i);
@@ -683,6 +705,10 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
     // Click → Smooth-Scroll zur Galerie-Karte
     roadmapEl.querySelectorAll('.roadmap-stufe.premium').forEach(btn => {
       btn.addEventListener('click', () => {
+        // Steht die Galerie gerade auf einem Filter, in dem die Karte nicht
+        // vorkommt, erst zurück auf "Alle Belohnungen" — sonst führt der
+        // Klick ins Leere.
+        if (!document.getElementById(btn.dataset.target)) zeigeAlleBelohnungen();
         const tgt = document.getElementById(btn.dataset.target);
         if (tgt) {
           tgt.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -696,7 +722,17 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
   // === Counter-Up für Total-Card ===
   const counterEl = document.querySelector('.rewards-total-counter');
   if (counterEl) {
-    const target = parseInt(counterEl.dataset.target, 10) || 0;
+    // Gesamtwert aus den echten Stufen rechnen (alle Boni + alle Premium-
+    // Belohnungen), damit der Betrag nicht bei jeder Prämien-Änderung im HTML
+    // nachgezogen werden muss. Fällt das Parsen aus, bleibt der Wert im HTML.
+    const wertAusLabel = (label) => {
+      const roh = String(label || '').replace(/[^\d.,]/g, '').replace(/\./g, '').replace(',', '.');
+      const n = parseFloat(roh);
+      return Number.isFinite(n) ? n : 0;
+    };
+    const premiumSumme = premiumStufen.reduce((sum, s) => sum + wertAusLabel(s.wert_label), 0);
+    const gerechnet = Math.round(premiumSumme + bonusStufenAnzahl * BONUS_WERT);
+    const target = gerechnet > 0 ? gerechnet : (parseInt(counterEl.dataset.target, 10) || 0);
     const counterIO = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
@@ -757,24 +793,37 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
   function renderStufen(mode) {
     if (mode === 'alle') {
-      const premium = stufen.filter(s => !/bonus/i.test(s.titel || '')).slice().sort((a, b) => a.stufe - b.stufe);
-      let html = '';
-      let prev = 0;
-      premium.forEach(p => {
-        const a = prev + 1, b = p.stufe - 1;
-        if (a <= b) html += bonusCardHTML(a, b);
-        html += rewardCardHTML(p);
-        prev = p.stufe;
-      });
-      wrap.innerHTML = html;
+      // Bonus-Kacheln und Meilensteine abwechselnd, in Stufen-Reihenfolge
+      const teile = [];
+      bonusLuecken.forEach(([a, b]) => teile.push({ stufe: a, html: bonusCardHTML(a, b) }));
+      premiumStufen.forEach(p => teile.push({ stufe: p.stufe, html: rewardCardHTML(p) }));
+      wrap.innerHTML = teile.sort((x, y) => x.stufe - y.stufe).map(t => t.html).join('');
       return;
     }
-    const list = stufen.filter(s => Array.isArray(s.kategorien) && s.kategorien.includes(mode));
-    if (!list.length) {
+
+    // Geld / Spende: das sind die 100-€-Bonus-Stufen. Sie stehen in der
+    // Tabelle nur als ein, zwei Beispiel-Zeilen — gezeigt wird trotzdem jede
+    // Bonus-Stufe, sonst wirkt der Filter wie zwei zufällige Karten.
+    const bonusModus = ['geld', 'spende'].includes(mode);
+    const passendePremium = premiumStufen.filter(s => Array.isArray(s.kategorien) && s.kategorien.includes(mode));
+    const teile = passendePremium.map(p => ({ stufe: p.stufe, html: rewardCardHTML(p) }));
+    if (bonusModus) bonusLuecken.forEach(([a, b]) => teile.push({ stufe: a, html: bonusCardHTML(a, b) }));
+
+    if (!teile.length) {
       wrap.innerHTML = `<p class="t-body" style="color:var(--text-muted); text-align:center; padding:24px;">Für diesen Modus sind aktuell keine Belohnungen hinterlegt.</p>`;
       return;
     }
-    wrap.innerHTML = list.map(rewardCardHTML).join('');
+    wrap.innerHTML = teile.sort((x, y) => x.stufe - y.stufe).map(t => t.html).join('');
+  }
+
+  // Filter zurück auf "Alle Belohnungen" setzen (Chip + Galerie)
+  function zeigeAlleBelohnungen() {
+    document.querySelectorAll('.reward-mode-chip').forEach(c => {
+      const aktiv = c.dataset.mode === 'alle';
+      c.classList.toggle('active', aktiv);
+      c.setAttribute('aria-selected', String(aktiv));
+    });
+    renderStufen('alle');
   }
 
   // Initial: alle
@@ -903,7 +952,8 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
   }
 
   try {
-    const templates = await getVorlagen();
+    const brandBerater = await beraterPromise.catch(() => null);
+    const templates = await getVorlagenPublic(brandBerater?.id || window.ENV_BERATER_ID);
     const generalTemplate = templates.find(v => v.slug === 'allgemein') || { slug: 'allgemein', titel: 'Ganz allgemein', icon: 'Compass' };
     const baufiTemplate = templates.find(v => v.slug === 'baufi') || { slug: 'baufi', titel: 'Baufinanzierung', icon: 'Home' };
     const compactTemplates = templates.filter(v => !['allgemein', 'baufi'].includes(v.slug));
@@ -980,6 +1030,15 @@ form.addEventListener('submit', async (e) => {
     return;
   }
 
+  // Ohne Kontaktweg ist der Promoter für den Berater nicht erreichbar — weder
+  // für Rückfragen noch für die Belohnung. Eins von beidem reicht.
+  if (!email && !telefon) {
+    errBox.textContent = 'Bitte hinterlass mir eine E-Mail oder eine Telefonnummer — sonst kann ich dich später nicht erreichen.';
+    errBox.classList.add('show');
+    document.getElementById('t-Email').focus();
+    return;
+  }
+
   submitBtn.disabled = true;
   submitBtn.textContent = 'Erstelle…';
 
@@ -994,8 +1053,6 @@ form.addEventListener('submit', async (e) => {
   }
 
   try { localStorage.setItem('empfehler_code', code); } catch (_) {}
-  // Potenzialliste live freischalten (falls der Kunde auf der Seite bleibt)
-  if (typeof window.__potenzialActivate === 'function') window.__potenzialActivate(code);
 
   // === Erfolgs-Modal anzeigen ===
   // Dashboard-Link bleibt für den Empfehler selbst (NICHT teilen).
@@ -1016,8 +1073,8 @@ form.addEventListener('submit', async (e) => {
 
   if (modal && linkInput && empfehlenBtn) {
     linkInput.value = personalLink;
-    empfehlenBtn.href = dashboardUrl; // primär → individueller Link (dort wird eingetragen)
-    dashBtn.href = dashboardUrl;
+    empfehlenBtn.href = empfehlenUrl;  // primär → direkt die erste Empfehlung aussprechen
+    dashBtn.href = dashboardUrl;       // sekundär → persönlicher Bereich
 
     if (subText && name) {
       const firstName = name.split(' ')[0];
@@ -1037,8 +1094,10 @@ form.addEventListener('submit', async (e) => {
       }, 280);
     };
 
-    closeBtn?.addEventListener('click', () => closeModal(dashboardUrl), { once: true });
-    backdrop?.addEventListener('click', () => closeModal(dashboardUrl), { once: true });
+    // Schließen heißt schließen — wer nur den Link kopieren will, bleibt auf
+    // der Seite. Der Weg ins Dashboard steht als eigener Button daneben.
+    closeBtn?.addEventListener('click', () => closeModal(), { once: true });
+    backdrop?.addEventListener('click', () => closeModal(), { once: true });
 
     copyBtn?.addEventListener('click', async () => {
       try {
@@ -1067,269 +1126,3 @@ function escapeHtml(s) {
 }
 function escapeAttr(s) { return escapeHtml(s); }
 
-// Telefon → E.164 (lokale Kopie aus app.js; wa.me lehnt deutsche 0…-Nummern ab)
-function normalizePhoneDE(raw) {
-  let n = (raw || '').replace(/[^\d+]/g, '');
-  if (!n) return '';
-  if (n.startsWith('+')) return n;
-  if (n.startsWith('00')) return '+' + n.slice(2);
-  if (n.startsWith('0')) return '+49' + n.slice(1);
-  return '+' + n;
-}
-// WhatsApp-Nachricht (lokale Kopie aus app.js, typ='info'-Variante)
-function buildPotenzialMessage(vorname, link, beraterVorname) {
-  const name = (vorname || '').trim() || 'du';
-  const bVor = (beraterVorname || '').trim() || 'Er';
-  return `Hallo ${name}, ich möchte dich kurz mit jemandem bekannt machen, dem ich sehr vertraue. Schau dir das kurz an, bevor ${bVor} sich bei dir meldet. ${link}`;
-}
-
-// === Potenzialliste (Phase 71): Kontakte direkt eintragen + Link erzeugen ===
-(function initPotenzialliste() {
-  const guard = document.getElementById('potenzialGuard');
-  const tool = document.getElementById('potenzialTool');
-  const rowsEl = document.getElementById('potenzialRows');
-  const chipsEl = document.getElementById('potenzialChips');
-  const freeEl = document.getElementById('potenzialFree');
-  if (!guard || !tool || !rowsEl || !chipsEl) return;
-
-  let empfehlerData = null; // { id, berater_id }
-  let vorlagen = [];
-  let currentCount = 5;
-
-  // --- Zwischenspeicher (localStorage), damit im Gespräch nichts verloren geht ---
-  const DRAFT_KEY = 'potenzial_draft_v1';
-  function saveDraft() {
-    if (!empfehlerData) return;
-    const rows = [...rowsEl.querySelectorAll('.potenzial-row')].map(r => ({
-      name: r.querySelector('[data-f="name"]').value,
-      tel: r.querySelector('[data-f="tel"]').value,
-      thema: r.querySelector('[data-f="thema"]').value,
-      done: r.dataset.done === '1',
-      link: r.dataset.link || '',
-      msg: r.dataset.msg || '',
-      teln: r.dataset.tel || '',
-    }));
-    try { localStorage.setItem(DRAFT_KEY, JSON.stringify({ code: empfehlerData.code, count: currentCount, rows })); } catch (_) {}
-  }
-  function loadDraft() {
-    try {
-      const raw = localStorage.getItem(DRAFT_KEY);
-      if (!raw) return null;
-      const d = JSON.parse(raw);
-      return (d && d.code === empfehlerData?.code) ? d : null;
-    } catch (_) { return null; }
-  }
-  function clearDraft() { try { localStorage.removeItem(DRAFT_KEY); } catch (_) {} }
-
-  function beraterVorname() {
-    const b = window.__beraterPublic || null;
-    return (b?.name || '').trim().split(' ')[0] || '';
-  }
-
-  function themeOptions(selected) {
-    const opts = vorlagen.length
-      ? vorlagen.map(v => `<option value="${escapeAttr(v.slug)}"${v.slug === selected ? ' selected' : ''}>${escapeHtml(v.titel || v.slug)}</option>`).join('')
-      : '<option value="allgemein">Allgemein</option>';
-    return opts;
-  }
-
-  function renderRows(n, saved) {
-    const rows = [];
-    for (let i = 1; i <= n; i++) {
-      const s = saved && saved[i - 1] ? saved[i - 1] : null;
-      const nameV = s ? escapeAttr(s.name || '') : '';
-      const telV = s ? escapeAttr(s.tel || '') : '';
-      const done = !!(s && s.done);
-      const btnLabel = done ? (s.teln ? 'Erneut senden' : 'Link kopieren') : 'Link erstellen &amp; senden';
-      const btnCls = done ? 'btn-secondary' : 'btn-primary';
-      const statusHtml = done ? 'Link erstellt ✓' : '';
-      const statusCls = done ? 'potenzial-status is-done' : 'potenzial-status';
-      const dataAttrs = done
-        ? ` data-done="1" data-link="${escapeAttr(s.link || '')}" data-msg="${escapeAttr(s.msg || '')}" data-tel="${escapeAttr(s.teln || '')}"`
-        : '';
-      rows.push(`
-        <div class="potenzial-row${done ? ' is-done' : ''}" data-row="${i}"${dataAttrs}>
-          <span class="potenzial-row-num">${i}</span>
-          <input type="text" class="potenzial-f" data-f="name" placeholder="Name" autocomplete="off" aria-label="Name Kontakt ${i}" value="${nameV}"${done ? ' readonly' : ''} />
-          <input type="tel" class="potenzial-f" data-f="tel" placeholder="Telefon" autocomplete="off" aria-label="Telefon Kontakt ${i}" value="${telV}"${done ? ' readonly' : ''} />
-          <select class="potenzial-f" data-f="thema" aria-label="Thema Kontakt ${i}"${done ? ' disabled' : ''}>${themeOptions(s ? s.thema : 'allgemein')}</select>
-          <button type="button" class="potenzial-send btn ${btnCls}" data-send="${i}">${btnLabel}</button>
-          <span class="${statusCls}" data-status="${i}">${statusHtml}</span>
-        </div>`);
-    }
-    rowsEl.innerHTML = rows.join('');
-  }
-
-  function setCount(n, saved) {
-    currentCount = Math.max(1, Math.min(15, n | 0));
-    chipsEl.querySelectorAll('.potenzial-chip').forEach(c => {
-      c.classList.toggle('active', c.dataset.count && Number(c.dataset.count) === currentCount);
-    });
-    renderRows(currentCount, saved);
-    saveDraft();
-  }
-
-  async function activate(code) {
-    if (!code) { guard.hidden = false; tool.hidden = true; return; }
-    let data = null;
-    try { const res = await getEmpfehlerByCode(code); data = res?.data || null; } catch (_) {}
-    if (!data) { guard.hidden = false; tool.hidden = true; return; }
-    empfehlerData = data;
-    try { vorlagen = await getVorlagen(); } catch (_) { vorlagen = []; }
-    guard.hidden = true;
-    tool.hidden = false;
-    const draft = loadDraft();
-    if (draft && Array.isArray(draft.rows) && draft.rows.length) {
-      setCount(draft.count || draft.rows.length, draft.rows);
-    } else {
-      setCount(currentCount);
-    }
-  }
-  // Für den Register-Handler erreichbar machen (Kunde bleibt auf der Seite)
-  window.__potenzialActivate = activate;
-
-  // Anzahl-Chips
-  chipsEl.addEventListener('click', (e) => {
-    const chip = e.target.closest('.potenzial-chip[data-count]');
-    if (!chip) return;
-    if (freeEl) freeEl.value = '';
-    setCount(Number(chip.dataset.count));
-  });
-  if (freeEl) {
-    freeEl.addEventListener('input', () => {
-      const v = Number(freeEl.value);
-      if (v >= 1) setCount(v);
-    });
-  }
-
-  // Eingaben zwischenspeichern (Name/Telefon tippen, Thema wählen)
-  rowsEl.addEventListener('input', saveDraft);
-  rowsEl.addEventListener('change', saveDraft);
-
-  // Kopplung: Belohnungs-Galerie ruft dies auf → Anzahl vorbelegen + hinscrollen
-  window.__potenzialPrefill = (n) => {
-    setCount(Number(n) || currentCount);
-    document.getElementById('potenzialliste')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-
-  // Link erstellen & senden (pro Zeile) — bzw. erneut teilen/kopieren wenn schon erstellt
-  rowsEl.addEventListener('click', async (e) => {
-    const btn = e.target.closest('.potenzial-send');
-    if (!btn || !empfehlerData) return;
-    const row = btn.closest('.potenzial-row');
-    if (!row) return;
-
-    // Bereits erstellt → erneut teilen/kopieren
-    if (row.dataset.done === '1') {
-      e.preventDefault();
-      const link = row.dataset.link;
-      const tel = row.dataset.tel;
-      if (tel) {
-        window.open(`https://wa.me/${tel.replace(/\D/g, '')}?text=${encodeURIComponent(row.dataset.msg || link)}`, '_blank');
-      } else {
-        try {
-          await navigator.clipboard.writeText(link);
-          const st = row.querySelector('.potenzial-status');
-          if (st) st.innerHTML = 'Kopiert ✓';
-        } catch (_) {}
-      }
-      return;
-    }
-
-    const name = row.querySelector('[data-f="name"]').value.trim();
-    const telRaw = row.querySelector('[data-f="tel"]').value.trim();
-    const slug = row.querySelector('[data-f="thema"]').value || 'allgemein';
-    const statusEl = row.querySelector('.potenzial-status');
-    if (!name) { statusEl.textContent = 'Name fehlt'; statusEl.className = 'potenzial-status is-error'; return; }
-    if (!telRaw) { statusEl.textContent = 'Telefonnummer fehlt'; statusEl.className = 'potenzial-status is-error'; return; }
-
-    const tel = normalizePhoneDE(telRaw);
-    btn.disabled = true;
-    const prevLabel = btn.textContent;
-    btn.textContent = 'Erstelle…';
-    try {
-      const { data, error } = await createEmpfehlung({
-        empfaenger_name: name,
-        empfaenger_telefon: tel || null,
-        vorlage_slug: slug,
-        empfehler_id: empfehlerData.id,
-        berater_id: empfehlerData.berater_id || window.ENV_BERATER_ID,
-        typ: 'info',
-      });
-      if (error) throw error;
-      const token = data?.link_token || 'demo';
-      const link = `${window.location.origin}/e?token=${token}&vorlage=${encodeURIComponent(slug)}`;
-      row.dataset.done = '1';
-      row.classList.add('is-done');
-      const vorname = name.split(' ')[0];
-      const msg = buildPotenzialMessage(vorname, link, beraterVorname());
-      // WhatsApp öffnen, wenn Nummer da; sonst Link kopieren
-      if (tel) {
-        const waNum = tel.replace(/\D/g, '');
-        window.open(`https://wa.me/${waNum}?text=${encodeURIComponent(msg)}`, '_blank');
-      } else {
-        try { await navigator.clipboard.writeText(link); } catch (_) {}
-      }
-      statusEl.innerHTML = 'Link erstellt ✓';
-      statusEl.className = 'potenzial-status is-done';
-      btn.textContent = tel ? 'Erneut senden' : 'Link kopieren';
-      btn.classList.remove('btn-primary');
-      btn.classList.add('btn-secondary');
-      btn.disabled = false;
-      row.dataset.link = link;
-      row.dataset.msg = msg;
-      row.dataset.tel = tel;
-      // Zeile gegen Änderung sperren + Zustand sichern
-      row.querySelectorAll('.potenzial-f').forEach(f => { f.readOnly = true; f.disabled = f.tagName === 'SELECT'; });
-      saveDraft();
-    } catch (err) {
-      console.warn('[potenzial] createEmpfehlung fehlgeschlagen', err);
-      statusEl.textContent = 'Fehler, bitte nochmal';
-      statusEl.className = 'potenzial-status is-error';
-      btn.disabled = false;
-      btn.textContent = prevLabel;
-    }
-  });
-
-  // Mini-Registrierung direkt im Block (kein Hochscrollen zum großen Formular)
-  const regForm = document.getElementById('potenzialRegForm');
-  const regErr = document.getElementById('potenzialRegErr');
-  regForm?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if (regErr) regErr.hidden = true;
-    const nameEl = document.getElementById('potenzialRegName');
-    const telEl = document.getElementById('potenzialRegTel');
-    const regBtn = document.getElementById('potenzialRegBtn');
-    const name = (nameEl?.value || '').trim();
-    const tel = (telEl?.value || '').trim();
-    if (!name || name.length < 2) {
-      if (regErr) { regErr.textContent = 'Bitte gib deinen Namen ein.'; regErr.hidden = false; }
-      return;
-    }
-    regBtn.disabled = true;
-    const prev = regBtn.textContent;
-    regBtn.textContent = 'Moment…';
-    try {
-      const { data: code, error } = await createEmpfehler({ name, email: '', telefon: tel, beraterSlug });
-      if (error || !code) throw (error || new Error('kein Code'));
-      try { localStorage.setItem('empfehler_code', code); } catch (_) {}
-      await activate(code);
-    } catch (err) {
-      console.warn('[potenzial] Registrierung fehlgeschlagen', err);
-      if (regErr) { regErr.textContent = 'Hat nicht geklappt, bitte nochmal.'; regErr.hidden = false; }
-      regBtn.disabled = false;
-      regBtn.textContent = prev;
-    }
-  });
-
-  // "Liste leeren" — Draft verwerfen + frische Zeilen
-  document.getElementById('potenzialClear')?.addEventListener('click', () => {
-    clearDraft();
-    renderRows(currentCount);
-  });
-
-  // Beim Laden: vorhandenen Promoter-Code aus localStorage nutzen
-  let savedCode = '';
-  try { savedCode = localStorage.getItem('empfehler_code') || ''; } catch (_) {}
-  activate(savedCode);
-})();

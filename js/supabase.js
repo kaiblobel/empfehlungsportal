@@ -105,6 +105,30 @@ export async function getEmpfehlungByToken(token) {
   }
 }
 
+/* ---------- Geteilte Programm-Inhalte: Dubletten filtern ---------- */
+// Vorlagen und Belohnungen sind inhaltlich EIN geteilter Satz, den alle Berater
+// zeigen. In der Tabelle liegen aber Klon-Zeilen einzelner Berater (gleiche
+// Stufe bzw. gleicher Slug, gleicher Titel) — und die öffentliche Lese-Policy
+// gibt alle frei. Ohne diesen Filter erscheint in Präsentation, Promoter-Bereich
+// und Empfehlungs-Formular jede Belohnung und jedes Thema doppelt.
+// Behalten wird pro Schlüssel genau eine Zeile: die des gewünschten Beraters,
+// sonst die des Haupt-Beraters, sonst die erste gefundene.
+function eineZeileProSchluessel(rows, keyFn, beraterId = null) {
+  const haupt = window.ENV_BERATER_ID || null;
+  const rang = (r) => {
+    if (beraterId && r.berater_id === beraterId) return 0;
+    if (haupt && r.berater_id === haupt) return 1;
+    return 2;
+  };
+  const beste = new Map();
+  for (const row of rows) {
+    const k = keyFn(row);
+    const da = beste.get(k);
+    if (!da || rang(row) < rang(da)) beste.set(k, row);
+  }
+  return [...beste.values()];
+}
+
 /* ---------- Vorlagen (public read) ---------- */
 // Multi-Tenant: beraterId optional. Wenn gesetzt, werden nur die Inhalte
 // dieses Beraters geladen (jeder Berater pflegt eigene). Ohne beraterId
@@ -125,6 +149,25 @@ export async function getVorlagen(beraterId = null) {
     console.error('[getVorlagen]', err);
     return [];
   }
+}
+
+// Themenwelten für die Anzeige (Präsentation, Empfehlungs-Formular, Promoter-
+// Bereich): immer alle Zeilen laden und pro Slug nur eine behalten. Bewusst
+// ohne .eq()-Filter — Berater ohne eigene Vorlagen bekommen so den geteilten
+// Satz statt einer leeren Themen-Auswahl.
+export async function getVorlagenPublic(beraterId = null) {
+  const alle = await getVorlagen();
+  return eineZeileProSchluessel(alle, (v) => v.slug, beraterId)
+    .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
+}
+
+// Erfolgsgeschichten für die Empfänger-Seite: pro Geschichte nur eine Zeile.
+// Ohne diesen Filter steht jede Geschichte doppelt auf der Seite, die der
+// empfohlene Mensch zu sehen bekommt.
+export async function getErfolgsgeschichtenPublic(vorlage_slug = null, beraterId = null) {
+  const alle = await getErfolgsgeschichten(vorlage_slug);
+  return eineZeileProSchluessel(alle, (e) => `${e.vorlage_slug || ''}|${e.titel || ''}`, beraterId)
+    .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
 }
 
 export async function getErfolgsgeschichten(vorlage_slug = null, beraterId = null) {
@@ -357,6 +400,16 @@ export async function getBelohnungsStufen(beraterId = null) {
     console.error('[getBelohnungsStufen]', err);
     return [];
   }
+}
+
+// Belohnungs-Stufen für die Anzeige (Präsentation, Promoter-Bereich, Promoter-
+// Detail): pro Stufe nur eine Zeile, sortiert nach Stufe. Die Editoren in
+// programm-admin.js nutzen weiter getBelohnungsStufen() — dort muss jede echte
+// Zeile mit ihrer eigenen id sichtbar bleiben.
+export async function getBelohnungsStufenPublic(beraterId = null) {
+  const alle = await getBelohnungsStufen();
+  return eineZeileProSchluessel(alle, (s) => s.stufe, beraterId)
+    .sort((a, b) => a.stufe - b.stufe);
 }
 
 /* ---------- Phase 77 · Programm-Editoren (admin-only, direkte Mutationen via RLS) ---------- */
