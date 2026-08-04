@@ -1,7 +1,17 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.146 Beta** · Kein Bild-Flackern beim Laden.
+Aktuelle Version: **v1.147 Beta** · Aktivitäts-Feed lesbar.
+
+---
+
+## v1.147 Beta - Phase 121 · Aktivitäts-Feed lesbar
+**2026-08-04**
+
+- **Im „Was gerade passiert"-Feed liefen Sätze und Status-Label rechts aus der Karte heraus** und wurden hart abgeschnitten („hat einen Anrufwunsch hinter…"). Ursache war kein zu schmaler Text, sondern ein Layout-Fehler: Die untere Zeile stand auf Spaltenrichtung, ihre Inhalte aber zentriert und ohne Umbruch — dadurch wurden sie so breit wie ihr Inhalt, breiter als die Karte selbst.
+- Sätze brechen jetzt sauber um, statt abgeschnitten zu werden. Das Status-Label steht linksbündig unter dem Satz und bleibt vollständig sichtbar.
+- Namen brechen bei Bedarf auf eine zweite Zeile um, statt mitten im Wort zu enden. Nach zwei Zeilen wird gekürzt, damit die Karten gleichmäßig bleiben.
+- Die rechte Spalte ist von 300 auf 340 Pixel gewachsen und der Abstand zur Scrollleiste von 28 auf 14 Pixel geschrumpft — zusammen rund 55 Pixel mehr Platz für den eigentlichen Inhalt.
 
 ---
 
