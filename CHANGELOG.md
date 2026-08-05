@@ -11,6 +11,7 @@ Aktuelle Version: **v1.177 Beta** · Einheitliche Portal-Bezeichnung, vorbereite
 - Alle aktuellen sichtbaren Rückwege heißen jetzt `Zurück zum Portal` statt `Zurück zum Hub` oder `Zurück zum HUB`.
 - Der Notfall-Link auf der Startadresse heißt `Zum Portal`.
 - Die sichtbare Phasenbezeichnung verwendet nur noch `Portal` und nicht mehr `Premium-HUB`.
+- Die ungenutzte Schnellaktion `Neue Empfehlung` wurde vollständig aus der Übersicht entfernt; die regulären Anlegewege bleiben erhalten.
 - Technische Pfade, Klassen und interne Bezeichner wie `hub.html` bleiben erhalten, damit bestehende Links, Lesezeichen und Funktionen nicht brechen.
 - Keine Datenbankmigration und keine Änderung an Daten oder Abläufen.
 - Veröffentlichung noch nicht freigegeben.

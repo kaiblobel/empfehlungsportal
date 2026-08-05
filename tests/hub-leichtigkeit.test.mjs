@@ -18,6 +18,8 @@ assert.match(html, /id="kpiEmpfehler"/);
 assert.match(html, /id="kpiKlicks"/);
 assert.match(html, /id="kpiGesamt"/);
 assert.match(html, /id="kpiKunden"/);
+assert.doesNotMatch(html, /Schnellaktion/);
+assert.doesNotMatch(html, /class="h-action-primary"/);
 assert.match(html, /<title>Empfehlungsportal · Kai Blobel<\/title>/);
 assert.match(html, /css\/dashboard\.css\?v=48/);
 assert.match(html, /js\/nav\.js\?v=57/);
