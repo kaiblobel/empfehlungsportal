@@ -57,7 +57,7 @@ export async function getCurrentBerater() {
   if (!user) return null;
   const { data, error } = await supabase
     .from('berater')
-    .select('id, name, rolle, foto_url, slug, bookings_url, whatsapp, telefon, email, ist_admin')
+    .select('id, name, rolle, foto_url, slug, bookings_url, whatsapp, telefon, email, impressum_url, datenschutz_url, ist_admin')
     .eq('auth_user_id', user.id)
     .maybeSingle();
   if (error) {

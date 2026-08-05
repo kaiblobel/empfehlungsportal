@@ -3,6 +3,7 @@ import {
   getBeraterPublicBySlug,
   getEmpfehlungByToken,
   markInteressiert,
+  supabase,
 } from './supabase.js';
 import { applyBeraterBrand } from './berater-brand.js';
 
@@ -147,6 +148,17 @@ window.baufiOptOut = () => {
   } else if (params.get('berater')) {
     const result = await getBeraterPublicBySlug(params.get('berater'));
     advisor = result.data || null;
+  }
+  // Kein Token, kein Slug → eingeloggter Berater (Vorschau der eigenen
+  // Themenseite aus dem Dashboard). Sonst bliebe das Kai-Default im HTML stehen.
+  if (!advisor) {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        const m = await import('./dashboard.js');
+        advisor = await m.getCurrentBerater();
+      }
+    } catch (_) {}
   }
 
   if (!advisor) return;

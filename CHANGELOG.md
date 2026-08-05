@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.162 Beta** · Echte Netzwerk-Kennzahlen statt Momentum-Score.
+Aktuelle Version: **v1.163 Beta** · Themenseiten zeigen den Berater, dem sie gehören.
+
+---
+
+## v1.163 Beta - Phase 137 · Themenseiten auf den richtigen Berater
+**2026-08-05**
+
+- Die Themenseiten (Empfänger-Seite und Finanzierungskompass) zeigten für neu angemeldete Berater weiterhin Foto, Name und Initialen von Kai. Grund: sie konnten den Berater nur über den Token einer echten Empfehlung auflösen.
+- Beide Seiten erkennen den Berater jetzt zusätzlich über `?berater=slug` und, wenn kein Slug da ist, über den eingeloggten Berater.
+- Die Themen-Vorschau auf der Präsentationsseite hängt den Slug des gebrandeten Beraters an die Vorschau-Links. Im Vorschaufenster und beim großen Öffnen steht damit der richtige Berater.
+- Die Portraits auf der Empfänger-Seite bleiben leer, bis der Berater feststeht. Vorher blitzte kurz das Standard-Foto auf.
+- Impressum und Datenschutz werden beim eingeloggten Berater mitgeladen, sonst waren die beiden Fußzeilen-Links in der eigenen Vorschau ausgeblendet.
 
 ---
 

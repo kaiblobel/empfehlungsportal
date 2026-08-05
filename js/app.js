@@ -458,11 +458,12 @@ if (page === 'empfaenger') {
   const token = params.get('token');
   const urlVorlage = params.get('vorlage');
 
-  // Fotos im Hero + Bio-Sektion
+  // Fotos im Hero + Bio-Sektion: bleiben leer, bis der Berater feststeht.
+  // Sonst sieht der Empfänger eines anderen Beraters kurz (oder dauerhaft,
+  // falls das Laden scheitert) das Standard-Foto von Kai.
   const foto = document.getElementById('eFoto');
   const bioFoto = document.getElementById('eBioFoto');
-  if (foto) foto.src = window.ENV_BERATER_FOTO || '';
-  if (bioFoto) bioFoto.src = window.ENV_BERATER_FOTO || '';
+  [foto, bioFoto].forEach((el) => { if (el) { el.removeAttribute('src'); el.alt = ''; } });
 
   // Austragen-Link
   const optoutLink = document.getElementById('austragenLink');
@@ -495,10 +496,36 @@ if (page === 'empfaenger') {
       empData = r.data || null;
     }
 
-    // Multi-Tenant: Berater dieser Empfehlung laden + Seite auf ihn branden
+    // Multi-Tenant: Berater dieser Empfehlung laden + Seite auf ihn branden.
+    // 1. berater_id der Empfehlung (echter Empfänger-Link mit Token)
+    // 2. ?berater=slug (Vorschau-/Funnel-Link ohne Token)
+    // 3. eingeloggter Berater (Vorschau der eigenen Themenseite aus dem Dashboard)
+    let berater = null;
     if (empData?.berater_id) {
-      const { data: berater } = await getBeraterPublicById(empData.berater_id);
-      if (berater) applyBeraterBrand(berater);
+      berater = (await getBeraterPublicById(empData.berater_id)).data;
+    }
+    if (!berater) {
+      const slugParam = params.get('berater');
+      if (slugParam) berater = (await getBeraterPublicBySlug(slugParam)).data;
+    }
+    if (!berater) {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+          const m = await import('./dashboard.js');
+          berater = await m.getCurrentBerater();
+        }
+      } catch (_) {}
+    }
+    // Kein Berater auflösbar → Standard-Berater (ENV) als letzter Fallback,
+    // damit die Portraits nicht leer bleiben.
+    if (berater) applyBeraterBrand(berater);
+    else {
+      [foto, bioFoto].forEach((el) => {
+        if (!el) return;
+        el.src = window.ENV_BERATER_FOTO || '';
+        el.alt = window.ENV_BERATER_NAME || '';
+      });
     }
 
     const slugResolved = (urlVorlage || empData?.vorlage_slug || 'allgemein').toLowerCase();

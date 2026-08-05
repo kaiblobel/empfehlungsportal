@@ -600,6 +600,16 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
     }
   };
 
+  // Die Themenseiten laufen im iframe ohne Token und ohne Login-Kontext des
+  // Elternfensters. Ohne ?berater=slug fallen sie auf den Standard-Berater
+  // zurück — dann sieht z. B. Sandro auf seiner eigenen Seite Kais Portrait.
+  let previewBerater = null;
+  const withBerater = (url) => {
+    const slug = previewBerater?.slug;
+    if (!slug) return url;
+    return `${url}${url.includes('?') ? '&' : '?'}berater=${encodeURIComponent(slug)}`;
+  };
+
   const renderIcon = (iconKey, size = 28) => {
     if (ICONS[iconKey]) return lucideIcon(iconKey, { size });
     if (TOPIC_ICON_SVG[iconKey]) return TOPIC_ICON_SVG[iconKey];
@@ -637,10 +647,11 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
     previewTitle.textContent = page.title;
     previewText.textContent = page.text;
     previewIcon.innerHTML = renderIcon(page.icon, 34);
-    previewOpen.href = page.url;
+    const url = withBerater(page.url);
+    previewOpen.href = url;
     previewAddress.textContent = page.address;
     previewFrame.title = `Vorschau: ${page.title}`;
-    previewFrame.src = page.url;
+    previewFrame.src = url;
     preview.hidden = false;
     preview.setAttribute('aria-hidden', 'false');
     document.body.classList.add('topic-preview-open');
@@ -664,6 +675,7 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
   try {
     const brandBerater = await beraterPromise.catch(() => null);
+    previewBerater = brandBerater;
     const templates = await getVorlagenPublic(brandBerater?.id || window.ENV_BERATER_ID);
     const generalTemplate = templates.find(v => v.slug === 'allgemein') || { slug: 'allgemein', titel: 'Ganz allgemein', icon: 'Compass' };
     const baufiTemplate = templates.find(v => v.slug === 'baufi') || { slug: 'baufi', titel: 'Baufinanzierung', icon: 'Home' };
