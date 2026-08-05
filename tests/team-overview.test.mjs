@@ -20,7 +20,7 @@ const [teamHtml, teamJs, navJs, supabaseJs, hubHtml, hubJs, css, sql, config, sw
   read('berater.html'),
 ]);
 
-assert.match(teamHtml, /<title>Teamübersicht · Empfehlungsportal<\/title>/);
+assert.match(teamHtml, /<title>TeamÃ¼bersicht Â· Empfehlungsportal<\/title>/);
 assert.match(teamHtml, /data-days="7"/);
 assert.match(teamHtml, /data-days="30"/);
 assert.match(teamHtml, /data-days="90"/);
@@ -29,7 +29,7 @@ assert.match(teamHtml, /data-ranking="kunden"/);
 assert.match(teamHtml, /data-ranking="empfehlungen"/);
 assert.match(teamHtml, /data-ranking="promoter"/);
 assert.match(teamHtml, /data-ranking="quote"/);
-assert.match(teamHtml, /Alphabetisch · unabhängig vom Ranking/);
+assert.match(teamHtml, /Alphabetisch Â· unabhÃ¤ngig vom Ranking/);
 assert.match(teamHtml, /ohne Kundendaten offenzulegen/);
 assert.match(teamHtml, /js\/team\.js\?v=2/);
 assert.match(teamHtml, /css\/hub\.css\?v=52/);
@@ -47,8 +47,8 @@ assert.doesNotMatch(teamJs, /empfaenger_name|empfaenger_telefon|empfehler_name/)
 const teamPosition = navJs.indexOf("id: 'team'");
 const dividerPosition = navJs.indexOf('{ divider: true');
 const accountsPosition = navJs.indexOf("id: 'beraterkonten'");
-assert.ok(teamPosition > 0 && teamPosition < dividerPosition, 'Team muss im Tagesgeschäft stehen');
-assert.ok(accountsPosition > dividerPosition, 'Beraterkonten müssen unter Verwaltung stehen');
+assert.ok(teamPosition > 0 && teamPosition < dividerPosition, 'Team muss im TagesgeschÃ¤ft stehen');
+assert.ok(accountsPosition > dividerPosition, 'Beraterkonten mÃ¼ssen unter Verwaltung stehen');
 assert.match(navJs, /id: 'team',[\s\S]*?href: path\('team\.html'\)/);
 assert.match(navJs, /id: 'beraterkonten',[\s\S]*?label: 'Beraterkonten'[\s\S]*?adminOnly: true/);
 assert.doesNotMatch(navJs, /label: 'Team'[\s\S]{0,120}href: path\('berater\.html'\)/);
@@ -72,7 +72,7 @@ assert.match(sql, /events\.berater_id/);
 assert.match(sql, /revoke execute on function public\.team_activity_secure\(integer\) from public, anon/i);
 assert.doesNotMatch(sql, /empfaenger_name|empfaenger_telefon|empfehler_email|empfehler_telefon/);
 
-assert.match(hubHtml, /Teamübersicht öffnen/);
+assert.match(hubHtml, /TeamÃ¼bersicht Ã¶ffnen/);
 assert.match(hubHtml, /href="team\.html"/);
 assert.match(hubJs, /rows\.slice\(0, 2\)\.map\(teamRowHtml\)/);
 assert.doesNotMatch(hubJs, /teamFeedExpanded/);
@@ -84,12 +84,12 @@ assert.match(css, /\.team-ranking/);
 assert.match(css, /\.team-podium-avatar img/);
 assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.team-detail-metrics/);
 
-assert.match(config, /v1\.182 Beta/);
-assert.match(config, /Phase 156 · QR-Selbstanmeldung für Promoter/);
-assert.match(sw, /CACHE_VERSION = 'v141-2026-08-05'/);
+assert.match(config, /v1\.183 Beta/);
+assert.match(config, /Phase 157 Â· Hinweis bei neuem Promoter/);
+assert.match(sw, /CACHE_VERSION = 'v142-2026-08-05'/);
 assert.match(sw, /'\/team\.html'/);
 assert.match(sw, /'\/js\/team\.js\?v=2'/);
-assert.match(beraterHtml, /<title>Beraterkonten · Empfehlungsportal<\/title>/);
+assert.match(beraterHtml, /<title>Beraterkonten Â· Empfehlungsportal<\/title>/);
 
 const htmlFiles = [];
 async function collectHtml(dir) {
@@ -103,8 +103,9 @@ async function collectHtml(dir) {
 await collectHtml(root);
 for (const file of htmlFiles) {
   const html = await readFile(file, 'utf8');
-  assert.doesNotMatch(html, /js\/nav\.js\?v=5[34]/, `${path.relative(root, file)} enthält noch einen alten Navigationscache`);
-  assert.doesNotMatch(html, /css\/hub\.css\?v=49/, `${path.relative(root, file)} enthält noch den alten Hub-CSS-Cache`);
+  assert.doesNotMatch(html, /js\/nav\.js\?v=5[34]/, `${path.relative(root, file)} enthÃ¤lt noch einen alten Navigationscache`);
+  assert.doesNotMatch(html, /css\/hub\.css\?v=49/, `${path.relative(root, file)} enthÃ¤lt noch den alten Hub-CSS-Cache`);
 }
 
 console.log('team-overview: OK');
+

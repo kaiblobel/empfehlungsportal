@@ -13,7 +13,7 @@ const [adminUi, supabaseClient, edgeFunction, beraterHtml, config] = await Promi
 
 assert.match(adminUi, /value="" autocomplete="new-password" placeholder="Mindestens 8 Zeichen"/);
 assert.match(adminUi, /Neues Passwort jetzt setzen/);
-assert.match(adminUi, /Der allgemeine Knopf „Speichern“ für die Beraterdaten ändert dieses Passwort nicht/);
+assert.match(adminUi, /Der allgemeine Knopf â€žSpeichernâ€œ fÃ¼r die Beraterdaten Ã¤ndert dieses Passwort nicht/);
 assert.match(adminUi, /createBeraterLogin\(id, pw\)/);
 assert.doesNotMatch(adminUi, /adminSetBeraterPassword/);
 
@@ -23,6 +23,7 @@ assert.match(edgeFunction, /admin\.auth\.admin\.createUser/);
 
 assert.doesNotMatch(supabaseClient, /export async function adminSetBeraterPassword/);
 assert.match(beraterHtml, /js\/berater-admin\.js\?v=9/);
-assert.match(config, /v1\.182 Beta/);
+assert.match(config, /v1\.183 Beta/);
 
 console.log('berater-password-flow: OK');
+

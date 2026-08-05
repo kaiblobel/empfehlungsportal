@@ -22,8 +22,9 @@ assert.doesNotMatch(splitRule, /grayscale/);
 
 assert.match(js, /applyBeraterBrand\(data\)/);
 assert.match(js, /getBeraterPublicBySlug\(beraterSlug\)/);
-assert.match(config, /v1\.182 Beta/);
-assert.match(config, /Phase 156 · QR-Selbstanmeldung für Promoter/);
-assert.match(sw, /CACHE_VERSION = 'v141-2026-08-05'/);
+assert.match(config, /v1\.183 Beta/);
+assert.match(config, /Phase 157 Â· Hinweis bei neuem Promoter/);
+assert.match(sw, /CACHE_VERSION = 'v142-2026-08-05'/);
 
 console.log('praesentation-portrait-farbe: OK');
+

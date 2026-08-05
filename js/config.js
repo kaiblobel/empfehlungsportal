@@ -1,4 +1,4 @@
-﻿window.ENV_SUPABASE_URL = 'https://kkseqhmfubzfyloffkwe.supabase.co';
+window.ENV_SUPABASE_URL = 'https://kkseqhmfubzfyloffkwe.supabase.co';
 window.ENV_SUPABASE_ANON_KEY = 'sb_publishable_PUSXT6qIH0IoeEgKQ3hgbA_m8hYY4Dv';
 window.ENV_BERATER_ID = 'b3cbf981-ea3e-4e6d-a993-2fe158ca0d48';
 window.ENV_WHATSAPP = '4915154776159';
@@ -7,5 +7,6 @@ window.ENV_BERATER_TITEL = 'Regionaldirektion · Team Wachsbleiche';
 window.ENV_BERATER_FOTO = '/assets/images/kai-portrait.jpg';
 window.ENV_CALENDLY_URL = ''; // sobald Kai einen Link schickt, hier eintragen — Karte erscheint automatisch
 window.ENV_TURNSTILE_SITE_KEY = ''; // optionaler statischer Fallback; produktiv kommt der Site-Key aus /api/promoter-config
-window.APP_VERSION = 'v1.182 Beta';
-window.APP_PHASE = 'Phase 156 · QR-Selbstanmeldung für Promoter';
+window.APP_VERSION = 'v1.183 Beta';
+window.APP_PHASE = 'Phase 157 · Hinweis bei neuem Promoter';
+
