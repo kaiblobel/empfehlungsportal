@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.168 Beta** · Echte Analysen und ein klarer Rückweg aus der Präsentation, Veröffentlichung freigegeben am 05.08.2026.
+Aktuelle Version: **v1.169 Beta** · Farbige Beraterportraits in der Präsentation, Veröffentlichung freigegeben am 05.08.2026.
+
+---
+
+## v1.169 Beta - Phase 143 · Farbige Beraterportraits
+**2026-08-05**
+
+- Die Präsentation entsättigt das dynamisch geladene Beraterportrait nicht mehr. Jedes Beraterfoto wird in seinen echten Farben angezeigt.
+- Beide bisher wirksamen Schwarz-Weiß-Regeln wurden entfernt, damit auch spätere Beraterbilder automatisch farbig bleiben.
+- Gespeicherte Bilddateien, Beraterdaten und alle übrigen Präsentationsbilder bleiben unverändert.
 
 ---
 
