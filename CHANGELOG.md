@@ -15,7 +15,7 @@ Aktuelle Version: **v1.175 Beta** · Empfehlungsdetail als Arbeitsseite, vorbere
 - Anrufen, WhatsApp, Link kopieren, Statuswechsel, Notiz, Zurücknavigation und das geschützte Löschen bleiben erhalten.
 - Die Oberfläche nutzt das bestehende HUB-Designsystem und verdichtet sich auf Tablet und Smartphone ohne Funktionsverlust.
 - Keine Datenbankmigration und keine Änderung an Empfehlungen, Promotern oder Beraterdaten.
-- Veröffentlichung ist freigegeben und wird nach technischer Prüfung durchgeführt.
+- Funktionsstand `a12a8ac` ist auf `main` und über das produktive Vercel-Deployment `dpl_8dVB97bFkJ8B9nLASnZ77EaqgSu6` veröffentlicht. Version, Detail-Shell, neue Styles, Arbeitslogik und die erhaltenen Aktionen wurden live abgerufen; das Fehlerprotokoll ist leer.
 
 ---
 
