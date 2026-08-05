@@ -5,14 +5,60 @@ import { baueReise, reiseHtml } from './belohnungs-reise.js';
 
 // Multi-Tenant: Berater-Einstieg via ?berater=slug (z. B. ?berater=sven-augustin).
 // Wird unten zum Branding genutzt + an create_empfehler durchgereicht.
-const beraterSlug = new URLSearchParams(window.location.search).get('berater');
+const presentationParams = new URLSearchParams(window.location.search);
+const beraterSlug = presentationParams.get('berater');
 
 // Die Präsentation bleibt für Kunden sauber. Der Rückweg erscheint nur,
 // wenn sie ausdrücklich aus dem eingeloggten HUB geöffnet wurde.
 const presenterHubBack = document.getElementById('presenterHubBack');
-if (presenterHubBack && new URLSearchParams(window.location.search).get('from') === 'hub') {
+const presenterLength = document.getElementById('presenterLength');
+const openedFromHub = presentationParams.get('from') === 'hub';
+if (presenterHubBack && openedFromHub) {
   presenterHubBack.hidden = false;
 }
+if (presenterLength && openedFromHub) presenterLength.hidden = false;
+
+// Kurz und ausführlich bleiben dieselbe Präsentation. Im Kurzmodus werden
+// nur die sechs vertiefenden Abschnitte ausgeblendet. Der URL-Parameter macht
+// die Auswahl aktualisierbar und als internen Präsentationslink speicherbar.
+(function initPresentationLength() {
+  if (!presenterLength) return;
+  const buttons = [...presenterLength.querySelectorAll('[data-presentation-mode]')];
+  const extendedSections = [...document.querySelectorAll('section.section[data-short-hide]')];
+
+  function setMode(mode, { updateUrl = false } = {}) {
+    const short = mode === 'short';
+    const currentSection = [...document.querySelectorAll('section.section')]
+      .find(section => {
+        const box = section.getBoundingClientRect();
+        return box.top <= window.innerHeight * 0.42 && box.bottom >= window.innerHeight * 0.42;
+      });
+    const currentWillHide = short && currentSection?.hasAttribute('data-short-hide');
+
+    document.body.classList.toggle('presentation-short', short);
+    extendedSections.forEach(section => { section.hidden = short; });
+    buttons.forEach(button => {
+      const active = button.dataset.presentationMode === mode;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+
+    if (updateUrl) {
+      const url = new URL(window.location.href);
+      if (short) url.searchParams.set('modus', 'kurz');
+      else url.searchParams.delete('modus');
+      window.history.replaceState({}, '', url);
+    }
+    if (currentWillHide) {
+      document.getElementById('reflexion')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  buttons.forEach(button => button.addEventListener('click', () => {
+    setMode(button.dataset.presentationMode, { updateUrl: true });
+  }));
+  setMode(presentationParams.get('modus') === 'kurz' ? 'short' : 'full');
+})();
 
 // === Förder-Rechner (Phase 50m): Live-Tool für den Live-Pitch ===
 (function initFoerderRechner() {
@@ -217,7 +263,7 @@ if (presenterHubBack && new URLSearchParams(window.location.search).get('from') 
 // Abschnitte, die höher als der Bildschirm sind (Belohnungs-Reise, FAQ),
 // werden zuerst seitenweise durchgeblättert und erst am Ende verlassen.
 (function initVortragTasten() {
-  const abschnitte = () => [...document.querySelectorAll('section.section')];
+  const abschnitte = () => [...document.querySelectorAll('section.section')].filter(section => !section.hidden);
 
   // In Eingabefeldern gehören die Pfeiltasten dem Feld — besonders wichtig
   // wegen der Mehrwert-Zeilen, in die Kai im Gespräch mittippt.
@@ -594,6 +640,10 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
   const previewOpen = document.getElementById('topicPreviewOpen');
   const previewAddress = document.getElementById('topicPreviewAddress');
   if (!wrap) return;
+
+  // Das Modal darf nicht im Stapelkontext des Themen-Abschnitts bleiben.
+  // Direkt unter body liegt es zuverlässig über allen Präsentationsfolien.
+  if (preview && preview.parentElement !== document.body) document.body.appendChild(preview);
 
   const readyPages = {
     allgemein: {

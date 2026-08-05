@@ -14,18 +14,23 @@
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
   <link rel="stylesheet" href="css/style.css?v=32" />
-  <link rel="stylesheet" href="css/programm.css?v=80" />
+  <link rel="stylesheet" href="css/programm.css?v=81" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="programm">
 
   <a class="presenter-hub-back" id="presenterHubBack" href="hub.html" hidden aria-label="Zurück zum HUB">← <span>Zurück zum HUB</span></a>
 
+  <div class="presenter-length" id="presenterLength" hidden role="group" aria-label="Präsentationslänge">
+    <button type="button" data-presentation-mode="short" aria-pressed="false">Kurz</button>
+    <button type="button" data-presentation-mode="full" aria-pressed="true">Ausführlich</button>
+  </div>
+
   <!-- ===== Sticky Top-CTA (Desktop) ===== -->
   <a class="cta-top" href="#anmelden">Jetzt empfehlen</a>
 
   <!-- ===== 1 · Hero (Split-Layout) ===== -->
-  <section class="section hero hero-split" id="hero-haupt">
+  <section class="section hero hero-split" id="hero-haupt" data-short-hide>
     <div class="inner hero-split-inner">
       <div class="hero-split-text">
         <p class="t-eyebrow reveal">Empfehlung</p>
@@ -167,7 +172,7 @@
   </section>
 
   <!-- ===== 0a2 · Teamwork-Botschaft (kompakt im Einstieg) ===== -->
-  <section class="section teamwork-intro">
+  <section class="section teamwork-intro" data-short-hide>
     <div class="inner teamwork-story">
       <p class="t-eyebrow reveal">Ein Leben. Viele Entscheidungen.</p>
       <h2 class="t-h2 reveal d1">
@@ -265,7 +270,7 @@
   </section>
 
   <!-- ===== 0b · Der Tipp bekommt ein Gesicht ===== -->
-  <section class="section foerder-rechner" id="foerder">
+  <section class="section foerder-rechner" id="foerder" data-short-hide>
     <div class="foerder-story">
       <div class="foerder-story-shade" aria-hidden="true"></div>
       <div class="foerder-story-copy reveal">
@@ -367,7 +372,7 @@
   </section>
 
   <!-- ===== 0c · Vorteile unserer Zusammenarbeit (Orbit) ===== -->
-  <section class="section vorteile-section" id="vorteile">
+  <section class="section vorteile-section" id="vorteile" data-short-hide>
     <div class="inner">
       <p class="t-eyebrow reveal" style="text-align:center;">Deine Vorteile</p>
       <h2 class="t-h2 reveal d1" style="text-align:center;">
@@ -429,7 +434,7 @@
   </section>
 
   <!-- ===== 0c · Empfehlen ist Alltag ===== -->
-  <section class="section alltag">
+  <section class="section alltag" data-short-hide>
     <div class="inner">
       <p class="t-eyebrow reveal" style="text-align:center;">Was wir alle tun</p>
       <h2 class="t-h2 reveal d1" style="text-align:center;">
@@ -623,7 +628,7 @@
   </section>
 
   <!-- ===== 2c · Trust-Brücke: Was die empfohlene Person bekommt ===== -->
-  <section class="section trust-bridge">
+  <section class="section trust-bridge" data-short-hide>
     <div class="inner">
       <p class="t-eyebrow reveal" style="text-align:center;">Was nach deiner Empfehlung passiert</p>
       <h2 class="t-h2 reveal d1 trust-bridge-title" style="text-align:center;">
@@ -854,6 +859,6 @@
 
 
   <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
-  <script type="module" src="js/programm.js?v=45"></script>
+  <script type="module" src="js/programm.js?v=46"></script>
 </body>
 </html>

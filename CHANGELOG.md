@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.169 Beta** · Farbige Beraterportraits in der Präsentation, Veröffentlichung freigegeben am 05.08.2026.
+Aktuelle Version: **v1.170 Beta** · Kurze Präsentation und stabile Themenseiten-Vorschau, Veröffentlichung freigegeben am 05.08.2026.
+
+---
+
+## v1.170 Beta - Phase 144 · Kurze Präsentation
+**2026-08-05**
+
+- Im internen Präsentationsaufruf steht oben der Umschalter `Kurz | Ausführlich`. Die ausführliche Fassung bleibt der Standard mit 13 Abschnitten.
+- Der Kurzmodus nutzt dieselbe Präsentation und zeigt sieben Kernabschnitte: Zufriedenheit, persönlicher Mehrwert, Türöffner, Ablauf, Themen, Belohnung und direktes Empfehlen. Es gibt keine doppelte Inhaltspflege.
+- Die Auswahl `modus=kurz` bleibt beim Aktualisieren und in einem intern gespeicherten Link erhalten.
+- Die Themenseiten-Vorschau wird auf die oberste Seitenebene gesetzt. Dadurch rutschen Präsentationsabschnitte und feste Bedienelemente nicht mehr in das Vorschaufenster.
+- Die Schlusszeile des Förderbeispiels hat einen eigenen Platz im Raster und überlagert bei schmaleren Fenstern keine Inhalte mehr.
+- Der feste Button `Jetzt empfehlen` hat ruhigere Ecken mit 14 Pixel Radius statt Pillenform.
+- Keine Datenbankmigration und keine Änderung an Kunden-, Berater- oder Empfehlungsdaten.
 
 ---
 
