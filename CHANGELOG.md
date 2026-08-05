@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.163 Beta** · Themenseiten zeigen den Berater, dem sie gehören.
+Aktuelle Version: **v1.164 Beta** · Kein fremdes Gesicht mehr beim Laden.
+
+---
+
+## v1.164 Beta - Phase 138 · Kein fremdes Gesicht beim Laden
+**2026-08-05**
+
+- Auf allen Kundenseiten stand das Portrait des Haupt-Beraters fest im HTML bzw. wurde beim Start aktiv gesetzt. Für jeden anderen Berater blitzte deshalb beim Laden kurz ein fremdes Gesicht auf, bis sein eigenes geladen war.
+- Die Portraits haben jetzt gar keine Startquelle mehr. Sie bleiben leer, bis der Berater feststeht — geprüft: Kais Bild wird auf einer fremden Seite nicht mehr angefordert.
+- Der zuletzt geladene Berater wird pro Link gemerkt. Beim zweiten Aufruf steht das richtige Bild sofort, ohne Wartezeit und ohne Aufblitzen.
+- Der Dashboard-Header zeigt ohne eigenes Foto einen neutralen Initialen-Kreis statt des Fotos vom Haupt-Berater. Die Login-Seite zeigt das Foto des zuletzt Angemeldeten, sonst gar keins.
+- Geprüft mit allen fünf angelegten Beratern auf Empfänger-Seite, Finanzierungskompass, Präsentationsseite und Promoter-Bereich.
 
 ---
 

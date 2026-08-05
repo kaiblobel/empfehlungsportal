@@ -30,9 +30,14 @@
   </main>
 
   <script type="module">
-    import { login, redirectIfAuthed } from '../js/dashboard.js';
+    import { login, redirectIfAuthed, gemerktesBranding } from '../js/dashboard.js';
 
-    document.getElementById('loginPhoto').src = window.ENV_BERATER_FOTO || '';
+    // Foto des zuletzt angemeldeten Beraters. Wer sich hier noch nie angemeldet
+    // hat, sieht kein Foto — nicht das des Haupt-Beraters.
+    const loginPhoto = document.getElementById('loginPhoto');
+    const gemerkt = gemerktesBranding();
+    if (gemerkt.foto) { loginPhoto.src = gemerkt.foto; loginPhoto.alt = gemerkt.name || 'Berater'; }
+    else loginPhoto.remove();
 
     redirectIfAuthed();
 

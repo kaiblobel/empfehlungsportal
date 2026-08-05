@@ -11,7 +11,7 @@ import {
   updateEmpfehlerStandardNachricht,
 } from './supabase.js';
 import { parseDbDate } from './date-utils.js';
-import { applyBeraterBrand } from './berater-brand.js';
+import { applyBeraterBrand, merkeBerater, gemerkterBerater } from './berater-brand.js';
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -93,6 +93,13 @@ if (!code) {
   window.location.href = 'programm.html';
 } else {
   try { localStorage.setItem('empfehler_code', code); } catch (_) {}
+  // Gemerktes Branding sofort setzen, sonst blitzt das Standard-Portrait auf,
+  // bis Promoter und Berater aus dem Netz da sind.
+  const sofortBerater = gemerkterBerater(`code_${code}`);
+  if (sofortBerater) {
+    applyBeraterBrand(sofortBerater);
+    beraterName = (sofortBerater.name || 'Kai').split(' ')[0];
+  }
   init();
 }
 
@@ -123,6 +130,7 @@ async function init() {
   stufen = stufenData || [];
   if (beraterRes.data) {
     applyBeraterBrand(beraterRes.data);
+    merkeBerater(`code_${code}`, beraterRes.data);
     beraterName = (beraterRes.data.name || 'Kai').split(' ')[0];
   }
   vorlagen = templateData.length ? templateData : [{ slug: 'allgemein', titel: 'Allgemein' }];

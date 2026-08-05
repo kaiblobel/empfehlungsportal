@@ -5,7 +5,7 @@ import {
   markInteressiert,
   supabase,
 } from './supabase.js';
-import { applyBeraterBrand } from './berater-brand.js';
+import { applyBeraterBrand, merkeBerater, gemerkterBerater } from './berater-brand.js';
 
 const root = document.getElementById('finance-v4');
 const params = new URLSearchParams(window.location.search);
@@ -132,6 +132,15 @@ window.baufiOptOut = () => {
   window.location.assign(`/austragen.html?token=${encodeURIComponent(token)}`);
 };
 
+// Gemerktes Branding aus einem früheren Aufruf steht sofort — sonst blitzt
+// beim Laden das Standard-Portrait auf, bis der echte Berater da ist.
+const brandKey = params.get('berater') || (token ? `tok_${token}` : 'me');
+const sofortBerater = gemerkterBerater(brandKey);
+if (sofortBerater) {
+  applyBeraterBrand(sofortBerater);
+  if (sofortBerater.bookings_url) bookingUrl = sofortBerater.bookings_url;
+}
+
 (async () => {
   setRecommendation();
   let recommendation = null;
@@ -161,8 +170,19 @@ window.baufiOptOut = () => {
     } catch (_) {}
   }
 
-  if (!advisor) return;
+  // Kein Berater auflösbar → Standard-Berater (ENV) als letzter Fallback,
+  // damit die Portraits nicht leer bleiben.
+  if (!advisor) {
+    if (!sofortBerater) {
+      document.querySelectorAll('[data-bb="foto"]').forEach((el) => {
+        el.src = window.ENV_BERATER_FOTO || '';
+        if (!el.alt) el.alt = window.ENV_BERATER_NAME || '';
+      });
+    }
+    return;
+  }
   applyBeraterBrand(advisor);
+  merkeBerater(brandKey, advisor);
   const firstName = String(advisor.name || '').trim().split(/\s+/)[0] || 'Kai';
   startPersonalization(firstName);
   if (advisor.bookings_url) bookingUrl = advisor.bookings_url;

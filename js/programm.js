@@ -1,6 +1,6 @@
 import { getBelohnungsStufenPublic, getVorlagenPublic, createEmpfehler, getBeraterPublicBySlug, supabase } from './supabase.js';
 import { icon as lucideIcon, ICONS } from './icons.js';
-import { applyBeraterBrand } from './berater-brand.js';
+import { applyBeraterBrand, merkeBerater, gemerkterBerater } from './berater-brand.js';
 import { baueReise, reiseHtml } from './belohnungs-reise.js';
 
 // Multi-Tenant: Berater-Einstieg via ?berater=slug (z. B. ?berater=sven-augustin).
@@ -451,11 +451,13 @@ const TOPIC_ICON_SVG = {
   Sparkles:    '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.582a.5.5 0 0 1 0 .962L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg>',
 };
 
-// Foto im Hero + Video-Poster (ENV-Fallback; Multi-Tenant überschreibt unten)
-const beraterFoto = window.ENV_BERATER_FOTO || '';
-document.getElementById('t-Foto').src = beraterFoto;
+// Foto im Hero: NICHT vorab auf den ENV-Standard setzen. Sonst sieht jeder
+// andere Berater beim Laden erst Kais Portrait, bis sein eigenes da ist.
+// Gemerktes Branding aus einem früheren Aufruf steht dagegen sofort.
+const brandKey = beraterSlug || 'me';
+const sofortBerater = gemerkterBerater(brandKey);
+if (sofortBerater) applyBeraterBrand(sofortBerater);
 const fotoVideo = document.getElementById('t-FotoVideo');
-if (fotoVideo) fotoVideo.src = beraterFoto;
 
 // Multi-Tenant: Welcher Berater wird gebrandet?
 // 1. ?berater=slug in der URL (öffentlicher Funnel-Link für Kunden)
@@ -482,9 +484,18 @@ async function resolveBerater() {
 const beraterPromise = resolveBerater();
 
 beraterPromise.then((data) => {
-  if (!data) return;
+  if (!data) {
+    // Kein Berater auflösbar → Standard-Berater (ENV) als letzter Fallback,
+    // damit das Portrait nicht leer bleibt.
+    if (!sofortBerater) {
+      const el = document.getElementById('t-Foto');
+      if (el) { el.src = window.ENV_BERATER_FOTO || ''; el.alt = window.ENV_BERATER_NAME || ''; }
+    }
+    return;
+  }
   window.__beraterPublic = data;
   applyBeraterBrand(data);
+  merkeBerater(brandKey, data);
   if (data.foto_url && fotoVideo) fotoVideo.src = data.foto_url;
 });
 

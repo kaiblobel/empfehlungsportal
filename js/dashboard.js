@@ -1,5 +1,6 @@
 import { supabase } from '../js/supabase.js';
 import { parseDbDate } from './date-utils.js';
+import { initialsAvatar } from './berater-brand.js';
 
 /* ---------- Auth ---------- */
 
@@ -89,14 +90,18 @@ function setzeHeaderWerte({ foto, name }) {
   set('profName', 'textContent', name);
 }
 
-/** Zuletzt bekanntes Branding — sonst die ENV-Werte des Haupt-Beraters. */
-function gemerktesBranding() {
+/**
+ * Zuletzt bekanntes Branding des eingeloggten Beraters. Bewusst OHNE Rückfall
+ * auf die ENV-Werte: die gehören dem Haupt-Berater, und jeder andere sah beim
+ * Laden sonst kurz dessen Foto und Namen im eigenen Header.
+ */
+export function gemerktesBranding() {
   try {
     const roh = localStorage.getItem(BRAND_CACHE_KEY);
     const d = roh ? JSON.parse(roh) : null;
     if (d && (d.foto || d.name)) return d;
   } catch (_) {}
-  return { foto: window.ENV_BERATER_FOTO || '', name: window.ENV_BERATER_NAME || '' };
+  return { foto: '', name: '' };
 }
 
 export async function applyBeraterHeader() {
@@ -106,8 +111,10 @@ export async function applyBeraterHeader() {
   setzeHeaderWerte(gemerktesBranding());
 
   const b = await getCurrentBerater();
-  const foto = b?.foto_url || window.ENV_BERATER_FOTO || '';
+  // Ohne eigenes Foto ein neutraler Initialen-Avatar — nicht das Foto des
+  // Haupt-Beraters.
   const name = b?.name || window.ENV_BERATER_NAME || 'Berater';
+  const foto = b?.foto_url || (b ? initialsAvatar(name) : (window.ENV_BERATER_FOTO || ''));
   setzeHeaderWerte({ foto, name });
   try { localStorage.setItem(BRAND_CACHE_KEY, JSON.stringify({ foto, name })); } catch (_) {}
   return b;

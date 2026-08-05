@@ -2205,6 +2205,118 @@ body[data-page="vorlagen-cms"] {
   margin-top: 18px;
 }
 
+.berater-pw {
+  min-width: 0;
+  margin-top: 8px;
+  padding: 20px;
+  border: 1px solid var(--hairline, #E8E5E0);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.62);
+}
+.berater-pw-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.berater-pw-head > label {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.berater-login-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text-secondary, #6B6660);
+  font-size: 11.5px;
+  font-weight: 650;
+}
+.berater-login-status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.7;
+}
+.berater-login-status.active {
+  background: rgba(122, 139, 111, 0.13);
+  color: #596650;
+}
+.berater-pw-intro {
+  max-width: 720px;
+  margin: 10px 0 18px;
+  color: var(--text-secondary, #6B6660);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.berater-pw-field-label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 12px;
+  font-weight: 650;
+}
+.berater-pw-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 9px;
+}
+.berater-pw-row input {
+  min-width: 0;
+  width: 100%;
+  font-family: 'SF Mono', Menlo, Consolas, monospace;
+}
+.berater-pw-generate,
+.berater-pw-submit {
+  border-radius: 9px;
+  min-height: 42px;
+  padding: 9px 15px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12.5px;
+  font-weight: 650;
+  line-height: 1.3;
+  white-space: normal;
+  cursor: pointer;
+}
+.berater-pw-generate {
+  border: 1px solid var(--hairline, #E8E5E0);
+  background: #fff;
+  color: var(--ink, #1A1A1A);
+}
+.berater-pw-submit {
+  width: 100%;
+  margin-top: 9px;
+  border: 1px solid var(--ink, #1A1A1A);
+  background: var(--ink, #1A1A1A);
+  color: #fff;
+}
+.berater-pw-submit:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.berater-pw-note {
+  margin-top: 9px;
+  color: var(--text-secondary, #6B6660);
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+.berater-pw-result {
+  margin-top: 12px;
+  font-size: 13px;
+}
+@media (max-width: 560px) {
+  .berater-pw { padding: 16px; }
+  .berater-pw-head { align-items: flex-start; flex-direction: column; }
+  .berater-pw-row { grid-template-columns: minmax(0, 1fr); }
+  .berater-pw-row > * { min-width: 0; width: 100%; }
+}
+
 .cms-toggle-aktiv {
   background: transparent;
   border: 1px solid var(--hairline, #E8E5E0);

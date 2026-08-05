@@ -52,10 +52,9 @@ Deno.serve(async (req: Request) => {
       .single();
     if (berErr) return json({ error: berErr.message }, 500);
     if (!berater) return json({ error: 'Berater nicht gefunden.' }, 404);
+    // Konto mit Passwort anlegen (E-Mail sofort bestätigt → direkt login-fähig).
     if (berater.auth_user_id) return json({ error: 'Berater hat bereits ein Login.' }, 409);
     if (!berater.email) return json({ error: 'Berater hat keine E-Mail-Adresse hinterlegt.' }, 400);
-
-    // Konto mit Passwort anlegen (E-Mail sofort bestätigt → direkt login-fähig).
     const { data: created, error: createErr } = await admin.auth.admin.createUser({
       email: berater.email,
       password,

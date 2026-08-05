@@ -13,7 +13,7 @@ import {
   supabase,
 } from './supabase.js';
 import { ICONS } from './icons.js';
-import { applyBeraterBrand } from './berater-brand.js';
+import { applyBeraterBrand, merkeBerater, gemerkterBerater } from './berater-brand.js';
 
 const page = document.body.dataset.page;
 
@@ -184,9 +184,19 @@ if (page === 'empfehlen') {
   const typ = params.get('typ') === 'info' ? 'info' : 'direkt';
 
   // Multi-Tenant: Berater-Name für Nachricht-Texte. Default = ENV (Kai),
-  // wird überschrieben sobald der Promoter-Berater geladen ist.
+  // wird überschrieben sobald der Promoter-Berater geladen ist. Ist der Berater
+  // von einem früheren Aufruf gemerkt, steht sofort der richtige Name da.
   let beraterName = window.ENV_BERATER_NAME || 'Kai Blobel';
   let beraterVorname = beraterName.split(' ')[0];
+  const brandKey = params.get('berater') || 'me';
+  const sofortBerater = gemerkterBerater(brandKey);
+  if (sofortBerater) {
+    applyBeraterBrand(sofortBerater);
+    if (sofortBerater.name) {
+      beraterName = sofortBerater.name;
+      beraterVorname = beraterName.split(' ')[0];
+    }
+  }
 
   const headline = document.getElementById('formHeadline');
   headline.textContent = typ === 'info'
@@ -267,6 +277,7 @@ if (page === 'empfehlen') {
   }
   if (berater) {
     applyBeraterBrand(berater);
+    merkeBerater(brandKey, berater);
     if (berater.name) {
       beraterName = berater.name;
       beraterVorname = berater.name.split(' ')[0];
@@ -458,12 +469,15 @@ if (page === 'empfaenger') {
   const token = params.get('token');
   const urlVorlage = params.get('vorlage');
 
-  // Fotos im Hero + Bio-Sektion: bleiben leer, bis der Berater feststeht.
-  // Sonst sieht der Empfänger eines anderen Beraters kurz (oder dauerhaft,
-  // falls das Laden scheitert) das Standard-Foto von Kai.
+  // Fotos im Hero + Bio-Sektion stehen ohne Quelle im HTML und bleiben leer,
+  // bis der Berater feststeht. Sonst sieht der Empfänger eines anderen Beraters
+  // kurz das Standard-Foto von Kai. Ist der Berater von einem früheren Aufruf
+  // gemerkt, steht er sofort — dann blitzt gar nichts auf.
   const foto = document.getElementById('eFoto');
   const bioFoto = document.getElementById('eBioFoto');
-  [foto, bioFoto].forEach((el) => { if (el) { el.removeAttribute('src'); el.alt = ''; } });
+  const brandKey = params.get('berater') || (token ? `tok_${token}` : 'me');
+  const sofort = gemerkterBerater(brandKey);
+  if (sofort) applyBeraterBrand(sofort);
 
   // Austragen-Link
   const optoutLink = document.getElementById('austragenLink');
@@ -519,8 +533,10 @@ if (page === 'empfaenger') {
     }
     // Kein Berater auflösbar → Standard-Berater (ENV) als letzter Fallback,
     // damit die Portraits nicht leer bleiben.
-    if (berater) applyBeraterBrand(berater);
-    else {
+    if (berater) {
+      applyBeraterBrand(berater);
+      merkeBerater(brandKey, berater);
+    } else if (!sofort) {
       [foto, bioFoto].forEach((el) => {
         if (!el) return;
         el.src = window.ENV_BERATER_FOTO || '';

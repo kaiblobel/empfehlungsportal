@@ -8,7 +8,6 @@ import {
   updateBerater,
   setBeraterAktiv,
   uploadBeraterFoto,
-  adminSetBeraterPassword,
   createBeraterLogin,
 } from './supabase.js';
 import { supabase } from './supabase.js';
@@ -118,14 +117,22 @@ function renderCard(b) {
         </div>
         <div><label>Auth-User-ID <span style="color:var(--text-secondary);font-weight:400;">(read-only, wird beim ersten Login automatisch verknüpft)</span></label><input data-f="auth_user_id_readonly" value="${escapeAttr(b.auth_user_id || '')}" readonly style="opacity:0.6;cursor:not-allowed;" /></div>
 
-        <div class="berater-pw" style="margin-top:6px;padding-top:14px;border-top:1px solid var(--border,#e3ddd4);">
-          <label>${b.auth_user_id ? 'Passwort setzen' : 'Login anlegen (Passwort vergeben)'}</label>
-          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-            <input data-pw="${b.id}" value="${escapeAttr(generatePassword())}" style="flex:1;min-width:160px;font-family:'SF Mono',Menlo,monospace;" />
-            <button type="button" data-pw-roll="${b.id}" title="Neuen Vorschlag würfeln" style="padding:8px 12px;border:1px solid var(--border,#e3ddd4);border-radius:8px;background:#fff;cursor:pointer;">🎲</button>
-            <button type="button" data-pw-set="${b.id}" style="padding:8px 16px;border:1px solid #141414;border-radius:8px;background:#141414;color:#fff;font-weight:600;cursor:pointer;">${b.auth_user_id ? 'Setzen' : 'Login anlegen'}</button>
+        <div class="berater-pw">
+          <div class="berater-pw-head">
+            <label>${b.auth_user_id ? 'Neues Passwort vergeben' : 'Login anlegen'}</label>
+            <span class="berater-login-status ${b.auth_user_id ? 'active' : ''}">${b.auth_user_id ? 'Login aktiv' : 'Noch kein Login'}</span>
           </div>
-          <div data-pw-result="${b.id}" style="display:none;margin-top:10px;font-size:13px;"></div>
+          <p class="berater-pw-intro">${b.auth_user_id
+            ? 'Das aktuelle Passwort kann aus Sicherheitsgründen nicht angezeigt werden. Ein neues Passwort wird erst aktiv, wenn du es hier ausdrücklich setzt.'
+            : 'Erzeuge ein sicheres Startpasswort und lege damit den Login für diesen Berater an.'}</p>
+          <label class="berater-pw-field-label" for="pw-${b.id}">${b.auth_user_id ? 'Neues Passwort' : 'Startpasswort'}</label>
+          <div class="berater-pw-row">
+            <input id="pw-${b.id}" data-pw="${b.id}" value="" autocomplete="new-password" placeholder="Mindestens 8 Zeichen" />
+            <button type="button" class="berater-pw-generate" data-pw-roll="${b.id}">Sicheren Vorschlag erzeugen</button>
+          </div>
+          <button type="button" class="berater-pw-submit" data-pw-set="${b.id}">${b.auth_user_id ? 'Neues Passwort jetzt setzen' : 'Login jetzt anlegen'}</button>
+          <div class="berater-pw-note">Der allgemeine Knopf „Speichern“ für die Beraterdaten ändert dieses Passwort nicht.</div>
+          <div data-pw-result="${b.id}" class="berater-pw-result" hidden></div>
         </div>
 
         <div class="cms-actions berater-actions">
@@ -204,7 +211,6 @@ function attachHandlers(list) {
     });
   });
 
-  // Passwort setzen (Admin)
   // Passwort/Login zeigt Erfolg (Passwort + Kopieren + WhatsApp/E-Mail mit Login-Link)
   function showLoginResult(resultEl, berater, pw, created) {
     const origin = window.location.origin;
@@ -223,14 +229,14 @@ function attachHandlers(list) {
         </div>
         <div style="margin-top:6px;color:var(--text-secondary,#6B6660);">Schick ${escapeHtml(berater?.name || 'dem Berater')} Benutzer (E-Mail) + Passwort + Login-Link. Er kann es danach selbst in den Einstellungen ändern.${created ? ' Falls die Seite neu geladen wird, zeigt die Karte „✓ Login".' : ''}</div>
       </div>`;
-    resultEl.style.display = '';
+    resultEl.hidden = false;
     const copyBtn = resultEl.querySelector('[data-pw-copy]');
     copyBtn?.addEventListener('click', async () => {
       try { await navigator.clipboard.writeText(pw); copyBtn.textContent = 'Kopiert ✓'; setTimeout(() => { copyBtn.textContent = 'Kopieren'; }, 1600); } catch (_) {}
     });
   }
 
-  // Passwort setzen (bestehendes Konto) bzw. Login anlegen (neues Konto) — Admin
+  // Passwort setzen oder Login anlegen, beides über die offizielle Auth Admin API.
   document.querySelectorAll('[data-pw-set]').forEach(btn => {
     btn.addEventListener('click', async (e) => {
       e.preventDefault(); e.stopPropagation();
@@ -248,20 +254,12 @@ function attachHandlers(list) {
       const origLabel = btn.textContent;
       btn.disabled = true; btn.textContent = hatLogin ? 'Setze…' : 'Lege an…';
       try {
-        if (hatLogin) {
-          const { data, error } = await adminSetBeraterPassword(id, pw);
-          if (error) throw error;
-          if (data === 'ok') { showLoginResult(resultEl, berater, pw, false); toast('Passwort gesetzt.'); }
-          else if (data === 'no_login') toast('Dieser Berater hat noch kein Login.');
-          else if (data === 'forbidden') toast('Kein Admin-Zugriff.');
-          else if (data === 'too_short') toast('Passwort zu kurz (min. 8 Zeichen).');
-          else toast('Unerwartete Antwort: ' + data);
-        } else {
-          const { data, error } = await createBeraterLogin(id, pw);
-          if (error) throw error;
-          if (data?.ok) { showLoginResult(resultEl, berater, pw, true); toast('Login angelegt.'); }
-          else toast('Unerwartete Antwort.');
-        }
+        const { data, error } = await createBeraterLogin(id, pw);
+        if (error) throw error;
+        if (!data?.ok) throw new Error('Unerwartete Antwort vom Login-Dienst.');
+        showLoginResult(resultEl, berater, pw, !!data.created);
+        inp.value = '';
+        toast(data.created ? 'Login angelegt.' : 'Passwort gesetzt.');
       } catch (err) {
         console.warn('[pw-set]', err);
         toast('Fehler: ' + (err.message || String(err)));

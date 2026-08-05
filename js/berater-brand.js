@@ -20,8 +20,32 @@
  * Felder, die im Berater-Datensatz leer sind, werden NICHT überschrieben — so
  * bleiben die statischen HTML-Defaults (Kai) als Fallback erhalten.
  */
+/**
+ * Zuletzt geladenen Berater merken — pro Schlüssel (Slug, Token oder „me").
+ *
+ * Ohne das steht beim Laden für einen kurzen Moment das statische Standard-Bild
+ * auf der Seite, bis der echte Berater aus dem Netz da ist. Für einen anderen
+ * Berater als den Standard heißt das: sein Besucher sieht kurz ein fremdes
+ * Gesicht. Mit dem Merker ist beim zweiten Aufruf sofort das richtige da.
+ */
+const BRAND_CACHE_PREFIX = 'bb_berater_';
+
+export function merkeBerater(key, b) {
+  if (!key || !b) return;
+  try { localStorage.setItem(BRAND_CACHE_PREFIX + key, JSON.stringify(b)); } catch (_) {}
+}
+
+export function gemerkterBerater(key) {
+  if (!key) return null;
+  try {
+    const roh = localStorage.getItem(BRAND_CACHE_PREFIX + key);
+    const d = roh ? JSON.parse(roh) : null;
+    return (d && d.id) ? d : null;
+  } catch (_) { return null; }
+}
+
 /** Neutraler Initialen-Avatar (Inline-SVG, kein externer Request) als Foto-Fallback. */
-function initialsAvatar(name) {
+export function initialsAvatar(name) {
   const initials = (name || '?').trim().split(/\s+/).map((s) => s[0] || '').join('').slice(0, 2).toUpperCase() || '?';
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="280" height="280" viewBox="0 0 280 280"><rect width="280" height="280" fill="#C9B98A"/><text x="50%" y="52%" dy=".35em" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-weight="600" font-size="112" fill="#fffcf7">${initials}</text></svg>`;
   return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
