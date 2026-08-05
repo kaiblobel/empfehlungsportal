@@ -1,6 +1,6 @@
 <!-- odysseus-passport
 purpose: Empfehlungs-HUB für DVAG-Berater - Vanilla JS + eigene Supabase; Funnel Klick zu Interesse zu Kunde, echte Kennzahlen, Champions, Prämien; Cockpit-Brücke
-status: live (Beta) - v1.167 seit 2026-08-05 live: Teamübersicht mit 7/30/90-Tage-Kennzahlen, alphabetischen Beraterkarten und Detailansicht; Beraterkonten liegen getrennt unter Verwaltung; schema-phase141.sql ist auf der Live-Datenbank angewandt und geprüft; Funktionsstand ce46d36 auf main und Vercel veröffentlicht
+status: Veröffentlichung freigegeben - v1.168 vorbereitet: Präsentation erhält nur beim HUB-Aufruf einen Rückweg; Analysen zeigen echte 7/30/90-Tage-Vergleiche, Entwicklung, Umwandlung, Themenerfolg und Promoterquellen; keine Datenbankmigration; Live-Nachweis steht noch aus
 live_url: https://empfehlungsportal.vercel.app
 tags: portal, supabase, empfehlung, promoter, mobile-first, live, baufinanzierung, kfw, bookings, power-automate
 -->

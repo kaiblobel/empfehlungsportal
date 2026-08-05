@@ -44,7 +44,7 @@ export const NAV_ITEMS = [
   // Auszahlungen ist der einzige Punkt mit Zähler (offene Auszahlungen) — also eine
   // wartende Aufgabe und damit Tagesgeschäft, nicht Verwaltung.
   { id: 'praemien',    label: 'Auszahlungen',  icon: 'Banknote',        href: path('praemien.html'),                  bottom: false, adminOnly: true },
-  { id: 'praesentation',label: 'Präsentation', icon: 'Presentation',    href: path('programm.html'),      bottom: false },
+  { id: 'praesentation',label: 'Präsentation', icon: 'Presentation',    href: path('programm.html?from=hub'),           bottom: false },
   { id: 'analysen',    label: 'Analysen',      icon: 'BarChart3',       href: path('dashboard/overview.html'),        bottom: false },
 
   { divider: true, label: 'Verwaltung' },

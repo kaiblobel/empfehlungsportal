@@ -29,6 +29,34 @@ body[data-page="programm"] {
 }
 body[data-page="programm"] * { box-sizing: border-box; }
 
+/* Interner Präsentations-Rückweg. Er wird nur mit ?from=hub eingeblendet. */
+.presenter-hub-back {
+  position: fixed;
+  z-index: 1200;
+  top: max(16px, env(safe-area-inset-top));
+  left: max(16px, env(safe-area-inset-left));
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 12px;
+  border: 1px solid rgba(75,65,50,.14);
+  border-radius: 999px;
+  background: rgba(255,252,247,.94);
+  box-shadow: 0 5px 18px rgba(48,42,34,.08);
+  color: #62594C;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  transition: border-color .18s ease, color .18s ease, transform .18s ease;
+}
+.presenter-hub-back:hover { border-color: var(--champagne); color: var(--deep-black); transform: translateY(-1px); }
+.presenter-hub-back[hidden] { display: none; }
+@media (max-width: 560px) {
+  .presenter-hub-back { top: max(12px, env(safe-area-inset-top)); left: max(12px, env(safe-area-inset-left)); padding: 9px 10px; }
+  .presenter-hub-back span { display: none; }
+}
+
 /* ---------- Editorial Typography ---------- */
 .t-eyebrow {
   font-family: 'Inter', sans-serif;

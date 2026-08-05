@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.167 Beta** · Teamleistung und Beraterkonten klar getrennt, live seit 05.08.2026.
+Aktuelle Version: **v1.168 Beta** · Echte Analysen und ein klarer Rückweg aus der Präsentation, Veröffentlichung freigegeben am 05.08.2026.
+
+---
+
+## v1.168 Beta - Phase 142 · Echte Analysen
+**2026-08-05**
+
+- Die bisherige Analyseseite ist keine zweite Übersicht mehr. Sie beantwortet mit 7-, 30- und 90-Tage-Zeiträumen, Zeitvergleich, Entwicklung, Umwandlungsstufen, Themenerfolg und Promoterquellen konkrete Steuerungsfragen.
+- Alle Kennzahlen werden aus den echten Empfehlungen des eingeloggten Beraters berechnet. Die bestehende Zugriffstrennung der Datenbank bleibt maßgeblich; Namen und Kontaktdaten von Empfängern werden nicht geladen.
+- Wenn die direkte Vorperiode noch keine belastbaren Daten enthält, zeigt die Oberfläche das ehrlich an und erzeugt keine künstlichen Prozentvergleiche.
+- Die Präsentation erhält beim Aufruf aus dem HUB einen dezenten Rückweg. Bei einem direkten Kundenaufruf bleibt dieser interne Knopf vollständig verborgen.
+- Der Überblick im HUB bleibt unverändert. Es wurden keine Datenbankmigration und keine Änderungen an bestehenden Datensätzen benötigt.
 
 ---
 

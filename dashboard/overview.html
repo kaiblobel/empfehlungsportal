@@ -3,159 +3,99 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#f5f5f7" />
-  <title>Übersicht · Empfehlungsportal</title>
+  <meta name="theme-color" content="#FAFAFA" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Analysen · Empfehlungs-HUB</title>
   <link rel="stylesheet" href="../css/style.css?v=32" />
   <link rel="stylesheet" href="../css/dashboard.css?v=45" />
+  <link rel="stylesheet" href="../css/hub.css?v=50" />
+  <link rel="stylesheet" href="../css/analysen.css?v=1" />
   <script src="../js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js" defer></script>
 </head>
-<body class="has-app-nav">
+<body data-page="analysen" class="has-app-nav">
 
   <div id="appNav"></div>
+  <script type="module" src="../js/nav.js?v=55"></script>
 
-  <div class="app-shell">
-    <header class="app-header">
-      <div class="app-header-left">
-        <img class="app-header-photo" id="hdrPhoto" alt="" />
-        <div>
-          <div class="app-header-name" id="hdrName">…</div>
-          <div class="app-header-sub">Empfehlungsportal</div>
-        </div>
+  <header class="h-header">
+    <div class="h-header-left">
+      <img class="h-header-photo" id="hPhoto" alt="" />
+      <div class="h-header-text">
+        <div class="h-header-name" id="hName">…</div>
+        <div class="h-header-sub">Analysen</div>
       </div>
-      <div class="app-header-right">
-        <a href="../hub.html" class="btn-hub-back" title="Zum Überblick">← <span class="lbl">Überblick</span></a>
-        <button class="btn-logout" id="logoutBtn">Abmelden</button>
-      </div>
-    </header>
+    </div>
+    <div class="h-header-right">
+      <div class="h-live"><span class="h-live-dot"></span><span>Daten aktuell</span></div>
+      <button class="h-logout" id="logoutBtn">Abmelden</button>
+    </div>
+  </header>
 
-    <main class="app-content">
-      <div class="kpi-grid" id="kpiGrid">
-        <div class="kpi-card"><div class="kpi-label">Aktive Promoter</div><div class="kpi-value" id="kpiEmpfehler">–</div></div>
-        <div class="kpi-card"><div class="kpi-label">Link-Klicks</div><div class="kpi-value" id="kpiKlicks">–</div></div>
-        <div class="kpi-card"><div class="kpi-label">Empfehlungen</div><div class="kpi-value" id="kpiGesamt">–</div></div>
-        <div class="kpi-card"><div class="kpi-label">Kunden</div><div class="kpi-value gold" id="kpiKunden">–</div></div>
-      </div>
-
+  <main class="h-main analysis-main">
+    <section class="analysis-hero">
       <div>
-        <div class="section-title">Funnel</div>
-        <div class="funnel-card" id="funnelCard">
-          <div class="skel-funnel-row"><span class="skel skel-line w40"></span><span class="skel skel-track"></span><span class="skel skel-line"></span></div>
-          <div class="skel-funnel-row"><span class="skel skel-line w40"></span><span class="skel skel-track"></span><span class="skel skel-line"></span></div>
-          <div class="skel-funnel-row"><span class="skel skel-line w40"></span><span class="skel skel-track"></span><span class="skel skel-line"></span></div>
-          <div class="skel-funnel-row"><span class="skel skel-line w40"></span><span class="skel skel-track"></span><span class="skel skel-line"></span></div>
-        </div>
+        <div class="h-label">Wirkung verstehen</div>
+        <h1>Analysen</h1>
+        <p>Was funktioniert, was verändert sich und wo lohnt sich dein Fokus? Keine zweite Übersicht, sondern klare Antworten aus deinem Empfehlungsnetzwerk.</p>
       </div>
-
-      <div>
-        <div class="section-title">Letzte 7 Tage</div>
-        <div class="chart-card">
-          <div class="chart-bars" id="chartBars"></div>
-          <div class="chart-labels" id="chartLabels"></div>
-        </div>
+      <div class="analysis-range" id="analysisRange" aria-label="Zeitraum auswählen">
+        <button type="button" data-days="7">7 Tage</button>
+        <button type="button" data-days="30" class="active">30 Tage</button>
+        <button type="button" data-days="90">90 Tage</button>
       </div>
+    </section>
 
-      <div>
-        <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: -4px;">
-          <div class="section-title" style="margin: 0 0 0 4px;">Aktivität</div>
-          <a href="neu.html" class="btn-logout" style="text-decoration: none; padding: 6px 12px;">+ Neu</a>
-        </div>
-        <div id="feed">
-          <div class="skel-row"><div class="skel-body"><span class="skel skel-line"></span><span class="skel skel-line"></span></div><span class="skel skel-tail"></span></div>
-          <div class="skel-row"><div class="skel-body"><span class="skel skel-line"></span><span class="skel skel-line"></span></div><span class="skel skel-tail"></span></div>
-          <div class="skel-row"><div class="skel-body"><span class="skel skel-line"></span><span class="skel skel-line"></span></div><span class="skel skel-tail"></span></div>
-        </div>
+    <section>
+      <header class="analysis-section-head">
+        <div><div class="h-label">Zeitraum im Vergleich</div><h2>Deine Wirkung auf einen Blick</h2><p>Ergebnisse aus dem gewählten Zeitraum, verglichen mit der direkten Vorperiode.</p></div>
+        <span class="analysis-data-hint" id="compareHint">Vergleich wird geladen</span>
+      </header>
+      <div class="analysis-error" id="analysisError" hidden></div>
+      <div class="analysis-kpis" id="analysisKpis">
+        <article class="analysis-kpi" style="--analysis-tone:#C9B98A"><div class="analysis-kpi-top"><span class="analysis-kpi-dot"></span><span class="analysis-delta neutral" id="deltaReferrals">—</span></div><strong id="valueReferrals"><span class="h-skeleton"></span></strong><span>Empfehlungen</span><small id="subReferrals">im gewählten Zeitraum</small></article>
+        <article class="analysis-kpi" style="--analysis-tone:#7A8B6F"><div class="analysis-kpi-top"><span class="analysis-kpi-dot"></span><span class="analysis-delta neutral" id="deltaClicks">—</span></div><strong id="valueClicks"><span class="h-skeleton"></span></strong><span>Link-Klicks</span><small id="subClicks">je Empfehlung</small></article>
+        <article class="analysis-kpi" style="--analysis-tone:#C28447"><div class="analysis-kpi-top"><span class="analysis-kpi-dot"></span><span class="analysis-delta neutral" id="deltaConversations">—</span></div><strong id="valueConversations"><span class="h-skeleton"></span></strong><span>Entstandene Gespräche</span><small id="subConversations">Anteil der Empfehlungen</small></article>
+        <article class="analysis-kpi" style="--analysis-tone:#2E5266"><div class="analysis-kpi-top"><span class="analysis-kpi-dot"></span><span class="analysis-delta neutral" id="deltaCustomers">—</span></div><strong id="valueCustomers"><span class="h-skeleton"></span></strong><span>Gewonnene Kunden</span><small id="subCustomers">Gesamtumwandlung</small></article>
       </div>
-    </main>
+    </section>
 
-  </div>
+    <section>
+      <header class="analysis-section-head">
+        <div><div class="h-label">Entwicklung und Umwandlung</div><h2>Wo Bewegung entsteht</h2><p>Verlauf und Engpässe werden getrennt sichtbar.</p></div>
+      </header>
+      <div class="analysis-upper-grid">
+        <article class="analysis-card analysis-chart-card">
+          <header><div><h3>Entwicklung über Zeit</h3><p>Empfehlungen und gewonnene Kunden je Abschnitt</p></div><span id="chartRangeLabel">30 Tage</span></header>
+          <div class="analysis-chart"><canvas id="analysisTrendChart"></canvas></div>
+        </article>
+        <article class="analysis-card">
+          <header><div><h3>Umwandlung</h3><p>Von der Empfehlung zur Zusammenarbeit</p></div><span id="funnelTotal">—</span></header>
+          <div class="analysis-funnel" id="analysisFunnel"><div class="analysis-card-skeleton"></div></div>
+          <div class="analysis-funnel-highlight" id="funnelHighlight" hidden></div>
+        </article>
+      </div>
+    </section>
 
-  <script type="module" src="../js/nav.js?v=54"></script>
-  <script type="module">
-    import {
-      requireAuth, logout, loadKPIs, loadRecent, loadLast7Days, loadFunnel,
-      loadAktiveEmpfehlerCount,
-      formatDate, getStatusBadge, applyBeraterHeader,
-    } from '../js/dashboard.js';
+    <section>
+      <header class="analysis-section-head">
+        <div><div class="h-label">Was Ergebnisse bringt</div><h2>Themen und Promoterquellen</h2><p>Nicht nur Volumen, sondern tatsächliche Kundenwirkung.</p></div>
+      </header>
+      <div class="analysis-lower-grid">
+        <article class="analysis-card">
+          <header><div><h3>Themenerfolg</h3><p>Empfehlungen, Kunden und Umwandlung</p></div><span id="topicRangeLabel">30 Tage</span></header>
+          <div class="analysis-topic-list" id="analysisTopics"><div class="analysis-card-skeleton"></div></div>
+          <div class="analysis-insight" id="topicInsight" hidden></div>
+        </article>
+        <article class="analysis-card">
+          <header><div><h3>Promoterquellen</h3><p>Wer Empfehlungen und Kunden bewegt</p></div><span id="promoterCount">— aktiv</span></header>
+          <div class="analysis-promoter-list" id="analysisPromoters"><div class="analysis-card-skeleton"></div></div>
+          <div class="analysis-insight" id="promoterInsight" hidden></div>
+        </article>
+      </div>
+    </section>
+  </main>
 
-    applyBeraterHeader();
-    document.getElementById('logoutBtn').addEventListener('click', logout);
-
-    (async () => {
-      const session = await requireAuth();
-      if (!session) return;
-
-      // KPIs
-      const [kpis, empfCount] = await Promise.all([loadKPIs(), loadAktiveEmpfehlerCount()]);
-      document.getElementById('kpiEmpfehler').textContent = empfCount;
-      document.getElementById('kpiKlicks').textContent    = kpis.klicks;
-      document.getElementById('kpiGesamt').textContent    = kpis.gesamt;
-      document.getElementById('kpiKunden').textContent    = kpis.kunden;
-
-      // Funnel
-      const f = await loadFunnel();
-      const stages = [
-        { key: 'gesendet',     label: 'Gesendet',     count: f.gesendet,     base: f.gesendet,    gold: false },
-        { key: 'geoeffnet',    label: 'Geöffnet',     count: f.geoeffnet,    base: f.gesendet,    gold: false },
-        { key: 'interessiert', label: 'Interesse',    count: f.interessiert, base: f.geoeffnet,   gold: false },
-        { key: 'kunden',       label: 'Kunde',        count: f.kunden,       base: f.interessiert, gold: true  },
-      ];
-      const funnelMax = Math.max(1, f.gesendet);
-      document.getElementById('funnelCard').innerHTML = stages.map(s => {
-        const widthPct = (s.count / funnelMax) * 100;
-        const pct = s.base > 0 ? Math.round((s.count / s.base) * 100) + ' %' : '–';
-        return `
-          <div class="funnel-row">
-            <div class="label">${s.label}</div>
-            <div class="bar-wrap"><div class="bar ${s.gold?'gold':''}" style="width: ${widthPct}%"></div></div>
-            <div class="value">${s.count}</div>
-            <div class="pct">${s.key === 'gesendet' ? '' : pct}</div>
-          </div>`;
-      }).join('');
-
-      // 7-Tage-Chart
-      const days = await loadLast7Days();
-      const max = Math.max(1, ...days.map(d => d.count));
-      const bars = document.getElementById('chartBars');
-      const labels = document.getElementById('chartLabels');
-      bars.innerHTML = '';
-      labels.innerHTML = '';
-      const weekday = ['So','Mo','Di','Mi','Do','Fr','Sa'];
-      days.forEach(d => {
-        const col = document.createElement('div');
-        col.className = 'chart-col';
-        const pct = d.count === 0 ? 4 : Math.max(8, (d.count / max) * 100);
-        col.innerHTML = `<div class="chart-bar ${d.count===0?'zero':''}" style="height:${pct}%">${d.count>0?`<span class="chart-val">${d.count}</span>`:''}</div>`;
-        bars.appendChild(col);
-
-        const lbl = document.createElement('span');
-        lbl.textContent = weekday[d.date.getDay()];
-        labels.appendChild(lbl);
-      });
-
-      // Feed
-      const feed = document.getElementById('feed');
-      const recent = await loadRecent(10);
-      if (!recent.length) {
-        feed.innerHTML = '<div class="empty-state">Noch keine Empfehlungen.</div>';
-      } else {
-        feed.innerHTML = '<div class="feed">' + recent.map(r => `
-          <a class="feed-row" href="detail.html?id=${r.id}">
-            <div class="feed-main">
-              <div class="feed-name">${escapeHtml(r.empfaenger_name || '–')}</div>
-              <div class="feed-meta">
-                ${getStatusBadge(r.status)}
-                <span>${r.typ === 'info' ? 'Info' : 'Direkt'}</span>
-                <span>${formatDate(r.created_at)}</span>
-              </div>
-            </div>
-            <span class="feed-arrow">›</span>
-          </a>`).join('') + '</div>';
-      }
-    })();
-
-    function escapeHtml(s) {
-      return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
-    }
-  </script>
+  <script type="module" src="../js/analysen.js?v=1"></script>
 </body>
 </html>

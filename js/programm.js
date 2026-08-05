@@ -7,6 +7,13 @@ import { baueReise, reiseHtml } from './belohnungs-reise.js';
 // Wird unten zum Branding genutzt + an create_empfehler durchgereicht.
 const beraterSlug = new URLSearchParams(window.location.search).get('berater');
 
+// Die Präsentation bleibt für Kunden sauber. Der Rückweg erscheint nur,
+// wenn sie ausdrücklich aus dem eingeloggten HUB geöffnet wurde.
+const presenterHubBack = document.getElementById('presenterHubBack');
+if (presenterHubBack && new URLSearchParams(window.location.search).get('from') === 'hub') {
+  presenterHubBack.hidden = false;
+}
+
 // === Förder-Rechner (Phase 50m): Live-Tool für den Live-Pitch ===
 (function initFoerderRechner() {
   const alterEl    = document.getElementById('foerderAlter');
