@@ -1,7 +1,7 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.170 Beta** · Kurze Präsentation und stabile Themenseiten-Vorschau, Veröffentlichung freigegeben am 05.08.2026.
+Aktuelle Version: **v1.170 Beta** · Kurze Präsentation und stabile Themenseiten-Vorschau, veröffentlicht am 05.08.2026.
 
 ---
 
@@ -15,6 +15,7 @@ Aktuelle Version: **v1.170 Beta** · Kurze Präsentation und stabile Themenseite
 - Die Schlusszeile des Förderbeispiels hat einen eigenen Platz im Raster und überlagert bei schmaleren Fenstern keine Inhalte mehr.
 - Der feste Button `Jetzt empfehlen` hat ruhigere Ecken mit 14 Pixel Radius statt Pillenform.
 - Keine Datenbankmigration und keine Änderung an Kunden-, Berater- oder Empfehlungsdaten.
+- Funktionsstand `34f307e` ist auf `main` und über das produktive Vercel-Deployment `dpl_DLrAwib6WLCD7rVpmK4E2Mu8KaMH` veröffentlicht. Offizielle Adresse, Version, Umschalter, Kurzmodus-Markierungen und beide Darstellungsreparaturen wurden geprüft; das Fehlerprotokoll ist leer.
 
 ---
 
