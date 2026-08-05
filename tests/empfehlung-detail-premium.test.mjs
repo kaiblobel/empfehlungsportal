@@ -33,9 +33,9 @@ assert.match(js, /id="notizArea"/);
 assert.match(js, /Nächster sinnvoller Schritt/);
 assert.match(js, /Verwaltung anzeigen/);
 
-assert.match(config, /APP_VERSION = 'v1\.176 Beta'/);
-assert.match(config, /Phase 150 · Leichterer Premium-HUB/);
-assert.match(sw, /CACHE_VERSION = 'v135-2026-08-05'/);
+assert.match(config, /APP_VERSION = 'v1\.177 Beta'/);
+assert.match(config, /Phase 151 · Einheitliche Portal-Bezeichnung/);
+assert.match(sw, /CACHE_VERSION = 'v136-2026-08-05'/);
 assert.match(sw, /\/css\/empfehlung-detail\.css\?v=1/);
 assert.match(sw, /\/js\/empfehlung-detail\.js\?v=1/);
 

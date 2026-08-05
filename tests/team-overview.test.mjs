@@ -74,9 +74,9 @@ assert.match(css, /\.team-members/);
 assert.match(css, /\.team-detail-grid/);
 assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.team-detail-metrics/);
 
-assert.match(config, /v1\.176 Beta/);
-assert.match(config, /Phase 150 · Leichterer Premium-HUB/);
-assert.match(sw, /CACHE_VERSION = 'v135-2026-08-05'/);
+assert.match(config, /v1\.177 Beta/);
+assert.match(config, /Phase 151 · Einheitliche Portal-Bezeichnung/);
+assert.match(sw, /CACHE_VERSION = 'v136-2026-08-05'/);
 assert.match(sw, /'\/team\.html'/);
 assert.match(sw, /'\/js\/team\.js\?v=1'/);
 assert.match(beraterHtml, /<title>Beraterkonten · Empfehlungsportal<\/title>/);

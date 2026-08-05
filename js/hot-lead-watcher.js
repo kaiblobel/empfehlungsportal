@@ -5,7 +5,7 @@
  * triggert wenn ein Status zu 'anrufwunsch' wird oder interessiert auf true
  * gesetzt wird:
  *   - Toast unten zentriert
- *   - Tab-Title-Flash wenn Tab nicht im Fokus ("● (n) Empfehlungs-HUB")
+ *   - Tab-Title-Flash wenn Tab nicht im Fokus ("● (n) Empfehlungsportal")
  *   - Optional: Callback (Hub-Hot-Leads-Refresh)
  *
  * Kein Service Worker, kein Push — funktioniert nur solange Tab offen ist.

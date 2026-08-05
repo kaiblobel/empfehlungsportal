@@ -1,10 +1,10 @@
-# Empfehlungs-HUB · Design System
+# Empfehlungsportal · Design System
 
 **Master-Reference:** Hub-Page (`/hub.html`)
 **Lock-Status:** Phase 38 / Commit `5685960` · 2026-05-31
 **Doku-Update:** Phase 39
 
-Hub ist die visuelle DNA. Alle anderen Dashboard-Pages müssen Hub-Komponenten wiederverwenden, nicht neu erfinden. Wenn man eine neue Page neben den Hub legt, soll man dieselbe Software erkennen.
+Die Portal-Startseite ist die visuelle DNA. Alle anderen Dashboard-Pages müssen ihre Komponenten wiederverwenden, nicht neu erfinden. Wenn man eine neue Page neben die Startseite legt, soll man dieselbe Software erkennen.
 
 ---
 

@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.176 Beta** · Leichterer Premium-HUB, live seit 05.08.2026.
+Aktuelle Version: **v1.177 Beta** · Einheitliche Portal-Bezeichnung, vorbereitet am 05.08.2026.
+
+---
+
+## v1.177 Beta - Phase 151 · Einheitliche Portal-Bezeichnung
+**2026-08-05**
+
+- Alle aktuellen sichtbaren Rückwege heißen jetzt `Zurück zum Portal` statt `Zurück zum Hub` oder `Zurück zum HUB`.
+- Der Notfall-Link auf der Startadresse heißt `Zum Portal`.
+- Die sichtbare Phasenbezeichnung verwendet nur noch `Portal` und nicht mehr `Premium-HUB`.
+- Technische Pfade, Klassen und interne Bezeichner wie `hub.html` bleiben erhalten, damit bestehende Links, Lesezeichen und Funktionen nicht brechen.
+- Keine Datenbankmigration und keine Änderung an Daten oder Abläufen.
+- Veröffentlichung noch nicht freigegeben.
 
 ---
 

@@ -54,9 +54,9 @@ assert.match(css, /\.analysis-promoter-list/);
 assert.match(css, /@media \(max-width:600px\)/);
 
 assert.match(nav, /id: 'analysen',[\s\S]*?href: path\('dashboard\/overview\.html'\)/);
-assert.match(config, /v1\.176 Beta/);
-assert.match(config, /Phase 150 · Leichterer Premium-HUB/);
-assert.match(sw, /CACHE_VERSION = 'v135-2026-08-05'/);
+assert.match(config, /v1\.177 Beta/);
+assert.match(config, /Phase 151 · Einheitliche Portal-Bezeichnung/);
+assert.match(sw, /CACHE_VERSION = 'v136-2026-08-05'/);
 assert.match(sw, /'\/dashboard\/overview\.html'/);
 assert.match(sw, /'\/css\/analysen\.css\?v=1'/);
 assert.match(sw, /'\/js\/analysen\.js\?v=1'/);
