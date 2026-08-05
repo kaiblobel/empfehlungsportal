@@ -1,7 +1,7 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.172 Beta** · Empfehlungen als Premium-Arbeitsliste, Veröffentlichung freigegeben am 05.08.2026.
+Aktuelle Version: **v1.172 Beta** · Empfehlungen als Premium-Arbeitsliste, veröffentlicht am 05.08.2026.
 
 ---
 
@@ -16,6 +16,7 @@ Aktuelle Version: **v1.172 Beta** · Empfehlungen als Premium-Arbeitsliste, Ver�
 - Das aufklappbare Untermenü bei `Empfehlungen` ist entfernt, weil es dieselben Filter doppelt angeboten hat. Das Untermenü des Bonusprogramms bleibt bestehen.
 - Rechtsklick, Bearbeiten, Löschen, Statuswechsel und alle bestehenden Detailwege bleiben erhalten.
 - Keine Datenbankmigration und keine Änderung an Empfehlungen, Kunden- oder Beraterdaten.
+- Funktionsstand `d3e1b3a` ist auf `main` und über das produktive Vercel-Deployment `dpl_B3T2goNpYfAiWd4FNGb5YRqgZsNN` veröffentlicht. Offizielle Seite, Version, priorisierte Kontakte, Suche, Interesse-Filter, vereinfachtes Empfehlungen-Menü und weiterhin aufklappbares Bonusprogramm wurden geprüft; das Fehlerprotokoll ist leer.
 
 ---
 
