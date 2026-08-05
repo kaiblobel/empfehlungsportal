@@ -1,5 +1,5 @@
 -- =====================================================================
--- Phase 157 Â· Hinweis bei neuem Promoter
+-- Phase 157 · Hinweis bei neuem Promoter
 --
 -- VORBEREITET, NICHT ANGEWENDET.
 -- Erst nach Deployment der Edge Function notify-promoter anwenden.
@@ -65,4 +65,3 @@ $$;
 -- drop trigger if exists trg_notify_promoter_created on public.empfehler;
 -- drop function if exists public.notify_promoter_created_trigger();
 -- alter publication supabase_realtime drop table public.empfehler;
-

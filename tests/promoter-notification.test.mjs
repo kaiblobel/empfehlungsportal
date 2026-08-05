@@ -12,7 +12,7 @@ test('neue Selbstanmeldungen erscheinen live im Hub', () => {
   assert.match(hub, /dashboard\/promoter\.html\?id=/);
 });
 
-test('Promoterliste aktualisiert sich bei neuen EintrÃ¤gen', () => {
+test('Promoterliste aktualisiert sich bei neuen Einträgen', () => {
   const page = read('dashboard/empfehler.html');
   assert.match(page, /channel\('promoter-list-stream'\)/);
   assert.match(page, /await refresh\(\)/);
@@ -26,10 +26,9 @@ test('Datenbank benachrichtigt nur bei echter Selbstanmeldung', () => {
   assert.match(schema, /functions\/v1\/notify-promoter/);
 });
 
-test('Edge Function prÃ¼ft internen Token und adressiert den richtigen Berater', () => {
+test('Edge Function prüft internen Token und adressiert den richtigen Berater', () => {
   const fn = read('supabase/functions/notify-promoter/index.ts');
   assert.match(fn, /providedToken !== secrets\.INTERNAL_FUNCTION_TOKEN/);
   assert.match(fn, /\.eq\("user_id", berater\.auth_user_id\)/);
-  assert.match(fn, /Promoter im Portal Ã¶ffnen/);
+  assert.match(fn, /Promoter im Portal öffnen/);
 });
-

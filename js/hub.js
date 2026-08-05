@@ -4,7 +4,7 @@ import { requireAuth, logout, formatDate, loadFunnel, applyBeraterHeader } from 
 import { icon, hydrateIcons } from './icons.js';
 import { watchHotLeads } from './hot-lead-watcher.js';
 
-// Phase 40 Â· Read-State fÃ¼r Activity-Stream
+// Phase 40 · Read-State für Activity-Stream
 const READ_EVENTS_KEY = 'hubReadEvents';
 let readEvents = new Set();
 try { readEvents = new Set(JSON.parse(localStorage.getItem(READ_EVENTS_KEY) || '[]')); } catch {}
@@ -65,10 +65,10 @@ let currentRange = parseInt(sessionStorage.getItem(RANGE_KEY) || '30', 10);
     },
   });
 
-  // Realtime Hub-Stream (Phase 29) â€” Timeline live aktualisieren
+  // Realtime Hub-Stream (Phase 29) — Timeline live aktualisieren
   startHubStream();
 
-  // Team-Momentum (Phase 82): PrÃ¤senz-Heartbeat + Team-Feed
+  // Team-Momentum (Phase 82): Präsenz-Heartbeat + Team-Feed
   await touchPresence();
   loadTeamMomentum();
   setInterval(async () => { await touchPresence(); loadTeamMomentum(); }, 60000);
@@ -121,14 +121,14 @@ async function loadKPIs() {
 function renderKPIs([empfehler, klicks, gesamt, kunden], subs) {
   const set = (id, v) => {
     const el = document.getElementById(id);
-    el.innerHTML = v === null ? 'â€”' : String(v);
+    el.innerHTML = v === null ? '—' : String(v);
   };
   set('kpiEmpfehler', empfehler);
   set('kpiKlicks', klicks);
   set('kpiGesamt', gesamt);
   set('kpiKunden', kunden);
 
-  // Trend-Sub-Stats (Phase 17 Â· Snapshot-basiert)
+  // Trend-Sub-Stats (Phase 17 · Snapshot-basiert)
   if (subs) {
     const sub = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
     sub('subEmpfehler', formatTrend(subs.empfehler));
@@ -147,11 +147,11 @@ function formatTrend(t) {
   if (t.base === 0) return pill('neutral', 'noch keine Vergleichswerte');
   const pct = Math.round((diff / t.base) * 100);
   const dir = diff > 0 ? 'up' : 'down';
-  const arrow = diff > 0 ? 'â†‘' : 'â†“';
+  const arrow = diff > 0 ? '↑' : '↓';
   return pill(dir, `<strong>${arrow} ${Math.abs(pct)}%</strong> vs. Vorwoche`);
 }
 
-/* ---------- KPI Sub-Stats (Phase 17 Â· Trend-Vergleich via Snapshot-Tabelle) ---------- */
+/* ---------- KPI Sub-Stats (Phase 17 · Trend-Vergleich via Snapshot-Tabelle) ---------- */
 async function loadKPISubStats() {
   try {
     const { data, error } = await supabase.rpc('kpi_trend', { days_back: 7 });
@@ -192,17 +192,17 @@ function renderHeroStats({ opened, anruf, kunden }, hotLeads) {
   const linesEl = document.getElementById('hHeroLines');
   if (linesEl) {
     const lines = [];
-    if (opened) lines.push(`Heute wurden <strong>${opened} ${opened === 1 ? 'Empfehlung' : 'Empfehlungen'}</strong> geÃ¶ffnet.`);
+    if (opened) lines.push(`Heute wurden <strong>${opened} ${opened === 1 ? 'Empfehlung' : 'Empfehlungen'}</strong> geöffnet.`);
     if (kunden) lines.push(`<strong>${kunden} ${kunden === 1 ? 'neuer Kunde' : 'neue Kunden'}</strong> diese Woche.`);
     const waiting = (hotLeads || []).length;
     if (waiting) lines.push(`<strong>${waiting} ${waiting === 1 ? 'Kontakt' : 'Kontakte'}</strong> warten auf deine Aufmerksamkeit.`);
-    if (!lines.length) lines.push('Dein Empfehlungssystem lÃ¤uft.');
+    if (!lines.length) lines.push('Dein Empfehlungssystem läuft.');
     linesEl.innerHTML = lines.map(l => `<span>${l}</span>`).join('');
   }
   const pillAct = document.getElementById('hPillActivity');
   if (pillAct) {
     const count = (opened || 0) + (anruf || 0) + (kunden || 0);
-    pillAct.textContent = `${count} AktivitÃ¤ten heute`;
+    pillAct.textContent = `${count} Aktivitäten heute`;
   }
 }
 
@@ -238,21 +238,21 @@ function renderHotLeads(list) {
     return;
   }
   if (label) label.textContent = 'Warten auf dich';
-  if (sub) sub.textContent = `${list.length} ${list.length === 1 ? 'Kontakt erwartet' : 'Kontakte erwarten'} heute deinen nÃ¤chsten Schritt.`;
+  if (sub) sub.textContent = `${list.length} ${list.length === 1 ? 'Kontakt erwartet' : 'Kontakte erwarten'} heute deinen nächsten Schritt.`;
   const ERR_LABELS = {
-    vormittag: 'Vormittags (8â€“12 Uhr)',
-    mittag: 'Mittags (12â€“14 Uhr)',
-    nachmittag: 'Nachmittags (14â€“18 Uhr)',
-    abend: 'Abends (18â€“21 Uhr)',
+    vormittag: 'Vormittags (8–12 Uhr)',
+    mittag: 'Mittags (12–14 Uhr)',
+    nachmittag: 'Nachmittags (14–18 Uhr)',
+    abend: 'Abends (18–21 Uhr)',
     we: 'Am Wochenende',
   };
   const WA_SVG = `<svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>`;
   wrap.innerHTML = list.map(r => {
     const cls = r._kind;
-    const name = r.empfaenger_name || 'â€“';
+    const name = r.empfaenger_name || '–';
     const initials = initialsFor(name);
     const isCall = cls === 'anrufwunsch';
-    const action = isCall ? '<strong>mÃ¶chte kontaktiert werden</strong>' : '<strong>hat Interesse bekundet</strong>';
+    const action = isCall ? '<strong>möchte kontaktiert werden</strong>' : '<strong>hat Interesse bekundet</strong>';
     const heat = heatScore(r);
     const heatPrefix = heat ? `${heat} ` : '';
     const reach = isCall && r.anrufwunsch ? `Bevorzugte Zeit: ${ERR_LABELS[r.anrufwunsch] || r.anrufwunsch}` : null;
@@ -261,18 +261,18 @@ function renderHotLeads(list) {
     if (reach) detailParts.push(reach);
     if (heat) detailParts.push(`${heatPrefix}schnelle Reaktion`);
     detailParts.push(rel);
-    const cta = isCall ? 'Kontakt aufnehmen' : 'Jetzt Ã¶ffnen';
+    const cta = isCall ? 'Kontakt aufnehmen' : 'Jetzt öffnen';
     const detailUrl = `dashboard/detail.html?id=${r.id}`;
     const waMsg = isCall
-      ? `Hallo ${name} â€” kurze Nachfrage: wann passt dir am besten ein kurzes GesprÃ¤ch? Ich freue mich auf dich! Kai Blobel`
-      : `Hallo ${name}, du hattest Interesse gezeigt â€” wann wÃ¤re ein guter Moment fÃ¼r unser GesprÃ¤ch? Ich freue mich auf den Austausch! Kai Blobel`;
+      ? `Hallo ${name} — kurze Nachfrage: wann passt dir am besten ein kurzes Gespräch? Ich freue mich auf dich! Kai Blobel`
+      : `Hallo ${name}, du hattest Interesse gezeigt — wann wäre ein guter Moment für unser Gespräch? Ich freue mich auf den Austausch! Kai Blobel`;
     const waUrl = `https://wa.me/?text=${encodeURIComponent(waMsg)}`;
     return `
       <div class="h-lead ${cls}" onclick="location.href='${detailUrl}'" role="link" tabindex="0">
         <span class="h-lead-avatar">${escapeHtml(initials)}</span>
         <div class="h-lead-text">
           <strong>${escapeHtml(name)}</strong> ${action}.
-          <span class="h-lead-detail">${detailParts.filter(Boolean).map(escapeHtml).join(' Â· ')}</span>
+          <span class="h-lead-detail">${detailParts.filter(Boolean).map(escapeHtml).join(' · ')}</span>
         </div>
         <a href="${waUrl}" target="_blank" rel="noopener" class="h-lead-wa" title="Erinnern via WhatsApp" onclick="event.stopPropagation()">${WA_SVG}</a>
         <a href="${detailUrl}" class="h-lead-cta" onclick="event.stopPropagation()">${cta}</a>
@@ -282,7 +282,7 @@ function renderHotLeads(list) {
 
 function initialsFor(name) {
   const parts = String(name || '').trim().split(/\s+/).filter(Boolean);
-  if (!parts.length) return 'â€“';
+  if (!parts.length) return '–';
   if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
@@ -293,15 +293,15 @@ function heatScore(r) {
   const delta = r._ts - openedAt;
   if (delta < 0) return '';
   const hr = delta / 3600000;
-  if (hr < 1) return 'ðŸ”¥ðŸ”¥ðŸ”¥';
-  if (hr < 24) return 'ðŸ”¥ðŸ”¥';
-  if (hr < 72) return 'ðŸ”¥';
+  if (hr < 1) return '🔥🔥🔥';
+  if (hr < 24) return '🔥🔥';
+  if (hr < 72) return '🔥';
   return '';
 }
 function heatTitleFor(h) {
-  if (h === 'ðŸ”¥ðŸ”¥ðŸ”¥') return 'Sofort-Reaktion (< 1h nach Ã–ffnen)';
-  if (h === 'ðŸ”¥ðŸ”¥') return 'Schnelle Reaktion (< 24h)';
-  if (h === 'ðŸ”¥') return 'Reaktion innerhalb 3 Tagen';
+  if (h === '🔥🔥🔥') return 'Sofort-Reaktion (< 1h nach Öffnen)';
+  if (h === '🔥🔥') return 'Schnelle Reaktion (< 24h)';
+  if (h === '🔥') return 'Reaktion innerhalb 3 Tagen';
   return '';
 }
 
@@ -323,13 +323,13 @@ async function loadTimelineEvents() {
     ]);
     const events = [];
     (empfehlungen || []).forEach(r => {
-      const name = r.empfaenger_name || 'â€“';
+      const name = r.empfaenger_name || '–';
       const ts = (key) => key ? parseDbDate(key).getTime() : 0;
       const href = `dashboard/detail.html?id=${encodeURIComponent(r.id)}`;
       if (r.created_at)        events.push({ id: r.id, ts: ts(r.created_at),        kind: 'created',  name, text: 'wurde empfohlen', href });
-      if (r.link_geoeffnet_at) events.push({ id: r.id, ts: ts(r.link_geoeffnet_at), kind: 'opened',   name, text: 'hat die Empfehlung geÃ¶ffnet', href });
+      if (r.link_geoeffnet_at) events.push({ id: r.id, ts: ts(r.link_geoeffnet_at), kind: 'opened',   name, text: 'hat die Empfehlung geöffnet', href });
       if (r.interessiert_at)   events.push({ id: r.id, ts: ts(r.interessiert_at),   kind: 'interest', name, text: 'hat Interesse bekundet', href });
-      if (r.anrufwunsch_at)    events.push({ id: r.id, ts: ts(r.anrufwunsch_at),    kind: 'call',     name, text: `hat einen Anrufwunsch hinterlegt${r.anrufwunsch ? ' Â· ' + r.anrufwunsch : ''}`, href });
+      if (r.anrufwunsch_at)    events.push({ id: r.id, ts: ts(r.anrufwunsch_at),    kind: 'call',     name, text: `hat einen Anrufwunsch hinterlegt${r.anrufwunsch ? ' · ' + r.anrufwunsch : ''}`, href });
       if (r.status === 'kunde') {
         const kts = Math.max(ts(r.created_at), ts(r.interessiert_at), ts(r.anrufwunsch_at), ts(r.link_geoeffnet_at));
         events.push({ id: r.id, ts: kts, kind: 'kunde', name, text: 'wurde Kunde', href });
@@ -351,12 +351,12 @@ async function loadTimelineEvents() {
 
 const EVENT_META = {
   created:           { label: 'Empfehlung erhalten', color: '#B5953F', icon: 'Send' },            // Champagne Gold
-  opened:            { label: 'Link geklickt',       color: '#4A7D48', icon: 'Eye' },             // GrÃ¼n
+  opened:            { label: 'Link geklickt',       color: '#4A7D48', icon: 'Eye' },             // Grün
   interest:          { label: 'Interesse',           color: '#C28447', icon: 'HeartHandshake' },  // Terracotta
   call:              { label: 'Anrufwunsch',         color: '#B5651D', icon: 'PhoneCall' },       // Burnt-Orange
-  kunde:             { label: 'Neuer Kunde',         color: '#1A5C29', icon: 'Trophy' },          // DunkelgrÃ¼n
+  kunde:             { label: 'Neuer Kunde',         color: '#1A5C29', icon: 'Trophy' },          // Dunkelgrün
   promotor_created:  { label: 'Promoter erstellt',   color: '#2C5F7C', icon: 'UserPlus' },        // DVAG Blau
-  termin_booked:     { label: 'Termin gebucht',      color: '#3E8B8B', icon: 'Calendar' },        // TÃ¼rkis
+  termin_booked:     { label: 'Termin gebucht',      color: '#3E8B8B', icon: 'Calendar' },        // Türkis
 };
 
 const NEW_BADGE_WINDOW_MS = 24 * 60 * 60 * 1000; // 24h
@@ -364,7 +364,7 @@ const NEW_BADGE_WINDOW_MS = 24 * 60 * 60 * 1000; // 24h
 function renderTimeline(events) {
   const wrap = document.getElementById('hTimeline');
   if (!events.length) {
-    wrap.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text-secondary);font-size:14px;">Noch keine AktivitÃ¤t.</div>';
+    wrap.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text-secondary);font-size:14px;">Noch keine Aktivität.</div>';
     return;
   }
   wrap.innerHTML = events.map(e => {
@@ -388,7 +388,7 @@ function renderTimeline(events) {
       ${isUnread ? `<span class="h-activity-unread" aria-label="Ungelesen" title="Ungelesen">${icon('Eye', { size: 18 })}</span>` : ''}
     </a>`;
   }).join('') +
-    '<a class="h-tl-all" href="dashboard/empfehlungen.html">Alle anzeigen â†’</a>';
+    '<a class="h-tl-all" href="dashboard/empfehlungen.html">Alle anzeigen →</a>';
 
   // Mark-read beim Click (vor Navigation)
   wrap.querySelectorAll('.h-activity-row.is-unread').forEach(row => {
@@ -405,7 +405,7 @@ function timelineTime(ts) {
   const sec = Math.floor((now - ts) / 1000);
   if (sec < 60) return 'jetzt';
   if (sec < 3600) return `vor ${Math.floor(sec / 60)} Min`;
-  // Heute â†’ HH:MM, sonst kurze Datum
+  // Heute → HH:MM, sonst kurze Datum
   const today = new Date(); today.setHours(0,0,0,0);
   if (d.getTime() >= today.getTime()) {
     return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
@@ -471,7 +471,7 @@ function renderTeamFeed(rows) {
   const wrap = document.getElementById('hTeamFeed');
   if (!wrap) return;
   if (!rows || !rows.length) {
-    wrap.innerHTML = '<div style="padding:16px;text-align:center;color:var(--text-secondary);font-size:13.5px;">Noch keine Team-AktivitÃ¤t in den letzten Tagen.</div>';
+    wrap.innerHTML = '<div style="padding:16px;text-align:center;color:var(--text-secondary);font-size:13.5px;">Noch keine Team-Aktivität in den letzten Tagen.</div>';
     return;
   }
   wrap.innerHTML = rows.slice(0, 2).map(teamRowHtml).join('');
@@ -491,7 +491,7 @@ function renderFunnel(f) {
   if (!wrap) return;
   const stages = [
     { label: 'Gesendet',  count: f.gesendet,     base: f.gesendet },
-    { label: 'GeÃ¶ffnet',  count: f.geoeffnet,    base: f.gesendet },
+    { label: 'Geöffnet',  count: f.geoeffnet,    base: f.gesendet },
     { label: 'Interesse', count: f.interessiert, base: f.geoeffnet },
     { label: 'Kunde',     count: f.kunden,       base: f.interessiert, gold: true },
   ];
@@ -533,7 +533,7 @@ async function loadTopPromoters() {
 }
 
 function renderTopPromoters(rows) {
-  // Phase 46 Â· Top-Promotor-Card in Sidebar unten injizieren
+  // Phase 46 · Top-Promotor-Card in Sidebar unten injizieren
   injectSidebarTopPromoter(rows[0]);
 
   const wrap = document.getElementById('hPromoters');
@@ -548,7 +548,7 @@ function renderTopPromoters(rows) {
       <span class="h-promoter-rank">${icon('Trophy', { size: 18 })}</span>
       <span class="h-promoter-body">
         <span class="h-promoter-name">${escapeHtml(p.name)}</span>
-        <span class="h-promoter-meta">${p.gesamt} Empfehlung${p.gesamt !== 1 ? 'en' : ''}${p.kunde ? ` Â· ${p.kunde} Kunde${p.kunde !== 1 ? 'n' : ''}` : ''}</span>
+        <span class="h-promoter-meta">${p.gesamt} Empfehlung${p.gesamt !== 1 ? 'en' : ''}${p.kunde ? ` · ${p.kunde} Kunde${p.kunde !== 1 ? 'n' : ''}` : ''}</span>
       </span>
     </a>`).join('');
 }
@@ -580,7 +580,7 @@ function relativeTime(ts) {
   return formatDate(new Date(tsMs).toISOString());
 }
 
-/* ---------- Phase 29 Â· Trend-Chart ---------- */
+/* ---------- Phase 29 · Trend-Chart ---------- */
 let trendChartInstance = null;
 
 async function loadTrend(daysBack) {
@@ -641,7 +641,7 @@ function renderTrendChart(rows) {
   });
 }
 
-/* ---------- Phase 29 Â· Filter-Chips ---------- */
+/* ---------- Phase 29 · Filter-Chips ---------- */
 function initFilterChips() {
   const row = document.getElementById('hFilterRow');
   if (!row) return;
@@ -666,12 +666,12 @@ function initFilterChips() {
   if (label) label.textContent = `Letzte ${currentRange} Tage`;
 }
 
-/* ---------- Phase 46 Â· Top-Promotor-Card in Sidebar unten ---------- */
+/* ---------- Phase 46 · Top-Promotor-Card in Sidebar unten ---------- */
 function injectSidebarTopPromoter(top) {
   if (!top) return;
   const sidebar = document.querySelector('.nav-sidebar');
   if (!sidebar) return;
-  // Existing entfernen fÃ¼r Re-Renders
+  // Existing entfernen für Re-Renders
   sidebar.querySelector('.nav-top-promoter')?.remove();
   const tag = document.createElement('a');
   tag.className = 'nav-top-promoter';
@@ -681,30 +681,30 @@ function injectSidebarTopPromoter(top) {
     <div class="nav-tp-text">
       <span class="nav-tp-label">Top-Promoter</span>
       <span class="nav-tp-name">${escapeHtml(top.name)}</span>
-      <span class="nav-tp-points">${top.gesamt} Empfehlung${top.gesamt !== 1 ? 'en' : ''}${top.kunde ? ` Â· ${top.kunde} Kunde${top.kunde !== 1 ? 'n' : ''}` : ''}</span>
+      <span class="nav-tp-points">${top.gesamt} Empfehlung${top.gesamt !== 1 ? 'en' : ''}${top.kunde ? ` · ${top.kunde} Kunde${top.kunde !== 1 ? 'n' : ''}` : ''}</span>
     </div>
     <span class="nav-tp-arrow">${icon('ChevronRight', { size: 14 })}</span>
   `;
   sidebar.appendChild(tag);
 }
 
-/* ---------- Phase 38 Â· Conversion-Treppe ---------- */
+/* ---------- Phase 38 · Conversion-Treppe ---------- */
 function renderConversionStair(f) {
   const wrap = document.getElementById('hConversionStair');
   if (!wrap) return;
-  const pct = (n, base) => base > 0 ? Math.round((n / base) * 100) + '%' : 'â€“';
+  const pct = (n, base) => base > 0 ? Math.round((n / base) * 100) + '%' : '–';
   wrap.innerHTML = `
     <div class="h-stair-row"><span class="h-stair-num">${f.gesendet}</span><span class="h-stair-label">Klicks auf deine Empfehlungen</span></div>
     <div class="h-stair-arrow">${pct(f.geoeffnet, f.gesendet)} Conversion</div>
-    <div class="h-stair-row"><span class="h-stair-num">${f.geoeffnet}</span><span class="h-stair-label">Empfehlungen wurden geÃ¶ffnet</span></div>
+    <div class="h-stair-row"><span class="h-stair-num">${f.geoeffnet}</span><span class="h-stair-label">Empfehlungen wurden geöffnet</span></div>
     <div class="h-stair-arrow">${pct(f.interessiert, f.geoeffnet)} Conversion</div>
-    <div class="h-stair-row"><span class="h-stair-num">${f.interessiert}</span><span class="h-stair-label">GesprÃ¤che sind entstanden</span></div>
+    <div class="h-stair-row"><span class="h-stair-num">${f.interessiert}</span><span class="h-stair-label">Gespräche sind entstanden</span></div>
     <div class="h-stair-arrow">${pct(f.kunden, f.interessiert)} Conversion</div>
     <div class="h-stair-row"><span class="h-stair-num">${f.kunden}</span><span class="h-stair-label">Neue Kunden</span></div>
   `;
 }
 
-/* ---------- Phase 29 Â· Realtime Hub-Stream ---------- */
+/* ---------- Phase 29 · Realtime Hub-Stream ---------- */
 function startHubStream() {
   try {
     supabase
@@ -737,4 +737,3 @@ function startHubStream() {
     console.warn('[hub-stream]', e);
   }
 }
-

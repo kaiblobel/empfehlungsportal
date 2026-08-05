@@ -6,8 +6,8 @@ const DASHBOARD_BASE = Deno.env.get("DASHBOARD_BASE") ??
   "https://empfehlungsportal.vercel.app";
 
 const SOURCE_LABELS: Record<string, string> = {
-  praesentation: "PrÃ¤sentation",
-  aufsteller: "BÃ¼ro-Aufsteller",
+  praesentation: "Präsentation",
+  aufsteller: "Büro-Aufsteller",
   direkt: "Direkter Link",
   portal: "Portal",
 };
@@ -68,17 +68,17 @@ Deno.serve(async (req: Request) => {
       encodeURIComponent(promoter.id)
     }`;
     const source = SOURCE_LABELS[promoter.self_registration_source] ??
-      "Ã–ffentliche Anmeldung";
+      "Öffentliche Anmeldung";
     const contact = promoter.telefon || promoter.email || "Kontakt im Portal";
 
     let telegramOk = false;
     if (secrets.TELEGRAM_BOT_TOKEN && secrets.TELEGRAM_CHAT_ID) {
-      let text = `âœ¨ *Neuer Promoter*\n\n` +
+      let text = `✨ *Neuer Promoter*\n\n` +
         `*${escapeMd(promoter.name || "Unbekannt")}*\n` +
-        `ðŸ“¬ ${escapeMd(contact)}\n` +
-        `ðŸ“ Quelle: ${escapeMd(source)}`;
-      if (berater?.name) text += `\nðŸ‘¤ Berater: ${escapeMd(berater.name)}`;
-      text += `\n\nðŸ‘‰ [Promoter im Portal Ã¶ffnen](${detailUrl})`;
+        `📬 ${escapeMd(contact)}\n` +
+        `📍 Quelle: ${escapeMd(source)}`;
+      if (berater?.name) text += `\n👤 Berater: ${escapeMd(berater.name)}`;
+      text += `\n\n👉 [Promoter im Portal öffnen](${detailUrl})`;
 
       const response = await fetch(
         `https://api.telegram.org/bot${secrets.TELEGRAM_BOT_TOKEN}/sendMessage`,
@@ -117,7 +117,7 @@ Deno.serve(async (req: Request) => {
           title: "Neuer Promoter",
           body: `${
             promoter.name || "Ein neuer Promoter"
-          } hat sich Ã¼ber ${source} registriert.`,
+          } hat sich über ${source} registriert.`,
           url: detailUrl,
           tag: `promoter-${promoter.id}`,
         });
@@ -163,4 +163,3 @@ Deno.serve(async (req: Request) => {
 function escapeMd(value: string): string {
   return String(value).replace(/([_*\[\]()~`>#+\-=|{}.!])/g, "\\$1");
 }
-

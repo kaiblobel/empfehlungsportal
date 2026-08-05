@@ -15,10 +15,10 @@ assert.equal((html.match(/class="iphone-island"/g) || []).length, 3);
 assert.equal((html.match(/class="iphone-home"/g) || []).length, 3);
 assert.match(html, /Empfehlung anlegen/);
 assert.match(html, /Per WhatsApp senden/);
-assert.match(html, /DankeschÃ¶n auswÃ¤hlen/);
+assert.match(html, /Dankeschön auswählen/);
 assert.match(html, /iphone-chat-bubble[\s\S]*data-bb="name"/);
-assert.match(html, /GeldprÃ¤mie/);
-assert.match(html, /SachprÃ¤mie/);
+assert.match(html, /Geldprämie/);
+assert.match(html, /Sachprämie/);
 assert.match(html, /Spende/);
 assert.doesNotMatch(html, /class="wa-mockup"/);
 assert.match(html, /css\/programm\.css\?v=86/);
@@ -32,8 +32,7 @@ assert.match(css, /\.iphone-reward-option/);
 assert.match(css, /@media \(max-width: 820px\)[\s\S]*\.steps-row\.iphone-flow \{ grid-template-columns: 1fr/);
 
 assert.match(config, /v1\.183 Beta/);
-assert.match(config, /Phase 157 Â· Hinweis bei neuem Promoter/);
+assert.match(config, /Phase 157 · Hinweis bei neuem Promoter/);
 assert.match(sw, /CACHE_VERSION = 'v142-2026-08-05'/);
 
 console.log('praesentation-iphone-flow: OK');
-

@@ -11,12 +11,12 @@ const [html, js, css, nav, config, sw] = await Promise.all([
   read('sw.js'),
 ]);
 
-assert.match(html, /<title>Analysen Â· Empfehlungsportal<\/title>/);
+assert.match(html, /<title>Analysen · Empfehlungsportal<\/title>/);
 assert.match(html, /data-days="7"/);
 assert.match(html, /data-days="30" class="active"/);
 assert.match(html, /data-days="90"/);
 assert.match(html, /Zeitraum im Vergleich/);
-assert.match(html, /Entwicklung Ã¼ber Zeit/);
+assert.match(html, /Entwicklung über Zeit/);
 assert.match(html, /data-metric="promoters"/);
 assert.match(html, /data-metric="clicks"/);
 assert.match(html, /data-metric="referrals"/);
@@ -44,10 +44,10 @@ assert.match(js, /function normalizeSeries\(values\)/);
 assert.match(js, /renderFunnel\(current\)/);
 assert.match(js, /renderTopics\(currentRows, templateNames, currentDays\)/);
 assert.match(js, /renderPromoters\(currentRows\)/);
-assert.match(js, /Vorperiode noch ohne vollstÃ¤ndige Daten/);
+assert.match(js, /Vorperiode noch ohne vollständige Daten/);
 
 const selectMatch = js.match(/\.select\('([^']+)'\)/);
-assert.ok(selectMatch, 'Die Analysedaten mÃ¼ssen mit einer expliziten Feldauswahl geladen werden');
+assert.ok(selectMatch, 'Die Analysedaten müssen mit einer expliziten Feldauswahl geladen werden');
 const selectedFields = selectMatch[1].split(',');
 for (const forbidden of ['empfaenger_name', 'empfaenger_telefon', 'empfehler_email', 'empfehler_telefon', 'nachricht', 'notiz']) {
   assert.ok(!selectedFields.includes(forbidden), `${forbidden} darf nicht in die Analyse geladen werden`);
@@ -66,11 +66,10 @@ assert.match(css, /@media \(max-width:600px\)/);
 
 assert.match(nav, /id: 'analysen',[\s\S]*?href: path\('dashboard\/overview\.html'\)/);
 assert.match(config, /v1\.183 Beta/);
-assert.match(config, /Phase 157 Â· Hinweis bei neuem Promoter/);
+assert.match(config, /Phase 157 · Hinweis bei neuem Promoter/);
 assert.match(sw, /CACHE_VERSION = 'v142-2026-08-05'/);
 assert.match(sw, /'\/dashboard\/overview\.html'/);
 assert.match(sw, /'\/css\/analysen\.css\?v=2'/);
 assert.match(sw, /'\/js\/analysen\.js\?v=2'/);
 
 console.log('analysen-echt: OK');
-

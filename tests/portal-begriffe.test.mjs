@@ -14,16 +14,15 @@ const [presentation, programAdmin, payouts, advisors, changelogPage, index, conf
 ]);
 
 for (const page of [presentation, programAdmin, payouts, advisors, changelogPage]) {
-  assert.match(page, /ZurÃ¼ck zum Portal/);
-  assert.doesNotMatch(page, /ZurÃ¼ck zum H(?:ub|UB)/);
+  assert.match(page, /Zurück zum Portal/);
+  assert.doesNotMatch(page, /Zurück zum H(?:ub|UB)/);
 }
 
 assert.match(index, />Zum Portal<\/a>/);
 assert.doesNotMatch(index, />Zum Hub<\/a>/);
 assert.match(config, /APP_VERSION = 'v1\.183 Beta'/);
-assert.match(config, /Phase 157 Â· Hinweis bei neuem Promoter/);
+assert.match(config, /Phase 157 · Hinweis bei neuem Promoter/);
 assert.doesNotMatch(config, /Premium-HUB/);
 assert.match(sw, /CACHE_VERSION = 'v142-2026-08-05'/);
 
 console.log('portal-begriffe: OK');
-

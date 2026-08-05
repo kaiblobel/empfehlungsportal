@@ -20,10 +20,10 @@ assert.match(html, /id="kpiGesamt"/);
 assert.match(html, /id="kpiKunden"/);
 assert.doesNotMatch(html, /Schnellaktion/);
 assert.doesNotMatch(html, /class="h-action-primary"/);
-assert.match(html, /<title>Empfehlungsportal Â· Kai Blobel<\/title>/);
+assert.match(html, /<title>Empfehlungsportal · Kai Blobel<\/title>/);
 assert.match(html, /css\/dashboard\.css\?v=48/);
 assert.match(html, /js\/nav\.js\?v=57/);
-assert.doesNotMatch(html, /Regionaldirektion Â· Hub/);
+assert.doesNotMatch(html, /Regionaldirektion · Hub/);
 
 assert.match(nav, /nav-brand-name">Empfehlungsportal/);
 assert.match(nav, /nav-brand-signature/);
@@ -33,7 +33,7 @@ assert.match(dashboardCss, /\.nav-brand-signature/);
 assert.match(dashboardCss, /"Segoe Script"/);
 assert.match(manifest, /"short_name": "Empfehlungsportal"/);
 
-assert.match(css, /Phase 150 Â· HUB-Leichtigkeit/);
+assert.match(css, /Phase 150 · HUB-Leichtigkeit/);
 assert.match(css, /body\[data-page="hub"\] \.h-live/);
 assert.match(css, /#3F9B55/);
 assert.match(css, /body\[data-page="hub"\] \.h-badge-new/);
@@ -47,11 +47,10 @@ assert.match(css, /background: #F8F8F6/);
 assert.match(css, /@media \(max-width: 560px\)/);
 
 assert.match(config, /APP_VERSION = 'v1\.183 Beta'/);
-assert.match(config, /Phase 157 Â· Hinweis bei neuem Promoter/);
+assert.match(config, /Phase 157 · Hinweis bei neuem Promoter/);
 assert.match(sw, /CACHE_VERSION = 'v142-2026-08-05'/);
 assert.match(sw, /\/css\/hub\.css\?v=52/);
 assert.match(sw, /\/css\/dashboard\.css\?v=48/);
 assert.match(sw, /\/js\/nav\.js\?v=57/);
 
 console.log('hub-leichtigkeit: OK');
-

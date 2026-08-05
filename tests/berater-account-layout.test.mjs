@@ -12,12 +12,12 @@ const [adminUi, hubCss, beraterHtml, config, serviceWorker] = await Promise.all(
 ]);
 
 assert.match(adminUi, /Profil und Kontakt/);
-assert.match(adminUi, /Ã–ffentliche Angaben/);
+assert.match(adminUi, /Öffentliche Angaben/);
 assert.match(adminUi, /Technische Angaben anzeigen/);
 assert.match(adminUi, /type="hidden" data-f="foto_url"/);
 assert.match(adminUi, /data-photo-remove/);
 assert.match(adminUi, /Bild ersetzen/);
-assert.doesNotMatch(adminUi, /Bild hochladen â†’ oder URL einfÃ¼gen/);
+assert.doesNotMatch(adminUi, /Bild hochladen → oder URL einfügen/);
 assert.doesNotMatch(adminUi, /class="berater-slug/);
 
 const renderCard = adminUi.slice(
@@ -57,4 +57,3 @@ assert.match(serviceWorker, /CACHE_VERSION = 'v142-2026-08-05'/);
 assert.match(serviceWorker, /css\/hub\.css\?v=52/);
 
 console.log('berater-account-layout: OK');
-

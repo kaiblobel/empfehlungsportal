@@ -9,4 +9,3 @@ window.ENV_CALENDLY_URL = ''; // sobald Kai einen Link schickt, hier eintragen â
 window.ENV_TURNSTILE_SITE_KEY = ''; // optionaler statischer Fallback; produktiv kommt der Site-Key aus /api/promoter-config
 window.APP_VERSION = 'v1.183 Beta';
 window.APP_PHASE = 'Phase 157 Â· Hinweis bei neuem Promoter';
-

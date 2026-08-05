@@ -40,10 +40,9 @@ assert.doesNotMatch(recommendationItem, /subs:/);
 assert.match(nav, /id: 'programm'[\s\S]*?subs:/);
 
 assert.match(config, /v1\.183 Beta/);
-assert.match(config, /Phase 157 Â· Hinweis bei neuem Promoter/);
+assert.match(config, /Phase 157 · Hinweis bei neuem Promoter/);
 assert.match(sw, /CACHE_VERSION = 'v142-2026-08-05'/);
 assert.match(sw, /dashboard\.css\?v=48/);
 assert.match(sw, /nav\.js\?v=57/);
 
 console.log('empfehlungen-premium: OK');
-
