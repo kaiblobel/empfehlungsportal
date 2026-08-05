@@ -33,9 +33,9 @@ assert.match(js, /id="notizArea"/);
 assert.match(js, /Nächster sinnvoller Schritt/);
 assert.match(js, /Verwaltung anzeigen/);
 
-assert.match(config, /APP_VERSION = 'v1\.180 Beta'/);
-assert.match(config, /Phase 154 · Themenseiten und Mobile-First-Funnel/);
-assert.match(sw, /CACHE_VERSION = 'v139-2026-08-05'/);
+assert.match(config, /APP_VERSION = 'v1\.181 Beta'/);
+assert.match(config, /Phase 155 · Farbige Bilder im gesamten Portal/);
+assert.match(sw, /CACHE_VERSION = 'v140-2026-08-05'/);
 assert.match(sw, /\/css\/empfehlung-detail\.css\?v=1/);
 assert.match(sw, /\/js\/empfehlung-detail\.js\?v=1/);
 

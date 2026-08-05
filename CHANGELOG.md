@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.180 Beta** · Themenseiten und Mobile-First-Funnel, live seit 05.08.2026.
+Aktuelle Arbeitsversion: **v1.181 Beta** · Farbige Bilder im gesamten Portal, noch nicht veröffentlicht. Live bleibt **v1.180 Beta**.
+
+---
+
+## v1.181 Beta - Phase 155 · Farbige Bilder im gesamten Portal
+**2026-08-05 · vorbereitet, noch nicht veröffentlicht**
+
+- Sämtliche Schwarz-Weiß- und Entsättigungsfilter wurden aus den ausgelieferten HTML-, CSS-, JavaScript- und SVG-Beständen entfernt.
+- Beraterportraits erscheinen auf Empfänger-, Promoter- und Präsentationsseiten unverfälscht farbig. Die Korrektur gilt automatisch für Kai und alle anderen Berater.
+- Auch Themenkacheln, Bildkarten, Hintergrundbilder, Symbole und die öffentlich erreichbare Empfänger-Mockup-Seite werden nicht mehr künstlich entsättigt.
+- Reine Helligkeits- und Kontrastregeln für Lesbarkeit bleiben erhalten, sofern sie keine Farben entfernen.
+- Bilddateien, Beraterdaten, Empfehlungen und Datenbankinhalte bleiben unverändert.
+- Ein portalweiter Schutztest prüft alle ausgelieferten Quelldateien und verhindert eine erneute Schwarz-Weiß-Darstellung.
 
 ---
 

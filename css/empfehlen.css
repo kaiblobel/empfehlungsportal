@@ -206,7 +206,6 @@ body[data-page="empfehlen"] .vorlage-kachel.selected {
 }
 body[data-page="empfehlen"] .vorlage-kachel .icon {
   font-size: 18px;
-  filter: grayscale(40%);
   opacity: 0.85;
   display: inline-flex;
   align-items: center;

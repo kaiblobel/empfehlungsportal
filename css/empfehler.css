@@ -125,7 +125,7 @@ body[data-page="empfehler"] .e-hero-portrait {
   height: 120px;
   border-radius: 50%;
   object-fit: cover;
-  filter: grayscale(100%) contrast(0.95) brightness(1.02);
+  filter: none;
   border: 1px solid var(--e-champagne);
   padding: 6px;
   background: var(--e-ivory);
@@ -265,7 +265,7 @@ body[data-page="empfehler"] .e-reward:last-child { border-bottom: 1px solid var(
 body[data-page="empfehler"] .e-reward-icon {
   font-size: 22px;
   text-align: center;
-  filter: grayscale(70%);
+  filter: none;
   opacity: 0.7;
 }
 body[data-page="empfehler"] .e-reward.reached .e-reward-icon { filter: none; opacity: 1; }
