@@ -1,7 +1,21 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.174 Beta** · Promoter als professioneller Arbeitsbereich, vorbereitet am 05.08.2026.
+Aktuelle Version: **v1.175 Beta** · Empfehlungsdetail als Arbeitsseite, vorbereitet am 05.08.2026.
+
+---
+
+## v1.175 Beta - Phase 149 · Empfehlungsdetail als Arbeitsseite
+**2026-08-05**
+
+- Die Detailseite einer Empfehlung ist jetzt ein kompakter Arbeitsbereich statt einer langen technischen Feldliste.
+- Kontakt, Erreichbarkeit, bevorzugter Kanal und Linkstatus stehen als ruhiger Überblick direkt oben.
+- Empfehlungskontext, Promoterleistung und der zeitliche Verlauf sind klar getrennt und vollständig erhalten.
+- Status und Gesprächsnotiz stehen gemeinsam in einer festen Bearbeitungsfläche mit einem passenden nächsten Schritt.
+- Anrufen, WhatsApp, Link kopieren, Statuswechsel, Notiz, Zurücknavigation und das geschützte Löschen bleiben erhalten.
+- Die Oberfläche nutzt das bestehende HUB-Designsystem und verdichtet sich auf Tablet und Smartphone ohne Funktionsverlust.
+- Keine Datenbankmigration und keine Änderung an Empfehlungen, Promotern oder Beraterdaten.
+- Veröffentlichung ist freigegeben und wird nach technischer Prüfung durchgeführt.
 
 ---
 

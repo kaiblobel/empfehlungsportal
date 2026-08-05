@@ -4,27 +4,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#f5f5f7" />
+  <meta name="robots" content="noindex,nofollow" />
   <title>Empfehlung · Empfehlungsportal</title>
   <link rel="stylesheet" href="../css/style.css?v=32" />
-  <link rel="stylesheet" href="../css/dashboard.css?v=46" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=47" />
+  <link rel="stylesheet" href="../css/empfehlung-detail.css?v=1" />
   <script src="../js/config.js"></script>
 </head>
-<body class="has-app-nav">
+<body class="has-app-nav emp-detail-page">
 
   <div id="appNav"></div>
   <script type="module" src="../js/nav.js?v=56"></script>
 
   <div class="app-shell">
     <header class="app-header">
-      <button class="detail-back" id="backBtn">← Zurück</button>
+      <button class="detail-back" id="backBtn">← Empfehlungen</button>
       <div class="app-header-right">
         <a href="../hub.html" class="btn-hub-back" title="Zum Überblick">← <span class="lbl">Überblick</span></a>
         <button class="btn-logout" id="logoutBtn">Abmelden</button>
       </div>
     </header>
 
-    <main class="app-content" id="content">
-      <div style="display:flex;flex-direction:column;gap:18px;padding:20px 0;">
+    <main class="app-content ed-content" id="content">
+      <div class="ed-loading">
         <span class="skel skel-line lg w60"></span>
         <div class="skel-card"><span class="skel skel-line w40"></span><span class="skel skel-line"></span><span class="skel skel-line w80"></span></div>
         <div class="skel-card"><span class="skel skel-line w40"></span><span class="skel skel-line"></span><span class="skel skel-line w80"></span></div>
@@ -32,239 +34,6 @@
     </main>
   </div>
 
-  <script type="module">
-    import {
-      requireAuth, logout, loadDetail, updateStatus,
-      formatDate, getStatusBadge, statusLabel, whatsappLink, toast,
-    } from '../js/dashboard.js';
-    import { supabase, deleteEmpfehlung } from '../js/supabase.js';
-
-    const ERR_LABELS = {
-      vormittag: 'Vormittag (8–12)', mittag: 'Mittag (12–14)', nachmittag: 'Nachmittag (14–18)',
-      abend: 'Abend (18–21)', we: 'Wochenende', egal: 'Egal',
-    };
-    const KANAL_LABELS = {
-      anruf: 'Telefon-Anruf', whatsapp: 'WhatsApp', sms: 'SMS', email: 'Email', egal: 'Egal',
-    };
-    const THEMA_LABELS = {
-      allgemein: 'Allgemein', baufi: 'Baufinanzierung', foerderungen: 'Staatliche Förderungen',
-      selbstaendige: 'Selbständige', investment: 'Geldanlage & Investment',
-      absicherung: 'Absicherung & Familie', karriere: 'Berufliche Perspektive', kinder: 'Für deine Kinder',
-    };
-    async function fetchEmpfehlerScore(empfehlerId) {
-      if (!empfehlerId) return null;
-      try {
-        const { data, error } = await supabase.rpc('empfehler_score', { p_empfehler_id: empfehlerId });
-        if (error) return null;
-        return data?.[0] || null;
-      } catch { return null; }
-    }
-    function starsFor(score) {
-      if (!score || score.gesamt === 0) return '';
-      const k = score.kunden, g = score.gesamt;
-      if (k >= 3 || (g >= 5 && k >= 2)) return '★★★★';
-      if (k >= 1 && g >= 3) return '★★★';
-      if (k >= 1 || g >= 2) return '★★';
-      return '★';
-    }
-
-    document.getElementById('logoutBtn').addEventListener('click', logout);
-    document.getElementById('backBtn').addEventListener('click', () => {
-      if (document.referrer && document.referrer.includes('/dashboard/')) {
-        history.back();
-      } else {
-        window.location.href = 'overview.html';
-      }
-    });
-
-    const id = new URLSearchParams(window.location.search).get('id');
-    if (!id) {
-      document.getElementById('content').innerHTML = '<div class="empty-state">Keine ID übergeben.</div>';
-    }
-
-    (async () => {
-      const session = await requireAuth();
-      if (!session) return;
-      if (!id) return;
-
-      const r = await loadDetail(id);
-      const content = document.getElementById('content');
-      if (!r) {
-        content.innerHTML = '<div class="empty-state">Empfehlung nicht gefunden.</div>';
-        return;
-      }
-
-      const empfehlerLink = r.link_token
-        ? `${window.location.origin}/empfaenger.html?token=${r.link_token}`
-        : '';
-
-      const score = await fetchEmpfehlerScore(r.empfehler_id);
-      const stars = starsFor(score);
-
-      content.innerHTML = `
-        <h1 class="detail-headline">${escapeHtml(r.empfaenger_name || '–')}</h1>
-
-        <div class="detail-info">
-          <div class="detail-row">
-            <span class="label">Status</span>
-            <span class="value">${getStatusBadge(r.status)}</span>
-          </div>
-          <div class="detail-row">
-            <span class="label">Telefon</span>
-            <span class="value">${escapeHtml(r.empfaenger_telefon || '–')}</span>
-          </div>
-          <div class="detail-row">
-            <span class="label">Typ</span>
-            <span class="value">${r.typ === 'info' ? 'Info-Variante' : 'Direkt-Empfehlung'}</span>
-          </div>
-          ${r.vorlage_slug ? `<div class="detail-row">
-            <span class="label">Thema</span>
-            <span class="value">${THEMA_LABELS[r.vorlage_slug] || escapeHtml(r.vorlage_slug)}</span>
-          </div>` : ''}
-          <div class="detail-row">
-            <span class="label">Promoter</span>
-            <span class="value">${escapeHtml(r.empfehler_name || '–')}${score && score.gesamt > 1 ? `<br><span style="font-size:11px;color:var(--accent-hover);letter-spacing:0.05em;">${stars} ${score.gesamt} Empfehlung${score.gesamt !== 1 ? 'en' : ''}${score.kunden > 0 ? ` · ${score.kunden} Kunde${score.kunden !== 1 ? 'n' : ''} (${score.conversion_pct}%)` : ''}</span>` : ''}</span>
-          </div>
-          ${r.empfaenger_verbindung ? `<div class="detail-row">
-            <span class="label">Verbindung</span>
-            <span class="value">${escapeHtml(r.empfaenger_verbindung)}</span>
-          </div>` : ''}
-          ${r.empfehler_vorinformiert ? `<div class="detail-row">
-            <span class="label">Vorinformiert</span>
-            <span class="value" style="color:var(--ok);font-weight:600;">✓ Promoter hat Bescheid gegeben</span>
-          </div>` : ''}
-          ${r.beste_erreichbarkeit ? `<div class="detail-row">
-            <span class="label">Erreichbar</span>
-            <span class="value">${ERR_LABELS[r.beste_erreichbarkeit] || r.beste_erreichbarkeit}</span>
-          </div>` : ''}
-          ${r.bevorzugter_kanal ? `<div class="detail-row">
-            <span class="label">Kanal</span>
-            <span class="value">${KANAL_LABELS[r.bevorzugter_kanal] || r.bevorzugter_kanal}</span>
-          </div>` : ''}
-          ${r.empfaenger_beruf ? `<div class="detail-row">
-            <span class="label">Beruf</span>
-            <span class="value">${escapeHtml(r.empfaenger_beruf)}</span>
-          </div>` : ''}
-          ${r.empfaenger_kontext ? `<div class="detail-row" style="flex-direction:column;align-items:flex-start;gap:6px;">
-            <span class="label">Kontext</span>
-            <span class="value" style="text-align:left;max-width:100%;font-style:italic;background:rgba(201,185,138,0.10);padding:10px 14px;border-radius:4px;border-left:2px solid var(--accent);">${escapeHtml(r.empfaenger_kontext)}</span>
-          </div>` : ''}
-          <div class="detail-row">
-            <span class="label">Erstellt</span>
-            <span class="value">${formatDate(r.created_at)}</span>
-          </div>
-          <div class="detail-row">
-            <span class="label">Link geöffnet</span>
-            <span class="value">${r.link_geoeffnet ? 'Ja · ' + formatDate(r.link_geoeffnet_at) : 'Nein'}</span>
-          </div>
-          <div class="detail-row">
-            <span class="label">Klicks</span>
-            <span class="value">${r.link_klicks || 0}</span>
-          </div>
-          <div class="detail-row">
-            <span class="label">Interesse bekundet</span>
-            <span class="value">${r.interessiert ? 'Ja · ' + formatDate(r.interessiert_at) : 'Nein'}</span>
-          </div>
-          <div class="detail-row">
-            <span class="label">Anrufwunsch</span>
-            <span class="value">${r.anrufwunsch ? escapeHtml(r.anrufwunsch) + ' · ' + formatDate(r.anrufwunsch_at) : '–'}</span>
-          </div>
-          ${r.empfehler_nachricht ? `<div class="detail-row" style="flex-direction:column;align-items:flex-start;gap:6px;">
-            <span class="label">Persönliche Nachricht des Promoters</span>
-            <span class="value" style="text-align:left;max-width:100%;font-style:italic;">„${escapeHtml(r.empfehler_nachricht)}"</span>
-          </div>` : ''}
-          <div class="detail-row">
-            <span class="label">Ausgetragen</span>
-            <span class="value">${r.ausgetragen ? 'Ja · ' + formatDate(r.ausgetragen_at) : 'Nein'}</span>
-          </div>
-        </div>
-
-        <div class="detail-field">
-          <label for="statusSel">Status ändern</label>
-          <select id="statusSel">
-            <option value="offen">${statusLabel('offen')}</option>
-            <option value="anrufwunsch">${statusLabel('anrufwunsch')}</option>
-            <option value="kontaktiert">${statusLabel('kontaktiert')}</option>
-            <option value="kunde">${statusLabel('kunde')}</option>
-            <option value="kein_interesse">${statusLabel('kein_interesse')}</option>
-          </select>
-        </div>
-
-        <div class="detail-field">
-          <label for="notizArea">Notiz</label>
-          <textarea id="notizArea" placeholder="Gesprächsnotiz, Kontext, Folgetermin…"></textarea>
-        </div>
-
-        <div class="detail-actions">
-          <button class="btn btn-primary" id="saveBtn">Speichern</button>
-          <a class="btn btn-whatsapp" id="waBtn" target="_blank" rel="noopener">
-            Per WhatsApp anschreiben
-          </a>
-          ${empfehlerLink ? `<button class="btn btn-secondary" id="copyBtn">Empfänger-Link kopieren</button>` : ''}
-        </div>
-
-        <div class="detail-danger-zone">
-          <button class="btn-danger" id="deleteBtn" type="button">
-            Diese Empfehlung löschen
-          </button>
-          <p class="detail-danger-hint">Unwiderruflich. Nutze das nur für Test-Daten oder Duplikate.</p>
-        </div>
-      `;
-
-      document.getElementById('statusSel').value = r.status || 'offen';
-      document.getElementById('notizArea').value = r.notiz || '';
-      document.getElementById('waBtn').href = whatsappLink(r.empfaenger_telefon);
-
-      document.getElementById('saveBtn').addEventListener('click', async () => {
-        const status = document.getElementById('statusSel').value;
-        const notiz = document.getElementById('notizArea').value;
-        const { error } = await updateStatus(id, status, notiz);
-        if (error) {
-          toast('Speichern fehlgeschlagen: ' + (error.message || ''), 3500);
-          return;
-        }
-        toast('Gespeichert.');
-        // Status-Badge oben live updaten
-        const row = document.querySelector('.detail-row .value');
-        if (row) row.innerHTML = getStatusBadge(status);
-      });
-
-      const copyBtn = document.getElementById('copyBtn');
-      if (copyBtn) {
-        copyBtn.addEventListener('click', async () => {
-          try {
-            await navigator.clipboard.writeText(empfehlerLink);
-            toast('Link kopiert.');
-          } catch (e) {
-            toast('Kopieren fehlgeschlagen.', 3000);
-          }
-        });
-      }
-
-      // Lösch-Button mit Doppel-Bestätigung
-      const deleteBtn = document.getElementById('deleteBtn');
-      if (deleteBtn) {
-        deleteBtn.addEventListener('click', async () => {
-          const name = r.empfaenger_name || 'diese Empfehlung';
-          if (!confirm(`Wirklich "${name}" unwiderruflich löschen?\n\nDas kann nicht rückgängig gemacht werden.`)) return;
-          deleteBtn.disabled = true;
-          deleteBtn.textContent = 'Lösche…';
-          const { error } = await deleteEmpfehlung(id);
-          if (error) {
-            toast('Löschen fehlgeschlagen: ' + (error.message || ''), 4000);
-            deleteBtn.disabled = false;
-            deleteBtn.textContent = 'Diese Empfehlung löschen';
-            return;
-          }
-          toast('Gelöscht. Zurück zur Liste…');
-          setTimeout(() => { window.location.href = 'empfehlungen.html'; }, 800);
-        });
-      }
-    })();
-
-    function escapeHtml(s) {
-      return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
-    }
-  </script>
+  <script type="module" src="../js/empfehlung-detail.js?v=1"></script>
 </body>
 </html>

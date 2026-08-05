@@ -52,8 +52,8 @@ assert.match(hubCss, /@media \(max-width: 560px\)[\s\S]*\.berater-fields/);
 
 assert.match(beraterHtml, /css\/hub\.css\?v=50/);
 assert.match(beraterHtml, /js\/berater-admin\.js\?v=9/);
-assert.match(config, /v1\.174 Beta/);
-assert.match(serviceWorker, /CACHE_VERSION = 'v132-2026-08-05'/);
+assert.match(config, /v1\.175 Beta/);
+assert.match(serviceWorker, /CACHE_VERSION = 'v133-2026-08-05'/);
 assert.match(serviceWorker, /css\/hub\.css\?v=50/);
 
 console.log('berater-account-layout: OK');

@@ -74,9 +74,9 @@ assert.match(css, /\.team-members/);
 assert.match(css, /\.team-detail-grid/);
 assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.team-detail-metrics/);
 
-assert.match(config, /v1\.174 Beta/);
-assert.match(config, /Phase 148 · Promoter als professioneller Arbeitsbereich/);
-assert.match(sw, /CACHE_VERSION = 'v132-2026-08-05'/);
+assert.match(config, /v1\.175 Beta/);
+assert.match(config, /Phase 149 · Empfehlungsdetail als Arbeitsseite/);
+assert.match(sw, /CACHE_VERSION = 'v133-2026-08-05'/);
 assert.match(sw, /'\/team\.html'/);
 assert.match(sw, /'\/js\/team\.js\?v=1'/);
 assert.match(beraterHtml, /<title>Beraterkonten · Empfehlungs-HUB<\/title>/);
