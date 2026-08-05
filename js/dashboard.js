@@ -238,27 +238,30 @@ export async function loadEmpfehlerList() {
   try {
     const { data: empfehlerRows, error: e1 } = await supabase
       .from('empfehler')
-      .select('id, code, name, email, telefon, created_at')
+      .select('id, code, name, email, telefon, ziel_stufe, created_at')
       .order('created_at', { ascending: false });
     if (e1) throw e1;
 
     const { data: counts, error: e2 } = await supabase
       .from('empfehlungen')
-      .select('empfehler_id, status')
+      .select('empfehler_id, status, created_at')
       .not('empfehler_id', 'is', null);
     if (e2) throw e2;
 
     const byId = new Map();
     (counts || []).forEach(r => {
-      const m = byId.get(r.empfehler_id) || { gesamt: 0, kunde: 0 };
+      const m = byId.get(r.empfehler_id) || { gesamt: 0, kunde: 0, letzte_aktivitaet: null };
       m.gesamt += 1;
       if (r.status === 'kunde') m.kunde += 1;
+      if (r.created_at && (!m.letzte_aktivitaet || String(r.created_at) > String(m.letzte_aktivitaet))) {
+        m.letzte_aktivitaet = r.created_at;
+      }
       byId.set(r.empfehler_id, m);
     });
 
     return (empfehlerRows || []).map(e => {
-      const m = byId.get(e.id) || { gesamt: 0, kunde: 0 };
-      return { ...e, gesamt: m.gesamt, kunde: m.kunde };
+      const m = byId.get(e.id) || { gesamt: 0, kunde: 0, letzte_aktivitaet: null };
+      return { ...e, gesamt: m.gesamt, kunde: m.kunde, letzte_aktivitaet: m.letzte_aktivitaet };
     });
   } catch (err) {
     console.error('[loadEmpfehlerList]', err);

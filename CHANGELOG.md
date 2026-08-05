@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.173 Beta** · Ruhiger Feinschliff der Empfehlungen, vorbereitet am 05.08.2026.
+Aktuelle Version: **v1.174 Beta** · Promoter als professioneller Arbeitsbereich, vorbereitet am 05.08.2026.
+
+---
+
+## v1.174 Beta - Phase 148 · Promoter als professioneller Arbeitsbereich
+**2026-08-05**
+
+- Die Promoter-Übersicht zeigt echte Netzwerk-Kennzahlen, Suche, Sortierung und persönliche Karten mit Empfehlungen, Kundenquote, Wunschziel und letztem Empfehlungsimpuls.
+- Das Promoterprofil nutzt die Bildschirmfläche mit einem kompakten Profilkopf, vier relevanten Kennzahlen, der vollständigen Empfehlungshistorie sowie einer Seitenleiste für Ziel, Kontaktdaten und Beziehungspflege.
+- Profilfelder bleiben vollständig bearbeitbar, stehen aber erst nach `Profil bearbeiten` im Vordergrund. Anlegen, Einladungs-Link, neue Empfehlung, öffentliche Promoter-Ansicht, Rechtsklick und Linkkopieren bleiben erhalten.
+- Der ruhige Feinschliff der Empfehlungsseite aus v1.173 ist enthalten.
+- Keine Datenbankmigration und keine Änderung an bestehenden Promotern, Empfehlungen oder Beraterdaten.
 
 ---
 

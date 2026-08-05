@@ -7,10 +7,11 @@
   <meta name="robots" content="noindex,nofollow" />
   <title>Promoter · Empfehlungsportal</title>
   <link rel="stylesheet" href="../css/style.css?v=32" />
-  <link rel="stylesheet" href="../css/dashboard.css?v=46" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=47" />
+  <link rel="stylesheet" href="../css/promoter-dashboard.css?v=1" />
   <script src="../js/config.js"></script>
 </head>
-<body class="has-app-nav">
+<body class="has-app-nav promoter-page">
 
   <div id="appNav"></div>
 
@@ -29,23 +30,41 @@
       </div>
     </header>
 
-    <main class="app-content">
-      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:4px;">
-        <div class="section-title" style="margin:0;">Alle Promoter</div>
-        <button id="newBtn" class="btn-logout" style="padding:8px 14px;">+ Neuer Promoter</button>
-      </div>
+    <main class="app-content promoter-content">
+      <section class="pr-intro">
+        <div>
+          <div class="pr-label">Dein Empfehlungsnetzwerk</div>
+          <h1>Promoter</h1>
+          <p>Menschen im Blick behalten, Beziehungen pflegen und Erfolge gemeinsam entwickeln.</p>
+        </div>
+        <button id="newBtn" class="pr-primary" type="button">+ Neuer Promoter</button>
+      </section>
 
-      <div class="filter-tabs" id="sortTabs" role="group" aria-label="Sortierung" style="margin:10px 0 14px;">
-        <button class="filter-tab active" type="button" data-sort="neu">Zuletzt hinzugefügt</button>
-        <button class="filter-tab" type="button" data-sort="kunde">Meiste Kunden</button>
-        <button class="filter-tab" type="button" data-sort="gesamt">Meiste Empfehlungen</button>
-        <button class="filter-tab" type="button" data-sort="name">Name A–Z</button>
-      </div>
+      <section class="pr-overview" id="networkSummary" aria-label="Netzwerk-Kennzahlen">
+        <div class="pr-overview-item"><strong>…</strong><span>Promoter</span></div>
+        <div class="pr-overview-item"><strong>…</strong><span>Empfehlungen</span></div>
+        <div class="pr-overview-item"><strong>…</strong><span>Kunden geworden</span></div>
+        <div class="pr-overview-item"><strong>…</strong><span>Kundenquote</span></div>
+      </section>
 
-      <div id="list">
-        <div class="skel-row"><div class="skel-body"><span class="skel skel-line"></span><span class="skel skel-line"></span></div><span class="skel skel-tail"></span></div>
-        <div class="skel-row"><div class="skel-body"><span class="skel skel-line"></span><span class="skel skel-line"></span></div><span class="skel skel-tail"></span></div>
+      <section class="pr-workbar">
+        <label class="pr-search" for="promoterSearch">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+          <input id="promoterSearch" type="search" placeholder="Promoter suchen" autocomplete="off" />
+        </label>
+        <div class="filter-tabs pr-sort" id="sortTabs" role="group" aria-label="Sortierung">
+          <button class="filter-tab active" type="button" data-sort="aktuell">Aktuell</button>
+          <button class="filter-tab" type="button" data-sort="kunde">Meiste Kunden</button>
+          <button class="filter-tab" type="button" data-sort="gesamt">Meiste Empfehlungen</button>
+          <button class="filter-tab" type="button" data-sort="name">Name A-Z</button>
+        </div>
+      </section>
+
+      <div class="pr-section-head"><h2>Dein Netzwerk</h2><span id="networkCount">Promoter werden geladen</span></div>
+      <div id="list" class="promoter-grid" aria-live="polite">
+        <div class="skel-row pr-empty"><div class="skel-body"><span class="skel skel-line"></span><span class="skel skel-line"></span></div><span class="skel skel-tail"></span></div>
       </div>
+      <div class="pr-hint"><span><strong>Rechtsklick</strong> für weitere Aktionen bleibt möglich.</span><span id="networkFoot"></span></div>
     </main>
 
     <script type="module" src="../js/nav.js?v=56"></script>
@@ -108,6 +127,7 @@
 
     let allItems = [];
     let beraterSlug = '';
+    let suchbegriff = '';
 
     (async () => {
       const session = await requireAuth();
@@ -119,15 +139,16 @@
 
     async function refresh() {
       allItems = await loadEmpfehlerList();
+      renderSummary();
       renderList();
     }
 
     /* ---------- Sortierung ---------- */
-    // Datum per String-Vergleich: das Zeitformat ist einheitlich und sortiert
-    // damit chronologisch, ohne Parser-Eigenheiten der Browser.
     const neuesteZuerst = (a, b) => String(b.created_at || '').localeCompare(String(a.created_at || ''));
+    const aktuellsteZuerst = (a, b) => String(b.letzte_aktivitaet || b.created_at || '').localeCompare(String(a.letzte_aktivitaet || a.created_at || ''));
     const SORTIERUNGEN = {
-      neu:    neuesteZuerst,
+      aktuell: aktuellsteZuerst,
+      neu:     aktuellsteZuerst,
       kunde:  (a, b) => (b.kunde - a.kunde) || (b.gesamt - a.gesamt) || neuesteZuerst(a, b),
       gesamt: (a, b) => (b.gesamt - a.gesamt) || (b.kunde - a.kunde) || neuesteZuerst(a, b),
       name:   (a, b) => String(a.name || '').localeCompare(String(b.name || ''), 'de', { sensitivity: 'base' }),
@@ -137,9 +158,10 @@
     function ladeSortierung() {
       try {
         const gespeichert = localStorage.getItem(SORT_KEY);
+        if (gespeichert === 'neu') return 'aktuell';
         if (gespeichert && SORTIERUNGEN[gespeichert]) return gespeichert;
       } catch (_) {}
-      return 'neu';
+      return 'aktuell';
     }
     let sortierung = ladeSortierung();
 
@@ -158,33 +180,99 @@
       renderList();
     });
 
+    document.getElementById('promoterSearch').addEventListener('input', (e) => {
+      suchbegriff = String(e.target.value || '').trim().toLocaleLowerCase('de');
+      renderList();
+    });
+
+    function renderSummary() {
+      const promoter = allItems.length;
+      const empfehlungen = allItems.reduce((summe, item) => summe + (Number(item.gesamt) || 0), 0);
+      const kunden = allItems.reduce((summe, item) => summe + (Number(item.kunde) || 0), 0);
+      const quote = empfehlungen ? Math.round((kunden / empfehlungen) * 100) : 0;
+      document.getElementById('networkSummary').innerHTML = `
+        <div class="pr-overview-item"><strong>${promoter}</strong><span>Promoter</span></div>
+        <div class="pr-overview-item"><strong>${empfehlungen}</strong><span>Empfehlungen insgesamt</span></div>
+        <div class="pr-overview-item"><strong>${kunden}</strong><span>Kunden geworden</span></div>
+        <div class="pr-overview-item"><strong>${quote} %</strong><span>Kundenquote im Netzwerk</span></div>`;
+      document.getElementById('networkFoot').textContent = `${promoter} Promoter insgesamt`;
+    }
+
     function renderList() {
       const wrap = document.getElementById('list');
       markiereSortTab();
-      // Ohne Promoter gibt es nichts zu sortieren. Bewusst über style.display:
-      // .filter-tabs setzt display:flex und würde das hidden-Attribut aushebeln.
       document.getElementById('sortTabs').style.display = allItems.length ? '' : 'none';
       if (!allItems.length) {
-        wrap.innerHTML = '<div class="empty-state">Noch keine Promoter. Lege einen an oder verteile den Link /programm.</div>';
+        document.getElementById('networkCount').textContent = 'Noch keine Promoter';
+        wrap.innerHTML = '<div class="empty-state pr-empty">Noch keine Promoter. Lege einen an oder verteile den Link aus der Präsentation.</div>';
         return;
       }
-      const liste = allItems.slice().sort(SORTIERUNGEN[sortierung] || neuesteZuerst);
-      wrap.innerHTML = '<div class="feed">' + liste.map(e => `
-        <a class="feed-row" href="promoter.html?id=${encodeURIComponent(e.id)}"
+      const liste = allItems
+        .filter(e => !suchbegriff || [e.name, e.telefon, e.email].some(wert => String(wert || '').toLocaleLowerCase('de').includes(suchbegriff)))
+        .sort(SORTIERUNGEN[sortierung] || aktuellsteZuerst);
+      document.getElementById('networkCount').textContent = suchbegriff
+        ? `${liste.length} von ${allItems.length} Promotern`
+        : `${allItems.length} Promoter · nach ${sortLabel(sortierung)} sortiert`;
+      if (!liste.length) {
+        wrap.innerHTML = '<div class="empty-state pr-empty">Kein Promoter passt zu deiner Suche.</div>';
+        return;
+      }
+      wrap.innerHTML = liste.map((e, index) => {
+        const gesamt = Number(e.gesamt) || 0;
+        const kunden = Number(e.kunde) || 0;
+        const quote = gesamt ? Math.round((kunden / gesamt) * 100) : 0;
+        const ziel = Number(e.ziel_stufe) || 0;
+        const fortschritt = ziel ? Math.min(100, Math.round((kunden / ziel) * 100)) : Math.min(100, kunden * 20);
+        const zielText = ziel ? `Wunschziel: Stufe ${ziel}` : 'Noch kein Wunschziel gewählt';
+        const zielStand = ziel ? `${Math.min(kunden, ziel)} von ${ziel}` : `${kunden} Kunde${kunden === 1 ? '' : 'n'}`;
+        const aktivitaet = e.letzte_aktivitaet || e.created_at;
+        return `
+        <a class="promoter-card feed-row" href="promoter.html?id=${encodeURIComponent(e.id)}"
            data-id="${e.id}" data-code="${escapeHtml(e.code)}" data-name="${escapeHtml(e.name)}" data-gesamt="${e.gesamt}"
            data-tel="${escapeHtml(e.telefon || '')}" data-email="${escapeHtml(e.email || '')}">
-          <div class="feed-main">
-            <div class="feed-name">${escapeHtml(e.name)}</div>
-            <div class="feed-meta">
-              <span>${e.gesamt} Empfehlung${e.gesamt === 1 ? '' : 'en'}</span>
-              ${e.kunde > 0 ? `<span style="color:#1F6B30;font-weight:600;">${e.kunde} × Kunde</span>` : ''}
-              <span>${escapeHtml(e.code)}</span>
-              <span>${formatDate(e.created_at)}</span>
-            </div>
+          <div class="pr-person">
+            <span class="pr-initial">${initialen(e.name)}</span>
+            <span><strong>${escapeHtml(e.name)}</strong><small><i class="pr-active-dot"></i>${relativeDate(aktivitaet)}</small></span>
           </div>
-          <span class="feed-arrow">›</span>
-        </a>
-      `).join('') + '</div>';
+          <div class="pr-metrics">
+            <div class="pr-metric"><b>${gesamt}</b><span>Empfehlungen</span></div>
+            <div class="pr-metric"><b>${kunden}</b><span>Kunden</span></div>
+            <div class="pr-metric"><b>${quote} %</b><span>Quote</span></div>
+          </div>
+          <div class="pr-goal-label"><span>${zielText}</span><b>${zielStand}</b></div>
+          <div class="pr-progress"><i style="width:${fortschritt}%"></i></div>
+          <div class="pr-card-foot"><b class="${gesamt ? '' : 'quiet'}">${impulsText(gesamt, kunden, ziel)}</b><span>seit ${formatDate(e.created_at)}</span></div>
+        </a>`;
+      }).join('');
+    }
+
+    function sortLabel(key) {
+      return ({ aktuell: 'Aktivität', kunde: 'Kundenzahl', gesamt: 'Empfehlungen', name: 'Name' })[key] || 'Aktivität';
+    }
+
+    function initialen(name) {
+      return String(name || '?').trim().split(/\s+/).slice(0, 2).map(teil => teil[0] || '').join('').toUpperCase();
+    }
+
+    function relativeDate(value) {
+      if (!value) return 'noch ohne Aktivität';
+      const zeit = new Date(value).getTime();
+      if (!Number.isFinite(zeit)) return formatDate(value);
+      const tage = Math.max(0, Math.floor((Date.now() - zeit) / 86400000));
+      if (tage === 0) return 'heute aktiv';
+      if (tage === 1) return 'gestern aktiv';
+      if (tage < 7) return `vor ${tage} Tagen aktiv`;
+      if (tage < 14) return 'vor 1 Woche aktiv';
+      return `vor ${Math.floor(tage / 7)} Wochen aktiv`;
+    }
+
+    function impulsText(gesamt, kunden, ziel) {
+      if (!gesamt) return 'Ein erster Impuls könnte helfen';
+      if (ziel && kunden >= ziel) return 'Wunschziel erreicht';
+      if (ziel && ziel - kunden === 1) return 'Nächstes Ziel ist nah';
+      if (kunden && kunden === gesamt) return 'Sehr hohe Qualität';
+      if (gesamt >= 3 && kunden >= 2) return 'Starkes Momentum';
+      return 'Beziehung persönlich pflegen';
     }
 
     function escapeHtml(s) {
