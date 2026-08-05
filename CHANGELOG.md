@@ -1,7 +1,24 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.181 Beta** · Farbige Bilder im gesamten Portal, live seit 05.08.2026.
+Vorbereitete Version: **v1.182 Beta** · QR-Selbstanmeldung für Promoter. Noch nicht live.
+Offizielle Live-Version: **v1.181 Beta** · Farbige Bilder im gesamten Portal, live seit 05.08.2026.
+
+---
+
+## v1.182 Beta - Phase 156 · QR-Selbstanmeldung für Promoter
+**2026-08-05 · auf `codex/promoter-qr-v1` vorbereitet, nicht veröffentlicht**
+
+- Die Präsentation endet mit einem großen, beraterbezogenen QR-Code statt mit der bisherigen direkten Promoter-Eingabe.
+- Der QR-Code führt in eine feste helle Startseite. Dort meldet sich der Kunde kurz mit Name und einem Kontaktweg an.
+- Nach erfolgreicher Anmeldung landet der neue Promoter direkt in seinem vorhandenen persönlichen Bereich. Themenwahl, Empfehlungslink und Benefits nutzen danach den bestehenden Ablauf.
+- Für Präsentation und Büro-Aufsteller liegen getrennte QR-Codes für alle fünf aktuell aktiven Berater vor. Die Quelle wird für eine spätere Auswertung mitgeführt.
+- Ungültige Berater-Links fallen nicht mehr still auf Kai zurück.
+- Die öffentliche Anmeldung läuft über einen eigenen Vercel-Endpunkt mit Eingabeprüfung, Cloudflare Turnstile, Herkunftsprüfung, gehashten Mengenbegrenzungen und einem internen Registrierungsgeheimnis.
+- Die bestehende Beraterfunktion `create_empfehler` wird in der vorbereiteten Migration auf angemeldete Berater begrenzt. Die öffentliche Selbstanmeldung erhält einen eigenen, minimal freigegebenen Datenbankweg.
+- Historische Dubletten bleiben unangetastet. Teilindizes verhindern nur bei neuen Selbstanmeldungen parallele Dubletten je Berater, E-Mail und Mobilnummer.
+- Die Migration `schema-phase156.sql` ist vorbereitet, aber nicht angewendet. Vercel-Geheimnisse, Cloudflare-Schlüssel, Datenbank, Sicherung, Veröffentlichung und Live-Prüfung stehen noch aus.
+- Alle automatischen Portaltests, die API-Sicherheitstests, der portalweite Farbfiltertest, der bytegenaue Abgleich aller zehn QR-Zieladressen sowie die Browserprüfung für Desktop und Mobil sind grün.
 
 ---
 

@@ -1,10 +1,10 @@
-import { getBelohnungsStufenPublic, getVorlagenPublic, createEmpfehler, getBeraterPublicBySlug, supabase } from './supabase.js';
+import { getBelohnungsStufenPublic, getVorlagenPublic, getBeraterPublicBySlug, supabase } from './supabase.js';
 import { icon as lucideIcon, ICONS } from './icons.js';
 import { applyBeraterBrand, merkeBerater, gemerkterBerater } from './berater-brand.js';
 import { baueReise, reiseHtml } from './belohnungs-reise.js';
 
 // Multi-Tenant: Berater-Einstieg via ?berater=slug (z. B. ?berater=sven-augustin).
-// Wird unten zum Branding genutzt + an create_empfehler durchgereicht.
+// Wird unten zum Branding und für den persönlichen QR-Einstieg genutzt.
 const presentationParams = new URLSearchParams(window.location.search);
 const beraterSlug = presentationParams.get('berater');
 
@@ -536,6 +536,42 @@ async function resolveBerater() {
 // (Vorlagen/Belohnungen) sind dagegen GETEILT — global geladen, nur Admin pflegt sie.
 const beraterPromise = resolveBerater();
 
+const qrSlugs = new Set([
+  'josephine-buerger',
+  'kai-blobel',
+  'max-kudlek',
+  'sandro-wernicke',
+  'sven-augustin',
+]);
+
+function setPromoterEntry(data) {
+  const qr = document.getElementById('t-PromoterQr');
+  const link = document.getElementById('t-PromoterStartLink');
+  if (!qr || !link) return;
+
+  // Ein ausdrücklich gesetzter, aber ungültiger Berater-Slug darf nie still
+  // auf Kai zurückfallen. Ohne Slug bleibt die normale Kai-Präsentation aktiv.
+  const slug = data?.slug || (beraterSlug ? '' : 'kai-blobel');
+  if (!slug) {
+    qr.hidden = true;
+    link.removeAttribute('href');
+    link.setAttribute('aria-disabled', 'true');
+    link.textContent = 'Berater-Link nicht verfügbar';
+    return;
+  }
+
+  const startUrl = `/p/${encodeURIComponent(slug)}/praesentation`;
+  link.href = startUrl;
+  if (qrSlugs.has(slug)) {
+    qr.src = `/assets/qr/promoter-${slug}-praesentation.svg`;
+    qr.hidden = false;
+  } else {
+    // Für neu angelegte Berater bleibt der direkte Einstieg nutzbar. Der
+    // druckbare QR-Code wird zusammen mit den Berater-Unterlagen erzeugt.
+    qr.hidden = true;
+  }
+}
+
 beraterPromise.then((data) => {
   if (!data) {
     // Kein Berater auflösbar → Standard-Berater (ENV) als letzter Fallback,
@@ -544,12 +580,14 @@ beraterPromise.then((data) => {
       const el = document.getElementById('t-Foto');
       if (el) { el.src = window.ENV_BERATER_FOTO || ''; el.alt = window.ENV_BERATER_NAME || ''; }
     }
+    setPromoterEntry(null);
     return;
   }
   window.__beraterPublic = data;
   applyBeraterBrand(data);
   merkeBerater(brandKey, data);
   if (data.foto_url && fotoVideo) fotoVideo.src = data.foto_url;
+  setPromoterEntry(data);
 });
 
 // IntersectionObserver — Fade-Up
@@ -882,114 +920,6 @@ const heroObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.05 });
 if (hero) heroObserver.observe(hero);
-
-// Anmelde-Form
-const form = document.getElementById('t-AnmeldeForm');
-const submitBtn = document.getElementById('t-Submit');
-const errBox = document.getElementById('t-Err');
-
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  errBox.classList.remove('show');
-
-  const name = document.getElementById('t-Name').value.trim();
-  const email = document.getElementById('t-Email').value.trim();
-  const telefon = document.getElementById('t-Telefon').value.trim();
-
-  if (!name || name.length < 2) {
-    errBox.textContent = 'Bitte gib deinen Namen ein.';
-    errBox.classList.add('show');
-    return;
-  }
-
-  // Ohne Kontaktweg ist der Promoter für den Berater nicht erreichbar — weder
-  // für Rückfragen noch für die Belohnung. Eins von beidem reicht.
-  if (!email && !telefon) {
-    errBox.textContent = 'Bitte hinterlass mir eine E-Mail oder eine Telefonnummer — sonst kann ich dich später nicht erreichen.';
-    errBox.classList.add('show');
-    document.getElementById('t-Email').focus();
-    return;
-  }
-
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'Erstelle…';
-
-  const { data: code, error } = await createEmpfehler({ name, email, telefon, beraterSlug });
-
-  if (error || !code) {
-    errBox.textContent = 'Konnte nicht angelegt werden: ' + (error?.message || 'unbekannt');
-    errBox.classList.add('show');
-    submitBtn.disabled = false;
-    submitBtn.textContent = 'Meinen Empfehlungs-Link erstellen';
-    return;
-  }
-
-  try { localStorage.setItem('empfehler_code', code); } catch (_) {}
-
-  // === Erfolgs-Modal anzeigen ===
-  // Dashboard-Link bleibt für den Empfehler selbst (NICHT teilen).
-  // Empfehlungs-CTA führt zu empfehlen.html?code=... wo der Empfehler die
-  // konkrete Empfehlung mit Thema-Auswahl ausspricht.
-  const personalLink = `${window.location.origin}/empfehler.html?code=${encodeURIComponent(code)}`;
-  const dashboardUrl = `empfehler.html?code=${encodeURIComponent(code)}&neu=1`;
-  const empfehlenUrl = `empfehlen.html?code=${encodeURIComponent(code)}`;
-
-  const modal = document.getElementById('t-SuccessModal');
-  const linkInput = document.getElementById('t-SuccessLink');
-  const empfehlenBtn = document.getElementById('t-SuccessEmpfehlen');
-  const dashBtn = document.getElementById('t-SuccessDashboard');
-  const copyBtn = document.getElementById('t-SuccessCopy');
-  const closeBtn = document.getElementById('t-SuccessClose');
-  const backdrop = document.getElementById('t-SuccessBackdrop');
-  const subText = document.getElementById('t-SuccessSub');
-
-  if (modal && linkInput && empfehlenBtn) {
-    linkInput.value = personalLink;
-    empfehlenBtn.href = empfehlenUrl;  // primär → direkt die erste Empfehlung aussprechen
-    dashBtn.href = dashboardUrl;       // sekundär → persönlicher Bereich
-
-    if (subText && name) {
-      const firstName = name.split(' ')[0];
-      subText.textContent = `Willkommen, ${firstName}. Sag mir, wen du empfehlen möchtest.`;
-    }
-
-    modal.hidden = false;
-    requestAnimationFrame(() => modal.classList.add('open'));
-    document.body.style.overflow = 'hidden';
-
-    const closeModal = (targetUrl) => {
-      modal.classList.remove('open');
-      document.body.style.overflow = '';
-      setTimeout(() => {
-        modal.hidden = true;
-        if (targetUrl) window.location.href = targetUrl;
-      }, 280);
-    };
-
-    // Schließen heißt schließen — wer nur den Link kopieren will, bleibt auf
-    // der Seite. Der Weg in seinen Bereich steht als eigener Button daneben.
-    closeBtn?.addEventListener('click', () => closeModal(), { once: true });
-    backdrop?.addEventListener('click', () => closeModal(), { once: true });
-
-    copyBtn?.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(personalLink);
-        copyBtn.textContent = 'Kopiert ✓';
-        setTimeout(() => { copyBtn.textContent = 'Kopieren'; }, 1800);
-      } catch (e) {
-        linkInput.select();
-        document.execCommand('copy');
-        copyBtn.textContent = 'Kopiert ✓';
-        setTimeout(() => { copyBtn.textContent = 'Kopieren'; }, 1800);
-      }
-    });
-
-    return;
-  }
-
-  // Fallback wenn Modal nicht da: direkt zum individuellen Link
-  window.location.href = dashboardUrl;
-});
 
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, m =>

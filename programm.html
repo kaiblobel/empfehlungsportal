@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#FAF8F5" />
+  <meta name="color-scheme" content="light" />
   <title>Vertrauen weitergeben · Kai Blobel</title>
 
   <meta property="og:type" content="website" />
@@ -14,7 +15,7 @@
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
   <link rel="stylesheet" href="css/style.css?v=33" />
-  <link rel="stylesheet" href="css/programm.css?v=83" />
+  <link rel="stylesheet" href="css/programm.css?v=86" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="programm">
@@ -787,35 +788,29 @@
     </div>
   </section>
 
-  <!-- ===== 8 · Anmeldung ===== -->
+  <!-- ===== 8 · QR-Einstieg ===== -->
   <section class="section alt" id="anmelden">
-    <div class="inner">
-      <p class="t-eyebrow reveal">Loslegen</p>
-      <h2 class="t-h2 reveal d1">An wen denkst du<br>gerade?</h2>
-      <p class="t-body reveal d2" style="margin: 0 auto;">
-        Trag deinen Namen ein. Im nächsten Schritt sagst du mir, wen ich anrufen darf und worum es bei der Person gerade geht.
-      </p>
+    <div class="inner wide">
+      <div class="promoter-qr-entry reveal">
+        <div class="promoter-qr-copy">
+          <p class="t-eyebrow">Jetzt loslegen</p>
+          <h2 class="t-h2">Promoter werden.<br>Direkt weiterempfehlen.</h2>
+          <p class="t-body">Scanne den QR-Code. Du meldest dich kurz an und landest direkt in deinem persönlichen Empfehlungsbereich.</p>
+          <ol class="promoter-qr-steps" aria-label="So geht es weiter">
+            <li><span>1</span>QR-Code scannen</li>
+            <li><span>2</span>Kurz als Promoter anmelden</li>
+            <li><span>3</span>Thema auswählen und Link versenden</li>
+          </ol>
+          <p class="promoter-qr-benefit">Dort siehst du auch deine Benefits, Wunschziele und deinen Fortschritt.</p>
+        </div>
 
-      <form class="form-card reveal d2" id="t-AnmeldeForm">
-        <div>
-          <label for="t-Name">Dein Name</label>
-          <input id="t-Name" type="text" required autocomplete="name" placeholder="Anna Schmidt" />
+        <div class="promoter-qr-panel">
+          <img class="promoter-qr-image" id="t-PromoterQr" src="/assets/qr/promoter-kai-blobel-praesentation.svg" alt="QR-Code zur Promoter-Anmeldung" width="320" height="320" />
+          <strong>Mit der Kamera scannen</strong>
+          <span class="promoter-qr-caption">Der QR-Code führt direkt zu deinem persönlichen Start.</span>
+          <a class="promoter-qr-link" id="t-PromoterStartLink" href="/p/kai-blobel/praesentation">Auf diesem Gerät öffnen</a>
         </div>
-        <div>
-          <label for="t-Email">E-Mail</label>
-          <input id="t-Email" type="email" autocomplete="email" />
-        </div>
-        <div>
-          <label for="t-Telefon">Telefon</label>
-          <input id="t-Telefon" type="tel" inputmode="tel" autocomplete="tel" />
-          <span class="form-hint">E-Mail oder Telefon — eins von beidem genügt, damit ich dich erreichen kann.</span>
-        </div>
-        <div class="form-err" id="t-Err"></div>
-        <button type="submit" class="btn btn-primary" id="t-Submit">
-          Meinen Empfehlungs-Link erstellen
-        </button>
-        <p class="form-note">Deine Daten bleiben bei mir. Ich nutze sie nur, um dich zu erkennen, wenn du wieder vorbeikommst.</p>
-      </form>
+      </div>
     </div>
   </section>
 
@@ -867,34 +862,6 @@
     </div>
   </footer>
 
-  <!-- Erfolgs-Modal nach Anmeldung -->
-  <div class="success-modal" id="t-SuccessModal" hidden role="dialog" aria-modal="true" aria-labelledby="t-SuccessTitle">
-    <div class="success-modal-backdrop" id="t-SuccessBackdrop"></div>
-    <div class="success-modal-card">
-      <button class="success-modal-close" id="t-SuccessClose" type="button" aria-label="Schließen">×</button>
-      <div class="success-modal-check" aria-hidden="true">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-      </div>
-      <h3 class="success-modal-title" id="t-SuccessTitle">Willkommen!</h3>
-      <p class="success-modal-sub" id="t-SuccessSub">Du bist drin. Sag mir, wen du empfehlen möchtest.</p>
-      <div class="success-modal-actions">
-        <a class="success-modal-btn success-modal-btn-primary" id="t-SuccessEmpfehlen" href="#">
-          Erste Empfehlung aussprechen →
-        </a>
-        <a class="success-modal-btn success-modal-btn-dashboard" id="t-SuccessDashboard" href="#">
-          Zu meinem Bereich
-        </a>
-      </div>
-      <div class="success-modal-bookmark">
-        <span class="success-modal-bookmark-label">Dein persönlicher Link für später (nicht teilen):</span>
-        <div class="success-modal-link-row">
-          <input class="success-modal-link" id="t-SuccessLink" type="text" readonly value="" />
-          <button class="success-modal-copy" id="t-SuccessCopy" type="button" aria-label="Link kopieren">Kopieren</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Sticky Mobile CTA -->
   <div class="sticky-cta" id="t-StickyCta">
     <a href="#anmelden">Jetzt empfehlen</a>
@@ -902,6 +869,6 @@
 
 
   <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
-  <script type="module" src="js/programm.js?v=46"></script>
+  <script type="module" src="js/programm.js?v=47"></script>
 </body>
 </html>

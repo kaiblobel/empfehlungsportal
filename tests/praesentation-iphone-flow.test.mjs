@@ -21,7 +21,7 @@ assert.match(html, /Geldprämie/);
 assert.match(html, /Sachprämie/);
 assert.match(html, /Spende/);
 assert.doesNotMatch(html, /class="wa-mockup"/);
-assert.match(html, /css\/programm\.css\?v=83/);
+assert.match(html, /css\/programm\.css\?v=86/);
 
 assert.match(css, /\.steps-row\.iphone-flow/);
 assert.match(css, /\.iphone-device \{/);
@@ -31,8 +31,8 @@ assert.match(css, /\.iphone-wa-screen/);
 assert.match(css, /\.iphone-reward-option/);
 assert.match(css, /@media \(max-width: 820px\)[\s\S]*\.steps-row\.iphone-flow \{ grid-template-columns: 1fr/);
 
-assert.match(config, /v1\.181 Beta/);
-assert.match(config, /Phase 155 · Farbige Bilder im gesamten Portal/);
-assert.match(sw, /CACHE_VERSION = 'v140-2026-08-05'/);
+assert.match(config, /v1\.182 Beta/);
+assert.match(config, /Phase 156 · QR-Selbstanmeldung für Promoter/);
+assert.match(sw, /CACHE_VERSION = 'v141-2026-08-05'/);
 
 console.log('praesentation-iphone-flow: OK');
