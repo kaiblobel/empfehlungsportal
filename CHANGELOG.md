@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.172 Beta** · Empfehlungen als Premium-Arbeitsliste, veröffentlicht am 05.08.2026.
+Aktuelle Version: **v1.173 Beta** · Ruhiger Feinschliff der Empfehlungen, vorbereitet am 05.08.2026.
+
+---
+
+## v1.173 Beta - Phase 147 · Ruhiger Feinschliff der Empfehlungen
+**2026-08-05**
+
+- `TAGESGESCHÄFT` ist jetzt ein kleines, gesperrtes Orientierungslabel statt einer zweiten Überschrift.
+- Der Suchtext ist mit `Name, Telefon oder Promoter suchen` kürzer und passt vollständig in das Feld.
+- Unter dem Beraternamen steht `Empfehlungsmanagement`, damit sich der Seitentitel nicht doppelt.
+- Die wiederholten Anrufaktionen nutzen einen warmen, ruhigen Akzent statt vier dominanter schwarzer Flächen. Der einzelne Hauptknopf `Neue Empfehlung` bleibt schwarz.
+- Keine Fachlogik, Datenbankmigration oder Änderung an Empfehlungen, Kunden- oder Beraterdaten.
+- Veröffentlichung noch nicht freigegeben.
 
 ---
 

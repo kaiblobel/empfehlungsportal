@@ -1532,7 +1532,15 @@ body.nav-collapsed .nav-divider { padding: 0 8px; margin: 10px 0 4px; }
   gap: var(--sp-5);
   margin-bottom: var(--sp-6);
 }
-.ep-intro .h-label { margin-bottom: var(--sp-2); color: var(--accent-hover); }
+.ep-intro .h-label {
+  margin-bottom: var(--sp-2);
+  color: var(--accent-hover);
+  font-size: 11px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
 .ep-intro h1 {
   margin: 0;
   font-size: clamp(32px, 4vw, 44px);
@@ -1689,7 +1697,13 @@ body.nav-collapsed .nav-divider { padding: 0 8px; margin: 10px 0 4px; }
   font-size: 11px;
   font-weight: 700;
 }
-.ep-action.primary { border-color: var(--ink); background: var(--ink); color: #fff; }
+.ep-action.primary {
+  border-color: rgba(201,185,138,.55);
+  background: var(--accent-bg);
+  color: #5f543d;
+}
+.ep-action.primary svg { color: var(--burnt-orange); }
+.ep-action.primary:hover { border-color: var(--accent); background: #efe7d4; }
 .ep-list {
   overflow: hidden;
   background: var(--surface);

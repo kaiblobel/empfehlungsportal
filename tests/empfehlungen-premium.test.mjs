@@ -13,14 +13,15 @@ const [html, css, nav, config, sw] = await Promise.all([
 assert.match(html, /class="has-app-nav emp-page"/);
 assert.match(html, /Wartet auf dich/);
 assert.match(html, /id="priorityList"/);
-assert.match(html, /Name, Telefonnummer oder Promoter suchen/);
+assert.match(html, /Name, Telefon oder Promoter suchen/);
+assert.match(html, /Empfehlungsmanagement/);
 assert.match(html, /\['interessiert', 'Interesse'\]/);
 assert.match(html, /function effectiveStatus\(r\)/);
 assert.match(html, /r\.interessiert \|\| r\.interessiert_at/);
 assert.match(html, /whatsappLink\(phone\)/);
 assert.match(html, /class="ep-row feed-row"/);
 assert.match(html, /Rechtsklick/);
-assert.match(html, /dashboard\.css\?v=46/);
+assert.match(html, /dashboard\.css\?v=47/);
 assert.match(html, /nav\.js\?v=56/);
 
 const inlineModule = [...html.matchAll(/<script type="module">([\s\S]*?)<\/script>/g)].at(-1)?.[1] || '';
@@ -30,16 +31,18 @@ assert.doesNotThrow(() => new Function(parseableModuleBody));
 assert.match(css, /\.ep-priority-grid/);
 assert.match(css, /\.ep-workbar/);
 assert.match(css, /\.ep-row/);
+assert.match(css, /\.ep-intro \.h-label \{[\s\S]*?text-transform: uppercase/);
+assert.match(css, /\.ep-action\.primary \{[\s\S]*?background: var\(--accent-bg\)/);
 assert.match(css, /@media \(max-width: 540px\)/);
 
 const recommendationItem = nav.match(/\{ id: 'empfehlungen',[\s\S]*?\},/)?.[0] || '';
 assert.doesNotMatch(recommendationItem, /subs:/);
 assert.match(nav, /id: 'programm'[\s\S]*?subs:/);
 
-assert.match(config, /v1\.172 Beta/);
-assert.match(config, /Phase 146 · Empfehlungen als Arbeitsliste/);
-assert.match(sw, /CACHE_VERSION = 'v130-2026-08-05'/);
-assert.match(sw, /dashboard\.css\?v=46/);
+assert.match(config, /v1\.173 Beta/);
+assert.match(config, /Phase 147 · Ruhiger Feinschliff der Empfehlungen/);
+assert.match(sw, /CACHE_VERSION = 'v131-2026-08-05'/);
+assert.match(sw, /dashboard\.css\?v=47/);
 assert.match(sw, /nav\.js\?v=56/);
 
 console.log('empfehlungen-premium: OK');

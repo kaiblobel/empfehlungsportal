@@ -32,8 +32,8 @@ assert.match(closingRule, /position: static/);
 assert.match(closingRule, /justify-self: end/);
 assert.doesNotMatch(closingRule, /position: absolute/);
 
-assert.match(config, /v1\.172 Beta/);
-assert.match(config, /Phase 146 · Empfehlungen als Arbeitsliste/);
-assert.match(sw, /CACHE_VERSION = 'v130-2026-08-05'/);
+assert.match(config, /v1\.173 Beta/);
+assert.match(config, /Phase 147 · Ruhiger Feinschliff der Empfehlungen/);
+assert.match(sw, /CACHE_VERSION = 'v131-2026-08-05'/);
 
 console.log('praesentation-kurzmodus: OK');
