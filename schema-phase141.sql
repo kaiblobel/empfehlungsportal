@@ -1,6 +1,6 @@
 -- ============================================================================
 -- Phase 141 · Sichere Teamkennzahlen
--- Status: VORBEREITET, NOCH NICHT LIVE ANGEWANDT
+-- Status: LIVE ANGEWANDT AM 2026-08-05
 --
 -- Liefert ausschließlich aggregierte Kennzahlen je aktivem Berater. Keine
 -- Kunden-, Promoter- oder Kontaktdaten verlassen die Funktion. Der Zeitraum

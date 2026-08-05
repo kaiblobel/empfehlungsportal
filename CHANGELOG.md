@@ -13,7 +13,7 @@ Aktuelle Version: **v1.167 Beta** · Teamleistung und Beraterkonten klar getrenn
 - Die bisher unter „Team“ geführte Kontenverwaltung heißt jetzt „Beraterkonten“ und steht ausschließlich für Administratoren unter „Verwaltung“.
 - Der Überblick zeigt nur noch einen kompakten Teameinstieg mit zwei aktuellen Ereignissen und führt für Details in die Teamübersicht.
 - Die vorbereiteten Datenbankfunktionen `team_metrics` und `team_activity_secure` akzeptieren nur 7, 30 oder 90 Tage und prüfen, ob der eingeloggte Nutzer einem aktiven Beraterkonto zugeordnet ist. Die persönliche Aktivität wird eindeutig per Berater-ID zugeordnet. Öffentliche und anonyme Ausführung sind gesperrt.
-- Keine Kundendaten und keine bestehenden Datensätze verändert. `schema-phase141.sql` ist vorbereitet, aber noch nicht auf die Live-Datenbank angewandt. Version v1.167 ist noch nicht veröffentlicht.
+- Keine Kundendaten und keine bestehenden Datensätze verändert. `schema-phase141.sql` wurde am 05.08.2026 auf die Live-Datenbank angewandt und mit einem verknüpften Beraterkonto geprüft. Version v1.167 ist noch nicht veröffentlicht.
 
 ---
 

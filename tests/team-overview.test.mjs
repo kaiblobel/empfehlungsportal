@@ -50,7 +50,7 @@ assert.match(supabaseJs, /export async function getTeamActivitySecure/);
 assert.match(supabaseJs, /\[7, 30, 90\]\.includes/);
 assert.match(supabaseJs, /supabase\.rpc\('team_metrics'/);
 
-assert.match(sql, /Status: VORBEREITET, NOCH NICHT LIVE ANGEWANDT/);
+assert.match(sql, /Status: LIVE ANGEWANDT AM 2026-08-05/);
 assert.match(sql, /security definer/i);
 assert.match(sql, /set search_path = ''/i);
 assert.match(sql, /auth\.uid\(\)/);
