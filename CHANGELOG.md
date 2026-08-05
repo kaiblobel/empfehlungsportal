@@ -10,7 +10,7 @@ Aktuelle Version: **v1.169 Beta** · Farbige Beraterportraits in der Präsentati
 
 - Die Präsentation entsättigt das dynamisch geladene Beraterportrait nicht mehr. Jedes Beraterfoto wird in seinen echten Farben angezeigt.
 - Beide bisher wirksamen Schwarz-Weiß-Regeln wurden entfernt, damit auch spätere Beraterbilder automatisch farbig bleiben.
-- Gespeicherte Bilddateien, Beraterdaten und alle übrigen Präsentationsbilder bleiben unverändert.
+- Gespeicherte Bilddateien, Beraterdaten und alle übrigen Präsentationsbilder bleiben unverändert. Version v1.169 ist auf `main` und Vercel veröffentlicht; beide wirksamen Portraitregeln wurden über die offizielle Live-Adresse farbig geprüft.
 
 ---
 
