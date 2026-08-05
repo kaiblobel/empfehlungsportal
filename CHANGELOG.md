@@ -1,12 +1,12 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Arbeitsversion: **v1.181 Beta** · Farbige Bilder im gesamten Portal, noch nicht veröffentlicht. Live bleibt **v1.180 Beta**.
+Aktuelle Version: **v1.181 Beta** · Farbige Bilder im gesamten Portal, live seit 05.08.2026.
 
 ---
 
 ## v1.181 Beta - Phase 155 · Farbige Bilder im gesamten Portal
-**2026-08-05 · vorbereitet, noch nicht veröffentlicht**
+**2026-08-05 · live veröffentlicht**
 
 - Sämtliche Schwarz-Weiß- und Entsättigungsfilter wurden aus den ausgelieferten HTML-, CSS-, JavaScript- und SVG-Beständen entfernt.
 - Beraterportraits erscheinen auf Empfänger-, Promoter- und Präsentationsseiten unverfälscht farbig. Die Korrektur gilt automatisch für Kai und alle anderen Berater.
@@ -14,6 +14,7 @@ Aktuelle Arbeitsversion: **v1.181 Beta** · Farbige Bilder im gesamten Portal, n
 - Reine Helligkeits- und Kontrastregeln für Lesbarkeit bleiben erhalten, sofern sie keine Farben entfernen.
 - Bilddateien, Beraterdaten, Empfehlungen und Datenbankinhalte bleiben unverändert.
 - Ein portalweiter Schutztest prüft alle ausgelieferten Quelldateien und verhindert eine erneute Schwarz-Weiß-Darstellung.
+- Funktionsstand `c6a8a3e` ist über das produktive Vercel-Deployment `dpl_FX5N8dEUtf3iDQNhegbb1dW4q1pw` veröffentlicht. Die offizielle Adresse liefert v1.181 und alle geprüften Portal-, Stil- und Mockup-Dateien ohne Schwarz-Weiß- oder Null-Sättigungsfilter aus; das Vercel-Fehlerprotokoll ist leer.
 
 ---
 
