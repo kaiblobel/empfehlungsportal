@@ -3516,10 +3516,10 @@ body[data-page="hub"] .h-team-momentum {
 body[data-page="hub"] .h-activity-row {
   grid-template-columns: 32px minmax(0, 1fr) !important;
   gap: 10px !important;
-  padding: 12px 2px !important;
+  padding: 14px 2px !important;
   overflow: visible;
   border: 0 !important;
-  border-bottom: 1px solid #E7E4DE !important;
+  border-bottom: 1px solid #ECEAE5 !important;
   border-radius: 0 !important;
   background: transparent !important;
   box-shadow: none !important;

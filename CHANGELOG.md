@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.178 Beta** · Wettbewerb und dynamische Analysen, live seit 05.08.2026.
+Aktuelle Version: **v1.179 Beta** · Leichter Aktivitätsstrom, vorbereitet am 05.08.2026.
+
+---
+
+## v1.179 Beta - Phase 153 · Leichter Aktivitätsstrom
+**2026-08-05**
+
+- Die Einträge im Live-Stream erhalten etwas mehr vertikalen Innenabstand, damit Namen, Ereignisse und Status ruhiger lesbar sind.
+- Die Trennlinien sind heller und treten stärker in den Hintergrund.
+- Die flache Nachrichtenstrom-Optik bleibt erhalten. Es entstehen bewusst keine einzelnen Karten und keine zusätzlichen Schatten.
+- Keine Datenbankmigration und keine Änderung an Aktivitäten oder Empfehlungsdaten.
+- Veröffentlichung noch nicht freigegeben.
 
 ---
 

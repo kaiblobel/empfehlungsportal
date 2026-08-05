@@ -11,7 +11,7 @@ const [html, css, dashboardCss, nav, manifest, config, sw] = await Promise.all([
   readFile(new URL('../sw.js', import.meta.url), 'utf8'),
 ]);
 
-assert.match(html, /css\/hub\.css\?v=51/);
+assert.match(html, /css\/hub\.css\?v=52/);
 assert.match(html, /id="hHeroLines"/);
 assert.match(html, /id="hTimeline"/);
 assert.match(html, /id="kpiEmpfehler"/);
@@ -41,14 +41,15 @@ assert.match(css, /color: #3F8A50 !important/);
 assert.match(css, /body\[data-page="hub"\] \.h-network-overview \.h-kpi/);
 assert.match(css, /box-shadow: none !important/);
 assert.match(css, /body\[data-page="hub"\] \.h-activity-row/);
-assert.match(css, /border-bottom: 1px solid #E7E4DE !important/);
+assert.match(css, /padding: 14px 2px !important/);
+assert.match(css, /border-bottom: 1px solid #ECEAE5 !important/);
 assert.match(css, /background: #F8F8F6/);
 assert.match(css, /@media \(max-width: 560px\)/);
 
-assert.match(config, /APP_VERSION = 'v1\.178 Beta'/);
-assert.match(config, /Phase 152 · Wettbewerb und dynamische Analysen/);
-assert.match(sw, /CACHE_VERSION = 'v137-2026-08-05'/);
-assert.match(sw, /\/css\/hub\.css\?v=51/);
+assert.match(config, /APP_VERSION = 'v1\.179 Beta'/);
+assert.match(config, /Phase 153 · Leichter Aktivitätsstrom/);
+assert.match(sw, /CACHE_VERSION = 'v138-2026-08-05'/);
+assert.match(sw, /\/css\/hub\.css\?v=52/);
 assert.match(sw, /\/css\/dashboard\.css\?v=48/);
 assert.match(sw, /\/js\/nav\.js\?v=57/);
 

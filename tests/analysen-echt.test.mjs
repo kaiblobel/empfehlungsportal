@@ -65,9 +65,9 @@ assert.match(css, /\.analysis-chart-mode/);
 assert.match(css, /@media \(max-width:600px\)/);
 
 assert.match(nav, /id: 'analysen',[\s\S]*?href: path\('dashboard\/overview\.html'\)/);
-assert.match(config, /v1\.178 Beta/);
-assert.match(config, /Phase 152 · Wettbewerb und dynamische Analysen/);
-assert.match(sw, /CACHE_VERSION = 'v137-2026-08-05'/);
+assert.match(config, /v1\.179 Beta/);
+assert.match(config, /Phase 153 · Leichter Aktivitätsstrom/);
+assert.match(sw, /CACHE_VERSION = 'v138-2026-08-05'/);
 assert.match(sw, /'\/dashboard\/overview\.html'/);
 assert.match(sw, /'\/css\/analysen\.css\?v=2'/);
 assert.match(sw, /'\/js\/analysen\.js\?v=2'/);
