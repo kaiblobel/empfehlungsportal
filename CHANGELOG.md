@@ -1,7 +1,7 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.179 Beta** · Leichter Aktivitätsstrom, vorbereitet am 05.08.2026.
+Aktuelle Version: **v1.179 Beta** · Leichter Aktivitätsstrom, live seit 05.08.2026.
 
 ---
 
@@ -12,7 +12,7 @@ Aktuelle Version: **v1.179 Beta** · Leichter Aktivitätsstrom, vorbereitet am 0
 - Die Trennlinien sind heller und treten stärker in den Hintergrund.
 - Die flache Nachrichtenstrom-Optik bleibt erhalten. Es entstehen bewusst keine einzelnen Karten und keine zusätzlichen Schatten.
 - Keine Datenbankmigration und keine Änderung an Aktivitäten oder Empfehlungsdaten.
-- Veröffentlichung noch nicht freigegeben.
+- Live veröffentlicht am 05.08.2026. Keine Datenbankmigration erforderlich.
 
 ---
 
