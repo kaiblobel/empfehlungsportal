@@ -8,7 +8,7 @@
   <title>Promoter · Empfehlungsportal</title>
   <link rel="stylesheet" href="../css/style.css?v=32" />
   <link rel="stylesheet" href="../css/dashboard.css?v=48" />
-  <link rel="stylesheet" href="../css/promoter-dashboard.css?v=1" />
+  <link rel="stylesheet" href="../css/promoter-dashboard.css?v=2" />
   <script src="../js/config.js"></script>
 </head>
 <body class="has-app-nav promoter-page">
@@ -45,6 +45,17 @@
         <div class="pr-overview-item"><strong>…</strong><span>Empfehlungen</span></div>
         <div class="pr-overview-item"><strong>…</strong><span>Kunden geworden</span></div>
         <div class="pr-overview-item"><strong>…</strong><span>Kundenquote</span></div>
+      </section>
+
+      <section class="pr-champions" id="promoterChampions" hidden aria-labelledby="promoterChampionsTitle">
+        <header class="pr-champions-head">
+          <div class="pr-champions-title">
+            <span class="pr-champions-icon" id="promoterChampionsIcon" aria-hidden="true"></span>
+            <div><div class="pr-label">Deine Besten</div><h2 id="promoterChampionsTitle">Top-Promoter</h2><p>Die drei stärksten Empfehlungsgeber in deinem Netzwerk.</p></div>
+          </div>
+          <span class="pr-champions-rule">Gewertet nach gewonnenen Kunden</span>
+        </header>
+        <div class="pr-podium" id="promoterPodium"></div>
       </section>
 
       <section class="pr-workbar">
@@ -121,6 +132,7 @@
     import { requireAuth, logout, loadEmpfehlerList, formatDate, applyBeraterHeader, getCurrentBerater } from '../js/dashboard.js';
     import { deleteEmpfehler, createEmpfehler, updateEmpfehler, getEmpfehlerIdByCode } from '../js/supabase.js';
     import { openPromoterInvite } from '../js/promoter-invite.js';
+    import { icon } from '../js/icons.js';
 
     applyBeraterHeader();
     document.getElementById('logoutBtn').addEventListener('click', logout);
@@ -140,6 +152,7 @@
     async function refresh() {
       allItems = await loadEmpfehlerList();
       renderSummary();
+      renderPodium();
       renderList();
     }
 
@@ -198,6 +211,31 @@
       document.getElementById('networkFoot').textContent = `${promoter} Promoter insgesamt`;
     }
 
+    function renderPodium() {
+      const section = document.getElementById('promoterChampions');
+      const podium = document.getElementById('promoterPodium');
+      const ranking = [...allItems]
+        .filter((item) => number(item.gesamt) > 0 || number(item.kunde) > 0)
+        .sort((a, b) => number(b.kunde) - number(a.kunde)
+          || number(b.gesamt) - number(a.gesamt)
+          || activityTime(b) - activityTime(a)
+          || String(a.name || '').localeCompare(String(b.name || ''), 'de', { sensitivity: 'base' }))
+        .slice(0, 3);
+      section.hidden = ranking.length === 0;
+      if (!ranking.length) { podium.innerHTML = ''; return; }
+      document.getElementById('promoterChampionsIcon').innerHTML = icon('Trophy', { size: 19 });
+      podium.className = `pr-podium count-${ranking.length}`;
+      podium.innerHTML = ranking.map((item, index) => {
+        const rang = index + 1;
+        const kunden = number(item.kunde);
+        const empfehlungen = number(item.gesamt);
+        return `<a class="pr-podium-place rank-${rang}" href="promoter.html?id=${encodeURIComponent(item.id)}">
+          <span class="pr-podium-person"><span class="pr-podium-avatar">${initialen(item.name)}</span><strong>${escapeHtml(item.name)}</strong><small>${kunden} Kunde${kunden === 1 ? '' : 'n'} · ${empfehlungen} Empfehlung${empfehlungen === 1 ? '' : 'en'}</small></span>
+          <span class="pr-podium-step"><span class="pr-podium-trophy">${rang === 1 ? icon('Trophy', { size: 14 }) : ''}</span><b>${rang}</b></span>
+        </a>`;
+      }).join('');
+    }
+
     function renderList() {
       const wrap = document.getElementById('list');
       markiereSortTab();
@@ -252,6 +290,14 @@
 
     function initialen(name) {
       return String(name || '?').trim().split(/\s+/).slice(0, 2).map(teil => teil[0] || '').join('').toUpperCase();
+    }
+
+    function number(value) { return Number(value) || 0; }
+
+    function activityTime(item) {
+      const value = item.letzte_aktivitaet || item.created_at;
+      const time = new Date(value || 0).getTime();
+      return Number.isFinite(time) ? time : 0;
     }
 
     function relativeDate(value) {

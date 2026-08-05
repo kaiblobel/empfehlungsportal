@@ -24,16 +24,24 @@ assert.match(teamHtml, /<title>Teamübersicht · Empfehlungsportal<\/title>/);
 assert.match(teamHtml, /data-days="7"/);
 assert.match(teamHtml, /data-days="30"/);
 assert.match(teamHtml, /data-days="90"/);
-assert.match(teamHtml, /Alphabetisch · keine Rangliste/);
+assert.match(teamHtml, /Teamranking/);
+assert.match(teamHtml, /data-ranking="kunden"/);
+assert.match(teamHtml, /data-ranking="empfehlungen"/);
+assert.match(teamHtml, /data-ranking="promoter"/);
+assert.match(teamHtml, /data-ranking="quote"/);
+assert.match(teamHtml, /Alphabetisch · unabhängig vom Ranking/);
 assert.match(teamHtml, /ohne Kundendaten offenzulegen/);
-assert.match(teamHtml, /js\/team\.js\?v=1/);
-assert.match(teamHtml, /css\/hub\.css\?v=50/);
+assert.match(teamHtml, /js\/team\.js\?v=2/);
+assert.match(teamHtml, /css\/hub\.css\?v=51/);
 assert.match(teamHtml, /js\/nav\.js\?v=57/);
 
 assert.match(teamJs, /getTeamMetrics\(currentDays\)/);
 assert.match(teamJs, /getTeamActivitySecure\(currentDays\)/);
 assert.match(teamJs, /metrics\.reduce/);
 assert.match(teamJs, /row\.berater_id === selectedId/);
+assert.match(teamJs, /function renderRanking\(\)/);
+assert.match(teamJs, /number\(row\.empfehlungen\) >= 3/);
+assert.match(teamJs, /team-podium-place rank-/);
 assert.doesNotMatch(teamJs, /empfaenger_name|empfaenger_telefon|empfehler_name/);
 
 const teamPosition = navJs.indexOf("id: 'team'");
@@ -72,13 +80,15 @@ assert.doesNotMatch(hubJs, /teamFeedExpanded/);
 assert.match(css, /\.team-kpi-strip/);
 assert.match(css, /\.team-members/);
 assert.match(css, /\.team-detail-grid/);
+assert.match(css, /\.team-ranking/);
+assert.match(css, /\.team-podium-avatar img/);
 assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.team-detail-metrics/);
 
-assert.match(config, /v1\.177 Beta/);
-assert.match(config, /Phase 151 · Einheitliche Portal-Bezeichnung/);
-assert.match(sw, /CACHE_VERSION = 'v136-2026-08-05'/);
+assert.match(config, /v1\.178 Beta/);
+assert.match(config, /Phase 152 · Wettbewerb und dynamische Analysen/);
+assert.match(sw, /CACHE_VERSION = 'v137-2026-08-05'/);
 assert.match(sw, /'\/team\.html'/);
-assert.match(sw, /'\/js\/team\.js\?v=1'/);
+assert.match(sw, /'\/js\/team\.js\?v=2'/);
 assert.match(beraterHtml, /<title>Beraterkonten · Empfehlungsportal<\/title>/);
 
 const htmlFiles = [];

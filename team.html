@@ -8,7 +8,7 @@
   <title>Teamübersicht · Empfehlungsportal</title>
   <link rel="stylesheet" href="css/style.css?v=32" />
   <link rel="stylesheet" href="css/dashboard.css?v=48" />
-  <link rel="stylesheet" href="css/hub.css?v=50" />
+  <link rel="stylesheet" href="css/hub.css?v=51" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="team" class="has-app-nav">
@@ -67,6 +67,20 @@
       </article>
     </section>
 
+    <section class="team-ranking" aria-labelledby="teamRankingTitle">
+      <header class="team-ranking-head">
+        <div class="team-ranking-title"><span class="team-ranking-trophy" data-icon="Trophy" data-icon-size="18"></span><div><div class="h-label">Gemeinsam besser werden</div><h2 id="teamRankingTitle">Teamranking</h2><p>Die stärksten Ergebnisse im gewählten Zeitraum.</p></div></div>
+        <div class="team-ranking-metric" id="teamRankingMetric" role="group" aria-label="Ranking auswählen">
+          <button type="button" data-ranking="kunden" class="active">Kunden</button>
+          <button type="button" data-ranking="empfehlungen">Empfehlungen</button>
+          <button type="button" data-ranking="promoter">Promoter</button>
+          <button type="button" data-ranking="quote">Kundenquote</button>
+        </div>
+      </header>
+      <div class="team-podium" id="teamPodium"><div class="team-ranking-skeleton"></div></div>
+      <p class="team-ranking-note" id="teamRankingNote">Gewertet nach gewonnenen Kunden.</p>
+    </section>
+
     <div class="team-cohort-note">
       <span data-icon="Info" data-icon-size="15"></span>
       <span>Die Auswahl betrachtet Empfehlungen, die im gewählten Zeitraum entstanden sind, und deren heutigen Stand.</span>
@@ -76,7 +90,7 @@
       <section class="team-people-section">
         <header class="team-section-head">
           <div><div class="h-label">Menschen im Team</div><h2>Jeden Einzelnen verstehen</h2><p>Eine Person auswählen, um Entwicklung und Aktivitäten zu sehen.</p></div>
-          <span>Alphabetisch · keine Rangliste</span>
+          <span>Alphabetisch · unabhängig vom Ranking</span>
         </header>
 
         <div class="team-error" id="teamError" hidden></div>
@@ -101,6 +115,6 @@
     </div>
   </main>
 
-  <script type="module" src="js/team.js?v=1"></script>
+  <script type="module" src="js/team.js?v=2"></script>
 </body>
 </html>

@@ -45,9 +45,9 @@ assert.match(css, /border-bottom: 1px solid #E7E4DE !important/);
 assert.match(css, /background: #F8F8F6/);
 assert.match(css, /@media \(max-width: 560px\)/);
 
-assert.match(config, /APP_VERSION = 'v1\.177 Beta'/);
-assert.match(config, /Phase 151 · Einheitliche Portal-Bezeichnung/);
-assert.match(sw, /CACHE_VERSION = 'v136-2026-08-05'/);
+assert.match(config, /APP_VERSION = 'v1\.178 Beta'/);
+assert.match(config, /Phase 152 · Wettbewerb und dynamische Analysen/);
+assert.match(sw, /CACHE_VERSION = 'v137-2026-08-05'/);
 assert.match(sw, /\/css\/hub\.css\?v=51/);
 assert.match(sw, /\/css\/dashboard\.css\?v=48/);
 assert.match(sw, /\/js\/nav\.js\?v=57/);

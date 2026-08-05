@@ -8,9 +8,21 @@ const DAY_MS = 86400000;
 const allowedDays = [7, 30, 90];
 const rangeEl = document.getElementById('analysisRange');
 const errorEl = document.getElementById('analysisError');
+const metricTogglesEl = document.getElementById('analysisMetricToggles');
+const chartModeEl = document.getElementById('analysisChartMode');
 let currentDays = 30;
 let trendChart = null;
 let loadRequest = 0;
+let currentTrendRows = [];
+let chartMode = 'absolute';
+const enabledMetrics = new Set(['referrals', 'customers']);
+
+const CHART_METRICS = {
+  promoters: { label: 'Aktive Promoter', field: 'aktive_empfehler', color: '#C9B98A', background: 'rgba(201,185,138,.10)' },
+  clicks: { label: 'Link-Klicks', field: 'link_klicks', color: '#7A8B6F', background: 'rgba(122,139,111,.08)' },
+  referrals: { label: 'Empfehlungen', field: 'empfehlungen_gesamt', color: '#C28447', background: 'rgba(194,132,71,.08)' },
+  customers: { label: 'Kunden', field: 'kunden', color: '#2E5266', background: 'rgba(46,82,102,.08)' },
+};
 
 document.getElementById('logoutBtn')?.addEventListener('click', logout);
 rangeEl?.addEventListener('click', (event) => {
@@ -22,6 +34,26 @@ rangeEl?.addEventListener('click', (event) => {
   rangeEl.querySelectorAll('[data-days]').forEach((item) => item.classList.toggle('active', item === button));
   loadAnalysis();
 });
+metricTogglesEl?.addEventListener('click', (event) => {
+  const button = event.target.closest('[data-metric]');
+  if (!button) return;
+  const key = button.dataset.metric;
+  if (!CHART_METRICS[key]) return;
+  if (enabledMetrics.has(key)) {
+    if (enabledMetrics.size === 1) return;
+    enabledMetrics.delete(key);
+  } else enabledMetrics.add(key);
+  syncChartControls();
+  renderTrend();
+});
+chartModeEl?.addEventListener('click', (event) => {
+  const button = event.target.closest('[data-chart-mode]');
+  if (!button || button.dataset.chartMode === chartMode) return;
+  chartMode = button.dataset.chartMode === 'relative' ? 'relative' : 'absolute';
+  syncChartControls();
+  renderTrend();
+});
+syncChartControls();
 
 (async () => {
   const session = await requireAuth();
@@ -38,7 +70,7 @@ async function loadAnalysis() {
   try {
     const advisor = await getCurrentBerater();
     const { currentStart, previousStart, periodEnd } = periodBounds(currentDays);
-    const [recommendationResult, templates] = await Promise.all([
+    const [recommendationResult, templates, trendRows] = await Promise.all([
       supabase
         .from('empfehlungen')
         .select('created_at,link_klicks,link_geoeffnet,interessiert,status,vorlage_slug,empfehler_id,empfehler_name')
@@ -46,6 +78,7 @@ async function loadAnalysis() {
         .lt('created_at', periodEnd.toISOString())
         .order('created_at', { ascending: true }),
       getVorlagenPublic(advisor?.id || null),
+      loadTrendRows(currentDays),
     ]);
     if (recommendationResult.error) throw recommendationResult.error;
     if (requestId !== loadRequest) return;
@@ -63,9 +96,10 @@ async function loadAnalysis() {
     const current = summarize(currentRows);
     const previous = summarize(previousRows);
     const templateNames = new Map((templates || []).map((item) => [item.slug, item.titel || item.slug]));
+    currentTrendRows = trendRows;
 
     renderKpis(current, previous, currentDays);
-    renderTrend(currentRows, currentStart, currentDays);
+    renderTrend();
     renderFunnel(current);
     renderTopics(currentRows, templateNames, currentDays);
     renderPromoters(currentRows);
@@ -73,6 +107,17 @@ async function loadAnalysis() {
     if (requestId !== loadRequest) return;
     console.error('[analysen]', error);
     renderFailure();
+  }
+}
+
+async function loadTrendRows(days) {
+  try {
+    const { data, error } = await supabase.rpc('kpi_trend_daily', { days_back: days });
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.warn('[analysen:trend]', error);
+    return [];
   }
 }
 
@@ -134,53 +179,81 @@ function renderDelta(id, value, previous) {
   el.className = `analysis-delta${change < 0 ? ' down' : change === 0 ? ' neutral' : ''}`;
 }
 
-function renderTrend(rows, start, days) {
-  const series = buildSeries(rows, start, days);
-  setText('chartRangeLabel', `${days} Tage`);
+function renderTrend() {
+  const rows = currentTrendRows;
+  const modeLabel = chartMode === 'relative' ? 'Verlauf %' : 'Anzahl';
+  setText('chartRangeLabel', `${currentDays} Tage · ${modeLabel}`);
+  setText('chartModeHint', chartMode === 'relative'
+    ? 'Jede Linie wird auf ihren eigenen Höchstwert von 100 % gesetzt und dadurch direkt vergleichbar.'
+    : 'Echte Werte aus den täglichen Kennzahlenschnappschüssen.');
   const canvas = document.getElementById('analysisTrendChart');
+  const empty = document.getElementById('analysisChartEmpty');
   if (!canvas || !window.Chart) return;
   if (trendChart) trendChart.destroy();
+  if (!rows.length) {
+    canvas.hidden = true;
+    empty.hidden = false;
+    trendChart = null;
+    return;
+  }
+  canvas.hidden = false;
+  empty.hidden = true;
+  const labels = rows.map((row) => new Date(row.day).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' }));
+  const datasets = [...enabledMetrics].map((key) => {
+    const metric = CHART_METRICS[key];
+    const rawValues = rows.map((row) => number(row[metric.field]));
+    const values = chartMode === 'relative' ? normalizeSeries(rawValues) : rawValues;
+    return {
+      label: metric.label,
+      data: values,
+      rawValues,
+      borderColor: metric.color,
+      backgroundColor: metric.background,
+      tension: .35,
+      borderWidth: key === 'customers' ? 2.5 : 2,
+      pointRadius: 0,
+      pointHoverRadius: 4,
+      fill: false,
+    };
+  });
   trendChart = new window.Chart(canvas.getContext('2d'), {
-    type: 'bar',
-    data: {
-      labels: series.map((item) => item.label),
-      datasets: [
-        { label: 'Empfehlungen', data: series.map((item) => item.referrals), backgroundColor: '#C9B98A', borderRadius: 5, maxBarThickness: 15 },
-        { label: 'Kunden', data: series.map((item) => item.customers), backgroundColor: '#2E5266', borderRadius: 5, maxBarThickness: 15 },
-      ],
-    },
+    type: 'line',
+    data: { labels, datasets },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { position: 'bottom', align: 'start', labels: { usePointStyle: true, pointStyle: 'circle', boxWidth: 7, boxHeight: 7, padding: 16, color: '#6B6660', font: { size: 10, family: 'Inter' } } },
-        tooltip: { backgroundColor: '#1A1A1A', padding: 10, titleFont: { family: 'Inter', size: 11 }, bodyFont: { family: 'Inter', size: 10 } },
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1A1A1A', padding: 10, titleFont: { family: 'Inter', size: 11 }, bodyFont: { family: 'Inter', size: 10 },
+          callbacks: { label: (context) => {
+            const raw = context.dataset.rawValues?.[context.dataIndex] ?? context.parsed.y;
+            return chartMode === 'relative' ? `${context.dataset.label}: ${raw} · ${context.parsed.y} %` : `${context.dataset.label}: ${raw}`;
+          } },
+        },
       },
       scales: {
-        x: { stacked: false, grid: { display: false }, border: { display: false }, ticks: { color: '#8C8680', maxRotation: 0, autoSkip: true, maxTicksLimit: days === 90 ? 13 : 10, font: { size: 9, family: 'Inter' } } },
-        y: { beginAtZero: true, ticks: { precision: 0, color: '#8C8680', font: { size: 9, family: 'Inter' } }, grid: { color: '#EFEDE9' }, border: { display: false } },
+        x: { grid: { display: false }, border: { display: false }, ticks: { color: '#8C8680', maxRotation: 0, autoSkip: true, maxTicksLimit: currentDays === 90 ? 13 : 10, font: { size: 9, family: 'Inter' } } },
+        y: { beginAtZero: true, suggestedMax: chartMode === 'relative' ? 100 : undefined, ticks: { precision: 0, callback: chartMode === 'relative' ? (value) => `${value} %` : undefined, color: '#8C8680', font: { size: 9, family: 'Inter' } }, grid: { color: '#EFEDE9' }, border: { display: false } },
       },
+      animation: { duration: 180 },
     },
   });
 }
 
-function buildSeries(rows, start, days) {
-  const weekly = days === 90;
-  const bucketCount = weekly ? Math.ceil(days / 7) : days;
-  const buckets = Array.from({ length: bucketCount }, (_, index) => {
-    const date = new Date(start);
-    date.setDate(start.getDate() + index * (weekly ? 7 : 1));
-    return { date, referrals: 0, customers: 0, label: date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' }) };
+function normalizeSeries(values) {
+  const max = Math.max(0, ...values);
+  return max ? values.map((value) => Math.round((value / max) * 100)) : values.map(() => 0);
+}
+
+function syncChartControls() {
+  metricTogglesEl?.querySelectorAll('[data-metric]').forEach((button) => {
+    const active = enabledMetrics.has(button.dataset.metric);
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
   });
-  rows.forEach((row) => {
-    const diff = Math.floor((rowTime(row) - start.getTime()) / DAY_MS);
-    const index = weekly ? Math.floor(diff / 7) : diff;
-    if (index < 0 || index >= buckets.length) return;
-    buckets[index].referrals += 1;
-    if (row.status === 'kunde') buckets[index].customers += 1;
-  });
-  return buckets;
+  chartModeEl?.querySelectorAll('[data-chart-mode]').forEach((button) => button.classList.toggle('active', button.dataset.chartMode === chartMode));
 }
 
 function renderFunnel(summary) {
@@ -270,6 +343,7 @@ function setLoading() {
   document.getElementById('analysisFunnel').innerHTML = '<div class="analysis-card-skeleton"></div>';
   document.getElementById('analysisTopics').innerHTML = '<div class="analysis-card-skeleton"></div>';
   document.getElementById('analysisPromoters').innerHTML = '<div class="analysis-card-skeleton"></div>';
+  setText('chartRangeLabel', 'Verlauf wird geladen');
 }
 
 function renderFailure() {
@@ -279,6 +353,8 @@ function renderFailure() {
   document.getElementById('analysisFunnel').innerHTML = '<div class="analysis-empty">Keine Daten verfügbar.</div>';
   document.getElementById('analysisTopics').innerHTML = '<div class="analysis-empty">Keine Daten verfügbar.</div>';
   document.getElementById('analysisPromoters').innerHTML = '<div class="analysis-empty">Keine Daten verfügbar.</div>';
+  currentTrendRows = [];
+  renderTrend();
 }
 
 function rowTime(row) { return parseDbDate(row.created_at).getTime(); }

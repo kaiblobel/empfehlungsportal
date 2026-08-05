@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.177 Beta** · Einheitliche Portal-Bezeichnung, vorbereitet am 05.08.2026.
+Aktuelle Version: **v1.178 Beta** · Wettbewerb und dynamische Analysen, vorbereitet am 05.08.2026.
+
+---
+
+## v1.178 Beta - Phase 152 · Wettbewerb und dynamische Analysen
+**2026-08-05**
+
+- Die Promoterseite hebt die drei stärksten Promoter in einem ruhigen Gewinnerpodest hervor. Gewertet wird nach gewonnenen Kunden, danach nach Empfehlungen und Aktivität.
+- Die Teamseite zeigt ein Portrait-Podest für die drei besten Berater im gewählten Zeitraum.
+- Das Teamranking lässt sich zwischen Kunden, Empfehlungen, aktiven Promotern und Kundenquote umschalten. Die Kundenquote wird erst ab drei Empfehlungen gewertet.
+- Die vollständige Teamübersicht bleibt alphabetisch und unabhängig vom Ranking, damit niemand als Verlierer markiert wird.
+- Die Linienanalyse verwendet die bestehenden täglichen Kennzahlenschnappschüsse und lässt aktive Promoter, Link-Klicks, Empfehlungen und Kunden einzeln ein- und ausblenden.
+- Die Analyse kann zwischen echten Zahlen und einem vergleichbaren prozentualen Verlauf wechseln. Im Prozentmodus entspricht der eigene Höchstwert jeder Linie 100 Prozent.
+- Zeiträume von 7, 30 und 90 Tagen sowie die Vergleiche mit der direkten Vorperiode bleiben erhalten.
+- Keine Datenbankmigration und keine Änderung an Empfehlungen, Promotern oder Beraterdaten.
+- Veröffentlichung noch nicht freigegeben.
 
 ---
 

@@ -12,11 +12,14 @@ const membersEl = document.getElementById('teamMembers');
 const detailEl = document.getElementById('teamDetail');
 const activityEl = document.getElementById('teamActivity');
 const errorEl = document.getElementById('teamError');
+const rankingEl = document.getElementById('teamPodium');
+const rankingMetricEl = document.getElementById('teamRankingMetric');
 
 let currentDays = 30;
 let metrics = [];
 let activity = [];
 let selectedId = null;
+let rankingMetric = 'kunden';
 
 document.getElementById('logoutBtn')?.addEventListener('click', logout);
 range?.addEventListener('click', (event) => {
@@ -27,6 +30,13 @@ range?.addEventListener('click', (event) => {
   currentDays = days;
   range.querySelectorAll('[data-days]').forEach((item) => item.classList.toggle('active', item === button));
   loadTeam();
+});
+rankingMetricEl?.addEventListener('click', (event) => {
+  const button = event.target.closest('[data-ranking]');
+  if (!button || button.dataset.ranking === rankingMetric) return;
+  rankingMetric = button.dataset.ranking;
+  rankingMetricEl.querySelectorAll('[data-ranking]').forEach((item) => item.classList.toggle('active', item === button));
+  renderRanking();
 });
 
 (async () => {
@@ -55,6 +65,7 @@ async function loadTeam() {
 
   if (!metrics.some((row) => row.berater_id === selectedId)) selectedId = metrics[0].berater_id;
   renderTeamKPIs();
+  renderRanking();
   renderMembers();
   renderDetail();
   renderActivity();
@@ -64,6 +75,7 @@ async function loadTeam() {
 function setLoading(isLoading) {
   if (!isLoading) return;
   membersEl.innerHTML = '<div class="team-member-skeleton"></div><div class="team-member-skeleton"></div>';
+  rankingEl.innerHTML = '<div class="team-ranking-skeleton"></div>';
   detailEl.hidden = true;
   activityEl.innerHTML = '<div class="team-activity-skeleton"></div><div class="team-activity-skeleton"></div><div class="team-activity-skeleton"></div>';
 }
@@ -78,6 +90,7 @@ function renderEmpty() {
   activityEl.innerHTML = '<div class="team-empty">Noch keine Teamaktivität im gewählten Zeitraum.</div>';
   errorEl.hidden = false;
   errorEl.textContent = 'Die sicheren Teamkennzahlen sind noch nicht freigeschaltet. Es wurden keine fremden Beraterdaten geladen.';
+  rankingEl.innerHTML = '<div class="team-empty">Noch keine Ergebnisse für ein Teamranking.</div>';
 }
 
 function renderTeamKPIs() {
@@ -94,6 +107,64 @@ function renderTeamKPIs() {
   setText('teamCustomers', totals.customers);
   setText('teamPromoterNote', `${metrics.length} aktive Berater`);
   setText('teamConversion', `${conversion} % Umwandlung`);
+}
+
+const RANKINGS = {
+  kunden: {
+    score: (row) => number(row.kunden),
+    value: (row) => `${number(row.kunden)} Kunde${number(row.kunden) === 1 ? '' : 'n'}`,
+    note: 'Gewertet nach gewonnenen Kunden. Bei Gleichstand zählen Empfehlungen und Aktivität.',
+  },
+  empfehlungen: {
+    score: (row) => number(row.empfehlungen),
+    value: (row) => `${number(row.empfehlungen)} Empfehlung${number(row.empfehlungen) === 1 ? '' : 'en'}`,
+    note: 'Gewertet nach Empfehlungen im gewählten Zeitraum.',
+  },
+  promoter: {
+    score: (row) => number(row.aktive_promoter),
+    value: (row) => `${number(row.aktive_promoter)} aktive Promoter`,
+    note: 'Gewertet nach aktiven Promotern im gewählten Zeitraum.',
+  },
+  quote: {
+    score: (row) => number(row.empfehlungen) >= 3 ? Math.round((number(row.kunden) / number(row.empfehlungen)) * 100) : -1,
+    value: (row) => `${Math.round((number(row.kunden) / number(row.empfehlungen)) * 100)} % Kundenquote`,
+    note: 'Die Kundenquote wird erst ab drei Empfehlungen gewertet.',
+  },
+};
+
+function renderRanking() {
+  const config = RANKINGS[rankingMetric] || RANKINGS.kunden;
+  const ranking = [...metrics]
+    .filter((row) => config.score(row) > 0)
+    .sort((a, b) => config.score(b) - config.score(a)
+      || number(b.kunden) - number(a.kunden)
+      || number(b.empfehlungen) - number(a.empfehlungen)
+      || dateValue(b.last_seen) - dateValue(a.last_seen)
+      || String(a.berater_name || '').localeCompare(String(b.berater_name || ''), 'de', { sensitivity: 'base' }))
+    .slice(0, 3);
+  setText('teamRankingNote', config.note);
+  if (!ranking.length) {
+    rankingEl.className = 'team-podium';
+    rankingEl.innerHTML = '<div class="team-empty">Für diese Wertung gibt es im gewählten Zeitraum noch kein Ergebnis.</div>';
+    return;
+  }
+  rankingEl.className = `team-podium count-${ranking.length}`;
+  rankingEl.innerHTML = ranking.map((row, index) => {
+    const rank = index + 1;
+    return `<button class="team-podium-place rank-${rank}" type="button" data-ranking-member="${escapeAttr(row.berater_id)}">
+      <span class="team-podium-person">${avatar(row, 'team-podium-avatar')}<strong>${escapeHtml(row.berater_name || 'Berater')}</strong><small>${escapeHtml(config.value(row))}</small></span>
+      <span class="team-podium-step"><span class="team-podium-cup">${rank === 1 ? icon('Trophy', { size: 14 }) : ''}</span><b>${rank}</b></span>
+    </button>`;
+  }).join('');
+  rankingEl.querySelectorAll('[data-ranking-member]').forEach((button) => {
+    button.addEventListener('click', () => {
+      selectedId = button.dataset.rankingMember;
+      renderMembers();
+      renderDetail();
+      hydrateIcons();
+      document.getElementById('teamDetail')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  });
 }
 
 function renderMembers() {
@@ -184,6 +255,7 @@ function personalActivityHtml(row) {
 function miniMetric(value, label) { return `<span><b>${number(value)}</b><small>${label}</small></span>`; }
 function detailMetric(value, label) { return `<div><b>${number(value)}</b><span>${label}</span></div>`; }
 function number(value) { return Number(value) || 0; }
+function dateValue(value) { const result = parseDbDate(value).getTime(); return Number.isFinite(result) ? result : 0; }
 function setText(id, value) { const el = document.getElementById(id); if (el) el.textContent = String(value); }
 
 function avatar(row, className) {

@@ -8,8 +8,8 @@
   <title>Analysen · Empfehlungsportal</title>
   <link rel="stylesheet" href="../css/style.css?v=32" />
   <link rel="stylesheet" href="../css/dashboard.css?v=48" />
-  <link rel="stylesheet" href="../css/hub.css?v=50" />
-  <link rel="stylesheet" href="../css/analysen.css?v=1" />
+  <link rel="stylesheet" href="../css/hub.css?v=51" />
+  <link rel="stylesheet" href="../css/analysen.css?v=2" />
   <script src="../js/config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js" defer></script>
 </head>
@@ -66,8 +66,21 @@
       </header>
       <div class="analysis-upper-grid">
         <article class="analysis-card analysis-chart-card">
-          <header><div><h3>Entwicklung über Zeit</h3><p>Empfehlungen und gewonnene Kunden je Abschnitt</p></div><span id="chartRangeLabel">30 Tage</span></header>
-          <div class="analysis-chart"><canvas id="analysisTrendChart"></canvas></div>
+          <header><div><h3>Entwicklung über Zeit</h3><p>Wähle selbst, welche Kennzahlen du miteinander vergleichen möchtest.</p></div><span id="chartRangeLabel">30 Tage</span></header>
+          <div class="analysis-chart-controls">
+            <div class="analysis-metric-toggles" id="analysisMetricToggles" role="group" aria-label="Kennzahlen ein- oder ausblenden">
+              <button type="button" data-metric="promoters" aria-pressed="false" style="--metric-tone:#C9B98A"><i></i>Aktive Promoter</button>
+              <button type="button" data-metric="clicks" aria-pressed="false" style="--metric-tone:#7A8B6F"><i></i>Link-Klicks</button>
+              <button type="button" data-metric="referrals" aria-pressed="true" class="active" style="--metric-tone:#C28447"><i></i>Empfehlungen</button>
+              <button type="button" data-metric="customers" aria-pressed="true" class="active" style="--metric-tone:#2E5266"><i></i>Kunden</button>
+            </div>
+            <div class="analysis-chart-mode" id="analysisChartMode" role="group" aria-label="Darstellung auswählen">
+              <button type="button" data-chart-mode="absolute" class="active">Anzahl</button>
+              <button type="button" data-chart-mode="relative">Verlauf %</button>
+            </div>
+          </div>
+          <p class="analysis-chart-hint" id="chartModeHint">Echte Werte aus den täglichen Kennzahlenschnappschüssen.</p>
+          <div class="analysis-chart"><canvas id="analysisTrendChart"></canvas><div class="analysis-empty" id="analysisChartEmpty" hidden>Der zeitliche Verlauf wird mit den nächsten täglichen Schnappschüssen aufgebaut.</div></div>
         </article>
         <article class="analysis-card">
           <header><div><h3>Umwandlung</h3><p>Von der Empfehlung zur Zusammenarbeit</p></div><span id="funnelTotal">—</span></header>
@@ -96,6 +109,6 @@
     </section>
   </main>
 
-  <script type="module" src="../js/analysen.js?v=1"></script>
+  <script type="module" src="../js/analysen.js?v=2"></script>
 </body>
 </html>

@@ -32,8 +32,8 @@ assert.match(closingRule, /position: static/);
 assert.match(closingRule, /justify-self: end/);
 assert.doesNotMatch(closingRule, /position: absolute/);
 
-assert.match(config, /v1\.177 Beta/);
-assert.match(config, /Phase 151 · Einheitliche Portal-Bezeichnung/);
-assert.match(sw, /CACHE_VERSION = 'v136-2026-08-05'/);
+assert.match(config, /v1\.178 Beta/);
+assert.match(config, /Phase 152 · Wettbewerb und dynamische Analysen/);
+assert.match(sw, /CACHE_VERSION = 'v137-2026-08-05'/);
 
 console.log('praesentation-kurzmodus: OK');
