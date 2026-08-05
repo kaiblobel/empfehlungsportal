@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#F7F4EE">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Promoter werden | Empfehlungsportal</title>
+  <link rel="stylesheet" href="/css/promoter-start.css?v=2">
+  <script src="/js/config.js"></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+</head>
+<body>
+  <header class="ps-header">
+    <a class="ps-brand" href="/programm.html" aria-label="Zur Präsentation">
+      <span class="ps-mark" id="psInitials" aria-hidden="true">KB</span>
+      <span><strong>Empfehlungsportal</strong><small id="psAdvisorName">Kai Blobel &amp; Team</small></span>
+    </a>
+    <a class="ps-existing" id="psExistingLink" href="#" hidden>Mein vorhandener Bereich</a>
+  </header>
+
+  <main class="ps-main">
+    <section class="ps-intro" aria-labelledby="psTitle">
+      <p class="ps-eyebrow">Vertrauen weitergeben</p>
+      <h1 id="psTitle">Promoter werden.<br>Menschen weiterbringen.</h1>
+      <p class="ps-lede">Einmal kurz anmelden. Danach kannst du direkt ein passendes Thema auswählen und deinen persönlichen Empfehlungslink versenden.</p>
+
+      <ol class="ps-steps" aria-label="So funktioniert es">
+        <li><span>1</span><div><strong>Kurz anmelden</strong><small>Name und ein Kontaktweg genügen.</small></div></li>
+        <li><span>2</span><div><strong>Thema auswählen</strong><small>Du entscheidest, was zur Person passt.</small></div></li>
+        <li><span>3</span><div><strong>Persönlich versenden</strong><small>Der Link ist sofort für WhatsApp bereit.</small></div></li>
+      </ol>
+
+      <div class="ps-benefit-note">
+        <span aria-hidden="true">♡</span>
+        <p><strong>Deine Benefits bleiben im Blick.</strong> In deinem persönlichen Bereich siehst du Wunschziele, erfolgreiche Empfehlungen und deinen Fortschritt.</p>
+      </div>
+    </section>
+
+    <section class="ps-form-card" aria-labelledby="psFormTitle">
+      <div class="ps-form-head">
+        <p class="ps-eyebrow">In weniger als einer Minute</p>
+        <h2 id="psFormTitle">Deinen Bereich erstellen</h2>
+        <p>Kein Passwort. Keine App.</p>
+      </div>
+
+      <form id="psForm" novalidate>
+        <label for="psName">Dein Name</label>
+        <input id="psName" name="name" type="text" autocomplete="name" maxlength="100" placeholder="Anna Schmidt" required>
+
+        <label for="psEmail">E-Mail</label>
+        <input id="psEmail" name="email" type="email" autocomplete="email" maxlength="180" placeholder="anna@beispiel.de">
+
+        <div class="ps-or"><span>oder</span></div>
+
+        <label for="psPhone">Mobilnummer</label>
+        <input id="psPhone" name="telefon" type="tel" inputmode="tel" autocomplete="tel" maxlength="40" placeholder="0171 2345678">
+        <p class="ps-hint">E-Mail oder Mobilnummer genügt, damit dein persönlicher Zugang zugeordnet werden kann.</p>
+
+        <label class="ps-consent" for="psConsent">
+          <input id="psConsent" name="consent" type="checkbox" required>
+          <span>Ich möchte am Empfehlungsprogramm teilnehmen und habe den <a id="psPrivacy" href="#" target="_blank" rel="noopener">Datenschutzhinweis</a> gelesen.</span>
+        </label>
+
+        <div class="ps-captcha" id="psCaptcha" aria-label="Bot-Schutz"></div>
+        <div class="ps-error" id="psError" role="alert" aria-live="polite" hidden></div>
+
+        <button class="ps-submit" id="psSubmit" type="submit" disabled>Meinen Bereich erstellen</button>
+        <p class="ps-safe">Dein persönlicher Zugangslink ist nur für dich bestimmt.</p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="ps-footer">
+    <span><strong id="psFooterName">Kai Blobel &amp; Team</strong><br>Deutsche Vermögensberatung</span>
+    <span><a id="psImprint" href="#" target="_blank" rel="noopener">Impressum</a><a id="psFooterPrivacy" href="#" target="_blank" rel="noopener">Datenschutz</a></span>
+  </footer>
+
+  <script type="module" src="/js/promoter-start.js?v=1"></script>
+</body>
+</html>

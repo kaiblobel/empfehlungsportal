@@ -15,8 +15,8 @@ assert.match(html, /data-presentation-mode="short"/);
 assert.match(html, /data-presentation-mode="full"/);
 assert.equal((html.match(/<section class="section/g) || []).length, 13);
 assert.equal((html.match(/data-short-hide/g) || []).length, 6);
-assert.match(html, /css\/programm\.css\?v=83/);
-assert.match(html, /js\/programm\.js\?v=46/);
+assert.match(html, /css\/programm\.css\?v=86/);
+assert.match(html, /js\/programm\.js\?v=47/);
 
 assert.match(js, /presentationParams\.get\('modus'\) === 'kurz' \? 'short' : 'full'/);
 assert.match(js, /extendedSections\.forEach\(section => \{ section\.hidden = short; \}\)/);
@@ -32,8 +32,8 @@ assert.match(closingRule, /position: static/);
 assert.match(closingRule, /justify-self: end/);
 assert.doesNotMatch(closingRule, /position: absolute/);
 
-assert.match(config, /v1\.181 Beta/);
-assert.match(config, /Phase 155 · Farbige Bilder im gesamten Portal/);
-assert.match(sw, /CACHE_VERSION = 'v140-2026-08-05'/);
+assert.match(config, /v1\.182 Beta/);
+assert.match(config, /Phase 156 · QR-Selbstanmeldung für Promoter/);
+assert.match(sw, /CACHE_VERSION = 'v141-2026-08-05'/);
 
 console.log('praesentation-kurzmodus: OK');

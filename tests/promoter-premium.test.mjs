@@ -54,9 +54,9 @@ assert.match(promoterCss, /\.pd-layout/);
 assert.match(promoterCss, /grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
 assert.match(promoterCss, /@media \(max-width: 540px\)/);
 
-assert.match(config, /v1\.181 Beta/);
-assert.match(config, /Phase 155 · Farbige Bilder im gesamten Portal/);
-assert.match(sw, /CACHE_VERSION = 'v140-2026-08-05'/);
+assert.match(config, /v1\.182 Beta/);
+assert.match(config, /Phase 156 · QR-Selbstanmeldung für Promoter/);
+assert.match(sw, /CACHE_VERSION = 'v141-2026-08-05'/);
 assert.match(sw, /promoter-dashboard\.css\?v=2/);
 
 console.log('promoter-premium: OK');
