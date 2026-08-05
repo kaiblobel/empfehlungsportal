@@ -1,6 +1,6 @@
 /**
- * Phase 50a · Berater-Admin
- * CRUD für die berater-Tabelle: Liste + Anlegen + Editieren + Aktiv-Toggle.
+ * Phase 140 · Beraterkonten
+ * CRUD für die berater-Tabelle: übersichtliche Profile, Zugang und Aktiv-Toggle.
  */
 import {
   listBerater,
@@ -70,76 +70,113 @@ async function renderList() {
 
 function renderCard(b) {
   const inaktivCls = b.ist_aktiv ? '' : ' inaktiv';
-  const slugBadge = b.slug ? `<span class="berater-slug">${escapeHtml(b.slug)}</span>` : `<span class="berater-slug warn">kein Slug!</span>`;
   const authBadge = b.auth_user_id
-    ? `<span class="berater-auth ok" title="Mit Auth-User verknüpft">✓ Login</span>`
-    : `<span class="berater-auth pending" title="Noch kein Login angelegt">⚠ Login fehlt</span>`;
+    ? `<span class="berater-auth ok" title="Login ist eingerichtet">Login aktiv</span>`
+    : `<span class="berater-auth pending" title="Noch kein Login angelegt">Login fehlt</span>`;
   const aktivLabel = b.ist_aktiv ? 'Aktiv' : 'Inaktiv';
   const aktivCls = b.ist_aktiv ? 'on' : 'off';
   const fotoSrc = b.foto_url || '';
+  const photoMarkup = `
+    <span class="berater-photo">
+      <img src="${escapeAttr(fotoSrc)}" alt="" ${fotoSrc ? '' : 'hidden'} onerror="this.hidden=true;this.nextElementSibling.hidden=false" />
+      <span class="berater-photo-placeholder" ${fotoSrc ? 'hidden' : ''}>${initials(b.name)}</span>
+    </span>`;
   return `
     <details class="cms-card berater-card${inaktivCls}" data-id="${b.id}">
       <summary>
-        ${fotoSrc ? `<img class="berater-photo" src="${escapeAttr(fotoSrc)}" alt="" onerror="this.style.display='none'" />` : `<span class="berater-photo placeholder">${initials(b.name)}</span>`}
-        <span class="titel">${escapeHtml(b.name)}</span>
-        ${slugBadge}
-        ${authBadge}
-        <span class="berater-toggle ${aktivCls}" data-toggle="${b.id}" title="${aktivLabel}">${aktivLabel}</span>
+        ${photoMarkup}
+        <span class="berater-summary-identity">
+          <span class="berater-summary-main"><span class="titel">${escapeHtml(b.name)}</span><span class="berater-summary-role">${escapeHtml(b.rolle || 'Berater')}</span></span>
+          <span class="berater-summary-email">${escapeHtml(b.email || 'Keine E-Mail hinterlegt')}</span>
+        </span>
+        <span class="berater-summary-statuses">
+          ${authBadge}
+          <span class="berater-toggle ${aktivCls}" data-toggle="${b.id}" title="${aktivLabel}">${aktivLabel}</span>
+        </span>
       </summary>
       <div class="cms-body">
-        <div class="cms-row-2">
-          <div><label>Name</label><input data-f="name" value="${escapeAttr(b.name || '')}" /></div>
-          <div><label>Slug (URL-Identifier)</label><input data-f="slug" value="${escapeAttr(b.slug || '')}" pattern="[a-z0-9-]+" /></div>
-        </div>
-        <div class="cms-row-2">
-          <div><label>Rolle</label><input data-f="rolle" value="${escapeAttr(b.rolle || '')}" placeholder="z.B. Vermögensberater" /></div>
-          <div><label>E-Mail</label><input data-f="email" type="email" value="${escapeAttr(b.email || '')}" /></div>
-        </div>
-        <div class="cms-row-2">
-          <div><label>Telefon</label><input data-f="telefon" value="${escapeAttr(b.telefon || '')}" placeholder="+49…" /></div>
-          <div><label>WhatsApp (ohne +)</label><input data-f="whatsapp" value="${escapeAttr(b.whatsapp || '')}" placeholder="491701234567" /></div>
-        </div>
-        <div>
-          <label>Foto</label>
-          <div style="display:flex;gap:8px;align-items:center;">
-            <input data-f="foto_url" value="${escapeAttr(b.foto_url || '')}" placeholder="Bild hochladen → oder URL einfügen" style="flex:1;" />
-            <label class="cms-upload-btn" style="white-space:nowrap;cursor:pointer;padding:8px 14px;border:1px solid var(--border,#e3ddd4);border-radius:8px;font-size:13px;font-weight:500;background:#fff;">
-              <span class="cms-upload-label">Hochladen</span>
-              <input type="file" accept="image/*" data-upload="${b.id}" hidden />
-            </label>
-          </div>
-          <img class="cms-img-preview" data-preview="${b.id}" src="${escapeAttr(b.foto_url || '')}" alt="" onerror="this.style.display='none'" style="${b.foto_url ? '' : 'display:none;'}" />
-        </div>
-        <div><label>Bookings-Link</label><input data-f="bookings_url" value="${escapeAttr(b.bookings_url || '')}" /></div>
-        <div class="cms-row-2">
-          <div><label>Impressum-URL</label><input data-f="impressum_url" value="${escapeAttr(b.impressum_url || '')}" placeholder="https://www.dvag.de/vorname.nachname/impressum.html" /></div>
-          <div><label>Datenschutz-URL</label><input data-f="datenschutz_url" value="${escapeAttr(b.datenschutz_url || '')}" placeholder="https://www.dvag.de/vorname.nachname/datenschutz.html" /></div>
-        </div>
-        <div><label>Auth-User-ID <span style="color:var(--text-secondary);font-weight:400;">(read-only, wird beim ersten Login automatisch verknüpft)</span></label><input data-f="auth_user_id_readonly" value="${escapeAttr(b.auth_user_id || '')}" readonly style="opacity:0.6;cursor:not-allowed;" /></div>
+        <section class="berater-section">
+          <header class="berater-section-head">
+            <div><h3>Profil und Kontakt</h3><p>Alles, was im Alltag gebraucht wird.</p></div>
+          </header>
+          <div class="berater-profile-grid">
+            <div class="berater-photo-card">
+              <div class="berater-photo-stage">
+                <img class="berater-photo-preview" data-preview="${b.id}" src="${escapeAttr(fotoSrc)}" alt="Profilbild von ${escapeAttr(b.name || 'Berater')}" ${fotoSrc ? '' : 'hidden'} onerror="this.hidden=true;this.nextElementSibling.hidden=false" />
+                <span class="berater-photo-stage-placeholder" data-preview-placeholder="${b.id}" ${fotoSrc ? 'hidden' : ''}>${initials(b.name)}</span>
+              </div>
+              <input type="hidden" data-f="foto_url" value="${escapeAttr(fotoSrc)}" />
+              <div class="berater-photo-actions">
+                <label class="cms-upload-btn berater-photo-upload">
+                  <span class="cms-upload-label">${fotoSrc ? 'Bild ersetzen' : 'Bild hochladen'}</span>
+                  <input type="file" accept="image/*" data-upload="${b.id}" hidden />
+                </label>
+                <button type="button" class="berater-photo-remove" data-photo-remove="${b.id}" ${fotoSrc ? '' : 'hidden'}>Bild entfernen</button>
+              </div>
+              <p class="berater-photo-note">JPG oder PNG, idealerweise freigestellt</p>
+            </div>
 
-        <div class="berater-pw">
-          <div class="berater-pw-head">
-            <label>${b.auth_user_id ? 'Neues Passwort vergeben' : 'Login anlegen'}</label>
-            <span class="berater-login-status ${b.auth_user_id ? 'active' : ''}">${b.auth_user_id ? 'Login aktiv' : 'Noch kein Login'}</span>
+            <div class="berater-fields">
+              <div><label>Name</label><input data-f="name" value="${escapeAttr(b.name || '')}" /></div>
+              <div><label>Rolle</label><input data-f="rolle" value="${escapeAttr(b.rolle || '')}" placeholder="z. B. Vermögensberater" /></div>
+              <div><label>E-Mail</label><input data-f="email" type="email" value="${escapeAttr(b.email || '')}" /></div>
+              <div><label>Telefon</label><input data-f="telefon" type="tel" inputmode="tel" value="${escapeAttr(b.telefon || '')}" placeholder="+49 …" /></div>
+              <div><label>WhatsApp</label><input data-f="whatsapp" type="tel" inputmode="tel" value="${escapeAttr(b.whatsapp || '')}" placeholder="491701234567" /><span class="berater-field-hint">Mit Ländervorwahl, ohne Leerzeichen.</span></div>
+            </div>
           </div>
-          <p class="berater-pw-intro">${b.auth_user_id
-            ? 'Das aktuelle Passwort kann aus Sicherheitsgründen nicht angezeigt werden. Ein neues Passwort wird erst aktiv, wenn du es hier ausdrücklich setzt.'
-            : 'Erzeuge ein sicheres Startpasswort und lege damit den Login für diesen Berater an.'}</p>
-          <label class="berater-pw-field-label" for="pw-${b.id}">${b.auth_user_id ? 'Neues Passwort' : 'Startpasswort'}</label>
-          <div class="berater-pw-row">
-            <input id="pw-${b.id}" data-pw="${b.id}" value="" autocomplete="new-password" placeholder="Mindestens 8 Zeichen" />
-            <button type="button" class="berater-pw-generate" data-pw-roll="${b.id}">Sicheren Vorschlag erzeugen</button>
-          </div>
-          <button type="button" class="berater-pw-submit" data-pw-set="${b.id}">${b.auth_user_id ? 'Neues Passwort jetzt setzen' : 'Login jetzt anlegen'}</button>
-          <div class="berater-pw-note">Der allgemeine Knopf „Speichern“ für die Beraterdaten ändert dieses Passwort nicht.</div>
-          <div data-pw-result="${b.id}" class="berater-pw-result" hidden></div>
-        </div>
+        </section>
 
-        <div class="cms-actions berater-actions">
-          <button class="cms-save" type="button" data-save="${b.id}">Speichern</button>
-          <button class="cms-toggle-aktiv" type="button" data-toggle-aktiv="${b.id}" data-current="${b.ist_aktiv}">
-            ${b.ist_aktiv ? 'Deaktivieren' : 'Aktivieren'}
-          </button>
+        <section class="berater-section">
+          <header class="berater-section-head">
+            <div><h3>Öffentliche Angaben</h3><p>Diese Links erscheinen auf den persönlichen Kundenseiten.</p></div>
+          </header>
+          <div class="berater-fields">
+            <div class="wide"><label>Terminbuchung</label><input data-f="bookings_url" value="${escapeAttr(b.bookings_url || '')}" placeholder="https://outlook.office.com/book/…" /></div>
+            <div><label>Impressum</label><input data-f="impressum_url" value="${escapeAttr(b.impressum_url || '')}" placeholder="https://www.dvag.de/vorname.nachname/impressum.html" /></div>
+            <div><label>Datenschutz</label><input data-f="datenschutz_url" value="${escapeAttr(b.datenschutz_url || '')}" placeholder="https://www.dvag.de/vorname.nachname/datenschutz.html" /></div>
+          </div>
+        </section>
+
+        <section class="berater-section">
+          <header class="berater-section-head">
+            <div><h3>Zugang</h3><p>Login verwalten, ohne technische Kontodaten offenzulegen.</p></div>
+          </header>
+          <div class="berater-pw">
+            <div class="berater-pw-copy">
+              <span class="berater-login-status ${b.auth_user_id ? 'active' : ''}">${b.auth_user_id ? 'Login aktiv' : 'Noch kein Login'}</span>
+              <strong>${b.auth_user_id ? 'Neues Passwort vergeben' : 'Login anlegen'}</strong>
+              <p class="berater-pw-intro">${b.auth_user_id
+                ? 'Das aktuelle Passwort kann aus Sicherheitsgründen nicht angezeigt werden. Ein neues Passwort wird erst aktiv, wenn du es hier ausdrücklich setzt.'
+                : 'Erzeuge ein sicheres Startpasswort und lege damit den Login für diesen Berater an.'}</p>
+            </div>
+            <div class="berater-pw-form">
+              <label class="berater-pw-field-label" for="pw-${b.id}">${b.auth_user_id ? 'Neues Passwort' : 'Startpasswort'}</label>
+              <div class="berater-pw-row">
+                <input id="pw-${b.id}" data-pw="${b.id}" value="" autocomplete="new-password" placeholder="Mindestens 8 Zeichen" />
+                <button type="button" class="berater-pw-generate" data-pw-roll="${b.id}">Sicheren Vorschlag erzeugen</button>
+              </div>
+              <div class="berater-pw-submit-row"><button type="button" class="berater-pw-submit" data-pw-set="${b.id}">${b.auth_user_id ? 'Neues Passwort jetzt setzen' : 'Login jetzt anlegen'}</button></div>
+              <div class="berater-pw-note">Der allgemeine Knopf „Speichern“ für die Beraterdaten ändert dieses Passwort nicht.</div>
+              <div data-pw-result="${b.id}" class="berater-pw-result" hidden></div>
+            </div>
+          </div>
+          <details class="berater-tech">
+            <summary>Technische Angaben anzeigen${b.slug ? '' : ' · URL-Kennung fehlt'}</summary>
+            <div class="berater-tech-grid">
+              <div><label>URL-Kennung</label><input data-f="slug" value="${escapeAttr(b.slug || '')}" pattern="[a-z0-9-]+" placeholder="max-kudlek" /><span class="berater-field-hint">Wird für persönliche Links und Bilddateien benötigt.</span></div>
+              <div><label>Interne Benutzer-ID</label><div class="berater-tech-value">${escapeHtml(b.auth_user_id || 'Noch nicht verknüpft')}</div></div>
+            </div>
+          </details>
+        </section>
+
+        <div class="berater-action-bar">
+          <span>Änderungen werden erst nach dem Speichern übernommen.</span>
+          <div class="berater-actions">
+            <button class="cms-toggle-aktiv" type="button" data-toggle-aktiv="${b.id}" data-current="${b.ist_aktiv}">
+              ${b.ist_aktiv ? 'Deaktivieren' : 'Aktivieren'}
+            </button>
+            <button class="cms-save" type="button" data-save="${b.id}">Änderungen speichern</button>
+          </div>
         </div>
       </div>
     </details>
@@ -168,13 +205,13 @@ function attachHandlers(list) {
       if (error) {
         toast('Speichern fehlgeschlagen: ' + (error.message || 'unbekannt'));
         btn.disabled = false;
-        btn.textContent = 'Speichern';
+        btn.textContent = 'Änderungen speichern';
         return;
       }
 
       toast(`${data.name || 'Berater'} gespeichert.`);
       btn.disabled = false;
-      btn.textContent = 'Speichern';
+      btn.textContent = 'Änderungen speichern';
       await renderList();
     });
   });
@@ -197,8 +234,30 @@ function attachHandlers(list) {
       }
       card.querySelector('[data-f="foto_url"]').value = url;
       const prev = card.querySelector('[data-preview]');
-      if (prev) { prev.src = url; prev.style.display = ''; }
+      const placeholder = card.querySelector('[data-preview-placeholder]');
+      const removeBtn = card.querySelector('[data-photo-remove]');
+      if (prev) { prev.src = url; prev.hidden = false; }
+      if (placeholder) placeholder.hidden = true;
+      if (removeBtn) removeBtn.hidden = false;
+      labelEl.textContent = 'Bild ersetzen';
       toast('Foto hochgeladen — jetzt noch „Speichern" klicken.', 3500);
+    });
+  });
+
+  document.querySelectorAll('[data-photo-remove]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!confirm('Profilbild aus dem Beraterprofil entfernen? Die Datei bleibt im Speicher erhalten.')) return;
+      const card = btn.closest('.berater-card');
+      const field = card.querySelector('[data-f="foto_url"]');
+      const prev = card.querySelector('[data-preview]');
+      const placeholder = card.querySelector('[data-preview-placeholder]');
+      if (field) field.value = '';
+      if (prev) { prev.hidden = true; prev.removeAttribute('src'); }
+      if (placeholder) placeholder.hidden = false;
+      const uploadLabel = card.querySelector('.cms-upload-label');
+      if (uploadLabel) uploadLabel.textContent = 'Bild hochladen';
+      btn.hidden = true;
+      toast('Bild wird beim Speichern aus dem Profil entfernt.', 3500);
     });
   });
 

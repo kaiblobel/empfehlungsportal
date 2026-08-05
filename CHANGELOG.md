@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.165 Beta** · Berater-Passwörter werden verlässlich gesetzt.
+Aktuelle Version: **v1.166 Beta** · Beraterkonten als ruhige, professionelle Profile.
+
+---
+
+## v1.166 Beta - Phase 140 · Professionelle Beraterkonten
+**2026-08-05**
+
+- Die Kontenübersicht zeigt Berater jetzt als klare Profilkarten mit größerem, vollständig sichtbarem Portrait, Name, Rolle, E-Mail sowie Login- und Aktivstatus.
+- Die lange Foto-URL ist aus der Oberfläche verschwunden. Das gespeicherte Feld bleibt technisch erhalten; sichtbar sind nur Bildvorschau, „Bild ersetzen“ und „Bild entfernen“.
+- Die Bearbeitung ist in „Profil und Kontakt“, „Öffentliche Angaben“ und „Zugang“ gegliedert. Passwort und Profildaten bleiben bewusst getrennte Aktionen.
+- URL-Kennung und interne Benutzer-ID stehen nicht mehr im Arbeitsbereich, sondern unter „Technische Angaben anzeigen“.
+- Die Speicherleiste schließt jede geöffnete Kontokarte eindeutig ab. Mobil ordnen sich Profilbild, Felder, Zugang und Aktionen einspaltig an.
+- Keine Datenbankänderung und keine gelöschten Beraterdaten. Vorbereitet auf dem Zweig `codex/beraterkonten-premium-v1-166`, noch nicht live.
 
 ---
 

@@ -13,7 +13,7 @@
  * trägt — die darf nie veraltet sein.
  */
 
-const CACHE_VERSION = 'v123-2026-08-05';
+const CACHE_VERSION = 'v124-2026-08-05';
 const SHELL_CACHE = `shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `assets-${CACHE_VERSION}`;
 
@@ -21,7 +21,7 @@ const SHELL_URLS = [
   '/hub.html',
   '/css/style.css?v=32',
   '/css/dashboard.css?v=45',
-  '/css/hub.css?v=48',
+  '/css/hub.css?v=49',
   '/js/nav.js?v=53',
   '/js/icons.js',
   '/js/context-menu.js',
