@@ -130,7 +130,7 @@
 
   <script type="module">
     import { requireAuth, logout, loadEmpfehlerList, formatDate, applyBeraterHeader, getCurrentBerater } from '../js/dashboard.js';
-    import { deleteEmpfehler, createEmpfehler, updateEmpfehler, getEmpfehlerIdByCode } from '../js/supabase.js';
+    import { supabase, deleteEmpfehler, createEmpfehler, updateEmpfehler, getEmpfehlerIdByCode } from '../js/supabase.js';
     import { openPromoterInvite } from '../js/promoter-invite.js';
     import { icon } from '../js/icons.js';
 
@@ -147,6 +147,7 @@
       const me = await getCurrentBerater();
       beraterSlug = me?.slug || '';
       await refresh();
+      watchPromoterRegistrations();
     })();
 
     async function refresh() {
@@ -154,6 +155,17 @@
       renderSummary();
       renderPodium();
       renderList();
+    }
+
+    function watchPromoterRegistrations() {
+      if (!supabase) return;
+      supabase
+        .channel('promoter-list-stream')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'empfehler' }, async (payload) => {
+          await refresh();
+          if (payload.new?.self_registered_at) showToast('Neuer Promoter hat sich registriert.');
+        })
+        .subscribe();
     }
 
     /* ---------- Sortierung ---------- */

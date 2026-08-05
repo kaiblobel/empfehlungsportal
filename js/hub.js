@@ -308,24 +308,42 @@ function heatTitleFor(h) {
 /* ---------- Activity Timeline ---------- */
 async function loadTimelineEvents() {
   try {
-    const { data } = await supabase
-      .from('empfehlungen')
-      .select('id, empfaenger_name, status, anrufwunsch, anrufwunsch_at, interessiert_at, link_geoeffnet_at, created_at')
-      .order('created_at', { ascending: false })
-      .limit(30);
-    if (!data) return [];
+    const [{ data: empfehlungen }, { data: promoter }] = await Promise.all([
+      supabase
+        .from('empfehlungen')
+        .select('id, empfaenger_name, status, anrufwunsch, anrufwunsch_at, interessiert_at, link_geoeffnet_at, created_at')
+        .order('created_at', { ascending: false })
+        .limit(30),
+      supabase
+        .from('empfehler')
+        .select('id, name, self_registered_at')
+        .not('self_registered_at', 'is', null)
+        .order('self_registered_at', { ascending: false })
+        .limit(12),
+    ]);
     const events = [];
-    data.forEach(r => {
+    (empfehlungen || []).forEach(r => {
       const name = r.empfaenger_name || '–';
       const ts = (key) => key ? parseDbDate(key).getTime() : 0;
-      if (r.created_at)        events.push({ id: r.id, ts: ts(r.created_at),        kind: 'created',  name, text: 'wurde empfohlen' });
-      if (r.link_geoeffnet_at) events.push({ id: r.id, ts: ts(r.link_geoeffnet_at), kind: 'opened',   name, text: 'hat die Empfehlung geöffnet' });
-      if (r.interessiert_at)   events.push({ id: r.id, ts: ts(r.interessiert_at),   kind: 'interest', name, text: 'hat Interesse bekundet' });
-      if (r.anrufwunsch_at)    events.push({ id: r.id, ts: ts(r.anrufwunsch_at),    kind: 'call',     name, text: `hat einen Anrufwunsch hinterlegt${r.anrufwunsch ? ' · ' + r.anrufwunsch : ''}` });
+      const href = `dashboard/detail.html?id=${encodeURIComponent(r.id)}`;
+      if (r.created_at)        events.push({ id: r.id, ts: ts(r.created_at),        kind: 'created',  name, text: 'wurde empfohlen', href });
+      if (r.link_geoeffnet_at) events.push({ id: r.id, ts: ts(r.link_geoeffnet_at), kind: 'opened',   name, text: 'hat die Empfehlung geöffnet', href });
+      if (r.interessiert_at)   events.push({ id: r.id, ts: ts(r.interessiert_at),   kind: 'interest', name, text: 'hat Interesse bekundet', href });
+      if (r.anrufwunsch_at)    events.push({ id: r.id, ts: ts(r.anrufwunsch_at),    kind: 'call',     name, text: `hat einen Anrufwunsch hinterlegt${r.anrufwunsch ? ' · ' + r.anrufwunsch : ''}`, href });
       if (r.status === 'kunde') {
         const kts = Math.max(ts(r.created_at), ts(r.interessiert_at), ts(r.anrufwunsch_at), ts(r.link_geoeffnet_at));
-        events.push({ id: r.id, ts: kts, kind: 'kunde', name, text: 'wurde Kunde' });
+        events.push({ id: r.id, ts: kts, kind: 'kunde', name, text: 'wurde Kunde', href });
       }
+    });
+    (promoter || []).forEach(r => {
+      events.push({
+        id: r.id,
+        ts: parseDbDate(r.self_registered_at).getTime(),
+        kind: 'promotor_created',
+        name: r.name || 'Neuer Promoter',
+        text: 'hat sich als Promoter registriert',
+        href: `dashboard/promoter.html?id=${encodeURIComponent(r.id)}`,
+      });
     });
     return events.sort((a, b) => b.ts - a.ts).slice(0, 8);
   } catch { return []; }
@@ -355,7 +373,7 @@ function renderTimeline(events) {
     const isNew = (Date.now() - e.ts) < NEW_BADGE_WINDOW_MS;
     const isUnread = previousVisitTs > 0 && e.ts > previousVisitTs && !readEvents.has(key);
     return `
-    <a class="h-activity-row${isUnread ? ' is-unread' : ''}" href="dashboard/detail.html?id=${e.id}" data-event-key="${key}" style="--act-color:${meta.color};">
+    <a class="h-activity-row${isUnread ? ' is-unread' : ''}" href="${e.href || `dashboard/detail.html?id=${encodeURIComponent(e.id)}`}" data-event-key="${key}" style="--act-color:${meta.color};">
       <span class="h-activity-avatar" aria-label="${meta.label}">${icon(meta.icon, { size: 20 })}</span>
       <div class="h-activity-body">
         <div class="h-activity-top">
@@ -707,6 +725,12 @@ function startHubStream() {
         if (!changedTimeline) return;
         const fresh = await loadTimelineEvents();
         renderTimeline(fresh);
+      })
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'empfehler' }, async (payload) => {
+        if (!payload.new?.self_registered_at) return;
+        const fresh = await loadTimelineEvents();
+        renderTimeline(fresh);
+        toast('Neuer Promoter hat sich registriert');
       })
       .subscribe();
   } catch (e) {

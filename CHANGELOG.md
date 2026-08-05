@@ -1,7 +1,21 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
+Vorbereitete Version: **v1.183 Beta** · Hinweis bei neuem Promoter. Noch nicht live.
 Offizielle Live-Version: **v1.182 Beta** · QR-Selbstanmeldung für Promoter, live seit 05.08.2026.
+
+---
+
+## v1.183 Beta - Phase 157 · Hinweis bei neuem Promoter
+**2026-08-05 · auf `codex/promoter-qr-v1` vorbereitet, nicht veröffentlicht**
+
+- Eine neue Selbstanmeldung löst künftig denselben geschützten Telegram-Hinweis wie ein neuer Lead aus.
+- Die vorbereitete Edge Function `notify-promoter` lädt den Promoter serverseitig und nimmt keine frei übermittelten Kontaktdaten an.
+- Der interne Aufruf bleibt mit `X-Internal-Token` geschützt. Ein Fehler beim Versand blockiert die erfolgreiche Registrierung nicht.
+- Web-Push wird ausschließlich an Geräte des zuständigen Beraters gesendet. Derzeit ist im Live-System noch kein Push-Gerät registriert, Telegram bleibt deshalb der aktive externe Kanal.
+- Im geöffneten Hub erscheint der neue Promoter sofort im Aktivitätsstrom. Auch die Promoterliste aktualisiert sich ohne Neuladen.
+- Alte Promoter und manuell angelegte Datensätze lösen keine nachträgliche Meldung aus. Der Trigger reagiert nur auf neue Datensätze mit `self_registered_at`.
+- Die Edge Function und `schema-phase157.sql` sind vorbereitet, aber noch nicht in Supabase veröffentlicht oder angewendet.
 
 ---
 

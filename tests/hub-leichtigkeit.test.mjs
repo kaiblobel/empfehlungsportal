@@ -46,9 +46,9 @@ assert.match(css, /border-bottom: 1px solid #ECEAE5 !important/);
 assert.match(css, /background: #F8F8F6/);
 assert.match(css, /@media \(max-width: 560px\)/);
 
-assert.match(config, /APP_VERSION = 'v1\.182 Beta'/);
-assert.match(config, /Phase 156 · QR-Selbstanmeldung für Promoter/);
-assert.match(sw, /CACHE_VERSION = 'v141-2026-08-05'/);
+assert.match(config, /APP_VERSION = 'v1\.183 Beta'/);
+assert.match(config, /Phase 157 · Hinweis bei neuem Promoter/);
+assert.match(sw, /CACHE_VERSION = 'v142-2026-08-05'/);
 assert.match(sw, /\/css\/hub\.css\?v=52/);
 assert.match(sw, /\/css\/dashboard\.css\?v=48/);
 assert.match(sw, /\/js\/nav\.js\?v=57/);

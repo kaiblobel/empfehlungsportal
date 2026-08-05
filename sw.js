@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Phase 21 · Service Worker für PWA-Installation
  *
  * Strategie:
@@ -13,7 +13,7 @@
  * trägt — die darf nie veraltet sein.
  */
 
-const CACHE_VERSION = 'v141-2026-08-05';
+const CACHE_VERSION = 'v142-2026-08-05';
 const SHELL_CACHE = `shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `assets-${CACHE_VERSION}`;
 
@@ -33,7 +33,7 @@ const SHELL_URLS = [
   '/js/icons.js',
   '/js/context-menu.js',
   '/js/cmdk.js',
-  '/js/hub.js?v=47',
+  '/js/hub.js?v=48',
   '/js/team.js?v=2',
   '/js/analysen.js?v=2',
   '/js/empfehlung-detail.js?v=1',
