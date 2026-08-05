@@ -1,12 +1,12 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Vorbereitete Version: **v1.180 Beta** · Themenseiten und Mobile-First-Funnel. Veröffentlichung freigegeben.
+Aktuelle Version: **v1.180 Beta** · Themenseiten und Mobile-First-Funnel, live seit 05.08.2026.
 
 ---
 
 ## v1.180 Beta - Phase 154 · Themenseiten und Mobile-First-Funnel
-**2026-08-05 · Veröffentlichung freigegeben**
+**2026-08-05 · live veröffentlicht**
 
 - Für Förderungen, Selbständige, Investment, Absicherung, berufliche Perspektive und Kinder steht eine gemeinsame, mobile Themenseite mit ehrlichem Hinweis `In Arbeit` bereit.
 - Jeder Themenlink behält Empfänger, Promoter, Thema und zuständigen Berater korrekt bei. Alte Links ohne Themenangabe in der Adresse nutzen weiterhin den in der Empfehlung gespeicherten Themen-Schlüssel.
@@ -20,6 +20,7 @@ Vorbereitete Version: **v1.180 Beta** · Themenseiten und Mobile-First-Funnel. V
 - Wiederholte Nennungen des Empfehlungsgebers, doppelte Daumen-Symbole und der zweite Erfahrungsblock im Einstieg sind entfernt. Erfahrung und Vertrauen erscheinen nur noch im dafür vorgesehenen Schritt.
 - Keine Datenbankmigration und keine Änderung an bestehenden Empfehlungen, Promotern oder Beraterdaten.
 - Verifiziert mit Router- und Strukturtests sowie Browserprüfung für alle sechs Themen und den vollständigen Empfängerweg auf kleinen Handys.
+- Live veröffentlicht am 05.08.2026. Öffentliche Version, Themenseite und Mobile-Einstieg geprüft; Vercel-Status `Ready`.
 
 ---
 
