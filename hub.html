@@ -13,7 +13,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <link rel="stylesheet" href="css/style.css?v=32" />
   <link rel="stylesheet" href="css/dashboard.css?v=45" />
-  <link rel="stylesheet" href="css/hub.css?v=49" />
+  <link rel="stylesheet" href="css/hub.css?v=50" />
   <script src="js/config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js" defer></script>
 </head>
@@ -92,7 +92,7 @@
       </div>
     </section>
 
-    <!-- Team-Momentum (Phase 82) -->
+    <!-- Team-Teaser (Phase 141, Datenbasis aus Phase 82) -->
     <section class="h-team-momentum" id="hTeamMomentum" hidden>
       <style>
         .h-team-presence { display:flex; flex-wrap:wrap; gap:16px; margin:6px 0 16px; }
@@ -106,8 +106,10 @@
         .h-tp-sub { font-size:11.5px; color:var(--text-secondary,#6B6660); }
         .h-tp-sub.on { color:#2E9E4B; font-weight:600; }
       </style>
-      <div class="h-label">Team-Momentum</div>
-      <p class="h-section-sub">Was dein Team gerade bewegt — nur Aktivität, keine Kundendaten.</p>
+      <div class="h-team-head-row">
+        <div><div class="h-label">Im Team</div><p class="h-section-sub">Was das Team gerade bewegt — nur Aktivität, keine Kundendaten.</p></div>
+        <a class="h-team-link" href="team.html">Teamübersicht öffnen <span data-icon="ArrowRight" data-icon-size="14"></span></a>
+      </div>
       <div class="h-team-presence" id="hTeamPresence"></div>
       <div class="h-timeline" id="hTeamFeed"></div>
     </section>
@@ -218,7 +220,7 @@
 
   <div class="h-toast" id="hToast"></div>
 
-  <script type="module" src="js/nav.js?v=53"></script>
-  <script type="module" src="js/hub.js?v=46"></script>
+  <script type="module" src="js/nav.js?v=54"></script>
+  <script type="module" src="js/hub.js?v=47"></script>
 </body>
 </html>

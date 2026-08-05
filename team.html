@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#FAFAFA" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Teamübersicht · Empfehlungs-HUB</title>
+  <link rel="stylesheet" href="css/style.css?v=32" />
+  <link rel="stylesheet" href="css/dashboard.css?v=45" />
+  <link rel="stylesheet" href="css/hub.css?v=50" />
+  <script src="js/config.js"></script>
+</head>
+<body data-page="team" class="has-app-nav">
+
+  <div id="appNav"></div>
+  <script type="module" src="js/nav.js?v=54"></script>
+
+  <header class="h-header">
+    <div class="h-header-left">
+      <img class="h-header-photo" id="hPhoto" alt="" />
+      <div class="h-header-text">
+        <div class="h-header-name" id="hName">…</div>
+        <div class="h-header-sub">Teamübersicht</div>
+      </div>
+    </div>
+    <div class="h-header-right">
+      <div class="h-live"><span class="h-live-dot"></span><span>System aktiv</span></div>
+      <button class="h-logout" id="logoutBtn">Abmelden</button>
+    </div>
+  </header>
+
+  <main class="h-main team-main">
+    <section class="team-hero">
+      <div>
+        <div class="h-label">Gemeinsam im Blick</div>
+        <h1>Teamübersicht</h1>
+        <p>Was das Empfehlungsnetzwerk gemeinsam bewegt und wie sich jeder Einzelne entwickelt. Klar, fair und ohne Kundendaten offenzulegen.</p>
+      </div>
+      <div class="team-range" id="teamRange" aria-label="Zeitraum auswählen">
+        <button type="button" data-days="7">7 Tage</button>
+        <button type="button" data-days="30" class="active">30 Tage</button>
+        <button type="button" data-days="90">90 Tage</button>
+      </div>
+    </section>
+
+    <section class="team-kpi-strip" aria-label="Teamkennzahlen">
+      <article class="team-kpi" style="--team-tone:#C9B98A">
+        <div class="team-kpi-head"><span class="team-kpi-icon" data-icon="Users" data-icon-size="16"></span><span class="team-kpi-note" id="teamPromoterNote">Zeitraum</span></div>
+        <strong class="team-kpi-value" id="teamPromoters"><span class="h-skeleton"></span></strong>
+        <span class="team-kpi-label">Aktive Promoter</span>
+      </article>
+      <article class="team-kpi" style="--team-tone:#7A8B6F">
+        <div class="team-kpi-head"><span class="team-kpi-icon" data-icon="MousePointerClick" data-icon-size="16"></span><span class="team-kpi-note">aus diesen Empfehlungen</span></div>
+        <strong class="team-kpi-value" id="teamClicks"><span class="h-skeleton"></span></strong>
+        <span class="team-kpi-label">Link-Klicks</span>
+      </article>
+      <article class="team-kpi" style="--team-tone:#C28447">
+        <div class="team-kpi-head"><span class="team-kpi-icon" data-icon="Send" data-icon-size="16"></span><span class="team-kpi-note">im gewählten Zeitraum</span></div>
+        <strong class="team-kpi-value" id="teamReferrals"><span class="h-skeleton"></span></strong>
+        <span class="team-kpi-label">Empfehlungen</span>
+      </article>
+      <article class="team-kpi" style="--team-tone:#2E5266">
+        <div class="team-kpi-head"><span class="team-kpi-icon" data-icon="Star" data-icon-size="16"></span><span class="team-kpi-note" id="teamConversion">— Umwandlung</span></div>
+        <strong class="team-kpi-value" id="teamCustomers"><span class="h-skeleton"></span></strong>
+        <span class="team-kpi-label">Gewonnene Kunden</span>
+      </article>
+    </section>
+
+    <div class="team-cohort-note">
+      <span data-icon="Info" data-icon-size="15"></span>
+      <span>Die Auswahl betrachtet Empfehlungen, die im gewählten Zeitraum entstanden sind, und deren heutigen Stand.</span>
+    </div>
+
+    <div class="team-grid">
+      <section class="team-people-section">
+        <header class="team-section-head">
+          <div><div class="h-label">Menschen im Team</div><h2>Jeden Einzelnen verstehen</h2><p>Eine Person auswählen, um Entwicklung und Aktivitäten zu sehen.</p></div>
+          <span>Alphabetisch · keine Rangliste</span>
+        </header>
+
+        <div class="team-error" id="teamError" hidden></div>
+        <div class="team-members" id="teamMembers">
+          <div class="team-member-skeleton"></div>
+          <div class="team-member-skeleton"></div>
+        </div>
+        <section class="team-detail" id="teamDetail" hidden aria-live="polite"></section>
+      </section>
+
+      <aside class="team-activity">
+        <header class="team-section-head">
+          <div><div class="h-label">Was gerade passiert</div><h2>Teamaktivität</h2><p>Nur Ereignisse auf Beraterebene.</p></div>
+        </header>
+        <div class="team-activity-list" id="teamActivity">
+          <div class="team-activity-skeleton"></div>
+          <div class="team-activity-skeleton"></div>
+          <div class="team-activity-skeleton"></div>
+        </div>
+        <div class="team-privacy"><span data-icon="ShieldCheck" data-icon-size="16"></span><span>Kunden- und Kontaktdaten bleiben in den persönlichen Arbeitsbereichen.</span></div>
+      </aside>
+    </div>
+  </main>
+
+  <script type="module" src="js/team.js?v=1"></script>
+</body>
+</html>

@@ -39,6 +39,8 @@ export const NAV_ITEMS = [
   // "Champions" bleibt dem Hub-Abschnitt der Top 3 vorbehalten — hier steht die
   // vollständige Liste, und die heißt auf jeder Folgeseite Promoter.
   { id: 'champions',   label: 'Promoter',      icon: 'Trophy',          href: path('dashboard/empfehler.html'),       bottom: false },
+  // Teamleistung ist tägliche Führung und deshalb kein Verwaltungsmenü.
+  { id: 'team',        label: 'Team',          icon: 'Users',           href: path('team.html'),                       bottom: false },
   // Auszahlungen ist der einzige Punkt mit Zähler (offene Auszahlungen) — also eine
   // wartende Aufgabe und damit Tagesgeschäft, nicht Verwaltung.
   { id: 'praemien',    label: 'Auszahlungen',  icon: 'Banknote',        href: path('praemien.html'),                  bottom: false, adminOnly: true },
@@ -52,8 +54,7 @@ export const NAV_ITEMS = [
       { label: 'Belohnungen',       href: path('programm-verwalten.html#belohnungen') },
       { label: 'Themen-Seiten',     href: path('vorlagen.html'), icon: 'FileText' },
     ] },
-  // "Berater" bist du selbst — gemeint sind die Kolleginnen und Kollegen.
-  { id: 'berater',     label: 'Team',          icon: 'UserPlus',        href: path('berater.html'),                   bottom: false, adminOnly: true },
+  { id: 'beraterkonten', label: 'Beraterkonten', icon: 'Briefcase',     href: path('berater.html'),                   bottom: false, adminOnly: true },
   { id: 'einstellungen',label: 'Einstellungen',icon: 'Settings',        href: path('dashboard/settings.html'),        bottom: false },
 ];
 
@@ -66,6 +67,8 @@ function isActive(item) {
   if (item.id === 'empfehlungen' && (cur.endsWith('/dashboard/empfehlungen.html') || cur.endsWith('/dashboard/detail.html') || cur.endsWith('/dashboard/neu.html'))) return true;
   if (item.id === 'analysen' && cur.endsWith('/dashboard/overview.html')) return true;
   if (item.id === 'einstellungen' && cur.endsWith('/dashboard/settings.html')) return true;
+  if (item.id === 'team' && cur.endsWith('/team.html')) return true;
+  if (item.id === 'beraterkonten' && cur.endsWith('/berater.html')) return true;
   // Programm-Verwaltung ist auch aktiv, wenn man auf der Themen-Seiten-CMS ist (dorthin gefaltet)
   if (item.id === 'programm' && (cur.endsWith('/programm-verwalten.html') || cur.endsWith('/vorlagen.html'))) return true;
   if (item.id === 'champions' && cur.endsWith('/dashboard/empfehler.html')) return true;

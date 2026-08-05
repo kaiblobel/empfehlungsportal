@@ -664,3 +664,31 @@ export async function getTeamPresence() {
     return data || [];
   } catch (err) { console.error('[getTeamPresence]', err); return []; }
 }
+
+/**
+ * Aggregierte Teamkennzahlen für 7, 30 oder 90 Tage. Die Datenbankfunktion
+ * prüft zusätzlich, ob der eingeloggte Auth-Nutzer einem aktiven Beraterkonto
+ * zugeordnet ist. Es werden keine Kunden- oder Kontaktdaten zurückgegeben.
+ */
+export async function getTeamMetrics(days = 30) {
+  if (!supabase) return [];
+  const safeDays = [7, 30, 90].includes(Number(days)) ? Number(days) : 30;
+  try {
+    const { data, error } = await supabase.rpc('team_metrics', { p_days: safeDays });
+    if (error) throw error;
+    return data || [];
+  } catch (err) { console.error('[getTeamMetrics]', err); return []; }
+}
+
+/**
+ * Datensparsame Teamaktivität mit eindeutiger Berater-ID für die Detailansicht.
+ */
+export async function getTeamActivitySecure(days = 30) {
+  if (!supabase) return [];
+  const safeDays = [7, 30, 90].includes(Number(days)) ? Number(days) : 30;
+  try {
+    const { data, error } = await supabase.rpc('team_activity_secure', { p_days: safeDays });
+    if (error) throw error;
+    return data || [];
+  } catch (err) { console.error('[getTeamActivitySecure]', err); return []; }
+}
