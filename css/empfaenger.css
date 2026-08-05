@@ -166,7 +166,7 @@ body[data-page="empfaenger"] * { box-sizing: border-box; }
   height: 168px;
   border-radius: 50%;
   object-fit: cover;
-  filter: grayscale(100%) contrast(0.95) brightness(1.02);
+  filter: none;
   box-shadow: var(--e-shadow);
   margin: 40px auto;
 }
@@ -361,7 +361,7 @@ body[data-page="empfaenger"] * { box-sizing: border-box; }
   height: 140px;
   border-radius: 50%;
   object-fit: cover;
-  filter: grayscale(100%) contrast(0.95);
+  filter: none;
   box-shadow: 0 18px 40px -22px rgba(28,28,30,0.18);
   margin: 12px auto 32px;
 }

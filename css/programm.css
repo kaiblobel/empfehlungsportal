@@ -316,7 +316,7 @@ body[data-page="programm"] * { box-sizing: border-box; }
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  filter: grayscale(100%) contrast(0.96);
+  filter: none;
   display: block;
 }
 .target-card-body { padding: 28px 4px 8px; }
@@ -1450,7 +1450,7 @@ body[data-page="programm"] {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(0.4) brightness(0.7);
+  filter: brightness(0.7);
   transition: transform .6s cubic-bezier(.32,.72,.4,1);
 }
 
@@ -3202,7 +3202,7 @@ body[data-page="programm"] {
   width: 100%;
   height: auto;
   display: block;
-  filter: grayscale(8%) contrast(1.02);
+  filter: contrast(1.02);
 }
 
 .teamwork-text .t-eyebrow {
