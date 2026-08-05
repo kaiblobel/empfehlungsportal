@@ -1,11 +1,11 @@
 -- =====================================================================
 -- Phase 156 · QR-Selbstanmeldung fuer Promoter
 --
--- VORBEREITET, NICHT ANGEWENDET.
--- Vor Aktivierung muessen derselbe starke Zufallswert als
--- PROMOTER_REGISTRATION_SECRET in Vercel und sein SHA-256-Hash unter
--- private.integration_secrets.name = 'promoter_self_registration'
--- hinterlegt sein. Der Rohwert gehoert niemals in dieses Repository.
+-- LIVE ANGEWENDET AM 2026-08-05.
+-- Aktiviert in zwei kontrollierten Migrationen:
+-- phase156_promoter_self_registration_additive
+-- phase156_lock_legacy_create_empfehler
+-- Der Rohwert des Registrierungsgeheimnisses gehoert niemals in dieses Repository.
 -- =====================================================================
 
 alter table public.empfehler
