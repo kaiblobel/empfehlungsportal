@@ -17,7 +17,7 @@ import { applyBeraterBrand, merkeBerater, gemerkterBerater } from './berater-bra
 
 const page = document.body.dataset.page;
 
-// 21 Nachricht-Vorlagen, 3 pro Thema. Bewusst natürlich/kurz formuliert.
+// 24 Nachricht-Vorlagen, 3 pro Thema. Bewusst natürlich/kurz formuliert.
 // Platzhalter: {{vorname}} = Vorname der empfohlenen Person,
 // {{berater}} = Vorname des jeweiligen Beraters (Multi-Tenant: Kai, Sven, …).
 const NACHRICHT_VORLAGEN = {
@@ -55,6 +55,11 @@ const NACHRICHT_VORLAGEN = {
     'Hey {{vorname}}, du hast doch mal gesagt, du wärst eigentlich bereit für was Neues beruflich. {{berater}} sucht aktuell Leute fürs Team. Schau dir das mal kurz an.',
     'Hi {{vorname}}, ich kenne jemanden, der eine echte Karriere-Chance bietet. Du suchst doch was, in dem du dich mehr entfalten kannst. {{berater}} zeigt dir alles in Ruhe.',
     '{{vorname}}, du redest doch schon eine Weile davon, dass du was Eigenes machen willst. Bei {{berater}} gibt es einen echten Einstieg mit klarer Perspektive. Vielleicht ist das deins.',
+  ],
+  kinder: [
+    'Hey {{vorname}}, wir hatten doch über die Zukunft der Kinder gesprochen. {{berater}} zeigt ganz verständlich, wie auch kleine Beträge über viele Jahre etwas aufbauen können.',
+    'Hi {{vorname}}, falls Vorsorge für die Kinder bei euch gerade ein Thema ist: {{berater}} hat uns geholfen, die Möglichkeiten einmal in Ruhe zu sortieren.',
+    '{{vorname}}, ich musste bei dem Thema Kinder und Zukunft direkt an euch denken. Schau dir die Übersicht von {{berater}} gern unverbindlich an.',
   ],
 };
 
@@ -618,12 +623,11 @@ if (page === 'empfaenger') {
         ? `„${personal}“`
         : `Ich habe dir ${beraterVorname} empfohlen und dir diese Seite nach unserem Gespräch weitergeschickt.`;
     }
-    document.querySelectorAll('[data-recipient]').forEach((el) => { if (recipient) el.textContent = recipient; });
-    if (recipient) {
-      const personalName = document.querySelector('.personal-name');
-      const headlineStart = document.querySelector('.headline-start');
-      if (personalName) { personalName.textContent = `${recipient}, `; personalName.style.display = 'inline'; }
-      if (headlineStart) headlineStart.textContent = 'vielleicht';
+    const recipientPrefix = document.querySelector('[data-recipient-prefix]');
+    const headlineStart = document.querySelector('[data-headline-start]');
+    if (recipientPrefix && recipient) {
+      recipientPrefix.textContent = `${recipient}, `;
+      if (headlineStart) headlineStart.textContent = 'ein';
     }
   }
 

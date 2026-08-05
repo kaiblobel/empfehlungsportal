@@ -1,7 +1,25 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.176 Beta** · Leichterer Premium-HUB, live seit 05.08.2026.
+Vorbereitete Version: **v1.177 Beta** · Gerüst für alle Themenseiten. `main` und Live bleiben auf v1.176.
+
+---
+
+## v1.177 Beta - Phase 151 · Gerüst für alle Themenseiten
+**2026-08-05 · vorbereitet, nicht veröffentlicht**
+
+- Für Förderungen, Selbständige, Investment, Absicherung, berufliche Perspektive und Kinder steht eine gemeinsame, mobile Themenseite mit ehrlichem Hinweis `In Arbeit` bereit.
+- Jeder Themenlink behält Empfänger, Promoter, Thema und zuständigen Berater korrekt bei. Alte Links ohne Themenangabe in der Adresse nutzen weiterhin den in der Empfehlung gespeicherten Themen-Schlüssel.
+- Öffnung und Terminbeginn laufen über das vorhandene Empfehlungs-Tracking. `Dieses Thema interessiert mich` nutzt die bestehende Interesse-Funktion; Austragen bleibt mit demselben Token möglich.
+- Ohne echten Empfehlungs-Token bleibt die Seite eine sichere Vorschau und bestätigt ausdrücklich, dass keine Daten gespeichert wurden.
+- In der Präsentation sind nun alle acht Themen auswählbar. Allgemein und Baufinanzierung bleiben als fertige Seiten gekennzeichnet, die sechs neuen Gerüste klar als `In Arbeit`.
+- Die Schnellvorschau in den Einstellungen enthält alle acht Themen. Karriere und Kinder wurden ergänzt.
+- Für das Thema Kinder stehen jetzt ebenfalls drei eigene WhatsApp-Nachrichtenvorlagen bereit.
+- Gemeinsames Gerüst statt sechs kopierter HTML-Seiten: Inhalte können später je Themen-Schlüssel ergänzt werden, ohne Routing, Personalisierung und Tracking neu zu bauen.
+- Die allgemeine Empfängerseite ist vollständig mobil beruhigt: kleinere Überschriften, kompaktere Abstände, klare Ein-Hand-Aktionen und weniger Bewegung.
+- Wiederholte Nennungen des Empfehlungsgebers, doppelte Daumen-Symbole und der zweite Erfahrungsblock im Einstieg sind entfernt. Erfahrung und Vertrauen erscheinen nur noch im dafür vorgesehenen Schritt.
+- Keine Datenbankmigration und keine Änderung an bestehenden Empfehlungen, Promotern oder Beraterdaten.
+- Verifiziert mit Router- und Strukturtests sowie Browserprüfung für alle sechs Themen auf Desktop und Mobil. Veröffentlichung bleibt offen.
 
 ---
 

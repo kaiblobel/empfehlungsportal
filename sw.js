@@ -13,7 +13,7 @@
  * trägt — die darf nie veraltet sein.
  */
 
-const CACHE_VERSION = 'v135-2026-08-05';
+const CACHE_VERSION = 'v137-2026-08-05';
 const SHELL_CACHE = `shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `assets-${CACHE_VERSION}`;
 
@@ -21,12 +21,14 @@ const SHELL_URLS = [
   '/hub.html',
   '/team.html',
   '/dashboard/overview.html',
+  '/thema.html',
   '/css/style.css?v=32',
   '/css/dashboard.css?v=48',
   '/css/hub.css?v=51',
   '/css/analysen.css?v=1',
   '/css/promoter-dashboard.css?v=1',
   '/css/empfehlung-detail.css?v=1',
+  '/css/thema.css?v=1',
   '/js/nav.js?v=57',
   '/js/icons.js',
   '/js/context-menu.js',
@@ -35,6 +37,7 @@ const SHELL_URLS = [
   '/js/team.js?v=1',
   '/js/analysen.js?v=1',
   '/js/empfehlung-detail.js?v=1',
+  '/js/thema.js?v=1',
   '/js/hot-lead-watcher.js',
   '/js/dashboard.js',
   '/js/supabase.js',

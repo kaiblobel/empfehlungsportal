@@ -4,7 +4,7 @@
  * Sucht parallel über:
  *  - Empfehlungen (Empfänger-Name)
  *  - Empfehler (Name + Code)
- *  - Themen-Seiten (6 statisch)
+ *  - Themen-Seiten (8 statisch)
  *  - Navigation (Top-Level + Sub-Items)
  *
  * Keyboard: Cmd/Ctrl+K öffnet, Esc schließt, ↑↓ navigiert, Enter aktiviert.
@@ -33,6 +33,8 @@ const STATIC_THEMEN = [
   { slug: 'investment', titel: 'Investment' },
   { slug: 'selbstaendige', titel: 'Selbständige' },
   { slug: 'absicherung', titel: 'Absicherung' },
+  { slug: 'karriere', titel: 'Berufliche Perspektive' },
+  { slug: 'kinder', titel: 'Für deine Kinder' },
 ];
 
 export function initCmdK() {

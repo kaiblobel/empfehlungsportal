@@ -654,7 +654,9 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
       icon: 'Compass',
       url: '/empfaenger.html?von=Thomas&an=Max',
       address: 'Persönliche Empfehlung für Max',
-      tone: 'champagne'
+      tone: 'champagne',
+      status: 'Fertige Themenseite',
+      action: 'Vorschau ansehen'
     },
     baufi: {
       title: 'Baufinanzierung',
@@ -664,7 +666,81 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
       icon: 'Home',
       url: '/baufi.html?von=Thomas&an=Max',
       address: 'Finanzierungskompass für Max',
-      tone: 'olive'
+      tone: 'olive',
+      status: 'Fertige Themenseite',
+      action: 'Vorschau ansehen'
+    },
+    foerderungen: {
+      title: 'Staatliche Förderungen',
+      kicker: 'Fördermöglichkeiten verständlich sortiert',
+      question: 'Welche Zuschüsse und Vorteile könnten zu deiner Situation passen?',
+      text: 'Das technische Gerüst steht. Inhalte und fachliche Aussagen werden als nächster Schritt ergänzt.',
+      icon: 'Banknote',
+      url: '/thema.html?vorlage=foerderungen&von=Thomas&an=Max',
+      address: 'Förderungen für Max',
+      tone: 'champagne',
+      status: 'In Arbeit',
+      action: 'Gerüst ansehen'
+    },
+    selbstaendige: {
+      title: 'Selbständige',
+      kicker: 'Privat und geschäftlich gut aufgestellt',
+      question: 'Was braucht ein stabiles Fundament für deinen eigenen Weg?',
+      text: 'Das technische Gerüst steht. Inhalte und fachliche Aussagen werden als nächster Schritt ergänzt.',
+      icon: 'Briefcase',
+      url: '/thema.html?vorlage=selbstaendige&von=Thomas&an=Max',
+      address: 'Selbständigen-Thema für Max',
+      tone: 'marine',
+      status: 'In Arbeit',
+      action: 'Gerüst ansehen'
+    },
+    investment: {
+      title: 'Geldanlage und Investment',
+      kicker: 'Vermögen sinnvoll aufbauen',
+      question: 'Wie kann dein Geld langfristig zu deinem Leben passen?',
+      text: 'Das technische Gerüst steht. Inhalte und fachliche Aussagen werden als nächster Schritt ergänzt.',
+      icon: 'TrendingUp',
+      url: '/thema.html?vorlage=investment&von=Thomas&an=Max',
+      address: 'Investment-Thema für Max',
+      tone: 'olive',
+      status: 'In Arbeit',
+      action: 'Gerüst ansehen'
+    },
+    absicherung: {
+      title: 'Absicherung und Familie',
+      kicker: 'Schützen, was dir wichtig ist',
+      question: 'Was sollte wirklich abgesichert sein und was nicht?',
+      text: 'Das technische Gerüst steht. Inhalte und fachliche Aussagen werden als nächster Schritt ergänzt.',
+      icon: 'ShieldCheck',
+      url: '/thema.html?vorlage=absicherung&von=Thomas&an=Max',
+      address: 'Absicherung für Max',
+      tone: 'marine',
+      status: 'In Arbeit',
+      action: 'Gerüst ansehen'
+    },
+    karriere: {
+      title: 'Berufliche Perspektive',
+      kicker: 'Neue Möglichkeiten entdecken',
+      question: 'Was wäre möglich, wenn dein nächster Schritt wirklich zu dir passt?',
+      text: 'Das technische Gerüst steht. Inhalte und fachliche Aussagen werden als nächster Schritt ergänzt.',
+      icon: 'Sparkles',
+      url: '/thema.html?vorlage=karriere&von=Thomas&an=Max',
+      address: 'Berufliche Perspektive für Max',
+      tone: 'olive',
+      status: 'In Arbeit',
+      action: 'Gerüst ansehen'
+    },
+    kinder: {
+      title: 'Für deine Kinder',
+      kicker: 'Früh die richtigen Weichen stellen',
+      question: 'Wie kann aus einem kleinen Anfang später etwas Großes werden?',
+      text: 'Das technische Gerüst steht. Inhalte und fachliche Aussagen werden als nächster Schritt ergänzt.',
+      icon: 'Heart',
+      url: '/thema.html?vorlage=kinder&von=Thomas&an=Max',
+      address: 'Vorsorge für Max und seine Familie',
+      tone: 'champagne',
+      status: 'In Arbeit',
+      action: 'Gerüst ansehen'
     }
   };
 
@@ -686,25 +762,30 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
   const renderFeature = (page, template = {}) => `
     <button class="topic-feature topic-feature-${page.tone}" type="button" data-page-key="${escapeAttr(template.slug || '')}">
-      <span class="topic-feature-status"><i aria-hidden="true"></i> Fertige Themenseite</span>
+      <span class="topic-feature-status"><i aria-hidden="true"></i>${escapeHtml(page.status || 'Fertige Themenseite')}</span>
       <span class="topic-feature-icon" aria-hidden="true">${renderIcon(page.icon, 34)}</span>
       <span class="topic-feature-kicker">${escapeHtml(page.kicker)}</span>
       <strong>${escapeHtml(page.title)}</strong>
       <span class="topic-feature-question">${escapeHtml(page.question)}</span>
-      <span class="topic-feature-action">Vorschau ansehen <span aria-hidden="true">→</span></span>
+      <span class="topic-feature-action">${escapeHtml(page.action || 'Vorschau ansehen')} <span aria-hidden="true">→</span></span>
       <span class="topic-feature-orbit" aria-hidden="true"></span>
     </button>
   `;
 
-  const renderCompact = (template) => `
-    <article class="topic-compact" data-slug="${escapeAttr(template.slug || '')}">
+  const renderCompact = (template) => {
+    const page = readyPages[template.slug];
+    return `
+    <button class="topic-compact" type="button" data-slug="${escapeAttr(template.slug || '')}" data-page-key="${escapeAttr(template.slug || '')}"${page ? '' : ' disabled'}>
       <span class="topic-compact-icon" aria-hidden="true">${renderIcon(template.icon || 'Compass', 22)}</span>
       <span class="topic-compact-copy">
+        <span class="topic-compact-status">${escapeHtml(page?.status || 'Geplant')}</span>
         <strong>${escapeHtml(template.titel || '')}</strong>
         <small>${escapeHtml(template.headline || template.subtext || '')}</small>
       </span>
-    </article>
+      <span class="topic-compact-arrow" aria-hidden="true">→</span>
+    </button>
   `;
+  };
 
   let hideTimer = null;
 
