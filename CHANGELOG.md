@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.164 Beta** · Kein fremdes Gesicht mehr beim Laden.
+Aktuelle Version: **v1.165 Beta** · Berater-Passwörter werden verlässlich gesetzt.
+
+---
+
+## v1.165 Beta - Phase 139 · Verlässliche Berater-Passwörter
+**2026-08-05**
+
+- Das sichtbare Passwortfeld zeigte bei jedem Öffnen einen neuen Zufallsvorschlag, obwohl dieser noch nicht gespeichert war. Das Feld ist jetzt leer und erklärt eindeutig, dass ein neues Passwort erst nach dem ausdrücklichen Setzen aktiv wird.
+- Der allgemeine Knopf "Speichern" für Beraterdaten und der Passwort-Knopf sind klar getrennt. Der Passwort-Knopf steht gut sichtbar über die gesamte Breite und funktioniert auch auf schmalen Bildschirmen.
+- Neue Logins und Passwort-Änderungen laufen jetzt über dieselbe abgesicherte Edge Function. Bestehende Konten werden mit Supabases offizieller Auth Admin API `updateUserById` aktualisiert.
+- Der bisherige direkte Schreibzugriff auf den Passwort-Hash in `auth.users` wird vom Browser nicht mehr verwendet.
+- Keine Datenbankmigration. Die Edge Function muss vor der Live-Freigabe als neue Version veröffentlicht werden.
 
 ---
 

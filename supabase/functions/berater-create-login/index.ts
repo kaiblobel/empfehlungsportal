@@ -1,8 +1,6 @@
-// Phase 80 · berater-create-login
-// Legt für einen Berater OHNE Login-Konto ein neues Auth-Konto MIT Passwort an
-// (offizielle Admin-API, sofort login-fähig). Ersetzt den unzuverlässigen Magic-Link.
+// Phase 139 · berater-create-login
+// Legt ein Berater-Login an oder setzt dessen Passwort über die offizielle Auth Admin API.
 // Admin-abgesichert: nur ein eingeloggter Berater mit ist_admin=true darf aufrufen.
-// Bestehende Konten werden NICHT angefasst (dafür der SQL-RPC admin_set_berater_password).
 
 import 'jsr:@supabase/functions-js/edge-runtime.d.ts';
 import { createClient } from 'npm:@supabase/supabase-js@2';
@@ -52,8 +50,16 @@ Deno.serve(async (req: Request) => {
       .single();
     if (berErr) return json({ error: berErr.message }, 500);
     if (!berater) return json({ error: 'Berater nicht gefunden.' }, 404);
+    if (berater.auth_user_id) {
+      const { error: updateErr } = await admin.auth.admin.updateUserById(
+        berater.auth_user_id,
+        { password },
+      );
+      if (updateErr) return json({ error: updateErr.message }, 500);
+      return json({ ok: true, created: false, name: berater.name, email: berater.email });
+    }
+
     // Konto mit Passwort anlegen (E-Mail sofort bestätigt → direkt login-fähig).
-    if (berater.auth_user_id) return json({ error: 'Berater hat bereits ein Login.' }, 409);
     if (!berater.email) return json({ error: 'Berater hat keine E-Mail-Adresse hinterlegt.' }, 400);
     const { data: created, error: createErr } = await admin.auth.admin.createUser({
       email: berater.email,

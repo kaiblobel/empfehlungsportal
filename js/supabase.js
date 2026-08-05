@@ -631,19 +631,8 @@ export async function updateMyPassword(newPassword) {
   return { error };
 }
 
-// Admin setzt das Passwort EINES Beraters (SECURITY-DEFINER-RPC, admin-gated).
-// Rückgabe (data): 'ok' | 'forbidden' | 'too_short' | 'no_login'.
-export async function adminSetBeraterPassword(beraterId, newPassword) {
-  if (!supabase) return { data: null, error: { message: 'Supabase nicht konfiguriert' } };
-  const { data, error } = await supabase.rpc('admin_set_berater_password', {
-    p_berater_id: beraterId,
-    p_password: newPassword,
-  });
-  return { data, error };
-}
-
-// Admin legt für einen Berater OHNE Konto ein Login MIT Passwort an (Edge Function,
-// offizielle Admin-API, admin-gated). Ersetzt den Magic-Link.
+// Admin legt ein Berater-Login an oder setzt dessen Passwort. Beides läuft
+// serverseitig über die offizielle Auth Admin API und ist admin-gated.
 export async function createBeraterLogin(beraterId, password) {
   if (!supabase) return { data: null, error: { message: 'Supabase nicht konfiguriert' } };
   const { data, error } = await supabase.functions.invoke('berater-create-login', {
