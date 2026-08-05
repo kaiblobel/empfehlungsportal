@@ -1,7 +1,7 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.178 Beta** · Wettbewerb und dynamische Analysen, vorbereitet am 05.08.2026.
+Aktuelle Version: **v1.178 Beta** · Wettbewerb und dynamische Analysen, live seit 05.08.2026.
 
 ---
 
@@ -16,7 +16,7 @@ Aktuelle Version: **v1.178 Beta** · Wettbewerb und dynamische Analysen, vorbere
 - Die Analyse kann zwischen echten Zahlen und einem vergleichbaren prozentualen Verlauf wechseln. Im Prozentmodus entspricht der eigene Höchstwert jeder Linie 100 Prozent.
 - Zeiträume von 7, 30 und 90 Tagen sowie die Vergleiche mit der direkten Vorperiode bleiben erhalten.
 - Keine Datenbankmigration und keine Änderung an Empfehlungen, Promotern oder Beraterdaten.
-- Veröffentlichung noch nicht freigegeben.
+- Live veröffentlicht am 05.08.2026. Keine Datenbankmigration erforderlich.
 
 ---
 
@@ -29,7 +29,7 @@ Aktuelle Version: **v1.178 Beta** · Wettbewerb und dynamische Analysen, vorbere
 - Die ungenutzte Schnellaktion `Neue Empfehlung` wurde vollständig aus der Übersicht entfernt; die regulären Anlegewege bleiben erhalten.
 - Technische Pfade, Klassen und interne Bezeichner wie `hub.html` bleiben erhalten, damit bestehende Links, Lesezeichen und Funktionen nicht brechen.
 - Keine Datenbankmigration und keine Änderung an Daten oder Abläufen.
-- Veröffentlichung noch nicht freigegeben.
+- Gemeinsam mit v1.178 live veröffentlicht am 05.08.2026.
 
 ---
 
