@@ -1,7 +1,7 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.171 Beta** · Empfehlung als echter Handy-Ablauf, Veröffentlichung freigegeben am 05.08.2026.
+Aktuelle Version: **v1.171 Beta** · Empfehlung als echter Handy-Ablauf, veröffentlicht am 05.08.2026.
 
 ---
 
@@ -15,6 +15,7 @@ Aktuelle Version: **v1.171 Beta** · Empfehlung als echter Handy-Ablauf, Veröff
 - Geräte-Rahmen, Dynamic Island, Statusleiste, Seitentasten und Home-Leiste machen den Ablauf sofort als iPhone-Nutzung verständlich.
 - Die drei Ansichten stehen auf großen Bildschirmen nebeneinander und unter 821 Pixeln sauber untereinander.
 - Keine Datenbankmigration und keine Änderung an Kunden-, Berater- oder Empfehlungsdaten.
+- Funktionsstand `781312b` ist auf `main` und über das produktive Vercel-Deployment `dpl_6sUP1u3ts1c4e3HNGX4rbG9DFK1D` veröffentlicht. Die offizielle Adresse wurde auf Desktop und bei 390 Pixel Breite geprüft; alle drei Geräte, der dynamische Beratername und die mobile Stapelung sind vorhanden. Browser und Vercel melden keine Fehler.
 
 ---
 
