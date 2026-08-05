@@ -1,7 +1,7 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.176 Beta** · Leichterer Premium-HUB, vorbereitet am 05.08.2026.
+Aktuelle Version: **v1.176 Beta** · Leichterer Premium-HUB, live seit 05.08.2026.
 
 ---
 
@@ -20,6 +20,7 @@ Aktuelle Version: **v1.176 Beta** · Leichterer Premium-HUB, vorbereitet am 05.0
 - Datenquellen, Kennzahlen, Reihenfolge, Navigation und alle Aktionen bleiben unverändert.
 - Keine Datenbankmigration und keine Änderung an Empfehlungen, Promotern oder Beraterdaten.
 - Live-Freigabe am 05.08.2026 erteilt.
+- Funktionsstand `d6f9d16` ist über das produktive Vercel-Deployment `dpl_DEfs2qobVpCWPaHUUrMW6K3v544W` veröffentlicht. Offizielle Version, neue Wortmarke, beide Signaturzeilen, Schreibschrift, Cache-Stände und der entfernte Beraterzusatz wurden live abgerufen; das Fehlerprotokoll ist leer.
 
 ---
 
