@@ -1,8 +1,8 @@
 -- =====================================================================
 -- Phase 157 · Hinweis bei neuem Promoter
 --
--- VORBEREITET, NICHT ANGEWENDET.
--- Erst nach Deployment der Edge Function notify-promoter anwenden.
+-- LIVE ANGEWENDET AM 06.08.2026.
+-- Migration: phase157_notify_new_promoters
 -- =====================================================================
 
 create or replace function public.notify_promoter_created_trigger()
