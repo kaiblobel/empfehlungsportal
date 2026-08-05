@@ -11,7 +11,7 @@ const [html, js, css, nav] = await Promise.all([
 
 assert.match(html, /id="presenterHubBack" href="hub\.html" hidden/);
 assert.match(html, /Zurück zum HUB/);
-assert.match(html, /css\/programm\.css\?v=81/);
+assert.match(html, /css\/programm\.css\?v=82/);
 assert.match(html, /js\/programm\.js\?v=46/);
 
 assert.match(js, /get\('from'\) === 'hub'/);

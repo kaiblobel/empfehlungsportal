@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.170 Beta** · Kurze Präsentation und stabile Themenseiten-Vorschau, veröffentlicht am 05.08.2026.
+Aktuelle Version: **v1.171 Beta** · Empfehlung als echter Handy-Ablauf, Veröffentlichung freigegeben am 05.08.2026.
+
+---
+
+## v1.171 Beta - Phase 145 · Empfehlung auf dem Handy
+**2026-08-05**
+
+- Der Abschnitt `So funktioniert es` zeigt den gesamten Ablauf jetzt in drei echten Handyansichten statt in drei gewöhnlichen Textkarten.
+- Handy 1 zeigt das Anlegen einer Empfehlung mit Name, Mobilnummer, Themenwahl und fertigem Link.
+- Handy 2 zeigt die vorbereitete persönliche WhatsApp-Nachricht mit dem dynamischen Namen des jeweiligen Beraters.
+- Handy 3 zeigt die Auswahl zwischen Geldprämie, Sachprämie und Spende.
+- Geräte-Rahmen, Dynamic Island, Statusleiste, Seitentasten und Home-Leiste machen den Ablauf sofort als iPhone-Nutzung verständlich.
+- Die drei Ansichten stehen auf großen Bildschirmen nebeneinander und unter 821 Pixeln sauber untereinander.
+- Keine Datenbankmigration und keine Änderung an Kunden-, Berater- oder Empfehlungsdaten.
 
 ---
 

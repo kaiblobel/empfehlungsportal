@@ -15,7 +15,7 @@ assert.match(html, /data-presentation-mode="short"/);
 assert.match(html, /data-presentation-mode="full"/);
 assert.equal((html.match(/<section class="section/g) || []).length, 13);
 assert.equal((html.match(/data-short-hide/g) || []).length, 6);
-assert.match(html, /css\/programm\.css\?v=81/);
+assert.match(html, /css\/programm\.css\?v=82/);
 assert.match(html, /js\/programm\.js\?v=46/);
 
 assert.match(js, /presentationParams\.get\('modus'\) === 'kurz' \? 'short' : 'full'/);
@@ -32,8 +32,8 @@ assert.match(closingRule, /position: static/);
 assert.match(closingRule, /justify-self: end/);
 assert.doesNotMatch(closingRule, /position: absolute/);
 
-assert.match(config, /v1\.170 Beta/);
-assert.match(config, /Phase 144 · Kurze Präsentation/);
-assert.match(sw, /CACHE_VERSION = 'v128-2026-08-05'/);
+assert.match(config, /v1\.171 Beta/);
+assert.match(config, /Phase 145 · Empfehlung auf dem Handy/);
+assert.match(sw, /CACHE_VERSION = 'v129-2026-08-05'/);
 
 console.log('praesentation-kurzmodus: OK');
