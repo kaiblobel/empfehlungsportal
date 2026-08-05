@@ -12,7 +12,7 @@ Aktuelle Version: **v1.168 Beta** · Echte Analysen und ein klarer Rückweg aus 
 - Alle Kennzahlen werden aus den echten Empfehlungen des eingeloggten Beraters berechnet. Die bestehende Zugriffstrennung der Datenbank bleibt maßgeblich; Namen und Kontaktdaten von Empfängern werden nicht geladen.
 - Wenn die direkte Vorperiode noch keine belastbaren Daten enthält, zeigt die Oberfläche das ehrlich an und erzeugt keine künstlichen Prozentvergleiche.
 - Die Präsentation erhält beim Aufruf aus dem HUB einen dezenten Rückweg. Bei einem direkten Kundenaufruf bleibt dieser interne Knopf vollständig verborgen.
-- Der Überblick im HUB bleibt unverändert. Es wurden keine Datenbankmigration und keine Änderungen an bestehenden Datensätzen benötigt.
+- Der Überblick im HUB bleibt unverändert. Es wurden keine Datenbankmigration und keine Änderungen an bestehenden Datensätzen benötigt. Version v1.168 ist auf `main` und Vercel veröffentlicht; die offizielle Adresse und der geschützte Login-Weg wurden geprüft.
 
 ---
 
