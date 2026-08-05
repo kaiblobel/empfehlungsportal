@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.175 Beta** · Empfehlungsdetail als Arbeitsseite, vorbereitet am 05.08.2026.
+Aktuelle Version: **v1.176 Beta** · Leichterer Premium-HUB, vorbereitet am 05.08.2026.
+
+---
+
+## v1.176 Beta - Phase 150 · Leichterer Premium-HUB
+**2026-08-05**
+
+- Der HUB erhält mehr weiße Fläche und eine ruhigere, klarere Gesamtatmosphäre, ohne seine Struktur zu verändern.
+- Begrüßung und Kennzahlen sind leichter gesetzt; KPI-Karten haben feinere Konturen, weniger Schatten und kompaktere Werte.
+- Champagne bleibt Marken- und Orientierungsfarbe statt große Flächen zu tönen.
+- `System aktiv` ist als echter positiver Zustand deutlich grün hervorgehoben.
+- Neue Ereignisse tragen das Wort `Neu` in Grün statt in einem goldenen Badge.
+- Der Aktivitätsstrom ist flacher aufgebaut: kleinere Symbole, ruhige Trennlinien und keine gestapelte Kartenwand.
+- Datenquellen, Kennzahlen, Reihenfolge, Navigation und alle Aktionen bleiben unverändert.
+- Keine Datenbankmigration und keine Änderung an Empfehlungen, Promotern oder Beraterdaten.
+- Veröffentlichung noch nicht freigegeben.
 
 ---
 

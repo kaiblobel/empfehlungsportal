@@ -3282,3 +3282,322 @@ body[data-page="vorlagen-cms"] {
   .team-member-metrics small { font-size: 8.5px; }
   .h-team-head-row { align-items: flex-start; flex-direction: column; gap: 8px; }
 }
+
+/* ============================================================
+   Phase 150 · HUB-Leichtigkeit
+   Mehr Weiß, weniger Kartenlast und eindeutige Statusfarben.
+   Fachlogik, Reihenfolge und Datenquellen bleiben unverändert.
+   ============================================================ */
+
+body[data-page="hub"] {
+  --shadow-card: 0 1px 2px rgba(20,18,12,.025);
+  --shadow-card-hover: 0 4px 14px rgba(20,18,12,.055);
+  background: #FBFBFA;
+}
+
+body[data-page="hub"] .h-header {
+  background: #FFFFFF;
+  border-bottom-color: #EFEDE8;
+}
+
+body[data-page="hub"] .h-live {
+  color: #3F744B;
+  font-weight: 650;
+}
+
+body[data-page="hub"] .h-live-dot {
+  background: #3F9B55;
+  box-shadow: 0 0 0 3px #E7F4EA;
+  animation: none;
+}
+
+body[data-page="hub"] .h-main-grid {
+  background: #FBFBFA;
+}
+
+body[data-page="hub"] .h-greet {
+  font-size: clamp(32px, 3.2vw, 44px) !important;
+  font-weight: 700 !important;
+  letter-spacing: -.04em !important;
+}
+
+body[data-page="hub"] .h-hero-lines {
+  color: #77736D;
+  font-size: 15px;
+  line-height: 1.58;
+}
+
+body[data-page="hub"] .h-hero-lines strong {
+  color: #32312F;
+  font-weight: 650;
+}
+
+body[data-page="hub"] .h-pill {
+  padding: 7px 10px;
+  border-color: #E9E5DE;
+  border-radius: 8px;
+  background: #FFFFFF;
+  color: #7A766F;
+  font-size: 11px;
+}
+
+body[data-page="hub"] .h-pill.live {
+  border-color: #BDD6C2;
+  background: #EDF7EF;
+  color: #3E7149;
+  font-weight: 700;
+}
+
+body[data-page="hub"] .h-pill.live::before {
+  background: #3F9B55;
+  box-shadow: 0 0 0 2px #DBEEE0;
+}
+
+body[data-page="hub"] .h-label {
+  margin-left: 0;
+  color: #A08D5C;
+  font-size: 10px;
+  letter-spacing: .14em;
+}
+
+body[data-page="hub"] .h-label::before {
+  width: 3px;
+  height: 11px;
+  background: #C9B98A;
+}
+
+body[data-page="hub"] .h-section-sub {
+  color: #858179;
+  font-size: 13px;
+}
+
+body[data-page="hub"] .h-network-overview .h-kpis {
+  gap: 10px;
+}
+
+body[data-page="hub"] .h-network-overview .h-kpi {
+  position: relative;
+  min-height: 136px;
+  padding: 16px !important;
+  border-color: #EFEDE8 !important;
+  border-radius: 11px !important;
+  background: #FFFFFF !important;
+  box-shadow: none !important;
+}
+
+body[data-page="hub"] .h-network-overview .h-kpi:hover {
+  transform: translateY(-1px);
+  border-color: #DEDAD2 !important;
+  box-shadow: var(--shadow-card-hover) !important;
+}
+
+body[data-page="hub"] .h-network-overview .h-kpi-icon {
+  width: 29px !important;
+  height: 29px !important;
+  border-radius: 9px !important;
+  background: color-mix(in srgb, var(--kpi-color) 9%, white) !important;
+}
+
+body[data-page="hub"] .h-network-overview .h-kpi-icon svg {
+  width: 15px;
+  height: 15px;
+  stroke-width: 1.7;
+}
+
+body[data-page="hub"] .h-network-overview .h-kpi-body {
+  margin-top: 16px;
+}
+
+body[data-page="hub"] .h-network-overview .h-kpi-value {
+  color: #282826;
+  font-size: 32px !important;
+  font-weight: 700 !important;
+  letter-spacing: -.04em !important;
+}
+
+body[data-page="hub"] .h-network-overview .h-kpi-label {
+  margin-top: 7px !important;
+  color: #67645E !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+}
+
+body[data-page="hub"] .h-network-overview .h-kpi-sub {
+  position: absolute;
+  top: 18px;
+  right: 15px;
+  margin: 0;
+}
+
+body[data-page="hub"] .h-network-overview .h-kpi-sub-pill {
+  padding: 0;
+  border-radius: 0;
+  background: transparent !important;
+  color: #74716B;
+  font-size: 9.5px;
+  font-weight: 650;
+}
+
+body[data-page="hub"] .h-network-overview .h-kpi-sub-pill.up {
+  color: #61765B;
+}
+
+body[data-page="hub"] .h-network-overview .h-kpi-sub-pill.down {
+  color: #9A6030;
+}
+
+body[data-page="hub"] .h-network-overview .h-kpi-sub:has(.neutral) {
+  position: static;
+  margin-top: 5px;
+}
+
+body[data-page="hub"] .h-team-momentum {
+  padding-top: 2px;
+}
+
+body[data-page="hub"] .h-activity-row {
+  grid-template-columns: 32px minmax(0, 1fr) !important;
+  gap: 10px !important;
+  padding: 12px 2px !important;
+  overflow: visible;
+  border: 0 !important;
+  border-bottom: 1px solid #E7E4DE !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body[data-page="hub"] .h-activity-row::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  left: -18px;
+  width: 2px;
+  height: 20px;
+  border-radius: 2px;
+  background: var(--act-color, #C9B98A);
+  opacity: .65;
+}
+
+body[data-page="hub"] .h-activity-row:hover {
+  transform: none !important;
+  background: rgba(255,255,255,.72) !important;
+  box-shadow: none !important;
+}
+
+body[data-page="hub"] .h-activity-avatar {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 9px !important;
+  background: color-mix(in srgb, var(--act-color) 8%, white) !important;
+}
+
+body[data-page="hub"] .h-activity-avatar svg {
+  width: 15px !important;
+  height: 15px !important;
+  stroke-width: 1.7 !important;
+}
+
+body[data-page="hub"] .h-activity-name {
+  font-size: 12px !important;
+  font-weight: 650 !important;
+}
+
+body[data-page="hub"] .h-activity-time {
+  color: #AAA69E !important;
+  font-size: 9px !important;
+}
+
+body[data-page="hub"] .h-activity-text {
+  color: #706D67 !important;
+  font-size: 10.5px !important;
+  font-weight: 500 !important;
+}
+
+body[data-page="hub"] .h-activity-pill {
+  color: color-mix(in srgb, var(--act-color) 74%, #555) !important;
+  font-size: 9px !important;
+  font-weight: 650 !important;
+}
+
+body[data-page="hub"] .h-badge-new {
+  padding: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #3F8A50 !important;
+  font-size: 8px !important;
+  font-weight: 800 !important;
+  letter-spacing: .08em !important;
+}
+
+body[data-page="hub"] .h-activity-unread {
+  color: #6F8B68 !important;
+  opacity: .52;
+}
+
+@media (min-width: 1100px) {
+  body[data-page="hub"] .h-main-grid {
+    grid-template-columns: minmax(0, 1fr) 310px;
+    gap: 38px;
+    max-width: 1380px;
+  }
+
+  body[data-page="hub"] .h-col-side {
+    margin-top: -24px;
+    margin-bottom: -24px;
+    padding: 31px 18px 28px;
+    border-left: 1px solid #EFEDE8;
+    background: #F8F8F6;
+  }
+
+  body[data-page="hub"] .h-side-activity {
+    top: 92px;
+    padding: 0 !important;
+  }
+
+  body[data-page="hub"] .h-side-activity .h-timeline {
+    gap: 0;
+    padding-bottom: 0;
+  }
+
+  body[data-page="hub"] .h-side-activity .h-activity-row::before {
+    left: -18px;
+  }
+}
+
+@media (max-width: 1099px) {
+  body[data-page="hub"] .h-col-side {
+    padding: 22px 18px;
+    border-top: 1px solid #EFEDE8;
+    background: #F8F8F6;
+  }
+
+  body[data-page="hub"] .h-activity-row::before {
+    left: -18px;
+  }
+}
+
+@media (max-width: 560px) {
+  body[data-page="hub"] .h-greet {
+    font-size: 31px !important;
+  }
+
+  body[data-page="hub"] .h-network-overview .h-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  body[data-page="hub"] .h-network-overview .h-kpi {
+    min-height: 128px;
+    padding: 14px !important;
+  }
+
+  body[data-page="hub"] .h-network-overview .h-kpi-sub {
+    position: static;
+    margin-top: 5px;
+  }
+
+  body[data-page="hub"] .h-network-overview .h-kpi-value {
+    font-size: 28px !important;
+  }
+}
