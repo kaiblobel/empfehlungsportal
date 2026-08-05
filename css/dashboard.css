@@ -612,23 +612,50 @@
 }
 .nav-brand {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: flex-start;
+  gap: 11px;
   padding: 0 8px;
 }
 .nav-brand-mark {
   width: 10px;
   height: 10px;
+  flex: 0 0 auto;
+  margin-top: 6px;
   border-radius: 50%;
   background: var(--accent);
   box-shadow: 0 0 0 4px var(--accent-soft);
 }
-.nav-brand-text {
-  font-family: var(--font-serif);
-  font-style: italic;
+.nav-brand-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.nav-brand-name {
+  font-family: var(--font-sans);
   font-size: 17px;
+  font-weight: 700;
+  line-height: 1.05;
   color: var(--ink);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.035em;
+}
+.nav-brand-signature {
+  font-family: "Segoe Script", "Snell Roundhand", "Brush Script MT", cursive;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #817354;
+  letter-spacing: -0.02em;
+}
+.nav-brand-signature > span {
+  display: block;
+}
+.nav-brand-signature > span:first-child {
+  font-size: 9px;
+  opacity: 0.84;
+}
+.nav-brand-signature > span:last-child {
+  margin-top: 1px;
+  font-size: 10.5px;
 }
 
 .nav-list {
@@ -904,7 +931,7 @@ body.nav-drawer-open .nav-drawer {
   border-right: 1px solid var(--hairline);
   display: flex;
   flex-direction: column;
-  padding: 60px 16px 24px;
+  padding: 88px 16px 24px;
   overflow-y: auto;
   transform: translateX(-100%);
   transition: transform .22s cubic-bezier(.32,.72,.4,1);
@@ -962,12 +989,20 @@ body.has-app-nav { padding-bottom: env(safe-area-inset-bottom); }
   .nav-sidebar { display: flex; width: 200px; padding: 22px 14px; }
   .nav-hamburger { display: none; }
   body.has-app-nav { padding-left: 200px; }
+
+  .nav-brand-name { font-size: 15.5px; }
+  .nav-brand-signature > span:first-child { font-size: 8.5px; }
+  .nav-brand-signature > span:last-child { font-size: 9.75px; }
 }
 
 /* Desktop ab 1280px: Sidebar persistent 240px */
 @media (min-width: 1280px) {
   .nav-sidebar { width: 240px; padding: 24px 16px; }
   body.has-app-nav { padding-left: 240px; }
+
+  .nav-brand-name { font-size: 17px; }
+  .nav-brand-signature > span:first-child { font-size: 9px; }
+  .nav-brand-signature > span:last-child { font-size: 10.5px; }
 }
 
 body.nav-drawer-open { overflow: hidden; }
@@ -1118,7 +1153,7 @@ body.nav-collapsed .nav-collapse-icon-collapse { display: inline-flex; align-ite
     width: 72px;
     padding: 24px 8px;
   }
-  body.nav-collapsed .nav-brand-text,
+  body.nav-collapsed .nav-brand-copy,
   body.nav-collapsed .nav-item-label {
     display: none;
   }

@@ -1,6 +1,6 @@
 {
-  "name": "Empfehlungs-HUB · Kai Blobel",
-  "short_name": "Empfehlungs-HUB",
+  "name": "Empfehlungsportal · Kai Blobel & Team",
+  "short_name": "Empfehlungsportal",
   "description": "Premium-Empfehlungssystem für Kai Blobel, Team Wachsbleiche.",
   "start_url": "/hub.html",
   "scope": "/",

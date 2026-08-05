@@ -26,7 +26,7 @@ function path(p) {
  * Ein `divider: true`-Eintrag setzt die Trennlinie samt Blocktitel.
  */
 export const NAV_ITEMS = [
-  // "Empfehlungs-HUB" oben in der Leiste ist der Produktname — die Seite selbst
+  // "Empfehlungsportal" oben in der Leiste ist der Produktname — die Seite selbst
   // heißt "Überblick", damit nicht zwei Wörter dasselbe meinen.
   { id: 'dashboard',   label: 'Überblick',     icon: 'LayoutDashboard', href: path('hub.html'),                       bottom: true },
   { id: 'empfehlungen',label: 'Empfehlungen',  icon: 'Users',           href: path('dashboard/empfehlungen.html'),    bottom: true },
@@ -125,9 +125,12 @@ export function renderNav(opts = {}) {
     const appVer = (typeof window !== 'undefined' && window.APP_VERSION) ? window.APP_VERSION : '';
     sidebar.innerHTML = `
       <aside class="nav-sidebar">
-        <div class="nav-brand">
+        <div class="nav-brand" aria-label="Empfehlungsportal, Regionaldirektion Kai Blobel und Team">
           <span class="nav-brand-mark"></span>
-          <span class="nav-brand-text">Empfehlungs-HUB</span>
+          <span class="nav-brand-copy">
+            <span class="nav-brand-name">Empfehlungsportal</span>
+            <span class="nav-brand-signature"><span>Regionaldirektion</span><span>Kai Blobel &amp; Team</span></span>
+          </span>
         </div>
         <nav class="nav-list">${NAV_ITEMS.map(sidebarItem).join('')}</nav>
         ${appVer ? `<a class="nav-version" href="/changelog.html" title="${window.APP_PHASE || ''}">${appVer}</a>` : ''}
@@ -140,7 +143,7 @@ export function renderNav(opts = {}) {
       <div class="nav-drawer" hidden>
         <div class="nav-drawer-panel">
           <button class="nav-drawer-close" type="button" aria-label="Menü schließen">${icon('X', { size: 22 })}</button>
-          <div class="nav-brand"><span class="nav-brand-mark"></span><span class="nav-brand-text">Empfehlungs-HUB</span></div>
+          <div class="nav-brand" aria-label="Empfehlungsportal, Regionaldirektion Kai Blobel und Team"><span class="nav-brand-mark"></span><span class="nav-brand-copy"><span class="nav-brand-name">Empfehlungsportal</span><span class="nav-brand-signature"><span>Regionaldirektion</span><span>Kai Blobel &amp; Team</span></span></span></div>
           <nav class="nav-list">${NAV_ITEMS.map(sidebarItem).join('')}</nav>
           <button class="nav-drawer-logout" type="button" id="navDrawerLogout">${icon('LogOut', { size: 16 })}<span>Abmelden</span></button>
         </div>

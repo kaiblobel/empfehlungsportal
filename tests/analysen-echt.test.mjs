@@ -11,7 +11,7 @@ const [html, js, css, nav, config, sw] = await Promise.all([
   read('sw.js'),
 ]);
 
-assert.match(html, /<title>Analysen · Empfehlungs-HUB<\/title>/);
+assert.match(html, /<title>Analysen · Empfehlungsportal<\/title>/);
 assert.match(html, /data-days="7"/);
 assert.match(html, /data-days="30" class="active"/);
 assert.match(html, /data-days="90"/);
@@ -22,7 +22,7 @@ assert.match(html, /Themenerfolg/);
 assert.match(html, /Promoterquellen/);
 assert.match(html, /js\/analysen\.js\?v=1/);
 assert.match(html, /css\/analysen\.css\?v=1/);
-assert.match(html, /js\/nav\.js\?v=56/);
+assert.match(html, /js\/nav\.js\?v=57/);
 
 assert.match(js, /getCurrentBerater\(\)/);
 assert.match(js, /getVorlagenPublic\(advisor\?\.id \|\| null\)/);
@@ -56,7 +56,7 @@ assert.match(css, /@media \(max-width:600px\)/);
 assert.match(nav, /id: 'analysen',[\s\S]*?href: path\('dashboard\/overview\.html'\)/);
 assert.match(config, /v1\.176 Beta/);
 assert.match(config, /Phase 150 · Leichterer Premium-HUB/);
-assert.match(sw, /CACHE_VERSION = 'v134-2026-08-05'/);
+assert.match(sw, /CACHE_VERSION = 'v135-2026-08-05'/);
 assert.match(sw, /'\/dashboard\/overview\.html'/);
 assert.match(sw, /'\/css\/analysen\.css\?v=1'/);
 assert.match(sw, /'\/js\/analysen\.js\?v=1'/);

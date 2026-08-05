@@ -14,9 +14,12 @@ Aktuelle Version: **v1.176 Beta** · Leichterer Premium-HUB, vorbereitet am 05.0
 - `System aktiv` ist als echter positiver Zustand deutlich grün hervorgehoben.
 - Neue Ereignisse tragen das Wort `Neu` in Grün statt in einem goldenen Badge.
 - Der Aktivitätsstrom ist flacher aufgebaut: kleinere Symbole, ruhige Trennlinien und keine gestapelte Kartenwand.
+- Die sichtbare Marke heißt jetzt klar `Empfehlungsportal` statt `Empfehlungs-HUB`.
+- Darunter steht die zweizeilige Signatur `Regionaldirektion` und `Kai Blobel & Team` in einer feinen Schreibschrift.
+- Im Seitenkopf steht beim Berater nur noch sein Name; der doppelte Zusatz `Regionaldirektion · Hub` entfällt.
 - Datenquellen, Kennzahlen, Reihenfolge, Navigation und alle Aktionen bleiben unverändert.
 - Keine Datenbankmigration und keine Änderung an Empfehlungen, Promotern oder Beraterdaten.
-- Veröffentlichung noch nicht freigegeben.
+- Live-Freigabe am 05.08.2026 erteilt.
 
 ---
 

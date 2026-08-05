@@ -24,6 +24,6 @@ assert.match(js, /applyBeraterBrand\(data\)/);
 assert.match(js, /getBeraterPublicBySlug\(beraterSlug\)/);
 assert.match(config, /v1\.176 Beta/);
 assert.match(config, /Phase 150 · Leichterer Premium-HUB/);
-assert.match(sw, /CACHE_VERSION = 'v134-2026-08-05'/);
+assert.match(sw, /CACHE_VERSION = 'v135-2026-08-05'/);
 
 console.log('praesentation-portrait-farbe: OK');

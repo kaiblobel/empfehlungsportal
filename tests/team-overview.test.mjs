@@ -20,7 +20,7 @@ const [teamHtml, teamJs, navJs, supabaseJs, hubHtml, hubJs, css, sql, config, sw
   read('berater.html'),
 ]);
 
-assert.match(teamHtml, /<title>Teamübersicht · Empfehlungs-HUB<\/title>/);
+assert.match(teamHtml, /<title>Teamübersicht · Empfehlungsportal<\/title>/);
 assert.match(teamHtml, /data-days="7"/);
 assert.match(teamHtml, /data-days="30"/);
 assert.match(teamHtml, /data-days="90"/);
@@ -28,7 +28,7 @@ assert.match(teamHtml, /Alphabetisch · keine Rangliste/);
 assert.match(teamHtml, /ohne Kundendaten offenzulegen/);
 assert.match(teamHtml, /js\/team\.js\?v=1/);
 assert.match(teamHtml, /css\/hub\.css\?v=50/);
-assert.match(teamHtml, /js\/nav\.js\?v=56/);
+assert.match(teamHtml, /js\/nav\.js\?v=57/);
 
 assert.match(teamJs, /getTeamMetrics\(currentDays\)/);
 assert.match(teamJs, /getTeamActivitySecure\(currentDays\)/);
@@ -76,10 +76,10 @@ assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.team-detail-metrics/);
 
 assert.match(config, /v1\.176 Beta/);
 assert.match(config, /Phase 150 · Leichterer Premium-HUB/);
-assert.match(sw, /CACHE_VERSION = 'v134-2026-08-05'/);
+assert.match(sw, /CACHE_VERSION = 'v135-2026-08-05'/);
 assert.match(sw, /'\/team\.html'/);
 assert.match(sw, /'\/js\/team\.js\?v=1'/);
-assert.match(beraterHtml, /<title>Beraterkonten · Empfehlungs-HUB<\/title>/);
+assert.match(beraterHtml, /<title>Beraterkonten · Empfehlungsportal<\/title>/);
 
 const htmlFiles = [];
 async function collectHtml(dir) {

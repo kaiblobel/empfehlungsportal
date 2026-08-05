@@ -13,7 +13,7 @@
  * trägt — die darf nie veraltet sein.
  */
 
-const CACHE_VERSION = 'v134-2026-08-05';
+const CACHE_VERSION = 'v135-2026-08-05';
 const SHELL_CACHE = `shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `assets-${CACHE_VERSION}`;
 
@@ -22,12 +22,12 @@ const SHELL_URLS = [
   '/team.html',
   '/dashboard/overview.html',
   '/css/style.css?v=32',
-  '/css/dashboard.css?v=47',
+  '/css/dashboard.css?v=48',
   '/css/hub.css?v=51',
   '/css/analysen.css?v=1',
   '/css/promoter-dashboard.css?v=1',
   '/css/empfehlung-detail.css?v=1',
-  '/js/nav.js?v=56',
+  '/js/nav.js?v=57',
   '/js/icons.js',
   '/js/context-menu.js',
   '/js/cmdk.js',
@@ -145,8 +145,8 @@ self.addEventListener('fetch', (event) => {
 self.addEventListener('push', (event) => {
   if (!event.data) return;
   let payload = {};
-  try { payload = event.data.json(); } catch { payload = { title: 'Empfehlungs-HUB', body: event.data.text() }; }
-  const title = payload.title || 'Empfehlungs-HUB';
+  try { payload = event.data.json(); } catch { payload = { title: 'Empfehlungsportal', body: event.data.text() }; }
+  const title = payload.title || 'Empfehlungsportal';
   const options = {
     body: payload.body || '',
     icon: '/assets/icons/icon.svg',

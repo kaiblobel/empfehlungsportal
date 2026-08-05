@@ -1,9 +1,12 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-const [html, css, config, sw] = await Promise.all([
+const [html, css, dashboardCss, nav, manifest, config, sw] = await Promise.all([
   readFile(new URL('../hub.html', import.meta.url), 'utf8'),
   readFile(new URL('../css/hub.css', import.meta.url), 'utf8'),
+  readFile(new URL('../css/dashboard.css', import.meta.url), 'utf8'),
+  readFile(new URL('../js/nav.js', import.meta.url), 'utf8'),
+  readFile(new URL('../manifest.json', import.meta.url), 'utf8'),
   readFile(new URL('../js/config.js', import.meta.url), 'utf8'),
   readFile(new URL('../sw.js', import.meta.url), 'utf8'),
 ]);
@@ -15,6 +18,18 @@ assert.match(html, /id="kpiEmpfehler"/);
 assert.match(html, /id="kpiKlicks"/);
 assert.match(html, /id="kpiGesamt"/);
 assert.match(html, /id="kpiKunden"/);
+assert.match(html, /<title>Empfehlungsportal · Kai Blobel<\/title>/);
+assert.match(html, /css\/dashboard\.css\?v=48/);
+assert.match(html, /js\/nav\.js\?v=57/);
+assert.doesNotMatch(html, /Regionaldirektion · Hub/);
+
+assert.match(nav, /nav-brand-name">Empfehlungsportal/);
+assert.match(nav, /nav-brand-signature/);
+assert.match(nav, /Regionaldirektion/);
+assert.match(nav, /Kai Blobel &amp; Team/);
+assert.match(dashboardCss, /\.nav-brand-signature/);
+assert.match(dashboardCss, /"Segoe Script"/);
+assert.match(manifest, /"short_name": "Empfehlungsportal"/);
 
 assert.match(css, /Phase 150 · HUB-Leichtigkeit/);
 assert.match(css, /body\[data-page="hub"\] \.h-live/);
@@ -30,7 +45,9 @@ assert.match(css, /@media \(max-width: 560px\)/);
 
 assert.match(config, /APP_VERSION = 'v1\.176 Beta'/);
 assert.match(config, /Phase 150 · Leichterer Premium-HUB/);
-assert.match(sw, /CACHE_VERSION = 'v134-2026-08-05'/);
+assert.match(sw, /CACHE_VERSION = 'v135-2026-08-05'/);
 assert.match(sw, /\/css\/hub\.css\?v=51/);
+assert.match(sw, /\/css\/dashboard\.css\?v=48/);
+assert.match(sw, /\/js\/nav\.js\?v=57/);
 
 console.log('hub-leichtigkeit: OK');

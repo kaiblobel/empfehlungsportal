@@ -21,8 +21,8 @@ assert.match(html, /r\.interessiert \|\| r\.interessiert_at/);
 assert.match(html, /whatsappLink\(phone\)/);
 assert.match(html, /class="ep-row feed-row"/);
 assert.match(html, /Rechtsklick/);
-assert.match(html, /dashboard\.css\?v=47/);
-assert.match(html, /nav\.js\?v=56/);
+assert.match(html, /dashboard\.css\?v=48/);
+assert.match(html, /nav\.js\?v=57/);
 
 const inlineModule = [...html.matchAll(/<script type="module">([\s\S]*?)<\/script>/g)].at(-1)?.[1] || '';
 const parseableModuleBody = inlineModule.replace(/import\s+\{[\s\S]*?\}\s+from\s+['"][^'"]+['"];?/g, '');
@@ -41,8 +41,8 @@ assert.match(nav, /id: 'programm'[\s\S]*?subs:/);
 
 assert.match(config, /v1\.176 Beta/);
 assert.match(config, /Phase 150 · Leichterer Premium-HUB/);
-assert.match(sw, /CACHE_VERSION = 'v134-2026-08-05'/);
-assert.match(sw, /dashboard\.css\?v=47/);
-assert.match(sw, /nav\.js\?v=56/);
+assert.match(sw, /CACHE_VERSION = 'v135-2026-08-05'/);
+assert.match(sw, /dashboard\.css\?v=48/);
+assert.match(sw, /nav\.js\?v=57/);
 
 console.log('empfehlungen-premium: OK');

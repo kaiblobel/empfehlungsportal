@@ -38,7 +38,7 @@ const PAGE_TITLES = [
 function pageTitle() {
   const p = location.pathname.toLowerCase();
   for (const [re, t] of PAGE_TITLES) if (re.test(p)) return t;
-  return 'Empfehlungs-HUB';
+  return 'Empfehlungsportal';
 }
 
 /* ---------- kleine Helfer ---------- */
