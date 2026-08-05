@@ -54,9 +54,9 @@ assert.match(promoterCss, /\.pd-layout/);
 assert.match(promoterCss, /grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
 assert.match(promoterCss, /@media \(max-width: 540px\)/);
 
-assert.match(config, /v1\.179 Beta/);
-assert.match(config, /Phase 153 · Leichter Aktivitätsstrom/);
-assert.match(sw, /CACHE_VERSION = 'v138-2026-08-05'/);
+assert.match(config, /v1\.180 Beta/);
+assert.match(config, /Phase 154 · Themenseiten und Mobile-First-Funnel/);
+assert.match(sw, /CACHE_VERSION = 'v139-2026-08-05'/);
 assert.match(sw, /promoter-dashboard\.css\?v=2/);
 
 console.log('promoter-premium: OK');

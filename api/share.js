@@ -58,7 +58,17 @@ module.exports = async function handler(req, res) {
   }
 
   const template = requestedTemplate || String(emp?.vorlage_slug || '').toLowerCase();
-  const pagePath = template === 'baufi' ? '/baufi.html' : '/empfaenger.html';
+  const pageByTemplate = {
+    allgemein: '/empfaenger.html',
+    baufi: '/baufi.html',
+    foerderungen: '/thema.html',
+    selbstaendige: '/thema.html',
+    investment: '/thema.html',
+    absicherung: '/thema.html',
+    karriere: '/thema.html',
+    kinder: '/thema.html',
+  };
+  const pagePath = pageByTemplate[template] || '/empfaenger.html';
 
   // Passende statische Empfänger-Seite holen (nicht rewritten -> keine Rekursion).
   let html;

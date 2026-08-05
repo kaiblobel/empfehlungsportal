@@ -55,9 +55,74 @@ async function testFallbackKeepsQuery() {
   assert.equal(headers.Location, '/baufi.html?token=abc%20123&vorlage=baufi');
 }
 
+async function testThemeFallbackRoutes() {
+  const routes = {
+    foerderungen: '/thema.html?token=abc%20123&vorlage=foerderungen',
+    selbstaendige: '/thema.html?token=abc%20123&vorlage=selbstaendige',
+    investment: '/thema.html?token=abc%20123&vorlage=investment',
+    absicherung: '/thema.html?token=abc%20123&vorlage=absicherung',
+    karriere: '/thema.html?token=abc%20123&vorlage=karriere',
+    kinder: '/thema.html?token=abc%20123&vorlage=kinder',
+    unbekannt: '/empfaenger.html?token=abc%20123&vorlage=unbekannt',
+  };
+
+  for (const [template, expected] of Object.entries(routes)) {
+    global.fetch = async () => { throw new Error('offline'); };
+    const headers = {};
+    const res = {
+      statusCode: 0,
+      setHeader: (key, value) => { headers[key] = value; },
+      end: () => {},
+    };
+
+    await handler({
+      headers: { host: 'example.test', 'x-forwarded-proto': 'https' },
+      url: `/e?token=abc%20123&vorlage=${template}`,
+    }, res);
+
+    assert.equal(res.statusCode, 302);
+    assert.equal(headers.Location, expected);
+  }
+}
+
+async function testStoredThemeRoutesOldLinks() {
+  const calls = [];
+  global.fetch = async (url) => {
+    calls.push(String(url));
+    if (String(url).includes('get_empfehlung_public')) {
+      return new Response(JSON.stringify([{ vorlage_slug: 'kinder' }]), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+    if (String(url).endsWith('/thema.html')) {
+      return new Response('<title>Themenseite</title>', { status: 200 });
+    }
+    return new Response('[]', { status: 200 });
+  };
+
+  let body = '';
+  const res = {
+    statusCode: 0,
+    setHeader: () => {},
+    end: (value) => { body = value || ''; },
+  };
+
+  await handler({
+    headers: { host: 'example.test', 'x-forwarded-proto': 'https' },
+    url: '/e?token=alter-link',
+  }, res);
+
+  assert.equal(res.statusCode, 200);
+  assert.ok(calls.some((url) => url.endsWith('/thema.html')));
+  assert.ok(body.includes('Themenseite'));
+}
+
 (async () => {
   await testHappyPath();
   await testFallbackKeepsQuery();
+  await testThemeFallbackRoutes();
+  await testStoredThemeRoutesOldLinks();
   console.log('share-handler: OK');
 })().catch((error) => {
   console.error(error);

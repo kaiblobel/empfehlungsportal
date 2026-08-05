@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Eine persönliche Empfehlung. Die ausführliche Themenseite entsteht gerade.">
+  <meta property="og:title" content="Jemand hat dich empfohlen.">
+  <meta property="og:description" content="Eine persönliche Empfehlung. Die ausführliche Themenseite entsteht gerade.">
+  <meta property="og:image" content="/assets/images/og-cover.png">
+  <meta name="twitter:image" content="/assets/images/og-cover.png">
+  <title>Themenseite · Empfehlungsportal</title>
+  <link rel="stylesheet" href="/css/thema.css?v=1">
+  <script src="/js/config.js"></script>
+</head>
+<body data-page="thema" data-theme="neutral">
+  <div class="theme-page">
+    <header class="theme-topbar">
+      <a class="theme-brand" href="/" aria-label="Empfehlungsportal Startseite">
+        <span class="theme-brand-mark" aria-hidden="true">K</span>
+        <span>Empfehlungsportal</span>
+      </a>
+      <div class="theme-advisor-mini">
+        <img data-bb="foto" alt="" src="">
+        <span><strong data-bb="name">Kai Blobel</strong><small data-bb="rolle">Regionaldirektion</small></span>
+      </div>
+    </header>
+
+    <main>
+      <section class="recommendation-note" aria-labelledby="recommendation-title">
+        <span class="recommendation-avatar" id="refAvatar" aria-hidden="true">E</span>
+        <div>
+          <p class="recommendation-kicker">Persönlich empfohlen</p>
+          <h2 id="recommendation-title"><span id="refName">Jemand aus deinem Umfeld</span> hat an dich gedacht.</h2>
+          <p id="refMessage">Diese Empfehlung ist bereits mit deinem persönlichen Ansprechpartner verbunden.</p>
+        </div>
+      </section>
+
+      <section class="theme-hero" aria-labelledby="theme-heading">
+        <div class="theme-status"><span aria-hidden="true"></span>In Arbeit</div>
+        <p class="theme-kicker" id="themeKicker">Deine Themenwelt</p>
+        <h1 id="theme-heading"><span id="recipientPrefix"></span><span id="headingStart">Diese</span> Themenseite entsteht gerade.</h1>
+        <p class="theme-lede">Freu dich auf eine verständliche, persönliche Übersicht zu <strong id="themeTitle">deinem Finanzthema</strong>. Dein Empfehlungslink funktioniert schon heute vollständig.</p>
+
+        <div class="theme-progress" aria-label="Geplanter Aufbau der Themenseite">
+          <div><span>01</span><strong>Situation verstehen</strong><small>Worum geht es bei dir gerade?</small></div>
+          <div><span>02</span><strong>Klarheit bekommen</strong><small>Was lohnt sich genauer anzusehen?</small></div>
+          <div><span>03</span><strong>Nächsten Schritt wählen</strong><small>Du entscheidest, ob es weitergeht.</small></div>
+        </div>
+
+        <div class="theme-actions">
+          <button class="theme-primary" id="interestButton" type="button">Dieses Thema interessiert mich</button>
+          <a class="theme-secondary" id="bookingButton" data-bb="booking" data-track-booking target="_blank" rel="noopener" href="https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/s/vIk8AVAbE0CCK6qZpumyTA2?ismsaljsauthenabled=true">Gespräch vormerken</a>
+        </div>
+        <p class="theme-feedback" id="themeFeedback" role="status" aria-live="polite">Noch ist diese Seite eine Vorschau. Du kannst dein Interesse trotzdem schon sicher übermitteln.</p>
+      </section>
+
+      <section class="theme-ready" aria-labelledby="ready-heading">
+        <div class="theme-section-head">
+          <p>Schon verbunden</p>
+          <h2 id="ready-heading">Was heute bereits funktioniert</h2>
+        </div>
+        <div class="theme-ready-grid">
+          <article><span aria-hidden="true">01</span><h3>Persönlicher Link</h3><p>Die Empfehlung, das Thema und dein Ansprechpartner bleiben richtig zugeordnet.</p></article>
+          <article><span aria-hidden="true">02</span><h3>Echtes Interesse</h3><p>Wenn du Interesse meldest, erscheint es direkt beim zuständigen Berater.</p></article>
+          <article><span aria-hidden="true">03</span><h3>Freie Entscheidung</h3><p>Du kannst ein Gespräch wählen, erst den allgemeinen Überblick ansehen oder dich austragen.</p></article>
+        </div>
+      </section>
+
+      <section class="theme-contact" aria-labelledby="contact-heading">
+        <div class="theme-contact-copy">
+          <p class="theme-section-label">Bis die Themenseite fertig ist</p>
+          <h2 id="contact-heading">Du musst nicht warten.</h2>
+          <p>Wenn das Thema für dich gerade wichtig ist, kannst du schon jetzt direkt mit <span data-bb="vorname">Kai</span> sprechen oder zuerst die allgemeine Übersicht ansehen.</p>
+          <div class="theme-contact-actions">
+            <a class="theme-primary theme-link-button" data-bb="booking" data-track-booking target="_blank" rel="noopener" href="https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/s/vIk8AVAbE0CCK6qZpumyTA2?ismsaljsauthenabled=true">Termin auswählen</a>
+            <a class="theme-text-link" id="generalLink" href="/empfaenger.html?vorlage=allgemein">Allgemeine Übersicht ansehen</a>
+          </div>
+        </div>
+        <aside class="theme-advisor-card">
+          <img data-bb="foto" alt="" src="">
+          <div><small>Dein persönlicher Ansprechpartner</small><strong data-bb="name">Kai Blobel</strong><span data-bb="rolle">Regionaldirektion</span></div>
+        </aside>
+      </section>
+    </main>
+
+    <footer class="theme-footer">
+      <span>Du entscheidest in Ruhe, ob und wie es weitergeht.</span>
+      <nav aria-label="Rechtliches">
+        <a data-bb="impressum" href="https://www.kaiblobel.de/impressum" target="_blank" rel="noopener">Impressum</a>
+        <a data-bb="datenschutz" href="https://www.kaiblobel.de/datenschutz" target="_blank" rel="noopener">Datenschutz</a>
+        <a id="optOutLink" href="/austragen.html">Kein Interesse</a>
+      </nav>
+    </footer>
+  </div>
+
+  <script src="/js/referral-tracking.js?v=2" defer></script>
+  <script type="module" src="/js/thema.js?v=1"></script>
+</body>
+</html>
