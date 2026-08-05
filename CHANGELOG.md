@@ -1,9 +1,25 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.183 Beta** · Hinweis bei neuem Promoter, live seit 06.08.2026.
+Offizielle Live-Version: **v1.184 Beta** · Abschluss-Video in der Präsentation, live seit 06.08.2026.
 
 ---
+
+## v1.184 Beta - Phase 158 · Abschluss-Video in der Präsentation
+**2026-08-06 · live veröffentlicht**
+
+- Am Ende der Präsentation steht jetzt das Portal-Video: **„Das Portal in 60 Sekunden."**
+  Nach dem QR-Block, vor dem Footer — Kai hat erklärt, das Video fasst zusammen.
+- **Es spielt nichts von allein.** Kein Autoplay, kein Ton, der ins Gespräch platzt. Und
+  bevor Kai auf Play drückt, wird **kein Byte Video geladen** (`preload="none"`) — nur das
+  Vorschaubild steht sofort da. Wichtig, wenn er beim Kunden über Mobilfunk zeigt.
+- Das Video wurde fürs Web aufbereitet: aus 19,3 MB wurden **3,6 MB** bei gleicher
+  Auflösung und Länge.
+- Auf dem iPhone bleibt es in der Seite (`playsinline`) statt in den Vollbildmodus zu springen.
+- Der Service Worker fasst Video-Dateien bewusst **nicht** an: Video kommt in
+  Bereichs-Anfragen (206), die gehören nicht in den Cache-Speicher und stören auf dem
+  iPhone die Wiedergabe.
+- Im **Kurzmodus bleibt der Abschnitt sichtbar** — er ist der Abschluss, keine Vertiefung.
 
 ## v1.183 Beta - Phase 157 · Hinweis bei neuem Promoter
 **2026-08-06 · live veröffentlicht**

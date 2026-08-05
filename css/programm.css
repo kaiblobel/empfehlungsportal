@@ -6109,3 +6109,60 @@ body.topic-preview-open { overflow: hidden; }
     scroll-snap-align: none;
   }
 }
+
+/* ============================================================
+   Phase 158 · Abschluss-Video "Das Portal in 60 Sekunden"
+   ------------------------------------------------------------
+   Steht ganz am Ende: Kai hat durchgescrollt, erklaert, den
+   QR-Code gezeigt — das Video fasst zusammen, ohne dass er
+   nochmal reden muss. Bewusst KEIN Autoplay: er entscheidet,
+   ob und wann es laeuft, und niemandem platzt Ton ins Gespraech.
+   ============================================================ */
+.section.story-video { background: var(--warm-white); }
+
+.story-video-copy {
+  min-width: 0; /* sonst schiebt langer Text den Flex-Block auf */
+  max-width: 46rem;
+  margin: 0 auto clamp(1.75rem, 4vw, 2.75rem);
+  text-align: center;
+}
+.story-video-copy .t-body { color: var(--text-muted); }
+
+.story-video-frame {
+  margin: 0 auto;
+  /* width + min-width sind Pflicht, nicht Kosmetik: das <video> traegt die
+     feste Groesse 1920x1080 im Markup, und ein Flex-Element schrumpft von
+     sich aus NICHT unter seinen Inhalt (min-width: auto). Ohne diese zwei
+     Zeilen wird der ganze Abschnitt auf dem Handy breiter als der Bildschirm
+     und Ueberschrift wie Text laufen rechts aus dem Bild. */
+  width: 100%;
+  min-width: 0;
+  max-width: 62rem;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+  box-shadow: var(--shadow-editorial);
+  background: var(--anthracite);
+  line-height: 0; /* sonst sitzt unter dem Video ein Zeilenrest */
+}
+.story-video-frame video {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  background: var(--anthracite);
+}
+.story-video-frame p {
+  line-height: 1.65;
+  padding: 1.25rem;
+  color: var(--warm-white);
+}
+.story-video-frame p a { color: var(--champagne); }
+
+/* Das Video ist hoeher als eine Textzeile — auf dem Rechner darf der
+   Abschnitt beim Scrollen nicht am oberen Rand festhaengen (wie die
+   Belohnungs-Reise, siehe Phase 129). */
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .section.story-video { scroll-snap-align: none; }
+}

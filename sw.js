@@ -13,7 +13,7 @@
  * trägt — die darf nie veraltet sein.
  */
 
-const CACHE_VERSION = 'v142-2026-08-05';
+const CACHE_VERSION = 'v143-2026-08-06';
 const SHELL_CACHE = `shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `assets-${CACHE_VERSION}`;
 
@@ -120,6 +120,12 @@ self.addEventListener('fetch', (event) => {
     );
     return;
   }
+
+  // Video: NICHT anfassen. Der Browser holt Video in Bereichs-Anfragen (206);
+  // die lassen sich nicht in den Cache legen (cache.put wirft bei 206), und auf
+  // dem iPhone reagiert die Wiedergabe empfindlich, wenn ein Service Worker
+  // dazwischenfunkt. Ohne respondWith macht der Browser es selbst — richtig.
+  if (url.pathname.endsWith('.mp4')) return;
 
   // Static assets: cache-first
   if (

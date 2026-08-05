@@ -1,6 +1,6 @@
 <!-- odysseus-passport
 purpose: Empfehlungsportal für DVAG-Berater - Vanilla JS + eigene Supabase; Funnel Klick zu Interesse zu Kunde, echte Kennzahlen, Champions, Prämien; Cockpit-Brücke
-status: live v1.183 mit QR-Selbstanmeldung und sofortigem Hinweis bei neuen Promotern; Phase 157 aktiv
+status: live v1.184 mit QR-Selbstanmeldung, sofortigem Hinweis bei neuen Promotern und Abschluss-Video am Ende der Präsentation; Phase 158 aktiv
 live_url: https://empfehlungsportal.vercel.app
 tags: portal, supabase, empfehlung, promoter, mobile-first, live, baufinanzierung, kfw, bookings, power-automate
 -->

@@ -15,7 +15,7 @@
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
   <link rel="stylesheet" href="css/style.css?v=33" />
-  <link rel="stylesheet" href="css/programm.css?v=86" />
+  <link rel="stylesheet" href="css/programm.css?v=87" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="programm">
@@ -814,7 +814,35 @@
     </div>
   </section>
 
-  <!-- ===== 9 · Footer ===== -->
+  <!-- ===== 9 · Das Portal in 60 Sekunden (Abschluss-Video) ===== -->
+  <section class="section story-video" id="video">
+    <div class="inner">
+      <div class="story-video-copy reveal">
+        <p class="t-eyebrow">Zum Schluss</p>
+        <h2 class="t-h2">Das Portal in 60&nbsp;Sekunden.</h2>
+        <p class="t-body">Wie aus dem Gedanken an einen Menschen eine Empfehlung wird — einmal kurz gezeigt statt lang erklärt.</p>
+      </div>
+
+      <figure class="story-video-frame reveal d1">
+        <!-- preload="none": es wird erst geladen, wenn Kai wirklich auf Play drückt.
+             Sonst zieht die Seite im Kundengespräch ungefragt Datenvolumen. Das
+             Vorschaubild steht sofort, ohne dass ein Byte Video geflossen ist. -->
+        <video
+          id="storyVideo"
+          controls
+          preload="none"
+          playsinline
+          poster="/assets/video/empfehlungsportal-story-poster.jpg"
+          width="1920" height="1080">
+          <source src="/assets/video/empfehlungsportal-story.mp4" type="video/mp4" />
+          <p>Dein Browser kann dieses Video nicht abspielen —
+            <a href="/assets/video/empfehlungsportal-story.mp4">hier herunterladen</a>.</p>
+        </video>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===== 10 · Footer ===== -->
   <footer class="site-footer">
     <div class="footer-inner">
 

@@ -13,9 +13,9 @@ const [html, js, css, config, sw] = await Promise.all([
 assert.match(html, /id="presenterLength" hidden role="group" aria-label="Präsentationslänge"/);
 assert.match(html, /data-presentation-mode="short"/);
 assert.match(html, /data-presentation-mode="full"/);
-assert.equal((html.match(/<section class="section/g) || []).length, 13);
+assert.equal((html.match(/<section class="section/g) || []).length, 14);
 assert.equal((html.match(/data-short-hide/g) || []).length, 6);
-assert.match(html, /css\/programm\.css\?v=86/);
+assert.match(html, /css\/programm\.css\?v=87/);
 assert.match(html, /js\/programm\.js\?v=47/);
 
 assert.match(js, /presentationParams\.get\('modus'\) === 'kurz' \? 'short' : 'full'/);
@@ -32,8 +32,8 @@ assert.match(closingRule, /position: static/);
 assert.match(closingRule, /justify-self: end/);
 assert.doesNotMatch(closingRule, /position: absolute/);
 
-assert.match(config, /v1\.183 Beta/);
-assert.match(config, /Phase 157 · Hinweis bei neuem Promoter/);
-assert.match(sw, /CACHE_VERSION = 'v142-2026-08-05'/);
+assert.match(config, /v1\.184 Beta/);
+assert.match(config, /Phase 158 · Abschluss-Video in der Präsentation/);
+assert.match(sw, /CACHE_VERSION = 'v143-2026-08-06'/);
 
 console.log('praesentation-kurzmodus: OK');
