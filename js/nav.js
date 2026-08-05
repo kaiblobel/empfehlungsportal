@@ -29,13 +29,7 @@ export const NAV_ITEMS = [
   // "Empfehlungs-HUB" oben in der Leiste ist der Produktname — die Seite selbst
   // heißt "Überblick", damit nicht zwei Wörter dasselbe meinen.
   { id: 'dashboard',   label: 'Überblick',     icon: 'LayoutDashboard', href: path('hub.html'),                       bottom: true },
-  { id: 'empfehlungen',label: 'Empfehlungen',  icon: 'Users',           href: path('dashboard/empfehlungen.html'),    bottom: true,
-    subs: [
-      { label: 'Alle',         href: path('dashboard/empfehlungen.html') },
-      { label: 'Anrufwünsche', href: path('dashboard/empfehlungen.html?status=anrufwunsch'), icon: 'PhoneCall' },
-      { label: 'Interesse',    href: path('dashboard/empfehlungen.html?status=interessiert'), icon: 'HeartHandshake' },
-      { label: 'Offen',        href: path('dashboard/empfehlungen.html?status=offen') },
-    ] },
+  { id: 'empfehlungen',label: 'Empfehlungen',  icon: 'Users',           href: path('dashboard/empfehlungen.html'),    bottom: true },
   // "Champions" bleibt dem Hub-Abschnitt der Top 3 vorbehalten — hier steht die
   // vollständige Liste, und die heißt auf jeder Folgeseite Promoter.
   { id: 'champions',   label: 'Promoter',      icon: 'Trophy',          href: path('dashboard/empfehler.html'),       bottom: false },

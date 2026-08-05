@@ -31,8 +31,8 @@ assert.match(css, /\.iphone-wa-screen/);
 assert.match(css, /\.iphone-reward-option/);
 assert.match(css, /@media \(max-width: 820px\)[\s\S]*\.steps-row\.iphone-flow \{ grid-template-columns: 1fr/);
 
-assert.match(config, /v1\.171 Beta/);
-assert.match(config, /Phase 145 · Empfehlung auf dem Handy/);
-assert.match(sw, /CACHE_VERSION = 'v129-2026-08-05'/);
+assert.match(config, /v1\.172 Beta/);
+assert.match(config, /Phase 146 · Empfehlungen als Arbeitsliste/);
+assert.match(sw, /CACHE_VERSION = 'v130-2026-08-05'/);
 
 console.log('praesentation-iphone-flow: OK');

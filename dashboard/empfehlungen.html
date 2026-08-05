@@ -6,10 +6,10 @@
   <meta name="theme-color" content="#f5f5f7" />
   <title>Empfehlungen · Empfehlungsportal</title>
   <link rel="stylesheet" href="../css/style.css?v=32" />
-  <link rel="stylesheet" href="../css/dashboard.css?v=45" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=46" />
   <script src="../js/config.js"></script>
 </head>
-<body class="has-app-nav">
+<body class="has-app-nav emp-page">
 
   <div id="appNav"></div>
 
@@ -28,31 +28,44 @@
       </div>
     </header>
 
-    <main class="app-content">
-      <div style="display: flex; justify-content: flex-end; margin-bottom: -8px;">
-        <a href="neu.html" class="btn-logout" style="text-decoration: none; padding: 8px 14px;">+ Neue Empfehlung</a>
-      </div>
-      <div class="search-bar">
-        <input id="searchInput" type="search" placeholder="Nach Name suchen…" autocomplete="off" />
-      </div>
+    <main class="app-content emp-content">
+      <section class="ep-intro">
+        <div>
+          <div class="h-label">Tagesgeschäft</div>
+          <h1>Empfehlungen</h1>
+          <p>Kontakte priorisieren, persönlich reagieren und den nächsten Schritt festhalten.</p>
+        </div>
+        <a href="neu.html" class="ep-primary">+ Neue Empfehlung</a>
+      </section>
 
-      <div class="filter-tabs" id="filterTabs">
-        <button class="filter-tab active" data-filter="alle">Alle</button>
-        <button class="filter-tab" data-filter="offen">Offen</button>
-        <button class="filter-tab" data-filter="anrufwunsch">Anrufwunsch</button>
-        <button class="filter-tab" data-filter="kontaktiert">Kontaktiert</button>
-        <button class="filter-tab" data-filter="kunde">Kunde</button>
-        <button class="filter-tab" data-filter="kein_interesse">Kein Interesse</button>
-      </div>
+      <section class="ep-workbar" aria-label="Empfehlungen suchen und filtern">
+        <label class="ep-search" for="searchInput">
+          <i data-icon="Search" data-icon-size="17"></i>
+          <input id="searchInput" type="search" placeholder="Name, Telefonnummer oder Promoter suchen" autocomplete="off" />
+        </label>
+        <div class="ep-filters" id="filterTabs" aria-label="Statusfilter"></div>
+      </section>
 
-      <div id="list">
-        <div class="skel-row"><div class="skel-body"><span class="skel skel-line"></span><span class="skel skel-line"></span></div><span class="skel skel-tail"></span></div>
+      <section id="prioritySection" hidden>
+        <div class="ep-section-head">
+          <h2>Wartet auf dich</h2>
+          <span>Nach Dringlichkeit sortiert</span>
+        </div>
+        <div class="ep-priority-grid" id="priorityList"></div>
+      </section>
+
+      <div class="ep-section-head">
+        <h2>Alle Empfehlungen</h2>
+        <span id="resultMeta">Wird geladen…</span>
+      </div>
+      <div id="list" aria-live="polite">
         <div class="skel-row"><div class="skel-body"><span class="skel skel-line"></span><span class="skel skel-line"></span></div><span class="skel skel-tail"></span></div>
         <div class="skel-row"><div class="skel-body"><span class="skel skel-line"></span><span class="skel skel-line"></span></div><span class="skel skel-tail"></span></div>
       </div>
+      <div class="ep-hint"><span><strong>Rechtsklick</strong> öffnet weitere Aktionen.</span><span id="totalMeta"></span></div>
     </main>
 
-    <script type="module" src="../js/nav.js?v=55"></script>
+    <script type="module" src="../js/nav.js?v=56"></script>
   </div>
 
   <!-- Schnell-Menü (Rechtsklick auf eine Empfehlung) -->
@@ -116,24 +129,31 @@
   <script type="module">
     import {
       requireAuth, logout, loadEmpfehlungen, updateStatus, setInteressiert,
-      updateEmpfehlung, formatDate, getStatusBadge, applyBeraterHeader,
+      updateEmpfehlung, formatDate, applyBeraterHeader, whatsappLink,
     } from '../js/dashboard.js';
     import { deleteEmpfehlung, getVorlagen } from '../js/supabase.js';
+    import { hydrateIcons, icon } from '../js/icons.js';
 
     applyBeraterHeader();
+    hydrateIcons();
     document.getElementById('logoutBtn').addEventListener('click', logout);
 
-    // URL-Param `?status=anrufwunsch` als Initial-Filter lesen
+    const FILTERS = [
+      ['alle', 'Alle'], ['offen', 'Offen'], ['anrufwunsch', 'Anrufwunsch'],
+      ['interessiert', 'Interesse'], ['kontaktiert', 'Kontaktiert'],
+      ['kunde', 'Kunde'], ['kein_interesse', 'Kein Interesse'],
+    ];
+    const THEMA_LABELS = {
+      allgemein: 'Allgemeine Beratung', baufi: 'Baufinanzierung', foerderungen: 'Staatliche Förderungen',
+      selbstaendige: 'Selbständige', investment: 'Geldanlage & Investment',
+      absicherung: 'Absicherung & Familie', karriere: 'Berufliche Perspektive', kinder: 'Für deine Kinder',
+    };
     const urlParams = new URLSearchParams(window.location.search);
-    const allowed = new Set(['alle','offen','anrufwunsch','kontaktiert','kunde','kein_interesse']);
+    const allowed = new Set(FILTERS.map(([key]) => key));
     const initParam = urlParams.get('status');
     let currentFilter = initParam && allowed.has(initParam) ? initParam : 'alle';
-    if (initParam === 'interessiert') currentFilter = 'offen'; // Map "Interesse" auf status=offen mit interessiert=true; siehe loadEmpfehlungen
     let currentSearch = '';
     let allItems = [];
-
-    // Initial-Tab aktivieren
-    document.querySelectorAll('.filter-tab').forEach(b => b.classList.toggle('active', b.dataset.filter === currentFilter));
 
     (async () => {
       const session = await requireAuth();
@@ -144,47 +164,116 @@
     document.getElementById('filterTabs').addEventListener('click', (e) => {
       const btn = e.target.closest('.filter-tab');
       if (!btn) return;
-      document.querySelectorAll('.filter-tab').forEach(b => b.classList.toggle('active', b === btn));
       currentFilter = btn.dataset.filter;
-      refresh();
+      const nextUrl = new URL(window.location.href);
+      if (currentFilter === 'alle') nextUrl.searchParams.delete('status');
+      else nextUrl.searchParams.set('status', currentFilter);
+      history.replaceState({}, '', nextUrl);
+      render();
     });
 
     let searchTimer;
     document.getElementById('searchInput').addEventListener('input', (e) => {
       clearTimeout(searchTimer);
       searchTimer = setTimeout(() => {
-        currentSearch = e.target.value;
-        refresh();
+        currentSearch = e.target.value.trim().toLowerCase();
+        render();
       }, 200);
     });
 
     async function refresh() {
       const list = document.getElementById('list');
       list.innerHTML = '<div class="skel-row"><div class="skel-body"><span class="skel skel-line"></span><span class="skel skel-line"></span></div><span class="skel skel-tail"></span></div><div class="skel-row"><div class="skel-body"><span class="skel skel-line"></span><span class="skel skel-line"></span></div><span class="skel skel-tail"></span></div>';
-      allItems = await loadEmpfehlungen({ filter: currentFilter, search: currentSearch });
+      allItems = await loadEmpfehlungen({ filter: 'alle' });
       render();
     }
 
     function render() {
+      renderFilters();
+      renderPriorities();
+      const visibleItems = allItems.filter(matchesCurrentView);
       const list = document.getElementById('list');
-      if (!allItems.length) {
-        list.innerHTML = '<div class="empty-state">Keine Empfehlungen für diesen Filter.</div>';
+      document.getElementById('resultMeta').textContent = visibleItems.length === 1 ? '1 Kontakt' : `${visibleItems.length} Kontakte`;
+      document.getElementById('totalMeta').textContent = `${allItems.length} Empfehlungen insgesamt`;
+      if (!visibleItems.length) {
+        list.innerHTML = '<div class="empty-state">Für diese Auswahl gibt es aktuell keine Empfehlungen.</div>';
         return;
       }
-      list.innerHTML = '<div class="feed">' + allItems.map(r => `
-        <a class="feed-row" href="detail.html?id=${r.id}" data-id="${r.id}" data-status="${r.status || 'offen'}">
-          <div class="feed-main">
-            <div class="feed-name">${escapeHtml(r.empfaenger_name || '–')}</div>
-            <div class="feed-meta">
-              ${getStatusBadge(r.status)}
-              <span>${escapeHtml(r.empfaenger_telefon || '–')}</span>
-              <span>${r.typ === 'info' ? 'Info' : 'Direkt'}</span>
-              <span>${formatDate(r.created_at)}</span>
-              <span>${r.link_geoeffnet ? '👁 geöffnet' : '⚪ ungeöffnet'}</span>
-            </div>
+      list.innerHTML = '<div class="ep-list">' + visibleItems.map(r => `
+        <a class="ep-row feed-row" href="detail.html?id=${encodeURIComponent(r.id)}" data-id="${escapeHtml(r.id)}" data-status="${escapeHtml(r.status || 'offen')}">
+          <div class="ep-person">
+            <span class="ep-initial">${initials(r.empfaenger_name)}</span>
+            <span><strong>${escapeHtml(r.empfaenger_name || 'Unbekannter Kontakt')}</strong><small>${formatDate(r.created_at)}</small></span>
           </div>
-          <span class="feed-arrow">›</span>
+          <div class="ep-topic">${escapeHtml(topicLabel(r))}<small>Promoter: ${escapeHtml(r.empfehler_name || 'nicht angegeben')}</small></div>
+          ${statusPill(r)}
+          <span class="ep-opened${r.link_geoeffnet ? '' : ' off'}"><i></i>${r.link_geoeffnet ? 'geöffnet' : 'ungeöffnet'}</span>
+          <span class="ep-arrow">${icon('ChevronRight', { size: 16 })}</span>
         </a>`).join('') + '</div>';
+    }
+
+    function renderFilters() {
+      const counts = Object.fromEntries(FILTERS.map(([key]) => [key, key === 'alle' ? allItems.length : allItems.filter(r => effectiveStatus(r) === key).length]));
+      document.getElementById('filterTabs').innerHTML = FILTERS.map(([key, label]) => `
+        <button class="filter-tab${currentFilter === key ? ' active' : ''}" type="button" data-filter="${key}" aria-pressed="${currentFilter === key}">
+          ${label}<span>${counts[key]}</span>
+        </button>`).join('');
+    }
+
+    function renderPriorities() {
+      const prioritySection = document.getElementById('prioritySection');
+      const priorityItems = allItems
+        .filter(r => ['anrufwunsch', 'interessiert'].includes(effectiveStatus(r)))
+        .sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0))
+        .slice(0, 4);
+      prioritySection.hidden = priorityItems.length === 0 || currentFilter !== 'alle' || Boolean(currentSearch);
+      document.getElementById('priorityList').innerHTML = priorityItems.map(r => {
+        const interested = effectiveStatus(r) === 'interessiert';
+        const phone = String(r.empfaenger_telefon || '').trim();
+        const phoneHref = phone ? `tel:${phone.replace(/[^+\d]/g, '')}` : '';
+        return `<article class="ep-lead${interested ? ' interest' : ''}">
+          <div class="ep-lead-top">
+            <div class="ep-lead-person"><span class="ep-lead-initial">${initials(r.empfaenger_name)}</span><span><strong>${escapeHtml(r.empfaenger_name || 'Unbekannter Kontakt')}</strong><small>${formatDate(r.created_at)} · über ${escapeHtml(r.empfehler_name || 'unbekannt')}</small></span></div>
+            <span class="ep-lead-badge">${interested ? 'Interesse' : 'Anrufwunsch'}</span>
+          </div>
+          <p>${escapeHtml(r.empfaenger_name || 'Der Kontakt')} interessiert sich für <strong>${escapeHtml(topicLabel(r))}</strong>${phone ? ' und hat eine Telefonnummer angegeben.' : '.'}</p>
+          <div class="ep-lead-actions">
+            ${phoneHref ? `<a class="ep-action primary" href="${phoneHref}">${icon('PhoneCall', { size: 15 })} Jetzt anrufen</a>` : ''}
+            ${phone ? `<a class="ep-action" href="${whatsappLink(phone)}" target="_blank" rel="noopener">WhatsApp</a>` : ''}
+            <a class="ep-action" href="detail.html?id=${encodeURIComponent(r.id)}">Details</a>
+          </div>
+        </article>`;
+      }).join('');
+    }
+
+    function matchesCurrentView(r) {
+      if (currentFilter !== 'alle' && effectiveStatus(r) !== currentFilter) return false;
+      if (!currentSearch) return true;
+      return [r.empfaenger_name, r.empfaenger_telefon, r.empfehler_name, topicLabel(r)]
+        .some(value => String(value || '').toLowerCase().includes(currentSearch));
+    }
+
+    function effectiveStatus(r) {
+      const status = r.status || 'offen';
+      if (['kunde', 'kein_interesse', 'kontaktiert', 'anrufwunsch'].includes(status)) return status;
+      if (r.interessiert || r.interessiert_at) return 'interessiert';
+      return 'offen';
+    }
+
+    function statusPill(r) {
+      const status = effectiveStatus(r);
+      const labels = { offen: 'Offen', anrufwunsch: 'Anrufwunsch', interessiert: 'Interesse', kontaktiert: 'Kontaktiert', kunde: 'Kunde', kein_interesse: 'Kein Interesse' };
+      return `<span class="ep-state ${status}">${labels[status] || status}</span>`;
+    }
+
+    function topicLabel(r) {
+      if (r.vorlage_slug) return THEMA_LABELS[r.vorlage_slug] || r.vorlage_slug;
+      return r.typ === 'info' ? 'Allgemeine Beratung' : 'Direkte Empfehlung';
+    }
+
+    function initials(name) {
+      const parts = String(name || '?').trim().split(/\s+/).filter(Boolean);
+      return escapeHtml(parts.slice(0, 2).map(part => part[0]).join('').toUpperCase() || '?');
     }
 
     function escapeHtml(s) {

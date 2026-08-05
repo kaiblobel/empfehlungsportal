@@ -1,7 +1,21 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.171 Beta** · Empfehlung als echter Handy-Ablauf, veröffentlicht am 05.08.2026.
+Aktuelle Version: **v1.172 Beta** · Empfehlungen als Premium-Arbeitsliste, Veröffentlichung freigegeben am 05.08.2026.
+
+---
+
+## v1.172 Beta - Phase 146 · Empfehlungen als Arbeitsliste
+**2026-08-05**
+
+- Die Seite `Empfehlungen` ist jetzt eine priorisierte Arbeitsoberfläche statt einer einfachen Systemliste.
+- Anrufwünsche und aktuelles Interesse stehen unter `Wartet auf dich` mit direkten Aktionen für Telefon, WhatsApp und Details.
+- Suche und Statusfilter bilden eine gemeinsame Werkzeugleiste. Jeder Filter zeigt seine aktuelle Anzahl; Interesse ist als eigener, funktionierender Filter enthalten.
+- Die Kontaktliste zeigt Name, Zeitpunkt, Thema, Promoter, Status und Öffnungszustand in klarer Hierarchie und bleibt auf Mobilgeräten kompakt.
+- Die Suche berücksichtigt Name, Telefonnummer, Promoter und Thema.
+- Das aufklappbare Untermenü bei `Empfehlungen` ist entfernt, weil es dieselben Filter doppelt angeboten hat. Das Untermenü des Bonusprogramms bleibt bestehen.
+- Rechtsklick, Bearbeiten, Löschen, Statuswechsel und alle bestehenden Detailwege bleiben erhalten.
+- Keine Datenbankmigration und keine Änderung an Empfehlungen, Kunden- oder Beraterdaten.
 
 ---
 
