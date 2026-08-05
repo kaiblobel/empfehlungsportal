@@ -1,9 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.185 Beta** · 60-Sekunden-Modus, live seit 06.08.2026.
+Offizielle Live-Version: **v1.186 Beta** · Formel-Video auf der Empfänger-Strecke, live seit 06.08.2026.
 
 ---
+
+## v1.186 Beta - Phase 160 · Formel-Video auf der Empfänger-Strecke
+**2026-08-06 · live veröffentlicht**
+
+- Die Empfänger-Strecke hat ein neues **zweites Kapitel**: „Deine persönliche Formel zum
+  finanziellen Glück" — der Film läuft 1:37 und steht direkt nach dem persönlichen Einstieg,
+  **bevor** der Empfohlene etwas auswählen soll. Erst verstehen, dann entscheiden.
+- Aus fünf Kapiteln sind damit **sechs** geworden: Fortschrittsbalken, Zähler („2 / 6") und
+  alle fest verdrahteten Schrittnummern im Skript sind mitgewandert. Ein eigener Test hält
+  genau diese Stellen fest, weil sie beim nächsten Umbau als Erstes verrutschen.
+- Wie beim Portal-Video: **kein Autoplay**, `preload="none"` — vor dem Klick auf Play wird
+  kein Byte geladen, nur das Vorschaubild steht sofort. Auf dem iPhone bleibt es in der Seite.
+- Das Video wurde fürs Web aufbereitet: aus 31,0 MB wurden **6,0 MB** bei gleicher Auflösung.
 
 ## v1.185 Beta - Phase 159 · 60-Sekunden-Modus
 **2026-08-06 · live veröffentlicht**

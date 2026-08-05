@@ -84,9 +84,9 @@ assert.match(css, /\.team-ranking/);
 assert.match(css, /\.team-podium-avatar img/);
 assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.team-detail-metrics/);
 
-assert.match(config, /v1\.185 Beta/);
-assert.match(config, /Phase 159 · 60-Sekunden-Modus/);
-assert.match(sw, /CACHE_VERSION = 'v144-2026-08-06'/);
+assert.match(config, /v1\.186 Beta/);
+assert.match(config, /Phase 160 · Formel-Video auf der Empfänger-Strecke/);
+assert.match(sw, /CACHE_VERSION = 'v145-2026-08-06'/);
 assert.match(sw, /'\/team\.html'/);
 assert.match(sw, /'\/js\/team\.js\?v=2'/);
 assert.match(beraterHtml, /<title>Beraterkonten · Empfehlungsportal<\/title>/);

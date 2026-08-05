@@ -65,9 +65,9 @@ assert.match(css, /\.analysis-chart-mode/);
 assert.match(css, /@media \(max-width:600px\)/);
 
 assert.match(nav, /id: 'analysen',[\s\S]*?href: path\('dashboard\/overview\.html'\)/);
-assert.match(config, /v1\.185 Beta/);
-assert.match(config, /Phase 159 · 60-Sekunden-Modus/);
-assert.match(sw, /CACHE_VERSION = 'v144-2026-08-06'/);
+assert.match(config, /v1\.186 Beta/);
+assert.match(config, /Phase 160 · Formel-Video auf der Empfänger-Strecke/);
+assert.match(sw, /CACHE_VERSION = 'v145-2026-08-06'/);
 assert.match(sw, /'\/dashboard\/overview\.html'/);
 assert.match(sw, /'\/css\/analysen\.css\?v=2'/);
 assert.match(sw, /'\/js\/analysen\.js\?v=2'/);
