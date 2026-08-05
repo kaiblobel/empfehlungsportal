@@ -13,7 +13,7 @@ Aktuelle Version: **v1.166 Beta** · Beraterkonten als ruhige, professionelle Pr
 - Die Bearbeitung ist in „Profil und Kontakt“, „Öffentliche Angaben“ und „Zugang“ gegliedert. Passwort und Profildaten bleiben bewusst getrennte Aktionen.
 - URL-Kennung und interne Benutzer-ID stehen nicht mehr im Arbeitsbereich, sondern unter „Technische Angaben anzeigen“.
 - Die Speicherleiste schließt jede geöffnete Kontokarte eindeutig ab. Mobil ordnen sich Profilbild, Felder, Zugang und Aktionen einspaltig an.
-- Keine Datenbankänderung und keine gelöschten Beraterdaten. Vorbereitet auf dem Zweig `codex/beraterkonten-premium-v1-166`, noch nicht live.
+- Keine Datenbankänderung und keine gelöschten Beraterdaten. Am 05.08.2026 auf `main` veröffentlicht und über die offizielle Vercel-Produktionsadresse geprüft.
 
 ---
 
