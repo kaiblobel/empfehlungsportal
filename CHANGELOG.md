@@ -12,7 +12,7 @@ Aktuelle Version: **v1.165 Beta** · Berater-Passwörter werden verlässlich ges
 - Der allgemeine Knopf "Speichern" für Beraterdaten und der Passwort-Knopf sind klar getrennt. Der Passwort-Knopf steht gut sichtbar über die gesamte Breite und funktioniert auch auf schmalen Bildschirmen.
 - Neue Logins und Passwort-Änderungen laufen jetzt über dieselbe abgesicherte Edge Function. Bestehende Konten werden mit Supabases offizieller Auth Admin API `updateUserById` aktualisiert.
 - Der bisherige direkte Schreibzugriff auf den Passwort-Hash in `auth.users` wird vom Browser nicht mehr verwendet.
-- Keine Datenbankmigration. Die Edge Function muss vor der Live-Freigabe als neue Version veröffentlicht werden.
+- Keine Datenbankmigration. Live seit 05.08.2026: Edge Function `berater-create-login` Version 2 und Vercel-Produktion auf Commit `7cb14a1` geprüft.
 
 ---
 

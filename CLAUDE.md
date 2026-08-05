@@ -1,6 +1,6 @@
 <!-- odysseus-passport
 purpose: Empfehlungs-HUB für DVAG-Berater - Vanilla JS + eigene Supabase; Funnel Klick zu Interesse zu Kunde, echte Kennzahlen, Champions, Prämien; Cockpit-Brücke
-status: live (Beta) - v1.165 im Zweig codex/berater-passwort-reset-v1-165 vorbereitet, noch nicht live: klare Passwort-Maske und offizieller Supabase Auth Admin Reset statt direktem Hash-Schreiben; live bleibt v1.164 ohne fremdes Gesicht beim Laden; v1.163 zeigt auf den Themenseiten und in der Vorschau den richtigen Berater; v1.162 ersetzt den frei berechneten Momentum-Score durch vier echte Netzwerk-Kennzahlen direkt unter dem Einstieg und entfernt den doppelten Kennzahlenblock
+status: live (Beta) - v1.165 setzt Berater-Passwoerter verlaesslich ueber die offizielle Supabase Auth Admin API, trennt Beraterdaten und Passwort-Aktion eindeutig und zeigt keinen ungespeicherten Zufallswert mehr als vermeintliches Passwort; Edge Function berater-create-login v2 und Vercel-Produktion sind live; v1.164 verhindert das Aufblitzen eines fremden Portraits; v1.163 zeigt auf Themenseiten und in der Vorschau den richtigen Berater; v1.162 hebt vier echte Netzwerk-Kennzahlen hervor
 live_url: https://empfehlungsportal.vercel.app
 tags: portal, supabase, empfehlung, promoter, mobile-first, live, baufinanzierung, kfw, bookings, power-automate
 -->
