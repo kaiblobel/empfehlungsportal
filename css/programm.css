@@ -6166,3 +6166,21 @@ body.topic-preview-open { overflow: hidden; }
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
   .section.story-video { scroll-snap-align: none; }
 }
+
+/* ============================================================
+   Phase 159 · Verstecken muss auch verstecken
+   ------------------------------------------------------------
+   BEFUND: Der Kurzmodus setzte seit Phase 156 zwar `hidden` auf
+   die sechs vertiefenden Abschnitte — sichtbar verschwunden ist
+   nie einer. Grund: `.section { display: flex }` schlaegt die
+   Browser-Regel `[hidden] { display: none }`. Gemessen im Browser:
+   hidden=true, display=flex, 14 von 14 Abschnitten sichtbar. Der
+   Modus hat also nur gescrollt.
+   Diese eine Zeile repariert Kurzmodus UND 60-Sekunden-Modus.
+   ============================================================ */
+.section[hidden] { display: none; }
+
+/* Im 60-Sekunden-Modus bleiben nur zwei Abschnitte stehen — beide sofort im
+   Blick. Die Einblend-Animation haette hier keinen Weg mehr, ausgeloest zu
+   werden, und Video wie QR-Code blieben blass. Also direkt sichtbar. */
+body.presentation-video .reveal { opacity: 1; transform: none; transition: none; }

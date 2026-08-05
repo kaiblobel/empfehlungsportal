@@ -7,10 +7,11 @@ import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
 
 const read = (file) => readFile(new URL(`../${file}`, import.meta.url), 'utf8');
-const [html, css, sw] = await Promise.all([
+const [html, css, sw, js] = await Promise.all([
   read('programm.html'),
   read('css/programm.css'),
   read('sw.js'),
+  read('js/programm.js'),
 ]);
 
 // --- Der Abschnitt steht am ENDE: nach dem QR-Einstieg, vor dem Footer ---
@@ -54,5 +55,20 @@ assert.match(css, /\.section\.story-video \{ scroll-snap-align: none; \}/);
 // --- Im Kurzmodus bleibt das Video sichtbar (es ist der Abschluss, keine Vertiefung) ---
 const abschnitt = html.slice(posVideo - 200, posVideo + 200);
 assert.doesNotMatch(abschnitt, /data-short-hide/);
+
+// --- 60-Sekunden-Modus (Phase 159) ---
+assert.match(html, /data-presentation-mode="video"/, 'dritter Knopf im Umschalter');
+assert.match(js, /VIDEO_MODE_KEEP = \['video', 'anmelden'\]/, 'nur Video + Anmeldung bleiben stehen');
+assert.match(js, /qrSection\.before\(videoSection\)/, 'im 60-Sek-Modus kommt das Video VOR den QR-Block');
+assert.match(js, /qrSection\.after\(videoSection\)/, 'sonst steht es wieder dahinter');
+assert.match(js, /startModus === 'kurz' \? 'short' : startModus === 'video' \? 'video' : 'full'/);
+assert.match(js, /url\.searchParams\.set\('modus', 'video'\)/, 'Modus bleibt als Link speicherbar');
+
+// --- Der eigentliche Fund: Verstecken muss auch verstecken ---
+// `.section { display: flex }` schlug die Browser-Regel `[hidden] { display: none }`.
+// Im Browser gemessen: hidden=true, display=flex, 14 von 14 Abschnitten sichtbar.
+// Ohne diese Regel ist auch der Kurzmodus wirkungslos.
+assert.match(css, /\.section\[hidden\] \{ display: none; \}/);
+assert.match(css, /body\.presentation-video \.reveal \{ opacity: 1;/, 'im Kurzestmodus nichts Blasses');
 
 console.log('praesentation-abschlussvideo: OK');

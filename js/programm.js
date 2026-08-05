@@ -18,25 +18,51 @@ if (presenterHubBack && openedFromHub) {
 }
 if (presenterLength && openedFromHub) presenterLength.hidden = false;
 
-// Kurz und ausführlich bleiben dieselbe Präsentation. Im Kurzmodus werden
-// nur die sechs vertiefenden Abschnitte ausgeblendet. Der URL-Parameter macht
-// die Auswahl aktualisierbar und als internen Präsentationslink speicherbar.
+// Drei Längen, EINE Präsentation — nichts wird doppelt gepflegt:
+//   ausführlich → alles
+//   kurz        → die sechs vertiefenden Abschnitte fallen weg
+//   60 Sek.     → nur Video + QR-Einstieg
+// "60 Sek." ist bewusst ein Modus und kein Sprunglink: ein Sprung ans Ende
+// liesse dreizehn Abschnitte darüber liegen, durch die Kai zurückscrollen
+// müsste. So bleibt eine vollständige Mini-Präsentation stehen, die trotzdem
+// in der Anmeldung endet. Der URL-Parameter macht die Auswahl aktualisierbar
+// und als internen Präsentationslink speicherbar.
 (function initPresentationLength() {
   if (!presenterLength) return;
   const buttons = [...presenterLength.querySelectorAll('[data-presentation-mode]')];
-  const extendedSections = [...document.querySelectorAll('section.section[data-short-hide]')];
+  const allSections = [...document.querySelectorAll('section.section')];
+  const extendedSections = allSections.filter(section => section.hasAttribute('data-short-hide'));
+  // Was im 60-Sekunden-Modus stehen bleibt: das Video und der Weg zur Anmeldung.
+  // Ohne den QR-Block waere es eine Vorfuehrung ohne Ausgang.
+  const VIDEO_MODE_KEEP = ['video', 'anmelden'];
+  const videoSection = document.getElementById('video');
+  const qrSection = document.getElementById('anmelden');
 
   function setMode(mode, { updateUrl = false } = {}) {
     const short = mode === 'short';
-    const currentSection = [...document.querySelectorAll('section.section')]
-      .find(section => {
-        const box = section.getBoundingClientRect();
-        return box.top <= window.innerHeight * 0.42 && box.bottom >= window.innerHeight * 0.42;
-      });
-    const currentWillHide = short && currentSection?.hasAttribute('data-short-hide');
+    const videoOnly = mode === 'video';
+    const currentSection = allSections.find(section => {
+      const box = section.getBoundingClientRect();
+      return box.top <= window.innerHeight * 0.42 && box.bottom >= window.innerHeight * 0.42;
+    });
 
     document.body.classList.toggle('presentation-short', short);
-    extendedSections.forEach(section => { section.hidden = short; });
+    document.body.classList.toggle('presentation-video', videoOnly);
+
+    if (videoOnly) {
+      allSections.forEach(section => { section.hidden = !VIDEO_MODE_KEEP.includes(section.id); });
+      // In der langen Fassung steht das Video bewusst GANZ am Ende, hinter dem
+      // QR-Block. Bleiben nur diese beiden uebrig, waere die Reihenfolge falsch
+      // herum: erst anmelden, dann sehen warum. Fuer diesen Modus tauschen wir
+      // sie, sonst nirgends.
+      if (videoSection && qrSection) qrSection.before(videoSection);
+    } else {
+      allSections.forEach(section => { section.hidden = false; });
+      extendedSections.forEach(section => { section.hidden = short; });
+      // Zurueck an seinen Platz: direkt hinter den QR-Block.
+      if (videoSection && qrSection) qrSection.after(videoSection);
+    }
+
     buttons.forEach(button => {
       const active = button.dataset.presentationMode === mode;
       button.classList.toggle('active', active);
@@ -46,10 +72,16 @@ if (presenterLength && openedFromHub) presenterLength.hidden = false;
     if (updateUrl) {
       const url = new URL(window.location.href);
       if (short) url.searchParams.set('modus', 'kurz');
+      else if (videoOnly) url.searchParams.set('modus', 'video');
       else url.searchParams.delete('modus');
       window.history.replaceState({}, '', url);
     }
-    if (currentWillHide) {
+
+    // Steht Kai gerade in einem Abschnitt, der jetzt verschwindet, wuerde die
+    // Seite unter ihm wegspringen. Dann bewusst an den Anfang der neuen Laenge.
+    if (videoOnly) {
+      document.getElementById('video')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else if (short && currentSection?.hasAttribute('data-short-hide')) {
       document.getElementById('reflexion')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
@@ -57,7 +89,8 @@ if (presenterLength && openedFromHub) presenterLength.hidden = false;
   buttons.forEach(button => button.addEventListener('click', () => {
     setMode(button.dataset.presentationMode, { updateUrl: true });
   }));
-  setMode(presentationParams.get('modus') === 'kurz' ? 'short' : 'full');
+  const startModus = presentationParams.get('modus');
+  setMode(startModus === 'kurz' ? 'short' : startModus === 'video' ? 'video' : 'full');
 })();
 
 // === Förder-Rechner (Phase 50m): Live-Tool für den Live-Pitch ===

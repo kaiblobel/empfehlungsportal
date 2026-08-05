@@ -1,9 +1,24 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.184 Beta** · Abschluss-Video in der Präsentation, live seit 06.08.2026.
+Offizielle Live-Version: **v1.185 Beta** · 60-Sekunden-Modus, live seit 06.08.2026.
 
 ---
+
+## v1.185 Beta - Phase 159 · 60-Sekunden-Modus
+**2026-08-06 · live veröffentlicht**
+
+- Oben im Umschalter steht jetzt ein dritter Knopf: **60 Sek. · Kurz · Ausführlich.**
+  Im 60-Sekunden-Modus bleiben nur **Video und QR-Code** stehen — für den Fall
+  „mir bleibt eine Minute". Dabei rutscht das Video **vor** den QR-Block: erst sehen,
+  warum, dann anmelden. In den anderen beiden Längen bleibt es am Ende, wo es hingehört.
+- Der Modus ist als Link speicherbar (`?modus=video`), genau wie der Kurzmodus.
+- **Behoben: Verstecken hat nie versteckt.** Der Kurzmodus setzte seit Phase 156 zwar
+  „hidden" auf die sechs vertiefenden Abschnitte, sichtbar verschwunden ist aber keiner —
+  `.section { display: flex }` schlug die Browser-Regel. Im Browser gemessen: **14 von 14
+  Abschnitten sichtbar**, der Modus hat nur gescrollt. Eine Zeile CSS repariert das;
+  Kurzmodus zeigt jetzt 8 von 14, der 60-Sekunden-Modus 2 von 14.
+  Die Tests hatten es nicht gemerkt, weil sie nur den Quelltext lesen, nicht die Darstellung.
 
 ## v1.184 Beta - Phase 158 · Abschluss-Video in der Präsentation
 **2026-08-06 · live veröffentlicht**
