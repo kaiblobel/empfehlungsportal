@@ -13,6 +13,7 @@ Aktuelle Version: **v1.174 Beta** · Promoter als professioneller Arbeitsbereich
 - Profilfelder bleiben vollständig bearbeitbar, stehen aber erst nach `Profil bearbeiten` im Vordergrund. Anlegen, Einladungs-Link, neue Empfehlung, öffentliche Promoter-Ansicht, Rechtsklick und Linkkopieren bleiben erhalten.
 - Der ruhige Feinschliff der Empfehlungsseite aus v1.173 ist enthalten.
 - Keine Datenbankmigration und keine Änderung an bestehenden Promotern, Empfehlungen oder Beraterdaten.
+- Funktionsstand `8a494a8` ist auf `main` und über das produktive Vercel-Deployment `dpl_2nJFYMp2yC7XxQuXTo3P9qww81ng` veröffentlicht. Offizielle Version, Promoter-Übersicht, Promoterprofil, neue Styles und der enthaltene Empfehlungs-Feinschliff wurden live geprüft; das Fehlerprotokoll ist leer.
 
 ---
 
