@@ -1,9 +1,17 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.186 Beta** · Formel-Video auf der Empfänger-Strecke, live seit 06.08.2026.
+Offizielle Live-Version: **v1.187 Beta** · Mandantenschutz für Promoter-Empfehlungen, live seit 06.08.2026.
 
 ---
+
+## v1.187 Beta - Phase 161 · Mandantenschutz für Promoter-Empfehlungen
+**2026-08-06 · live veröffentlicht**
+
+- Öffentliche Empfehlungen mit Promoter werden jetzt zwingend dem Berater des Promoters
+  zugeordnet. Eine manipulierte, abweichende Berater-ID wird von der Datenbank abgewiesen.
+- Ein neuer Negativtest hält die zentrale Schutzregel und die bewusst öffentlichen Rechte
+  der Empfehlungsfunktion fest.
 
 ## v1.186 Beta - Phase 160 · Formel-Video auf der Empfänger-Strecke
 **2026-08-06 · live veröffentlicht**

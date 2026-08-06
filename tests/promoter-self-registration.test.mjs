@@ -139,7 +139,7 @@ assert.match(startJs, /\/api\/promoter-register/);
 assert.match(startJs, /\/empfehler\.html\?code=/);
 
 assert.match(vercel, /\/p\/:berater\/:quelle/);
-assert.match(migration, /VORBEREITET, NICHT ANGEWENDET/);
+assert.match(migration, /LIVE ANGEWENDET AM 2026-08-05/);
 assert.match(migration, /promoter_self_registration/);
 assert.match(migration, /revoke execute on function public\.create_empfehler[\s\S]*from public, anon, authenticated, service_role/);
 assert.match(migration, /grant execute on function public\.register_empfehler_public[\s\S]*to anon/);
