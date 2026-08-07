@@ -22,7 +22,7 @@ assert.match(edgeFunction, /return json\(\{ ok: true, created: false/);
 assert.match(edgeFunction, /admin\.auth\.admin\.createUser/);
 
 assert.doesNotMatch(supabaseClient, /export async function adminSetBeraterPassword/);
-assert.match(beraterHtml, /js\/berater-admin\.js\?v=9/);
-assert.match(config, /v1\.169 Beta/);
+assert.match(beraterHtml, /js\/berater-admin\.js\?v=10/);
+assert.match(config, /v1\.170 Beta/);
 
 console.log('berater-password-flow: OK');

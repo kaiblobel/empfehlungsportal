@@ -12,6 +12,7 @@ import {
 } from './supabase.js';
 import { supabase } from './supabase.js';
 import { requireAuth, logout, applyBeraterHeader, getCurrentBerater } from './dashboard.js';
+import { normalizePhoneE164, normalizeWhatsAppNumber } from './phone-utils.js';
 
 /** Starkes, gut lesbares Passwort (ohne verwechselbare Zeichen O/0/l/1/I). */
 function generatePassword(len = 12) {
@@ -76,6 +77,10 @@ function renderCard(b) {
   const aktivLabel = b.ist_aktiv ? 'Aktiv' : 'Inaktiv';
   const aktivCls = b.ist_aktiv ? 'on' : 'off';
   const fotoSrc = b.foto_url || '';
+  const normalizedPhone = normalizePhoneE164(b.telefon);
+  const normalizedWhatsApp = normalizeWhatsAppNumber(b.whatsapp);
+  const phoneValue = normalizedPhone === null ? (b.telefon || '') : normalizedPhone;
+  const whatsappValue = normalizedWhatsApp === null ? (b.whatsapp || '') : normalizedWhatsApp;
   const photoMarkup = `
     <span class="berater-photo">
       <img src="${escapeAttr(fotoSrc)}" alt="" ${fotoSrc ? '' : 'hidden'} onerror="this.hidden=true;this.nextElementSibling.hidden=false" />
@@ -120,8 +125,8 @@ function renderCard(b) {
               <div><label>Name</label><input data-f="name" value="${escapeAttr(b.name || '')}" /></div>
               <div><label>Rolle</label><input data-f="rolle" value="${escapeAttr(b.rolle || '')}" placeholder="z. B. Vermögensberater" /></div>
               <div><label>E-Mail</label><input data-f="email" type="email" value="${escapeAttr(b.email || '')}" /></div>
-              <div><label>Telefon</label><input data-f="telefon" type="tel" inputmode="tel" value="${escapeAttr(b.telefon || '')}" placeholder="+49 …" /></div>
-              <div><label>WhatsApp</label><input data-f="whatsapp" type="tel" inputmode="tel" value="${escapeAttr(b.whatsapp || '')}" placeholder="491701234567" /><span class="berater-field-hint">Mit Ländervorwahl, ohne Leerzeichen.</span></div>
+              <div><label>Telefon</label><input data-f="telefon" type="tel" inputmode="tel" value="${escapeAttr(phoneValue)}" placeholder="+491701234567" /><span class="berater-field-hint">Wird automatisch mit Ländervorwahl vereinheitlicht.</span></div>
+              <div><label>WhatsApp</label><input data-f="whatsapp" type="tel" inputmode="tel" value="${escapeAttr(whatsappValue)}" placeholder="491701234567" /><span class="berater-field-hint">Ohne Plus und Leerzeichen. Bleibt das Feld leer, wird die Telefonnummer übernommen.</span></div>
             </div>
           </div>
         </section>
@@ -184,10 +189,18 @@ function renderCard(b) {
 }
 
 function attachHandlers(list) {
+  document.querySelectorAll('.berater-card').forEach(bindContactFormatters);
+
   document.querySelectorAll('[data-save]').forEach(btn => {
     btn.addEventListener('click', async () => {
       const id = btn.dataset.save;
       const card = btn.closest('.berater-card');
+      const contactResult = normalizeContactFields(card);
+      if (!contactResult.ok) {
+        toast(contactResult.message, 4000);
+        contactResult.input?.focus();
+        return;
+      }
       const fields = card.querySelectorAll('[data-f]');
       const data = {};
       fields.forEach(f => {
@@ -346,6 +359,57 @@ function attachHandlers(list) {
   });
 }
 
+function normalizeContactFields(scope) {
+  const phoneInput = scope.querySelector('[data-f="telefon"]');
+  const whatsappInput = scope.querySelector('[data-f="whatsapp"]');
+  const phone = normalizePhoneE164(phoneInput?.value || '');
+  if (phone === null) {
+    phoneInput?.setCustomValidity('Bitte eine gültige Telefonnummer eingeben.');
+    return { ok: false, input: phoneInput, message: 'Telefonnummer bitte prüfen. Beispiele: 0173… oder +49173…' };
+  }
+  if (phoneInput) {
+    phoneInput.value = phone;
+    phoneInput.setCustomValidity('');
+  }
+
+  const whatsapp = normalizeWhatsAppNumber(whatsappInput?.value || '', phone);
+  if (whatsapp === null) {
+    whatsappInput?.setCustomValidity('Bitte eine gültige WhatsApp-Nummer eingeben.');
+    return { ok: false, input: whatsappInput, message: 'WhatsApp-Nummer bitte prüfen. Die Ländervorwahl wird automatisch ergänzt.' };
+  }
+  if (whatsappInput) {
+    whatsappInput.value = whatsapp;
+    whatsappInput.setCustomValidity('');
+  }
+  return { ok: true };
+}
+
+function bindContactFormatters(scope) {
+  const phoneInput = scope.querySelector('[data-f="telefon"]');
+  const whatsappInput = scope.querySelector('[data-f="whatsapp"]');
+  phoneInput?.addEventListener('input', () => phoneInput.setCustomValidity(''));
+  whatsappInput?.addEventListener('input', () => whatsappInput.setCustomValidity(''));
+  phoneInput?.addEventListener('blur', () => {
+    const phone = normalizePhoneE164(phoneInput.value);
+    if (phone === null) {
+      phoneInput.setCustomValidity('Bitte eine gültige Telefonnummer eingeben.');
+      return;
+    }
+    phoneInput.value = phone;
+    phoneInput.setCustomValidity('');
+    if (whatsappInput && !whatsappInput.value.trim()) whatsappInput.value = normalizeWhatsAppNumber('', phone) || '';
+  });
+  whatsappInput?.addEventListener('blur', () => {
+    const whatsapp = normalizeWhatsAppNumber(whatsappInput.value, phoneInput?.value || '');
+    if (whatsapp === null) {
+      whatsappInput.setCustomValidity('Bitte eine gültige WhatsApp-Nummer eingeben.');
+      return;
+    }
+    whatsappInput.value = whatsapp;
+    whatsappInput.setCustomValidity('');
+  });
+}
+
 /* ---------- Modal: Neuer Berater ---------- */
 addBtn.addEventListener('click', () => openModal());
 modalCloseBtn.addEventListener('click', closeModal);
@@ -372,6 +436,13 @@ function closeModal() {
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   formErr.textContent = '';
+
+  const contactResult = normalizeContactFields(form);
+  if (!contactResult.ok) {
+    formErr.textContent = contactResult.message;
+    contactResult.input?.focus();
+    return;
+  }
 
   const fields = form.querySelectorAll('[data-f]');
   const data = {};
@@ -413,6 +484,8 @@ form.addEventListener('submit', async (e) => {
   closeModal();
   await renderList();
 });
+
+bindContactFormatters(form);
 
 /* ---------- Invite-Modal ---------- */
 const inviteModal = document.getElementById('inviteModal');

@@ -76,13 +76,15 @@
           </label>
           <label>
             <span>Telefon</span>
-            <input data-f="telefon" type="tel" placeholder="+491701234567" />
+            <input data-f="telefon" type="tel" inputmode="tel" placeholder="+491701234567" />
+            <small>Auch 0170… oder 0049… möglich. Das Format wird automatisch korrigiert.</small>
           </label>
         </div>
         <div class="berater-form-row">
           <label>
-            <span>WhatsApp (ohne +)</span>
-            <input data-f="whatsapp" type="text" placeholder="491701234567" />
+            <span>WhatsApp</span>
+            <input data-f="whatsapp" type="tel" inputmode="tel" placeholder="491701234567" />
+            <small>Leer lassen, wenn die Telefonnummer auch für WhatsApp gilt.</small>
           </label>
           <label>
             <span>Foto-URL</span>
@@ -134,6 +136,6 @@
 
   <div class="h-toast" id="hToast"></div>
 
-  <script type="module" src="js/berater-admin.js?v=9"></script>
+  <script type="module" src="js/berater-admin.js?v=10"></script>
 </body>
 </html>

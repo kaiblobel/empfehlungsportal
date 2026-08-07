@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Aktuelle Version: **v1.169 Beta** · Farbige Beraterportraits in der Präsentation, Veröffentlichung freigegeben am 05.08.2026.
+Aktuelle Version: **v1.170 Beta** · Einheitliche Telefon- und WhatsApp-Nummern in den Beraterkonten, vorbereitet am 05.08.2026.
+
+---
+
+## v1.170 Beta - Phase 144 · Einheitliche Telefonnummern
+**2026-08-05**
+
+- Telefonnummern werden beim Verlassen des Feldes und nochmals vor dem Speichern automatisch ins internationale Format mit Pluszeichen gebracht. Aus `0173…`, `0049173…`, `49173…` und `+49 173…` wird einheitlich `+49173…`.
+- WhatsApp-Nummern werden im benötigten technischen Format ohne Pluszeichen und Leerzeichen gespeichert. Bleibt WhatsApp leer, wird die Telefonnummer übernommen.
+- Ungültige Nummern werden nicht still gespeichert, sondern direkt am Feld erklärt. Internationale Nummern mit vorhandener Ländervorwahl bleiben erhalten.
+- Bestehende Konten werden nicht automatisch überschrieben. Ihre Nummern erscheinen beim Öffnen vereinheitlicht und werden erst beim bewussten Speichern dauerhaft korrigiert.
+- Keine Datenbankmigration und keine ungefragte Änderung bestehender Datensätze.
 
 ---
 
