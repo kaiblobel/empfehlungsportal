@@ -33,8 +33,8 @@ assert.match(closingRule, /position: static/);
 assert.match(closingRule, /justify-self: end/);
 assert.doesNotMatch(closingRule, /position: absolute/);
 
-assert.match(config, /v1\.187 Beta/);
+assert.match(config, /v1\.188 Beta/);
 assert.match(config, /Phase 161 · Mandantenschutz für Promoter-Empfehlungen/);
-assert.match(sw, /CACHE_VERSION = 'v146-2026-08-06'/);
+assert.match(sw, /CACHE_VERSION = 'v147-2026-08-08'/);
 
 console.log('praesentation-kurzmodus: OK');

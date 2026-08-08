@@ -1,7 +1,33 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.187 Beta** · Mandantenschutz für Promoter-Empfehlungen, live seit 06.08.2026.
+Offizielle Live-Version: **v1.188 Beta** · KI-Kennzeichnung der beiden Erklärvideos, live seit 08.08.2026.
+
+---
+
+## v1.188 Beta - Phase 162 · KI-Kennzeichnung der Erklärvideos
+**2026-08-08 · live veröffentlicht**
+
+Die beiden Erklärvideos gingen am 06.08. live, ohne jeden Hinweis darauf, dass KI im Spiel
+war. Nicht im Bild, nicht im Seitentext, nicht in der Datei. Aufgefallen ist es zwei Tage
+später bei einer Bestandsaufnahme. Seit dem 02.08.2026 greift dafür die EU-Transparenzpflicht.
+
+- **Sichtbarer Hinweis** als Bildunterschrift unter beiden Videos (`programm.html`,
+  `empfaenger.html`). Beim Formel-Video steht ausdrücklich, dass die gezeigte Person
+  KI-generiert ist und keine reale Person darstellt — sie sieht fotorealistisch aus und
+  liest sich sonst wie ein echter Kunde.
+- **C2PA-Manifest in beiden Dateien**, damit die Kennzeichnung beim Herunterladen mitreist.
+  Beide Seiten bieten einen Download-Link an; ab dann trägt die Datei den HTML-Hinweis nicht
+  mehr mit sich. Nachgerüstet **ohne Neukodierung** (`avatar-reel label-existing`): Laufzeit,
+  Codec und Bildqualität sind unverändert, die Dateien wuchsen um rund 15 KB.
+- **Neuer Test `tests/ki-kennzeichnung.test.mjs`** als Sperrklinke. Er läuft über den
+  Ordner `assets/video/`, nicht über eine gepflegte Liste: Wer künftig eine ungekennzeichnete
+  MP4 dort ablegt, bekommt einen roten Test statt eines stillen Verstoßes.
+- Beschreibungstexte als Datei neben jedem Video, für Plattform-Uploads.
+
+Gefunden beim Bauen: In `empfaenger.html` darf die Zeichenfolge `<video>` nicht in einem
+Kommentar stehen. Mehrere Tests greifen sich den ersten Treffer dieses Musters als das
+Video-Markup und prüfen dann den Kommentar. Steht jetzt als Warnung im CSS-Kommentar.
 
 ---
 

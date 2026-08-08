@@ -6160,6 +6160,20 @@ body.topic-preview-open { overflow: hidden; }
 }
 .story-video-frame p a { color: var(--champagne); }
 
+/* KI-Kennzeichnung unter dem Video (EU-Transparenzpflicht seit 02.08.2026).
+   Leise, aber lesbar: sie soll den Film nicht überschreien und trotzdem ohne
+   Suchen zu finden sein. Deshalb kein Grau unter 60 % Kontrast und keine
+   Schrift unter 12px. `line-height: 0` liegt auf dem Rahmen (damit das <video>
+   keine Grundlinienlücke erzeugt), hier wird es wieder aufgehoben. */
+.ki-hinweis {
+  line-height: 1.5;
+  padding: 0.7rem 1rem 0.85rem;
+  color: var(--warm-white);
+  opacity: 0.72;
+  font-size: 0.78rem;
+  letter-spacing: 0.01em;
+}
+
 /* Das Video ist hoeher als eine Textzeile — auf dem Rechner darf der
    Abschnitt beim Scrollen nicht am oberen Rand festhaengen (wie die
    Belohnungs-Reise, siehe Phase 129). */

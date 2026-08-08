@@ -84,9 +84,9 @@ assert.match(css, /\.team-ranking/);
 assert.match(css, /\.team-podium-avatar img/);
 assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.team-detail-metrics/);
 
-assert.match(config, /v1\.187 Beta/);
+assert.match(config, /v1\.188 Beta/);
 assert.match(config, /Phase 161 · Mandantenschutz für Promoter-Empfehlungen/);
-assert.match(sw, /CACHE_VERSION = 'v146-2026-08-06'/);
+assert.match(sw, /CACHE_VERSION = 'v147-2026-08-08'/);
 assert.match(sw, /'\/team\.html'/);
 assert.match(sw, /'\/js\/team\.js\?v=2'/);
 assert.match(beraterHtml, /<title>Beraterkonten · Empfehlungsportal<\/title>/);

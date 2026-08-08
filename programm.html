@@ -839,6 +839,13 @@
           <p>Dein Browser kann dieses Video nicht abspielen —
             <a href="/assets/video/empfehlungsportal-story.mp4">hier herunterladen</a>.</p>
         </video>
+        <!-- KI-Kennzeichnung, Pflicht seit 02.08.2026 (EU-Transparenzpflicht).
+             Steht bewusst UNTER dem Video und nicht als Einblendung im Bild: die
+             Datei ist nachträglich gekennzeichnet worden, ohne sie neu zu
+             berechnen. In der Datei selbst sitzt dieselbe Angabe als C2PA-Manifest,
+             damit sie beim Herunterladen mitreist. Geprüft von
+             tests/ki-kennzeichnung.test.mjs — nicht entfernen. -->
+        <figcaption class="ki-hinweis">Mit KI erstellt. Bewegtbild und Sprecherstimme dieses Films wurden mit generativer KI erzeugt.</figcaption>
       </figure>
     </div>
   </section>

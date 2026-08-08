@@ -30,6 +30,14 @@
     @media(max-width:340px){.topbar{padding:0 16px}.chapter{padding-left:16px;padding-right:16px}.headline{font-size:33px}.lede{font-size:15px}.micro{gap:5px 9px}.micro span+span:before{margin-right:9px}.time-grid{grid-template-columns:1fr}}
     .scan-copy .secondary [data-bb="vorname"]{margin:0 .24em}
     .film-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:5vw;align-items:center}.film-copy .chapter-title{font-size:clamp(31px,3.3vw,46px)}.film-copy .chapter-title em{font-style:normal;color:#9c8753}.film-frame{margin:0;min-width:0;border:1px solid var(--line);background:#17191a;box-shadow:0 40px 90px -62px #000;line-height:0}.film-frame video{display:block;width:100%;max-width:100%;height:auto;aspect-ratio:16/9;background:#17191a}.film-frame p{line-height:1.5;padding:16px;color:#fffdf8;font-size:13px}.film-frame p a{color:var(--gold2)}
+    /* KI-Kennzeichnung unter dem Video (EU-Transparenzpflicht seit 02.08.2026).
+       line-height wieder aufheben: .film-frame steht auf 0, damit das
+       Video-Element keine Grundlinienluecke erzeugt.
+       Hinweis fuer spaeter: in dieser Datei NIE die Zeichenfolge Kleiner-video-
+       Groesser in einen Kommentar schreiben. Mehrere Tests greifen sich den
+       ersten Treffer dieses Musters als das Video-Markup und pruefen dann den
+       Kommentar statt das Element. */
+    .ki-hinweis{line-height:1.5;padding:10px 16px 12px;color:#fffdf8;opacity:.72;font-size:12px;letter-spacing:.01em}
     @media(max-width:780px){.film-grid{grid-template-columns:1fr;gap:22px}.film-copy .actions{margin-top:20px}}
   </style>
 </head>
@@ -59,6 +67,12 @@
               <source src="/assets/video/formel-finanzielles-glueck.mp4" type="video/mp4" />
               <p>Dein Browser kann dieses Video nicht abspielen — <a href="/assets/video/formel-finanzielles-glueck.mp4">hier herunterladen</a>.</p>
             </video>
+            <!-- KI-Kennzeichnung, Pflicht seit 02.08.2026 (EU-Transparenzpflicht).
+                 Hier besonders wichtig: der Film zeigt eine fotorealistische Person,
+                 die es nicht gibt. Ohne Hinweis liest sich das wie ein echter Kunde.
+                 Dieselbe Angabe steckt als C2PA-Manifest in der Datei, damit sie beim
+                 Herunterladen mitreist. Geprüft von tests/ki-kennzeichnung.test.mjs. -->
+            <figcaption class="ki-hinweis">Mit KI erstellt. Die gezeigten Personen sind KI-generiert und stellen keine realen Personen dar.</figcaption>
           </figure>
         </div>
       </section>
