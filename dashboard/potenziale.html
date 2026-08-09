@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="../css/style.css?v=33" />
   <link rel="stylesheet" href="../css/dashboard.css?v=49" />
   <link rel="stylesheet" href="../css/hub.css?v=53" />
-  <link rel="stylesheet" href="../css/potenziale.css?v=4" />
+  <link rel="stylesheet" href="../css/potenziale.css?v=5" />
   <script src="../js/config.js"></script>
 </head>
 <body data-page="potenziale" class="has-app-nav">
@@ -37,7 +37,10 @@
         <h1>Potenzialbuch</h1>
         <p>Menschen im Blick behalten, Chancen entwickeln und erst dann bewusst ins Cockpit übernehmen.</p>
       </div>
-      <button class="potential-primary" id="newPotentialBtn" type="button" data-icon="plus">Kontakt eintragen</button>
+      <div class="potential-hero-actions">
+        <button class="potential-secondary" id="voicePotentialBtn" type="button">Mit Stimme anlegen</button>
+        <button class="potential-primary" id="newPotentialBtn" type="button" data-icon="plus">Kontakt eintragen</button>
+      </div>
     </section>
 
     <div class="potential-boundary" role="note">
@@ -133,6 +136,11 @@
       <div class="h-label" id="potentialDialogEyebrow">Neues Potenzial</div>
       <h2 id="potentialDialogTitle">Kontakt eintragen</h2>
       <p class="potential-dialog-intro">Ein Name reicht für den Anfang. Alles Weitere kannst du später ergänzen.</p>
+
+      <div class="potential-review-note" id="voiceReviewNotice" hidden>
+        <strong>Bitte kurz prüfen</strong>
+        <span>Die Spracheingabe hat dieses Kontaktbild vorbereitet. Erst dein Klick auf „Kontakt speichern“ übernimmt die Angaben.</span>
+      </div>
 
       <form id="potentialForm" novalidate>
         <input id="potentialId" type="hidden" />
@@ -233,6 +241,40 @@
             <span>Notiz</span>
             <textarea id="potentialNote" name="notiz" maxlength="4000" rows="4" placeholder="Was möchtest du beim nächsten Gespräch aufgreifen?"></textarea>
           </label>
+          <fieldset class="potential-profile potential-field-wide">
+            <legend>Kontaktbild <small>nur von dir bestätigte Angaben</small></legend>
+            <p>Je genauer das Bild, desto persönlicher wird die Gesprächsvorbereitung. Vermutungen bleiben sichtbar getrennt.</p>
+            <div class="potential-form-grid">
+              <label class="potential-field potential-field-wide">
+                <span>Was möchtest du mit dem Kontakt erreichen?</span>
+                <textarea id="potentialContactGoal" rows="2" maxlength="1200" placeholder="Zum Beispiel wieder natürlich ins Gespräch kommen"></textarea>
+              </label>
+              <label class="potential-field potential-field-wide">
+                <span>Gemeinsame Geschichte</span>
+                <textarea id="potentialSharedHistory" rows="3" maxlength="2000" placeholder="Woher kennt ihr euch, was verbindet euch?"></textarea>
+              </label>
+              <label class="potential-field">
+                <span>Lebenssituation <small>eine Angabe pro Zeile</small></span>
+                <textarea id="potentialLifeSituation" rows="4" maxlength="2000"></textarea>
+              </label>
+              <label class="potential-field">
+                <span>Interessen <small>eine Angabe pro Zeile</small></span>
+                <textarea id="potentialInterests" rows="4" maxlength="1600"></textarea>
+              </label>
+              <label class="potential-field">
+                <span>Sicher bekannte Fakten</span>
+                <textarea id="potentialFacts" rows="5" maxlength="3000"></textarea>
+              </label>
+              <label class="potential-field potential-assumption-field">
+                <span>Nur Vermutungen</span>
+                <textarea id="potentialAssumptions" rows="5" maxlength="3000" placeholder="Wird nie still als Fakt behandelt"></textarea>
+              </label>
+              <label class="potential-field potential-field-wide">
+                <span>Wobei bist du unsicher?</span>
+                <textarea id="potentialUncertainty" rows="3" maxlength="1600" placeholder="Zum Beispiel Einstieg nach längerer Kontaktpause"></textarea>
+              </label>
+            </div>
+          </fieldset>
         </div>
         <div class="potential-duplicate" id="duplicateWarning" hidden>
           <strong>Mögliche Dublette</strong>
@@ -245,6 +287,81 @@
           <button class="potential-primary" id="savePotentialBtn" type="submit">Kontakt speichern</button>
         </footer>
       </form>
+    </section>
+  </div>
+
+  <div class="potential-modal" id="coachModal" hidden>
+    <div class="potential-modal-backdrop" data-close-coach></div>
+    <section class="potential-dialog potential-coach-dialog" role="dialog" aria-modal="true" aria-labelledby="coachTitle">
+      <button class="potential-dialog-close" type="button" aria-label="Dialog schließen" data-close-coach>×</button>
+      <div class="h-label" id="coachEyebrow">Kontakt-Coach</div>
+      <h2 id="coachTitle">Erzähl einfach, was du weißt</h2>
+      <p class="potential-dialog-intro" id="coachIntro">Name, Beziehung, gemeinsame Geschichte und Lebenssituation. Du musst keine Reihenfolge einhalten.</p>
+
+      <section id="coachCapture">
+        <div class="potential-voice-controls">
+          <button class="potential-voice-button" id="coachRecordBtn" type="button"><span aria-hidden="true">●</span><strong>Aufnahme starten</strong></button>
+          <span id="coachRecordState">Oder direkt als Text eingeben</span>
+        </div>
+        <label class="potential-field">
+          <span id="coachTextLabel">Deine Beschreibung</span>
+          <textarea id="coachVoiceText" rows="8" maxlength="20000" placeholder="Zum Beispiel: Martin kenne ich vom Fußball ..."></textarea>
+        </label>
+        <p class="potential-privacy">Die Aufnahme wird nach der Umwandlung verworfen. Gespeichert wird nur, was du anschließend bestätigst.</p>
+        <div class="potential-form-error" id="coachError" hidden></div>
+        <footer class="potential-dialog-actions">
+          <button class="potential-secondary" type="button" data-close-coach>Abbrechen</button>
+          <button class="potential-primary" id="coachAnalyzeBtn" type="button">Auswerten und prüfen</button>
+        </footer>
+      </section>
+
+      <section id="coachCompass" hidden>
+        <div class="potential-compass-summary" id="coachContactSummary"></div>
+        <article class="potential-compass-card">
+          <span>Natürlicher Einstieg</span>
+          <blockquote id="coachOpener"></blockquote>
+        </article>
+        <div class="potential-compass-grid">
+          <article class="potential-compass-card"><span>Offene Fragen</span><ul id="coachQuestions"></ul></article>
+          <article class="potential-compass-card assumption"><span>Nicht vorschnell ansprechen</span><ul id="coachWarnings"></ul></article>
+        </div>
+        <article class="potential-compass-card"><span>Guter nächster Schritt</span><p id="coachNextStep"></p></article>
+        <div class="potential-form-error" id="coachCompassError" hidden></div>
+        <footer class="potential-dialog-actions potential-coach-actions">
+          <button class="potential-secondary" id="coachCallBtn" type="button">Jetzt anrufen</button>
+          <button class="potential-primary" id="coachAfterBtn" type="button">Gespräch nachtragen</button>
+        </footer>
+      </section>
+
+      <section id="coachAfter" hidden>
+        <h3>Eine Minute reicht</h3>
+        <p class="potential-dialog-intro">Was kam heraus, was ist sicher und wann möchtest du dich wieder melden?</p>
+        <div class="potential-voice-controls">
+          <button class="potential-voice-button" id="coachAfterRecordBtn" type="button"><span aria-hidden="true">●</span><strong>Ergebnis einsprechen</strong></button>
+          <span id="coachAfterRecordState">Oder kurz tippen</span>
+        </div>
+        <label class="potential-field"><span>Gesprächsergebnis</span><textarea id="coachAfterText" rows="7" maxlength="20000"></textarea></label>
+        <div class="potential-form-error" id="coachAfterError" hidden></div>
+        <footer class="potential-dialog-actions">
+          <button class="potential-secondary" id="coachBackBtn" type="button">Zur Vorbereitung</button>
+          <button class="potential-primary" id="coachAfterAnalyzeBtn" type="button">Auswerten und prüfen</button>
+        </footer>
+      </section>
+
+      <section id="coachAfterReview" hidden>
+        <div class="potential-review-note"><strong>Vorschlag, noch nicht gespeichert</strong><span>Prüfe den Stand und die Wiedervorlage. Erst danach wird der Kontakt aktualisiert.</span></div>
+        <article class="potential-compass-card"><span>Kurzfassung</span><p id="coachAfterSummary"></p></article>
+        <div class="potential-form-grid potential-after-review-fields">
+          <label class="potential-field"><span>Status</span><select id="coachAfterStatus"><option value="offen">Offen</option><option value="angesprochen">Angesprochen</option><option value="im_gespraech">Im Gespräch</option><option value="termin">Termin</option><option value="kein_interesse">Kein Interesse</option></select></label>
+          <label class="potential-field"><span>Nächster Kontakt</span><input id="coachAfterDate" type="date" /></label>
+          <label class="potential-field potential-field-wide"><span>Notizergänzung</span><textarea id="coachAfterNote" rows="5" maxlength="3000"></textarea></label>
+        </div>
+        <div class="potential-form-error" id="coachAfterReviewError" hidden></div>
+        <footer class="potential-dialog-actions">
+          <button class="potential-secondary" id="coachAfterEditBtn" type="button">Ergebnis ändern</button>
+          <button class="potential-primary" id="coachAfterSaveBtn" type="button">Ergebnis übernehmen</button>
+        </footer>
+      </section>
     </section>
   </div>
 
@@ -272,6 +389,6 @@
   </div>
 
   <div class="potential-toast" id="potentialToast" role="status" aria-live="polite" hidden></div>
-  <script type="module" src="../js/potenziale.js?v=4"></script>
+  <script type="module" src="../js/potenziale.js?v=5"></script>
 </body>
 </html>

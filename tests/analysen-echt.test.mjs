@@ -65,9 +65,9 @@ assert.match(css, /\.analysis-chart-mode/);
 assert.match(css, /@media \(max-width:600px\)/);
 
 assert.match(nav, /id: 'analysen',[\s\S]*?href: path\('dashboard\/overview\.html'\)/);
-assert.match(config, /v1\.195 Beta/);
-assert.match(config, /Phase 169 · Cockpit-Verbindung/);
-assert.match(sw, /CACHE_VERSION = 'v154-2026-08-09a'/);
+assert.match(config, /v1\.196 Beta/);
+assert.match(config, /Phase 170 · Kontakt-Coach/);
+assert.match(sw, /CACHE_VERSION = 'v155-2026-08-09a'/);
 assert.match(sw, /'\/dashboard\/overview\.html'/);
 assert.match(sw, /'\/css\/analysen\.css\?v=2'/);
 assert.match(sw, /'\/js\/analysen\.js\?v=2'/);

@@ -61,6 +61,22 @@ test('Kontaktstärke-Migration ist additiv und begrenzt Tabellenrechte erneut', 
   assert.doesNotMatch(sql, /drop table|drop column|delete from public\.potenziale/i);
 });
 
+test('Kontakt-Coach speichert nur geprüfte Strukturen im privaten Beraterbereich', async () => {
+  const [sql, page, api] = await Promise.all([
+    read('schema-phase170.sql'), read('dashboard/potenziale.html'), read('api/potenzial-coach.js'),
+  ]);
+  assert.match(sql, /add column if not exists kontaktbild jsonb/i);
+  assert.match(sql, /add column if not exists gespraechsvorbereitung jsonb/i);
+  assert.match(sql, /force row level security/i);
+  assert.match(sql, /revoke all on table public\.potenziale from public, anon, authenticated/i);
+  assert.doesNotMatch(sql, /add column[^;]*(audio|transkript)/i);
+  assert.doesNotMatch(sql, /alter table public\.(empfehlungen|empfehler|praemien)/i);
+  assert.match(page, /Erst dein Klick auf „Kontakt speichern“ übernimmt die Angaben/);
+  assert.match(page, /Vermutungen bleiben sichtbar getrennt/);
+  assert.match(api, /store: false/);
+  assert.match(api, /auth\/v1\/user/);
+});
+
 test('Kontaktstärke zeigt fünf ruhige Symbole und bleibt als Beziehungsstärke erklärt', async () => {
   const [logic, css] = await Promise.all([read('js/potenziale.js'), read('css/potenziale.css')]);
   for (const symbol of ['snowflake', 'cloud-sun', 'sun', 'flame', 'flame-spark']) assert.match(logic, new RegExp(symbol));

@@ -22,8 +22,8 @@ assert.doesNotMatch(splitRule, /grayscale/);
 
 assert.match(js, /applyBeraterBrand\(data\)/);
 assert.match(js, /getBeraterPublicBySlug\(beraterSlug\)/);
-assert.match(config, /v1\.195 Beta/);
-assert.match(config, /Phase 169 · Cockpit-Verbindung/);
-assert.match(sw, /CACHE_VERSION = 'v154-2026-08-09a'/);
+assert.match(config, /v1\.196 Beta/);
+assert.match(config, /Phase 170 · Kontakt-Coach/);
+assert.match(sw, /CACHE_VERSION = 'v155-2026-08-09a'/);
 
 console.log('praesentation-portrait-farbe: OK');
