@@ -22,7 +22,7 @@ assert.match(html, /whatsappLink\(phone\)/);
 assert.match(html, /class="ep-row feed-row"/);
 assert.match(html, /Rechtsklick/);
 assert.match(html, /dashboard\.css\?v=49/);
-assert.match(html, /nav\.js\?v=58/);
+assert.match(html, /nav\.js\?v=59/);
 
 const inlineModule = [...html.matchAll(/<script type="module">([\s\S]*?)<\/script>/g)].at(-1)?.[1] || '';
 const parseableModuleBody = inlineModule.replace(/import\s+\{[\s\S]*?\}\s+from\s+['"][^'"]+['"];?/g, '');
@@ -39,10 +39,10 @@ const recommendationItem = nav.match(/\{ id: 'empfehlungen',[\s\S]*?\},/)?.[0] |
 assert.doesNotMatch(recommendationItem, /subs:/);
 assert.match(nav, /id: 'programm'[\s\S]*?subs:/);
 
-assert.match(config, /v1\.192 Beta/);
-assert.match(config, /Phase 166 · Sicherheits-Nachzug/);
-assert.match(sw, /CACHE_VERSION = 'v151-2026-08-09d'/);
+assert.match(config, /v1\.195 Beta/);
+assert.match(config, /Phase 169 · Cockpit-Verbindung/);
+assert.match(sw, /CACHE_VERSION = 'v154-2026-08-09a'/);
 assert.match(sw, /dashboard\.css\?v=49/);
-assert.match(sw, /nav\.js\?v=58/);
+assert.match(sw, /nav\.js\?v=59/);
 
 console.log('empfehlungen-premium: OK');

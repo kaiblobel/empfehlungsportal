@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="../css/style.css?v=33" />
   <link rel="stylesheet" href="../css/dashboard.css?v=49" />
   <link rel="stylesheet" href="../css/hub.css?v=53" />
-  <link rel="stylesheet" href="../css/potenziale.css?v=2" />
+  <link rel="stylesheet" href="../css/potenziale.css?v=4" />
   <script src="../js/config.js"></script>
 </head>
 <body data-page="potenziale" class="has-app-nav">
@@ -252,24 +252,26 @@
     <div class="potential-modal-backdrop" data-close-transfer></div>
     <section class="potential-dialog potential-transfer-dialog" role="dialog" aria-modal="true" aria-labelledby="transferTitle">
       <button class="potential-dialog-close" type="button" aria-label="Dialog schließen" data-close-transfer>×</button>
-      <div class="h-label">Bewusste Übergabe</div>
-      <h2 id="transferTitle">Als Interessent ins Cockpit übernehmen</h2>
-      <p class="potential-dialog-intro">Prüfe die Angaben. Es wird nichts automatisch ins Cockpit geschrieben.</p>
+      <div class="h-label">Verbindung zum Berater-Cockpit</div>
+      <h2 id="transferTitle">Kontakt mit dem Cockpit verbinden</h2>
+      <p class="potential-dialog-intro" id="transferIntro">Das Cockpit prüft nur deinen eigenen Beraterbereich. Eine Verbindung nur anhand des Namens gibt es nicht.</p>
       <div class="potential-transfer-card" id="transferPreview"></div>
-      <ol class="potential-transfer-steps">
-        <li><span>1</span><p><strong>Daten kopieren und Cockpit öffnen.</strong> Dort legst du den Interessenten manuell an.</p></li>
-        <li><span>2</span><p><strong>Erst danach hier bestätigen.</strong> So bleibt nachvollziehbar, was wirklich übernommen wurde.</p></li>
-      </ol>
+      <div class="potential-transfer-loading" id="transferLoading">Passende Personen im Cockpit werden geprüft ...</div>
+      <div class="potential-transfer-choices" id="transferChoices" hidden></div>
+      <div class="potential-transfer-success" id="transferSuccess" hidden>
+        <span class="potential-transfer-success-icon">✓</span>
+        <h3>Verbindung steht</h3>
+        <p>Das Cockpit führt ab jetzt Interessent, Kunde und Altkunde. Der Status erscheint automatisch auch hier.</p>
+        <button class="potential-primary" id="openConnectedClientBtn" type="button">Kundenakte im Cockpit öffnen</button>
+      </div>
       <div class="potential-form-error" id="transferError" hidden></div>
       <footer class="potential-dialog-actions potential-transfer-actions">
         <button class="potential-secondary" type="button" data-close-transfer>Schließen</button>
-        <button class="potential-copy" id="copyAndOpenBtn" type="button">Daten kopieren und Cockpit öffnen</button>
-        <button class="potential-primary" id="confirmTransferBtn" type="button" disabled>Im Cockpit angelegt</button>
       </footer>
     </section>
   </div>
 
   <div class="potential-toast" id="potentialToast" role="status" aria-live="polite" hidden></div>
-  <script type="module" src="../js/potenziale.js?v=2"></script>
+  <script type="module" src="../js/potenziale.js?v=4"></script>
 </body>
 </html>

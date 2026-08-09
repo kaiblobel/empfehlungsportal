@@ -35,9 +35,10 @@ body[data-page="potenziale"] { background:var(--bg-primary,#FAFAFA); color:var(-
 .potential-search > span { flex:0 0 auto; margin-right:8px; font-size:19px; line-height:1; }
 .potential-search input { width:100%; min-width:0; border:0; outline:0; background:transparent; color:var(--ink,#1A1A1A); font:500 12px/1.4 Inter,sans-serif; }
 .potential-search input::placeholder { color:var(--ink-soft,#8C8680); }
-.potential-filter-groups { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:end; gap:12px; margin-bottom:13px; }
+.potential-filter-groups { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:end; gap:12px; min-width:0; margin-bottom:13px; }
+.potential-strength-filter { min-width:0; }
 .potential-filter-heading { margin-bottom:7px; color:var(--ink-soft,#8C8680); font-size:8.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
-.potential-strength-buttons { display:flex; gap:6px; overflow-x:auto; padding:1px 1px 3px; scrollbar-width:none; }
+.potential-strength-buttons { display:flex; gap:6px; max-width:100%; overflow-x:auto; padding:1px 1px 3px; scrollbar-width:none; }
 .potential-strength-buttons::-webkit-scrollbar { display:none; }
 .potential-strength-buttons button { --strength-bg:#F2F0EC; --strength-fg:#6B6660; display:inline-flex; align-items:center; gap:6px; flex:0 0 auto; min-height:38px; padding:0 11px; border:1px solid var(--hairline,#E8E5E0); border-radius:9px; background:#fff; color:var(--ink-muted,#6B6660); font:750 9.5px/1 Inter,sans-serif; cursor:pointer; }
 .potential-strength-buttons button > span:first-child { display:grid; place-items:center; width:20px; height:20px; border-radius:7px; background:var(--strength-bg); color:var(--strength-fg); }
@@ -109,12 +110,16 @@ body[data-page="potenziale"] { background:var(--bg-primary,#FAFAFA); color:var(-
 .potential-actions button,.potential-actions a { display:inline-flex; align-items:center; justify-content:center; min-height:36px; padding:0 11px; border:1px solid var(--hairline,#E8E5E0); border-radius:9px; background:#fff; color:var(--ink,#1A1A1A); font:700 9.5px/1 Inter,sans-serif; text-decoration:none; cursor:pointer; }
 .potential-actions .potential-contact { flex:1; border-color:#1D1C1A; background:#1D1C1A; color:#fff; }
 .potential-actions .potential-transfer { flex:1; border-color:rgba(46,82,102,.20); background:rgba(46,82,102,.07); color:#2E5266; }
+.potential-actions .potential-transfer.cockpit-locked { gap:7px; border-color:#D8D3C9; background:#F1EFEA; color:#777269; box-shadow:none; cursor:not-allowed; opacity:1; }
+.potential-actions .potential-transfer.cockpit-locked:hover { transform:none; border-color:#D8D3C9; background:#F1EFEA; box-shadow:none; }
+.potential-transfer.cockpit-locked em { padding:2px 6px; border:1px solid #D1CBC0; border-radius:999px; background:#FAF9F6; color:#777269; font-size:8px; font-style:normal; font-weight:750; letter-spacing:.04em; text-transform:uppercase; white-space:nowrap; }
 .potential-actions .potential-more { width:36px; padding:0; font-size:16px; }
 .potential-card-menu { position:absolute; right:17px; bottom:58px; z-index:3; display:grid; min-width:164px; overflow:hidden; border:1px solid var(--hairline,#E8E5E0); border-radius:10px; background:#fff; box-shadow:0 14px 32px rgba(23,21,18,.14); }
 .potential-card-menu[hidden] { display:none; }
 .potential-card-menu button { min-height:38px; padding:0 12px; border:0; border-bottom:1px solid #F0EEEA; background:#fff; color:var(--ink,#1A1A1A); font:600 10px/1 Inter,sans-serif; text-align:left; cursor:pointer; }
 .potential-card-menu button:last-child { border-bottom:0; }
 .potential-card-menu button:hover { background:var(--surface-soft,#F7F5F1); }
+.potential-card-menu button.cockpit-menu-locked { color:#8C8680; background:#F7F5F1; cursor:not-allowed; }
 .potential-card-menu button.danger { color:#9B4A3A; }
 .potential-empty { grid-column:1/-1; display:grid; place-items:center; min-height:260px; padding:30px; border:1px dashed var(--hairline-strong,#D8D3CA); border-radius:14px; background:rgba(255,255,255,.55); text-align:center; }
 .potential-empty-mark { display:grid; place-items:center; width:56px; height:56px; margin:0 auto 15px; border-radius:17px; background:#F2EDDF; color:#887444; font-size:24px; }
@@ -173,10 +178,25 @@ body.potential-modal-open { overflow:hidden; }
 .potential-transfer-item span { display:block; color:var(--ink-soft,#8C8680); font-size:8.5px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; }
 .potential-transfer-item strong { display:block; overflow:hidden; margin-top:4px; font-size:11px; font-weight:700; text-overflow:ellipsis; white-space:nowrap; }
 .potential-transfer-item.wide strong { white-space:normal; line-height:1.5; }
-.potential-transfer-steps { display:grid; gap:9px; margin:16px 0 0; padding:0; list-style:none; }
-.potential-transfer-steps li { display:flex; align-items:flex-start; gap:10px; }
-.potential-transfer-steps li > span { display:grid; place-items:center; flex:0 0 25px; height:25px; border-radius:8px; background:#F2EDDF; color:#7D6C3E; font-size:9px; font-weight:800; }
-.potential-transfer-steps p { margin:2px 0 0; color:var(--ink-muted,#6B6660); font-size:10px; line-height:1.5; }
+.potential-transfer-loading { margin-top:16px; padding:14px; border-radius:10px; background:#F7F5F1; color:var(--ink-muted,#6B6660); font-size:11px; text-align:center; }
+.potential-transfer-choices { display:grid; gap:10px; margin-top:16px; }
+.potential-transfer-question { margin:0 0 2px; color:var(--ink,#26231F); font-size:12px; }
+.potential-transfer-choice { display:grid; grid-template-columns:34px minmax(0,1fr) auto; gap:10px; align-items:center; width:100%; min-height:62px; padding:10px; border:1px solid var(--hairline,#E8E5E0); border-radius:11px; background:#fff; color:var(--ink,#26231F); text-align:left; cursor:pointer; }
+.potential-transfer-choice:hover { border-color:#C9B98A; background:#FFFDF8; }
+.potential-transfer-choice:disabled { opacity:.55; cursor:wait; }
+.potential-transfer-choice-icon { display:grid; place-items:center; width:34px; height:34px; border-radius:9px; background:#F2EDDF; color:#7D6C3E; font-size:15px; font-weight:800; }
+.potential-transfer-choice strong { display:block; font-size:11px; }
+.potential-transfer-choice small { display:block; margin-top:3px; color:var(--ink-muted,#6B6660); font-size:9.5px; line-height:1.4; }
+.potential-transfer-choice em { padding:4px 7px; border-radius:99px; background:#EDF1EA; color:#52634B; font-size:8px; font-style:normal; font-weight:800; white-space:nowrap; }
+.potential-transfer-choice.new { grid-template-columns:34px minmax(0,1fr); }
+.potential-transfer-note { margin:2px 0 0; color:var(--ink-muted,#6B6660); font-size:9.5px; line-height:1.5; }
+.potential-transfer-success { margin-top:16px; padding:18px; border-radius:12px; background:#F3F7F1; text-align:center; }
+.potential-transfer-success-icon { display:grid; place-items:center; width:42px; height:42px; margin:0 auto 9px; border-radius:50%; background:#7A8B6F; color:#fff; font-size:20px; font-weight:800; }
+.potential-transfer-success h3 { margin:0; font-size:16px; }
+.potential-transfer-success p { margin:7px auto 14px; max-width:460px; color:var(--ink-muted,#6B6660); font-size:10.5px; line-height:1.5; }
+.potential-card.cockpit-linked { border-color:rgba(122,139,111,.38); }
+.potential-card.deep-linked { animation:potential-highlight 2.6s ease-out; }
+@keyframes potential-highlight { 0%,28% { box-shadow:0 0 0 4px rgba(201,185,138,.35),var(--shadow-card); } 100% { box-shadow:var(--shadow-card); } }
 .potential-transfer-actions { flex-wrap:wrap; }
 .potential-toast { position:fixed; right:22px; bottom:22px; z-index:1700; max-width:min(380px,calc(100vw - 32px)); padding:12px 15px; border:1px solid rgba(122,139,111,.22); border-radius:10px; background:#273127; color:#fff; box-shadow:0 14px 34px rgba(20,18,16,.18); font-size:10.5px; font-weight:650; }
 .sr-only { position:absolute!important; width:1px!important; height:1px!important; padding:0!important; margin:-1px!important; overflow:hidden!important; clip:rect(0,0,0,0)!important; white-space:nowrap!important; border:0!important; }
@@ -194,7 +214,7 @@ body.potential-modal-open { overflow:hidden; }
   .potential-toolbar { align-items:flex-start; flex-direction:column; }
   .potential-search { width:100%; }
   .potential-filter-groups { grid-template-columns:1fr; }
-  .potential-circle-filter { width:100%; }
+  .potential-circle-filter { width:100%; min-width:0; }
   .potential-circle-filter-body { left:0; right:auto; }
   .potential-choice-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
 }
@@ -228,8 +248,9 @@ body.potential-modal-open { overflow:hidden; }
   .potential-dialog-actions > * { flex:1; padding-inline:9px; }
   .potential-transfer-card { grid-template-columns:1fr; }
   .potential-transfer-item.wide { grid-column:auto; }
-  .potential-transfer-actions .potential-secondary { display:none; }
-  .potential-transfer-actions .potential-copy,.potential-transfer-actions .potential-primary { flex:1 0 100%; }
+  .potential-transfer-actions .potential-secondary { width:100%; }
+  .potential-transfer-choice { grid-template-columns:32px minmax(0,1fr); }
+  .potential-transfer-choice em { grid-column:2; justify-self:start; }
   .potential-toast { right:16px; bottom:calc(76px + env(safe-area-inset-bottom)); }
   .potential-loading { grid-template-columns:1fr; }
   .potential-loading span:nth-child(n+2) { display:none; }

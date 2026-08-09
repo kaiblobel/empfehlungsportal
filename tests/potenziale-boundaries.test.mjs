@@ -39,8 +39,10 @@ test('Neue Seite hat eindeutige IDs und die kontrollierte Cockpit-Bestätigung',
   const html = await read('dashboard/potenziale.html');
   const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
   assert.equal(new Set(ids).size, ids.length, 'HTML enthält doppelte IDs');
-  assert.match(html, /Daten kopieren und Cockpit öffnen/);
-  assert.match(html, /Im Cockpit angelegt/);
+  assert.match(html, /Kontakt mit dem Cockpit verbinden/);
+  assert.match(html, /Eine Verbindung nur anhand des Namens gibt es nicht/);
+  assert.match(html, /Das Cockpit führt ab jetzt Interessent, Kunde und Altkunde/);
+  assert.match(html, /Kundenakte im Cockpit öffnen/);
   assert.match(html, /value="uebernommen" disabled/);
   assert.equal((html.match(/data-strength-filter=/g) || []).length, 6);
   assert.match(html, /Mehrfachauswahl möglich/);
