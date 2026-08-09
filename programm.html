@@ -15,7 +15,7 @@
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
   <link rel="stylesheet" href="css/style.css?v=33" />
-  <link rel="stylesheet" href="css/programm.css?v=88" />
+  <link rel="stylesheet" href="css/programm.css?v=89" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="programm">
@@ -903,8 +903,20 @@
     <a href="#anmelden">Jetzt empfehlen</a>
   </div>
 
+  <!-- Geführte mobile Präsentation (Phase 163): Auf kleinen Bildschirmen führt
+       diese feste Leiste unten durch die Abschnitte — Zurück · „2 von 14" ·
+       Weiter (auf dem letzten Abschnitt „Fertig"). Die Abschnittszahl steht
+       nirgends fest im Code: gezählt wird, was gerade sichtbar ist, damit
+       Ausführlich, Kurz und 60 Sekunden automatisch stimmen. Solange die
+       Führung aktiv ist, bleibt die Sticky-CTA ausgeblendet (CSS). -->
+  <nav class="mobile-guide" id="mobileGuide" hidden aria-label="Geführte Navigation durch die Präsentation">
+    <button class="mobile-guide-btn mobile-guide-prev" id="mobileGuidePrev" type="button" aria-label="Zurück zum vorherigen Abschnitt">Zurück</button>
+    <span class="mobile-guide-progress" id="mobileGuideProgress" aria-live="polite">1 von 1</span>
+    <button class="mobile-guide-btn mobile-guide-next" id="mobileGuideNext" type="button" aria-label="Weiter zum nächsten Abschnitt">Weiter</button>
+  </nav>
+
 
   <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
-  <script type="module" src="js/programm.js?v=48"></script>
+  <script type="module" src="js/programm.js?v=49"></script>
 </body>
 </html>

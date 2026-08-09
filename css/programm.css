@@ -6198,3 +6198,130 @@ body.topic-preview-open { overflow: hidden; }
    Blick. Die Einblend-Animation haette hier keinen Weg mehr, ausgeloest zu
    werden, und Video wie QR-Code blieben blass. Also direkt sichtbar. */
 body.presentation-video .reveal { opacity: 1; transform: none; transition: none; }
+
+/* ============================================================
+   Phase 163 · Geführte mobile Präsentation (bis 767px)
+   ------------------------------------------------------------
+   Auf dem Handy führt eine feste Leiste unten durch die
+   Abschnitte: Zurück · „2 von 14" · Weiter/Fertig. Desktop und
+   Tablet bleiben unberührt — alles hier lebt hinter der
+   Media-Query, und die Leiste selbst ist außerhalb davon
+   ausgeblendet. Die Klasse body.mobile-guided setzt das Skript
+   nur, solange der Bildschirm klein ist.
+   Bewusst KEIN Scroll-Einrasten auf dem Handy: lange Abschnitte
+   (Rechner, Themen, Belohnungs-Reise, Video) werden normal
+   durchgescrollt, die Leiste springt gezielt weiter. ============================================================ */
+.mobile-guide { display: none; }
+
+@media (max-width: 767px) {
+  body.mobile-guided .mobile-guide {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1100;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 10px;
+    padding: 10px max(14px, env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+    background: rgba(255,252,247,0.96);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-top: 1px solid var(--hairline);
+  }
+  body.mobile-guided .mobile-guide[hidden] { display: none; }
+
+  .mobile-guide-btn {
+    min-height: 46px;
+    padding: 12px 10px;
+    border: 1px solid rgba(28,28,30,0.18);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--anthracite);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+  }
+  .mobile-guide-prev:disabled { opacity: 0.38; cursor: default; }
+  .mobile-guide-next {
+    background: var(--anthracite);
+    border-color: var(--anthracite);
+    color: #fff;
+  }
+  .mobile-guide-progress {
+    min-width: 76px;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  /* Keine doppelten Bedienelemente, solange die Führung aktiv ist:
+     Sticky-CTA und die beiden Hero-Knöpfe entfallen — „Jetzt empfehlen"
+     bleibt über den QR-Abschnitt und die Abschnitts-CTAs erreichbar. */
+  body.mobile-guided .sticky-cta { display: none; }
+  body.mobile-guided .hero-cta-stack { display: none; }
+  body.mobile-guided .cta-top { display: none; }
+
+  /* 1 · Kompakter Vollbild-Einstieg: Titel, Begleittext und das Porträt
+     vollständig über der Leiste. svh statt vh, damit die iOS-Adressleiste
+     nichts abschneidet (vh bleibt als Rückfall stehen). */
+  body.mobile-guided .hero.hero-split {
+    min-height: 100vh;
+    min-height: 100svh;
+    justify-content: center;
+    padding: 76px 22px calc(88px + env(safe-area-inset-bottom));
+  }
+  body.mobile-guided .hero-split-inner { gap: 22px; }
+  body.mobile-guided .hero-split-text { gap: 12px; }
+  body.mobile-guided .hero-split-text .t-eyebrow { margin-bottom: 4px; }
+  body.mobile-guided .hero-split-text .t-h1 { font-size: clamp(30px, 8.4vw, 38px); }
+  body.mobile-guided .hero-split-text .t-lede { font-size: clamp(16px, 4.6vw, 19px); }
+  body.mobile-guided .hero-split-image {
+    display: flex;
+    justify-content: center;
+  }
+  body.mobile-guided .hero-split-image .hero-portrait {
+    width: auto;
+    max-width: 100%;
+    max-height: 36vh;
+    max-height: 36svh;
+  }
+
+  /* 2 · Zufriedenheit als eigener Vollbild-Abschnitt: Frage, alle zehn
+     Zahlen (zwei Fünferreihen), beide Beschriftungen und Kais Zitat auf
+     einen Blick. Erscheint die Rückmeldekarte, wächst der Abschnitt und
+     scrollt normal — nichts wird abgeschnitten. */
+  body.mobile-guided .pre-hero { min-height: 100vh; min-height: 100svh; }
+  body.mobile-guided .pre-hero-layout { min-height: 100vh; min-height: 100svh; }
+  body.mobile-guided .pre-hero-content {
+    justify-content: center;
+    padding: 68px 22px calc(88px + env(safe-area-inset-bottom));
+  }
+  body.mobile-guided .pre-hero .t-eyebrow { margin-bottom: 14px; }
+  body.mobile-guided .pre-hero-h1 { font-size: clamp(28px, 8vw, 36px); }
+  body.mobile-guided .pre-hero .t-lede { margin-top: 14px; font-size: 15px; }
+  body.mobile-guided .pre-hero .nps-block { margin-top: 22px; padding: 16px 14px 13px; }
+  body.mobile-guided .nps-question { flex-direction: column; align-items: flex-start; gap: 4px; margin-bottom: 12px; }
+  body.mobile-guided .nps-question strong { text-align: left; }
+  body.mobile-guided .pre-hero-zitat { margin-top: 18px; }
+
+  /* Zwei Reihen mit je fünf Zahlen gelten in der Führung durchgängig —
+     bisher galt das erst ab 540px, dazwischen quetschten sich zehn Spalten. */
+  body.mobile-guided .nps-scale { grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  body.mobile-guided .nps-btn { aspect-ratio: auto; min-height: 48px; font-size: 17px; border-radius: 10px; }
+
+  /* Unter dem letzten Abschnitt liegt der Footer — er braucht Luft,
+     damit sein Inhalt nicht dauerhaft unter der festen Leiste steckt. */
+  body.mobile-guided .site-footer { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  .mobile-guide-btn { transition: none; }
+}

@@ -21,7 +21,7 @@ assert.match(html, /Geldprämie/);
 assert.match(html, /Sachprämie/);
 assert.match(html, /Spende/);
 assert.doesNotMatch(html, /class="wa-mockup"/);
-assert.match(html, /css\/programm\.css\?v=88/);
+assert.match(html, /css\/programm\.css\?v=89/);
 
 assert.match(css, /\.steps-row\.iphone-flow/);
 assert.match(css, /\.iphone-device \{/);
@@ -31,8 +31,8 @@ assert.match(css, /\.iphone-wa-screen/);
 assert.match(css, /\.iphone-reward-option/);
 assert.match(css, /@media \(max-width: 820px\)[\s\S]*\.steps-row\.iphone-flow \{ grid-template-columns: 1fr/);
 
-assert.match(config, /v1\.188 Beta/);
-assert.match(config, /Phase 161 · Mandantenschutz für Promoter-Empfehlungen/);
-assert.match(sw, /CACHE_VERSION = 'v147-2026-08-08'/);
+assert.match(config, /v1\.189 Beta/);
+assert.match(config, /Phase 163 · Geführte mobile Präsentation/);
+assert.match(sw, /CACHE_VERSION = 'v148-2026-08-09'/);
 
 console.log('praesentation-iphone-flow: OK');

@@ -954,6 +954,107 @@ const heroObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.05 });
 if (hero) heroObserver.observe(hero);
 
+// === Geführte mobile Präsentation (Phase 163) ==============================
+// Auf kleinen Bildschirmen führt eine feste Leiste unten durch die Abschnitte:
+// Zurück · „2 von 14" · Weiter — auf dem letzten Abschnitt „Fertig".
+// Die Abschnittszahl steht nirgends fest: gezählt wird bei jedem Schritt neu,
+// was sichtbar ist. Dadurch stimmen Ausführlich, Kurz und 60 Sekunden von
+// selbst, auch direkt nach einem Wechsel der Präsentationslänge.
+(function initMobileGuide() {
+  const guide = document.getElementById('mobileGuide');
+  const prevBtn = document.getElementById('mobileGuidePrev');
+  const nextBtn = document.getElementById('mobileGuideNext');
+  const progressEl = document.getElementById('mobileGuideProgress');
+  if (!guide || !prevBtn || !nextBtn || !progressEl) return;
+
+  const kleinerSchirm = window.matchMedia('(max-width: 767px)');
+  const ruhigeBewegung = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  const sichtbareAbschnitte = () =>
+    [...document.querySelectorAll('section.section')].filter(section => !section.hidden);
+
+  // Gleiche Lesart wie bei der Tastatursteuerung: der Abschnitt, der die
+  // obere Bildschirmhälfte füllt, ist der aktuelle.
+  function aktuellerIndex(liste) {
+    const marke = window.scrollY + window.innerHeight * 0.35;
+    let idx = 0;
+    liste.forEach((section, i) => { if (section.offsetTop <= marke) idx = i; });
+    return idx;
+  }
+
+  function zeichne() {
+    if (!kleinerSchirm.matches) return;
+    const liste = sichtbareAbschnitte();
+    if (!liste.length) return;
+    const i = aktuellerIndex(liste);
+
+    // aria-live sitzt auf der Fortschrittsanzeige — nur bei echter Änderung
+    // schreiben, sonst wiederholt der Screenreader denselben Stand.
+    const stand = `${i + 1} von ${liste.length}`;
+    if (progressEl.textContent !== stand) progressEl.textContent = stand;
+
+    prevBtn.disabled = i === 0;
+
+    const letzter = i === liste.length - 1;
+    const naechsteBeschriftung = letzter ? 'Fertig' : 'Weiter';
+    if (nextBtn.textContent !== naechsteBeschriftung) {
+      nextBtn.textContent = naechsteBeschriftung;
+      nextBtn.setAttribute('aria-label', letzter
+        ? 'Präsentation abschließen und zum Anfang zurückkehren'
+        : 'Weiter zum nächsten Abschnitt');
+    }
+  }
+
+  function springeZu(section) {
+    section?.scrollIntoView({
+      behavior: ruhigeBewegung.matches ? 'auto' : 'smooth',
+      block: 'start',
+    });
+  }
+
+  prevBtn.addEventListener('click', () => {
+    const liste = sichtbareAbschnitte();
+    const i = aktuellerIndex(liste);
+    if (i > 0) springeZu(liste[i - 1]);
+  });
+
+  nextBtn.addEventListener('click', () => {
+    const liste = sichtbareAbschnitte();
+    const i = aktuellerIndex(liste);
+    // „Fertig" schließt den Rundgang und kehrt zum Einstieg zurück —
+    // nichts geht verloren, Kai kann sofort von vorn beginnen.
+    if (i < liste.length - 1) springeZu(liste[i + 1]);
+    else springeZu(liste[0]);
+  });
+
+  function schalte() {
+    const aktiv = kleinerSchirm.matches;
+    guide.hidden = !aktiv;
+    document.body.classList.toggle('mobile-guided', aktiv);
+    if (aktiv) zeichne();
+  }
+
+  // Beim Scrollen den Stand nachführen — gebündelt auf einen Frame.
+  let angefragt = false;
+  window.addEventListener('scroll', () => {
+    if (!kleinerSchirm.matches || angefragt) return;
+    angefragt = true;
+    requestAnimationFrame(() => { angefragt = false; zeichne(); });
+  }, { passive: true });
+
+  // Wechselt die Präsentationslänge, ändern Abschnitte ihr hidden-Attribut.
+  // Der Beobachter bestimmt Fortschritt und Position danach neu — ohne
+  // Kopplung an den Längen-Umschalter.
+  const beobachter = new MutationObserver(() => zeichne());
+  document.querySelectorAll('section.section').forEach(section =>
+    beobachter.observe(section, { attributes: true, attributeFilter: ['hidden'] }));
+
+  if (kleinerSchirm.addEventListener) kleinerSchirm.addEventListener('change', schalte);
+  else if (kleinerSchirm.addListener) kleinerSchirm.addListener(schalte);
+  window.addEventListener('resize', zeichne);
+  schalte();
+})();
+
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, m =>
     ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])

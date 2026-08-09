@@ -15,8 +15,8 @@ assert.match(html, /data-presentation-mode="short"/);
 assert.match(html, /data-presentation-mode="full"/);
 assert.equal((html.match(/<section class="section/g) || []).length, 14);
 assert.equal((html.match(/data-short-hide/g) || []).length, 6);
-assert.match(html, /css\/programm\.css\?v=88/);
-assert.match(html, /js\/programm\.js\?v=48/);
+assert.match(html, /css\/programm\.css\?v=89/);
+assert.match(html, /js\/programm\.js\?v=49/);
 
 assert.match(js, /startModus === 'kurz' \? 'short' : startModus === 'video' \? 'video' : 'full'/);
 assert.match(js, /extendedSections\.forEach\(section => \{ section\.hidden = short; \}\)/);
@@ -33,8 +33,8 @@ assert.match(closingRule, /position: static/);
 assert.match(closingRule, /justify-self: end/);
 assert.doesNotMatch(closingRule, /position: absolute/);
 
-assert.match(config, /v1\.188 Beta/);
-assert.match(config, /Phase 161 · Mandantenschutz für Promoter-Empfehlungen/);
-assert.match(sw, /CACHE_VERSION = 'v147-2026-08-08'/);
+assert.match(config, /v1\.189 Beta/);
+assert.match(config, /Phase 163 · Geführte mobile Präsentation/);
+assert.match(sw, /CACHE_VERSION = 'v148-2026-08-09'/);
 
 console.log('praesentation-kurzmodus: OK');

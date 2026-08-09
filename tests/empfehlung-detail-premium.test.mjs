@@ -33,9 +33,9 @@ assert.match(js, /id="notizArea"/);
 assert.match(js, /Nächster sinnvoller Schritt/);
 assert.match(js, /Verwaltung anzeigen/);
 
-assert.match(config, /APP_VERSION = 'v1\.188 Beta'/);
-assert.match(config, /Phase 161 · Mandantenschutz für Promoter-Empfehlungen/);
-assert.match(sw, /CACHE_VERSION = 'v147-2026-08-08'/);
+assert.match(config, /APP_VERSION = 'v1\.189 Beta'/);
+assert.match(config, /Phase 163 · Geführte mobile Präsentation/);
+assert.match(sw, /CACHE_VERSION = 'v148-2026-08-09'/);
 assert.match(sw, /\/css\/empfehlung-detail\.css\?v=1/);
 assert.match(sw, /\/js\/empfehlung-detail\.js\?v=1/);
 

@@ -5,6 +5,40 @@ Offizielle Live-Version: **v1.188 Beta** · KI-Kennzeichnung der beiden Erklärv
 
 ---
 
+## v1.189 Beta - Phase 163 · Geführte mobile Präsentation
+**2026-08-09 · vorbereitet auf `codex/mobile-praesentation-gefuehrt` — NICHT live. Live bleibt v1.188.**
+
+Auf dem Handy wird die Kundenpräsentation jetzt geführt statt frei gescrollt. Desktop und
+Tablet bleiben in Darstellung und Bedienung unverändert — alles Neue lebt hinter einer
+Media-Query bis 767 Pixel und einer Körperklasse, die das Skript nur auf kleinen
+Bildschirmen setzt.
+
+- **Feste Führung am unteren Rand:** Zurück · Fortschritt („2 von 14") · Weiter. Auf dem
+  letzten Abschnitt heißt der Knopf **Fertig** und kehrt zum Einstieg zurück. Zurück ist
+  auf dem ersten Abschnitt gesperrt. Echte Buttons, aria-Labels, Fortschritt mit aria-live,
+  iPhone-Safe-Area berücksichtigt. Solange die Führung aktiv ist, sind Sticky-CTA,
+  Hero-Knöpfe und der obere „Jetzt empfehlen"-Knopf ausgeblendet — keine doppelte Bedienung.
+- **Kompakter Vollbild-Einstieg:** „Du bist begeistert…", Begleittext und das Porträt
+  vollständig sichtbar über der Leiste (svh statt vh, damit die iOS-Adressleiste nichts
+  abschneidet).
+- **Zufriedenheit als eigener Vollbild-Abschnitt:** Überschrift, Frage, alle zehn Zahlen in
+  zwei Fünferreihen, beide Beschriftungen und Kais Zitat auf einen Blick. Die bestehenden
+  Rückmeldekarten funktionieren unverändert; braucht die Antwort mehr Platz, scrollt der
+  Abschnitt normal.
+- **Nichts fest verdrahtet:** Gezählt wird bei jedem Schritt neu, was sichtbar ist
+  (`section.section` ohne `hidden`). Ausführlich (14), Kurz (8) und 60 Sekunden (2) stimmen
+  dadurch von selbst; ein Längenwechsel wird über das hidden-Attribut beobachtet und
+  Fortschritt wie Position sofort neu bestimmt.
+- **Lange Abschnitte bleiben scrollbar** (Rechner, Themen, Ablauf, Belohnungs-Reise, Video)
+  — kein verpflichtendes Scroll-Einrasten, Weiter springt bewusst zum nächsten Abschnitt.
+  Reduzierte Bewegung wird respektiert (Sprung ohne Animation).
+- Neuer Test `tests/praesentation-mobile-gefuehrt.test.mjs`; Kennungen auf
+  `programm.css?v=89` / `programm.js?v=49`, Service-Worker auf `v148-2026-08-09`.
+- Keine Änderung an Datenbank, Supabase oder Live-Daten. `programm.html` bleibt die einzige
+  Inhaltsquelle — keine zweite mobile Seite.
+
+---
+
 ## v1.188 Beta - Phase 162 · KI-Kennzeichnung der Erklärvideos
 **2026-08-08 · live veröffentlicht**
 
