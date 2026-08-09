@@ -573,6 +573,7 @@ async function handleTransferChoice(event) {
     potentialId: transferTarget.id,
     clientId: result.clientId,
     clientPath: result.clientPath,
+    cockpitBaseUrl: result.cockpitBaseUrl,
     relationshipStage: result.relationshipStage,
     relationshipLabel: result.relationshipLabel || 'Interessent',
     linkedAt: now,

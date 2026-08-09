@@ -55,6 +55,17 @@ function targetUrl() {
   return process.env.VERCEL_ENV === 'production' ? PRODUKTION : '';
 }
 
+function targetBaseUrl(target) {
+  try {
+    const url = new URL(target);
+    const lokal = ['localhost', '127.0.0.1'].includes(url.hostname);
+    if (url.protocol !== 'https:' && !(url.protocol === 'http:' && lokal)) return '';
+    return url.origin;
+  } catch (_) {
+    return '';
+  }
+}
+
 async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
@@ -71,6 +82,8 @@ async function handler(req, res) {
 
   const target = targetUrl();
   if (!target) return send(res, 503, { ok: false, reason: 'bridge_not_configured' });
+  const cockpitBaseUrl = targetBaseUrl(target);
+  if (!cockpitBaseUrl) return send(res, 503, { ok: false, reason: 'bridge_not_configured' });
 
   try {
     const response = await fetch(target, {
@@ -87,6 +100,9 @@ async function handler(req, res) {
     try { payload = text ? JSON.parse(text) : { ok: false }; } catch (_) {
       return send(res, 502, { ok: false, reason: 'invalid_cockpit_response' });
     }
+    if (payload && typeof payload === 'object' && !Array.isArray(payload)) {
+      payload.cockpitBaseUrl = cockpitBaseUrl;
+    }
     return send(res, response.status, payload);
   } catch (error) {
     console.error('[cockpit-potenzial]', error?.message || 'Verbindung fehlgeschlagen');
@@ -95,5 +111,4 @@ async function handler(req, res) {
 }
 
 module.exports = handler;
-module.exports._test = { cleanBody, sameOrigin, targetUrl };
-
+module.exports._test = { cleanBody, sameOrigin, targetUrl, targetBaseUrl };

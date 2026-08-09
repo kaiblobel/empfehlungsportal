@@ -51,5 +51,12 @@ test('Proxy reicht nur erlaubte Felder und den Portal-Token weiter', async (t) =
   assert.deepEqual(JSON.parse(request.options.body), {
     action: 'verbinden', potentialId: 'pot-1', mode: 'new', confirmNew: true,
   });
+  assert.equal(JSON.parse(res.body).cockpitBaseUrl, 'https://cockpit.example');
 });
 
+test('Proxy leitet nur sichere Cockpit-Zieladressen an den Browser weiter', () => {
+  assert.equal(handler._test.targetBaseUrl('https://cockpit-staging.example/api/potenzial'), 'https://cockpit-staging.example');
+  assert.equal(handler._test.targetBaseUrl('http://localhost:3001/api/potenzial'), 'http://localhost:3001');
+  assert.equal(handler._test.targetBaseUrl('http://cockpit.example/api/potenzial'), '');
+  assert.equal(handler._test.targetBaseUrl('file:///tmp/cockpit'), '');
+});

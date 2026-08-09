@@ -2,6 +2,17 @@
 
 export const COCKPIT_BASE_URL = 'https://www.beratercockpit.de';
 
+export function sichereCockpitBasis(value) {
+  try {
+    const url = new URL(String(value || ''));
+    const lokal = ['localhost', '127.0.0.1'].includes(url.hostname);
+    if (url.protocol !== 'https:' && !(url.protocol === 'http:' && lokal)) return COCKPIT_BASE_URL;
+    return url.origin;
+  } catch (_) {
+    return COCKPIT_BASE_URL;
+  }
+}
+
 export function cockpitStatusLabel(value) {
   return ({
     interessent: 'Interessent',
@@ -18,6 +29,7 @@ export function cockpitLinkMap(payload) {
     if (!link?.potentialId || !link?.clientId || !link?.clientPath) return;
     map.set(link.potentialId, {
       ...link,
+      cockpitBaseUrl: sichereCockpitBasis(payload.cockpitBaseUrl),
       relationshipLabel: link.relationshipLabel || cockpitStatusLabel(link.relationshipStage),
     });
   });
@@ -33,7 +45,8 @@ export function cockpitAccessState(payload) {
 
 export function cockpitClientUrl(link) {
   const path = String(link?.clientPath || '');
-  return /^\/clients\/[0-9a-f-]{36}$/i.test(path) ? `${COCKPIT_BASE_URL}${path}` : COCKPIT_BASE_URL;
+  const basis = sichereCockpitBasis(link?.cockpitBaseUrl);
+  return /^\/clients\/[0-9a-f-]{36}$/i.test(path) ? `${basis}${path}` : basis;
 }
 
 export async function cockpitRequest(fetchImpl, accessToken, payload) {

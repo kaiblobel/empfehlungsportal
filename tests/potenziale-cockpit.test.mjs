@@ -34,6 +34,18 @@ test('Statusantwort wird nur mit vollständigen festen Kennungen übernommen', (
 test('Kundenadresse akzeptiert nur den festen Cockpit-Pfad', () => {
   const id = '11111111-1111-4111-8111-111111111111';
   assert.equal(cockpitClientUrl({ clientPath: `/clients/${id}` }), `https://www.beratercockpit.de/clients/${id}`);
+  assert.equal(
+    cockpitClientUrl({ clientPath: `/clients/${id}`, cockpitBaseUrl: 'https://cockpit-staging.example' }),
+    `https://cockpit-staging.example/clients/${id}`,
+  );
+  assert.equal(
+    cockpitClientUrl({ clientPath: `/clients/${id}`, cockpitBaseUrl: 'http://localhost:3001/api' }),
+    `http://localhost:3001/clients/${id}`,
+  );
+  assert.equal(
+    cockpitClientUrl({ clientPath: `/clients/${id}`, cockpitBaseUrl: 'http://fremd.example' }),
+    `https://www.beratercockpit.de/clients/${id}`,
+  );
   assert.equal(cockpitClientUrl({ clientPath: 'https://fremd.example' }), 'https://www.beratercockpit.de');
 });
 

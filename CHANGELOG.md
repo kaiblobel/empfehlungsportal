@@ -24,10 +24,12 @@ Lokaler nächster Stand: **v1.195 Beta**, Cockpit-Verbindung vorbereitet, nicht 
   zeigt diesen Stand an und öffnet die fest verbundene Kundenakte.
 - Die lokale Portal-Route reicht nur eine kleine erlaubte Nutzlast und den Portal-Zugriffstoken
   weiter. Keine Beraterkennung aus dem Browser wird akzeptiert.
-- 57 Portalprüfungen bestanden. Die Cockpit-Gegenseite besteht 839 Tests sowie Typ-
+- Die Kundenakte öffnet immer in der zum API-Ziel gehörenden Umgebung. Eine Staging-Verbindung
+  springt nicht versehentlich in das Live-Cockpit.
+- 58 Portalprüfungen bestanden. Die Cockpit-Gegenseite besteht 841 Tests sowie Typ-
   und Lintprüfung. Die Vorschau ist bei 1440 und 390 Pixeln ohne Browserfehler oder seitliche
   Überbreite geprüft. Die Cockpit-Migration wurde separat lokal auf PostgreSQL 17 mit zwei
-  getrennten Testberatern, RLS und Statushistorie geprüft, aber auf keinem Produktprojekt angewendet.
+  getrennten Testberatern, RLS, Statushistorie und gesperrtem Beraterwechsel geprüft, aber auf keinem Produktprojekt angewendet.
 
 Der Produktzweig ist lokal gesichert, aber nicht übertragen oder veröffentlicht. Live bleibt
 v1.194 unverändert.
