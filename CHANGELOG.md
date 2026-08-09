@@ -5,6 +5,29 @@ Offizielle Live-Version: **v1.192 Beta** · Sicherheits-Nachzug, live seit 09.08
 
 ---
 
+## v1.193 Beta - Phase 167 · Potenzialbuch
+**2026-08-09 · vorbereitet, nicht veröffentlicht**
+
+Ein eigener, privater Denk- und Arbeitsbereich für Menschen, die später Kunde oder Partner
+werden könnten. Die Funktion liegt auf dem Arbeitszweig `codex/potenzialbuch-v1`. Die
+Datenbankmigration ist vorbereitet, aber nicht angewendet.
+
+- **Schnell eintragen und angenehm weiterarbeiten:** Ein Name reicht zum Start. Telefon,
+  E-Mail, Umfeld, Ziel, Notiz, Status und nächster Kontakt können sofort oder später ergänzt
+  werden. Suche, Statusfilter, Dublettenwarnung und ruhige Kontaktkarten halten die Seite
+  leicht bedienbar, auch auf dem iPhone.
+- **Bewusste Cockpit-Übergabe:** Kontaktdaten werden erst in einer Kontrollansicht geprüft,
+  dann kopiert und das Berater-Cockpit geöffnet. Erst nach der manuellen Interessentenanlage
+  bestätigt der Berater die Übernahme im Potenzialbuch. Es gibt keinen direkten Schreibweg
+  in die Cockpit-Datenbank.
+- **Klare fachliche Grenze:** `potenziale` ist eine eigene Tabelle mit RLS je Berater. Die
+  Einträge fließen nicht in Empfehlungen, Promoter, Prämien, Champions, Momentum,
+  Benachrichtigungen oder Kennzahlen ein. Anonyme Zugriffe erhalten keine Rechte.
+
+Noch nicht live: `schema-phase167.sql` muss nach unabhängiger Prüfung bewusst angewendet
+werden. Bis dahin darf die neue Seite nicht veröffentlicht werden. Service-Worker lokal auf
+`v152-2026-08-09a` vorbereitet.
+
 ## v1.192 Beta - Phase 166 · Sicherheits-Nachzug
 **2026-08-09 · live veröffentlicht**
 

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#FAFAFA" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Potenzialbuch · Empfehlungsportal</title>
+  <link rel="stylesheet" href="../css/style.css?v=33" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=49" />
+  <link rel="stylesheet" href="../css/hub.css?v=53" />
+  <link rel="stylesheet" href="../css/potenziale.css?v=1" />
+  <script src="../js/config.js"></script>
+</head>
+<body data-page="potenziale" class="has-app-nav">
+  <div id="appNav"></div>
+  <script type="module" src="../js/nav.js?v=59"></script>
+
+  <header class="h-header">
+    <div class="h-header-left">
+      <img class="h-header-photo" id="hPhoto" alt="" />
+      <div class="h-header-text">
+        <div class="h-header-name" id="hName">…</div>
+        <div class="h-header-sub">Potenzialbuch</div>
+      </div>
+    </div>
+    <div class="h-header-right">
+      <div class="h-live"><span class="h-live-dot"></span><span>Nur für dich</span></div>
+      <button class="h-logout" id="logoutBtn">Abmelden</button>
+    </div>
+  </header>
+
+  <main class="h-main potential-main">
+    <section class="potential-hero">
+      <div>
+        <div class="h-label">Beziehungen bewusst entwickeln</div>
+        <h1>Potenzialbuch</h1>
+        <p>Menschen im Blick behalten, Chancen entwickeln und erst dann bewusst ins Cockpit übernehmen.</p>
+      </div>
+      <button class="potential-primary" id="newPotentialBtn" type="button" data-icon="plus">Kontakt eintragen</button>
+    </section>
+
+    <div class="potential-boundary" role="note">
+      <span aria-hidden="true">✓</span>
+      <p><strong>Dein privater Denkraum.</strong> Einträge aus dem Potenzialbuch werden nicht zu Empfehlungen, Promotern oder Prämien gezählt.</p>
+    </div>
+
+    <section class="potential-kpis" aria-label="Potenzialbuch-Kennzahlen">
+      <article class="potential-kpi" style="--potential-tone:#C9B98A">
+        <span class="potential-kpi-dot"></span><strong id="kpiOpen">0</strong><span>Offene Potenziale</span><small>noch ohne Abschluss</small>
+      </article>
+      <article class="potential-kpi" style="--potential-tone:#B5651D">
+        <span class="potential-kpi-dot"></span><strong id="kpiDue">0</strong><span>Diese Woche nachfassen</span><small>dein nächster Fokus</small>
+      </article>
+      <article class="potential-kpi" style="--potential-tone:#7A8B6F">
+        <span class="potential-kpi-dot"></span><strong id="kpiTalks">0</strong><span>Im Gespräch</span><small>inklusive Termine</small>
+      </article>
+      <article class="potential-kpi" style="--potential-tone:#2E5266">
+        <span class="potential-kpi-dot"></span><strong id="kpiTransferred">0</strong><span>Ins Cockpit übernommen</span><small>bewusst bestätigt</small>
+      </article>
+    </section>
+
+    <section class="potential-workspace" aria-labelledby="potentialListTitle">
+      <header class="potential-toolbar">
+        <div>
+          <div class="h-label">Deine Kontakte</div>
+          <h2 id="potentialListTitle">Wen möchtest du weiterentwickeln?</h2>
+        </div>
+        <label class="potential-search">
+          <span class="sr-only">Potenziale durchsuchen</span>
+          <span aria-hidden="true">⌕</span>
+          <input id="potentialSearch" type="search" placeholder="Name, Telefon, E-Mail oder Umfeld" autocomplete="off" />
+        </label>
+      </header>
+
+      <div class="potential-filters" id="potentialFilters" aria-label="Status filtern">
+        <button class="active" type="button" data-filter="alle">Alle</button>
+        <button type="button" data-filter="offen">Offen</button>
+        <button type="button" data-filter="angesprochen">Angesprochen</button>
+        <button type="button" data-filter="im_gespraech">Im Gespräch</button>
+        <button type="button" data-filter="termin">Termin</button>
+        <button type="button" data-filter="uebernommen">Übernommen</button>
+        <button type="button" data-filter="kein_interesse">Kein Interesse</button>
+      </div>
+
+      <div class="potential-error" id="potentialError" hidden></div>
+      <div class="potential-list" id="potentialList" aria-live="polite">
+        <div class="potential-loading"><span></span><span></span><span></span></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="potential-modal" id="potentialModal" hidden>
+    <div class="potential-modal-backdrop" data-close-modal></div>
+    <section class="potential-dialog" role="dialog" aria-modal="true" aria-labelledby="potentialDialogTitle">
+      <button class="potential-dialog-close" type="button" aria-label="Dialog schließen" data-close-modal>×</button>
+      <div class="h-label" id="potentialDialogEyebrow">Neues Potenzial</div>
+      <h2 id="potentialDialogTitle">Kontakt eintragen</h2>
+      <p class="potential-dialog-intro">Ein Name reicht für den Anfang. Alles Weitere kannst du später ergänzen.</p>
+
+      <form id="potentialForm" novalidate>
+        <input id="potentialId" type="hidden" />
+        <div class="potential-form-grid">
+          <label class="potential-field potential-field-wide">
+            <span>Name *</span>
+            <input id="potentialName" name="name" type="text" maxlength="160" autocomplete="name" required placeholder="Zum Beispiel Jana Mustermann" />
+            <small class="potential-field-error" id="nameError"></small>
+          </label>
+          <label class="potential-field">
+            <span>Telefon</span>
+            <input id="potentialPhone" name="telefon" type="tel" maxlength="50" autocomplete="tel" placeholder="+49 151 23456789" />
+            <small class="potential-field-error" id="phoneError"></small>
+          </label>
+          <label class="potential-field">
+            <span>E-Mail</span>
+            <input id="potentialEmail" name="email" type="email" maxlength="254" autocomplete="email" placeholder="name@beispiel.de" />
+            <small class="potential-field-error" id="emailError"></small>
+          </label>
+          <label class="potential-field">
+            <span>Ziel</span>
+            <select id="potentialGoal" name="ziel">
+              <option value="kunde">Potenzialkunde</option>
+              <option value="partner">Potenzialpartner</option>
+            </select>
+          </label>
+          <label class="potential-field">
+            <span>Umfeld</span>
+            <input id="potentialCircle" name="kreis" type="text" maxlength="100" placeholder="Verein, Nachbarschaft, Unternehmer …" />
+          </label>
+          <label class="potential-field">
+            <span>Status</span>
+            <select id="potentialStatus" name="status">
+              <option value="offen">Offen</option>
+              <option value="angesprochen">Angesprochen</option>
+              <option value="im_gespraech">Im Gespräch</option>
+              <option value="termin">Termin vereinbart</option>
+              <option value="uebernommen" disabled>Ins Cockpit übernommen</option>
+              <option value="kein_interesse">Kein Interesse</option>
+            </select>
+          </label>
+          <label class="potential-field">
+            <span>Nächster Kontakt</span>
+            <input id="potentialNextContact" name="naechster_kontakt_am" type="date" />
+          </label>
+          <label class="potential-field potential-field-wide">
+            <span>Notiz</span>
+            <textarea id="potentialNote" name="notiz" maxlength="4000" rows="4" placeholder="Was möchtest du beim nächsten Gespräch aufgreifen?"></textarea>
+          </label>
+        </div>
+        <div class="potential-duplicate" id="duplicateWarning" hidden>
+          <strong>Mögliche Dublette</strong>
+          <p id="duplicateText"></p>
+          <label><input id="duplicateConfirm" type="checkbox" /> Trotzdem als eigenen Kontakt speichern</label>
+        </div>
+        <div class="potential-form-error" id="formError" hidden></div>
+        <footer class="potential-dialog-actions">
+          <button class="potential-secondary" type="button" data-close-modal>Abbrechen</button>
+          <button class="potential-primary" id="savePotentialBtn" type="submit">Kontakt speichern</button>
+        </footer>
+      </form>
+    </section>
+  </div>
+
+  <div class="potential-modal" id="transferModal" hidden>
+    <div class="potential-modal-backdrop" data-close-transfer></div>
+    <section class="potential-dialog potential-transfer-dialog" role="dialog" aria-modal="true" aria-labelledby="transferTitle">
+      <button class="potential-dialog-close" type="button" aria-label="Dialog schließen" data-close-transfer>×</button>
+      <div class="h-label">Bewusste Übergabe</div>
+      <h2 id="transferTitle">Als Interessent ins Cockpit übernehmen</h2>
+      <p class="potential-dialog-intro">Prüfe die Angaben. Es wird nichts automatisch ins Cockpit geschrieben.</p>
+      <div class="potential-transfer-card" id="transferPreview"></div>
+      <ol class="potential-transfer-steps">
+        <li><span>1</span><p><strong>Daten kopieren und Cockpit öffnen.</strong> Dort legst du den Interessenten manuell an.</p></li>
+        <li><span>2</span><p><strong>Erst danach hier bestätigen.</strong> So bleibt nachvollziehbar, was wirklich übernommen wurde.</p></li>
+      </ol>
+      <div class="potential-form-error" id="transferError" hidden></div>
+      <footer class="potential-dialog-actions potential-transfer-actions">
+        <button class="potential-secondary" type="button" data-close-transfer>Schließen</button>
+        <button class="potential-copy" id="copyAndOpenBtn" type="button">Daten kopieren und Cockpit öffnen</button>
+        <button class="potential-primary" id="confirmTransferBtn" type="button" disabled>Im Cockpit angelegt</button>
+      </footer>
+    </section>
+  </div>
+
+  <div class="potential-toast" id="potentialToast" role="status" aria-live="polite" hidden></div>
+  <script type="module" src="../js/potenziale.js?v=1"></script>
+</body>
+</html>
