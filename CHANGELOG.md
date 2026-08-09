@@ -1,12 +1,12 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.193 Beta** · Potenzialbuch, live seit 09.08.2026.
+Offizielle Live-Version: **v1.194 Beta** · Kontaktstärke im Potenzialbuch, live seit 09.08.2026.
 
 ---
 
 ## v1.194 Beta - Phase 168 · Kontaktstärke
-**2026-08-09 · vorbereitet, nicht veröffentlicht**
+**2026-08-09 · live veröffentlicht**
 
 Das Potenzialbuch ordnet Kontakte zusätzlich nach der tatsächlichen Beziehungsstärke.
 
@@ -20,8 +20,11 @@ Das Potenzialbuch ordnet Kontakte zusätzlich nach der tatsächlichen Beziehungs
 - Additive Migration `schema-phase168.sql`; bestehende freie Umfeldangaben bleiben erhalten.
   Keine Verbindung zu Empfehlungen, Promotern, Prämien, Benachrichtigungen oder Kennzahlen.
 
-Noch nicht live: Migration, Veröffentlichung und echter eingeloggter Sichttest benötigen das
-Freigabe-Gate. Service-Worker lokal auf `v153-2026-08-09b` vorbereitet.
+Live geprüft: Migration `phase168_potenzialbuch_kontaktstaerke` angewendet, fünf Spalten und
+vier Regeln gültig, GIN-Index bereit. RLS bleibt aktiv und erzwungen. `anon` hat keine
+Tabellenrechte, angemeldete Berater weiterhin nur Lesen, Anlegen, Ändern und Löschen.
+18 von 18 Potenzialbuch-Tests grün, Vercel-Produktion `READY`, Service-Worker aktiv auf
+`v153-2026-08-09b`.
 
 ## v1.193 Beta - Phase 167 · Potenzialbuch
 **2026-08-09 · live veröffentlicht**
