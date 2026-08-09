@@ -15,13 +15,21 @@ import {
   potentialStartOfDay,
   potentialDueState,
 } from './potenziale-utils.mjs';
+import {
+  cockpitAccessState,
+  cockpitClientUrl,
+  cockpitFehlertext,
+  cockpitLinkMap,
+  cockpitRequest,
+} from './potenziale-cockpit.mjs';
 
-const COCKPIT_URL = 'https://www.beratercockpit.de/clients';
-const PREVIEW_REQUESTED = new URLSearchParams(window.location.search).get('preview') === 'potenzialbuch';
+const PAGE_PARAMS = new URLSearchParams(window.location.search);
+const PREVIEW_REQUESTED = PAGE_PARAMS.get('preview') === 'potenzialbuch';
 const PREVIEW_MODE = PREVIEW_REQUESTED && (
   ['localhost', '127.0.0.1'].includes(window.location.hostname)
   || window.location.hostname.includes('git-codex-po-')
 );
+const PREVIEW_COCKPIT_LOCKED = PREVIEW_MODE && PAGE_PARAMS.get('cockpit') === 'gesperrt';
 const ACTIVE_STATUSES = new Set(['offen', 'angesprochen', 'im_gespraech', 'termin']);
 const TALK_STATUSES = new Set(['im_gespraech', 'termin']);
 const STATUS_LABELS = {
@@ -46,18 +54,25 @@ const duplicateWarning = document.getElementById('duplicateWarning');
 const duplicateConfirm = document.getElementById('duplicateConfirm');
 const formError = document.getElementById('formError');
 const transferError = document.getElementById('transferError');
+const transferLoading = document.getElementById('transferLoading');
+const transferChoices = document.getElementById('transferChoices');
+const transferSuccess = document.getElementById('transferSuccess');
 const toastEl = document.getElementById('potentialToast');
 
 let advisor = null;
 let dashboardApi = null;
 let storeApi = null;
 let potentials = [];
+let accessToken = '';
+let cockpitLinks = new Map();
+let cockpitAccess = 'unavailable';
 let activeFilter = 'alle';
 let activeStrengthFilter = 'alle';
 const activeCircleFilters = new Set();
 let transferTarget = null;
 let restoreFocusEl = null;
 let toastTimer = null;
+let connectedClientLink = null;
 
 document.getElementById('logoutBtn')?.addEventListener('click', async () => {
   if (PREVIEW_MODE) { showToast('In der Vorschau ist kein Login aktiv.'); return; }
@@ -99,8 +114,8 @@ form?.addEventListener('input', handleFormChange);
 form?.addEventListener('change', handleFormChange);
 document.querySelectorAll('[data-close-modal]').forEach((element) => element.addEventListener('click', closeForm));
 document.querySelectorAll('[data-close-transfer]').forEach((element) => element.addEventListener('click', closeTransfer));
-document.getElementById('copyAndOpenBtn')?.addEventListener('click', copyAndOpenCockpit);
-document.getElementById('confirmTransferBtn')?.addEventListener('click', confirmTransfer);
+transferChoices?.addEventListener('click', handleTransferChoice);
+document.getElementById('openConnectedClientBtn')?.addEventListener('click', openConnectedClient);
 listEl?.addEventListener('click', handleListAction);
 document.addEventListener('click', (event) => {
   if (!event.target.closest('.potential-card-menu') && !event.target.closest('.potential-more')) closeMenus();
@@ -119,10 +134,12 @@ document.querySelectorAll('[data-strength-symbol]').forEach((element) => {
 (async () => {
   if (PREVIEW_MODE) {
     advisor = { id: 'preview-berater', name: 'Testberater' };
+    accessToken = 'preview-token';
     potentials = previewPotentials();
     setText('hName', 'Testberater');
     const boundary = document.querySelector('.potential-boundary p');
     if (boundary) boundary.innerHTML = '<strong>Vorschau mit erfundenen Kontakten.</strong> Du kannst alles ausprobieren. Nichts wird gespeichert oder an Supabase gesendet.';
+    await loadCockpitLinks();
     render();
     return;
   }
@@ -130,6 +147,7 @@ document.querySelectorAll('[data-strength-symbol]').forEach((element) => {
   storeApi = await import('./supabase.js');
   const session = await dashboardApi.requireAuth();
   if (!session) return;
+  accessToken = session.access_token || '';
   await dashboardApi.applyBeraterHeader();
   advisor = await dashboardApi.getCurrentBerater();
   if (!advisor?.id) {
@@ -152,7 +170,20 @@ async function loadPotentials() {
     return;
   }
   potentials = data || [];
+  await loadCockpitLinks();
   render();
+  highlightRequestedPotential();
+}
+
+async function loadCockpitLinks() {
+  if (PREVIEW_MODE) {
+    cockpitLinks = new Map();
+    cockpitAccess = PREVIEW_COCKPIT_LOCKED ? 'locked' : 'available';
+    return;
+  }
+  const result = await cockpitRequest(fetch, accessToken, { action: 'status' });
+  cockpitAccess = cockpitAccessState(result);
+  cockpitLinks = cockpitAccess === 'available' ? cockpitLinkMap(result) : new Map();
 }
 
 function render() {
@@ -195,7 +226,7 @@ function renderKpis() {
     return ACTIVE_STATUSES.has(item.status) && date && date <= weekEnd;
   }).length);
   setText('kpiTalks', potentials.filter((item) => TALK_STATUSES.has(item.status)).length);
-  setText('kpiTransferred', potentials.filter((item) => item.status === 'uebernommen').length);
+  setText('kpiTransferred', potentials.filter((item) => cockpitLinks.has(item.id) || item.status === 'uebernommen').length);
 }
 
 function renderCard(item) {
@@ -203,7 +234,11 @@ function renderCard(item) {
   const contact = primaryContact(item);
   const strength = potentialContactStrength(item);
   const circleLabels = potentialCircleLabels(item);
-  const isTransferred = item.status === 'uebernommen';
+  const cockpitLink = cockpitLinks.get(item.id) || null;
+  const isLinked = Boolean(cockpitLink);
+  const cockpitAvailable = cockpitAccess === 'available';
+  const statusLabel = cockpitLink ? `Cockpit: ${cockpitLink.relationshipLabel}` : (STATUS_LABELS[item.status] || item.status);
+  const statusKey = cockpitLink ? 'uebernommen' : item.status;
   const avatarTone = item.ziel === 'partner'
     ? '--avatar-bg:rgba(46,82,102,.10);--avatar-fg:#2E5266'
     : '--avatar-bg:#F2EDDF;--avatar-fg:#7B6B43';
@@ -214,11 +249,11 @@ function renderCard(item) {
     item.email,
   ].filter(Boolean);
   return `
-    <article class="potential-card${due.kind === 'overdue' ? ' overdue' : ''}" data-id="${escapeHtml(item.id)}">
+    <article class="potential-card${due.kind === 'overdue' ? ' overdue' : ''}${isLinked ? ' cockpit-linked' : ''}" data-id="${escapeHtml(item.id)}">
       <header class="potential-card-head">
         <span class="potential-avatar" style="${avatarTone}">${escapeHtml(potentialInitials(item.name))}</span>
         <div class="potential-person"><h3>${escapeHtml(item.name)}</h3><p>${escapeHtml(circleLabels.slice(0, 3).join(' · ') || (item.ziel === 'partner' ? 'Potenzialpartner' : 'Potenzialkunde'))}</p></div>
-        <span class="potential-status" data-status="${escapeHtml(item.status)}">${escapeHtml(STATUS_LABELS[item.status] || item.status)}</span>
+        <span class="potential-status" data-status="${escapeHtml(statusKey)}">${escapeHtml(statusLabel)}</span>
       </header>
       <div class="potential-strength-line">
         <span class="potential-strength-badge" data-strength="${strength.key}">${strengthIcon(strength.key)}<strong>${escapeHtml(strength.label)}</strong></span>
@@ -229,17 +264,38 @@ function renderCard(item) {
       <div class="potential-card-spacer"></div>
       <div class="potential-next ${due.kind}"><span aria-hidden="true">${due.icon}</span><span>${due.label}</span></div>
       <div class="potential-actions">
-        ${isTransferred
-          ? '<button class="potential-transfer" type="button" data-action="edit">Eintrag ansehen</button>'
-          : `<button class="potential-contact" type="button" data-action="contact">${contact.label}</button><button class="potential-transfer" type="button" data-action="transfer">Ins Cockpit</button>`}
+        ${isLinked
+          ? '<button class="potential-transfer" type="button" data-action="open-cockpit">Kundenakte öffnen</button>'
+          : `<button class="potential-contact" type="button" data-action="contact">${contact.label}</button>${cockpitAvailable ? cockpitTransferButton() : cockpitLockedButton()}`}
         <button class="potential-more" type="button" data-action="menu" aria-label="Weitere Aktionen" aria-expanded="false">•••</button>
       </div>
       <div class="potential-card-menu" hidden>
         <button type="button" data-action="edit">Bearbeiten</button>
-        ${isTransferred ? '' : '<button type="button" data-action="transfer">Als Interessent übernehmen</button>'}
+        ${isLinked ? '<button type="button" data-action="open-cockpit">Kundenakte im Cockpit öffnen</button>' : (cockpitAvailable ? '<button type="button" data-action="transfer">Mit Cockpit verbinden</button>' : cockpitLockedMenuButton())}
         <button class="danger" type="button" data-action="delete">Kontakt löschen</button>
       </div>
     </article>`;
+}
+
+function cockpitTransferButton() {
+  return '<button class="potential-transfer" type="button" data-action="transfer">Mit Cockpit verbinden</button>';
+}
+
+function cockpitLockedButton() {
+  const pending = cockpitAccess === 'locked';
+  const badge = pending ? 'Demnächst' : 'Nicht verfügbar';
+  const label = pending
+    ? 'Cockpit-Verbindung, noch nicht freigeschaltet'
+    : 'Cockpit-Verbindung, zurzeit nicht verfügbar';
+  const title = pending
+    ? 'Sobald dein Cockpit-Zugang freigegeben ist, kannst du diesen Kontakt verbinden.'
+    : 'Die Cockpit-Freigabe konnte gerade nicht geprüft werden.';
+  return `<button class="potential-transfer cockpit-locked" type="button" disabled aria-label="${label}" title="${title}"><span aria-hidden="true">▣</span><span>Cockpit-Verbindung</span><em>${badge}</em></button>`;
+}
+
+function cockpitLockedMenuButton() {
+  const label = cockpitAccess === 'locked' ? 'Cockpit-Verbindung · Demnächst' : 'Cockpit-Verbindung · Nicht verfügbar';
+  return `<button class="cockpit-menu-locked" type="button" disabled>${label}</button>`;
 }
 
 async function handleListAction(event) {
@@ -261,7 +317,8 @@ async function handleListAction(event) {
   closeMenus();
   if (action === 'edit') openForm(item, button);
   else if (action === 'contact') await startContact(item);
-  else if (action === 'transfer') openTransfer(item, button);
+  else if (action === 'transfer') await openTransfer(item, button);
+  else if (action === 'open-cockpit') openCockpitLink(cockpitLinks.get(item.id));
   else if (action === 'delete') await removePotential(item);
 }
 
@@ -396,61 +453,151 @@ async function startContact(item) {
   showToast(`${item.name} ist als angesprochen vorgemerkt.`);
 }
 
-function openTransfer(item, trigger) {
+async function openTransfer(item, trigger) {
   transferTarget = item;
+  connectedClientLink = null;
   restoreFocusEl = trigger || document.activeElement;
   transferError.hidden = true;
-  document.getElementById('confirmTransferBtn').disabled = true;
-  document.getElementById('copyAndOpenBtn').disabled = false;
-  document.getElementById('copyAndOpenBtn').textContent = 'Daten kopieren und Cockpit öffnen';
+  transferLoading.hidden = false;
+  transferChoices.hidden = true;
+  transferChoices.innerHTML = '';
+  transferSuccess.hidden = true;
   document.getElementById('transferPreview').innerHTML = transferPreview(item);
   transferModal.hidden = false;
   document.body.classList.add('potential-modal-open');
-  requestAnimationFrame(() => document.getElementById('copyAndOpenBtn').focus());
+  requestAnimationFrame(() => transferModal.querySelector('[data-close-transfer]')?.focus());
+
+  if (item.ziel === 'partner') {
+    transferLoading.hidden = true;
+    showTransferError(cockpitFehlertext('partner_uses_partner_record'));
+    return;
+  }
+
+  if (PREVIEW_MODE) {
+    transferLoading.hidden = true;
+    renderTransferChoices([
+      { id: '11111111-1111-4111-8111-111111111111', name: item.name, relationshipLabel: 'Interessent', matchedBy: ['telefon', 'email'] },
+    ], true);
+    return;
+  }
+
+  const result = await cockpitRequest(fetch, accessToken, { action: 'vorschau', potentialId: item.id });
+  if (transferTarget?.id !== item.id) return;
+  transferLoading.hidden = true;
+  if (!result.ok) {
+    showTransferError(cockpitFehlertext(result.reason));
+    return;
+  }
+  renderTransferChoices(result.candidates || [], result.canCreate !== false);
 }
 
 function closeTransfer() {
   if (transferModal.hidden) return;
   transferModal.hidden = true;
   transferTarget = null;
+  connectedClientLink = null;
   document.body.classList.remove('potential-modal-open');
   restoreFocusEl?.focus?.();
 }
 
-async function copyAndOpenCockpit() {
-  if (!transferTarget) return;
-  transferError.hidden = true;
-  if (!PREVIEW_MODE) window.open(COCKPIT_URL, '_blank', 'noopener,noreferrer');
-  const copied = await copyText(transferText(transferTarget));
-  if (!copied) {
-    showTransferError('Das Kopieren wurde vom Browser verhindert. Das Cockpit wurde geöffnet, die Daten müssen dort bitte manuell eingetragen werden.');
-    return;
-  }
-  document.getElementById('confirmTransferBtn').disabled = false;
-  document.getElementById('copyAndOpenBtn').textContent = 'Daten kopiert, Cockpit geöffnet';
-  showToast('Kontaktdaten kopiert. Lege den Interessenten jetzt im Cockpit an.');
+function highlightRequestedPotential() {
+  const requestedId = new URLSearchParams(window.location.search).get('potenzial');
+  if (!requestedId || !potentials.some((item) => item.id === requestedId)) return;
+  const card = [...listEl.querySelectorAll('[data-id]')].find((item) => item.dataset.id === requestedId);
+  if (!card) return;
+  card.classList.add('deep-linked');
+  card.setAttribute('tabindex', '-1');
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  card.focus({ preventScroll: true });
 }
 
-async function confirmTransfer() {
-  if (!transferTarget) return;
-  const button = document.getElementById('confirmTransferBtn');
-  button.disabled = true;
-  const updates = {
-    status: 'uebernommen',
-    cockpit_uebernommen_at: new Date().toISOString(),
-  };
-  const { data, error } = await storeUpdate(transferTarget.id, updates);
-  if (error) {
-    console.error('[potenziale:transfer]', error);
-    showTransferError('Die Übernahme konnte im Potenzialbuch nicht bestätigt werden. Der Kontakt im Cockpit bleibt davon unberührt.');
-    button.disabled = false;
+function renderTransferChoices(candidates, canCreate) {
+  const hasCandidates = candidates.length > 0;
+  const candidateHtml = candidates.map((candidate) => {
+    const trefferdetails = (candidate.matchedBy || []).map((value) => value === 'telefon' ? 'Telefonnummer' : 'E-Mail').join(' und ');
+    return `<button class="potential-transfer-choice" type="button" data-connect-mode="existing" data-client-id="${escapeHtml(candidate.id)}">
+      <span class="potential-transfer-choice-icon">✓</span>
+      <span><strong>Vorhandene Akte von ${escapeHtml(candidate.name)} nutzen</strong><small>${escapeHtml(trefferdetails || 'Kontaktangaben')} stimmen überein · ${escapeHtml(candidate.relationshipLabel || 'Interessent')}</small></span>
+      <em>Empfohlen</em>
+    </button>`;
+  }).join('');
+  const createHtml = canCreate ? `<button class="potential-transfer-choice new" type="button" data-connect-mode="new" data-confirm-new="${hasCandidates ? 'true' : 'false'}">
+    <span class="potential-transfer-choice-icon">＋</span>
+    <span><strong>Neue Interessentenakte anlegen</strong><small>${hasCandidates ? 'Nur wählen, wenn die gefundene Person nicht dieselbe ist.' : 'Im Cockpit wurde keine Person mit gleicher Telefonnummer oder E-Mail gefunden.'}</small></span>
+  </button>` : '';
+
+  transferChoices.innerHTML = `
+    <h3 class="potential-transfer-question">${hasCandidates ? 'Das Cockpit hat eine passende Person gefunden:' : 'Wie soll es weitergehen?'}</h3>
+    ${candidateHtml}${createHtml}
+    <p class="potential-transfer-note">Das System verbindet niemals allein aufgrund eines Namens. Die feste Beraterzuordnung kann im Browser nicht verändert werden.</p>`;
+  transferChoices.hidden = false;
+}
+
+async function handleTransferChoice(event) {
+  const button = event.target.closest('[data-connect-mode]');
+  if (!button || !transferTarget) return;
+  transferError.hidden = true;
+  transferChoices.querySelectorAll('button').forEach((item) => { item.disabled = true; });
+  const mode = button.dataset.connectMode;
+  const clientId = button.dataset.clientId || undefined;
+  const confirmNew = button.dataset.confirmNew === 'true';
+
+  let result;
+  if (PREVIEW_MODE) {
+    result = {
+      ok: true,
+      clientId: clientId || '22222222-2222-4222-8222-222222222222',
+      clientPath: `/clients/${clientId || '22222222-2222-4222-8222-222222222222'}`,
+      relationshipStage: 'interessent',
+      relationshipLabel: 'Interessent',
+      stageChangedAt: new Date().toISOString(),
+    };
+  } else {
+    result = await cockpitRequest(fetch, accessToken, {
+      action: 'verbinden',
+      potentialId: transferTarget.id,
+      mode,
+      clientId,
+      confirmNew,
+    });
+  }
+
+  if (!result.ok) {
+    showTransferError(cockpitFehlertext(result.reason));
+    transferChoices.querySelectorAll('button').forEach((item) => { item.disabled = false; });
     return;
   }
-  potentials = potentials.map((item) => item.id === transferTarget.id ? data : item);
-  const name = transferTarget.name;
-  closeTransfer();
+
+  const now = new Date().toISOString();
+  connectedClientLink = {
+    potentialId: transferTarget.id,
+    clientId: result.clientId,
+    clientPath: result.clientPath,
+    cockpitBaseUrl: result.cockpitBaseUrl,
+    relationshipStage: result.relationshipStage,
+    relationshipLabel: result.relationshipLabel || 'Interessent',
+    linkedAt: now,
+    stageChangedAt: result.stageChangedAt || now,
+  };
+  cockpitLinks.set(transferTarget.id, connectedClientLink);
+
+  const updates = { status: 'uebernommen', cockpit_uebernommen_at: now };
+  const { data, error } = await storeUpdate(transferTarget.id, updates);
+  if (!error && data) potentials = potentials.map((item) => item.id === transferTarget.id ? data : item);
+
+  transferChoices.hidden = true;
+  transferSuccess.hidden = false;
   render();
-  showToast(`${name} wurde als ins Cockpit übernommen markiert.`);
+  showToast(`${transferTarget.name} ist jetzt fest mit dem Cockpit verbunden.`);
+}
+
+function openConnectedClient() {
+  openCockpitLink(connectedClientLink);
+}
+
+function openCockpitLink(link) {
+  if (!link) return;
+  window.open(cockpitClientUrl(link), '_blank', 'noopener,noreferrer');
 }
 
 async function removePotential(item) {
@@ -479,39 +626,6 @@ function transferPreview(item) {
     ['Notiz', item.notiz || 'Keine Notiz vorhanden', 'wide'],
   ];
   return fields.map(([label, value, cls]) => `<div class="potential-transfer-item ${cls}"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join('');
-}
-
-function transferText(item) {
-  const strength = potentialContactStrength(item);
-  return [
-    'Neuer Interessent aus dem Potenzialbuch',
-    `Name: ${item.name}`,
-    `Ziel: ${item.ziel === 'partner' ? 'Potenzialpartner' : 'Potenzialkunde'}`,
-    `Telefon: ${item.telefon ? formatPotentialPhone(item.telefon) : 'nicht hinterlegt'}`,
-    `E-Mail: ${item.email || 'nicht hinterlegt'}`,
-    `Kreise: ${potentialCircleLabels(item).join(', ') || 'nicht hinterlegt'}`,
-    `Kontaktstärke: ${strength.label} (${strength.reason})`,
-    `Notiz: ${item.notiz || 'keine Notiz'}`,
-  ].join('\n');
-}
-
-async function copyText(text) {
-  try {
-    await navigator.clipboard.writeText(text);
-    return true;
-  } catch (_) {
-    try {
-      const textarea = document.createElement('textarea');
-      textarea.value = text;
-      textarea.style.position = 'fixed';
-      textarea.style.opacity = '0';
-      document.body.appendChild(textarea);
-      textarea.select();
-      const copied = document.execCommand('copy');
-      textarea.remove();
-      return copied;
-    } catch (_) { return false; }
-  }
 }
 
 function primaryContact(item) {
@@ -585,7 +699,13 @@ function handleFormChange(event) {
   updateStrengthPreview();
 }
 function showFormError(message) { formError.textContent = message; formError.hidden = false; }
-function showTransferError(message) { transferError.textContent = message; transferError.hidden = false; }
+function showTransferError(message) {
+  transferLoading.hidden = true;
+  transferChoices.hidden = true;
+  transferSuccess.hidden = true;
+  transferError.textContent = message;
+  transferError.hidden = false;
+}
 function setFormBusy(busy) {
   document.getElementById('savePotentialBtn').disabled = busy;
   document.getElementById('savePotentialBtn').textContent = busy ? 'Wird gespeichert …' : (document.getElementById('potentialId').value ? 'Änderungen speichern' : 'Kontakt speichern');

@@ -3,7 +3,36 @@
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.194 Beta** · Kontaktstärke im Potenzialbuch, live seit 09.08.2026.
 
+Lokaler nächster Stand: **v1.195 Beta**, Cockpit-Verbindung vorbereitet, nicht veröffentlicht.
+
 ---
+
+## v1.195 Beta - Phase 169 · Cockpit-Verbindung
+**2026-08-09 · lokal vorbereitet, nicht veröffentlicht**
+
+- Ein Berater verbindet ein Potenzial bewusst mit dem Cockpit. Dort kann er eine über exakt
+  gleiche Telefonnummer oder E-Mail gefundene eigene Akte nutzen oder einen neuen
+  Interessenten anlegen.
+- Ein gleicher Name allein reicht nie für eine Verbindung. Potenzialpartner werden weiterhin
+  nicht in die Kundenakte übernommen.
+- Die Portal-Anmeldung wird vom Cockpit selbst validiert. Die feste Beraterzuordnung entsteht
+  serverseitig; fehlende oder doppelte Zuordnungen brechen ohne Änderung ab.
+- Die Verbindung wird nur für ein aktives und vollständig eingerichtetes Cockpit-Konto
+  freigeschaltet. Ohne Konto oder Freigabe bleibt sie sichtbar, aber ausgegraut und mit
+  „Demnächst“ gekennzeichnet. Auch ein direkter API-Aufruf wird dann abgewiesen.
+- Nach der Verbindung führt das Cockpit Interessent, Kunde und Altkunde. Das Potenzialbuch
+  zeigt diesen Stand an und öffnet die fest verbundene Kundenakte.
+- Die lokale Portal-Route reicht nur eine kleine erlaubte Nutzlast und den Portal-Zugriffstoken
+  weiter. Keine Beraterkennung aus dem Browser wird akzeptiert.
+- Die Kundenakte öffnet immer in der zum API-Ziel gehörenden Umgebung. Eine Staging-Verbindung
+  springt nicht versehentlich in das Live-Cockpit.
+- 58 Portalprüfungen bestanden. Die Cockpit-Gegenseite besteht 841 Tests sowie Typ-
+  und Lintprüfung. Die Vorschau ist bei 1440 und 390 Pixeln ohne Browserfehler oder seitliche
+  Überbreite geprüft. Die Cockpit-Migration wurde separat lokal auf PostgreSQL 17 mit zwei
+  getrennten Testberatern, RLS, Statushistorie und gesperrtem Beraterwechsel geprüft, aber auf keinem Produktprojekt angewendet.
+
+Der Produktzweig ist lokal gesichert, aber nicht übertragen oder veröffentlicht. Live bleibt
+v1.194 unverändert.
 
 ## v1.194 Beta - Phase 168 · Kontaktstärke
 **2026-08-09 · live veröffentlicht**

@@ -33,8 +33,8 @@ assert.match(closingRule, /position: static/);
 assert.match(closingRule, /justify-self: end/);
 assert.doesNotMatch(closingRule, /position: absolute/);
 
-assert.match(config, /v1\.192 Beta/);
-assert.match(config, /Phase 166 · Sicherheits-Nachzug/);
-assert.match(sw, /CACHE_VERSION = 'v151-2026-08-09d'/);
+assert.match(config, /v1\.195 Beta/);
+assert.match(config, /Phase 169 · Cockpit-Verbindung/);
+assert.match(sw, /CACHE_VERSION = 'v154-2026-08-09a'/);
 
 console.log('praesentation-kurzmodus: OK');
