@@ -1,5 +1,6 @@
 /* Phase 168 · Potenzialbuch mit Kontaktstärke auf Basis der Hub-DNA */
 body[data-page="potenziale"] { background:var(--bg-primary,#FAFAFA); color:var(--ink,#1A1A1A); font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif; -webkit-font-smoothing:antialiased; }
+.potential-hero-actions { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:9px; }
 .potential-main { max-width:1380px; gap:0; padding-top:38px; padding-bottom:88px; }
 .potential-hero { display:flex; align-items:flex-end; justify-content:space-between; gap:28px; margin-bottom:22px; }
 .potential-hero h1 { margin:8px 0 0; font-size:clamp(32px,3.4vw,46px); font-weight:800; line-height:1.04; letter-spacing:-.045em; }
@@ -136,6 +137,9 @@ body[data-page="potenziale"] { background:var(--bg-primary,#FAFAFA); color:var(-
 .potential-dialog-close { position:absolute; top:15px; right:15px; display:grid; place-items:center; width:36px; height:36px; border:1px solid var(--hairline,#E8E5E0); border-radius:10px; background:#fff; color:var(--ink-muted,#6B6660); font-size:22px; cursor:pointer; }
 .potential-dialog h2 { margin:8px 42px 0 0; font-size:23px; font-weight:780; letter-spacing:-.03em; }
 .potential-dialog-intro { margin:8px 38px 20px 0; color:var(--ink-muted,#6B6660); font-size:11px; line-height:1.55; }
+.potential-review-note { display:flex; align-items:flex-start; gap:9px; margin:0 0 16px; padding:11px 12px; border:1px solid rgba(201,185,138,.38); border-radius:10px; background:rgba(201,185,138,.10); color:#5F563D; font-size:9.5px; line-height:1.45; }
+.potential-review-note[hidden] { display:none; }
+.potential-review-note strong { flex:0 0 auto; color:#6F613A; }
 .potential-form-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; }
 .potential-field { display:grid; gap:7px; min-width:0; }
 .potential-field-wide { grid-column:1/-1; }
@@ -163,6 +167,11 @@ body[data-page="potenziale"] { background:var(--bg-primary,#FAFAFA); color:var(-
 .potential-strength-preview > span:last-child { display:grid; gap:4px; min-width:0; }
 .potential-strength-preview > span:last-child > strong { font-size:9.5px; }
 .potential-strength-preview small { color:var(--ink-soft,#8C8680); font-size:8.5px; line-height:1.45; }
+.potential-profile { margin:4px 0 0; padding:16px; border:1px solid rgba(201,185,138,.32); border-radius:12px; background:#FCFBF8; }
+.potential-profile legend { padding:0 6px; font-size:11px; font-weight:800; }
+.potential-profile legend small { color:var(--ink-soft,#8C8680); font-size:8.5px; font-weight:600; }
+.potential-profile > p { margin:0 0 14px; color:var(--ink-muted,#6B6660); font-size:9.5px; line-height:1.5; }
+.potential-assumption-field textarea { border-color:rgba(194,132,71,.28); background:rgba(194,132,71,.04); }
 .potential-duplicate { margin-top:15px; padding:13px 14px; border:1px solid rgba(194,132,71,.24); border-radius:10px; background:rgba(194,132,71,.07); }
 .potential-duplicate strong { font-size:11px; }
 .potential-duplicate p { margin:5px 0 9px; color:var(--ink-muted,#6B6660); font-size:9.5px; line-height:1.45; }
@@ -199,6 +208,25 @@ body.potential-modal-open { overflow:hidden; }
 @keyframes potential-highlight { 0%,28% { box-shadow:0 0 0 4px rgba(201,185,138,.35),var(--shadow-card); } 100% { box-shadow:var(--shadow-card); } }
 .potential-transfer-actions { flex-wrap:wrap; }
 .potential-toast { position:fixed; right:22px; bottom:22px; z-index:1700; max-width:min(380px,calc(100vw - 32px)); padding:12px 15px; border:1px solid rgba(122,139,111,.22); border-radius:10px; background:#273127; color:#fff; box-shadow:0 14px 34px rgba(20,18,16,.18); font-size:10.5px; font-weight:650; }
+.potential-coach-dialog { width:min(780px,100%); }
+.potential-voice-controls { display:flex; align-items:center; gap:12px; margin:4px 0 14px; }
+.potential-voice-controls > span { color:var(--ink-soft,#8C8680); font-size:9.5px; }
+.potential-voice-button { display:inline-flex; align-items:center; gap:8px; min-height:43px; padding:0 14px; border:1px solid rgba(181,101,29,.28); border-radius:10px; background:rgba(181,101,29,.08); color:#8A4D19; cursor:pointer; }
+.potential-voice-button > span { font-size:15px; }
+.potential-voice-button strong { font-size:9.5px; }
+.potential-voice-button.recording { border-color:#B5651D; background:#B5651D; color:#fff; }
+.potential-privacy { margin:9px 0 0; color:var(--ink-soft,#8C8680); font-size:8.5px; line-height:1.5; }
+.potential-compass-summary { margin-bottom:12px; padding:11px 13px; border-radius:10px; background:#F7F5F1; color:var(--ink-muted,#6B6660); font-size:10px; line-height:1.5; }
+.potential-compass-card { margin-top:10px; padding:14px; border:1px solid var(--hairline,#E8E5E0); border-radius:11px; background:#fff; }
+.potential-compass-card.assumption { border-color:rgba(194,132,71,.26); background:rgba(194,132,71,.05); }
+.potential-compass-card > span { display:block; margin-bottom:7px; color:#8A7849; font-size:8.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+.potential-compass-card blockquote,.potential-compass-card p { margin:0; color:var(--ink,#1A1A1A); font-size:11.5px; line-height:1.65; }
+.potential-compass-card blockquote { font-size:13px; font-weight:650; }
+.potential-compass-card ul { margin:0; padding-left:18px; color:var(--ink-muted,#6B6660); font-size:10.5px; line-height:1.65; }
+.potential-compass-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+.potential-coach-actions { flex-wrap:wrap; }
+.potential-after-review-fields { margin-top:12px; }
+#coachAfter h3 { margin:2px 0 0; font-size:18px; }
 .sr-only { position:absolute!important; width:1px!important; height:1px!important; padding:0!important; margin:-1px!important; overflow:hidden!important; clip:rect(0,0,0,0)!important; white-space:nowrap!important; border:0!important; }
 
 @media (max-width:1000px) {
@@ -224,6 +252,8 @@ body.potential-modal-open { overflow:hidden; }
   .potential-hero h1 { font-size:34px; }
   .potential-hero p { font-size:13px; }
   .potential-hero .potential-primary { width:100%; }
+  .potential-hero-actions { width:100%; }
+  .potential-hero-actions > * { flex:1; }
   .potential-boundary { padding:11px 12px; }
   .potential-kpis { grid-template-columns:1fr 1fr; }
   .potential-kpi { min-height:118px; padding:16px; }
@@ -259,6 +289,10 @@ body.potential-modal-open { overflow:hidden; }
   .potential-choice-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
   .potential-strength-reason { white-space:normal; }
   .potential-strength-preview { align-items:flex-start; }
+  .potential-profile { padding:13px 11px; }
+  .potential-compass-grid { grid-template-columns:1fr; }
+  .potential-voice-controls { align-items:flex-start; flex-direction:column; }
+  .potential-voice-button { width:100%; justify-content:center; }
 }
 @media (prefers-reduced-motion:reduce) {
   .potential-primary,.potential-copy,.potential-secondary,.potential-card { transition:none; }

@@ -1,9 +1,30 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.195 Beta** · Potenzialbuch-Cockpit-Verbindung, live seit 09.08.2026.
+Offizielle Live-Version: **v1.196 Beta** · Kontakt-Coach im Potenzialbuch, live seit 09.08.2026.
 
 ---
+
+## v1.196 Beta - Phase 170 · Kontakt-Coach
+**2026-08-09 · Veröffentlichung freigegeben**
+
+- Kontakte lassen sich frei per Sprache oder Text beschreiben. Die Aufnahme wird nur zur
+  Umwandlung verarbeitet und danach verworfen. Audio und Rohtranskript werden nicht in der
+  Datenbank gespeichert.
+- Die Auswertung befüllt eine Kontrollansicht. Name, Kontaktdaten, Beziehung, gemeinsame
+  Geschichte, Lebenssituation und Interessen bleiben vor dem Speichern vollständig änderbar.
+- Sichere Fakten, Vermutungen und die eigene Unsicherheit des Beraters werden getrennt
+  gehalten. KI-Ausgaben werden nie still als Kundenfakt übernommen.
+- Für nicht verbundene Potenziale entsteht ein persönlicher Gesprächskompass mit natürlichem
+  Einstieg, offenen Fragen, Hinweisen auf vorschnelle Themen und einem guten nächsten Schritt.
+- Nach dem Telefonat kann das Ergebnis erneut gesprochen oder getippt werden. Status,
+  Wiedervorlage und Notiz werden erst nach einer zweiten Kontrollansicht aktualisiert.
+- Bereits mit dem Berater-Cockpit verbundene Personen bleiben dort geführt. Die bestehende
+  Trennung jedes Beraters über erzwungenes RLS und explizite Tabellenrechte bleibt bestehen.
+- Serverseitige KI-Route mit Portal-Loginprüfung, gleichursprünglichen Aufrufen, strikten
+  Antwortstrukturen, deaktivierter OpenAI-Speicherung und begrenzten Audiodaten.
+- 65 automatisierte Portalprüfungen bestanden. Der vollständige Ablauf ist mit erfundenen
+  Kontakten am Desktop und bei 390 Pixeln ohne Browserfehler oder seitliche Überbreite geprüft.
 
 ## v1.195 Beta - Phase 169 · Cockpit-Verbindung
 **2026-08-09 · live veröffentlicht**

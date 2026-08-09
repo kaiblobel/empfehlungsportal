@@ -626,7 +626,7 @@ export async function deleteEmpfehler(id) {
 /* ---------- Phase 168 · Privates Potenzialbuch mit Kontaktstärke ---------- */
 // Potenziale sind ein eigener Arbeitsbereich. Diese Funktionen schreiben
 // ausschließlich in `potenziale` und berühren weder Empfehlungen noch Promoter.
-const POTENZIAL_FIELDS = 'id,berater_id,name,telefon,email,ziel,kreis,kreise,beziehungsnaehe,kontakthaeufigkeit,direkt_erreichbar,kontaktstaerke_override,status,notiz,naechster_kontakt_am,zuletzt_angesprochen_at,cockpit_uebernommen_at,created_at,updated_at';
+const POTENZIAL_FIELDS = 'id,berater_id,name,telefon,email,ziel,kreis,kreise,beziehungsnaehe,kontakthaeufigkeit,direkt_erreichbar,kontaktstaerke_override,status,notiz,naechster_kontakt_am,zuletzt_angesprochen_at,cockpit_uebernommen_at,kontaktbild,kontaktbild_aktualisiert_at,gespraechsvorbereitung,gespraechsvorbereitung_at,created_at,updated_at';
 
 export async function getPotenziale(beraterId) {
   if (!supabase || !beraterId) return { data: [], error: null };

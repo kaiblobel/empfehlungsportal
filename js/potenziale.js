@@ -1,4 +1,4 @@
-/** Phase 168 · Kontaktstärke im privaten Potenzialbuch */
+/** Phase 170 · Kontakt-Coach im privaten Potenzialbuch */
 import {
   POTENTIAL_CIRCLES,
   POTENTIAL_STRENGTHS,
@@ -22,6 +22,14 @@ import {
   cockpitLinkMap,
   cockpitRequest,
 } from './potenziale-cockpit.mjs';
+import {
+  PotentialVoiceRecorder,
+  addDaysIso,
+  blobToBase64,
+  cleanCoachLines,
+  coachLinesText,
+  coachRequest,
+} from './potenziale-coach.mjs';
 
 const PAGE_PARAMS = new URLSearchParams(window.location.search);
 const PREVIEW_REQUESTED = PAGE_PARAMS.get('preview') === 'potenzialbuch';
@@ -48,6 +56,7 @@ const filtersEl = document.getElementById('potentialFilters');
 const strengthFiltersEl = document.getElementById('potentialStrengthFilters');
 const circleFiltersEl = document.getElementById('potentialCircleFilters');
 const modal = document.getElementById('potentialModal');
+const coachModal = document.getElementById('coachModal');
 const transferModal = document.getElementById('transferModal');
 const form = document.getElementById('potentialForm');
 const duplicateWarning = document.getElementById('duplicateWarning');
@@ -73,6 +82,11 @@ let transferTarget = null;
 let restoreFocusEl = null;
 let toastTimer = null;
 let connectedClientLink = null;
+let coachMode = 'contact';
+let coachTarget = null;
+let coachAfterProposal = null;
+let activeRecorder = null;
+let activeRecordButton = null;
 
 document.getElementById('logoutBtn')?.addEventListener('click', async () => {
   if (PREVIEW_MODE) { showToast('In der Vorschau ist kein Login aktiv.'); return; }
@@ -80,6 +94,7 @@ document.getElementById('logoutBtn')?.addEventListener('click', async () => {
   dashboardApi.logout();
 });
 document.getElementById('newPotentialBtn')?.addEventListener('click', (event) => openForm(null, event.currentTarget));
+document.getElementById('voicePotentialBtn')?.addEventListener('click', (event) => openVoiceContact(event.currentTarget));
 searchEl?.addEventListener('input', render);
 filtersEl?.addEventListener('click', (event) => {
   const button = event.target.closest('[data-filter]');
@@ -114,6 +129,16 @@ form?.addEventListener('input', handleFormChange);
 form?.addEventListener('change', handleFormChange);
 document.querySelectorAll('[data-close-modal]').forEach((element) => element.addEventListener('click', closeForm));
 document.querySelectorAll('[data-close-transfer]').forEach((element) => element.addEventListener('click', closeTransfer));
+document.querySelectorAll('[data-close-coach]').forEach((element) => element.addEventListener('click', closeCoach));
+document.getElementById('coachRecordBtn')?.addEventListener('click', () => toggleRecording('coachRecordBtn', 'coachRecordState', 'coachVoiceText'));
+document.getElementById('coachAfterRecordBtn')?.addEventListener('click', () => toggleRecording('coachAfterRecordBtn', 'coachAfterRecordState', 'coachAfterText'));
+document.getElementById('coachAnalyzeBtn')?.addEventListener('click', analyzeVoiceContact);
+document.getElementById('coachCallBtn')?.addEventListener('click', callFromCoach);
+document.getElementById('coachAfterBtn')?.addEventListener('click', () => showCoachScreen('after'));
+document.getElementById('coachBackBtn')?.addEventListener('click', () => showCoachScreen('compass'));
+document.getElementById('coachAfterEditBtn')?.addEventListener('click', () => showCoachScreen('after'));
+document.getElementById('coachAfterAnalyzeBtn')?.addEventListener('click', analyzeAfterCall);
+document.getElementById('coachAfterSaveBtn')?.addEventListener('click', saveAfterCall);
 transferChoices?.addEventListener('click', handleTransferChoice);
 document.getElementById('openConnectedClientBtn')?.addEventListener('click', openConnectedClient);
 listEl?.addEventListener('click', handleListAction);
@@ -122,7 +147,8 @@ document.addEventListener('click', (event) => {
 });
 document.addEventListener('keydown', (event) => {
   if (event.key !== 'Escape') return;
-  if (!transferModal.hidden) closeTransfer();
+  if (!coachModal.hidden) closeCoach();
+  else if (!transferModal.hidden) closeTransfer();
   else if (!modal.hidden) closeForm();
   else closeMenus();
 });
@@ -266,11 +292,12 @@ function renderCard(item) {
       <div class="potential-actions">
         ${isLinked
           ? '<button class="potential-transfer" type="button" data-action="open-cockpit">Kundenakte öffnen</button>'
-          : `<button class="potential-contact" type="button" data-action="contact">${contact.label}</button>${cockpitAvailable ? cockpitTransferButton() : cockpitLockedButton()}`}
+          : `<button class="potential-contact" type="button" data-action="coach">Gespräch vorbereiten</button>${cockpitAvailable ? cockpitTransferButton() : cockpitLockedButton()}`}
         <button class="potential-more" type="button" data-action="menu" aria-label="Weitere Aktionen" aria-expanded="false">•••</button>
       </div>
       <div class="potential-card-menu" hidden>
         <button type="button" data-action="edit">Bearbeiten</button>
+        ${!isLinked ? `<button type="button" data-action="contact">${escapeHtml(contact.label)}</button>` : ''}
         ${isLinked ? '<button type="button" data-action="open-cockpit">Kundenakte im Cockpit öffnen</button>' : (cockpitAvailable ? '<button type="button" data-action="transfer">Mit Cockpit verbinden</button>' : cockpitLockedMenuButton())}
         <button class="danger" type="button" data-action="delete">Kontakt löschen</button>
       </div>
@@ -316,6 +343,7 @@ async function handleListAction(event) {
   }
   closeMenus();
   if (action === 'edit') openForm(item, button);
+  else if (action === 'coach') await openConversationCoach(item, button);
   else if (action === 'contact') await startContact(item);
   else if (action === 'transfer') await openTransfer(item, button);
   else if (action === 'open-cockpit') openCockpitLink(cockpitLinks.get(item.id));
@@ -327,6 +355,7 @@ function openForm(item, trigger) {
   form.reset();
   clearFormErrors();
   clearDuplicateWarning();
+  document.getElementById('voiceReviewNotice').hidden = true;
   document.getElementById('potentialId').value = item?.id || '';
   document.getElementById('potentialName').value = item?.name || '';
   document.getElementById('potentialPhone').value = item?.telefon ? formatPotentialPhone(item.telefon) : '';
@@ -342,6 +371,7 @@ function openForm(item, trigger) {
   document.getElementById('potentialStatus').value = item?.status || 'offen';
   document.getElementById('potentialNextContact').value = item?.naechster_kontakt_am || '';
   document.getElementById('potentialNote').value = item?.notiz || '';
+  writeContactProfile(item?.kontaktbild || {});
   setText('potentialDialogEyebrow', item ? 'Potenzial bearbeiten' : 'Neues Potenzial');
   setText('potentialDialogTitle', item ? item.name : 'Kontakt eintragen');
   setText('savePotentialBtn', item ? 'Änderungen speichern' : 'Kontakt speichern');
@@ -402,7 +432,8 @@ async function saveForm(event) {
 
 function readForm() {
   const phone = cleanPotentialText(document.getElementById('potentialPhone').value);
-  return {
+  const kontaktbild = readContactProfile();
+  const payload = {
     name: cleanPotentialText(document.getElementById('potentialName').value),
     telefon: phone ? formatPotentialPhone(phone) : null,
     email: cleanPotentialText(document.getElementById('potentialEmail').value).toLowerCase() || null,
@@ -416,7 +447,34 @@ function readForm() {
     status: STATUS_LABELS[document.getElementById('potentialStatus').value] ? document.getElementById('potentialStatus').value : 'offen',
     naechster_kontakt_am: document.getElementById('potentialNextContact').value || null,
     notiz: cleanPotentialText(document.getElementById('potentialNote').value) || null,
+    kontaktbild,
   };
+  payload.kontaktbild_aktualisiert_at = Object.values(kontaktbild).some((value) => Array.isArray(value) ? value.length : Boolean(value))
+    ? new Date().toISOString()
+    : null;
+  return payload;
+}
+
+function readContactProfile() {
+  return {
+    kontaktziel: cleanPotentialText(document.getElementById('potentialContactGoal').value),
+    gemeinsameGeschichte: cleanPotentialText(document.getElementById('potentialSharedHistory').value),
+    lebenssituation: cleanCoachLines(document.getElementById('potentialLifeSituation').value),
+    interessen: cleanCoachLines(document.getElementById('potentialInterests').value),
+    sichereFakten: cleanCoachLines(document.getElementById('potentialFacts').value),
+    vermutungen: cleanCoachLines(document.getElementById('potentialAssumptions').value),
+    unsicherheit: cleanPotentialText(document.getElementById('potentialUncertainty').value),
+  };
+}
+
+function writeContactProfile(profile = {}) {
+  document.getElementById('potentialContactGoal').value = cleanPotentialText(profile.kontaktziel || '');
+  document.getElementById('potentialSharedHistory').value = cleanPotentialText(profile.gemeinsameGeschichte || '');
+  document.getElementById('potentialLifeSituation').value = coachLinesText(profile.lebenssituation);
+  document.getElementById('potentialInterests').value = coachLinesText(profile.interessen);
+  document.getElementById('potentialFacts').value = coachLinesText(profile.sichereFakten);
+  document.getElementById('potentialAssumptions').value = coachLinesText(profile.vermutungen);
+  document.getElementById('potentialUncertainty').value = cleanPotentialText(profile.unsicherheit || '');
 }
 
 function validate(payload) {
@@ -451,6 +509,277 @@ async function startContact(item) {
   potentials = potentials.map((candidate) => candidate.id === item.id ? data : candidate);
   render();
   showToast(`${item.name} ist als angesprochen vorgemerkt.`);
+}
+
+function openVoiceContact(trigger) {
+  coachMode = 'contact';
+  coachTarget = null;
+  coachAfterProposal = null;
+  restoreFocusEl = trigger || document.activeElement;
+  setText('coachEyebrow', 'Neuer Kontakt per Sprache');
+  setText('coachTitle', 'Erzähl einfach, was du weißt');
+  setText('coachIntro', 'Name, Beziehung, gemeinsame Geschichte, Lebenssituation und dein Ziel. Du musst keine Reihenfolge einhalten.');
+  document.getElementById('coachVoiceText').value = '';
+  document.getElementById('coachError').hidden = true;
+  showCoachScreen('capture');
+  coachModal.hidden = false;
+  document.body.classList.add('potential-modal-open');
+  requestAnimationFrame(() => document.getElementById('coachRecordBtn')?.focus());
+}
+
+async function openConversationCoach(item, trigger) {
+  if (cockpitLinks.has(item.id)) { openCockpitLink(cockpitLinks.get(item.id)); return; }
+  coachMode = 'conversation';
+  coachTarget = item;
+  coachAfterProposal = null;
+  restoreFocusEl = trigger || document.activeElement;
+  setText('coachEyebrow', 'Gesprächskompass');
+  setText('coachTitle', `Gespräch mit ${item.name}`);
+  setText('coachIntro', 'Ein persönlicher Einstieg und offene Fragen. Kein Skript zum Ablesen.');
+  document.getElementById('coachAfterText').value = '';
+  document.getElementById('coachCompassError').hidden = true;
+  coachModal.hidden = false;
+  document.body.classList.add('potential-modal-open');
+  if (item.gespraechsvorbereitung?.einstieg) {
+    renderCompass(item.gespraechsvorbereitung, item);
+    showCoachScreen('compass');
+    return;
+  }
+  showCoachScreen('compass');
+  document.getElementById('coachContactSummary').textContent = `Für ${item.name} wird ein persönlicher Gesprächskompass erstellt …`;
+  document.getElementById('coachOpener').textContent = '';
+  document.getElementById('coachQuestions').innerHTML = '';
+  document.getElementById('coachWarnings').innerHTML = '';
+  document.getElementById('coachNextStep').textContent = '';
+  await generateCompass(item);
+}
+
+function closeCoach() {
+  if (coachModal.hidden) return;
+  activeRecorder?.cancel();
+  activeRecorder = null;
+  activeRecordButton = null;
+  coachModal.hidden = true;
+  coachTarget = null;
+  coachAfterProposal = null;
+  document.body.classList.remove('potential-modal-open');
+  restoreFocusEl?.focus?.();
+}
+
+function showCoachScreen(screen) {
+  document.getElementById('coachCapture').hidden = screen !== 'capture';
+  document.getElementById('coachCompass').hidden = screen !== 'compass';
+  document.getElementById('coachAfter').hidden = screen !== 'after';
+  document.getElementById('coachAfterReview').hidden = screen !== 'after-review';
+}
+
+async function toggleRecording(buttonId, stateId, textareaId) {
+  const button = document.getElementById(buttonId);
+  const state = document.getElementById(stateId);
+  const textarea = document.getElementById(textareaId);
+  if (activeRecorder && activeRecordButton === button) {
+    button.disabled = true;
+    state.textContent = 'Aufnahme wird umgewandelt …';
+    try {
+      const { blob, mimeType } = await activeRecorder.stop();
+      const audioBase64 = await blobToBase64(blob);
+      const result = await runCoach('transcribe', { audioBase64, mimeType });
+      if (!result.ok) throw new Error(result.reason || 'transcription_failed');
+      textarea.value = [textarea.value.trim(), result.text].filter(Boolean).join('\n');
+      state.textContent = 'Aufnahme umgewandelt. Text bitte prüfen.';
+    } catch (error) {
+      state.textContent = error.message === 'audio_too_large'
+        ? 'Die Aufnahme war zu lang. Bitte kürzer einsprechen.'
+        : 'Die Aufnahme konnte nicht umgewandelt werden. Du kannst den Text eintippen.';
+    } finally {
+      button.disabled = false;
+      button.classList.remove('recording');
+      button.querySelector('strong').textContent = buttonId === 'coachAfterRecordBtn' ? 'Ergebnis einsprechen' : 'Aufnahme starten';
+      activeRecorder = null;
+      activeRecordButton = null;
+    }
+    return;
+  }
+  activeRecorder?.cancel();
+  try {
+    activeRecorder = new PotentialVoiceRecorder();
+    await activeRecorder.start();
+    activeRecordButton = button;
+    button.classList.add('recording');
+    button.querySelector('strong').textContent = 'Aufnahme beenden';
+    state.textContent = 'Aufnahme läuft. Sprich frei und ohne feste Reihenfolge.';
+  } catch (_) {
+    activeRecorder = null;
+    state.textContent = 'Kein Mikrofonzugriff. Du kannst die Beschreibung eintippen.';
+  }
+}
+
+async function analyzeVoiceContact() {
+  const text = cleanPotentialText(document.getElementById('coachVoiceText').value);
+  const error = document.getElementById('coachError');
+  error.hidden = true;
+  if (text.length < 10) { error.textContent = 'Bitte beschreibe den Kontakt mit mindestens einem vollständigen Satz.'; error.hidden = false; return; }
+  setCoachButtonBusy('coachAnalyzeBtn', true, 'Wird geordnet …');
+  const result = await runCoach('kontaktbild', { text });
+  setCoachButtonBusy('coachAnalyzeBtn', false, 'Auswerten und prüfen');
+  if (!result.ok) { error.textContent = coachErrorText(result.reason); error.hidden = false; return; }
+  const data = result.data || {};
+  closeCoach();
+  openForm(null, restoreFocusEl);
+  applyContactExtraction(data);
+  document.getElementById('voiceReviewNotice').hidden = false;
+  document.getElementById('potentialName').focus();
+}
+
+function applyContactExtraction(data) {
+  document.getElementById('potentialName').value = cleanPotentialText(data.name || '');
+  document.getElementById('potentialPhone').value = data.telefon ? formatPotentialPhone(data.telefon) : '';
+  document.getElementById('potentialEmail').value = cleanPotentialText(data.email || '').toLowerCase();
+  document.getElementById('potentialGoal').value = data.ziel === 'partner' ? 'partner' : 'kunde';
+  document.getElementById('potentialCircle').value = cleanPotentialText(data.eigenerKreis || '');
+  const circles = new Set(Array.isArray(data.kreise) ? data.kreise : []);
+  form.querySelectorAll('input[name="kreise"]').forEach((checkbox) => { checkbox.checked = circles.has(checkbox.value); });
+  document.getElementById('potentialRelationship').value = ['fluechtig','bekannt','gut_bekannt','eng_vertraut'].includes(data.beziehungsnaehe) ? data.beziehungsnaehe : 'bekannt';
+  document.getElementById('potentialFrequency').value = ['kein_kontakt','selten','gelegentlich','regelmaessig'].includes(data.kontakthaeufigkeit) ? data.kontakthaeufigkeit : 'selten';
+  document.getElementById('potentialDirect').checked = Boolean(data.direktErreichbar);
+  document.getElementById('potentialNote').value = cleanPotentialText(data.notizVorschlag || '');
+  writeContactProfile({
+    kontaktziel: data.kontaktziel,
+    gemeinsameGeschichte: data.gemeinsameGeschichte,
+    lebenssituation: data.lebenssituation,
+    interessen: data.interessen,
+    sichereFakten: data.sichereFakten,
+    vermutungen: data.vermutungen,
+    unsicherheit: data.unsicherheit,
+  });
+  updateStrengthPreview();
+}
+
+async function generateCompass(item) {
+  const error = document.getElementById('coachCompassError');
+  error.hidden = true;
+  const result = await runCoach('gespraech', { data: conversationContext(item) });
+  if (!result.ok) { error.textContent = coachErrorText(result.reason); error.hidden = false; return; }
+  const preparation = result.data || {};
+  renderCompass(preparation, item);
+  const saved = await storeUpdate(item.id, { gespraechsvorbereitung: preparation, gespraechsvorbereitung_at: new Date().toISOString() });
+  if (!saved.error) {
+    potentials = potentials.map((candidate) => candidate.id === item.id ? saved.data : candidate);
+    coachTarget = saved.data;
+  }
+}
+
+function conversationContext(item) {
+  return {
+    name: item.name,
+    ziel: item.ziel,
+    kreise: potentialCircleLabels(item),
+    beziehungsnaehe: item.beziehungsnaehe,
+    kontakthaeufigkeit: item.kontakthaeufigkeit,
+    bisherigeNotiz: item.notiz || '',
+    bestaetigtesKontaktbild: item.kontaktbild || {},
+  };
+}
+
+function renderCompass(preparation, item) {
+  const strength = potentialContactStrength(item);
+  document.getElementById('coachContactSummary').textContent = `${item.name} · ${strength.label} · ${preparation.ton || 'natürlich und offen'}`;
+  document.getElementById('coachOpener').textContent = preparation.einstieg || '';
+  document.getElementById('coachQuestions').innerHTML = renderCoachList(preparation.fragen, 'Noch keine Fragen vorbereitet.');
+  document.getElementById('coachWarnings').innerHTML = renderCoachList(preparation.nichtVorschnell, 'Keine besonderen Hinweise.');
+  document.getElementById('coachNextStep').textContent = preparation.naechsterSchritt || '';
+  const contact = primaryContact(item);
+  document.getElementById('coachCallBtn').textContent = contact.type === 'edit' ? 'Kontaktdaten ergänzen' : contact.label;
+}
+
+function renderCoachList(items, empty) {
+  const values = Array.isArray(items) ? items.filter(Boolean) : [];
+  return (values.length ? values : [empty]).map((value) => `<li>${escapeHtml(value)}</li>`).join('');
+}
+
+async function callFromCoach() {
+  if (!coachTarget) return;
+  await startContact(coachTarget);
+  coachTarget = potentials.find((item) => item.id === coachTarget.id) || coachTarget;
+  showCoachScreen('after');
+}
+
+async function analyzeAfterCall() {
+  const text = cleanPotentialText(document.getElementById('coachAfterText').value);
+  const error = document.getElementById('coachAfterError');
+  error.hidden = true;
+  if (text.length < 5) { error.textContent = 'Bitte trage kurz ein, was im Gespräch herauskam.'; error.hidden = false; return; }
+  setCoachButtonBusy('coachAfterAnalyzeBtn', true, 'Wird geordnet …');
+  const result = await runCoach('nachbereitung', { text, data: conversationContext(coachTarget) });
+  setCoachButtonBusy('coachAfterAnalyzeBtn', false, 'Auswerten und prüfen');
+  if (!result.ok) { error.textContent = coachErrorText(result.reason); error.hidden = false; return; }
+  coachAfterProposal = result.data || {};
+  document.getElementById('coachAfterSummary').textContent = coachAfterProposal.kurzfassung || '';
+  document.getElementById('coachAfterStatus').value = STATUS_LABELS[coachAfterProposal.status] && coachAfterProposal.status !== 'uebernommen' ? coachAfterProposal.status : 'angesprochen';
+  document.getElementById('coachAfterDate').value = addDaysIso(coachAfterProposal.naechsterKontaktTage || 0);
+  document.getElementById('coachAfterNote').value = cleanPotentialText(coachAfterProposal.notizErgaenzung || '');
+  document.getElementById('coachAfterReviewError').hidden = true;
+  showCoachScreen('after-review');
+}
+
+async function saveAfterCall() {
+  if (!coachTarget || !coachAfterProposal) return;
+  const noteAddition = cleanPotentialText(document.getElementById('coachAfterNote').value);
+  const status = document.getElementById('coachAfterStatus').value;
+  const date = document.getElementById('coachAfterDate').value || null;
+  const datedNote = noteAddition ? `${new Date().toLocaleDateString('de-DE')}: ${noteAddition}` : '';
+  const updates = {
+    status: STATUS_LABELS[status] && status !== 'uebernommen' ? status : 'angesprochen',
+    naechster_kontakt_am: date,
+    zuletzt_angesprochen_at: new Date().toISOString(),
+    notiz: [coachTarget.notiz, datedNote].filter(Boolean).join('\n\n').slice(0, 4000) || null,
+  };
+  setCoachButtonBusy('coachAfterSaveBtn', true, 'Wird gespeichert …');
+  const result = await storeUpdate(coachTarget.id, updates);
+  setCoachButtonBusy('coachAfterSaveBtn', false, 'Ergebnis übernehmen');
+  if (result.error) {
+    const error = document.getElementById('coachAfterReviewError');
+    error.textContent = 'Das Ergebnis konnte nicht gespeichert werden. Deine Angaben bleiben geöffnet.';
+    error.hidden = false;
+    return;
+  }
+  potentials = potentials.map((item) => item.id === coachTarget.id ? result.data : item);
+  const name = coachTarget.name;
+  closeCoach();
+  render();
+  showToast(`Gespräch mit ${name} ist nachgetragen.`);
+}
+
+async function runCoach(action, payload) {
+  if (!PREVIEW_MODE) return coachRequest(fetch, accessToken, action, payload);
+  if (action === 'transcribe') return { ok: true, text: 'Martin kenne ich vom Fußball. Wir hatten länger keinen Kontakt. Er hat vor zwei Jahren gebaut, ist verheiratet und hat zwei Kinder. Ich möchte natürlich wieder ins Gespräch kommen.' };
+  if (action === 'kontaktbild') return { ok: true, data: previewKontaktbild() };
+  if (action === 'gespraech') return { ok: true, data: previewCompass(payload.data || {}) };
+  if (action === 'nachbereitung') return { ok: true, data: { kurzfassung:'Das Haus ist fertig. Ein weiterer Austausch zur Familienabsicherung ist vereinbart.',bestaetigteFakten:['Das Haus ist fertig'],verworfeneVermutungen:['Finanzierung ist aktuell kein Thema'],notizErgaenzung:'Haus fertig. Finanzierung soll unverändert bleiben. Nächster Austausch zur Familienabsicherung vereinbart.',status:'im_gespraech',naechsterKontaktTage:7 } };
+  return { ok: false, reason: 'invalid_action' };
+}
+
+function previewKontaktbild() {
+  return { name:'Martin Beispiel',telefon:'0172 5550199',email:'',ziel:'kunde',kreise:['verein_hobby','fluechtige_bekanntschaft'],eigenerKreis:'',beziehungsnaehe:'bekannt',kontakthaeufigkeit:'selten',direktErreichbar:true,kontaktziel:'Kontakt natürlich auffrischen und offen hören, was gerade wichtig ist.',gemeinsameGeschichte:'Aus dem Fußballverein. Seit längerer Zeit kein persönlicher Austausch.',lebenssituation:['Verheiratet','Zwei Kinder','Hat vor etwa zwei Jahren ein Haus gebaut'],interessen:['Fußball'],sichereFakten:['Kennt Kai aus dem Fußballverein','Ist verheiratet und hat zwei Kinder','Hat vor etwa zwei Jahren gebaut'],vermutungen:['Finanzierung könnte noch ein Thema sein','Familienabsicherung könnte relevant sein'],unsicherheit:'Nach längerer Pause natürlich wieder Kontakt aufnehmen, ohne Verkaufsgefühl.',notizVorschlag:'Aus dem Fußballverein. Kontakt nach längerer Pause persönlich auffrischen.' };
+}
+
+function previewCompass(context = {}) {
+  const name = cleanPotentialText(context.name || 'Martin').split(' ')[0];
+  const tennis = /tennis/i.test(context.bisherigeNotiz || '');
+  const connection = tennis ? 'unser Tennisspielen' : 'unsere gemeinsame Zeit';
+  return { ziel:'Kontakt persönlich auffrischen',ton:'vertraut, ruhig und ohne Verkaufsdruck',einstieg:`Hallo ${name}, ich musste letztens an ${connection} denken und wollte einfach mal hören, wie es dir geht. Was ist bei dir gerade los?`,fragen:['Was hat sich bei dir in letzter Zeit am meisten verändert?','Was beschäftigt dich im Moment besonders?','Gibt es gerade etwas, bei dem du gern mehr Klarheit hättest?'],nichtVorschnell:['Finanzierung oder Absicherung erst ansprechen, wenn die Person selbst einen Bezug herstellt.'],naechsterSchritt:'Bei echtem Interesse einen ruhigen zweiten Termin vereinbaren.' };
+}
+
+function setCoachButtonBusy(id, busy, label) {
+  const button = document.getElementById(id);
+  button.disabled = busy;
+  button.textContent = label;
+}
+
+function coachErrorText(reason) {
+  if (reason === 'coach_not_configured') return 'Der Kontakt-Coach ist noch nicht freigeschaltet.';
+  if (reason === 'login_required') return 'Bitte melde dich erneut an.';
+  return 'Der Kontakt-Coach ist gerade nicht erreichbar. Deine Eingabe bleibt erhalten.';
 }
 
 async function openTransfer(item, trigger) {
