@@ -1,4 +1,4 @@
-/* Phase 167 · Potenzialbuch auf Basis der Hub-DNA */
+/* Phase 168 · Potenzialbuch mit Kontaktstärke auf Basis der Hub-DNA */
 body[data-page="potenziale"] { background:var(--bg-primary,#FAFAFA); color:var(--ink,#1A1A1A); font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif; -webkit-font-smoothing:antialiased; }
 .potential-main { max-width:1380px; gap:0; padding-top:38px; padding-bottom:88px; }
 .potential-hero { display:flex; align-items:flex-end; justify-content:space-between; gap:28px; margin-bottom:22px; }
@@ -35,6 +35,35 @@ body[data-page="potenziale"] { background:var(--bg-primary,#FAFAFA); color:var(-
 .potential-search > span { flex:0 0 auto; margin-right:8px; font-size:19px; line-height:1; }
 .potential-search input { width:100%; min-width:0; border:0; outline:0; background:transparent; color:var(--ink,#1A1A1A); font:500 12px/1.4 Inter,sans-serif; }
 .potential-search input::placeholder { color:var(--ink-soft,#8C8680); }
+.potential-filter-groups { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:end; gap:12px; margin-bottom:13px; }
+.potential-filter-heading { margin-bottom:7px; color:var(--ink-soft,#8C8680); font-size:8.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+.potential-strength-buttons { display:flex; gap:6px; overflow-x:auto; padding:1px 1px 3px; scrollbar-width:none; }
+.potential-strength-buttons::-webkit-scrollbar { display:none; }
+.potential-strength-buttons button { --strength-bg:#F2F0EC; --strength-fg:#6B6660; display:inline-flex; align-items:center; gap:6px; flex:0 0 auto; min-height:38px; padding:0 11px; border:1px solid var(--hairline,#E8E5E0); border-radius:9px; background:#fff; color:var(--ink-muted,#6B6660); font:750 9.5px/1 Inter,sans-serif; cursor:pointer; }
+.potential-strength-buttons button > span:first-child { display:grid; place-items:center; width:20px; height:20px; border-radius:7px; background:var(--strength-bg); color:var(--strength-fg); }
+.potential-strength-buttons button svg { width:13px; height:13px; }
+.potential-strength-buttons button[data-strength-filter="kalt"] { --strength-bg:rgba(46,82,102,.10); --strength-fg:#2E5266; }
+.potential-strength-buttons button[data-strength-filter="lauwarm"] { --strength-bg:rgba(201,185,138,.19); --strength-fg:#7D6C3E; }
+.potential-strength-buttons button[data-strength-filter="warm"] { --strength-bg:rgba(194,132,71,.14); --strength-fg:#8C5C2D; }
+.potential-strength-buttons button[data-strength-filter="heiss"] { --strength-bg:rgba(181,101,29,.13); --strength-fg:#9A531C; }
+.potential-strength-buttons button[data-strength-filter="sehr_heiss"] { --strength-bg:rgba(154,79,32,.14); --strength-fg:#7F3F25; }
+.potential-strength-buttons button:hover { border-color:var(--strength-fg); color:var(--ink,#1A1A1A); }
+.potential-strength-buttons button.active { border-color:var(--strength-fg,#1D1C1A); background:var(--strength-bg,#1D1C1A); color:var(--strength-fg,#fff); box-shadow:0 0 0 2px color-mix(in srgb,var(--strength-bg,#1D1C1A) 68%,white); }
+.potential-strength-buttons button[data-strength-filter="alle"].active { --strength-bg:#1D1C1A; --strength-fg:#fff; }
+.potential-filter-all { font-size:7px; }
+.potential-circle-filter { position:relative; min-width:190px; }
+.potential-circle-filter summary { display:flex; align-items:center; justify-content:space-between; gap:18px; min-height:42px; padding:0 12px; border:1px solid var(--hairline,#E8E5E0); border-radius:10px; background:#fff; color:var(--ink-muted,#6B6660); font-size:10px; font-weight:700; cursor:pointer; list-style:none; }
+.potential-circle-filter summary::-webkit-details-marker { display:none; }
+.potential-circle-filter summary::after { content:'⌄'; color:var(--ink-soft,#8C8680); font-size:14px; }
+.potential-circle-filter[open] summary { border-color:#C9B98A; box-shadow:0 0 0 3px rgba(201,185,138,.12); }
+.potential-circle-filter summary strong { margin-left:auto; max-width:110px; overflow:hidden; color:#7D6C3E; font-size:9px; text-overflow:ellipsis; white-space:nowrap; }
+.potential-circle-filter-body { position:absolute; top:48px; right:0; z-index:8; width:min(520px,calc(100vw - 40px)); padding:15px; border:1px solid var(--hairline,#E8E5E0); border-radius:12px; background:#fff; box-shadow:0 18px 42px rgba(23,21,18,.16); }
+.potential-circle-filter-body p { margin:0 0 11px; color:var(--ink-soft,#8C8680); font-size:9px; line-height:1.45; }
+.potential-circle-options { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:7px; }
+.potential-circle-options label { display:flex; align-items:center; gap:7px; min-height:36px; padding:7px 9px; border:1px solid #EEEAE4; border-radius:8px; color:var(--ink-muted,#6B6660); font-size:9px; font-weight:650; cursor:pointer; }
+.potential-circle-options label:has(input:checked) { border-color:rgba(201,185,138,.72); background:rgba(201,185,138,.11); color:#6F613A; }
+.potential-circle-options input { accent-color:#8A7741; }
+.potential-filter-reset { min-height:34px; margin-top:11px; padding:0 11px; border:1px solid var(--hairline,#E8E5E0); border-radius:8px; background:#fff; color:var(--ink-muted,#6B6660); font:700 9px/1 Inter,sans-serif; cursor:pointer; }
 .potential-filters { display:flex; gap:6px; margin-bottom:15px; overflow-x:auto; padding:1px 1px 5px; scrollbar-width:none; }
 .potential-filters::-webkit-scrollbar { display:none; }
 .potential-filters button { flex:0 0 auto; min-height:34px; padding:0 11px; border:1px solid var(--hairline,#E8E5E0); border-radius:8px; background:#fff; color:var(--ink-muted,#6B6660); font:700 10px/1 Inter,sans-serif; cursor:pointer; }
@@ -44,7 +73,7 @@ body[data-page="potenziale"] { background:var(--bg-primary,#FAFAFA); color:var(-
 .potential-error { margin-bottom:14px; }
 
 .potential-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; }
-.potential-card { position:relative; display:flex; flex-direction:column; min-width:0; min-height:220px; padding:18px; border:1px solid var(--hairline,#E8E5E0); border-radius:14px; background:#fff; box-shadow:var(--shadow-card,0 4px 12px rgba(0,0,0,.04)); transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease; }
+.potential-card { position:relative; display:flex; flex-direction:column; min-width:0; min-height:248px; padding:18px; border:1px solid var(--hairline,#E8E5E0); border-radius:14px; background:#fff; box-shadow:var(--shadow-card,0 4px 12px rgba(0,0,0,.04)); transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease; }
 .potential-card:hover { transform:translateY(-2px); border-color:var(--hairline-strong,#DDD8D0); box-shadow:var(--shadow-card-hover,0 12px 28px rgba(20,18,12,.07)); }
 .potential-card.overdue { border-color:rgba(181,101,29,.26); }
 .potential-card-head { display:grid; grid-template-columns:42px minmax(0,1fr) auto; align-items:center; gap:11px; }
@@ -58,6 +87,16 @@ body[data-page="potenziale"] { background:var(--bg-primary,#FAFAFA); color:var(-
 .potential-status[data-status="termin"] { --status-bg:rgba(194,132,71,.13); --status-fg:#8C5C2D; }
 .potential-status[data-status="uebernommen"] { --status-bg:rgba(46,82,102,.11); --status-fg:#2E5266; }
 .potential-status[data-status="kein_interesse"] { --status-bg:#F0EFED; --status-fg:#827D77; }
+.potential-strength-line { display:flex; align-items:center; gap:9px; min-width:0; margin-top:14px; }
+.potential-strength-badge { --strength-bg:#F2F0EC; --strength-fg:#6B6660; display:inline-flex; align-items:center; gap:6px; flex:0 0 auto; min-height:29px; padding:0 9px; border:1px solid color-mix(in srgb,var(--strength-fg) 18%,white); border-radius:9px; background:var(--strength-bg); color:var(--strength-fg); }
+.potential-strength-badge svg { width:14px; height:14px; }
+.potential-strength-badge strong { font-size:9px; font-weight:800; }
+.potential-strength-badge[data-strength="kalt"] { --strength-bg:rgba(46,82,102,.09); --strength-fg:#2E5266; }
+.potential-strength-badge[data-strength="lauwarm"] { --strength-bg:rgba(201,185,138,.17); --strength-fg:#7D6C3E; }
+.potential-strength-badge[data-strength="warm"] { --strength-bg:rgba(194,132,71,.13); --strength-fg:#8C5C2D; }
+.potential-strength-badge[data-strength="heiss"] { --strength-bg:rgba(181,101,29,.12); --strength-fg:#9A531C; }
+.potential-strength-badge[data-strength="sehr_heiss"] { --strength-bg:rgba(154,79,32,.13); --strength-fg:#7F3F25; }
+.potential-strength-reason { overflow:hidden; color:var(--ink-soft,#8C8680); font-size:8.8px; text-overflow:ellipsis; white-space:nowrap; }
 .potential-meta { display:flex; flex-wrap:wrap; gap:7px; margin-top:15px; }
 .potential-meta span { max-width:100%; overflow:hidden; padding:6px 8px; border-radius:7px; background:var(--surface-soft,#F7F5F1); color:var(--ink-muted,#6B6660); font-size:9px; text-overflow:ellipsis; white-space:nowrap; }
 .potential-note { display:-webkit-box; overflow:hidden; min-height:35px; margin:13px 0 0; color:var(--ink-muted,#6B6660); font-size:10.5px; line-height:1.55; -webkit-box-orient:vertical; -webkit-line-clamp:2; }
@@ -96,11 +135,29 @@ body[data-page="potenziale"] { background:var(--bg-primary,#FAFAFA); color:var(-
 .potential-field { display:grid; gap:7px; min-width:0; }
 .potential-field-wide { grid-column:1/-1; }
 .potential-field > span { color:var(--ink-muted,#6B6660); font-size:9.5px; font-weight:750; }
+.potential-field > span small,.potential-choice-field legend small { color:var(--ink-soft,#8C8680); font-size:8px; font-weight:600; }
 .potential-field input,.potential-field select,.potential-field textarea { width:100%; min-height:43px; padding:10px 11px; border:1px solid var(--hairline,#E8E5E0); border-radius:9px; outline:0; background:#fff; color:var(--ink,#1A1A1A); font:500 11px/1.4 Inter,sans-serif; }
 .potential-field textarea { min-height:92px; resize:vertical; }
 .potential-field input:focus,.potential-field select:focus,.potential-field textarea:focus { border-color:#C9B98A; box-shadow:0 0 0 3px rgba(201,185,138,.14); }
 .potential-field.invalid input { border-color:rgba(181,101,29,.55); box-shadow:0 0 0 3px rgba(181,101,29,.08); }
 .potential-field-error { min-height:0; color:#A75F20; font-size:8.5px; }
+.potential-choice-field { margin:0; padding:0; border:0; }
+.potential-choice-field legend { margin-bottom:8px; color:var(--ink-muted,#6B6660); font-size:9.5px; font-weight:750; }
+.potential-choice-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; }
+.potential-choice-grid label { position:relative; cursor:pointer; }
+.potential-choice-grid input { position:absolute; opacity:0; pointer-events:none; }
+.potential-choice-grid span { display:flex; align-items:center; justify-content:center; min-height:39px; padding:7px 8px; border:1px solid var(--hairline,#E8E5E0); border-radius:9px; background:#fff; color:var(--ink-muted,#6B6660); font-size:8.7px; font-weight:700; text-align:center; }
+.potential-choice-grid input:focus-visible + span { outline:2px solid #C9B98A; outline-offset:2px; }
+.potential-choice-grid input:checked + span { border-color:rgba(201,185,138,.75); background:rgba(201,185,138,.13); color:#6F613A; box-shadow:inset 0 0 0 1px rgba(201,185,138,.14); }
+.potential-direct { display:flex; align-items:flex-start; gap:10px; min-height:52px; padding:10px 11px; border:1px solid var(--hairline,#E8E5E0); border-radius:9px; background:var(--surface-soft,#F7F5F1); cursor:pointer; }
+.potential-direct input { width:17px; height:17px; margin:1px 0 0; accent-color:#7A8B6F; }
+.potential-direct > span { display:grid; gap:3px; }
+.potential-direct strong { color:var(--ink,#1A1A1A); font-size:9.5px; }
+.potential-direct small { color:var(--ink-soft,#8C8680); font-size:8.5px; line-height:1.4; }
+.potential-strength-preview { display:flex; align-items:center; gap:11px; min-height:62px; padding:11px 12px; border:1px solid rgba(201,185,138,.28); border-radius:10px; background:linear-gradient(120deg,rgba(201,185,138,.07),rgba(255,255,255,.9)); }
+.potential-strength-preview > span:last-child { display:grid; gap:4px; min-width:0; }
+.potential-strength-preview > span:last-child > strong { font-size:9.5px; }
+.potential-strength-preview small { color:var(--ink-soft,#8C8680); font-size:8.5px; line-height:1.45; }
 .potential-duplicate { margin-top:15px; padding:13px 14px; border:1px solid rgba(194,132,71,.24); border-radius:10px; background:rgba(194,132,71,.07); }
 .potential-duplicate strong { font-size:11px; }
 .potential-duplicate p { margin:5px 0 9px; color:var(--ink-muted,#6B6660); font-size:9.5px; line-height:1.45; }
@@ -136,6 +193,10 @@ body.potential-modal-open { overflow:hidden; }
   .potential-kpi:nth-child(4) { border-top:1px solid var(--hairline,#E8E5E0); }
   .potential-toolbar { align-items:flex-start; flex-direction:column; }
   .potential-search { width:100%; }
+  .potential-filter-groups { grid-template-columns:1fr; }
+  .potential-circle-filter { width:100%; }
+  .potential-circle-filter-body { left:0; right:auto; }
+  .potential-choice-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
 }
 @media (max-width:600px) {
   .potential-main { padding-inline:16px; }
@@ -172,6 +233,11 @@ body.potential-modal-open { overflow:hidden; }
   .potential-toast { right:16px; bottom:calc(76px + env(safe-area-inset-bottom)); }
   .potential-loading { grid-template-columns:1fr; }
   .potential-loading span:nth-child(n+2) { display:none; }
+  .potential-circle-options { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .potential-circle-filter-body { position:static; width:100%; margin-top:7px; box-shadow:none; }
+  .potential-choice-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .potential-strength-reason { white-space:normal; }
+  .potential-strength-preview { align-items:flex-start; }
 }
 @media (prefers-reduced-motion:reduce) {
   .potential-primary,.potential-copy,.potential-secondary,.potential-card { transition:none; }

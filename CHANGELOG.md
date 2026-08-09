@@ -5,6 +5,24 @@ Offizielle Live-Version: **v1.193 Beta** · Potenzialbuch, live seit 09.08.2026.
 
 ---
 
+## v1.194 Beta - Phase 168 · Kontaktstärke
+**2026-08-09 · vorbereitet, nicht veröffentlicht**
+
+Das Potenzialbuch ordnet Kontakte zusätzlich nach der tatsächlichen Beziehungsstärke.
+
+- Mehrere Kreise pro Person, unter anderem Familie, Freundeskreis, Schulzeit, Ausbildung,
+  Arbeit, Nachbarschaft, Verein oder Hobby und flüchtige Alltagsbekanntschaften.
+- Automatische Einstufung als kalt, lauwarm, warm, heiß oder sehr heiß aus Kreisen,
+  Beziehungsnähe, Kontakthäufigkeit und direkter Erreichbarkeit. Ohne Kontaktweg bleibt ein
+  Eintrag kalt. Eine bewusste manuelle Korrektur bleibt möglich.
+- Fünf ruhige Symbole von Schneeflocke bis Flamme, sichtbare Begründung auf jeder Karte und
+  Filter nach Kontaktstärke sowie mehreren Kreisen gleichzeitig.
+- Additive Migration `schema-phase168.sql`; bestehende freie Umfeldangaben bleiben erhalten.
+  Keine Verbindung zu Empfehlungen, Promotern, Prämien, Benachrichtigungen oder Kennzahlen.
+
+Noch nicht live: Migration, Veröffentlichung und echter eingeloggter Sichttest benötigen das
+Freigabe-Gate. Service-Worker lokal auf `v153-2026-08-09b` vorbereitet.
+
 ## v1.193 Beta - Phase 167 · Potenzialbuch
 **2026-08-09 · live veröffentlicht**
 

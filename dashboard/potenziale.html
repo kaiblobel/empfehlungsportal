@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="../css/style.css?v=33" />
   <link rel="stylesheet" href="../css/dashboard.css?v=49" />
   <link rel="stylesheet" href="../css/hub.css?v=53" />
-  <link rel="stylesheet" href="../css/potenziale.css?v=1" />
+  <link rel="stylesheet" href="../css/potenziale.css?v=2" />
   <script src="../js/config.js"></script>
 </head>
 <body data-page="potenziale" class="has-app-nav">
@@ -69,10 +69,46 @@
         <label class="potential-search">
           <span class="sr-only">Potenziale durchsuchen</span>
           <span aria-hidden="true">⌕</span>
-          <input id="potentialSearch" type="search" placeholder="Name, Telefon, E-Mail oder Umfeld" autocomplete="off" />
+          <input id="potentialSearch" type="search" placeholder="Name, Telefon, E-Mail, Kreis oder Stärke" autocomplete="off" />
         </label>
       </header>
 
+      <div class="potential-filter-groups">
+        <section class="potential-strength-filter" aria-labelledby="potentialStrengthFilterLabel">
+          <div class="potential-filter-heading" id="potentialStrengthFilterLabel">Kontaktstärke</div>
+          <div class="potential-strength-buttons" id="potentialStrengthFilters">
+            <button class="active" type="button" data-strength-filter="alle"><span class="potential-filter-all" aria-hidden="true">●</span><span>Alle</span></button>
+            <button type="button" data-strength-filter="kalt"><span data-strength-symbol="kalt" aria-hidden="true"></span><span>Kalt</span></button>
+            <button type="button" data-strength-filter="lauwarm"><span data-strength-symbol="lauwarm" aria-hidden="true"></span><span>Lauwarm</span></button>
+            <button type="button" data-strength-filter="warm"><span data-strength-symbol="warm" aria-hidden="true"></span><span>Warm</span></button>
+            <button type="button" data-strength-filter="heiss"><span data-strength-symbol="heiss" aria-hidden="true"></span><span>Heiß</span></button>
+            <button type="button" data-strength-filter="sehr_heiss"><span data-strength-symbol="sehr_heiss" aria-hidden="true"></span><span>Sehr heiß</span></button>
+          </div>
+        </section>
+        <details class="potential-circle-filter" id="potentialCircleFilter">
+          <summary><span>Kreise filtern</span><strong id="potentialCircleFilterCount">Alle</strong></summary>
+          <div class="potential-circle-filter-body">
+            <p>Mehrere Kreise zeigen nur Kontakte, auf die alle ausgewählten Kreise zutreffen.</p>
+            <div class="potential-circle-options" id="potentialCircleFilters">
+              <label><input type="checkbox" value="familie" />Familie</label>
+              <label><input type="checkbox" value="enger_freundeskreis" />Enger Freundeskreis</label>
+              <label><input type="checkbox" value="freunde" />Freunde</label>
+              <label><input type="checkbox" value="schulzeit" />Schulzeit</label>
+              <label><input type="checkbox" value="ausbildung_studium" />Ausbildung / Studium</label>
+              <label><input type="checkbox" value="arbeit_aktuell" />Aktuelle Arbeit</label>
+              <label><input type="checkbox" value="arbeit_frueher" />Frühere Arbeit</label>
+              <label><input type="checkbox" value="nachbarschaft" />Nachbarschaft</label>
+              <label><input type="checkbox" value="verein_hobby" />Verein / Hobby</label>
+              <label><input type="checkbox" value="alltag" />Alltag</label>
+              <label><input type="checkbox" value="fluechtige_bekanntschaft" />Flüchtige Bekanntschaft</label>
+              <label><input type="checkbox" value="sonstiges" />Sonstiges</label>
+            </div>
+            <button class="potential-filter-reset" id="clearCircleFilters" type="button">Alle Kreise zeigen</button>
+          </div>
+        </details>
+      </div>
+
+      <div class="potential-filter-heading">Stand im Prozess</div>
       <div class="potential-filters" id="potentialFilters" aria-label="Status filtern">
         <button class="active" type="button" data-filter="alle">Alle</button>
         <button type="button" data-filter="offen">Offen</button>
@@ -123,10 +159,61 @@
               <option value="partner">Potenzialpartner</option>
             </select>
           </label>
+          <fieldset class="potential-field potential-field-wide potential-choice-field">
+            <legend>Woher kennt ihr euch? <small>Mehrfachauswahl möglich</small></legend>
+            <div class="potential-choice-grid" id="potentialCircleChoices">
+              <label><input type="checkbox" name="kreise" value="familie" /><span>Familie</span></label>
+              <label><input type="checkbox" name="kreise" value="enger_freundeskreis" /><span>Enger Freundeskreis</span></label>
+              <label><input type="checkbox" name="kreise" value="freunde" /><span>Freunde</span></label>
+              <label><input type="checkbox" name="kreise" value="schulzeit" /><span>Schulzeit</span></label>
+              <label><input type="checkbox" name="kreise" value="ausbildung_studium" /><span>Ausbildung / Studium</span></label>
+              <label><input type="checkbox" name="kreise" value="arbeit_aktuell" /><span>Aktuelle Arbeit</span></label>
+              <label><input type="checkbox" name="kreise" value="arbeit_frueher" /><span>Frühere Arbeit</span></label>
+              <label><input type="checkbox" name="kreise" value="nachbarschaft" /><span>Nachbarschaft</span></label>
+              <label><input type="checkbox" name="kreise" value="verein_hobby" /><span>Verein / Hobby</span></label>
+              <label><input type="checkbox" name="kreise" value="alltag" /><span>Alltag</span></label>
+              <label><input type="checkbox" name="kreise" value="fluechtige_bekanntschaft" /><span>Flüchtige Bekanntschaft</span></label>
+              <label><input type="checkbox" name="kreise" value="sonstiges" /><span>Sonstiges</span></label>
+            </div>
+          </fieldset>
           <label class="potential-field">
-            <span>Umfeld</span>
-            <input id="potentialCircle" name="kreis" type="text" maxlength="100" placeholder="Verein, Nachbarschaft, Unternehmer …" />
+            <span>Eigener Kreis <small>optional</small></span>
+            <input id="potentialCircle" name="kreis" type="text" maxlength="100" placeholder="Zum Beispiel Unternehmernetzwerk" />
           </label>
+          <label class="potential-field">
+            <span>Wie nah seid ihr euch?</span>
+            <select id="potentialRelationship" name="beziehungsnaehe">
+              <option value="fluechtig">Flüchtig bekannt</option>
+              <option value="bekannt" selected>Bekannt</option>
+              <option value="gut_bekannt">Gut bekannt</option>
+              <option value="eng_vertraut">Eng vertraut</option>
+            </select>
+          </label>
+          <label class="potential-field">
+            <span>Wie oft habt ihr Kontakt?</span>
+            <select id="potentialFrequency" name="kontakthaeufigkeit">
+              <option value="kein_kontakt">Aktuell kein Kontakt</option>
+              <option value="selten" selected>Selten</option>
+              <option value="gelegentlich">Gelegentlich</option>
+              <option value="regelmaessig">Regelmäßig</option>
+            </select>
+          </label>
+          <label class="potential-field">
+            <span>Kontaktstärke anpassen</span>
+            <select id="potentialStrengthOverride" name="kontaktstaerke_override">
+              <option value="">Automatisch berechnen</option>
+              <option value="kalt">Kalt</option>
+              <option value="lauwarm">Lauwarm</option>
+              <option value="warm">Warm</option>
+              <option value="heiss">Heiß</option>
+              <option value="sehr_heiss">Sehr heiß</option>
+            </select>
+          </label>
+          <label class="potential-direct potential-field-wide">
+            <input id="potentialDirect" name="direkt_erreichbar" type="checkbox" />
+            <span><strong>Direkt erreichbar</strong><small>Du kannst die Person persönlich ansprechen, auch wenn keine Nummer gespeichert ist.</small></span>
+          </label>
+          <div class="potential-strength-preview potential-field-wide" id="potentialStrengthPreview" aria-live="polite"></div>
           <label class="potential-field">
             <span>Status</span>
             <select id="potentialStatus" name="status">
@@ -183,6 +270,6 @@
   </div>
 
   <div class="potential-toast" id="potentialToast" role="status" aria-live="polite" hidden></div>
-  <script type="module" src="../js/potenziale.js?v=1"></script>
+  <script type="module" src="../js/potenziale.js?v=2"></script>
 </body>
 </html>
