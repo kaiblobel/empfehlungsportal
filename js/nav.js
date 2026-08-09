@@ -148,6 +148,13 @@ export function renderNav(opts = {}) {
           <button class="nav-drawer-logout" type="button" id="navDrawerLogout">${icon('LogOut', { size: 16 })}<span>Abmelden</span></button>
         </div>
       </div>
+      <nav class="nav-bottom" aria-label="Hauptbereiche">
+        ${NAV_ITEMS.filter(it => ['dashboard', 'empfehlungen', 'champions'].includes(it.id)).map(it => `
+          <a class="nav-bottom-item${isActive(it) ? ' active' : ''}" href="${it.href}"${isActive(it) ? ' aria-current="page"' : ''}>
+            ${icon(it.icon, { size: 20 })}<span>${it.label}</span>
+          </a>`).join('')}
+        <button class="nav-bottom-item nav-bottom-more" type="button" aria-label="Vollständiges Menü öffnen">${icon('Menu', { size: 20 })}<span>Mehr</span></button>
+      </nav>
     `;
 
     const ham = sidebar.querySelector('.nav-hamburger');
@@ -229,6 +236,11 @@ export function renderNav(opts = {}) {
 
     ham?.addEventListener('click', toggleDrawer);
     close?.addEventListener('click', closeDrawer);
+    // Phase 165: Bottom-Navigation auf dem Handy — "Mehr" öffnet denselben
+    // Drawer wie der Hamburger. Die Körperklasse gibt dem Seiteninhalt Luft
+    // über der festen Leiste (nur bis 767px wirksam, siehe CSS).
+    sidebar.querySelector('.nav-bottom-more')?.addEventListener('click', toggleDrawer);
+    document.body.classList.add('hat-bottom-nav');
     // Backdrop-Click: wenn nicht auf Panel geklickt → schließen
     drawer?.addEventListener('click', (e) => {
       if (panel && !panel.contains(e.target)) closeDrawer();

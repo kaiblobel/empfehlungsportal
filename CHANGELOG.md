@@ -1,9 +1,33 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.190 Beta** · Mobile Führung mit vollen Seiten und weichender Leiste, live seit 09.08.2026.
+Offizielle Live-Version: **v1.191 Beta** · Portal mobile-first, live seit 09.08.2026.
 
 ---
+
+## v1.191 Beta - Phase 165 · Portal mobile-first
+**2026-08-09 · live veröffentlicht**
+
+Kais Blick aufs iPhone: Das Portal (der eingeloggte Berater-Bereich) war nicht durchgängig
+mobile-first. Ein Audit über alle 14 Portal-Seiten bei 390x844 mit realistischen Testdaten
+fand vier Schwachstellen — die Präsentation und die Rechner-Ansicht am Desktop blieben
+unangetastet, alles Neue lebt hinter Media-Queries für kleine Bildschirme.
+
+- **„Warten auf dich" (Übersicht) stapelt jetzt:** Avatar und Text nehmen die volle Breite,
+  WhatsApp- und Aktionsknopf rutschen in eine eigene Zeile darunter. Vorher teilten sich
+  alle vier EINE Zeile und lange Namen brachen senkrecht um — die gequetschteste Stelle
+  des ganzen Portals.
+- **Bottom-Navigation auf dem Handy (bis 767px):** Überblick, Empfehlungen und Promoter
+  sitzen fest am unteren Rand, „Mehr" öffnet das vollständige Menü (denselben Drawer wie
+  der Hamburger). Bisher war jede Navigation ein Hamburger-Umweg; der Code versprach die
+  Leiste seit Phase 13 im Kommentar, gebaut war sie nie. Safe-Area berücksichtigt, der
+  Seiteninhalt bekommt Luft über der Leiste.
+- **Empfehlungsliste:** Status-Pillen werden nicht mehr abgeschnitten („ANRUFWUNS…") —
+  die Pille wird kleiner und zeigt das ganze Wort.
+- **Teamübersicht:** Die kleinen Einordnungen an den Kennzahlenkarten („aus diesen Empf…")
+  dürfen umbrechen statt abzuschneiden.
+- Kennungen `dashboard.css?v=49`, `hub.css?v=53`, `nav.js?v=58` auf allen Portal-Seiten,
+  Service-Worker `v150-2026-08-09c`. Keine Daten- oder Funktionsänderung.
 
 ## v1.190 Beta - Phase 164 · Mobile Führung: volle Seiten, weichende Leiste
 **2026-08-09 · live veröffentlicht**

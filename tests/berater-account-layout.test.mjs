@@ -50,10 +50,10 @@ assert.match(hubCss, /\.berater-photo-preview[\s\S]*object-fit: contain/);
 assert.match(hubCss, /\.berater-tech-grid/);
 assert.match(hubCss, /@media \(max-width: 560px\)[\s\S]*\.berater-fields/);
 
-assert.match(beraterHtml, /css\/hub\.css\?v=50/);
+assert.match(beraterHtml, /css\/hub\.css\?v=53/);
 assert.match(beraterHtml, /js\/berater-admin\.js\?v=9/);
-assert.match(config, /v1\.190 Beta/);
-assert.match(serviceWorker, /CACHE_VERSION = 'v149-2026-08-09b'/);
-assert.match(serviceWorker, /css\/hub\.css\?v=52/);
+assert.match(config, /v1\.191 Beta/);
+assert.match(serviceWorker, /CACHE_VERSION = 'v150-2026-08-09c'/);
+assert.match(serviceWorker, /css\/hub\.css\?v=53/);
 
 console.log('berater-account-layout: OK');

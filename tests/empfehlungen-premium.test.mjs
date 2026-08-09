@@ -21,8 +21,8 @@ assert.match(html, /r\.interessiert \|\| r\.interessiert_at/);
 assert.match(html, /whatsappLink\(phone\)/);
 assert.match(html, /class="ep-row feed-row"/);
 assert.match(html, /Rechtsklick/);
-assert.match(html, /dashboard\.css\?v=48/);
-assert.match(html, /nav\.js\?v=57/);
+assert.match(html, /dashboard\.css\?v=49/);
+assert.match(html, /nav\.js\?v=58/);
 
 const inlineModule = [...html.matchAll(/<script type="module">([\s\S]*?)<\/script>/g)].at(-1)?.[1] || '';
 const parseableModuleBody = inlineModule.replace(/import\s+\{[\s\S]*?\}\s+from\s+['"][^'"]+['"];?/g, '');
@@ -39,10 +39,10 @@ const recommendationItem = nav.match(/\{ id: 'empfehlungen',[\s\S]*?\},/)?.[0] |
 assert.doesNotMatch(recommendationItem, /subs:/);
 assert.match(nav, /id: 'programm'[\s\S]*?subs:/);
 
-assert.match(config, /v1\.190 Beta/);
-assert.match(config, /Phase 164 · Mobile Führung: volle Seiten, weichende Leiste/);
-assert.match(sw, /CACHE_VERSION = 'v149-2026-08-09b'/);
-assert.match(sw, /dashboard\.css\?v=48/);
-assert.match(sw, /nav\.js\?v=57/);
+assert.match(config, /v1\.191 Beta/);
+assert.match(config, /Phase 165 · Portal mobile-first/);
+assert.match(sw, /CACHE_VERSION = 'v150-2026-08-09c'/);
+assert.match(sw, /dashboard\.css\?v=49/);
+assert.match(sw, /nav\.js\?v=58/);
 
 console.log('empfehlungen-premium: OK');

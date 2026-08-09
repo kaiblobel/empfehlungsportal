@@ -3659,3 +3659,40 @@ body[data-page="hub"] .h-activity-unread {
     font-size: 28px !important;
   }
 }
+
+/* ============================================================
+   Phase 165 · Portal mobile-first (bis 600px)
+   ------------------------------------------------------------
+   Kais Rückmeldung vom iPhone: die Übersicht wirkte gequetscht.
+   Kern war die "Warten auf dich"-Karte — Avatar, Text, WhatsApp
+   und Aktionsknopf teilten sich EINE Zeile, der Name brach
+   senkrecht um. Auf kleinen Schirmen stapelt die Karte jetzt:
+   oben Avatar + Text in voller Breite, darunter die zwei
+   Aktionen. Desktop und Tablet bleiben unverändert.
+   ============================================================ */
+@media (max-width: 600px) {
+  /* Die Karte ist ein Grid mit vier Spalten (Avatar · Text · WhatsApp ·
+     Knopf). Auf dem Handy wird daraus ein Grid mit zwei Zeilen: oben
+     Avatar + Text in voller Breite, darunter WhatsApp + Aktionsknopf. */
+  .h-lead {
+    grid-template-columns: 40px minmax(0, 1fr);
+    align-items: start;
+    row-gap: 12px;
+  }
+  .h-lead-wa { grid-column: 1; width: 42px; height: 42px; }
+  .h-lead-cta {
+    grid-column: 2;
+    justify-self: stretch;
+    padding: 11px 16px;
+    text-align: center;
+  }
+
+  /* Team-Kennzahlenkarten: die kleine Einordnung neben dem Symbol
+     wurde abgeschnitten ("aus diesen Empf…"). Sie darf umbrechen. */
+  .team-kpi-note {
+    max-width: 128px;
+    white-space: normal;
+    text-align: right;
+    line-height: 1.35;
+  }
+}

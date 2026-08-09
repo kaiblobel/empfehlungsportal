@@ -32,8 +32,8 @@ assert.match(teamHtml, /data-ranking="quote"/);
 assert.match(teamHtml, /Alphabetisch · unabhängig vom Ranking/);
 assert.match(teamHtml, /ohne Kundendaten offenzulegen/);
 assert.match(teamHtml, /js\/team\.js\?v=2/);
-assert.match(teamHtml, /css\/hub\.css\?v=52/);
-assert.match(teamHtml, /js\/nav\.js\?v=57/);
+assert.match(teamHtml, /css\/hub\.css\?v=53/);
+assert.match(teamHtml, /js\/nav\.js\?v=58/);
 
 assert.match(teamJs, /getTeamMetrics\(currentDays\)/);
 assert.match(teamJs, /getTeamActivitySecure\(currentDays\)/);
@@ -84,9 +84,9 @@ assert.match(css, /\.team-ranking/);
 assert.match(css, /\.team-podium-avatar img/);
 assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.team-detail-metrics/);
 
-assert.match(config, /v1\.190 Beta/);
-assert.match(config, /Phase 164 · Mobile Führung: volle Seiten, weichende Leiste/);
-assert.match(sw, /CACHE_VERSION = 'v149-2026-08-09b'/);
+assert.match(config, /v1\.191 Beta/);
+assert.match(config, /Phase 165 · Portal mobile-first/);
+assert.match(sw, /CACHE_VERSION = 'v150-2026-08-09c'/);
 assert.match(sw, /'\/team\.html'/);
 assert.match(sw, /'\/js\/team\.js\?v=2'/);
 assert.match(beraterHtml, /<title>Beraterkonten · Empfehlungsportal<\/title>/);

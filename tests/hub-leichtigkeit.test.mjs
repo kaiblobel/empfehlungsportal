@@ -11,7 +11,7 @@ const [html, css, dashboardCss, nav, manifest, config, sw] = await Promise.all([
   readFile(new URL('../sw.js', import.meta.url), 'utf8'),
 ]);
 
-assert.match(html, /css\/hub\.css\?v=52/);
+assert.match(html, /css\/hub\.css\?v=53/);
 assert.match(html, /id="hHeroLines"/);
 assert.match(html, /id="hTimeline"/);
 assert.match(html, /id="kpiEmpfehler"/);
@@ -21,8 +21,8 @@ assert.match(html, /id="kpiKunden"/);
 assert.doesNotMatch(html, /Schnellaktion/);
 assert.doesNotMatch(html, /class="h-action-primary"/);
 assert.match(html, /<title>Empfehlungsportal · Kai Blobel<\/title>/);
-assert.match(html, /css\/dashboard\.css\?v=48/);
-assert.match(html, /js\/nav\.js\?v=57/);
+assert.match(html, /css\/dashboard\.css\?v=49/);
+assert.match(html, /js\/nav\.js\?v=58/);
 assert.doesNotMatch(html, /Regionaldirektion · Hub/);
 
 assert.match(nav, /nav-brand-name">Empfehlungsportal/);
@@ -46,11 +46,11 @@ assert.match(css, /border-bottom: 1px solid #ECEAE5 !important/);
 assert.match(css, /background: #F8F8F6/);
 assert.match(css, /@media \(max-width: 560px\)/);
 
-assert.match(config, /APP_VERSION = 'v1\.190 Beta'/);
-assert.match(config, /Phase 164 · Mobile Führung: volle Seiten, weichende Leiste/);
-assert.match(sw, /CACHE_VERSION = 'v149-2026-08-09b'/);
-assert.match(sw, /\/css\/hub\.css\?v=52/);
-assert.match(sw, /\/css\/dashboard\.css\?v=48/);
-assert.match(sw, /\/js\/nav\.js\?v=57/);
+assert.match(config, /APP_VERSION = 'v1\.191 Beta'/);
+assert.match(config, /Phase 165 · Portal mobile-first/);
+assert.match(sw, /CACHE_VERSION = 'v150-2026-08-09c'/);
+assert.match(sw, /\/css\/hub\.css\?v=53/);
+assert.match(sw, /\/css\/dashboard\.css\?v=49/);
+assert.match(sw, /\/js\/nav\.js\?v=58/);
 
 console.log('hub-leichtigkeit: OK');
