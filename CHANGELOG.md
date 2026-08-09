@@ -1,14 +1,12 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.194 Beta** · Kontaktstärke im Potenzialbuch, live seit 09.08.2026.
-
-Lokaler nächster Stand: **v1.195 Beta**, Cockpit-Verbindung vorbereitet, nicht veröffentlicht.
+Offizielle Live-Version: **v1.195 Beta** · Potenzialbuch-Cockpit-Verbindung, live seit 09.08.2026.
 
 ---
 
 ## v1.195 Beta - Phase 169 · Cockpit-Verbindung
-**2026-08-09 · lokal vorbereitet, nicht veröffentlicht**
+**2026-08-09 · live veröffentlicht**
 
 - Ein Berater verbindet ein Potenzial bewusst mit dem Cockpit. Dort kann er eine über exakt
   gleiche Telefonnummer oder E-Mail gefundene eigene Akte nutzen oder einen neuen
@@ -28,11 +26,16 @@ Lokaler nächster Stand: **v1.195 Beta**, Cockpit-Verbindung vorbereitet, nicht 
   springt nicht versehentlich in das Live-Cockpit.
 - 58 Portalprüfungen bestanden. Die Cockpit-Gegenseite besteht 841 Tests sowie Typ-
   und Lintprüfung. Die Vorschau ist bei 1440 und 390 Pixeln ohne Browserfehler oder seitliche
-  Überbreite geprüft. Die Cockpit-Migration wurde separat lokal auf PostgreSQL 17 mit zwei
-  getrennten Testberatern, RLS, Statushistorie und gesperrtem Beraterwechsel geprüft, aber auf keinem Produktprojekt angewendet.
-
-Der Produktzweig ist lokal gesichert, aber nicht übertragen oder veröffentlicht. Live bleibt
-v1.194 unverändert.
+  Überbreite geprüft.
+- Die Cockpit-Migration ist auf Staging und Produktion angewendet. RLS, Statushistorie,
+  gesperrter Beraterwechsel und die Rechte des Funktionswegs wurden dort geprüft.
+- Live-Zuordnung: Kai Blobel und Josephine Bürger sind eindeutig freigeschaltet. Berater ohne
+  eingerichtetes Cockpit-Konto oder Freigabe sehen die Verbindung ausgegraut und können sie
+  auch über einen direkten Aufruf nicht verwenden.
+- Vercel-Produktion ist `READY`. Live geprüft: Seite und Programmmodul antworten mit 200,
+  Version v1.195 ist aktiv und die Route weist einen Aufruf ohne Anmeldung mit 401 ab.
+- Offen bleibt der echte eingeloggte Praxistest mit einem freigeschalteten und einem
+  gesperrten Beraterkonto.
 
 ## v1.194 Beta - Phase 168 · Kontaktstärke
 **2026-08-09 · live veröffentlicht**
