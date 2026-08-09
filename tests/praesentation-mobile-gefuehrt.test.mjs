@@ -72,8 +72,8 @@ assert.match(js, /guide\.classList\.add\('weicht'\);\s*\n\s*planeRueckkehr\(\);/
 assert.match(js, /guide\.classList\.remove\('weicht'\);\s*\n\s*zeichne\(\);/);
 
 // Versionsstempel dieser Phase.
-assert.match(config, /APP_VERSION = 'v1\.191 Beta'/);
-assert.match(config, /Phase 165 · Portal mobile-first/);
-assert.match(sw, /CACHE_VERSION = 'v150-2026-08-09c'/);
+assert.match(config, /APP_VERSION = 'v1\.192 Beta'/);
+assert.match(config, /Phase 166 · Sicherheits-Nachzug/);
+assert.match(sw, /CACHE_VERSION = 'v151-2026-08-09d'/);
 
 console.log('praesentation-mobile-gefuehrt: OK');

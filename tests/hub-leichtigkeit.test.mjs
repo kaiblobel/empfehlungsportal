@@ -46,9 +46,9 @@ assert.match(css, /border-bottom: 1px solid #ECEAE5 !important/);
 assert.match(css, /background: #F8F8F6/);
 assert.match(css, /@media \(max-width: 560px\)/);
 
-assert.match(config, /APP_VERSION = 'v1\.191 Beta'/);
-assert.match(config, /Phase 165 · Portal mobile-first/);
-assert.match(sw, /CACHE_VERSION = 'v150-2026-08-09c'/);
+assert.match(config, /APP_VERSION = 'v1\.192 Beta'/);
+assert.match(config, /Phase 166 · Sicherheits-Nachzug/);
+assert.match(sw, /CACHE_VERSION = 'v151-2026-08-09d'/);
 assert.match(sw, /\/css\/hub\.css\?v=53/);
 assert.match(sw, /\/css\/dashboard\.css\?v=49/);
 assert.match(sw, /\/js\/nav\.js\?v=58/);

@@ -1,9 +1,34 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.191 Beta** · Portal mobile-first, live seit 09.08.2026.
+Offizielle Live-Version: **v1.192 Beta** · Sicherheits-Nachzug, live seit 09.08.2026.
 
 ---
+
+## v1.192 Beta - Phase 166 · Sicherheits-Nachzug
+**2026-08-09 · live veröffentlicht**
+
+Ein Sicherheits-Kassensturz nach dem mobile-first-Umbau. Drei Punkte behoben, ein vierter
+liegt bei Kai (ein Schalter im Supabase-Dashboard).
+
+- **Cockpit-Brücke: festes Klartext-Geheimwort raus.** Die vier Funktionen `cockpit_neue_promoter`,
+  `cockpit_empfehlungen`, `cockpit_promoter` und `cockpit_ensure_empfehler` trugen dasselbe
+  Passwort im Klartext im Datenbank-Code. Jetzt wird nur noch ein SHA-256-Hash in
+  `private.integration_secrets` verglichen (dasselbe Muster wie `register_empfehler_public`).
+  Der akzeptierte Wert bleibt derselbe, das Cockpit läuft unverändert weiter, das Wort ist
+  aber nicht mehr aus dem Funktionsquelltext lesbar und ab jetzt **wechselbar ohne Code-Migration**.
+  Live geprüft: richtiges Wort liefert Daten, falsches wird abgewiesen, kein Klartext mehr in
+  den vier Funktionen. (DB-Migrationen `phase166_cockpit_bridge_hashed_secret`.)
+- **`stufe_notifications`: weite anonyme Schreibrechte zurückgenommen.** Die Tabelle gab
+  anonymen und angemeldeten Nutzern auf dem Papier volle Schreibrechte; nur die Zeilensicherung
+  hielt dagegen. Die legitimen Schreiber (ein Trigger als Eigentümer, die Edge-Funktion mit
+  Dienstschlüssel) sind davon nicht betroffen. (Migration `phase166_lock_stufe_notifications_grants`.)
+- **Interne Dateien nicht mehr auf der Kundenseite.** Neue `.vercelignore`: die
+  `schema-phase*.sql`, `tests`, `docs`, `mockups` und die internen Projektdateien (`CLAUDE.md`,
+  `AGENTS.md`, `README.md`, `RESTORE.md`, …) werden nicht mehr mit ausgeliefert. `CHANGELOG.md`
+  bleibt bewusst erreichbar, weil `changelog.html` sie zur Laufzeit lädt.
+
+Keine Änderung an Kunden-, Berater- oder Empfehlungsdaten. Service-Worker `v151-2026-08-09d`.
 
 ## v1.191 Beta - Phase 165 · Portal mobile-first
 **2026-08-09 · live veröffentlicht**

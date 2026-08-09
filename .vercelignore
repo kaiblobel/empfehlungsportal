@@ -1,0 +1,21 @@
+# Was NICHT auf die oeffentliche Kundenseite gehoert (Phase 166).
+# Diese Dateien bleiben im Git-Repo, werden aber nicht mit ausgeliefert,
+# damit die Datenbank-Struktur und interne Doku nicht oeffentlich abrufbar sind.
+# CHANGELOG.md bleibt bewusst drin: changelog.html laedt sie zur Laufzeit.
+
+# Datenbank-Schema und Migrationen
+*.sql
+
+# Tests, interne Doku, Entwuerfe, Nachweisbilder
+tests/
+docs/
+mockups/
+
+# Interne Projekt- und Prozessdateien
+AGENTS.md
+CLAUDE.md
+CONTRIBUTING.md
+FEEDBACK-sandro.md
+README.md
+RESTORE.md
+.claude/
