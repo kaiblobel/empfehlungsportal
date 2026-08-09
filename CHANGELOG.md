@@ -1,16 +1,15 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.192 Beta** · Sicherheits-Nachzug, live seit 09.08.2026.
+Offizielle Live-Version: **v1.193 Beta** · Potenzialbuch, live seit 09.08.2026.
 
 ---
 
 ## v1.193 Beta - Phase 167 · Potenzialbuch
-**2026-08-09 · vorbereitet, nicht veröffentlicht**
+**2026-08-09 · live veröffentlicht**
 
 Ein eigener, privater Denk- und Arbeitsbereich für Menschen, die später Kunde oder Partner
-werden könnten. Die Funktion liegt auf dem Arbeitszweig `codex/potenzialbuch-v1`. Die
-Datenbankmigration ist vorbereitet, aber nicht angewendet.
+werden könnten. Die Datenbankmigration ist angewendet und die Seite im Portal-Menü aktiv.
 
 - **Schnell eintragen und angenehm weiterarbeiten:** Ein Name reicht zum Start. Telefon,
   E-Mail, Umfeld, Ziel, Notiz, Status und nächster Kontakt können sofort oder später ergänzt
@@ -24,9 +23,9 @@ Datenbankmigration ist vorbereitet, aber nicht angewendet.
   Einträge fließen nicht in Empfehlungen, Promoter, Prämien, Champions, Momentum,
   Benachrichtigungen oder Kennzahlen ein. Anonyme Zugriffe erhalten keine Rechte.
 
-Noch nicht live: `schema-phase167.sql` muss nach unabhängiger Prüfung bewusst angewendet
-werden. Bis dahin darf die neue Seite nicht veröffentlicht werden. Service-Worker lokal auf
-`v152-2026-08-09a` vorbereitet.
+Live geprüft: `schema-phase167.sql` und der anschließende Rechte-Nachzug sind angewendet.
+RLS ist aktiv und erzwungen. Anonyme Rollen haben keine Tabellenrechte, angemeldete Berater
+nur Lesen, Anlegen, Ändern und Löschen. Service-Worker aktiv auf `v152-2026-08-09a`.
 
 ## v1.192 Beta - Phase 166 · Sicherheits-Nachzug
 **2026-08-09 · live veröffentlicht**

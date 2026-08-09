@@ -40,7 +40,7 @@ create index if not exists potenziale_berater_naechster_kontakt_idx
 alter table public.potenziale enable row level security;
 alter table public.potenziale force row level security;
 
-revoke all on table public.potenziale from public, anon;
+revoke all on table public.potenziale from public, anon, authenticated;
 grant select, insert, update, delete on table public.potenziale to authenticated;
 
 drop policy if exists "potenziale eigene lesen" on public.potenziale;

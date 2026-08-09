@@ -20,8 +20,8 @@ test('Migration erzwingt Beratertrennung und sperrt anonyme Zugriffe', async () 
   const sql = await read('schema-phase167.sql');
   assert.match(sql, /enable row level security/i);
   assert.match(sql, /force row level security/i);
-  assert.match(sql, /revoke all on table public\.potenziale from public, anon/i);
-  assert.match(sql, /to authenticated/i);
+  assert.match(sql, /revoke all on table public\.potenziale from public, anon, authenticated/i);
+  assert.match(sql, /grant select, insert, update, delete on table public\.potenziale to authenticated/i);
   assert.equal((sql.match(/berater_id = \(select public\.current_berater_id\(\)\)/g) || []).length, 5);
   assert.match(sql, /for update to authenticated[\s\S]*using[\s\S]*with check/i);
 });
