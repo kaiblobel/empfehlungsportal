@@ -1005,6 +1005,30 @@ if (hero) heroObserver.observe(hero);
     }
   }
 
+  // Beim Scrollen mit dem Finger weicht die Leiste, damit sie keinen Inhalt
+  // verdeckt; ruht das Scrollen, steht sie wieder. Erkannt wird das am
+  // direkten Signal (Finger auf dem Schirm, Mausrad) — Sprünge über die
+  // Knöpfe erzeugen keines von beiden, dabei bleibt die Leiste also stehen
+  // und verschwindet nicht unter dem Daumen, der gerade klickt.
+  let ruheTimer = 0;
+
+  function planeRueckkehr() {
+    window.clearTimeout(ruheTimer);
+    ruheTimer = window.setTimeout(() => {
+      guide.classList.remove('weicht');
+      zeichne();
+    }, 320);
+  }
+
+  function verstecke() {
+    if (!kleinerSchirm.matches) return;
+    guide.classList.add('weicht');
+    planeRueckkehr();
+  }
+
+  window.addEventListener('touchmove', verstecke, { passive: true });
+  window.addEventListener('wheel', verstecke, { passive: true });
+
   function springeZu(section) {
     section?.scrollIntoView({
       behavior: ruhigeBewegung.matches ? 'auto' : 'smooth',
@@ -1030,14 +1054,20 @@ if (hero) heroObserver.observe(hero);
   function schalte() {
     const aktiv = kleinerSchirm.matches;
     guide.hidden = !aktiv;
+    guide.classList.remove('weicht');
+    window.clearTimeout(ruheTimer);
     document.body.classList.toggle('mobile-guided', aktiv);
     if (aktiv) zeichne();
   }
 
-  // Beim Scrollen den Stand nachführen — gebündelt auf einen Frame.
+  // Beim Scrollen den Stand nachführen — gebündelt auf einen Frame. Läuft
+  // die Seite nach dem Loslassen des Fingers noch aus, hält jedes
+  // Scroll-Ereignis die gewichene Leiste weiter unten, bis 320 ms Ruhe sind.
   let angefragt = false;
   window.addEventListener('scroll', () => {
-    if (!kleinerSchirm.matches || angefragt) return;
+    if (!kleinerSchirm.matches) return;
+    if (guide.classList.contains('weicht')) planeRueckkehr();
+    if (angefragt) return;
     angefragt = true;
     requestAnimationFrame(() => { angefragt = false; zeichne(); });
   }, { passive: true });

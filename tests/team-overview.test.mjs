@@ -84,9 +84,9 @@ assert.match(css, /\.team-ranking/);
 assert.match(css, /\.team-podium-avatar img/);
 assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.team-detail-metrics/);
 
-assert.match(config, /v1\.189 Beta/);
-assert.match(config, /Phase 163 · Geführte mobile Präsentation/);
-assert.match(sw, /CACHE_VERSION = 'v148-2026-08-09'/);
+assert.match(config, /v1\.190 Beta/);
+assert.match(config, /Phase 164 · Mobile Führung: volle Seiten, weichende Leiste/);
+assert.match(sw, /CACHE_VERSION = 'v149-2026-08-09b'/);
 assert.match(sw, /'\/team\.html'/);
 assert.match(sw, /'\/js\/team\.js\?v=2'/);
 assert.match(beraterHtml, /<title>Beraterkonten · Empfehlungsportal<\/title>/);

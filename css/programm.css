@@ -6325,3 +6325,43 @@ body.presentation-video .reveal { opacity: 1; transform: none; transition: none;
 @media (max-width: 767px) and (prefers-reduced-motion: reduce) {
   .mobile-guide-btn { transition: none; }
 }
+
+/* ============================================================
+   Phase 164 · Mobile Führung: volle Seiten, weichende Leiste
+   ------------------------------------------------------------
+   Kais Rückmeldung vom ersten Live-Tag: Beim freien Scrollen
+   stand die Leiste im Weg, und Weiter zeigte Abschnitte nur
+   angeschnitten. Deshalb: (1) Jeder Abschnitt füllt in der
+   Führung mindestens den Bildschirm — Weiter zeigt immer eine
+   komplette Seite, nichts ragt vom nächsten Thema herein.
+   Längere Abschnitte wachsen darüber hinaus und scrollen normal.
+   (2) Beim Scrollen mit dem Finger weicht die Leiste nach unten
+   und kommt zurück, sobald das Scrollen ruht. Bei Sprüngen über
+   Zurück/Weiter bleibt sie stehen, sonst verschwände sie unter
+   dem Daumen. :where() hält die Ausnahme-Spezifität bei null,
+   damit die Phase-163-Regeln für Hero und Zufriedenheit weiter
+   gewinnen.
+   ============================================================ */
+@media (max-width: 767px) {
+  /* Vollbild je Abschnitt; die Zufriedenheits-Sektion regelt ihr
+     Vollbild-Layout seit Phase 163 selbst (padding sitzt innen). */
+  body.mobile-guided section.section:where(:not(.pre-hero)) {
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-bottom: calc(88px + env(safe-area-inset-bottom));
+  }
+  /* Zentrieren + Kopf-Abstand nur für die Flex-Abschnitte; die zwei
+     randlosen Grid-Flächen (Tür-Botschaft, Förder-Rechner) und die
+     Zufriedenheit ordnen ihren Inhalt selbst. */
+  body.mobile-guided section.section:where(:not(.pre-hero):not(.promoter-message):not(.foerder-rechner)) {
+    justify-content: center;
+    padding-top: 72px;
+  }
+
+  body.mobile-guided .mobile-guide { transition: transform 0.28s ease; }
+  body.mobile-guided .mobile-guide.weicht { transform: translateY(110%); }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  body.mobile-guided .mobile-guide { transition: none; }
+}

@@ -23,8 +23,8 @@ assert.equal((html.match(/<section class="section/g) || []).length, 14);
 assert.equal((html.match(/data-short-hide/g) || []).length, 6);
 
 // Abfragekennungen dieser Phase.
-assert.match(html, /css\/programm\.css\?v=89/);
-assert.match(html, /js\/programm\.js\?v=49/);
+assert.match(html, /css\/programm\.css\?v=90/);
+assert.match(html, /js\/programm\.js\?v=50/);
 
 // Skript: Führung nur auf kleinen Bildschirmen, Zählung dynamisch über die
 // sichtbaren Abschnitte, Zurück auf dem ersten Abschnitt gesperrt, letzter
@@ -56,9 +56,24 @@ assert.match(css, /body\.mobile-guided \.nps-scale \{ grid-template-columns: rep
 // Kein verpflichtendes Scroll-Einrasten — nirgends, auch nicht auf dem Handy.
 assert.doesNotMatch(css, /scroll-snap-type:\s*y\s+mandatory/);
 
+// Phase 164: Jeder Abschnitt füllt in der Führung mindestens den Bildschirm
+// (Weiter zeigt eine komplette Seite), die zwei randlosen Grid-Flächen und
+// die Zufriedenheit ordnen ihren Inhalt weiter selbst.
+assert.match(css, /body\.mobile-guided section\.section:where\(:not\(\.pre-hero\)\) \{[\s\S]*?min-height: 100svh;/);
+assert.match(css, /:where\(:not\(\.pre-hero\):not\(\.promoter-message\):not\(\.foerder-rechner\)\)/);
+
+// Phase 164: Beim freien Scrollen (Finger oder Mausrad) weicht die Leiste
+// und kommt bei Ruhe zurück; Sprünge über die Knöpfe erzeugen keines dieser
+// Signale, dabei bleibt sie stehen.
+assert.match(css, /body\.mobile-guided \.mobile-guide\.weicht \{ transform: translateY\(110%\); \}/);
+assert.match(js, /window\.addEventListener\('touchmove', verstecke, \{ passive: true \}\)/);
+assert.match(js, /window\.addEventListener\('wheel', verstecke, \{ passive: true \}\)/);
+assert.match(js, /guide\.classList\.add\('weicht'\);\s*\n\s*planeRueckkehr\(\);/);
+assert.match(js, /guide\.classList\.remove\('weicht'\);\s*\n\s*zeichne\(\);/);
+
 // Versionsstempel dieser Phase.
-assert.match(config, /APP_VERSION = 'v1\.189 Beta'/);
-assert.match(config, /Phase 163 · Geführte mobile Präsentation/);
-assert.match(sw, /CACHE_VERSION = 'v148-2026-08-09'/);
+assert.match(config, /APP_VERSION = 'v1\.190 Beta'/);
+assert.match(config, /Phase 164 · Mobile Führung: volle Seiten, weichende Leiste/);
+assert.match(sw, /CACHE_VERSION = 'v149-2026-08-09b'/);
 
 console.log('praesentation-mobile-gefuehrt: OK');

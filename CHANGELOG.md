@@ -1,9 +1,26 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.189 Beta** · Geführte mobile Präsentation, live seit 09.08.2026.
+Offizielle Live-Version: **v1.190 Beta** · Mobile Führung mit vollen Seiten und weichender Leiste, live seit 09.08.2026.
 
 ---
+
+## v1.190 Beta - Phase 164 · Mobile Führung: volle Seiten, weichende Leiste
+**2026-08-09 · live veröffentlicht**
+
+Kais Rückmeldung direkt vom Handy nach dem v1.189-Start: Beim freien Scrollen stand die
+Leiste im Weg, und Weiter zeigte manche Abschnitte nur angeschnitten.
+
+- **Jeder Abschnitt füllt in der Führung mindestens den Bildschirm.** Weiter zeigt damit
+  immer eine komplette Seite, nichts ragt vom nächsten Thema herein. Kürzere Abschnitte
+  zentrieren ihren Inhalt, längere (Rechner, Themen, Belohnungs-Reise, Video) wachsen
+  darüber hinaus und scrollen normal. Die zwei randlosen Grid-Flächen (Tür-Botschaft,
+  Förder-Rechner) und der Zufriedenheits-Abschnitt ordnen ihren Inhalt weiter selbst.
+- **Beim Scrollen mit dem Finger weicht die Leiste nach unten** und kommt zurück, sobald
+  das Scrollen etwa eine Drittelsekunde ruht. Bei Sprüngen über Zurück/Weiter bleibt sie
+  bewusst stehen — sonst verschwände sie unter dem Daumen, der gerade klickt.
+- Kennungen auf `programm.css?v=90` / `programm.js?v=50`, Service-Worker `v149-2026-08-09b`,
+  neue Zusicherungen im Test `praesentation-mobile-gefuehrt`.
 
 ## v1.189 Beta - Phase 163 · Geführte mobile Präsentation
 **2026-08-09 · live veröffentlicht** (vorbereitet auf `codex/mobile-praesentation-gefuehrt`, nach Kais Freigabe auf main übernommen)

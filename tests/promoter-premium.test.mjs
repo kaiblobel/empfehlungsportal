@@ -54,9 +54,9 @@ assert.match(promoterCss, /\.pd-layout/);
 assert.match(promoterCss, /grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
 assert.match(promoterCss, /@media \(max-width: 540px\)/);
 
-assert.match(config, /v1\.189 Beta/);
-assert.match(config, /Phase 163 · Geführte mobile Präsentation/);
-assert.match(sw, /CACHE_VERSION = 'v148-2026-08-09'/);
+assert.match(config, /v1\.190 Beta/);
+assert.match(config, /Phase 164 · Mobile Führung: volle Seiten, weichende Leiste/);
+assert.match(sw, /CACHE_VERSION = 'v149-2026-08-09b'/);
 assert.match(sw, /promoter-dashboard\.css\?v=2/);
 
 console.log('promoter-premium: OK');

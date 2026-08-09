@@ -11,7 +11,7 @@ const [html, css, js, config, sw] = await Promise.all([
 ]);
 
 assert.match(html, /<img class="hero-portrait" id="t-Foto" data-bb="foto"/);
-assert.match(html, /css\/programm\.css\?v=89/);
+assert.match(html, /css\/programm\.css\?v=90/);
 
 const baseRule = css.match(/\.hero-portrait \{([\s\S]*?)\}/)?.[1] || '';
 const splitRule = css.match(/\.hero-split-image \.hero-portrait \{([\s\S]*?)\}/)?.[1] || '';
@@ -22,8 +22,8 @@ assert.doesNotMatch(splitRule, /grayscale/);
 
 assert.match(js, /applyBeraterBrand\(data\)/);
 assert.match(js, /getBeraterPublicBySlug\(beraterSlug\)/);
-assert.match(config, /v1\.189 Beta/);
-assert.match(config, /Phase 163 · Geführte mobile Präsentation/);
-assert.match(sw, /CACHE_VERSION = 'v148-2026-08-09'/);
+assert.match(config, /v1\.190 Beta/);
+assert.match(config, /Phase 164 · Mobile Führung: volle Seiten, weichende Leiste/);
+assert.match(sw, /CACHE_VERSION = 'v149-2026-08-09b'/);
 
 console.log('praesentation-portrait-farbe: OK');
