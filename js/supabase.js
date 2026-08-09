@@ -623,14 +623,16 @@ export async function deleteEmpfehler(id) {
   return { data, error };
 }
 
-/* ---------- Phase 167 · Privates Potenzialbuch ---------- */
+/* ---------- Phase 168 · Privates Potenzialbuch mit Kontaktstärke ---------- */
 // Potenziale sind ein eigener Arbeitsbereich. Diese Funktionen schreiben
 // ausschließlich in `potenziale` und berühren weder Empfehlungen noch Promoter.
+const POTENZIAL_FIELDS = 'id,berater_id,name,telefon,email,ziel,kreis,kreise,beziehungsnaehe,kontakthaeufigkeit,direkt_erreichbar,kontaktstaerke_override,status,notiz,naechster_kontakt_am,zuletzt_angesprochen_at,cockpit_uebernommen_at,created_at,updated_at';
+
 export async function getPotenziale(beraterId) {
   if (!supabase || !beraterId) return { data: [], error: null };
   const { data, error } = await supabase
     .from('potenziale')
-    .select('id,berater_id,name,telefon,email,ziel,kreis,status,notiz,naechster_kontakt_am,zuletzt_angesprochen_at,cockpit_uebernommen_at,created_at,updated_at')
+    .select(POTENZIAL_FIELDS)
     .eq('berater_id', beraterId)
     .order('updated_at', { ascending: false });
   return { data: data || [], error };
@@ -641,7 +643,7 @@ export async function createPotenzial(beraterId, fields) {
   const { data, error } = await supabase
     .from('potenziale')
     .insert({ ...fields, berater_id: beraterId })
-    .select('id,berater_id,name,telefon,email,ziel,kreis,status,notiz,naechster_kontakt_am,zuletzt_angesprochen_at,cockpit_uebernommen_at,created_at,updated_at')
+    .select(POTENZIAL_FIELDS)
     .single();
   return { data, error };
 }
@@ -653,7 +655,7 @@ export async function updatePotenzial(id, beraterId, fields) {
     .update(fields)
     .eq('id', id)
     .eq('berater_id', beraterId)
-    .select('id,berater_id,name,telefon,email,ziel,kreis,status,notiz,naechster_kontakt_am,zuletzt_angesprochen_at,cockpit_uebernommen_at,created_at,updated_at')
+    .select(POTENZIAL_FIELDS)
     .single();
   return { data, error };
 }
