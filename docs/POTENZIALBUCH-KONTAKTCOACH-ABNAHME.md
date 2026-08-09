@@ -30,5 +30,9 @@ führt keine eigene Kundenakte für Interessent, Kunde oder Altkunde.
 
 ## Live-Abnahme
 
-Nach der Veröffentlichung zu ergänzen: Migration, Vercel-Bereitschaft, Live-Version,
-unangemeldete API-Sperre und eingeloggter Praxistest.
+- Migration `phase170_potenzialbuch_kontaktcoach` in Produktion erfolgreich angewendet.
+- `potenziale`: RLS aktiv und erzwungen, vier Policies, keine Tabellenrechte für `anon`.
+- Vercel-Produktion `READY`; Live-Version v1.196 und Phase 170 sichtbar.
+- Potenzialbuch und Coach-Helfer antworten live mit 200.
+- `/api/potenzial-coach` weist Aufrufe ohne Anmeldung mit 401 ab.
+- Offen: eingeloggter Mikrofon-Praxistest mit einem echten Beraterkonto.

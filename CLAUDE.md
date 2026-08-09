@@ -1,8 +1,8 @@
 <!-- odysseus-passport
-purpose: Empfehlungsportal für DVAG-Berater - Vanilla JS + eigene Supabase; Funnel Klick zu Interesse zu Kunde, privates Potenzialbuch, echte Kennzahlen, Champions, Prämien; Cockpit-Brücke
-status: live mit privatem Potenzialbuch, Kontaktstaerke und freigegebener Cockpit-Bruecke; bewusste Verbindung, vorhandene eigene Akte nur bei exaktem Telefon- oder E-Mail-Treffer, sonst neuer Interessent; nur aktives und eingerichtetes Cockpit-Konto darf verbinden, sonst sichtbare ausgegraute Vorschau mit Demnaechst und serverseitige Sperre; Cockpit fuehrt Interessent, Kunde und Altkunde; 58 Portaltests gruen, Produktion READY; offen bleibt nur der echte eingeloggte Praxistest mit einem freigeschalteten und einem gesperrten Beraterkonto
+purpose: Empfehlungsportal für DVAG-Berater - Vanilla JS + eigene Supabase; Funnel Klick zu Interesse zu Kunde, privates Potenzialbuch mit Kontakt-Coach, echte Kennzahlen, Champions, Prämien; Cockpit-Brücke
+status: live mit Kontakt-Coach im privaten Potenzialbuch; Kontakte per Sprache oder Text anlegen, Fakten und Vermutungen vor Speicherung getrennt pruefen, persoenlichen Gespraechskompass erzeugen und Ergebnis kontrolliert nachtragen; Audio und Rohtranskript werden nicht gespeichert; Cockpit fuehrt weiterhin Interessent, Kunde und Altkunde; RLS je Berater aktiv und erzwungen, anon ohne Tabellenrechte; 65 Portaltests gruen, Migration Phase 170 angewendet, Produktion READY; offen bleibt der echte eingeloggte Mikrofon-Praxistest sowie der bereits vorgesehene Kontotest fuer freigeschaltete und gesperrte Cockpit-Berater
 live_url: https://empfehlungsportal.vercel.app
-tags: portal, supabase, empfehlung, promoter, potenzialbuch, mobile-first, live, baufinanzierung, kfw, bookings, power-automate
+tags: portal, supabase, empfehlung, promoter, potenzialbuch, kontakt-coach, spracheingabe, mobile-first, live, baufinanzierung, kfw, bookings, power-automate
 -->
 
 # Empfehlungsportal — Projekt-Kontext für Claude

@@ -6,7 +6,7 @@ Offizielle Live-Version: **v1.196 Beta** · Kontakt-Coach im Potenzialbuch, live
 ---
 
 ## v1.196 Beta - Phase 170 · Kontakt-Coach
-**2026-08-09 · Veröffentlichung freigegeben**
+**2026-08-09 · live veröffentlicht**
 
 - Kontakte lassen sich frei per Sprache oder Text beschreiben. Die Aufnahme wird nur zur
   Umwandlung verarbeitet und danach verworfen. Audio und Rohtranskript werden nicht in der
@@ -25,6 +25,11 @@ Offizielle Live-Version: **v1.196 Beta** · Kontakt-Coach im Potenzialbuch, live
   Antwortstrukturen, deaktivierter OpenAI-Speicherung und begrenzten Audiodaten.
 - 65 automatisierte Portalprüfungen bestanden. Der vollständige Ablauf ist mit erfundenen
   Kontakten am Desktop und bei 390 Pixeln ohne Browserfehler oder seitliche Überbreite geprüft.
+- Migration `phase170_potenzialbuch_kontaktcoach` ist in Produktion angewendet. RLS bleibt
+  aktiv und erzwungen, vier Berater-Policies bleiben bestehen, `anon` hat keine Tabellenrechte.
+- Vercel-Produktion ist `READY`. Live geprüft: Potenzialbuch, Coach-Helfer und Konfiguration
+  antworten mit 200, v1.196 ist sichtbar und ein Coach-Aufruf ohne Anmeldung wird mit 401
+  abgewiesen. Offen bleibt der echte eingeloggte Mikrofon-Praxistest.
 
 ## v1.195 Beta - Phase 169 · Cockpit-Verbindung
 **2026-08-09 · live veröffentlicht**
