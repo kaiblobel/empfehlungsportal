@@ -17,8 +17,11 @@ import {
 } from './potenziale-utils.mjs';
 
 const COCKPIT_URL = 'https://www.beratercockpit.de/clients';
-const LOCAL_PREVIEW = ['localhost', '127.0.0.1'].includes(window.location.hostname)
-  && new URLSearchParams(window.location.search).get('preview') === 'potenzialbuch';
+const PREVIEW_REQUESTED = new URLSearchParams(window.location.search).get('preview') === 'potenzialbuch';
+const PREVIEW_MODE = PREVIEW_REQUESTED && (
+  ['localhost', '127.0.0.1'].includes(window.location.hostname)
+  || window.location.hostname.includes('git-codex-po-')
+);
 const ACTIVE_STATUSES = new Set(['offen', 'angesprochen', 'im_gespraech', 'termin']);
 const TALK_STATUSES = new Set(['im_gespraech', 'termin']);
 const STATUS_LABELS = {
@@ -57,7 +60,7 @@ let restoreFocusEl = null;
 let toastTimer = null;
 
 document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-  if (LOCAL_PREVIEW) { showToast('In der lokalen Vorschau ist kein Login aktiv.'); return; }
+  if (PREVIEW_MODE) { showToast('In der Vorschau ist kein Login aktiv.'); return; }
   dashboardApi ||= await import('./dashboard.js');
   dashboardApi.logout();
 });
@@ -114,10 +117,12 @@ document.querySelectorAll('[data-strength-symbol]').forEach((element) => {
 });
 
 (async () => {
-  if (LOCAL_PREVIEW) {
+  if (PREVIEW_MODE) {
     advisor = { id: 'preview-berater', name: 'Testberater' };
     potentials = previewPotentials();
     setText('hName', 'Testberater');
+    const boundary = document.querySelector('.potential-boundary p');
+    if (boundary) boundary.innerHTML = '<strong>Vorschau mit erfundenen Kontakten.</strong> Du kannst alles ausprobieren. Nichts wird gespeichert oder an Supabase gesendet.';
     render();
     return;
   }
@@ -415,7 +420,7 @@ function closeTransfer() {
 async function copyAndOpenCockpit() {
   if (!transferTarget) return;
   transferError.hidden = true;
-  if (!LOCAL_PREVIEW) window.open(COCKPIT_URL, '_blank', 'noopener,noreferrer');
+  if (!PREVIEW_MODE) window.open(COCKPIT_URL, '_blank', 'noopener,noreferrer');
   const copied = await copyText(transferText(transferTarget));
   if (!copied) {
     showTransferError('Das Kopieren wurde vom Browser verhindert. Das Cockpit wurde geöffnet, die Daten müssen dort bitte manuell eingetragen werden.');
@@ -597,25 +602,25 @@ function showToast(message) {
 }
 
 async function storeLoad() {
-  if (LOCAL_PREVIEW) return { data: potentials, error: null };
+  if (PREVIEW_MODE) return { data: potentials, error: null };
   return storeApi.getPotenziale(advisor.id);
 }
 
 async function storeCreate(fields) {
-  if (!LOCAL_PREVIEW) return storeApi.createPotenzial(advisor.id, fields);
+  if (!PREVIEW_MODE) return storeApi.createPotenzial(advisor.id, fields);
   const now = new Date().toISOString();
   return { data: { ...fields, id: `preview-${Date.now()}`, berater_id: advisor.id, created_at: now, updated_at: now }, error: null };
 }
 
 async function storeUpdate(id, fields) {
-  if (!LOCAL_PREVIEW) return storeApi.updatePotenzial(id, advisor.id, fields);
+  if (!PREVIEW_MODE) return storeApi.updatePotenzial(id, advisor.id, fields);
   const current = potentials.find((item) => item.id === id);
   if (!current) return { data: null, error: { message: 'Vorschaukontakt nicht gefunden' } };
   return { data: { ...current, ...fields, updated_at: new Date().toISOString() }, error: null };
 }
 
 async function storeDelete(id) {
-  if (!LOCAL_PREVIEW) return storeApi.deletePotenzial(id, advisor.id);
+  if (!PREVIEW_MODE) return storeApi.deletePotenzial(id, advisor.id);
   return { error: potentials.some((item) => item.id === id) ? null : { message: 'Vorschaukontakt nicht gefunden' } };
 }
 
