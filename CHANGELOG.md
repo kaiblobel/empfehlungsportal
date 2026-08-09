@@ -1,12 +1,12 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.188 Beta** · KI-Kennzeichnung der beiden Erklärvideos, live seit 08.08.2026.
+Offizielle Live-Version: **v1.189 Beta** · Geführte mobile Präsentation, live seit 09.08.2026.
 
 ---
 
 ## v1.189 Beta - Phase 163 · Geführte mobile Präsentation
-**2026-08-09 · vorbereitet auf `codex/mobile-praesentation-gefuehrt` — NICHT live. Live bleibt v1.188.**
+**2026-08-09 · live veröffentlicht** (vorbereitet auf `codex/mobile-praesentation-gefuehrt`, nach Kais Freigabe auf main übernommen)
 
 Auf dem Handy wird die Kundenpräsentation jetzt geführt statt frei gescrollt. Desktop und
 Tablet bleiben in Darstellung und Bedienung unverändert — alles Neue lebt hinter einer
