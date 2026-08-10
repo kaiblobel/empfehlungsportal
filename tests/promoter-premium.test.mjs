@@ -54,9 +54,9 @@ assert.match(promoterCss, /\.pd-layout/);
 assert.match(promoterCss, /grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
 assert.match(promoterCss, /@media \(max-width: 540px\)/);
 
-assert.match(config, /v1\.196 Beta/);
-assert.match(config, /Phase 170 · Kontakt-Coach/);
-assert.match(sw, /CACHE_VERSION = 'v155-2026-08-09a'/);
+assert.match(config, /v1\.197 Beta/);
+assert.match(config, /Phase 171 · Potenzialbuch-Bedienung/);
+assert.match(sw, /CACHE_VERSION = 'v156-2026-08-10a'/);
 assert.match(sw, /promoter-dashboard\.css\?v=2/);
 
 console.log('promoter-premium: OK');

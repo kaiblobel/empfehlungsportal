@@ -46,9 +46,9 @@ assert.match(css, /border-bottom: 1px solid #ECEAE5 !important/);
 assert.match(css, /background: #F8F8F6/);
 assert.match(css, /@media \(max-width: 560px\)/);
 
-assert.match(config, /APP_VERSION = 'v1\.196 Beta'/);
-assert.match(config, /Phase 170 · Kontakt-Coach/);
-assert.match(sw, /CACHE_VERSION = 'v155-2026-08-09a'/);
+assert.match(config, /APP_VERSION = 'v1\.197 Beta'/);
+assert.match(config, /Phase 171 · Potenzialbuch-Bedienung/);
+assert.match(sw, /CACHE_VERSION = 'v156-2026-08-10a'/);
 assert.match(sw, /\/css\/hub\.css\?v=53/);
 assert.match(sw, /\/css\/dashboard\.css\?v=49/);
 assert.match(sw, /\/js\/nav\.js\?v=59/);

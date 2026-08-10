@@ -1,7 +1,29 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
+Vorbereitete Version: **v1.197 Beta** · ruhigere Bedienung im Potenzialbuch, noch nicht veröffentlicht.
 Offizielle Live-Version: **v1.196 Beta** · Kontakt-Coach im Potenzialbuch, live seit 09.08.2026.
+
+---
+
+## v1.197 Beta - Phase 171 · Potenzialbuch-Bedienung
+**2026-08-10 · vorbereitet, nicht veröffentlicht**
+
+- Suche, Kontaktstärke, Prozessstatus und Kreise sind in einem gemeinsamen Bedienbereich
+  zusammengeführt. Kontaktstärke bleibt direkt sichtbar, Prozessstatus und Kreise liegen ruhig
+  unter „Weitere Filter“.
+- Kontaktkarten sind kompakter und wachsen nur noch mit ihrem tatsächlichen Inhalt. Dadurch sind
+  auf einem Bildschirm mehr Kontakte sichtbar.
+- Jede Karte hat eine klare Hauptaktion. Die Cockpit-Verbindung bleibt als zurückhaltende
+  Nebenaktion erhalten.
+- Mobil stehen die vier Kennzahlen in einer kompakten Zeile. Der Kontaktbereich beginnt dadurch
+  deutlich früher, ohne dass Kennzahlen verloren gehen.
+- Kontaktdaten und Kreise liegen mobil unter „Details“. Die Cockpit-Verbindung bleibt über das
+  Drei-Punkte-Menü erreichbar, damit Hauptaktion und nächster Kontakt im Vordergrund stehen.
+- Ein kurzer Hinweis erklärt das seitliche Wischen durch die Kontaktstärken. Relevante Tippziele
+  sind mobil mindestens 44 Pixel hoch.
+- Fehlt ein Folgetermin, führt „Nächsten Kontakt planen“ direkt zum Datumsfeld des Kontakts.
+- Keine Änderung an Datenbank, RLS, Cockpit-Verbindung, Kontakt-Coach oder gespeicherten Daten.
 
 ---
 

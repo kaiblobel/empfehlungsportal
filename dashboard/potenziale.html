@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="../css/style.css?v=33" />
   <link rel="stylesheet" href="../css/dashboard.css?v=49" />
   <link rel="stylesheet" href="../css/hub.css?v=53" />
-  <link rel="stylesheet" href="../css/potenziale.css?v=5" />
+  <link rel="stylesheet" href="../css/potenziale.css?v=10" />
   <script src="../js/config.js"></script>
 </head>
 <body data-page="potenziale" class="has-app-nav">
@@ -49,16 +49,16 @@
     </div>
 
     <section class="potential-kpis" aria-label="Potenzialbuch-Kennzahlen">
-      <article class="potential-kpi" style="--potential-tone:#C9B98A">
+      <article class="potential-kpi" data-mobile-label="Offen" style="--potential-tone:#C9B98A">
         <span class="potential-kpi-dot"></span><strong id="kpiOpen">0</strong><span>Offene Potenziale</span><small>noch ohne Abschluss</small>
       </article>
-      <article class="potential-kpi" style="--potential-tone:#B5651D">
+      <article class="potential-kpi" data-mobile-label="Woche" style="--potential-tone:#B5651D">
         <span class="potential-kpi-dot"></span><strong id="kpiDue">0</strong><span>Diese Woche nachfassen</span><small>dein nächster Fokus</small>
       </article>
-      <article class="potential-kpi" style="--potential-tone:#7A8B6F">
+      <article class="potential-kpi" data-mobile-label="Gespräch" style="--potential-tone:#7A8B6F">
         <span class="potential-kpi-dot"></span><strong id="kpiTalks">0</strong><span>Im Gespräch</span><small>inklusive Termine</small>
       </article>
-      <article class="potential-kpi" style="--potential-tone:#2E5266">
+      <article class="potential-kpi" data-mobile-label="Cockpit" style="--potential-tone:#2E5266">
         <span class="potential-kpi-dot"></span><strong id="kpiTransferred">0</strong><span>Ins Cockpit übernommen</span><small>bewusst bestätigt</small>
       </article>
     </section>
@@ -69,14 +69,9 @@
           <div class="h-label">Deine Kontakte</div>
           <h2 id="potentialListTitle">Wen möchtest du weiterentwickeln?</h2>
         </div>
-        <label class="potential-search">
-          <span class="sr-only">Potenziale durchsuchen</span>
-          <span aria-hidden="true">⌕</span>
-          <input id="potentialSearch" type="search" placeholder="Name, Telefon, E-Mail, Kreis oder Stärke" autocomplete="off" />
-        </label>
       </header>
 
-      <div class="potential-filter-groups">
+      <div class="potential-controls" aria-label="Kontakte suchen und filtern">
         <section class="potential-strength-filter" aria-labelledby="potentialStrengthFilterLabel">
           <div class="potential-filter-heading" id="potentialStrengthFilterLabel">Kontaktstärke</div>
           <div class="potential-strength-buttons" id="potentialStrengthFilters">
@@ -87,39 +82,51 @@
             <button type="button" data-strength-filter="heiss"><span data-strength-symbol="heiss" aria-hidden="true"></span><span>Heiß</span></button>
             <button type="button" data-strength-filter="sehr_heiss"><span data-strength-symbol="sehr_heiss" aria-hidden="true"></span><span>Sehr heiß</span></button>
           </div>
+          <span class="potential-strength-scroll-hint">Seitlich wischen für alle Stärken</span>
         </section>
-        <details class="potential-circle-filter" id="potentialCircleFilter">
-          <summary><span>Kreise filtern</span><strong id="potentialCircleFilterCount">Alle</strong></summary>
-          <div class="potential-circle-filter-body">
-            <p>Mehrere Kreise zeigen nur Kontakte, auf die alle ausgewählten Kreise zutreffen.</p>
-            <div class="potential-circle-options" id="potentialCircleFilters">
-              <label><input type="checkbox" value="familie" />Familie</label>
-              <label><input type="checkbox" value="enger_freundeskreis" />Enger Freundeskreis</label>
-              <label><input type="checkbox" value="freunde" />Freunde</label>
-              <label><input type="checkbox" value="schulzeit" />Schulzeit</label>
-              <label><input type="checkbox" value="ausbildung_studium" />Ausbildung / Studium</label>
-              <label><input type="checkbox" value="arbeit_aktuell" />Aktuelle Arbeit</label>
-              <label><input type="checkbox" value="arbeit_frueher" />Frühere Arbeit</label>
-              <label><input type="checkbox" value="nachbarschaft" />Nachbarschaft</label>
-              <label><input type="checkbox" value="verein_hobby" />Verein / Hobby</label>
-              <label><input type="checkbox" value="alltag" />Alltag</label>
-              <label><input type="checkbox" value="fluechtige_bekanntschaft" />Flüchtige Bekanntschaft</label>
-              <label><input type="checkbox" value="sonstiges" />Sonstiges</label>
+        <div class="potential-control-tools">
+          <label class="potential-search">
+            <span class="sr-only">Potenziale durchsuchen</span>
+            <span aria-hidden="true">⌕</span>
+            <input id="potentialSearch" type="search" placeholder="Name, Telefon, E-Mail, Kreis oder Stärke" autocomplete="off" />
+          </label>
+          <details class="potential-circle-filter potential-more-filters" id="potentialCircleFilter">
+            <summary><span>Weitere Filter</span><strong id="potentialMoreFilterCount">Alle</strong></summary>
+            <div class="potential-circle-filter-body">
+              <section class="potential-process-filter" aria-labelledby="potentialProcessFilterLabel">
+                <div class="potential-filter-heading" id="potentialProcessFilterLabel">Stand im Prozess</div>
+                <div class="potential-filters" id="potentialFilters" aria-label="Status filtern">
+                  <button class="active" type="button" data-filter="alle">Alle</button>
+                  <button type="button" data-filter="offen">Offen</button>
+                  <button type="button" data-filter="angesprochen">Angesprochen</button>
+                  <button type="button" data-filter="im_gespraech">Im Gespräch</button>
+                  <button type="button" data-filter="termin">Termin</button>
+                  <button type="button" data-filter="uebernommen">Übernommen</button>
+                  <button type="button" data-filter="kein_interesse">Kein Interesse</button>
+                </div>
+              </section>
+              <section aria-labelledby="potentialCircleFilterLabel">
+                <div class="potential-filter-heading" id="potentialCircleFilterLabel">Kreise</div>
+                <p>Mehrere Kreise zeigen nur Kontakte, auf die alle ausgewählten Kreise zutreffen.</p>
+                <div class="potential-circle-options" id="potentialCircleFilters">
+                  <label><input type="checkbox" value="familie" />Familie</label>
+                  <label><input type="checkbox" value="enger_freundeskreis" />Enger Freundeskreis</label>
+                  <label><input type="checkbox" value="freunde" />Freunde</label>
+                  <label><input type="checkbox" value="schulzeit" />Schulzeit</label>
+                  <label><input type="checkbox" value="ausbildung_studium" />Ausbildung / Studium</label>
+                  <label><input type="checkbox" value="arbeit_aktuell" />Aktuelle Arbeit</label>
+                  <label><input type="checkbox" value="arbeit_frueher" />Frühere Arbeit</label>
+                  <label><input type="checkbox" value="nachbarschaft" />Nachbarschaft</label>
+                  <label><input type="checkbox" value="verein_hobby" />Verein / Hobby</label>
+                  <label><input type="checkbox" value="alltag" />Alltag</label>
+                  <label><input type="checkbox" value="fluechtige_bekanntschaft" />Flüchtige Bekanntschaft</label>
+                  <label><input type="checkbox" value="sonstiges" />Sonstiges</label>
+                </div>
+              </section>
+              <button class="potential-filter-reset" id="clearAdditionalFilters" type="button">Zusätzliche Filter zurücksetzen</button>
             </div>
-            <button class="potential-filter-reset" id="clearCircleFilters" type="button">Alle Kreise zeigen</button>
-          </div>
-        </details>
-      </div>
-
-      <div class="potential-filter-heading">Stand im Prozess</div>
-      <div class="potential-filters" id="potentialFilters" aria-label="Status filtern">
-        <button class="active" type="button" data-filter="alle">Alle</button>
-        <button type="button" data-filter="offen">Offen</button>
-        <button type="button" data-filter="angesprochen">Angesprochen</button>
-        <button type="button" data-filter="im_gespraech">Im Gespräch</button>
-        <button type="button" data-filter="termin">Termin</button>
-        <button type="button" data-filter="uebernommen">Übernommen</button>
-        <button type="button" data-filter="kein_interesse">Kein Interesse</button>
+          </details>
+        </div>
       </div>
 
       <div class="potential-error" id="potentialError" hidden></div>
@@ -389,6 +396,6 @@
   </div>
 
   <div class="potential-toast" id="potentialToast" role="status" aria-live="polite" hidden></div>
-  <script type="module" src="../js/potenziale.js?v=5"></script>
+  <script type="module" src="../js/potenziale.js?v=10"></script>
 </body>
 </html>

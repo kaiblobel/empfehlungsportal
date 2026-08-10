@@ -92,6 +92,26 @@ test('Responsive Regeln und Tippziele sind für das iPhone vorbereitet', async (
   assert.doesNotMatch(css, /backdrop-filter|glassmorphism|neon/i);
 });
 
+test('Potenzialbuch bündelt die Bedienung und macht den nächsten Schritt direkt erreichbar', async () => {
+  const [html, css, logic] = await Promise.all([
+    read('dashboard/potenziale.html'), read('css/potenziale.css'), read('js/potenziale.js'),
+  ]);
+  assert.match(html, /class="potential-controls"/);
+  assert.match(html, /<summary><span>Weitere Filter<\/span>/);
+  assert.equal((html.match(/data-mobile-label=/g) || []).length, 4);
+  assert.match(html, /Seitlich wischen für alle Stärken/);
+  assert.match(html, /id="potentialFilters"[\s\S]*id="potentialCircleFilters"/);
+  assert.match(css, /\.potential-list \{[^}]*align-items:start/);
+  assert.match(css, /\.potential-card \{[^}]*min-height:0/);
+  assert.match(css, /\.potential-kpis \{ grid-template-columns:repeat\(4,minmax\(0,1fr\)\); margin-bottom:18px; \}/);
+  assert.match(css, /\.potential-actions \.potential-transfer \{ display:none; \}/);
+  assert.match(logic, /class="potential-card-details"/);
+  assert.match(logic, /<summary>Details<\/summary>/);
+  assert.match(logic, /data-action="plan-contact"/);
+  assert.match(logic, /Nächsten Kontakt planen/);
+  assert.match(logic, /Cockpit verbinden/);
+});
+
 test('Service-Worker verweist nur auf vorhandene lokale Dateien', async () => {
   const worker = await read('sw.js');
   const shellBlock = worker.match(/const SHELL_URLS = \[([\s\S]*?)\];/)?.[1] || '';
