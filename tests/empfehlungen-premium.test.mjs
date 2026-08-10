@@ -39,9 +39,9 @@ const recommendationItem = nav.match(/\{ id: 'empfehlungen',[\s\S]*?\},/)?.[0] |
 assert.doesNotMatch(recommendationItem, /subs:/);
 assert.match(nav, /id: 'programm'[\s\S]*?subs:/);
 
-assert.match(config, /v1\.196 Beta/);
-assert.match(config, /Phase 170 · Kontakt-Coach/);
-assert.match(sw, /CACHE_VERSION = 'v155-2026-08-09a'/);
+assert.match(config, /v1\.197 Beta/);
+assert.match(config, /Phase 171 · Potenzialbuch-Bedienung/);
+assert.match(sw, /CACHE_VERSION = 'v156-2026-08-10a'/);
 assert.match(sw, /dashboard\.css\?v=49/);
 assert.match(sw, /nav\.js\?v=59/);
 

@@ -1,6 +1,5 @@
-/** Phase 170 · Kontakt-Coach im privaten Potenzialbuch */
+/** Phase 171 · Kontakt-Coach mit ruhigerer Potenzialbuch-Bedienung */
 import {
-  POTENTIAL_CIRCLES,
   POTENTIAL_STRENGTHS,
   cleanPotentialText,
   normalizePotentialText,
@@ -101,6 +100,7 @@ filtersEl?.addEventListener('click', (event) => {
   if (!button) return;
   activeFilter = button.dataset.filter || 'alle';
   filtersEl.querySelectorAll('[data-filter]').forEach((item) => item.classList.toggle('active', item === button));
+  updateMoreFilterCount();
   render();
 });
 strengthFiltersEl?.addEventListener('click', (event) => {
@@ -115,13 +115,15 @@ circleFiltersEl?.addEventListener('change', (event) => {
   if (!checkbox) return;
   if (checkbox.checked) activeCircleFilters.add(checkbox.value);
   else activeCircleFilters.delete(checkbox.value);
-  updateCircleFilterCount();
+  updateMoreFilterCount();
   render();
 });
-document.getElementById('clearCircleFilters')?.addEventListener('click', () => {
+document.getElementById('clearAdditionalFilters')?.addEventListener('click', () => {
+  activeFilter = 'alle';
+  filtersEl.querySelectorAll('[data-filter]').forEach((item) => item.classList.toggle('active', item.dataset.filter === 'alle'));
   activeCircleFilters.clear();
   circleFiltersEl.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => { checkbox.checked = false; });
-  updateCircleFilterCount();
+  updateMoreFilterCount();
   render();
 });
 form?.addEventListener('submit', saveForm);
@@ -274,6 +276,7 @@ function renderCard(item) {
     item.telefon ? formatPotentialPhone(item.telefon) : '',
     item.email,
   ].filter(Boolean);
+  const metaMarkup = meta.map((value) => `<span>${escapeHtml(value)}</span>`).join('');
   return `
     <article class="potential-card${due.kind === 'overdue' ? ' overdue' : ''}${isLinked ? ' cockpit-linked' : ''}" data-id="${escapeHtml(item.id)}">
       <header class="potential-card-head">
@@ -285,13 +288,16 @@ function renderCard(item) {
         <span class="potential-strength-badge" data-strength="${strength.key}">${strengthIcon(strength.key)}<strong>${escapeHtml(strength.label)}</strong></span>
         <span class="potential-strength-reason">${escapeHtml(strength.reason)}</span>
       </div>
-      <div class="potential-meta">${meta.map((value) => `<span>${escapeHtml(value)}</span>`).join('')}</div>
+      <div class="potential-meta potential-meta-desktop">${metaMarkup}</div>
+      <details class="potential-card-details">
+        <summary>Details</summary>
+        <div class="potential-meta potential-meta-mobile">${metaMarkup}</div>
+      </details>
       <p class="potential-note">${escapeHtml(item.notiz || 'Noch keine Gesprächsnotiz. Ein kurzer Gedanke reicht für den nächsten Schritt.')}</p>
-      <div class="potential-card-spacer"></div>
-      <div class="potential-next ${due.kind}"><span aria-hidden="true">${due.icon}</span><span>${due.label}</span></div>
+      ${renderNextStep(item, due)}
       <div class="potential-actions">
         ${isLinked
-          ? '<button class="potential-transfer" type="button" data-action="open-cockpit">Kundenakte öffnen</button>'
+          ? '<button class="potential-contact" type="button" data-action="open-cockpit">Kundenakte öffnen</button>'
           : `<button class="potential-contact" type="button" data-action="coach">Gespräch vorbereiten</button>${cockpitAvailable ? cockpitTransferButton() : cockpitLockedButton()}`}
         <button class="potential-more" type="button" data-action="menu" aria-label="Weitere Aktionen" aria-expanded="false">•••</button>
       </div>
@@ -305,7 +311,14 @@ function renderCard(item) {
 }
 
 function cockpitTransferButton() {
-  return '<button class="potential-transfer" type="button" data-action="transfer">Mit Cockpit verbinden</button>';
+  return '<button class="potential-transfer" type="button" data-action="transfer">Cockpit verbinden</button>';
+}
+
+function renderNextStep(item, due) {
+  if (!item.naechster_kontakt_am) {
+    return '<div class="potential-next"><button class="potential-next-button" type="button" data-action="plan-contact"><span aria-hidden="true">○</span><strong>Nächsten Kontakt planen</strong></button></div>';
+  }
+  return `<div class="potential-next ${due.kind}"><span aria-hidden="true">${due.icon}</span><span>${escapeHtml(due.label)}</span></div>`;
 }
 
 function cockpitLockedButton() {
@@ -343,6 +356,10 @@ async function handleListAction(event) {
   }
   closeMenus();
   if (action === 'edit') openForm(item, button);
+  else if (action === 'plan-contact') {
+    openForm(item, button);
+    requestAnimationFrame(() => document.getElementById('potentialNextContact')?.focus());
+  }
   else if (action === 'coach') await openConversationCoach(item, button);
   else if (action === 'contact') await startContact(item);
   else if (action === 'transfer') await openTransfer(item, button);
@@ -977,14 +994,11 @@ function strengthIcon(key) {
   return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[icon]}</svg>`;
 }
 
-function updateCircleFilterCount() {
-  const element = document.getElementById('potentialCircleFilterCount');
+function updateMoreFilterCount() {
+  const element = document.getElementById('potentialMoreFilterCount');
   if (!element) return;
-  if (!activeCircleFilters.size) element.textContent = 'Alle';
-  else if (activeCircleFilters.size === 1) {
-    const key = [...activeCircleFilters][0];
-    element.textContent = POTENTIAL_CIRCLES.find(([value]) => value === key)?.[1] || '1 Kreis';
-  } else element.textContent = `${activeCircleFilters.size} Kreise`;
+  const count = activeCircleFilters.size + (activeFilter === 'alle' ? 0 : 1);
+  element.textContent = count ? `${count} aktiv` : 'Alle';
 }
 
 function updateStrengthPreview() {
