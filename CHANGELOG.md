@@ -1,13 +1,12 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Vorbereitete Version: **v1.197 Beta** · ruhigere Bedienung im Potenzialbuch, noch nicht veröffentlicht.
-Offizielle Live-Version: **v1.196 Beta** · Kontakt-Coach im Potenzialbuch, live seit 09.08.2026.
+Offizielle Live-Version: **v1.197 Beta** · ruhigere Bedienung im Potenzialbuch, live seit 10.08.2026.
 
 ---
 
 ## v1.197 Beta - Phase 171 · Potenzialbuch-Bedienung
-**2026-08-10 · vorbereitet, nicht veröffentlicht**
+**2026-08-10 · live veröffentlicht**
 
 - Suche, Kontaktstärke, Prozessstatus und Kreise sind in einem gemeinsamen Bedienbereich
   zusammengeführt. Kontaktstärke bleibt direkt sichtbar, Prozessstatus und Kreise liegen ruhig
@@ -24,6 +23,8 @@ Offizielle Live-Version: **v1.196 Beta** · Kontakt-Coach im Potenzialbuch, live
   sind mobil mindestens 44 Pixel hoch.
 - Fehlt ein Folgetermin, führt „Nächsten Kontakt planen“ direkt zum Datumsfeld des Kontakts.
 - Keine Änderung an Datenbank, RLS, Cockpit-Verbindung, Kontakt-Coach oder gespeicherten Daten.
+- 66 von 66 Portaltests bestanden. Die echte angemeldete Live-Seite wurde bei 2000, 390 und
+  375 Pixeln ohne seitliche Überbreite oder Browserfehler geprüft. Vercel-Produktion ist READY.
 
 ---
 
