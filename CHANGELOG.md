@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.209 Beta** · KIDZ-Flyermenü, live seit 11.08.2026.
+Zur Veröffentlichung freigegeben: **v1.210 Beta** · KIDZ-Flyer und Linkvorschau.
+
+---
+
+## v1.210 Beta - Phase 184 · KIDZ-Flyer und Linkvorschau
+**2026-08-11 · von Kai zur Veröffentlichung freigegeben**
+
+- Die korrigierte Gewinnspiel-Rückseite ist als zweite Seite neben dem normalen Sommerfest-Flyer eingebunden. Beide Seiten können einzeln angesehen und heruntergeladen werden.
+- Die neue Rückseite bleibt vollständig im 3:4-Format sichtbar. Der Fußbereich mit KIDZ, Kostenhinweis und Veranstaltungsort wird nicht mehr abgeschnitten.
+- Die öffentliche KIDZ-Seite enthält feste Open-Graph- und Twitter-Metadaten. WhatsApp, Facebook und weitere Vorschau-Dienste erhalten damit Bild, Titel und Beschreibung direkt aus dem HTML-Kopf.
+- Das Vorschaubild liegt öffentlich unter `/assets/images/kidz-sommerfest-gewinnspiel-v2.png` und entspricht technisch exakt der freigegebenen OneDrive-Fassung.
+- Anmeldung, Sicherheitscheck, Datenbank, Teilnehmende, Losnummern und Beraterzuordnung bleiben unverändert.
 
 ---
 
