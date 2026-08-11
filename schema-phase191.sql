@@ -1,7 +1,7 @@
 -- =====================================================================
 -- Phase 191 · Exklusiver KIDZ-Elternabend
 --
--- ZUR FREIGABE VORBEREITET AM 12.08.2026, NOCH NICHT LIVE ANGEWENDET.
+-- LIVE ANGEWENDET AM 12.08.2026 ALS phase_191_kidz_elternabend.
 -- Eigene Vormerkliste mit Berater-/Promoterzuordnung, RLS und Realtime.
 -- Gewinnspielteilnahmen und deren Daten bleiben vollständig getrennt.
 -- =====================================================================
@@ -230,7 +230,7 @@ grant execute on function public.register_kidz_elternabend_public(
   text, text, text, text, text, text, text, text, text, text, text, text, boolean
 ) to anon;
 
--- Produktiv erst nach Freigabe mit einem neu erzeugten Geheimnis hinterlegen:
+-- Produktiv wurde ein eigenes neu erzeugtes Geheimnis getrennt vom Gewinnspiel hinterlegt:
 -- insert into private.integration_secrets (name, secret_hash)
 -- values ('kidz_parent_evening_registration', '<sha256-von-KIDZ_PARENT_EVENING_REGISTRATION_SECRET>')
 -- on conflict (name) do update set secret_hash = excluded.secret_hash, created_at = now();
