@@ -12,12 +12,28 @@ const flyerDialog = document.getElementById('kgFlyerDialog');
 const flyerOpen = document.getElementById('kgFlyerOpen');
 const flyerClose = document.getElementById('kgFlyerClose');
 const flyerToForm = document.getElementById('kgFlyerToForm');
+const flyerDownload = document.getElementById('kgFlyerDownload');
+const flyerTabEvent = document.getElementById('kgFlyerTabEvent');
+const flyerTabPrizes = document.getElementById('kgFlyerTabPrizes');
+const flyerEvent = document.getElementById('kgFlyerEvent');
+const flyerPrizes = document.getElementById('kgFlyerPrizes');
 
 let captchaToken = '';
 let captchaWidgetId = null;
 
 function closeFlyer() {
   if (flyerDialog.open) flyerDialog.close();
+}
+
+function showFlyerPage(page) {
+  const showPrizes = page === 'prizes';
+  flyerEvent.hidden = showPrizes;
+  flyerPrizes.hidden = !showPrizes;
+  flyerTabEvent.setAttribute('aria-selected', String(!showPrizes));
+  flyerTabPrizes.setAttribute('aria-selected', String(showPrizes));
+  flyerDownload.href = showPrizes
+    ? '/assets/images/kidz-sommerfest-gewinnspiel-v2.png'
+    : '/assets/images/kidz-sommerfest-flyer.jpg';
 }
 
 flyerOpen.addEventListener('click', () => {
@@ -27,6 +43,8 @@ flyerOpen.addEventListener('click', () => {
 
 flyerClose.addEventListener('click', closeFlyer);
 flyerToForm.addEventListener('click', closeFlyer);
+flyerTabEvent.addEventListener('click', () => showFlyerPage('event'));
+flyerTabPrizes.addEventListener('click', () => showFlyerPage('prizes'));
 flyerDialog.addEventListener('click', (event) => {
   if (event.target === flyerDialog) closeFlyer();
 });

@@ -6,9 +6,27 @@
   <meta name="theme-color" content="#0c6c3f">
   <meta name="color-scheme" content="light">
   <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Großes KIDZ Sommerfest-Gewinnspiel am 6. September 2026 in der Kutzeburger Mühle. Online Bonuschance sichern und vor Ort das Doppel-Los für den Hauptgewinn erhalten.">
+  <link rel="canonical" href="https://kidz.teamwachsbleiche.de/kidz/gewinnspiel">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:site_name" content="KIDZ · Team Wachsbleiche">
+  <meta property="og:title" content="Großes KIDZ Sommerfest-Gewinnspiel!">
+  <meta property="og:description" content="Mitmachen, Bonuschance sichern und am 6. September fantastische Preise für die ganze Familie gewinnen.">
+  <meta property="og:url" content="https://kidz.teamwachsbleiche.de/kidz/gewinnspiel">
+  <meta property="og:image" content="https://kidz.teamwachsbleiche.de/assets/images/kidz-sommerfest-gewinnspiel-v2.png">
+  <meta property="og:image:secure_url" content="https://kidz.teamwachsbleiche.de/assets/images/kidz-sommerfest-gewinnspiel-v2.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1086">
+  <meta property="og:image:height" content="1448">
+  <meta property="og:image:alt" content="Großes Sommerfest-Gewinnspiel mit Survival Sommercamp als Hauptgewinn und weiteren Familienpreisen">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Großes KIDZ Sommerfest-Gewinnspiel!">
+  <meta name="twitter:description" content="Bonuschance online sichern und beim Sommerfest das Doppel-Los für den Hauptgewinn erhalten.">
+  <meta name="twitter:image" content="https://kidz.teamwachsbleiche.de/assets/images/kidz-sommerfest-gewinnspiel-v2.png">
   <title>KIDZ Sommerfest-Gewinnspiel | Team Wachsbleiche</title>
   <link rel="icon" type="image/svg+xml" href="/assets/images/kidz-marke.svg">
-  <link rel="stylesheet" href="/css/kidz-gewinnspiel.css?v=4">
+  <link rel="stylesheet" href="/css/kidz-gewinnspiel.css?v=5">
   <script src="/js/config.js"></script>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 </head>
@@ -29,8 +47,8 @@
             <small>Bonuschance sichern</small>
           </a>
           <button type="button" id="kgFlyerOpen">
-            <strong>Sommerfest-Flyer</strong>
-            <small>Programm und Veranstaltungsort</small>
+            <strong>Flyer &amp; Gewinne</strong>
+            <small>Festprogramm und Gewinnübersicht</small>
           </button>
         </div>
       </details>
@@ -166,15 +184,20 @@
       <header>
         <div>
           <p>6. September 2026 · 10 bis 15 Uhr</p>
-          <h2 id="kgFlyerTitle">Kinder-Sommerfest</h2>
+          <h2 id="kgFlyerTitle">Flyer &amp; Gewinnübersicht</h2>
         </div>
         <button class="kg-flyer-close" id="kgFlyerClose" type="button" aria-label="Flyer schließen">×</button>
       </header>
+      <div class="kg-flyer-tabs" role="tablist" aria-label="Flyerseite auswählen">
+        <button type="button" id="kgFlyerTabEvent" role="tab" aria-selected="true" aria-controls="kgFlyerEvent">1 · Sommerfest</button>
+        <button type="button" id="kgFlyerTabPrizes" role="tab" aria-selected="false" aria-controls="kgFlyerPrizes">2 · Gewinne</button>
+      </div>
       <div class="kg-flyer-stage">
-        <img src="/assets/images/kidz-sommerfest-flyer.jpg" alt="Flyer zum Kinder-Sommerfest am 6. September 2026 von 10 bis 15 Uhr in der Kutzeburger Mühle">
+        <img id="kgFlyerEvent" role="tabpanel" src="/assets/images/kidz-sommerfest-flyer.jpg" alt="Flyer zum Kinder-Sommerfest am 6. September 2026 von 10 bis 15 Uhr in der Kutzeburger Mühle">
+        <img id="kgFlyerPrizes" role="tabpanel" src="/assets/images/kidz-sommerfest-gewinnspiel-v2.png" alt="Gewinnübersicht zum KIDZ Sommerfest mit Survival Sommercamp als Hauptgewinn und weiteren Familienpreisen" hidden>
       </div>
       <footer>
-        <a class="kg-flyer-download" href="/assets/images/kidz-sommerfest-flyer.jpg" download>Flyer herunterladen</a>
+        <a class="kg-flyer-download" id="kgFlyerDownload" href="/assets/images/kidz-sommerfest-flyer.jpg" download>Aktuelle Seite herunterladen</a>
         <a class="kg-flyer-register" id="kgFlyerToForm" href="#anmeldung">Zum Gewinnspiel</a>
       </footer>
     </div>
@@ -185,6 +208,6 @@
     <div><strong>Veranstaltungsort</strong><br>Zur Kutzeburger Mühle<br>Kutzeburger Mühle 1 · 03051 Cottbus</div>
   </footer>
 
-  <script type="module" src="/js/kidz-gewinnspiel.js?v=3"></script>
+  <script type="module" src="/js/kidz-gewinnspiel.js?v=4"></script>
 </body>
 </html>
