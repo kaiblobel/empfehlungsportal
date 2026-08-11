@@ -55,8 +55,8 @@ assert.match(promoterCss, /grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/
 assert.match(promoterCss, /@media \(max-width: 540px\)/);
 
 assert.match(config, /v1\.213 Beta/);
-assert.match(config, /Phase 187 · KIDZ-Adminfilter/);
-assert.match(sw, /CACHE_VERSION = 'v172-2026-08-11c'/);
+assert.match(config, /Phase 187 · KIDZ-Adminfilter & Menü/);
+assert.match(sw, /CACHE_VERSION = 'v173-2026-08-11d'/);
 assert.match(sw, /promoter-dashboard\.css\?v=2/);
 
 console.log('promoter-premium: OK');

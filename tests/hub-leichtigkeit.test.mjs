@@ -47,8 +47,8 @@ assert.match(css, /background: #F8F8F6/);
 assert.match(css, /@media \(max-width: 560px\)/);
 
 assert.match(config, /APP_VERSION = 'v1\.213 Beta'/);
-assert.match(config, /Phase 187 · KIDZ-Adminfilter/);
-assert.match(sw, /CACHE_VERSION = 'v172-2026-08-11c'/);
+assert.match(config, /Phase 187 · KIDZ-Adminfilter & Menü/);
+assert.match(sw, /CACHE_VERSION = 'v173-2026-08-11d'/);
 assert.match(sw, /\/css\/hub\.css\?v=53/);
 assert.match(sw, /\/css\/dashboard\.css\?v=49/);
 assert.match(sw, /\/js\/nav\.js\?v=59/);

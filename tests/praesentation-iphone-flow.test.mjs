@@ -32,7 +32,7 @@ assert.match(css, /\.iphone-reward-option/);
 assert.match(css, /@media \(max-width: 820px\)[\s\S]*\.steps-row\.iphone-flow \{ grid-template-columns: 1fr/);
 
 assert.match(config, /v1\.213 Beta/);
-assert.match(config, /Phase 187 · KIDZ-Adminfilter/);
-assert.match(sw, /CACHE_VERSION = 'v172-2026-08-11c'/);
+assert.match(config, /Phase 187 · KIDZ-Adminfilter & Menü/);
+assert.match(sw, /CACHE_VERSION = 'v173-2026-08-11d'/);
 
 console.log('praesentation-iphone-flow: OK');

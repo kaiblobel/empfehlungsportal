@@ -40,8 +40,8 @@ assert.doesNotMatch(recommendationItem, /subs:/);
 assert.match(nav, /id: 'programm'[\s\S]*?subs:/);
 
 assert.match(config, /v1\.213 Beta/);
-assert.match(config, /Phase 187 · KIDZ-Adminfilter/);
-assert.match(sw, /CACHE_VERSION = 'v172-2026-08-11c'/);
+assert.match(config, /Phase 187 · KIDZ-Adminfilter & Menü/);
+assert.match(sw, /CACHE_VERSION = 'v173-2026-08-11d'/);
 assert.match(sw, /dashboard\.css\?v=49/);
 assert.match(sw, /nav\.js\?v=59/);
 

@@ -27,15 +27,33 @@
   <title>Kinder-Sommerfest | Team Wachsbleiche</title>
   <link rel="icon" type="image/svg+xml" href="/assets/images/kidz-marke.svg">
   <link rel="stylesheet" href="/css/kidz-sommerfest.css?v=1">
+  <link rel="stylesheet" href="/css/kidz-public-nav.css?v=1">
   <script src="/js/config.js"></script>
 </head>
 <body>
-  <header class="kf-topbar">
-    <a class="kf-brand" href="#sommerfest" aria-label="Zum Anfang der Sommerfest-Seite">
+  <header class="kidz-public-nav">
+    <a class="kidz-public-nav-brand" data-kidz-destination="/kidz/sommerfest#sommerfest" href="/kidz/sommerfest#sommerfest" aria-label="Zum Anfang der Sommerfest-Seite">
       <img src="/assets/images/kidz-marke.svg" alt="KIDZ">
       <span><strong>Kinderleicht in die Zukunft</strong><small>Team Wachsbleiche</small></span>
     </a>
-    <a class="kf-header-cta" data-registration-link href="/kidz/gewinnspiel#anmeldung">Zur Anmeldung</a>
+    <div class="kidz-public-nav-actions">
+      <span class="kidz-public-nav-free">Eintritt &amp; Teilnahme kostenlos</span>
+      <details class="kidz-public-menu" id="kidzPublicMenu">
+        <summary><span>KIDZ Menü</span><i aria-hidden="true"></i></summary>
+        <div class="kidz-public-menu-panel" aria-label="KIDZ Auswahl">
+          <p>Alles auf einen Blick</p>
+          <a data-kidz-destination="/kidz/sommerfest#sommerfest" href="/kidz/sommerfest#sommerfest">
+            <strong>Sommerfest</strong><small>Programm und Veranstaltungsdaten</small>
+          </a>
+          <a data-kidz-destination="/kidz/sommerfest#gewinnspiel" href="/kidz/sommerfest#gewinnspiel">
+            <strong>Gewinne</strong><small>Hauptgewinn und Bonuspreise</small>
+          </a>
+          <a data-kidz-destination="/kidz/gewinnspiel#anmeldung" href="/kidz/gewinnspiel#anmeldung">
+            <strong>Anmeldung</strong><small>Bonuschance kostenlos sichern</small>
+          </a>
+        </div>
+      </details>
+    </div>
   </header>
 
   <main>
@@ -84,6 +102,7 @@
     <div><strong>Veranstaltungsort</strong><br>Zur Kutzeburger Mühle<br>Kutzeburger Mühle 1 · 03051 Cottbus</div>
   </footer>
 
+  <script type="module" src="/js/kidz-public-nav.js?v=1"></script>
   <script type="module" src="/js/kidz-sommerfest.js?v=1"></script>
 </body>
 </html>

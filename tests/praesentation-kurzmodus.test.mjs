@@ -34,7 +34,7 @@ assert.match(closingRule, /justify-self: end/);
 assert.doesNotMatch(closingRule, /position: absolute/);
 
 assert.match(config, /v1\.213 Beta/);
-assert.match(config, /Phase 187 · KIDZ-Adminfilter/);
-assert.match(sw, /CACHE_VERSION = 'v172-2026-08-11c'/);
+assert.match(config, /Phase 187 · KIDZ-Adminfilter & Menü/);
+assert.match(sw, /CACHE_VERSION = 'v173-2026-08-11d'/);
 
 console.log('praesentation-kurzmodus: OK');

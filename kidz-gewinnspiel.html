@@ -27,29 +27,31 @@
   <title>KIDZ Sommerfest-Gewinnspiel | Team Wachsbleiche</title>
   <link rel="icon" type="image/svg+xml" href="/assets/images/kidz-marke.svg">
   <link rel="stylesheet" href="/css/kidz-gewinnspiel.css?v=5">
+  <link rel="stylesheet" href="/css/kidz-public-nav.css?v=1">
   <script src="/js/config.js"></script>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 </head>
 <body>
-  <header class="kg-topbar">
-    <div class="kg-brand">
-      <img class="kg-brand-mark" src="/assets/images/kidz-marke.svg" alt="KIDZ">
+  <header class="kidz-public-nav">
+    <a class="kidz-public-nav-brand" data-kidz-destination="/kidz/sommerfest#sommerfest" href="/kidz/sommerfest#sommerfest" aria-label="Zum Anfang der Sommerfest-Seite">
+      <img src="/assets/images/kidz-marke.svg" alt="KIDZ">
       <span><strong>Kinderleicht in die Zukunft</strong><small>Team Wachsbleiche</small></span>
-    </div>
-    <div class="kg-topbar-actions">
-      <span class="kg-free">Eintritt &amp; Teilnahme kostenlos</span>
-      <details class="kg-menu" id="kgMenu">
+    </a>
+    <div class="kidz-public-nav-actions">
+      <span class="kidz-public-nav-free">Eintritt &amp; Teilnahme kostenlos</span>
+      <details class="kidz-public-menu" id="kidzPublicMenu">
         <summary><span>KIDZ Menü</span><i aria-hidden="true"></i></summary>
-        <div class="kg-menu-panel" aria-label="KIDZ Auswahl">
-          <p>Mehr zum Sommerfest</p>
-          <a href="#anmeldung">
-            <strong>Gewinnspiel-Anmeldung</strong>
-            <small>Bonuschance sichern</small>
+        <div class="kidz-public-menu-panel" aria-label="KIDZ Auswahl">
+          <p>Alles auf einen Blick</p>
+          <a data-kidz-destination="/kidz/sommerfest#sommerfest" href="/kidz/sommerfest#sommerfest">
+            <strong>Sommerfest</strong><small>Programm und Veranstaltungsdaten</small>
           </a>
-          <button type="button" id="kgFlyerOpen">
-            <strong>Flyer &amp; Gewinne</strong>
-            <small>Festprogramm und Gewinnübersicht</small>
-          </button>
+          <a data-kidz-destination="/kidz/sommerfest#gewinnspiel" href="/kidz/sommerfest#gewinnspiel">
+            <strong>Gewinne</strong><small>Hauptgewinn und Bonuspreise</small>
+          </a>
+          <a data-kidz-destination="/kidz/gewinnspiel#anmeldung" href="/kidz/gewinnspiel#anmeldung">
+            <strong>Anmeldung</strong><small>Bonuschance kostenlos sichern</small>
+          </a>
         </div>
       </details>
     </div>
@@ -82,6 +84,7 @@
         </article>
       </div>
       <p class="kg-more">Plus viele weitere Sachpreise und Überraschungen.</p>
+      <button class="kg-flyer-inline" type="button" id="kgFlyerOpen">Flyer &amp; Gewinne ansehen</button>
       <div class="kg-chances" aria-label="Deine zwei Gewinnchancen">
         <article>
           <span>1</span>
@@ -210,6 +213,7 @@
     <div><strong>Veranstaltungsort</strong><br>Zur Kutzeburger Mühle<br>Kutzeburger Mühle 1 · 03051 Cottbus</div>
   </footer>
 
-  <script type="module" src="/js/kidz-gewinnspiel.js?v=4"></script>
+  <script type="module" src="/js/kidz-public-nav.js?v=1"></script>
+  <script type="module" src="/js/kidz-gewinnspiel.js?v=5"></script>
 </body>
 </html>
