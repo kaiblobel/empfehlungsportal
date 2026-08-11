@@ -41,7 +41,7 @@ function visibleEntries() {
     if (withoutTicketOnly.checked && entry.ticket_number) return false;
     if (advisorFilter.value && entry.berater_id !== advisorFilter.value) return false;
     if (!needle) return true;
-    return [entry.name, entry.email, entry.telefon, entry.reference, entry.ticket_number, entry.source, entry.berater?.name]
+    return [entry.name, entry.email, entry.telefon, entry.reference, entry.ticket_number, entry.source, entry.berater?.name, entry.empfehler?.name]
       .some((value) => String(value || '').toLowerCase().includes(needle));
   });
 }
@@ -64,7 +64,7 @@ function render() {
     <article class="kg-admin-entry">
       <div><strong>${escapeHtml(entry.name)}</strong><span>${escapeHtml(entry.reference)}</span></div>
       <div><strong>${escapeHtml(entry.email || entry.telefon || 'Kein Kontaktweg')}</strong><span>${escapeHtml(entry.email && entry.telefon ? entry.telefon : '')}</span></div>
-      <div><small>Zugeordnet zu</small><strong>${escapeHtml(entry.berater?.name || 'Kai Blobel')}</strong></div>
+      <div><small>Zugeordnet zu</small><strong>${escapeHtml(entry.berater?.name || 'Kai Blobel')}</strong>${entry.empfehler?.name ? `<span>Eingeladen von ${escapeHtml(entry.empfehler.name)}</span>` : ''}</div>
       <div><small>${escapeHtml(formatDate(entry.created_at))}</small><span>${escapeHtml(entry.source)}</span></div>
       <div>
         ${entry.ticket_number ? `
@@ -88,9 +88,9 @@ function csvCell(value) {
 }
 
 function exportCsv() {
-  const header = ['Teilnahmebestätigung', 'Bonusverlosung', 'Hauptgewinn-Losnummer', 'Los ausgegeben am', 'Name', 'E-Mail', 'Mobilnummer', 'Vermögensberater', 'Quelle', 'Elternabend-Interesse', 'Teilnahmebedingungen', 'Angemeldet am'];
+  const header = ['Teilnahmebestätigung', 'Bonusverlosung', 'Hauptgewinn-Losnummer', 'Los ausgegeben am', 'Name', 'E-Mail', 'Mobilnummer', 'Vermögensberater', 'Eingeladen von', 'Quelle', 'Elternabend-Interesse', 'Teilnahmebedingungen', 'Angemeldet am'];
   const rows = entries.map((entry) => [
-    entry.reference, 'Ja', entry.ticket_number, entry.ticket_issued_at ? formatDate(entry.ticket_issued_at) : '', entry.name, entry.email, entry.telefon, entry.berater?.name || 'Kai Blobel', entry.source,
+    entry.reference, 'Ja', entry.ticket_number, entry.ticket_issued_at ? formatDate(entry.ticket_issued_at) : '', entry.name, entry.email, entry.telefon, entry.berater?.name || 'Kai Blobel', entry.empfehler?.name || '', entry.source,
     entry.elternabend_interesse ? 'Ja' : 'Nein', entry.conditions_version, formatDate(entry.created_at),
   ]);
   const content = `\uFEFF${[header, ...rows].map((row) => row.map(csvCell).join(';')).join('\r\n')}`;
@@ -105,7 +105,7 @@ function exportCsv() {
 async function loadEntries() {
   const { data, error } = await supabase
     .from('kidz_gewinnspiel_teilnahmen')
-    .select('id,reference,name,email,telefon,source,elternabend_interesse,conditions_version,consent_at,created_at,checked_in_at,ticket_number,ticket_issued_at,berater_id,berater:berater_id(name,slug)')
+    .select('id,reference,name,email,telefon,source,elternabend_interesse,conditions_version,consent_at,created_at,checked_in_at,ticket_number,ticket_issued_at,berater_id,empfehler_id,berater:berater_id(name,slug),empfehler:empfehler_id(name)')
     .eq('event_key', EVENT_KEY)
     .order('created_at', { ascending: false });
   if (error) throw error;

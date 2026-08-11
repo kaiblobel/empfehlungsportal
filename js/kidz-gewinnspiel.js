@@ -7,6 +7,9 @@ const errorBox = document.getElementById('kgError');
 const captchaBox = document.getElementById('kgCaptcha');
 const successBox = document.getElementById('kgSuccess');
 const advisorSelect = document.getElementById('kgAdvisor');
+const promoterFallbacks = [...advisorSelect.options]
+  .filter((option) => option.value.startsWith('promoter-'))
+  .map((option) => ({ name: option.textContent, slug: option.value }));
 const menu = document.getElementById('kgMenu');
 const flyerDialog = document.getElementById('kgFlyerDialog');
 const flyerOpen = document.getElementById('kgFlyerOpen');
@@ -69,8 +72,12 @@ async function loadAdvisors() {
     const response = await fetch('/api/kidz-advisors', { headers: { Accept: 'application/json' } });
     const result = await response.json();
     if (response.ok && Array.isArray(result.advisors) && result.advisors.length) {
+      const choices = [...result.advisors];
+      promoterFallbacks.forEach((promoter) => {
+        if (!choices.some((choice) => choice.slug === promoter.slug)) choices.push(promoter);
+      });
       advisorSelect.innerHTML = '<option value="">Niemand aus dem Team oder nicht bekannt</option>';
-      result.advisors.forEach((advisor) => {
+      choices.forEach((advisor) => {
         const option = document.createElement('option');
         option.value = advisor.slug;
         option.textContent = advisor.name;
