@@ -170,6 +170,7 @@ assert.match(adminJs, /ticket_number/);
 assert.match(navJs, /KIDZ Gewinnspiel/);
 assert.match(vercel, /\/kidz\/gewinnspiel/);
 assert.match(vercel, /kidz\.teamwachsbleiche\.de/);
+assert.match(vercel, /kidz\.kaiblobel\.de/);
 assert.match(vercel, /"type":\s*"host"/);
 assert.match(migration, /LIVE ANGEWENDET AM 11\.08\.2026 ALS phase_172_kidz_gewinnspiel/);
 assert.match(migration, /force row level security/);
