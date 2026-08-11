@@ -52,7 +52,7 @@ assert.match(hubCss, /@media \(max-width: 560px\)[\s\S]*\.berater-fields/);
 
 assert.match(beraterHtml, /css\/hub\.css\?v=53/);
 assert.match(beraterHtml, /js\/berater-admin\.js\?v=9/);
-assert.match(config, /v1\.214 Beta/);
+assert.match(config, /v1\.216 Beta/);
 assert.match(serviceWorker, /CACHE_VERSION = 'v174-2026-08-11f'/);
 assert.match(serviceWorker, /css\/hub\.css\?v=53/);
 

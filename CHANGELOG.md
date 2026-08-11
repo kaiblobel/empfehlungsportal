@@ -5,6 +5,19 @@ Offizielle Live-Version: **v1.214 Beta** · KIDZ-Veranstalterlogo & Symbolkarten
 
 ---
 
+## v1.216 Beta - Phase 190 · KIDZ-Teilnahme vereinfacht
+**2026-08-12 · vorbereitet, noch nicht live**
+
+- Jede gültige Online-Anmeldung nimmt einmal an der Verlosung der weiteren Preise teil.
+- Der Hauptgewinn wird davon getrennt beim Sommerfest über eine Tombola verlost. Jede volljährige Person vor Ort erhält ein Los und wirft es selbst ein.
+- Nummerierte Doppel-Lose, Losnummern und die Zuordnung eines Vor-Ort-Loses zu einer Online-Anmeldung entfallen vollständig aus dem sichtbaren Ablauf.
+- Anmeldung, Bestätigung, Sommerfest-Seite, Teilnahmebedingungen und interner KIDZ-Arbeitsbereich verwenden dieselbe einfache Erklärung.
+- Die Teilnahmebedingungen erhalten die neue Fassung `2026-08-12-v4`. Die dafür vorbereitete Datenbankfreigabe liegt in `schema-phase190.sql` und ist noch nicht angewendet.
+- Bestehende Datenbankfelder und ältere Einträge werden nicht gelöscht. Die alte Losnummer-Funktion bleibt technisch unangetastet, ist aber im neuen Arbeitsablauf nicht mehr sichtbar.
+- Veröffentlichung und Datenbankänderung warten auf Kais ausdrückliche Freigabe.
+
+---
+
 ## v1.214 Beta - Phase 188 · KIDZ-Veranstalterlogo
 **2026-08-12 · live veröffentlicht**
 

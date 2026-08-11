@@ -20,8 +20,8 @@ for (const page of [presentation, programAdmin, payouts, advisors, changelogPage
 
 assert.match(index, />Zum Portal<\/a>/);
 assert.doesNotMatch(index, />Zum Hub<\/a>/);
-assert.match(config, /APP_VERSION = 'v1\.214 Beta'/);
-assert.match(config, /Phase 188 · KIDZ-Veranstalterlogo/);
+assert.match(config, /APP_VERSION = 'v1\.216 Beta'/);
+assert.match(config, /Phase 190 · KIDZ-Teilnahme vereinfacht/);
 assert.doesNotMatch(config, /Premium-HUB/);
 assert.match(sw, /CACHE_VERSION = 'v174-2026-08-11f'/);
 
