@@ -1,6 +1,6 @@
 <!-- odysseus-passport
 purpose: Empfehlungsportal für DVAG-Berater - Vanilla JS + eigene Supabase; Funnel Klick zu Interesse zu Kunde, privates Potenzialbuch mit Kontakt-Coach, echte Kennzahlen, Champions, Prämien; Cockpit-Brücke
-status: live v1.200 / Phase 174 seit 11.08.2026 ueber PR 22 auf Produktions-Commit 1644e8e; Online-Anmeldung ist nur Vormerkung, genau ein nummeriertes Los wird persoenlich vor Ort ausgegeben und nur eingeworfene Papierlose nehmen an der Ziehung teil; Losnummern sind je Veranstaltung eindeutig und nach Ausgabe unveraenderbar; 35 Testdateien mit 58 Tests gruen; Supabase-Migration phase_174_kidz_vor_ort_los angewendet und rueckgerollter Berechtigungstest erfolgreich; Vercel-Produktion dpl_3zqxw6UKWX8rVXUmzLxkY6ESu5d6 READY; Live-Seite und Version 1.200 mit Status 200 geprueft
+status: live v1.201 / Phase 175 seit 11.08.2026 ueber PR 24 auf Produktions-Commit 43f9acd; echtes goldenes KIDZ-Zeichen mit Wagen und Browser-Tab-Symbol auf der Gewinnspielseite; 30 Testdateien gruen; Vercel-Produktion dpl_CgsQaEooGG3g3A5y9SP91jHYK7D5 READY; Live-Seite, Logo-Datei und Version 1.201 mit Status 200 sowie ohne Browserfehler geprueft; kidz.teamwachsbleiche.de ist als Vercel-Alias vorbereitet, DNS-A-Eintrag bei All-Inkl im aktuellen Tarif gesperrt und daher noch nicht aktiv
 live_url: https://empfehlungsportal.vercel.app
 tags: portal, supabase, empfehlung, promoter, potenzialbuch, kontakt-coach, spracheingabe, mobile-first, live, baufinanzierung, kfw, bookings, power-automate
 -->
