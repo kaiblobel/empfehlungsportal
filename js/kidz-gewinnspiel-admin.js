@@ -5,6 +5,7 @@ const EVENT_KEY = 'kidz-sommerfest-2026';
 const entriesBox = document.getElementById('entries');
 const searchInput = document.getElementById('searchInput');
 const parentOnly = document.getElementById('parentOnly');
+const withoutTicketOnly = document.getElementById('withoutTicketOnly');
 const advisorFilter = document.getElementById('advisorFilter');
 const exportBtn = document.getElementById('exportBtn');
 const copyInviteBtn = document.getElementById('copyInviteBtn');
@@ -27,9 +28,10 @@ function visibleEntries() {
   const needle = searchInput.value.trim().toLowerCase();
   return entries.filter((entry) => {
     if (parentOnly.checked && !entry.elternabend_interesse) return false;
+    if (withoutTicketOnly.checked && entry.ticket_number) return false;
     if (advisorFilter.value && entry.berater_id !== advisorFilter.value) return false;
     if (!needle) return true;
-    return [entry.name, entry.email, entry.telefon, entry.reference, entry.source, entry.berater?.name]
+    return [entry.name, entry.email, entry.telefon, entry.reference, entry.ticket_number, entry.source, entry.berater?.name]
       .some((value) => String(value || '').toLowerCase().includes(needle));
   });
 }
@@ -37,6 +39,7 @@ function visibleEntries() {
 function render() {
   const visible = visibleEntries();
   document.getElementById('totalCount').textContent = String(entries.length);
+  document.getElementById('ticketCount').textContent = String(entries.filter((entry) => entry.ticket_number).length);
   document.getElementById('parentCount').textContent = String(entries.filter((entry) => entry.elternabend_interesse).length);
   document.getElementById('advisorCount').textContent = String(new Set(entries.map((entry) => entry.berater_id)).size);
   document.getElementById('resultMeta').textContent = `${visible.length} von ${entries.length}`;
@@ -53,7 +56,18 @@ function render() {
       <div><strong>${escapeHtml(entry.email || entry.telefon || 'Kein Kontaktweg')}</strong><span>${escapeHtml(entry.email && entry.telefon ? entry.telefon : '')}</span></div>
       <div><small>Zugeordnet zu</small><strong>${escapeHtml(entry.berater?.name || 'Kai Blobel')}</strong></div>
       <div><small>${escapeHtml(formatDate(entry.created_at))}</small><span>${escapeHtml(entry.source)}</span></div>
-      <div><small>Elternabend</small><span class="kg-admin-badge ${entry.elternabend_interesse ? '' : 'kg-admin-badge-none'}">${entry.elternabend_interesse ? 'Interesse' : 'Nein'}</span></div>
+      <div>
+        ${entry.ticket_number ? `
+          <div class="kg-admin-ticket-issued"><small>Los ausgegeben</small><strong>${escapeHtml(entry.ticket_number)}</strong><span>${escapeHtml(formatDate(entry.ticket_issued_at))}</span></div>
+        ` : `
+          <div class="kg-admin-ticket">
+            <input type="text" maxlength="12" inputmode="text" autocomplete="off" aria-label="Losnummer für ${escapeHtml(entry.name)}" placeholder="Los-Nr.">
+            <button type="button" data-issue-ticket="${escapeHtml(entry.id)}">Los ausgeben</button>
+          </div>
+          <span class="kg-admin-ticket-status" data-ticket-status="${escapeHtml(entry.id)}"></span>
+        `}
+        <span class="kg-admin-badge ${entry.elternabend_interesse ? '' : 'kg-admin-badge-none'}">Elternabend: ${entry.elternabend_interesse ? 'Interesse' : 'Nein'}</span>
+      </div>
     </article>
   `).join('');
 }
@@ -63,9 +77,9 @@ function csvCell(value) {
 }
 
 function exportCsv() {
-  const header = ['Bestätigung', 'Name', 'E-Mail', 'Mobilnummer', 'Vermögensberater', 'Quelle', 'Elternabend-Interesse', 'Einwilligung', 'Erfasst am'];
+  const header = ['Bestätigung', 'Losnummer', 'Los ausgegeben am', 'Name', 'E-Mail', 'Mobilnummer', 'Vermögensberater', 'Quelle', 'Elternabend-Interesse', 'Einwilligung', 'Vorgemerkt am'];
   const rows = entries.map((entry) => [
-    entry.reference, entry.name, entry.email, entry.telefon, entry.berater?.name || 'Kai Blobel', entry.source,
+    entry.reference, entry.ticket_number, entry.ticket_issued_at ? formatDate(entry.ticket_issued_at) : '', entry.name, entry.email, entry.telefon, entry.berater?.name || 'Kai Blobel', entry.source,
     entry.elternabend_interesse ? 'Ja' : 'Nein', entry.conditions_version, formatDate(entry.created_at),
   ]);
   const content = `\uFEFF${[header, ...rows].map((row) => row.map(csvCell).join(';')).join('\r\n')}`;
@@ -80,7 +94,7 @@ function exportCsv() {
 async function loadEntries() {
   const { data, error } = await supabase
     .from('kidz_gewinnspiel_teilnahmen')
-    .select('reference,name,email,telefon,source,elternabend_interesse,conditions_version,consent_at,created_at,berater_id,berater:berater_id(name,slug)')
+    .select('id,reference,name,email,telefon,source,elternabend_interesse,conditions_version,consent_at,created_at,checked_in_at,ticket_number,ticket_issued_at,berater_id,berater:berater_id(name,slug)')
     .eq('event_key', EVENT_KEY)
     .order('created_at', { ascending: false });
   if (error) throw error;
@@ -94,6 +108,48 @@ async function loadEntries() {
     option.textContent = name;
     advisorFilter.append(option);
   });
+  render();
+}
+
+function normalizeTicketNumber(value) {
+  return String(value || '').trim().toUpperCase().replace(/\s+/g, '');
+}
+
+async function issueTicket(button) {
+  const id = String(button.dataset.issueTicket || '');
+  const input = button.closest('.kg-admin-ticket')?.querySelector('input');
+  const status = document.querySelector(`[data-ticket-status="${CSS.escape(id)}"]`);
+  const ticketNumber = normalizeTicketNumber(input?.value);
+  if (!/^[A-Z0-9]{1,12}$/.test(ticketNumber)) {
+    if (status) status.textContent = 'Bitte 1 bis 12 Buchstaben oder Ziffern eingeben.';
+    input?.focus();
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = 'Wird gebucht ...';
+  if (status) status.textContent = '';
+  const { data, error } = await supabase.rpc('issue_kidz_gewinnspiel_ticket', {
+    p_participation_id: id,
+    p_ticket_number: ticketNumber,
+  });
+  if (error) throw error;
+  if (!data?.ok) {
+    const messages = {
+      already_issued: 'Für diese Person wurde bereits ein Los ausgegeben.',
+      ticket_exists: 'Diese Losnummer ist bereits vergeben.',
+      not_found: 'Die Vormerkung wurde nicht gefunden oder ist nicht freigegeben.',
+      invalid_ticket: 'Die Losnummer ist ungültig.',
+    };
+    throw new Error(messages[data?.reason] || 'Das Los konnte nicht ausgegeben werden.');
+  }
+
+  const entry = entries.find((item) => item.id === id);
+  if (entry) {
+    entry.ticket_number = data.ticket_number;
+    entry.ticket_issued_at = data.ticket_issued_at;
+    entry.checked_in_at = data.ticket_issued_at;
+  }
   render();
 }
 
@@ -114,11 +170,23 @@ applyBeraterHeader();
 document.getElementById('logoutBtn').addEventListener('click', logout);
 searchInput.addEventListener('input', render);
 parentOnly.addEventListener('change', render);
+withoutTicketOnly.addEventListener('change', render);
 advisorFilter.addEventListener('change', render);
 exportBtn.addEventListener('click', exportCsv);
 copyInviteBtn.addEventListener('click', () => copyPersonalInviteLink().catch(() => {
   copyInviteBtn.textContent = 'Kopieren nicht möglich';
 }));
+entriesBox.addEventListener('click', (event) => {
+  const button = event.target.closest('[data-issue-ticket]');
+  if (!button) return;
+  issueTicket(button).catch((error) => {
+    console.error('[kidz-ticket]', error);
+    const status = document.querySelector(`[data-ticket-status="${CSS.escape(button.dataset.issueTicket || '')}"]`);
+    if (status) status.textContent = error.message || 'Das Los konnte nicht ausgegeben werden.';
+    button.disabled = false;
+    button.textContent = 'Los ausgeben';
+  });
+});
 
 const session = await requireAuth();
 if (session) {

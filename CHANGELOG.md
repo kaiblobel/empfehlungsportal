@@ -5,6 +5,16 @@ Offizielle Live-Version: **v1.199 Beta** · Veranstalteranschrift und Veranstalt
 
 ---
 
+## v1.200 Beta - Phase 174 · KIDZ-Vor-Ort-Los
+**2026-08-11 · zur Veröffentlichung freigegeben**
+
+- Die Online-Anmeldung ist jetzt eindeutig als Vormerkung bezeichnet. Sie allein begründet noch keine Gewinnspielteilnahme.
+- Die Teilnahme entsteht erst durch persönliche Anwesenheit am 6. September 2026, Ausgabe genau eines nummerierten Loses und Einwurf des Losabschnitts in die physische Lostrommel.
+- Die geschützte KIDZ-Übersicht führt die Losnummer und den Ausgabezeitpunkt. Eine Losnummer kann pro Veranstaltung nur einmal vergeben und nach der Ausgabe nicht mehr geändert werden.
+- Die Auslosung erfolgt ausschließlich aus der Lostrommel. Die gezogene Nummer wird anschließend im geschützten Portal der registrierten Person zugeordnet.
+- Facebook, Instagram und WhatsApp sind als getrennte Herkunftswege vorbereitet. Gewinnspielteilnahmen bleiben weiterhin getrennt von Promotern, Empfehlungen und Kunden.
+- Die Teilnahmebedingungen wurden auf Fassung `2026-08-11-v2` angehoben. Bestehende Vormerkungen bleiben erhalten.
+
 ## v1.199 Beta - Phase 173 · Veranstalter und Veranstaltungsort getrennt
 **2026-08-11 · live veröffentlicht**
 

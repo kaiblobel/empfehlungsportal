@@ -32,7 +32,7 @@
         <div>
           <div class="h-label">Linas Arbeitsstrecke</div>
           <h1>Sommerfest-Gewinnspiel</h1>
-          <p>Teilnahmen bleiben getrennt von Promotern, Empfehlungen und Kundendaten.</p>
+          <p>Online vormerken, vor Ort genau ein nummeriertes Los ausgeben, anschließend aus der Lostrommel ziehen.</p>
         </div>
         <div class="kg-admin-actions">
           <a class="kg-admin-secondary" href="/kidz/gewinnspiel?quelle=direkt" target="_blank" rel="noopener">Anmeldeseite öffnen</a>
@@ -42,7 +42,8 @@
       </section>
 
       <section class="kg-admin-kpis" aria-label="Kennzahlen">
-        <article><span>Teilnahmen</span><strong id="totalCount">0</strong><small>für den 06.09.2026</small></article>
+        <article><span>Vormerkungen</span><strong id="totalCount">0</strong><small>für den 06.09.2026</small></article>
+        <article><span>Lose ausgegeben</span><strong id="ticketCount">0</strong><small>persönlich vor Ort</small></article>
         <article><span>Elternabend</span><strong id="parentCount">0</strong><small>freiwilliges Interesse</small></article>
         <article><span>Berater</span><strong id="advisorCount">0</strong><small>mit zugeordneten Teilnahmen</small></article>
       </section>
@@ -57,11 +58,15 @@
           <input id="parentOnly" type="checkbox">
           Nur Elternabend-Interesse
         </label>
+        <label class="kg-admin-toggle" for="withoutTicketOnly">
+          <input id="withoutTicketOnly" type="checkbox">
+          Nur ohne Los
+        </label>
       </section>
 
       <section aria-labelledby="entriesTitle">
         <div class="kg-admin-section-head">
-          <h2 id="entriesTitle">Teilnahmen</h2>
+          <h2 id="entriesTitle">Vormerkungen und Lose</h2>
           <span id="resultMeta">Wird geladen …</span>
         </div>
         <div class="kg-admin-list" id="entries" aria-live="polite">
@@ -70,8 +75,8 @@
       </section>
 
       <aside class="kg-admin-boundary">
-        <strong>Klare Grenze</strong>
-        <p>Diese Liste dient nur der Auslosung, Gewinnbenachrichtigung, Beraterzuordnung und dem freiwillig gewünschten Elternabend-Hinweis. Sie ist kein Promoter- oder Kundenbestand.</p>
+        <strong>Ablauf am Veranstaltungstag</strong>
+        <p>Bestätigung oder Namen suchen, Nummer des Doppelloses eintragen und einmal auf „Los ausgeben“ tippen. Die Person behält einen Abschnitt und wirft den zweiten selbst in die Lostrommel. Nur aus dieser Trommel wird gezogen. Danach die gezogene Nummer hier suchen. Diese Liste bleibt getrennt von Promotern, Empfehlungen und Kundendaten.</p>
       </aside>
     </main>
   </div>
