@@ -1,12 +1,12 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.204 Beta** · Stabile KIDZ-Rootadresse, live seit 11.08.2026. Phase 179 ist zur Veröffentlichung freigegeben.
+Offizielle Live-Version: **v1.205 Beta** · Bonusverlosung und zusätzliches Hauptgewinn-Los, live seit 11.08.2026.
 
 ---
 
 ## v1.205 Beta - Phase 179 · Bonusverlosung und Hauptgewinn-Los
-**2026-08-11 · von Kai zur Veröffentlichung freigegeben**
+**2026-08-11 · live veröffentlicht**
 
 - Die Online-Anmeldung ist jetzt eine echte Teilnahme an der Bonusverlosung und keine bloße Vormerkung mehr.
 - UCI Kinogutscheine, Tierpark-Jahreskarte und weitere bezeichnete Sachpreise werden unter den gültigen Online-Anmeldungen verlost.
@@ -14,7 +14,9 @@ Offizielle Live-Version: **v1.204 Beta** · Stabile KIDZ-Rootadresse, live seit 
 - Eine neue Zwei-Schritte-Erklärung macht den Unterschied auf großen und kleinen Bildschirmen sofort verständlich.
 - Teilnahmebestätigung, Fehlermeldungen, interne Übersicht und CSV-Ausgabe verwenden durchgehend die neue Trennung.
 - Die Teilnahmebedingungen wurden auf Fassung `2026-08-11-v3` angehoben. Bestehende Anmeldungen und Losnummern bleiben erhalten.
-- Die additive Datenbankanpassung liegt als `schema-phase179.sql` bereit.
+- Die additive Datenbankanpassung `phase_179_kidz_bonus_hauptgewinn` ist angewendet. Die vorhandenen zwei Anmeldungen und zwei Losnummern blieben unverändert.
+- Veröffentlichung über PR 30 auf Produktions-Commit `de40640`. Vercel-Produktion `dpl_BfgKMdeHFziTs2L1XzNLeAuAm5V9` ist `READY`.
+- `kidz.kaiblobel.de` und die bestehende Portaladresse wurden auf Rechner und Handy geprüft: neue Texte sichtbar, kein seitliches Überlaufen und keine Browserfehler.
 
 ## v1.204 Beta - Phase 178 · KIDZ-Rootadresse
 **2026-08-11 · live veröffentlicht**

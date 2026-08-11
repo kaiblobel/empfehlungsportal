@@ -192,7 +192,7 @@ assert.match(ticketMigration, /grant execute on function public\.issue_kidz_gewi
 assert.match(ticketMigration, /'facebook', 'instagram', 'whatsapp'/);
 assert.match(ticketMigration, /grant update \(ticket_number, ticket_issued_at\)/);
 assert.match(ticketMigration, /enforce_kidz_ticket_once/);
-assert.match(bonusMigration, /VORBEREITET, NOCH NICHT LIVE ANGEWENDET/);
+assert.match(bonusMigration, /LIVE ANGEWENDET AM 11\.08\.2026 ALS phase_179_kidz_bonus_hauptgewinn/);
 assert.match(bonusMigration, /2026-08-11-v3/);
 assert.match(bonusMigration, /security definer/);
 assert.match(bonusMigration, /revoke execute on function public\.register_kidz_gewinnspiel_public/);
