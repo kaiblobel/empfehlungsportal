@@ -193,6 +193,8 @@ assert.match(css, /max-height:\s*calc\(100dvh - 216px\)/);
 assert.match(js, /\/api\/kidz-register/);
 assert.match(js, /\/api\/kidz-advisors/);
 assert.match(js, /beraterSlug/);
+assert.match(js, /promoterFallbacks/);
+assert.match(js, /choice\.slug === promoter\.slug/);
 assert.match(js, /facebook.*instagram.*whatsapp/);
 assert.match(js, /flyerDialog\.showModal\(\)/);
 assert.match(js, /showFlyerPage\('prizes'\)/);
