@@ -302,7 +302,7 @@ assert.match(promoterMigration, /revoke all on table public\.kidz_gewinnspiel_ei
 assert.match(promoterMigration, /kidz_gewinnspiel_einladende_berater_idx/);
 assert.match(promoterMigration, /grant execute on function public\.list_kidz_berater_public\(\)[\s\S]*to anon, authenticated/);
 assert.doesNotMatch(promoterMigration, /david-stamm-386wx9bs4678bs/);
-assert.match(simpleTermsMigration, /VORBEREITET, NOCH NICHT LIVE ANGEWENDET/);
+assert.match(simpleTermsMigration, /LIVE ANGEWENDET AM 12\.08\.2026 ALS phase_190_kidz_teilnahme_einfach/);
 assert.match(simpleTermsMigration, /2026-08-12-v4/);
 assert.match(simpleTermsMigration, /security definer/);
 assert.match(simpleTermsMigration, /v_source text := lower\(trim\(coalesce\(p_source, 'direkt'\)\)\);/);

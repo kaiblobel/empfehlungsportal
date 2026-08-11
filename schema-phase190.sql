@@ -1,5 +1,5 @@
 -- Phase 190: vereinfachte Teilnahmebedingungen fuer das KIDZ-Sommerfest 2026
--- VORBEREITET, NOCH NICHT LIVE ANGEWENDET.
+-- LIVE ANGEWENDET AM 12.08.2026 ALS phase_190_kidz_teilnahme_einfach.
 -- Die bestehende Registrierungsfunktion akzeptiert zusaetzlich die neue Fassung 4.
 
 begin;
