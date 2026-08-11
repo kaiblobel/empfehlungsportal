@@ -1,17 +1,24 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.206 Beta** · KIDZ-Wunschadresse vollständig angebunden, live seit 11.08.2026.
+Offizielle Live-Version: **v1.207 Beta** · KIDZ-Hauptadresse, live seit 11.08.2026.
 
 ---
+
+## v1.207 Beta - Phase 181 · KIDZ-Hauptadresse
+**2026-08-11 · live veröffentlicht**
+
+- `kidz.teamwachsbleiche.de` ist die offizielle KIDZ-Adresse von Team Wachsbleiche.
+- Der Root-Aufruf führt per hostgebundener Weiterleitung zuverlässig zur Gewinnspielregistrierung und bewahrt vorhandene Herkunfts- und Beraterparameter.
+- `kidz.kaiblobel.de` bleibt als Reserveadresse bestehen und wird einschließlich Pfad und Parametern auf die offizielle Team-Adresse weitergeleitet.
+- Das Cloudflare-Turnstile-Widget erlaubt die offizielle Team-Adresse. Die Reserveadresse wird bereits vor dem Sicherheitscheck weitergeleitet.
+- Keine Änderungen an Anmeldungen, Teilnahmebedingungen, Gewinnen, Losnummern oder Beraterzuordnungen.
 
 ## v1.206 Beta - Phase 180 · KIDZ-Wunschadresse vollständig angebunden
+**2026-08-11 · live veröffentlicht**
 
-- `kidz.teamwachsbleiche.de` führt jetzt auch ohne zusätzlichen Pfad zuverlässig zur KIDZ-Gewinnspielregistrierung.
-- Die bestehende Adresse `kidz.kaiblobel.de` und alle Portalpfade bleiben unverändert erreichbar.
-- DNS, Vercel-Zuordnung und HTTPS-Zertifikat wurden für die neue Adresse eingerichtet und geprüft.
-
----
+- `kidz.teamwachsbleiche.de` führt auch ohne zusätzlichen Pfad zur KIDZ-Gewinnspielregistrierung.
+- DNS, Vercel-Zuordnung und HTTPS-Zertifikat wurden für die neue Adresse eingerichtet.
 
 ## v1.205 Beta - Phase 179 · Bonusverlosung und Hauptgewinn-Los
 **2026-08-11 · live veröffentlicht**

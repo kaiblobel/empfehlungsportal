@@ -46,9 +46,9 @@ assert.match(css, /border-bottom: 1px solid #ECEAE5 !important/);
 assert.match(css, /background: #F8F8F6/);
 assert.match(css, /@media \(max-width: 560px\)/);
 
-assert.match(config, /APP_VERSION = 'v1\.206 Beta'/);
-assert.match(config, /Phase 180 · KIDZ-Wunschadresse/);
-assert.match(sw, /CACHE_VERSION = 'v164-2026-08-11a'/);
+assert.match(config, /APP_VERSION = 'v1\.207 Beta'/);
+assert.match(config, /Phase 181 · KIDZ-Hauptadresse/);
+assert.match(sw, /CACHE_VERSION = 'v166-2026-08-11a'/);
 assert.match(sw, /\/css\/hub\.css\?v=53/);
 assert.match(sw, /\/css\/dashboard\.css\?v=49/);
 assert.match(sw, /\/js\/nav\.js\?v=59/);

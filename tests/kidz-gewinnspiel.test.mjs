@@ -174,8 +174,28 @@ assert.match(vercel, /kidz\.teamwachsbleiche\.de/);
 assert.match(vercel, /kidz\.kaiblobel\.de/);
 assert.match(vercel, /"type":\s*"host"/);
 assert.match(vercel, /"redirects"/);
-assert.match(vercel, /"value":\s*"kidz\.teamwachsbleiche\.de"[\s\S]*?"destination":\s*"\/kidz\/gewinnspiel"/);
 assert.match(vercel, /"destination":\s*"\/kidz\/gewinnspiel"/);
+const vercelConfig = JSON.parse(vercel);
+const hasHost = (entry, host) => entry.has?.some((condition) => condition.type === 'host' && condition.value === host);
+assert.ok(vercelConfig.redirects.some((entry) => (
+  entry.source === '/'
+  && entry.destination === '/kidz/gewinnspiel'
+  && hasHost(entry, 'kidz.teamwachsbleiche.de')
+)));
+assert.ok(vercelConfig.redirects.some((entry) => (
+  entry.source === '/'
+  && entry.destination === 'https://kidz.teamwachsbleiche.de/kidz/gewinnspiel'
+  && hasHost(entry, 'kidz.kaiblobel.de')
+)));
+assert.ok(vercelConfig.redirects.some((entry) => (
+  entry.source === '/:path*'
+  && entry.destination === 'https://kidz.teamwachsbleiche.de/:path*'
+  && hasHost(entry, 'kidz.kaiblobel.de')
+)));
+assert.equal(
+  vercelConfig.rewrites.some((entry) => entry.source === '/' && entry.has?.some((condition) => condition.type === 'host')),
+  false,
+);
 assert.match(migration, /LIVE ANGEWENDET AM 11\.08\.2026 ALS phase_172_kidz_gewinnspiel/);
 assert.match(migration, /force row level security/);
 assert.match(migration, /revoke all on table public\.kidz_gewinnspiel_teilnahmen from public, anon, authenticated/);
