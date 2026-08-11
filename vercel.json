@@ -2,6 +2,12 @@
   "redirects": [
     {
       "source": "/",
+      "has": [{ "type": "host", "value": "kidz.teamwachsbleiche.de" }],
+      "destination": "/kidz/gewinnspiel",
+      "permanent": false
+    },
+    {
+      "source": "/",
       "has": [{ "type": "host", "value": "kidz.kaiblobel.de" }],
       "destination": "/kidz/gewinnspiel",
       "permanent": false

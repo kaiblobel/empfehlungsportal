@@ -1,7 +1,15 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.205 Beta** · Bonusverlosung und zusätzliches Hauptgewinn-Los, live seit 11.08.2026.
+Offizielle Live-Version: **v1.206 Beta** · KIDZ-Wunschadresse vollständig angebunden, live seit 11.08.2026.
+
+---
+
+## v1.206 Beta - Phase 180 · KIDZ-Wunschadresse vollständig angebunden
+
+- `kidz.teamwachsbleiche.de` führt jetzt auch ohne zusätzlichen Pfad zuverlässig zur KIDZ-Gewinnspielregistrierung.
+- Die bestehende Adresse `kidz.kaiblobel.de` und alle Portalpfade bleiben unverändert erreichbar.
+- DNS, Vercel-Zuordnung und HTTPS-Zertifikat wurden für die neue Adresse eingerichtet und geprüft.
 
 ---
 
