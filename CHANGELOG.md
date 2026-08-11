@@ -1,9 +1,17 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.200 Beta** · Online-Vormerkung und physisches Vor-Ort-Los eindeutig getrennt, live seit 11.08.2026.
+Offizielle Live-Version: **v1.201 Beta** · Echtes KIDZ-Markenlogo auf der Gewinnspielstrecke, live seit 11.08.2026.
 
 ---
+
+## v1.201 Beta - Phase 175 · KIDZ-Markenlogo
+**2026-08-11 · live veröffentlicht**
+
+- Das echte goldene KIDZ-Zeichen mit Wagen ersetzt den bisherigen blauen Textplatzhalter in der öffentlichen Gewinnspielseite.
+- Der Zusatz „Konzept“ entfällt. Das Zeichen steht auch als Browser-Tab-Symbol zur Verfügung.
+- Die spätere Adresse `kidz.teamwachsbleiche.de` ist im Portal vorbereitet. Sie wird erst nach einem sicheren DNS-Wechsel aktiviert; die bestehende QR-Adresse bleibt bis dahin unverändert erreichbar.
+- Keine Änderungen an Gewinnspielanmeldungen, Beraterzuordnung, Vor-Ort-Losen oder vorhandenen Daten.
 
 ## v1.200 Beta - Phase 174 · KIDZ-Vor-Ort-Los
 **2026-08-11 · live veröffentlicht**
