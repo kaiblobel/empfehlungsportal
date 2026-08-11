@@ -1,19 +1,21 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.210 Beta** · KIDZ-Flyer und Linkvorschau, live seit 11.08.2026.
+Offizielle Live-Version: **v1.211 Beta** · KIDZ-Sommerfest-Startseite, live seit 11.08.2026.
 
 ---
 
 ## v1.211 Beta - Phase 185 · KIDZ-Sommerfest-Startseite
-**2026-08-11 · Arbeitsfassung zur Abnahme, noch nicht live**
+**2026-08-11 · live veröffentlicht**
 
 - Die Hauptadresse `kidz.teamwachsbleiche.de` beginnt künftig mit dem normalen Sommerfest-Flyer.
 - Danach folgt die ausführliche Gewinnübersicht. Erst im dritten Schritt führt die Seite zur Gewinnspiel-Anmeldung.
 - Die bekannten QR-Codes und der direkte Pfad `/kidz/gewinnspiel` bleiben unverändert und öffnen weiterhin sofort die Anmeldung.
 - Herkunft und Beraterzuordnung werden beim Wechsel von der Sommerfest-Seite zur Anmeldung sicher mitgenommen.
 - Das Vorschaubild für geteilte Links der Hauptadresse ist der normale Sommerfest-Flyer.
-- Die Arbeitsfassung liegt getrennt auf `codex/kidz-startseite-v1.211`. Eine Veröffentlichung erfolgt erst nach Kais Freigabe.
+- Kai hat die Veröffentlichung ausdrücklich freigegeben. PR 41 wurde auf Produktions-Commit `029032a` zusammengeführt.
+- Vercel-Produktion `dpl_9NdHqhGYjq5f5Ckvq9hyhsi7hdif` ist `READY` und trägt alle vier öffentlichen Aliase einschließlich `kidz.teamwachsbleiche.de`.
+- Live geprüft: Root leitet mit Herkunft und Berater auf `/kidz/sommerfest`, die drei Abschnitte stehen in der richtigen Reihenfolge, der Sommerfest-Flyer antwortet mit 436.647 Bytes und das Vorschaubild zeigt auf den normalen Hauptflyer. `/kidz/gewinnspiel` liefert weiterhin direkt Formular und Turnstile-Konfiguration. v1.211 und Phase 185 sind live, 68 von 68 Portalprüfungen sind grün und im Produktionsfehlerprotokoll wurden keine Fehler gefunden.
 
 ---
 
