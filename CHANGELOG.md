@@ -1,9 +1,17 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.202 Beta** · Bereinigtes KIDZ-Zeichen ohne fehlerhafte Lok, live seit 11.08.2026.
+Offizielle Live-Version: **v1.203 Beta** · Eigene kostenlose KIDZ-Wunschadresse, live seit 11.08.2026.
 
 ---
+
+## v1.203 Beta - Phase 177 · KIDZ-Wunschadresse
+**2026-08-11 · live veröffentlicht**
+
+- Die öffentliche KIDZ-Gewinnspielseite ist zusätzlich unter `https://kidz.kaiblobel.de` erreichbar.
+- Die Startseite dieser Subdomain führt direkt zur Gewinnspielregistrierung. Bestehende Pfade und QR-Adressen bleiben unverändert erreichbar.
+- Cloudflare verwendet dafür ausschließlich den kostenlosen DNS-Eintrag `A kidz.kaiblobel.de 76.76.21.21` im Modus `DNS only`. Der All-Inkl-Tarif und alle übrigen DNS-Einträge bleiben unverändert.
+- Keine Änderungen an Anmeldungen, Vor-Ort-Losen, Beraterzuordnung, Teilnahmebedingungen oder vorhandenen Daten.
 
 ## v1.202 Beta - Phase 176 · KIDZ-Logo bereinigt
 **2026-08-11 · live veröffentlicht**
