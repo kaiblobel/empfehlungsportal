@@ -84,9 +84,9 @@ assert.match(css, /\.team-ranking/);
 assert.match(css, /\.team-podium-avatar img/);
 assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.team-detail-metrics/);
 
-assert.match(config, /v1\.197 Beta/);
-assert.match(config, /Phase 171 · Potenzialbuch-Bedienung/);
-assert.match(sw, /CACHE_VERSION = 'v156-2026-08-10a'/);
+assert.match(config, /v1\.198 Beta/);
+assert.match(config, /Phase 172 · KIDZ-Gewinnspiel/);
+assert.match(sw, /CACHE_VERSION = 'v157-2026-08-11a'/);
 assert.match(sw, /'\/team\.html'/);
 assert.match(sw, /'\/js\/team\.js\?v=2'/);
 assert.match(beraterHtml, /<title>Beraterkonten · Empfehlungsportal<\/title>/);

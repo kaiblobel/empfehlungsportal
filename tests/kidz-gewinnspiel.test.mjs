@@ -1,0 +1,166 @@
+import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
+import { readFile } from 'node:fs/promises';
+
+const require = createRequire(import.meta.url);
+const registerHandler = require('../api/kidz-register.js');
+const configHandler = require('../api/kidz-config.js');
+const advisorsHandler = require('../api/kidz-advisors.js');
+const read = (file) => readFile(new URL(`../${file}`, import.meta.url), 'utf8');
+
+function responseMock() {
+  return {
+    headers: {}, statusCode: 0, body: '',
+    setHeader(name, value) { this.headers[name] = value; },
+    end(value = '') { this.body = value; return value; },
+  };
+}
+
+function request(body, overrides = {}) {
+  return {
+    method: 'POST',
+    headers: {
+      host: 'localhost:3000', origin: 'http://localhost:3000', 'x-forwarded-for': '203.0.113.42',
+    },
+    body,
+    ...overrides,
+  };
+}
+
+const validBody = {
+  name: 'Anna Schmidt',
+  email: 'anna@example.test',
+  telefon: '',
+  source: 'vor-ort-qr',
+  beraterSlug: 'sandro-wernicke',
+  parentEvening: true,
+  captchaToken: 'captcha-token',
+  consent: true,
+};
+
+const originalFetch = global.fetch;
+const originalRegistrationSecret = process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET;
+const originalTurnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+const originalTurnstileSiteKey = process.env.TURNSTILE_SITE_KEY;
+
+process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET = 'test-kidz-registration-secret-with-enough-entropy';
+process.env.TURNSTILE_SECRET_KEY = 'test-turnstile-secret';
+
+try {
+  let requests = [];
+  global.fetch = async (url, options) => {
+    requests.push({ url: String(url), options });
+    if (String(url).includes('siteverify')) return { ok: true, json: async () => ({ success: true }) };
+    return { ok: true, text: async () => JSON.stringify({ ok: true, reference: 'KIDZ-ABC12345' }) };
+  };
+
+  const successResponse = responseMock();
+  await registerHandler(request(validBody), successResponse);
+  assert.equal(successResponse.statusCode, 201);
+  assert.deepEqual(JSON.parse(successResponse.body), { ok: true, reference: 'KIDZ-ABC12345' });
+  assert.equal(requests.length, 2);
+  const rpcBody = JSON.parse(requests[1].options.body);
+  assert.equal(rpcBody.p_event_key, 'kidz-sommerfest-2026');
+  assert.equal(rpcBody.p_berater_slug, 'sandro-wernicke');
+  assert.equal(rpcBody.p_elternabend_interesse, true);
+  assert.match(rpcBody.p_rate_key, /^[0-9a-f]{64}$/);
+  assert.match(rpcBody.p_contact_key, /^[0-9a-f]{64}$/);
+  assert.doesNotMatch(requests[1].options.body, /203\.0\.113\.42/);
+
+  requests = [];
+  global.fetch = async (url, options) => {
+    requests.push({ url: String(url), options });
+    if (String(url).includes('siteverify')) return { ok: true, json: async () => ({ success: true }) };
+    return { ok: true, text: async () => JSON.stringify({ ok: true, reference: 'KIDZ-DEFAULT1' }) };
+  };
+  const defaultAdvisorResponse = responseMock();
+  await registerHandler(request({ ...validBody, beraterSlug: '' }), defaultAdvisorResponse);
+  assert.equal(defaultAdvisorResponse.statusCode, 201);
+  assert.equal(JSON.parse(requests[1].options.body).p_berater_slug, 'kai-blobel');
+
+  global.fetch = async (url) => {
+    if (String(url).includes('siteverify')) return { ok: true, json: async () => ({ success: true }) };
+    return { ok: true, text: async () => JSON.stringify({ ok: false, reason: 'already_exists' }) };
+  };
+  const duplicateResponse = responseMock();
+  await registerHandler(request(validBody), duplicateResponse);
+  assert.equal(duplicateResponse.statusCode, 409);
+
+  let fetchCalled = false;
+  global.fetch = async () => { fetchCalled = true; };
+  const invalidResponse = responseMock();
+  await registerHandler(request({ ...validBody, email: '', telefon: '', captchaToken: '' }), invalidResponse);
+  assert.equal(invalidResponse.statusCode, 400);
+  assert.equal(fetchCalled, false);
+
+  const foreignOriginResponse = responseMock();
+  await registerHandler(request(validBody, { headers: { host: 'localhost:3000', origin: 'https://example.org' } }), foreignOriginResponse);
+  assert.equal(foreignOriginResponse.statusCode, 403);
+
+  delete process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET;
+  const unavailableResponse = responseMock();
+  await registerHandler(request(validBody), unavailableResponse);
+  assert.equal(unavailableResponse.statusCode, 503);
+  assert.equal(JSON.parse(unavailableResponse.body).reason, 'not_configured');
+
+  process.env.TURNSTILE_SITE_KEY = 'public-test-site-key';
+  const configResponse = responseMock();
+  configHandler({ method: 'GET' }, configResponse);
+  assert.equal(configResponse.statusCode, 200);
+  assert.equal(JSON.parse(configResponse.body).turnstileSiteKey, 'public-test-site-key');
+
+  global.fetch = async () => ({
+    ok: true,
+    json: async () => [{ name: 'Kai Blobel', slug: 'kai-blobel' }, { name: 'Sandro Wernicke', slug: 'sandro-wernicke' }],
+  });
+  const advisorsResponse = responseMock();
+  await advisorsHandler({ method: 'GET' }, advisorsResponse);
+  assert.equal(advisorsResponse.statusCode, 200);
+  assert.equal(JSON.parse(advisorsResponse.body).advisors[1].slug, 'sandro-wernicke');
+} finally {
+  global.fetch = originalFetch;
+  if (originalRegistrationSecret === undefined) delete process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET;
+  else process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET = originalRegistrationSecret;
+  if (originalTurnstileSecret === undefined) delete process.env.TURNSTILE_SECRET_KEY;
+  else process.env.TURNSTILE_SECRET_KEY = originalTurnstileSecret;
+  if (originalTurnstileSiteKey === undefined) delete process.env.TURNSTILE_SITE_KEY;
+  else process.env.TURNSTILE_SITE_KEY = originalTurnstileSiteKey;
+}
+
+const [html, css, js, adminHtml, adminJs, navJs, migration, vercel] = await Promise.all([
+  read('kidz-gewinnspiel.html'),
+  read('css/kidz-gewinnspiel.css'),
+  read('js/kidz-gewinnspiel.js'),
+  read('dashboard/kidz-gewinnspiel.html'),
+  read('js/kidz-gewinnspiel-admin.js'),
+  read('js/nav.js'),
+  read('schema-phase172.sql'),
+  read('vercel.json'),
+]);
+
+assert.match(html, /id="kgConsent"/);
+assert.match(html, /id="kgParentEvening"/);
+assert.match(html, /id="kgAdvisor"/);
+assert.match(html, /sandro-wernicke/);
+assert.match(html, /Wir brauchen keine Angaben zu Kindern/);
+assert.doesNotMatch(html, /Kindername|Geburtsdatum|Gesundheitsdaten/);
+assert.match(css, /color-scheme:\s*light/);
+assert.doesNotMatch(css, /prefers-color-scheme\s*:\s*dark/);
+assert.match(js, /\/api\/kidz-register/);
+assert.match(js, /\/api\/kidz-advisors/);
+assert.match(js, /beraterSlug/);
+assert.match(adminHtml, /Linas Arbeitsstrecke/);
+assert.match(adminJs, /kidz_gewinnspiel_teilnahmen/);
+assert.match(adminJs, /berater-einladung/);
+assert.match(navJs, /KIDZ Gewinnspiel/);
+assert.match(vercel, /\/kidz\/gewinnspiel/);
+assert.match(migration, /ZUR VERÖFFENTLICHUNG FREIGEGEBEN AM 11\.08\.2026/);
+assert.match(migration, /force row level security/);
+assert.match(migration, /revoke all on table public\.kidz_gewinnspiel_teilnahmen from public, anon, authenticated/);
+assert.match(migration, /grant execute on function public\.register_kidz_gewinnspiel_public[\s\S]*to anon/);
+assert.match(migration, /list_kidz_berater_public/);
+assert.match(migration, /is_current_berater_admin\(\)/);
+assert.doesNotMatch(migration, /empfehler\s*\(/);
+assert.doesNotMatch(migration, /empfehlungen\s*\(/);
+
+console.log('kidz-gewinnspiel: OK');

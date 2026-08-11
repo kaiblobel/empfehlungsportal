@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f5f7">
+  <title>KIDZ Gewinnspiel · Empfehlungsportal</title>
+  <link rel="stylesheet" href="../css/style.css?v=33">
+  <link rel="stylesheet" href="../css/dashboard.css?v=49">
+  <link rel="stylesheet" href="../css/kidz-gewinnspiel-admin.css?v=1">
+  <script src="../js/config.js"></script>
+</head>
+<body class="has-app-nav kg-admin-page">
+  <div id="appNav"></div>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="app-header-left">
+        <img class="app-header-photo" id="hdrPhoto" alt="">
+        <div>
+          <div class="app-header-name" id="hdrName">…</div>
+          <div class="app-header-sub">KIDZ Sommerfest</div>
+        </div>
+      </div>
+      <div class="app-header-right">
+        <a href="../hub.html" class="btn-hub-back">← <span class="lbl">Überblick</span></a>
+        <button class="btn-logout" id="logoutBtn">Abmelden</button>
+      </div>
+    </header>
+
+    <main class="app-content kg-admin-content">
+      <section class="kg-admin-intro">
+        <div>
+          <div class="h-label">Linas Arbeitsstrecke</div>
+          <h1>Sommerfest-Gewinnspiel</h1>
+          <p>Teilnahmen bleiben getrennt von Promotern, Empfehlungen und Kundendaten.</p>
+        </div>
+        <div class="kg-admin-actions">
+          <a class="kg-admin-secondary" href="/kidz/gewinnspiel?quelle=direkt" target="_blank" rel="noopener">Anmeldeseite öffnen</a>
+          <button class="kg-admin-secondary" id="copyInviteBtn" type="button">Meinen Einladungslink kopieren</button>
+          <button class="kg-admin-primary" id="exportBtn" type="button" disabled>Liste herunterladen</button>
+        </div>
+      </section>
+
+      <section class="kg-admin-kpis" aria-label="Kennzahlen">
+        <article><span>Teilnahmen</span><strong id="totalCount">0</strong><small>für den 06.09.2026</small></article>
+        <article><span>Elternabend</span><strong id="parentCount">0</strong><small>freiwilliges Interesse</small></article>
+        <article><span>Berater</span><strong id="advisorCount">0</strong><small>mit zugeordneten Teilnahmen</small></article>
+      </section>
+
+      <section class="kg-admin-toolbar" aria-label="Teilnahmen filtern">
+        <label for="searchInput">Suchen</label>
+        <input id="searchInput" type="search" placeholder="Name, E-Mail, Mobilnummer oder Bestätigung" autocomplete="off">
+        <select id="advisorFilter" aria-label="Nach Vermögensberater filtern">
+          <option value="">Alle Vermögensberater</option>
+        </select>
+        <label class="kg-admin-toggle" for="parentOnly">
+          <input id="parentOnly" type="checkbox">
+          Nur Elternabend-Interesse
+        </label>
+      </section>
+
+      <section aria-labelledby="entriesTitle">
+        <div class="kg-admin-section-head">
+          <h2 id="entriesTitle">Teilnahmen</h2>
+          <span id="resultMeta">Wird geladen …</span>
+        </div>
+        <div class="kg-admin-list" id="entries" aria-live="polite">
+          <div class="kg-admin-empty">Teilnahmen werden geladen …</div>
+        </div>
+      </section>
+
+      <aside class="kg-admin-boundary">
+        <strong>Klare Grenze</strong>
+        <p>Diese Liste dient nur der Auslosung, Gewinnbenachrichtigung, Beraterzuordnung und dem freiwillig gewünschten Elternabend-Hinweis. Sie ist kein Promoter- oder Kundenbestand.</p>
+      </aside>
+    </main>
+  </div>
+
+  <script type="module" src="../js/nav.js?v=59"></script>
+  <script type="module" src="../js/kidz-gewinnspiel-admin.js?v=1"></script>
+</body>
+</html>
