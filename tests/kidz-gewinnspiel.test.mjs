@@ -305,6 +305,7 @@ assert.doesNotMatch(promoterMigration, /david-stamm-386wx9bs4678bs/);
 assert.match(simpleTermsMigration, /VORBEREITET, NOCH NICHT LIVE ANGEWENDET/);
 assert.match(simpleTermsMigration, /2026-08-12-v4/);
 assert.match(simpleTermsMigration, /security definer/);
+assert.match(simpleTermsMigration, /v_source text := lower\(trim\(coalesce\(p_source, 'direkt'\)\)\);/);
 assert.match(simpleTermsMigration, /revoke execute on function public\.register_kidz_gewinnspiel_public/);
 
 console.log('kidz-gewinnspiel: OK');

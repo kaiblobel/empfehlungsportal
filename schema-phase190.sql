@@ -31,7 +31,7 @@ declare
   v_email text := nullif(lower(trim(coalesce(p_email, ''))), '');
   v_telefon text := nullif(trim(coalesce(p_telefon, '')), '');
   v_phone_digits text;
-  v_source text := lower(trim(coalesce(p_source, 'direkt'));
+  v_source text := lower(trim(coalesce(p_source, 'direkt')));
   v_reference text;
 begin
   select secret_hash into v_secret_hash
