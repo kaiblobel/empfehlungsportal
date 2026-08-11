@@ -128,7 +128,7 @@ try {
   else process.env.TURNSTILE_SITE_KEY = originalTurnstileSiteKey;
 }
 
-const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, vercel] = await Promise.all([
+const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, logoSvg, vercel] = await Promise.all([
   read('kidz-gewinnspiel.html'),
   read('css/kidz-gewinnspiel.css'),
   read('js/kidz-gewinnspiel.js'),
@@ -137,6 +137,7 @@ const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, ver
   read('js/nav.js'),
   read('schema-phase172.sql'),
   read('schema-phase174.sql'),
+  read('assets/images/kidz-marke.svg'),
   read('vercel.json'),
 ]);
 
@@ -144,8 +145,10 @@ assert.match(html, /id="kgConsent"/);
 assert.match(html, /id="kgParentEvening"/);
 assert.match(html, /id="kgAdvisor"/);
 assert.match(html, /sandro-wernicke/);
-assert.match(html, /assets\/images\/kidz-wagen-marke\.svg/);
+assert.match(html, /assets\/images\/kidz-marke\.svg/);
 assert.doesNotMatch(html, /kg-brand-mark" aria-hidden="true">KIDZ/);
+assert.match(logoSvg, /<text[^>]*>KIDZ<\/text>/);
+assert.doesNotMatch(logoSvg, /Wagen|Lok|<path|<rect/);
 assert.match(html, /Wir brauchen keine Angaben zu Kindern/);
 assert.match(html, /Online-Anmeldung ist nur eine Vormerkung/);
 assert.match(html, /persönliche Losabholung und den Einwurf in die Lostrommel/);
