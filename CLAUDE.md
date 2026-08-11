@@ -1,6 +1,6 @@
 <!-- odysseus-passport
 purpose: Empfehlungsportal für DVAG-Berater - Vanilla JS + eigene Supabase; Funnel Klick zu Interesse zu Kunde, privates Potenzialbuch mit Kontakt-Coach, echte Kennzahlen, Champions, Prämien; Cockpit-Brücke
-status: v1.211 Phase 185 live; Hauptadresse zeigt zuerst den Sommerfest-Flyer, danach die Gewinnübersicht und anschließend die Anmeldung; bestehende QR-Codes und /kidz/gewinnspiel bleiben direkte Anmeldewege; Herkunft und Beraterzuordnung werden weitergereicht; PR 41, Produktions-Commit 029032a und Vercel dpl_9NdHqhGYjq5f5Ckvq9hyhsi7hdif READY; Live-Routing, Flyer, Formular, Turnstile und 68 Prüfungen grün, keine Produktionsfehler gefunden
+status: v1.211 Phase 185 live; v1.212 Phase 186 auf Branch codex/kidz-promoter-zuordnung-v1.212 zur Abnahme vorbereitet; Anika Bibrach wird Sven Augustin und David Stamm wird Claudius Tusche zugeordnet, der genaue Promoter bleibt an der KIDZ-Teilnahme gespeichert; Claudius ist nur als internes Zuordnungsziel ohne Login vorbereitet; schema-phase186.sql noch nicht auf Produktion angewendet; 31 von 31 Testdateien grün
 live_url: https://empfehlungsportal.vercel.app; KIDZ oeffentlich unter https://kidz.teamwachsbleiche.de
 tags: portal, supabase, empfehlung, promoter, potenzialbuch, kontakt-coach, spracheingabe, mobile-first, live, baufinanzierung, kfw, bookings, power-automate
 -->

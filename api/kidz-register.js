@@ -1,8 +1,9 @@
 /**
  * Öffentliche Gewinnspiel-Anmeldung für das KIDZ-Sommerfest 2026.
  *
- * Der Endpunkt hält Gewinnspielteilnahmen strikt vom Promoter-Bestand getrennt.
- * Der Browser erhält weder das Registrierungsgeheimnis noch interne Datenbankrechte.
+ * Gewinnspielteilnahmen bleiben eine eigene Datenstrecke. Bei einer namentlichen
+ * Einladung speichert die Datenbank nur die interne Promoter-Verknüpfung.
+ * Der Browser erhält weder Promoter-Codes noch interne Datenbankrechte.
  */
 const crypto = require('node:crypto');
 

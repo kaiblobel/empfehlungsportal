@@ -5,6 +5,18 @@ Offizielle Live-Version: **v1.211 Beta** · KIDZ-Sommerfest-Startseite, live sei
 
 ---
 
+## v1.212 Beta - Phase 186 · KIDZ-Promoterzuordnung
+**2026-08-11 · Arbeitsfassung zur Abnahme, noch nicht live**
+
+- In der Auswahl „Wer hat dich eingeladen?“ stehen zusätzlich **Anika Bibrach** und **David Stamm**.
+- Anika wird intern Sven Augustin zugeordnet. David wird intern Claudius Tusche zugeordnet.
+- Die Teilnahme speichert neben dem zuständigen Vermögensberater auch den ausgewählten Promoter. Dadurch bleibt im KIDZ-Arbeitsbereich und im CSV-Export nachvollziehbar, über wen der Kontakt entstanden ist.
+- Öffentliche Promoter-Codes werden weder an den Browser noch über die Auswahlliste ausgegeben.
+- Claudius wird als internes Beraterziel vorbereitet. Ein eigenes Login entsteht erst, wenn später E-Mail und Zugang hinterlegt werden.
+- Datenbankmigration `schema-phase186.sql` ist vorbereitet, aber noch nicht auf Produktion angewendet. 31 von 31 Testdateien sind grün.
+
+---
+
 ## v1.211 Beta - Phase 185 · KIDZ-Sommerfest-Startseite
 **2026-08-11 · live veröffentlicht**
 

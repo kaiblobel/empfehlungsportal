@@ -112,12 +112,18 @@ try {
 
   global.fetch = async () => ({
     ok: true,
-    json: async () => [{ name: 'Kai Blobel', slug: 'kai-blobel' }, { name: 'Sandro Wernicke', slug: 'sandro-wernicke' }],
+    json: async () => [
+      { name: 'Kai Blobel', slug: 'kai-blobel' },
+      { name: 'Sandro Wernicke', slug: 'sandro-wernicke' },
+      { name: 'Anika Bibrach', slug: 'promoter-anika-bibrach' },
+      { name: 'David Stamm', slug: 'promoter-david-stamm' },
+    ],
   });
   const advisorsResponse = responseMock();
   await advisorsHandler({ method: 'GET' }, advisorsResponse);
   assert.equal(advisorsResponse.statusCode, 200);
   assert.equal(JSON.parse(advisorsResponse.body).advisors[1].slug, 'sandro-wernicke');
+  assert.equal(JSON.parse(advisorsResponse.body).advisors[2].slug, 'promoter-anika-bibrach');
 } finally {
   global.fetch = originalFetch;
   if (originalRegistrationSecret === undefined) delete process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET;
@@ -128,7 +134,7 @@ try {
   else process.env.TURNSTILE_SITE_KEY = originalTurnstileSiteKey;
 }
 
-const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, bonusMigration, managementMigration, logoSvg, vercel] = await Promise.all([
+const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, bonusMigration, managementMigration, promoterMigration, logoSvg, vercel] = await Promise.all([
   read('kidz-gewinnspiel.html'),
   read('css/kidz-gewinnspiel.css'),
   read('js/kidz-gewinnspiel.js'),
@@ -139,6 +145,7 @@ const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, bon
   read('schema-phase174.sql'),
   read('schema-phase179.sql'),
   read('schema-phase182.sql'),
+  read('schema-phase186.sql'),
   read('assets/images/kidz-marke.svg'),
   read('vercel.json'),
 ]);
@@ -149,6 +156,8 @@ assert.match(html, /id="kgConsent"/);
 assert.match(html, /id="kgParentEvening"/);
 assert.match(html, /id="kgAdvisor"/);
 assert.match(html, /sandro-wernicke/);
+assert.match(html, /promoter-anika-bibrach">Anika Bibrach/);
+assert.match(html, /promoter-david-stamm">David Stamm/);
 assert.match(html, /assets\/images\/kidz-marke\.svg/);
 assert.match(html, /id="kgMenu"/);
 assert.match(html, /Flyer &amp; Gewinne/);
@@ -191,6 +200,8 @@ assert.match(js, /kidz-sommerfest-gewinnspiel-v2\.png/);
 assert.match(js, /menu\.removeAttribute\('open'\)/);
 assert.match(adminHtml, /Linas Arbeitsstrecke/);
 assert.match(adminJs, /kidz_gewinnspiel_teilnahmen/);
+assert.match(adminJs, /Eingeladen von/);
+assert.match(adminJs, /empfehler:empfehler_id\(name\)/);
 assert.match(adminJs, /berater-einladung/);
 assert.match(adminJs, /issue_kidz_gewinnspiel_ticket/);
 assert.match(adminJs, /ticket_number/);
@@ -257,5 +268,16 @@ assert.match(managementMigration, /retention_expired/);
 assert.match(managementMigration, /kidz-gewinnspiel-aufbewahrungsfrist/);
 assert.match(managementMigration, /2027-01-01 00:00:00\+01/);
 assert.match(managementMigration, /revoke execute on function public\.cleanup_kidz_gewinnspiel_expired\(\)[\s\S]*authenticated/);
+assert.match(promoterMigration, /ARBEITSFASSUNG ZUR ABNAHME\. NOCH NICHT LIVE ANGEWENDET/);
+assert.match(promoterMigration, /'promoter-anika-bibrach', 'Anika Bibrach'[\s\S]*where lower\(b\.slug\) = 'sven-augustin'/);
+assert.match(promoterMigration, /'promoter-david-stamm', 'David Stamm'[\s\S]*where lower\(b\.slug\) = 'claudius-tusche'/);
+assert.match(promoterMigration, /promoter-anika-bibrach/);
+assert.match(promoterMigration, /promoter-david-stamm/);
+assert.match(promoterMigration, /add column if not exists empfehler_id uuid/);
+assert.match(promoterMigration, /select e\.berater_id, e\.empfehler_id/);
+assert.match(promoterMigration, /reference, event_key, berater_id, empfehler_id/);
+assert.match(promoterMigration, /revoke all on table public\.kidz_gewinnspiel_einladende from public, anon, authenticated/);
+assert.match(promoterMigration, /grant execute on function public\.list_kidz_berater_public\(\)[\s\S]*to anon, authenticated/);
+assert.doesNotMatch(promoterMigration, /david-stamm-386wx9bs4678bs/);
 
 console.log('kidz-gewinnspiel: OK');

@@ -54,9 +54,9 @@ assert.match(promoterCss, /\.pd-layout/);
 assert.match(promoterCss, /grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
 assert.match(promoterCss, /@media \(max-width: 540px\)/);
 
-assert.match(config, /v1\.211 Beta/);
-assert.match(config, /Phase 185 · KIDZ-Sommerfest-Startseite/);
-assert.match(sw, /CACHE_VERSION = 'v170-2026-08-11a'/);
+assert.match(config, /v1\.212 Beta/);
+assert.match(config, /Phase 186 · KIDZ-Promoterzuordnung/);
+assert.match(sw, /CACHE_VERSION = 'v171-2026-08-11b'/);
 assert.match(sw, /promoter-dashboard\.css\?v=2/);
 
 console.log('promoter-premium: OK');
