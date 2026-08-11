@@ -12,6 +12,8 @@ Offizielle Live-Version: **v1.201 Beta** · Echtes KIDZ-Markenlogo auf der Gewin
 - Der Zusatz „Konzept“ entfällt. Das Zeichen steht auch als Browser-Tab-Symbol zur Verfügung.
 - Die spätere Adresse `kidz.teamwachsbleiche.de` ist im Portal vorbereitet. Sie wird erst nach einem sicheren DNS-Wechsel aktiviert; die bestehende QR-Adresse bleibt bis dahin unverändert erreichbar.
 - Keine Änderungen an Gewinnspielanmeldungen, Beraterzuordnung, Vor-Ort-Losen oder vorhandenen Daten.
+- Veröffentlichung über PR 24 auf Produktions-Commit `43f9acd`. Vercel meldet `dpl_CgsQaEooGG3g3A5y9SP91jHYK7D5` als READY; Live-Seite, Logo-Datei und v1.201 antworten mit Status 200, die visuelle Live-Prüfung war fehlerfrei.
+- Vercel kennt `kidz.teamwachsbleiche.de` bereits als Alias. Der erforderliche DNS-Eintrag ist bei All-Inkl im aktuellen Tarif gesperrt; deshalb wurde keine riskante Nameserver- oder Tarifänderung vorgenommen.
 
 ## v1.200 Beta - Phase 174 · KIDZ-Vor-Ort-Los
 **2026-08-11 · live veröffentlicht**
