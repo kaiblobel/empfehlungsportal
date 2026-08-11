@@ -12,6 +12,12 @@ const [html, css, js, vercel] = await Promise.all([
 const eventFlyer = await stat(new URL('../assets/images/kidz-sommerfest-flyer.jpg', import.meta.url));
 const prizeFlyer = await stat(new URL('../assets/images/kidz-sommerfest-gewinnspiel-v2.png', import.meta.url));
 const organizerLogo = await stat(new URL('../assets/images/team-wachsbleiche-petrol.jpeg', import.meta.url));
+const factIcons = await Promise.all([
+  'kidz-calendar.svg',
+  'kidz-clock.svg',
+  'kidz-location.svg',
+  'kidz-ticket.svg',
+].map((name) => stat(new URL(`../assets/icons/${name}`, import.meta.url))));
 const vercelConfig = JSON.parse(vercel);
 const hasHost = (entry, host) => entry.has?.some((condition) => condition.type === 'host' && condition.value === host);
 
@@ -27,6 +33,14 @@ assert.match(html, /6\. September 2026/);
 assert.match(html, /10:00 bis 15:00 Uhr/);
 assert.match(html, /Kutzeburger Mühle/);
 assert.match(html, /Eintritt kostenlos/);
+assert.match(html, /class="kf-fact kf-fact-date"/);
+assert.match(html, /class="kf-fact kf-fact-time"/);
+assert.match(html, /class="kf-fact kf-fact-place"/);
+assert.match(html, /class="kf-fact kf-fact-free"/);
+assert.match(html, /assets\/icons\/kidz-calendar\.svg/);
+assert.match(html, /assets\/icons\/kidz-clock\.svg/);
+assert.match(html, /assets\/icons\/kidz-location\.svg/);
+assert.match(html, /assets\/icons\/kidz-ticket\.svg/);
 assert.match(html, /assets\/images\/kidz-sommerfest-flyer\.jpg/);
 assert.match(html, /assets\/images\/kidz-sommerfest-gewinnspiel-v2\.png/);
 assert.match(html, /Zur kostenlosen Gewinnspiel-Anmeldung/);
@@ -41,10 +55,14 @@ assert.match(html, /property="og:image:height" content="1280"/);
 assert.ok(eventFlyer.size > 400_000);
 assert.ok(prizeFlyer.size > 2_000_000);
 assert.ok(organizerLogo.size > 300_000);
+assert.ok(factIcons.every((icon) => icon.size > 300));
 
 assert.match(css, /\.kf-section-event/);
 assert.match(css, /\.kf-section-prizes/);
 assert.match(css, /\.kf-section-register/);
+assert.match(css, /\.kf-fact-icon img/);
+assert.match(css, /grid-template-columns: repeat\(4, 1fr\)/);
+assert.match(css, /grid-template-columns: 1fr 1fr/);
 assert.match(css, /\.kf-organizer img/);
 assert.match(css, /@media \(max-width: 760px\)/);
 assert.doesNotMatch(css, /prefers-color-scheme\s*:\s*dark/);

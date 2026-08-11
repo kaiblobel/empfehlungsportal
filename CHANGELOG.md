@@ -10,6 +10,8 @@ Offizielle Live-Version: **v1.213 Beta** · KIDZ-Adminfilter & einheitliches Men
 
 - Das freigegebene petrol-goldene Team-Wachsbleiche-Logo ergänzt den Veranstalterbereich auf Sommerfest-Startseite und Gewinnspiel-Anmeldung.
 - Das Logo steht kompakt neben dem vollständigen Veranstaltertext. KIDZ bleibt die führende Marke im Kopfbereich.
+- Die vier wichtigsten Veranstaltungsdaten werden auf der Sommerfest-Startseite mit eigenen hochwertigen SVG-Symbolen für Datum, Uhrzeit, Ort und kostenlosen Eintritt aufgewertet.
+- Die Symbolkarten haben eine klare Beschriftung, abgestimmte KIDZ-Farben und bleiben auf dem Handy in einem ruhigen Zweiersystem lesbar.
 - Auf dem Handy wird der Fußbereich ruhig untereinander angeordnet; Adresse und Veranstaltungsort bleiben vollständig lesbar.
 - Gewinnspiel, QR-Code, Herkunftsparameter, Beraterzuordnung und Datenbank bleiben unverändert.
 

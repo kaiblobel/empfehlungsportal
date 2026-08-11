@@ -23,6 +23,6 @@ assert.doesNotMatch(index, />Zum Hub<\/a>/);
 assert.match(config, /APP_VERSION = 'v1\.214 Beta'/);
 assert.match(config, /Phase 188 · KIDZ-Veranstalterlogo/);
 assert.doesNotMatch(config, /Premium-HUB/);
-assert.match(sw, /CACHE_VERSION = 'v174-2026-08-11e'/);
+assert.match(sw, /CACHE_VERSION = 'v174-2026-08-11f'/);
 
 console.log('portal-begriffe: OK');
