@@ -1,20 +1,23 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.214 Beta** · KIDZ-Veranstalterlogo & Symbolkarten, live seit 12.08.2026.
+Offizielle Live-Version: **v1.216 Beta** · KIDZ-Teilnahme vereinfacht, live seit 12.08.2026.
 
 ---
 
 ## v1.216 Beta - Phase 190 · KIDZ-Teilnahme vereinfacht
-**2026-08-12 · vorbereitet, noch nicht live**
+**2026-08-12 · live veröffentlicht**
 
 - Jede gültige Online-Anmeldung nimmt einmal an der Verlosung der weiteren Preise teil.
 - Der Hauptgewinn wird davon getrennt beim Sommerfest über eine Tombola verlost. Jede volljährige Person vor Ort erhält ein Los und wirft es selbst ein.
 - Nummerierte Doppel-Lose, Losnummern und die Zuordnung eines Vor-Ort-Loses zu einer Online-Anmeldung entfallen vollständig aus dem sichtbaren Ablauf.
 - Anmeldung, Bestätigung, Sommerfest-Seite, Teilnahmebedingungen und interner KIDZ-Arbeitsbereich verwenden dieselbe einfache Erklärung.
-- Die Teilnahmebedingungen erhalten die neue Fassung `2026-08-12-v4`. Die dafür vorbereitete Datenbankfreigabe liegt in `schema-phase190.sql` und ist noch nicht angewendet.
+- Die Teilnahmebedingungen verwenden die neue Fassung `2026-08-12-v4`. Die Datenbankmigration `phase_190_kidz_teilnahme_einfach` ist angewendet und lässt diese Fassung kontrolliert zu.
 - Bestehende Datenbankfelder und ältere Einträge werden nicht gelöscht. Die alte Losnummer-Funktion bleibt technisch unangetastet, ist aber im neuen Arbeitsablauf nicht mehr sichtbar.
-- Veröffentlichung und Datenbankänderung warten auf Kais ausdrückliche Freigabe.
+- Die zwei vorhandenen KIDZ-Teilnahmen blieben unverändert. Neue Teilnahmen werden mit Fassung 4 gespeichert.
+- Kai hat die Veröffentlichung ausdrücklich freigegeben. PR 49 wurde auf Produktions-Commit `e5b7d3c` zusammengeführt.
+- Vercel-Produktion `dpl_B8MiXB3P9j1CVTXTWWWgYb8mUJ1P` ist `READY` und trägt die offiziellen Adressen einschließlich `kidz.teamwachsbleiche.de`.
+- Live geprüft: Sommerfest, Gewinnspiel und Konfiguration antworten mit Status 200. Fassung 4, Tombola-Erklärung und der einfache Vor-Ort-Schritt sind sichtbar; alte Nummernhinweise fehlen. Alle 32 Testdateien mit 60 Prüfungen sind grün, im Produktionsfehlerprotokoll wurden keine Fehler gefunden.
 
 ---
 
