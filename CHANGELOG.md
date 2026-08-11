@@ -12,6 +12,8 @@ Offizielle Live-Version: **v1.209 Beta** · KIDZ-Flyermenü, live seit 11.08.202
 - Der vollständige Flyer öffnet sich in einer ruhigen, bildschirmfüllenden Ansicht und kann heruntergeladen werden.
 - Auf dem Handy bleibt die Kopfzeile kompakt. Der Flyer passt sich an die verfügbare Höhe und Breite an, ohne abgeschnitten zu werden.
 - Gewinnspiel, Teilnahmebedingungen, bestehende Anmeldungen und Beraterzuordnung bleiben unverändert.
+- Veröffentlichung über PR 37 auf Produktions-Commit `e03b090`. Vercel-Produktion `dpl_EHHTn3wgyjETyzv7GLNRVo3NjFnw` ist `READY`.
+- Live geprüft: Menü, Flyeransicht, Download, v1.209 und Phase 183 sind über die öffentliche Teamadresse erreichbar. Der Flyer antwortet als JPEG mit 436.647 Bytes; alle 67 Portalprüfungen sind grün.
 
 ---
 
