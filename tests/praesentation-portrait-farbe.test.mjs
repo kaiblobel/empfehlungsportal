@@ -22,8 +22,8 @@ assert.doesNotMatch(splitRule, /grayscale/);
 
 assert.match(js, /applyBeraterBrand\(data\)/);
 assert.match(js, /getBeraterPublicBySlug\(beraterSlug\)/);
-assert.match(config, /v1\.205 Beta/);
-assert.match(config, /Phase 179 · Bonusverlosung und Hauptgewinn-Los/);
+assert.match(config, /v1\.206 Beta/);
+assert.match(config, /Phase 180 · KIDZ-Wunschadresse/);
 assert.match(sw, /CACHE_VERSION = 'v164-2026-08-11a'/);
 
 console.log('praesentation-portrait-farbe: OK');

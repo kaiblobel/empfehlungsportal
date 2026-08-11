@@ -174,6 +174,7 @@ assert.match(vercel, /kidz\.teamwachsbleiche\.de/);
 assert.match(vercel, /kidz\.kaiblobel\.de/);
 assert.match(vercel, /"type":\s*"host"/);
 assert.match(vercel, /"redirects"/);
+assert.match(vercel, /"value":\s*"kidz\.teamwachsbleiche\.de"[\s\S]*?"destination":\s*"\/kidz\/gewinnspiel"/);
 assert.match(vercel, /"destination":\s*"\/kidz\/gewinnspiel"/);
 assert.match(migration, /LIVE ANGEWENDET AM 11\.08\.2026 ALS phase_172_kidz_gewinnspiel/);
 assert.match(migration, /force row level security/);

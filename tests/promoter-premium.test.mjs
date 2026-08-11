@@ -54,8 +54,8 @@ assert.match(promoterCss, /\.pd-layout/);
 assert.match(promoterCss, /grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
 assert.match(promoterCss, /@media \(max-width: 540px\)/);
 
-assert.match(config, /v1\.205 Beta/);
-assert.match(config, /Phase 179 · Bonusverlosung und Hauptgewinn-Los/);
+assert.match(config, /v1\.206 Beta/);
+assert.match(config, /Phase 180 · KIDZ-Wunschadresse/);
 assert.match(sw, /CACHE_VERSION = 'v164-2026-08-11a'/);
 assert.match(sw, /promoter-dashboard\.css\?v=2/);
 
