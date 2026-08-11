@@ -270,7 +270,7 @@ assert.match(managementMigration, /retention_expired/);
 assert.match(managementMigration, /kidz-gewinnspiel-aufbewahrungsfrist/);
 assert.match(managementMigration, /2027-01-01 00:00:00\+01/);
 assert.match(managementMigration, /revoke execute on function public\.cleanup_kidz_gewinnspiel_expired\(\)[\s\S]*authenticated/);
-assert.match(promoterMigration, /ARBEITSFASSUNG ZUR ABNAHME\. NOCH NICHT LIVE ANGEWENDET/);
+assert.match(promoterMigration, /LIVE ANGEWENDET AM 11\.08\.2026/);
 assert.match(promoterMigration, /'promoter-anika-bibrach', 'Anika Bibrach'[\s\S]*where lower\(b\.slug\) = 'sven-augustin'/);
 assert.match(promoterMigration, /'promoter-david-stamm', 'David Stamm'[\s\S]*where lower\(b\.slug\) = 'claudius-tusche'/);
 assert.match(promoterMigration, /promoter-anika-bibrach/);
@@ -279,6 +279,7 @@ assert.match(promoterMigration, /add column if not exists empfehler_id uuid/);
 assert.match(promoterMigration, /select e\.berater_id, e\.empfehler_id/);
 assert.match(promoterMigration, /reference, event_key, berater_id, empfehler_id/);
 assert.match(promoterMigration, /revoke all on table public\.kidz_gewinnspiel_einladende from public, anon, authenticated/);
+assert.match(promoterMigration, /kidz_gewinnspiel_einladende_berater_idx/);
 assert.match(promoterMigration, /grant execute on function public\.list_kidz_berater_public\(\)[\s\S]*to anon, authenticated/);
 assert.doesNotMatch(promoterMigration, /david-stamm-386wx9bs4678bs/);
 

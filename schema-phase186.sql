@@ -1,16 +1,17 @@
 -- =====================================================================
 -- Phase 186 · KIDZ-Promoterzuordnung
 --
--- ARBEITSFASSUNG ZUR ABNAHME. NOCH NICHT LIVE ANGEWENDET.
+-- LIVE ANGEWENDET AM 11.08.2026 ALS
+-- phase_186_kidz_promoterzuordnung UND
+-- phase_186_kidz_promoterzuordnung_index.
 -- Die öffentliche Auswahl kann neben Beratern auch namentliche Promoter
 -- enthalten. Gespeichert werden sowohl der zuständige Berater als auch
 -- der tatsächlich ausgewählte Promoter. Öffentliche Promoter-Codes werden
 -- dabei nicht preisgegeben.
 -- =====================================================================
 
--- Claudius wird als internes Zuordnungsziel vorbereitet. Ohne E-Mail und
--- Auth-Verknüpfung entsteht noch kein Login, KIDZ-Kontakte können aber
--- bereits eindeutig seinem Bestand zugeordnet werden.
+-- Falls Claudius noch nicht vorhanden ist, wird ein internes Zuordnungsziel
+-- vorbereitet. Ein bereits bestehendes Beraterkonto bleibt unverändert.
 insert into public.berater (name, slug, rolle, ist_aktiv, ist_admin)
 select 'Claudius Tusche', 'claudius-tusche', 'Vermögensberater', true, false
 where not exists (
@@ -72,6 +73,9 @@ comment on table public.kidz_gewinnspiel_einladende is
 alter table public.kidz_gewinnspiel_einladende enable row level security;
 alter table public.kidz_gewinnspiel_einladende force row level security;
 revoke all on table public.kidz_gewinnspiel_einladende from public, anon, authenticated;
+
+create index if not exists kidz_gewinnspiel_einladende_berater_idx
+  on public.kidz_gewinnspiel_einladende (berater_id);
 
 insert into public.kidz_gewinnspiel_einladende (key, name, berater_id, empfehler_id, ist_aktiv)
 select 'promoter-anika-bibrach', 'Anika Bibrach', b.id, e.id, true
