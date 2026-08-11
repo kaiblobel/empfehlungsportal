@@ -1,11 +1,12 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Version in Veröffentlichung: **v1.208 Beta** · geschützte KIDZ-Teilnehmerverwaltung.
+Offizielle Live-Version: **v1.208 Beta** · geschützte KIDZ-Teilnehmerverwaltung, live seit 11.08.2026.
 
 ---
 
 ## v1.208 Beta - Phase 182 · Geschützte KIDZ-Teilnehmerverwaltung
+**2026-08-11 · live veröffentlicht**
 
 - Die drei ausdrücklich als Test angelegten Teilnahmen wurden vollständig aus der Produktionsdatenbank entfernt. Es sind keine KIDZ-Testteilnahmen mehr vorhanden.
 - Löschen ist künftig nur für Kai als Administrator möglich. Normale Berater können keine Teilnahmen mehr direkt löschen.
@@ -13,6 +14,8 @@ Offizielle Version in Veröffentlichung: **v1.208 Beta** · geschützte KIDZ-Tei
 - Zulässige Gründe sind Testeintrag, Dublette und Löschwunsch der teilnehmenden Person.
 - Vorhandene Namen, Kontaktwege, Referenzen und Losnummern werden beim Löschen nicht in ein Archiv kopiert. Das Prüfprotokoll speichert nur Grund, Zeitpunkt, Los-vorhanden-Kennzeichen und eine nicht rückrechenbare Prüfsumme.
 - Die Aufbewahrungsfrist ist technisch abgesichert: KIDZ-Sommerfest-Daten werden ab dem 1. Januar 2027 automatisch bereinigt.
+- Veröffentlichung über PR 35 auf Produktions-Commit `0821827`. Vercel-Produktion `dpl_HnvFxafxFgfSKH7F9Fx7t4j38HLs` ist `READY`.
+- Die angemeldete Produktionsansicht zeigt v1.208, vier Kennzahlen mit jeweils null Teilnahmen und keine Browserfehler. Der Löschdialog ist technisch vorhanden und erscheint nur bei vorhandenen Einträgen für Administratoren.
 
 ---
 
