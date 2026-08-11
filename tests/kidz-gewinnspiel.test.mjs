@@ -63,6 +63,7 @@ try {
   assert.equal(rpcBody.p_event_key, 'kidz-sommerfest-2026');
   assert.equal(rpcBody.p_berater_slug, 'sandro-wernicke');
   assert.equal(rpcBody.p_elternabend_interesse, true);
+  assert.equal(rpcBody.p_conditions_version, '2026-08-11-v2');
   assert.match(rpcBody.p_rate_key, /^[0-9a-f]{64}$/);
   assert.match(rpcBody.p_contact_key, /^[0-9a-f]{64}$/);
   assert.doesNotMatch(requests[1].options.body, /203\.0\.113\.42/);
@@ -127,7 +128,7 @@ try {
   else process.env.TURNSTILE_SITE_KEY = originalTurnstileSiteKey;
 }
 
-const [html, css, js, adminHtml, adminJs, navJs, migration, vercel] = await Promise.all([
+const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, vercel] = await Promise.all([
   read('kidz-gewinnspiel.html'),
   read('css/kidz-gewinnspiel.css'),
   read('js/kidz-gewinnspiel.js'),
@@ -135,6 +136,7 @@ const [html, css, js, adminHtml, adminJs, navJs, migration, vercel] = await Prom
   read('js/kidz-gewinnspiel-admin.js'),
   read('js/nav.js'),
   read('schema-phase172.sql'),
+  read('schema-phase174.sql'),
   read('vercel.json'),
 ]);
 
@@ -143,6 +145,9 @@ assert.match(html, /id="kgParentEvening"/);
 assert.match(html, /id="kgAdvisor"/);
 assert.match(html, /sandro-wernicke/);
 assert.match(html, /Wir brauchen keine Angaben zu Kindern/);
+assert.match(html, /Online-Anmeldung ist nur eine Vormerkung/);
+assert.match(html, /persönliche Losabholung und den Einwurf in die Lostrommel/);
+assert.match(html, /Nur die tatsächlich eingeworfenen Lose kommen in die Ziehung/);
 assert.match(html, /Veranstalter[\s\S]*An der Wachsbleiche 1a · 03046 Cottbus/);
 assert.match(html, /Veranstaltungsort[\s\S]*Kutzeburger Mühle 1 · 03051 Cottbus/);
 assert.doesNotMatch(html, /Kindername|Geburtsdatum|Gesundheitsdaten/);
@@ -151,9 +156,12 @@ assert.doesNotMatch(css, /prefers-color-scheme\s*:\s*dark/);
 assert.match(js, /\/api\/kidz-register/);
 assert.match(js, /\/api\/kidz-advisors/);
 assert.match(js, /beraterSlug/);
+assert.match(js, /facebook.*instagram.*whatsapp/);
 assert.match(adminHtml, /Linas Arbeitsstrecke/);
 assert.match(adminJs, /kidz_gewinnspiel_teilnahmen/);
 assert.match(adminJs, /berater-einladung/);
+assert.match(adminJs, /issue_kidz_gewinnspiel_ticket/);
+assert.match(adminJs, /ticket_number/);
 assert.match(navJs, /KIDZ Gewinnspiel/);
 assert.match(vercel, /\/kidz\/gewinnspiel/);
 assert.match(migration, /LIVE ANGEWENDET AM 11\.08\.2026 ALS phase_172_kidz_gewinnspiel/);
@@ -164,5 +172,14 @@ assert.match(migration, /list_kidz_berater_public/);
 assert.match(migration, /is_current_berater_admin\(\)/);
 assert.doesNotMatch(migration, /empfehler\s*\(/);
 assert.doesNotMatch(migration, /empfehlungen\s*\(/);
+assert.match(ticketMigration, /add column if not exists ticket_number text/);
+assert.match(ticketMigration, /kidz_gewinnspiel_event_ticket_unique/);
+assert.match(ticketMigration, /issue_kidz_gewinnspiel_ticket/);
+assert.match(ticketMigration, /issue_kidz_gewinnspiel_ticket[\s\S]*security invoker/);
+assert.match(ticketMigration, /auth\.uid\(\)/);
+assert.match(ticketMigration, /grant execute on function public\.issue_kidz_gewinnspiel_ticket\(uuid, text\)[\s\S]*to authenticated/);
+assert.match(ticketMigration, /'facebook', 'instagram', 'whatsapp'/);
+assert.match(ticketMigration, /grant update \(ticket_number, ticket_issued_at\)/);
+assert.match(ticketMigration, /enforce_kidz_ticket_once/);
 
 console.log('kidz-gewinnspiel: OK');
