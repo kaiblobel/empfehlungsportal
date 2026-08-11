@@ -54,9 +54,9 @@ assert.match(promoterCss, /\.pd-layout/);
 assert.match(promoterCss, /grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
 assert.match(promoterCss, /@media \(max-width: 540px\)/);
 
-assert.match(config, /v1\.202 Beta/);
-assert.match(config, /Phase 176 · KIDZ-Logo bereinigt/);
-assert.match(sw, /CACHE_VERSION = 'v161-2026-08-11c'/);
+assert.match(config, /v1\.203 Beta/);
+assert.match(config, /Phase 177 · KIDZ-Wunschadresse/);
+assert.match(sw, /CACHE_VERSION = 'v162-2026-08-11d'/);
 assert.match(sw, /promoter-dashboard\.css\?v=2/);
 
 console.log('promoter-premium: OK');
