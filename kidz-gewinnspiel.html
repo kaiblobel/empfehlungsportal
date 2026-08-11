@@ -8,7 +8,7 @@
   <meta name="robots" content="noindex,nofollow">
   <title>KIDZ Sommerfest-Gewinnspiel | Team Wachsbleiche</title>
   <link rel="icon" type="image/svg+xml" href="/assets/images/kidz-marke.svg">
-  <link rel="stylesheet" href="/css/kidz-gewinnspiel.css?v=3">
+  <link rel="stylesheet" href="/css/kidz-gewinnspiel.css?v=4">
   <script src="/js/config.js"></script>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 </head>
@@ -18,7 +18,23 @@
       <img class="kg-brand-mark" src="/assets/images/kidz-marke.svg" alt="KIDZ">
       <span><strong>Kinderleicht in die Zukunft</strong><small>Team Wachsbleiche</small></span>
     </div>
-    <span class="kg-free">Eintritt &amp; Teilnahme kostenlos</span>
+    <div class="kg-topbar-actions">
+      <span class="kg-free">Eintritt &amp; Teilnahme kostenlos</span>
+      <details class="kg-menu" id="kgMenu">
+        <summary><span>KIDZ Menü</span><i aria-hidden="true"></i></summary>
+        <div class="kg-menu-panel" aria-label="KIDZ Auswahl">
+          <p>Mehr zum Sommerfest</p>
+          <a href="#anmeldung">
+            <strong>Gewinnspiel-Anmeldung</strong>
+            <small>Bonuschance sichern</small>
+          </a>
+          <button type="button" id="kgFlyerOpen">
+            <strong>Sommerfest-Flyer</strong>
+            <small>Programm und Veranstaltungsort</small>
+          </button>
+        </div>
+      </details>
+    </div>
   </header>
 
   <main>
@@ -61,7 +77,7 @@
       </div>
     </section>
 
-    <section class="kg-form-wrap" aria-labelledby="kgFormTitle">
+    <section class="kg-form-wrap" id="anmeldung" aria-labelledby="kgFormTitle">
       <div class="kg-form-intro">
         <p class="kg-eyebrow">Deine erste Gewinnchance</p>
         <h2 id="kgFormTitle">Jetzt Bonuschance sichern</h2>
@@ -145,11 +161,30 @@
     </section>
   </main>
 
+  <dialog class="kg-flyer-dialog" id="kgFlyerDialog" aria-labelledby="kgFlyerTitle">
+    <div class="kg-flyer-shell">
+      <header>
+        <div>
+          <p>6. September 2026 · 10 bis 15 Uhr</p>
+          <h2 id="kgFlyerTitle">Kinder-Sommerfest</h2>
+        </div>
+        <button class="kg-flyer-close" id="kgFlyerClose" type="button" aria-label="Flyer schließen">×</button>
+      </header>
+      <div class="kg-flyer-stage">
+        <img src="/assets/images/kidz-sommerfest-flyer.jpg" alt="Flyer zum Kinder-Sommerfest am 6. September 2026 von 10 bis 15 Uhr in der Kutzeburger Mühle">
+      </div>
+      <footer>
+        <a class="kg-flyer-download" href="/assets/images/kidz-sommerfest-flyer.jpg" download>Flyer herunterladen</a>
+        <a class="kg-flyer-register" id="kgFlyerToForm" href="#anmeldung">Zum Gewinnspiel</a>
+      </footer>
+    </div>
+  </dialog>
+
   <footer class="kg-footer">
     <div><strong>Veranstalter</strong><br>Regionaldirektion Kai Blobel &amp; Team<br>Deutsche Vermögensberatung<br>An der Wachsbleiche 1a · 03046 Cottbus</div>
     <div><strong>Veranstaltungsort</strong><br>Zur Kutzeburger Mühle<br>Kutzeburger Mühle 1 · 03051 Cottbus</div>
   </footer>
 
-  <script type="module" src="/js/kidz-gewinnspiel.js?v=2"></script>
+  <script type="module" src="/js/kidz-gewinnspiel.js?v=3"></script>
 </body>
 </html>

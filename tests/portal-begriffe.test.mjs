@@ -20,9 +20,9 @@ for (const page of [presentation, programAdmin, payouts, advisors, changelogPage
 
 assert.match(index, />Zum Portal<\/a>/);
 assert.doesNotMatch(index, />Zum Hub<\/a>/);
-assert.match(config, /APP_VERSION = 'v1\.208 Beta'/);
-assert.match(config, /Phase 182 · Geschützte KIDZ-Teilnehmerverwaltung/);
+assert.match(config, /APP_VERSION = 'v1\.209 Beta'/);
+assert.match(config, /Phase 183 · KIDZ-Flyermenü/);
 assert.doesNotMatch(config, /Premium-HUB/);
-assert.match(sw, /CACHE_VERSION = 'v167-2026-08-11b'/);
+assert.match(sw, /CACHE_VERSION = 'v168-2026-08-11c'/);
 
 console.log('portal-begriffe: OK');

@@ -1,7 +1,17 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.208 Beta** · geschützte KIDZ-Teilnehmerverwaltung, live seit 11.08.2026.
+Offizielle Live-Version: **v1.209 Beta** · KIDZ-Flyermenü, live seit 11.08.2026.
+
+---
+
+## v1.209 Beta - Phase 183 · KIDZ-Flyermenü
+**2026-08-11 · live veröffentlicht**
+
+- Die öffentliche Gewinnspielseite erhält oben ein kleines KIDZ-Menü mit direktem Sprung zur Anmeldung und Zugriff auf den normalen Sommerfest-Flyer.
+- Der vollständige Flyer öffnet sich in einer ruhigen, bildschirmfüllenden Ansicht und kann heruntergeladen werden.
+- Auf dem Handy bleibt die Kopfzeile kompakt. Der Flyer passt sich an die verfügbare Höhe und Breite an, ohne abgeschnitten zu werden.
+- Gewinnspiel, Teilnahmebedingungen, bestehende Anmeldungen und Beraterzuordnung bleiben unverändert.
 
 ---
 
