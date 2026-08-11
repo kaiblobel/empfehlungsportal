@@ -3,13 +3,13 @@
     {
       "source": "/",
       "has": [{ "type": "host", "value": "kidz.teamwachsbleiche.de" }],
-      "destination": "/kidz/gewinnspiel",
+      "destination": "/kidz/sommerfest",
       "permanent": false
     },
     {
       "source": "/",
       "has": [{ "type": "host", "value": "kidz.kaiblobel.de" }],
-      "destination": "https://kidz.teamwachsbleiche.de/kidz/gewinnspiel",
+      "destination": "https://kidz.teamwachsbleiche.de/kidz/sommerfest",
       "permanent": false
     },
     {
@@ -22,6 +22,7 @@
   "rewrites": [
     { "source": "/e", "destination": "/api/share" },
     { "source": "/p/:berater/:quelle", "destination": "/promoter-start.html?berater=:berater&quelle=:quelle" },
+    { "source": "/kidz/sommerfest", "destination": "/kidz-sommerfest.html" },
     { "source": "/kidz/gewinnspiel", "destination": "/kidz-gewinnspiel.html" },
     { "source": "/(.*)", "destination": "/$1" }
   ]

@@ -5,6 +5,18 @@ Offizielle Live-Version: **v1.210 Beta** · KIDZ-Flyer und Linkvorschau, live se
 
 ---
 
+## v1.211 Beta - Phase 185 · KIDZ-Sommerfest-Startseite
+**2026-08-11 · Arbeitsfassung zur Abnahme, noch nicht live**
+
+- Die Hauptadresse `kidz.teamwachsbleiche.de` beginnt künftig mit dem normalen Sommerfest-Flyer.
+- Danach folgt die ausführliche Gewinnübersicht. Erst im dritten Schritt führt die Seite zur Gewinnspiel-Anmeldung.
+- Die bekannten QR-Codes und der direkte Pfad `/kidz/gewinnspiel` bleiben unverändert und öffnen weiterhin sofort die Anmeldung.
+- Herkunft und Beraterzuordnung werden beim Wechsel von der Sommerfest-Seite zur Anmeldung sicher mitgenommen.
+- Das Vorschaubild für geteilte Links der Hauptadresse ist der normale Sommerfest-Flyer.
+- Die Arbeitsfassung liegt getrennt auf `codex/kidz-startseite-v1.211`. Eine Veröffentlichung erfolgt erst nach Kais Freigabe.
+
+---
+
 ## v1.210 Beta - Phase 184 · KIDZ-Flyer und Linkvorschau
 **2026-08-11 · live veröffentlicht**
 
