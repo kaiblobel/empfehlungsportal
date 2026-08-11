@@ -16,7 +16,8 @@ Offizielle Live-Version: **v1.205 Beta** · Bonusverlosung und zusätzliches Hau
 - Die Teilnahmebedingungen wurden auf Fassung `2026-08-11-v3` angehoben. Bestehende Anmeldungen und Losnummern bleiben erhalten.
 - Die additive Datenbankanpassung `phase_179_kidz_bonus_hauptgewinn` ist angewendet. Die vorhandenen zwei Anmeldungen und zwei Losnummern blieben unverändert.
 - Veröffentlichung über PR 30 auf Produktions-Commit `de40640`. Vercel-Produktion `dpl_BfgKMdeHFziTs2L1XzNLeAuAm5V9` ist `READY`.
-- `kidz.kaiblobel.de` und die bestehende Portaladresse wurden auf Rechner und Handy geprüft: neue Texte sichtbar, kein seitliches Überlaufen und keine Browserfehler.
+- `kidz.kaiblobel.de` und die bestehende Portaladresse wurden auf Rechner und Handy auf Darstellung geprüft: neue Texte sichtbar und kein seitliches Überlaufen.
+- Nachprüfung der neuen Wunschadresse am 11.08.2026: Cloudflare Turnstile meldet dort Fehler `110200` (Domain nicht autorisiert). Bis `kidz.kaiblobel.de` im Widget `Empfehlungsportal-Promoter` als erlaubter Host gespeichert ist, bleibt die Registrierung auf der Wunschadresse blockiert. Die bestehende Portaladresse ist davon nicht betroffen.
 
 ## v1.204 Beta - Phase 178 · KIDZ-Rootadresse
 **2026-08-11 · live veröffentlicht**

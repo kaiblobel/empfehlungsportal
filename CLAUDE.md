@@ -1,6 +1,6 @@
 <!-- odysseus-passport
 purpose: Empfehlungsportal für DVAG-Berater - Vanilla JS + eigene Supabase; Funnel Klick zu Interesse zu Kunde, privates Potenzialbuch mit Kontakt-Coach, echte Kennzahlen, Champions, Prämien; Cockpit-Brücke
-status: KIDZ-Bonusverlosung mit zusaetzlichem Hauptgewinn-Doppellos ueber PR 30 auf Produktions-Commit de40640 live; Supabase-Migration phase_179_kidz_bonus_hauptgewinn angewendet und Berechtigungen geprueft; vorhandene zwei Anmeldungen und zwei Losnummern unveraendert; 35 Testdateien gruen; Vercel-Produktion dpl_BfgKMdeHFziTs2L1XzNLeAuAm5V9 READY; kidz.kaiblobel.de und bestehende Portaladresse auf Rechner und Handy ohne seitliches Ueberlaufen oder Browserfehler geprueft
+status: KIDZ-Bonusverlosung mit zusaetzlichem Hauptgewinn-Doppellos ueber PR 30 auf Produktions-Commit de40640 live; Supabase-Migration phase_179_kidz_bonus_hauptgewinn angewendet und Berechtigungen geprueft; vorhandene zwei Anmeldungen und zwei Losnummern unveraendert; 35 Testdateien gruen; Vercel-Produktion dpl_7gEtpmb21M59hMYfSXRzTKacrJW9 READY; kidz.kaiblobel.de ist per DNS und HTTPS erreichbar, der Turnstile-Sicherheitscheck blockiert dort aber noch mit Fehler 110200, bis der Host im Cloudflare-Widget Empfehlungsportal-Promoter freigegeben ist; bestehende Portaladresse bleibt funktionsfaehig
 live_url: https://empfehlungsportal.vercel.app
 tags: portal, supabase, empfehlung, promoter, potenzialbuch, kontakt-coach, spracheingabe, mobile-first, live, baufinanzierung, kfw, bookings, power-automate
 -->
