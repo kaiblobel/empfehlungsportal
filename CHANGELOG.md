@@ -5,6 +5,21 @@ Offizielle Live-Version: **v1.216 Beta** · KIDZ-Teilnahme vereinfacht, live sei
 
 ---
 
+## v1.217 Beta - Phase 191 · Exklusiver KIDZ-Elternabend
+**2026-08-12 · zur Freigabe vorbereitet, noch nicht live**
+
+- Neue eigenständige Informationsseite **„Exklusiver KIDZ-Elternabend“** mit der Unterzeile **„Der exklusive Eltern-Workshop für Familien“**. Sie ist bewusst nicht im öffentlichen Sommerfest-Menü verlinkt.
+- Die eigene Vormerkung fragt nur die erwachsene Kontaktperson, einen Kontaktweg, den bevorzugten Zeitraum, eine freiwillige Familienfrage und optional die einladende Person ab. Angaben zu Kindern werden nicht erhoben.
+- Die Elternabend-Vormerkung ist technisch und inhaltlich von Gewinnspiel, Kundenanfrage und allgemeiner Werbeeinwilligung getrennt.
+- Ein eigener, geprüfter QR-Code führt direkt auf `https://kidz.teamwachsbleiche.de/kidz/elternabend?quelle=elternabend-qr`. Ein eigenes Vorschaubild sorgt beim Teilen in WhatsApp und sozialen Netzwerken für einen hochwertigen Auftritt.
+- Im Empfehlungsportal entsteht unter **KIDZ > Elternabend** ein eigener Arbeitsbereich mit Kennzahlen, Suche, Statusführung, CSV-Export und Live-Aktualisierung neuer Vormerkungen.
+- Berater und Promoter werden wie beim Gewinnspiel zugeordnet. Admins sehen alle Berater und Promoter, normale Berater ausschließlich ihre nach den Datenbankrechten freigegebenen Vormerkungen.
+- Die vorbereitete Datenbankmigration enthält eine eigene Tabelle, strikte Zeilenrechte, eine geschützte öffentliche Registrierung, Missbrauchsschutz und die Live-Aktualisierung für den Portalbereich.
+- Die Schreibweise **Anika Biebrach** wird in derselben Freigabe korrigiert. Der bestehende technische Schlüssel bleibt unverändert, damit ältere Links und Zuordnungen weiter funktionieren.
+- Produktionsdatenbank, Produktionsgeheimnis und Veröffentlichung wurden noch nicht verändert. Dafür ist eine ausdrückliche Freigabe erforderlich.
+
+---
+
 ## v1.216 Beta - Phase 190 · KIDZ-Teilnahme vereinfacht
 **2026-08-12 · live veröffentlicht**
 
@@ -41,7 +56,7 @@ Offizielle Live-Version: **v1.216 Beta** · KIDZ-Teilnahme vereinfacht, live sei
 
 - Kai erhält als Administrator im KIDZ-Arbeitsbereich einen gemeinsamen Filter mit „Alle Berater und Promoter“.
 - Die Auswahl ist in „Vermögensberater“ und „Promoter“ gegliedert und enthält auch Personen ohne bisherige KIDZ-Teilnahme.
-- Claudius Tusche erscheint als eigener Vermögensberater. Anika Bibrach und David Stamm bleiben als eigenständige Promoter auswählbar, obwohl ihre Teilnahmen intern Sven beziehungsweise Claudius zugeordnet werden.
+- Claudius Tusche erscheint als eigener Vermögensberater. Anika Biebrach und David Stamm bleiben als eigenständige Promoter auswählbar, obwohl ihre Teilnahmen intern Sven beziehungsweise Claudius zugeordnet werden.
 - Normale Berater sehen weiterhin nur ihren eigenen, durch die Datenbank geschützten Bestand und erhalten keine teamweite Auswahl.
 - Es ist keine Datenbankänderung erforderlich. Die bestehende öffentliche, kontrollierte KIDZ-Auswahlliste wird wiederverwendet.
 - Sommerfest-Startseite und Gewinnspiel-Anmeldung verwenden dasselbe feste KIDZ-Menü mit den Punkten „Sommerfest“, „Gewinne“ und „Anmeldung“.
@@ -49,14 +64,14 @@ Offizielle Live-Version: **v1.216 Beta** · KIDZ-Teilnahme vereinfacht, live sei
 - Berater- und Herkunftsparameter werden beim Wechsel über das gemeinsame Menü erhalten.
 - Kai hat die Veröffentlichung ausdrücklich freigegeben. PR 45 wurde auf Produktions-Commit `12c5c00` zusammengeführt.
 - Vercel-Produktion `dpl_7WqqCVQuihfUTYvfcbVgQnBqxzwY` ist `READY` und trägt die offiziellen Adressen einschließlich `kidz.teamwachsbleiche.de`.
-- Live geprüft: einheitliches Menü auf Sommerfest und Anmeldung, Erhalt von `quelle=vor-ort-qr` und `berater=claudius-tusche`, Auswahl von Claudius Tusche, Anika Bibrach und David Stamm, v1.213 und Phase 187. Alle 32 Testdateien sind grün; im Produktionsfehlerprotokoll wurden keine Fehler gefunden.
+- Live geprüft: einheitliches Menü auf Sommerfest und Anmeldung, Erhalt von `quelle=vor-ort-qr` und `berater=claudius-tusche`, Auswahl von Claudius Tusche, Anika Biebrach und David Stamm, v1.213 und Phase 187. Alle 32 Testdateien sind grün; im Produktionsfehlerprotokoll wurden keine Fehler gefunden.
 
 ---
 
 ## v1.212 Beta - Phase 186 · KIDZ-Promoterzuordnung
 **2026-08-11 · live veröffentlicht**
 
-- In der Auswahl „Wer hat dich eingeladen?“ stehen zusätzlich **Anika Bibrach** und **David Stamm**.
+- In der Auswahl „Wer hat dich eingeladen?“ stehen zusätzlich **Anika Biebrach** und **David Stamm**.
 - Anika wird intern Sven Augustin zugeordnet. David wird intern Claudius Tusche zugeordnet.
 - Die Teilnahme speichert neben dem zuständigen Vermögensberater auch den ausgewählten Promoter. Dadurch bleibt im KIDZ-Arbeitsbereich und im CSV-Export nachvollziehbar, über wen der Kontakt entstanden ist.
 - Öffentliche Promoter-Codes werden weder an den Browser noch über die Auswahlliste ausgegeben.

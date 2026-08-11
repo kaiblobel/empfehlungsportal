@@ -22,7 +22,7 @@ assert.doesNotMatch(html, /Schnellaktion/);
 assert.doesNotMatch(html, /class="h-action-primary"/);
 assert.match(html, /<title>Empfehlungsportal · Kai Blobel<\/title>/);
 assert.match(html, /css\/dashboard\.css\?v=49/);
-assert.match(html, /js\/nav\.js\?v=59/);
+assert.match(html, /js\/nav\.js\?v=60/);
 assert.doesNotMatch(html, /Regionaldirektion · Hub/);
 
 assert.match(nav, /nav-brand-name">Empfehlungsportal/);
@@ -46,11 +46,11 @@ assert.match(css, /border-bottom: 1px solid #ECEAE5 !important/);
 assert.match(css, /background: #F8F8F6/);
 assert.match(css, /@media \(max-width: 560px\)/);
 
-assert.match(config, /APP_VERSION = 'v1\.216 Beta'/);
-assert.match(config, /Phase 190 · KIDZ-Teilnahme vereinfacht/);
-assert.match(sw, /CACHE_VERSION = 'v174-2026-08-11f'/);
+assert.match(config, /APP_VERSION = 'v1\.217 Beta'/);
+assert.match(config, /Phase 191 · Exklusiver KIDZ-Elternabend/);
+assert.match(sw, /CACHE_VERSION = 'v176-2026-08-12b'/);
 assert.match(sw, /\/css\/hub\.css\?v=53/);
 assert.match(sw, /\/css\/dashboard\.css\?v=49/);
-assert.match(sw, /\/js\/nav\.js\?v=59/);
+assert.match(sw, /\/js\/nav\.js\?v=60/);
 
 console.log('hub-leichtigkeit: OK');
