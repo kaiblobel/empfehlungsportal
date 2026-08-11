@@ -1,9 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.198 Beta** · KIDZ-Gewinnspiel mit Beraterzuordnung, live seit 11.08.2026.
+Offizielle Live-Version: **v1.198 Beta** · KIDZ-Gewinnspiel mit Beraterzuordnung, live seit 11.08.2026. Phase 173 ist zur Abnahme vorbereitet.
 
 ---
+
+## v1.199 Beta - Phase 173 · Veranstalter und Veranstaltungsort getrennt
+**2026-08-11 · zur Abnahme vorbereitet**
+
+- Die Regionaldirektion wird mit ihrer eigenen Anschrift „An der Wachsbleiche 1a, 03046 Cottbus“ geführt.
+- Die Kutzeburger Mühle bleibt klar als Veranstaltungsort mit „Kutzeburger Mühle 1, 03051 Cottbus“ gekennzeichnet.
+- Teilnahmebedingungen und Seitenfuß trennen beide Angaben eindeutig, damit die Veranstaltungsadresse nicht wie die Geschäftsanschrift wirkt.
 
 ## v1.198 Beta - Phase 172 · KIDZ-Gewinnspiel
 **2026-08-11 · live veröffentlicht**
