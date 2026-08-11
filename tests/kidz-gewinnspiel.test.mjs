@@ -63,7 +63,7 @@ try {
   assert.equal(rpcBody.p_event_key, 'kidz-sommerfest-2026');
   assert.equal(rpcBody.p_berater_slug, 'sandro-wernicke');
   assert.equal(rpcBody.p_elternabend_interesse, true);
-  assert.equal(rpcBody.p_conditions_version, '2026-08-11-v2');
+  assert.equal(rpcBody.p_conditions_version, '2026-08-11-v3');
   assert.match(rpcBody.p_rate_key, /^[0-9a-f]{64}$/);
   assert.match(rpcBody.p_contact_key, /^[0-9a-f]{64}$/);
   assert.doesNotMatch(requests[1].options.body, /203\.0\.113\.42/);
@@ -128,7 +128,7 @@ try {
   else process.env.TURNSTILE_SITE_KEY = originalTurnstileSiteKey;
 }
 
-const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, logoSvg, vercel] = await Promise.all([
+const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, bonusMigration, logoSvg, vercel] = await Promise.all([
   read('kidz-gewinnspiel.html'),
   read('css/kidz-gewinnspiel.css'),
   read('js/kidz-gewinnspiel.js'),
@@ -137,6 +137,7 @@ const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, log
   read('js/nav.js'),
   read('schema-phase172.sql'),
   read('schema-phase174.sql'),
+  read('schema-phase179.sql'),
   read('assets/images/kidz-marke.svg'),
   read('vercel.json'),
 ]);
@@ -150,9 +151,9 @@ assert.doesNotMatch(html, /kg-brand-mark" aria-hidden="true">KIDZ/);
 assert.match(logoSvg, /<text[^>]*>KIDZ<\/text>/);
 assert.doesNotMatch(logoSvg, /Wagen|Lok|<path|<rect/);
 assert.match(html, /Wir brauchen keine Angaben zu Kindern/);
-assert.match(html, /Online-Anmeldung ist nur eine Vormerkung/);
-assert.match(html, /persönliche Losabholung und den Einwurf in die Lostrommel/);
-assert.match(html, /Nur die tatsächlich eingeworfenen Lose kommen in die Ziehung/);
+assert.match(html, /automatisch einmal an der Bonusverlosung teil/);
+assert.match(html, /Doppel-Los am Eingang holen/);
+assert.match(html, /Hauptgewinner nimmt nicht zusätzlich an der Bonusverlosung teil/);
 assert.match(html, /Veranstalter[\s\S]*An der Wachsbleiche 1a · 03046 Cottbus/);
 assert.match(html, /Veranstaltungsort[\s\S]*Kutzeburger Mühle 1 · 03051 Cottbus/);
 assert.doesNotMatch(html, /Kindername|Geburtsdatum|Gesundheitsdaten/);
@@ -191,5 +192,9 @@ assert.match(ticketMigration, /grant execute on function public\.issue_kidz_gewi
 assert.match(ticketMigration, /'facebook', 'instagram', 'whatsapp'/);
 assert.match(ticketMigration, /grant update \(ticket_number, ticket_issued_at\)/);
 assert.match(ticketMigration, /enforce_kidz_ticket_once/);
+assert.match(bonusMigration, /VORBEREITET, NOCH NICHT LIVE ANGEWENDET/);
+assert.match(bonusMigration, /2026-08-11-v3/);
+assert.match(bonusMigration, /security definer/);
+assert.match(bonusMigration, /revoke execute on function public\.register_kidz_gewinnspiel_public/);
 
 console.log('kidz-gewinnspiel: OK');

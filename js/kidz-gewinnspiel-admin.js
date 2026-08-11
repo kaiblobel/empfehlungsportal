@@ -77,9 +77,9 @@ function csvCell(value) {
 }
 
 function exportCsv() {
-  const header = ['Bestätigung', 'Losnummer', 'Los ausgegeben am', 'Name', 'E-Mail', 'Mobilnummer', 'Vermögensberater', 'Quelle', 'Elternabend-Interesse', 'Einwilligung', 'Vorgemerkt am'];
+  const header = ['Teilnahmebestätigung', 'Bonusverlosung', 'Hauptgewinn-Losnummer', 'Los ausgegeben am', 'Name', 'E-Mail', 'Mobilnummer', 'Vermögensberater', 'Quelle', 'Elternabend-Interesse', 'Teilnahmebedingungen', 'Angemeldet am'];
   const rows = entries.map((entry) => [
-    entry.reference, entry.ticket_number, entry.ticket_issued_at ? formatDate(entry.ticket_issued_at) : '', entry.name, entry.email, entry.telefon, entry.berater?.name || 'Kai Blobel', entry.source,
+    entry.reference, 'Ja', entry.ticket_number, entry.ticket_issued_at ? formatDate(entry.ticket_issued_at) : '', entry.name, entry.email, entry.telefon, entry.berater?.name || 'Kai Blobel', entry.source,
     entry.elternabend_interesse ? 'Ja' : 'Nein', entry.conditions_version, formatDate(entry.created_at),
   ]);
   const content = `\uFEFF${[header, ...rows].map((row) => row.map(csvCell).join(';')).join('\r\n')}`;

@@ -8,7 +8,7 @@
   <meta name="robots" content="noindex,nofollow">
   <title>KIDZ Sommerfest-Gewinnspiel | Team Wachsbleiche</title>
   <link rel="icon" type="image/svg+xml" href="/assets/images/kidz-marke.svg">
-  <link rel="stylesheet" href="/css/kidz-gewinnspiel.css?v=2">
+  <link rel="stylesheet" href="/css/kidz-gewinnspiel.css?v=3">
   <script src="/js/config.js"></script>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 </head>
@@ -26,35 +26,46 @@
       <div class="kg-confetti" aria-hidden="true"></div>
       <p class="kg-date">6. September 2026 · Kutzeburger Mühle</p>
       <h1 id="kgTitle"><span>Großes</span> Sommerfest-Gewinnspiel!</h1>
-      <p class="kg-lede">Jetzt vormerken, beim Sommerfest dein persönliches Los abholen und fantastische Preise für die ganze Familie gewinnen.</p>
+      <p class="kg-lede">Mit deiner Online-Anmeldung bist du bei der Bonusverlosung dabei. Holst du dir beim Sommerfest zusätzlich dein nummeriertes Los, hast du auch die Chance auf den Hauptgewinn.</p>
       <div class="kg-prizes" aria-label="Die Hauptpreise">
         <article class="kg-prize kg-prize-main">
           <div class="kg-prize-icon" aria-hidden="true">⛺</div>
-          <p>1. Hauptgewinn</p>
+          <p>Hauptgewinn · nur mit Vor-Ort-Los</p>
           <h2>Survival Sommercamp</h2>
           <span>Das ultimative Vater-Kind-Wochenende</span>
         </article>
         <article class="kg-prize">
           <div class="kg-prize-icon" aria-hidden="true">🍿</div>
-          <p>2. Preis</p>
+          <p>Online-Bonusverlosung</p>
           <h2>UCI Kinogutscheine</h2>
           <span>Für die ganze Familie</span>
         </article>
         <article class="kg-prize">
           <div class="kg-prize-icon" aria-hidden="true">🦒</div>
-          <p>3. Preis</p>
+          <p>Online-Bonusverlosung</p>
           <h2>Tierpark-Jahreskarte</h2>
           <span>Für den Tierpark Cottbus</span>
         </article>
       </div>
       <p class="kg-more">Plus viele weitere Sachpreise und Überraschungen.</p>
+      <div class="kg-chances" aria-label="Deine zwei Gewinnchancen">
+        <article>
+          <span>1</span>
+          <div><strong>Online anmelden</strong><small>Du bist automatisch in der Bonusverlosung.</small></div>
+        </article>
+        <b aria-hidden="true">+</b>
+        <article>
+          <span>2</span>
+          <div><strong>Doppel-Los am Eingang holen</strong><small>Damit kommt der Hauptgewinn zusätzlich dazu.</small></div>
+        </article>
+      </div>
     </section>
 
     <section class="kg-form-wrap" aria-labelledby="kgFormTitle">
       <div class="kg-form-intro">
-        <p class="kg-eyebrow">In weniger als einer Minute</p>
-        <h2 id="kgFormTitle">Für das Gewinnspiel vormerken</h2>
-        <p>Die Online-Anmeldung ist deine Vormerkung. Dein Los erhältst du persönlich am 6. September an der KIDZ-Station. Wir brauchen keine Angaben zu Kindern.</p>
+        <p class="kg-eyebrow">Deine erste Gewinnchance</p>
+        <h2 id="kgFormTitle">Jetzt Bonuschance sichern</h2>
+        <p>Mit dem Absenden nimmst du an der Online-Bonusverlosung teil. Für den Hauptgewinn holst du dir am 6. September zusätzlich dein nummeriertes Doppel-Los am Eingang. Wir brauchen keine Angaben zu Kindern.</p>
       </div>
 
       <form id="kgForm" novalidate>
@@ -90,7 +101,7 @@
 
         <label class="kg-check" for="kgConsent">
           <input id="kgConsent" name="consent" type="checkbox" required>
-          <span>Ich bin volljährig, möchte mich für das Sommerfest-Gewinnspiel vormerken und habe die <a href="#teilnahmebedingungen">Teilnahmebedingungen und Datenschutzhinweise</a> gelesen. Mir ist bekannt, dass die Teilnahme erst durch die persönliche Losabholung und den Einwurf in die Lostrommel vor Ort entsteht.</span>
+          <span>Ich bin volljährig, melde mich für die Online-Bonusverlosung an und habe die <a href="#teilnahmebedingungen">Teilnahmebedingungen und Datenschutzhinweise</a> gelesen. Mir ist bekannt, dass der Hauptgewinn zusätzlich ein persönliches Doppel-Los vom Veranstaltungstag voraussetzt.</span>
         </label>
 
         <label class="kg-check kg-check-optional" for="kgParentEvening">
@@ -101,14 +112,14 @@
         <div class="kg-captcha" id="kgCaptcha" aria-label="Bot-Schutz"></div>
         <div class="kg-error" id="kgError" role="alert" aria-live="polite" hidden></div>
 
-        <button class="kg-submit" id="kgSubmit" type="submit" disabled>Kostenlos vormerken</button>
+        <button class="kg-submit" id="kgSubmit" type="submit" disabled>Kostenlos an der Bonusverlosung teilnehmen</button>
         <p class="kg-safe">Kein Kauf, kein Beratungsgespräch und keine Werbeeinwilligung erforderlich.</p>
       </form>
 
       <div class="kg-success" id="kgSuccess" role="status" aria-live="polite" hidden>
         <div aria-hidden="true">✓</div>
-        <h2>Deine Vormerkung steht!</h2>
-        <p>Zeige deine Bestätigung am 6. September an der KIDZ-Station. Dort erhältst du genau ein nummeriertes Los. Erst wenn du deinen Losabschnitt selbst in die Lostrommel wirfst, nimmst du an der Ziehung teil.</p>
+        <h2>Du bist bei der Bonusverlosung dabei!</h2>
+        <p>Für den Hauptgewinn zeigst du diese Bestätigung am 6. September am Eingang. Du erhältst ein nummeriertes Doppel-Los. Eine Hälfte behältst du, die zweite kommt in die Lostrommel.</p>
         <span id="kgReference"></span>
       </div>
     </section>
@@ -119,9 +130,10 @@
       <div class="kg-legal-grid">
         <div>
           <h3>Teilnahme</h3>
-          <p>Veranstalter ist die Regionaldirektion Kai Blobel &amp; Team / Deutsche Vermögensberatung, An der Wachsbleiche 1a, 03046 Cottbus. Veranstaltungsort ist die Kutzeburger Mühle 1, 03051 Cottbus. Teilnahmeberechtigt sind volljährige Besucherinnen und Besucher des Kinder-Sommerfests am 6. September 2026. Die Online-Anmeldung ist nur eine Vormerkung und begründet noch keine Teilnahme oder einen Anspruch auf ein Los.</p>
-          <p>Die Teilnahme entsteht erst, wenn die vorgemerkte Person persönlich am Veranstaltungstag erscheint, an der KIDZ-Station genau ein nummeriertes Los erhält und ihren Losabschnitt in die Lostrommel einwirft. Pro volljähriger Person wird höchstens ein Los ausgegeben. Nur die tatsächlich eingeworfenen Lose kommen in die Ziehung. Die Teilnahme ist kostenlos und unabhängig von einem Kauf oder Beratungsgespräch.</p>
-          <p>Die Gewinnerlose werden nach dem Fest zufällig aus der Lostrommel gezogen. Die Losnummer wird anschließend im geschützten System der registrierten Person zugeordnet und diese über den angegebenen Kontaktweg benachrichtigt. Auf dem Papierlos stehen keine Namen oder Kontaktdaten. Eine Barauszahlung oder Übertragung des Gewinns ist ausgeschlossen. Der Rechtsweg ist ausgeschlossen.</p>
+          <p>Veranstalter ist die Regionaldirektion Kai Blobel &amp; Team / Deutsche Vermögensberatung, An der Wachsbleiche 1a, 03046 Cottbus. Veranstaltungsort ist die Kutzeburger Mühle 1, 03051 Cottbus. Teilnahmeberechtigt sind volljährige Personen. Die Teilnahme ist kostenlos und unabhängig von einem Kauf oder Beratungsgespräch.</p>
+          <p><strong>Bonusverlosung:</strong> Jede gültige Online-Anmeldung bis zum 6. September 2026 um 15 Uhr nimmt automatisch einmal an der Bonusverlosung teil. Verlost werden die UCI Kinogutscheine, die Tierpark-Jahreskarte sowie weitere bezeichnete Sachpreise. Pro volljähriger Person ist nur eine Online-Anmeldung zulässig.</p>
+          <p><strong>Hauptgewinn:</strong> Für die zusätzliche Chance auf das Survival Sommercamp muss die angemeldete Person am 6. September 2026 persönlich erscheinen, am Eingang genau ein nummeriertes Doppel-Los erhalten und einen Abschnitt in die Lostrommel einwerfen. Der zweite Abschnitt bleibt bei der teilnehmenden Person und muss bei der Gewinnübergabe mit übereinstimmender Nummer vorgelegt werden. Pro volljähriger Person wird höchstens ein Los ausgegeben.</p>
+          <p>Der Hauptgewinn wird zuerst zufällig aus der Lostrommel gezogen. Anschließend werden die Bonuspreise unter allen gültigen Online-Anmeldungen verlost. Der Hauptgewinner nimmt nicht zusätzlich an der Bonusverlosung teil. Die Gewinner werden über den angegebenen Kontaktweg benachrichtigt. Auf dem Papierlos stehen keine Namen oder Kontaktdaten. Eine Barauszahlung oder Übertragung des Gewinns ist ausgeschlossen. Der Rechtsweg ist ausgeschlossen.</p>
         </div>
         <div>
           <h3>Datenschutz</h3>
@@ -129,7 +141,7 @@
           <p>Das freiwillige Interesse am KIDZ-Elternabend wird getrennt gespeichert und nur für eine einmalige Information dazu verwendet. Diese Auswahl hat keinen Einfluss auf die Gewinnchance und kann jederzeit widerrufen werden.</p>
         </div>
       </div>
-      <p class="kg-legal-note">Stand: 11. August 2026, Fassung 2. Fragen zur Teilnahme oder zum Datenschutz beantworten wir gern vor Ort.</p>
+      <p class="kg-legal-note">Stand: 11. August 2026, Fassung 3. Fragen zur Teilnahme oder zum Datenschutz beantworten wir gern vor Ort.</p>
     </section>
   </main>
 
@@ -138,6 +150,6 @@
     <div><strong>Veranstaltungsort</strong><br>Zur Kutzeburger Mühle<br>Kutzeburger Mühle 1 · 03051 Cottbus</div>
   </footer>
 
-  <script type="module" src="/js/kidz-gewinnspiel.js?v=1"></script>
+  <script type="module" src="/js/kidz-gewinnspiel.js?v=2"></script>
 </body>
 </html>
