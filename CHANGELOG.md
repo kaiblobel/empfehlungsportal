@@ -1,7 +1,7 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.211 Beta** · KIDZ-Sommerfest-Startseite, live seit 11.08.2026.
+Offizielle Live-Version: **v1.212 Beta** · KIDZ-Promoterzuordnung, live seit 11.08.2026.
 
 ---
 
@@ -14,6 +14,8 @@ Offizielle Live-Version: **v1.211 Beta** · KIDZ-Sommerfest-Startseite, live sei
 - Öffentliche Promoter-Codes werden weder an den Browser noch über die Auswahlliste ausgegeben.
 - Claudius war beim Livegang bereits als aktives Beraterkonto mit Login vorhanden und wird unverändert als Ziel verwendet.
 - Die Supabase-Migrationen `phase_186_kidz_promoterzuordnung` und `phase_186_kidz_promoterzuordnung_index` sind angewendet. Die zwei vorhandenen KIDZ-Teilnahmen blieben unverändert. 31 von 31 Testdateien sind grün.
+- Kai hat die Veröffentlichung ausdrücklich freigegeben. PR 43 wurde auf Produktions-Commit `a282dbb` zusammengeführt.
+- Live geprüft: Seite und öffentliche Beraterliste antworten, Anika, David und Claudius werden ausgeliefert, v1.212 und Phase 186 sind sichtbar, Turnstile ist konfiguriert und im Produktionsfehlerprotokoll wurden keine Laufzeit- oder 5xx-Fehler gefunden.
 
 ---
 
