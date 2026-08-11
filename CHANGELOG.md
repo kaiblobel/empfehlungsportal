@@ -1,12 +1,12 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.216 Beta** · KIDZ-Teilnahme vereinfacht, live seit 12.08.2026.
+Offizielle Live-Version: **v1.217 Beta** · Exklusiver KIDZ-Elternabend, live seit 12.08.2026.
 
 ---
 
 ## v1.217 Beta - Phase 191 · Exklusiver KIDZ-Elternabend
-**2026-08-12 · zur Freigabe vorbereitet, noch nicht live**
+**2026-08-12 · live veröffentlicht**
 
 - Neue eigenständige Informationsseite **„Exklusiver KIDZ-Elternabend“** mit der Unterzeile **„Der exklusive Eltern-Workshop für Familien“**. Sie ist bewusst nicht im öffentlichen Sommerfest-Menü verlinkt.
 - Die eigene Vormerkung fragt nur die erwachsene Kontaktperson, einen Kontaktweg, den bevorzugten Zeitraum, eine freiwillige Familienfrage und optional die einladende Person ab. Angaben zu Kindern werden nicht erhoben.
@@ -14,9 +14,10 @@ Offizielle Live-Version: **v1.216 Beta** · KIDZ-Teilnahme vereinfacht, live sei
 - Ein eigener, geprüfter QR-Code führt direkt auf `https://kidz.teamwachsbleiche.de/kidz/elternabend?quelle=elternabend-qr`. Ein eigenes Vorschaubild sorgt beim Teilen in WhatsApp und sozialen Netzwerken für einen hochwertigen Auftritt.
 - Im Empfehlungsportal entsteht unter **KIDZ > Elternabend** ein eigener Arbeitsbereich mit Kennzahlen, Suche, Statusführung, CSV-Export und Live-Aktualisierung neuer Vormerkungen.
 - Berater und Promoter werden wie beim Gewinnspiel zugeordnet. Admins sehen alle Berater und Promoter, normale Berater ausschließlich ihre nach den Datenbankrechten freigegebenen Vormerkungen.
-- Die vorbereitete Datenbankmigration enthält eine eigene Tabelle, strikte Zeilenrechte, eine geschützte öffentliche Registrierung, Missbrauchsschutz und die Live-Aktualisierung für den Portalbereich.
-- Die Schreibweise **Anika Biebrach** wird in derselben Freigabe korrigiert. Der bestehende technische Schlüssel bleibt unverändert, damit ältere Links und Zuordnungen weiter funktionieren.
-- Produktionsdatenbank, Produktionsgeheimnis und Veröffentlichung wurden noch nicht verändert. Dafür ist eine ausdrückliche Freigabe erforderlich.
+- Die Datenbankmigration `phase_191_kidz_elternabend` ist aktiv. Sie enthält eine eigene Tabelle, strikte Zeilenrechte, eine geschützte öffentliche Registrierung, Missbrauchsschutz und die Live-Aktualisierung für den Portalbereich.
+- Die Schreibweise **Anika Biebrach** ist korrigiert. Ihre Zuordnung zu Sven Augustin und der bestehende technische Schlüssel bleiben unverändert, damit ältere Links und Zuordnungen weiter funktionieren.
+- Kai hat die Veröffentlichung ausdrücklich freigegeben. PR 51 wurde auf Produktions-Commit `1d771db` zusammengeführt. Vercel-Produktion `dpl_A8HxcuuhnPG6b5cLkTauvn3igXrU` ist `READY`.
+- Live geprüft: Informationsseite, Formular, QR-Bild, Vorschaubild, Sicherheitskonfiguration und Beraterliste antworten mit Status 200. Der QR-Code ist identisch mit der zuvor technisch ausgelesenen Datei. Eine ungültige Registrierung wird kontrolliert mit Status 400 abgewiesen; im Produktionsfehlerprotokoll wurden keine Laufzeitfehler gefunden. Alle 61 Prüfungen sind grün.
 
 ---
 

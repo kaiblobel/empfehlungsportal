@@ -311,7 +311,7 @@ assert.match(simpleTermsMigration, /2026-08-12-v4/);
 assert.match(simpleTermsMigration, /security definer/);
 assert.match(simpleTermsMigration, /v_source text := lower\(trim\(coalesce\(p_source, 'direkt'\)\)\);/);
 assert.match(simpleTermsMigration, /revoke execute on function public\.register_kidz_gewinnspiel_public/);
-assert.match(parentEveningMigration, /NOCH NICHT LIVE ANGEWENDET/);
+assert.match(parentEveningMigration, /LIVE ANGEWENDET AM 12\.08\.2026 ALS phase_191_kidz_elternabend/);
 assert.match(parentEveningMigration, /set name = 'Anika Biebrach'/);
 assert.match(parentEveningMigration, /key = 'promoter-anika-bibrach'/);
 assert.match(parentEveningMigration, /lower\(slug\) = 'sven-augustin'/);
