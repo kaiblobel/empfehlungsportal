@@ -1,9 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.204 Beta** · Stabile KIDZ-Rootadresse, live seit 11.08.2026.
+Offizielle Live-Version: **v1.204 Beta** · Stabile KIDZ-Rootadresse, live seit 11.08.2026. Phase 179 ist zur Veröffentlichung freigegeben.
 
 ---
+
+## v1.205 Beta - Phase 179 · Bonusverlosung und Hauptgewinn-Los
+**2026-08-11 · von Kai zur Veröffentlichung freigegeben**
+
+- Die Online-Anmeldung ist jetzt eine echte Teilnahme an der Bonusverlosung und keine bloße Vormerkung mehr.
+- UCI Kinogutscheine, Tierpark-Jahreskarte und weitere bezeichnete Sachpreise werden unter den gültigen Online-Anmeldungen verlost.
+- Das nummerierte Doppel-Los am Eingang schaltet zusätzlich die Chance auf das Survival Sommercamp als Hauptgewinn frei.
+- Eine neue Zwei-Schritte-Erklärung macht den Unterschied auf großen und kleinen Bildschirmen sofort verständlich.
+- Teilnahmebestätigung, Fehlermeldungen, interne Übersicht und CSV-Ausgabe verwenden durchgehend die neue Trennung.
+- Die Teilnahmebedingungen wurden auf Fassung `2026-08-11-v3` angehoben. Bestehende Anmeldungen und Losnummern bleiben erhalten.
+- Die additive Datenbankanpassung liegt als `schema-phase179.sql` bereit.
 
 ## v1.204 Beta - Phase 178 · KIDZ-Rootadresse
 **2026-08-11 · live veröffentlicht**

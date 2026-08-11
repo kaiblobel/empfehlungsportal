@@ -65,9 +65,9 @@ assert.match(css, /\.analysis-chart-mode/);
 assert.match(css, /@media \(max-width:600px\)/);
 
 assert.match(nav, /id: 'analysen',[\s\S]*?href: path\('dashboard\/overview\.html'\)/);
-assert.match(config, /v1\.204 Beta/);
-assert.match(config, /Phase 178 · KIDZ-Rootadresse/);
-assert.match(sw, /CACHE_VERSION = 'v163-2026-08-11e'/);
+assert.match(config, /v1\.205 Beta/);
+assert.match(config, /Phase 179 · Bonusverlosung und Hauptgewinn-Los/);
+assert.match(sw, /CACHE_VERSION = 'v164-2026-08-11a'/);
 assert.match(sw, /'\/dashboard\/overview\.html'/);
 assert.match(sw, /'\/css\/analysen\.css\?v=2'/);
 assert.match(sw, /'\/js\/analysen\.js\?v=2'/);

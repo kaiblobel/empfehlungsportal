@@ -139,7 +139,7 @@ form.addEventListener('submit', async (event) => {
   }
 
   submit.disabled = true;
-  submit.textContent = 'Vormerkung wird gespeichert ...';
+  submit.textContent = 'Teilnahme wird gespeichert ...';
 
   try {
     const response = await fetch('/api/kidz-register', {
@@ -158,19 +158,19 @@ form.addEventListener('submit', async (event) => {
     });
     const result = await response.json().catch(() => ({}));
 
-    if (response.status === 409) throw new Error('Du bist für dieses Gewinnspiel bereits vorgemerkt. Zeige deine erste Bestätigung am Veranstaltungstag an der KIDZ-Station.');
+    if (response.status === 409) throw new Error('Du bist bereits für die Bonusverlosung angemeldet. Zeige deine erste Bestätigung am Veranstaltungstag am Eingang.');
     if (response.status === 429) throw new Error('Es gab gerade zu viele Versuche. Bitte probiere es später noch einmal.');
     if (response.status === 503) throw new Error('Die Anmeldung ist noch nicht freigeschaltet. Bitte sprich uns an der KIDZ-Station an.');
-    if (!response.ok || !result?.reference) throw new Error('Deine Vormerkung konnte gerade nicht gespeichert werden. Bitte versuche es noch einmal.');
+    if (!response.ok || !result?.reference) throw new Error('Deine Teilnahme konnte gerade nicht gespeichert werden. Bitte versuche es noch einmal.');
 
     form.hidden = true;
     document.querySelector('.kg-form-intro').hidden = true;
     successBox.hidden = false;
-    document.getElementById('kgReference').textContent = `Vormerkungsbestätigung: ${result.reference}`;
+    document.getElementById('kgReference').textContent = `Teilnahmebestätigung: ${result.reference}`;
     successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
   } catch (error) {
-    showError(error.message || 'Deine Vormerkung konnte gerade nicht gespeichert werden.');
-    submit.textContent = 'Kostenlos vormerken';
+    showError(error.message || 'Deine Teilnahme konnte gerade nicht gespeichert werden.');
+    submit.textContent = 'Kostenlos an der Bonusverlosung teilnehmen';
     resetCaptcha();
   }
 });
