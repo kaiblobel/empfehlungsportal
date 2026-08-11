@@ -151,6 +151,7 @@ const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, bon
 ]);
 const flyerStat = await stat(new URL('../assets/images/kidz-sommerfest-flyer.jpg', import.meta.url));
 const prizeFlyerStat = await stat(new URL('../assets/images/kidz-sommerfest-gewinnspiel-v2.png', import.meta.url));
+const organizerLogoStat = await stat(new URL('../assets/images/team-wachsbleiche-petrol.jpeg', import.meta.url));
 
 assert.match(html, /id="kgConsent"/);
 assert.match(html, /id="kgParentEvening"/);
@@ -167,8 +168,12 @@ assert.match(html, /id="kgFlyerTabEvent"/);
 assert.match(html, /id="kgFlyerTabPrizes"/);
 assert.match(html, /assets\/images\/kidz-sommerfest-gewinnspiel-v2\.png/);
 assert.match(html, /Aktuelle Seite herunterladen/);
+assert.match(html, /class="kg-organizer"/);
+assert.match(html, /assets\/images\/team-wachsbleiche-petrol\.jpeg/);
+assert.match(html, /alt="Team Wachsbleiche · Kai Blobel &amp; Team"/);
 assert.ok(flyerStat.size > 100_000);
 assert.ok(prizeFlyerStat.size > 1_000_000);
+assert.ok(organizerLogoStat.size > 300_000);
 assert.match(html, /property="og:title" content="Großes KIDZ Sommerfest-Gewinnspiel!"/);
 assert.match(html, /property="og:image" content="https:\/\/kidz\.teamwachsbleiche\.de\/assets\/images\/kidz-sommerfest-gewinnspiel-v2\.png"/);
 assert.match(html, /property="og:image:width" content="1086"/);
@@ -187,6 +192,7 @@ assert.doesNotMatch(html, /Kindername|Geburtsdatum|Gesundheitsdaten/);
 assert.match(css, /color-scheme:\s*light/);
 assert.doesNotMatch(css, /prefers-color-scheme\s*:\s*dark/);
 assert.match(css, /\.kg-menu-panel/);
+assert.match(css, /\.kg-organizer img/);
 assert.match(css, /\.kg-flyer-dialog::backdrop/);
 assert.match(css, /\.kg-flyer-tabs/);
 assert.match(css, /max-height:\s*calc\(100dvh - 216px\)/);

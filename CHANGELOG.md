@@ -5,6 +5,16 @@ Offizielle Live-Version: **v1.213 Beta** · KIDZ-Adminfilter & einheitliches Men
 
 ---
 
+## v1.214 Beta - Phase 188 · KIDZ-Veranstalterlogo
+**2026-08-11 · zur Abnahme vorbereitet, noch nicht live**
+
+- Das freigegebene petrol-goldene Team-Wachsbleiche-Logo ergänzt den Veranstalterbereich auf Sommerfest-Startseite und Gewinnspiel-Anmeldung.
+- Das Logo steht kompakt neben dem vollständigen Veranstaltertext. KIDZ bleibt die führende Marke im Kopfbereich.
+- Auf dem Handy wird der Fußbereich ruhig untereinander angeordnet; Adresse und Veranstaltungsort bleiben vollständig lesbar.
+- Gewinnspiel, QR-Code, Herkunftsparameter, Beraterzuordnung und Datenbank bleiben unverändert.
+
+---
+
 ## v1.213 Beta - Phase 187 · KIDZ-Adminfilter & einheitliches Menü
 **2026-08-11 · live veröffentlicht**
 

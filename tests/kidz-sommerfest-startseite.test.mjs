@@ -11,6 +11,7 @@ const [html, css, js, vercel] = await Promise.all([
 
 const eventFlyer = await stat(new URL('../assets/images/kidz-sommerfest-flyer.jpg', import.meta.url));
 const prizeFlyer = await stat(new URL('../assets/images/kidz-sommerfest-gewinnspiel-v2.png', import.meta.url));
+const organizerLogo = await stat(new URL('../assets/images/team-wachsbleiche-petrol.jpeg', import.meta.url));
 const vercelConfig = JSON.parse(vercel);
 const hasHost = (entry, host) => entry.has?.some((condition) => condition.type === 'host' && condition.value === host);
 
@@ -30,15 +31,20 @@ assert.match(html, /assets\/images\/kidz-sommerfest-flyer\.jpg/);
 assert.match(html, /assets\/images\/kidz-sommerfest-gewinnspiel-v2\.png/);
 assert.match(html, /Zur kostenlosen Gewinnspiel-Anmeldung/);
 assert.match(html, /data-registration-link/);
+assert.match(html, /class="kf-organizer"/);
+assert.match(html, /assets\/images\/team-wachsbleiche-petrol\.jpeg/);
+assert.match(html, /alt="Team Wachsbleiche · Kai Blobel &amp; Team"/);
 assert.match(html, /property="og:image" content="https:\/\/kidz\.teamwachsbleiche\.de\/assets\/images\/kidz-sommerfest-flyer\.jpg"/);
 assert.match(html, /property="og:image:width" content="904"/);
 assert.match(html, /property="og:image:height" content="1280"/);
 assert.ok(eventFlyer.size > 400_000);
 assert.ok(prizeFlyer.size > 2_000_000);
+assert.ok(organizerLogo.size > 300_000);
 
 assert.match(css, /\.kf-section-event/);
 assert.match(css, /\.kf-section-prizes/);
 assert.match(css, /\.kf-section-register/);
+assert.match(css, /\.kf-organizer img/);
 assert.match(css, /@media \(max-width: 760px\)/);
 assert.doesNotMatch(css, /prefers-color-scheme\s*:\s*dark/);
 
