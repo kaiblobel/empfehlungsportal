@@ -10,7 +10,6 @@ const advisorSelect = document.getElementById('kgAdvisor');
 const promoterFallbacks = [...advisorSelect.options]
   .filter((option) => option.value.startsWith('promoter-'))
   .map((option) => ({ name: option.textContent, slug: option.value }));
-const menu = document.getElementById('kgMenu');
 const flyerDialog = document.getElementById('kgFlyerDialog');
 const flyerOpen = document.getElementById('kgFlyerOpen');
 const flyerClose = document.getElementById('kgFlyerClose');
@@ -40,7 +39,6 @@ function showFlyerPage(page) {
 }
 
 flyerOpen.addEventListener('click', () => {
-  menu.removeAttribute('open');
   flyerDialog.showModal();
 });
 
@@ -51,10 +49,6 @@ flyerTabPrizes.addEventListener('click', () => showFlyerPage('prizes'));
 flyerDialog.addEventListener('click', (event) => {
   if (event.target === flyerDialog) closeFlyer();
 });
-document.addEventListener('click', (event) => {
-  if (menu.open && !menu.contains(event.target)) menu.removeAttribute('open');
-});
-
 function readSource() {
   const params = new URLSearchParams(window.location.search);
   const value = String(params.get('quelle') || 'direkt').trim().toLowerCase();

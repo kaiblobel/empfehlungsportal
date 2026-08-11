@@ -161,6 +161,8 @@ main { width: min(1120px, calc(100% - 32px)); margin: 18px auto 48px; }
 .kg-prize h2 { margin: 0; color: var(--kg-navy); font-size: clamp(18px, 2.2vw, 27px); line-height: 1.08; }
 .kg-prize span { display: block; margin-top: 7px; color: var(--kg-muted); font-size: 13px; line-height: 1.4; }
 .kg-more { position: relative; z-index: 1; margin: 19px 0 14px; color: var(--kg-green-dark); font-weight: 850; }
+.kg-flyer-inline { position: relative; z-index: 1; min-height: 42px; margin: 0 auto 18px; padding: 0 16px; color: var(--kg-navy); background: #fff; border: 1px solid rgba(22,58,104,.2); border-radius: 12px; font: inherit; font-size: 13px; font-weight: 850; cursor: pointer; }
+.kg-flyer-inline:hover, .kg-flyer-inline:focus-visible { background: #edf5fb; border-color: var(--kg-navy); outline: none; }
 .kg-chances {
   position: relative;
   z-index: 1;
