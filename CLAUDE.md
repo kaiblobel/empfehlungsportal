@@ -1,6 +1,6 @@
 <!-- odysseus-passport
 purpose: Empfehlungsportal für DVAG-Berater - Vanilla JS + eigene Supabase; Funnel Klick zu Interesse zu Kunde, privates Potenzialbuch mit Kontakt-Coach, echte Kennzahlen, Champions, Prämien; Cockpit-Brücke
-status: live v1.197 / Phase 171 seit 10.08.2026 ueber PR 16 auf Produktions-Commit 2ab1d3a; v1.198 / Phase 172 mit mobiler KIDZ-QR-Anmeldung, freiwilliger Beraterauswahl, persoenlichen Beraterlinks, getrenntem Teilnehmenden-Bestand, Portal-Navigation und geschuetzter Uebersicht ist am 11.08.2026 zur Veroeffentlichung freigegeben; ohne Auswahl wird Kai Blobel zugeordnet; Datenbankmigration Phase 172 wird im Veroeffentlichungsschritt angewendet; Tests sind gruen; Vercel-Livenachweis folgt nach Zusammenfuehrung
+status: live v1.198 / Phase 172 seit 11.08.2026 ueber PR 18 auf Produktions-Commit 692b4f2; mobile KIDZ-QR-Anmeldung, freiwillige Beraterauswahl, persoenliche Beraterlinks, getrennter Teilnehmenden-Bestand, Portal-Navigation und geschuetzte Uebersicht sind produktiv; ohne Auswahl wird Kai Blobel zugeordnet; Supabase-Migration phase_172_kidz_gewinnspiel ist angewendet, RLS ist aktiviert und erzwungen; 35 Testdateien sind gruen; Vercel-Produktion dpl_GmWR8F6qggTRKCsQdEA5KESNcS2H READY; Live-Seite, Beraterliste, Turnstile-Konfiguration und Fehlerweg wurden geprueft
 live_url: https://empfehlungsportal.vercel.app
 tags: portal, supabase, empfehlung, promoter, potenzialbuch, kontakt-coach, spracheingabe, mobile-first, live, baufinanzierung, kfw, bookings, power-automate
 -->
