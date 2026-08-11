@@ -168,8 +168,6 @@ assert.match(navJs, /KIDZ Gewinnspiel/);
 assert.match(vercel, /\/kidz\/gewinnspiel/);
 assert.match(vercel, /kidz\.teamwachsbleiche\.de/);
 assert.match(vercel, /"type":\s*"host"/);
-assert.match(vercel, /empfehlungsportal\.vercel\.app/);
-assert.match(vercel, /"permanent":\s*false/);
 assert.match(migration, /LIVE ANGEWENDET AM 11\.08\.2026 ALS phase_172_kidz_gewinnspiel/);
 assert.match(migration, /force row level security/);
 assert.match(migration, /revoke all on table public\.kidz_gewinnspiel_teilnahmen from public, anon, authenticated/);

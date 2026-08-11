@@ -1,12 +1,4 @@
 {
-  "redirects": [
-    {
-      "source": "/kidz/gewinnspiel",
-      "has": [{ "type": "host", "value": "empfehlungsportal.vercel.app" }],
-      "destination": "https://kidz.teamwachsbleiche.de",
-      "permanent": false
-    }
-  ],
   "rewrites": [
     {
       "source": "/",

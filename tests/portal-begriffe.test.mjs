@@ -20,9 +20,9 @@ for (const page of [presentation, programAdmin, payouts, advisors, changelogPage
 
 assert.match(index, />Zum Portal<\/a>/);
 assert.doesNotMatch(index, />Zum Hub<\/a>/);
-assert.match(config, /APP_VERSION = 'v1\.200 Beta'/);
-assert.match(config, /Phase 174 · KIDZ-Vor-Ort-Los/);
+assert.match(config, /APP_VERSION = 'v1\.201 Beta'/);
+assert.match(config, /Phase 175 · KIDZ-Markenlogo/);
 assert.doesNotMatch(config, /Premium-HUB/);
-assert.match(sw, /CACHE_VERSION = 'v159-2026-08-11a'/);
+assert.match(sw, /CACHE_VERSION = 'v160-2026-08-11b'/);
 
 console.log('portal-begriffe: OK');

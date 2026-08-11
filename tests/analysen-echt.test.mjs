@@ -65,9 +65,9 @@ assert.match(css, /\.analysis-chart-mode/);
 assert.match(css, /@media \(max-width:600px\)/);
 
 assert.match(nav, /id: 'analysen',[\s\S]*?href: path\('dashboard\/overview\.html'\)/);
-assert.match(config, /v1\.200 Beta/);
-assert.match(config, /Phase 174 · KIDZ-Vor-Ort-Los/);
-assert.match(sw, /CACHE_VERSION = 'v159-2026-08-11a'/);
+assert.match(config, /v1\.201 Beta/);
+assert.match(config, /Phase 175 · KIDZ-Markenlogo/);
+assert.match(sw, /CACHE_VERSION = 'v160-2026-08-11b'/);
 assert.match(sw, /'\/dashboard\/overview\.html'/);
 assert.match(sw, /'\/css\/analysen\.css\?v=2'/);
 assert.match(sw, /'\/js\/analysen\.js\?v=2'/);
