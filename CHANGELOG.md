@@ -1,12 +1,12 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.212 Beta** · KIDZ-Promoterzuordnung, live seit 11.08.2026.
+Offizielle Live-Version: **v1.213 Beta** · KIDZ-Adminfilter & einheitliches Menü, live seit 11.08.2026.
 
 ---
 
 ## v1.213 Beta - Phase 187 · KIDZ-Adminfilter & einheitliches Menü
-**2026-08-11 · zur Abnahme vorbereitet, noch nicht live**
+**2026-08-11 · live veröffentlicht**
 
 - Kai erhält als Administrator im KIDZ-Arbeitsbereich einen gemeinsamen Filter mit „Alle Berater und Promoter“.
 - Die Auswahl ist in „Vermögensberater“ und „Promoter“ gegliedert und enthält auch Personen ohne bisherige KIDZ-Teilnahme.
@@ -16,6 +16,9 @@ Offizielle Live-Version: **v1.212 Beta** · KIDZ-Promoterzuordnung, live seit 11
 - Sommerfest-Startseite und Gewinnspiel-Anmeldung verwenden dasselbe feste KIDZ-Menü mit den Punkten „Sommerfest“, „Gewinne“ und „Anmeldung“.
 - Der Unterschied kam aus zwei getrennt gebauten Kopfbereichen und nicht aus dem QR-Code. Der vorhandene QR-Code bleibt unverändert gültig.
 - Berater- und Herkunftsparameter werden beim Wechsel über das gemeinsame Menü erhalten.
+- Kai hat die Veröffentlichung ausdrücklich freigegeben. PR 45 wurde auf Produktions-Commit `12c5c00` zusammengeführt.
+- Vercel-Produktion `dpl_7WqqCVQuihfUTYvfcbVgQnBqxzwY` ist `READY` und trägt die offiziellen Adressen einschließlich `kidz.teamwachsbleiche.de`.
+- Live geprüft: einheitliches Menü auf Sommerfest und Anmeldung, Erhalt von `quelle=vor-ort-qr` und `berater=claudius-tusche`, Auswahl von Claudius Tusche, Anika Bibrach und David Stamm, v1.213 und Phase 187. Alle 32 Testdateien sind grün; im Produktionsfehlerprotokoll wurden keine Fehler gefunden.
 
 ---
 
