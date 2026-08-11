@@ -1,7 +1,7 @@
 -- =====================================================================
 -- Phase 179 · KIDZ-Bonusverlosung und Hauptgewinn-Los
 --
--- VORBEREITET, NOCH NICHT LIVE ANGEWENDET.
+-- LIVE ANGEWENDET AM 11.08.2026 ALS phase_179_kidz_bonus_hauptgewinn.
 -- Jede gueltige Online-Anmeldung nimmt an der Bonusverlosung teil.
 -- Das nummerierte Doppel-Los vor Ort ist die zusaetzliche Voraussetzung
 -- fuer den Hauptgewinn. Bestehende Anmeldungen und Losnummern bleiben
