@@ -245,7 +245,9 @@ main { width: min(1120px, calc(100% - 32px)); margin: 18px auto 48px; }
 .kg-legal h3 { margin: 0 0 8px; color: var(--kg-navy); font-size: 17px; }
 .kg-legal-grid p { margin: 0 0 10px; color: #536475; font-size: 13px; line-height: 1.65; }
 .kg-legal-note { margin: 16px 0 0; padding: 12px 14px; color: #765c19; background: #fff7db; border: 1px solid #ead48e; border-radius: 12px; font-size: 12px; line-height: 1.5; }
-.kg-footer { width: min(1120px, calc(100% - 32px)); margin: 0 auto 36px; display: flex; justify-content: space-between; gap: 24px; color: #5c675f; font-size: 12px; line-height: 1.5; }
+.kg-footer { width: min(1120px, calc(100% - 32px)); margin: 0 auto 36px; display: flex; align-items: center; justify-content: space-between; gap: 24px; color: #5c675f; font-size: 12px; line-height: 1.5; }
+.kg-organizer { display: flex; align-items: center; gap: 14px; }
+.kg-organizer img { width: 78px; height: 78px; flex: 0 0 78px; object-fit: cover; border-radius: 50%; box-shadow: 0 7px 18px rgba(9, 57, 67, .15); }
 
 .kg-flyer-dialog {
   width: min(760px, calc(100% - 28px));
@@ -288,7 +290,8 @@ main { width: min(1120px, calc(100% - 32px)); margin: 18px auto 48px; }
   .kg-chances { grid-template-columns: 1fr; gap: 0; }
   .kg-chances b { margin: -2px auto; }
   .kg-form-wrap, .kg-legal { padding-left: 17px; padding-right: 17px; }
-  .kg-footer { width: calc(100% - 28px); flex-direction: column; gap: 10px; }
+  .kg-footer { width: calc(100% - 28px); align-items: flex-start; flex-direction: column; gap: 16px; }
+  .kg-organizer img { width: 64px; height: 64px; flex-basis: 64px; }
 }
 
 @media (max-width: 460px) {

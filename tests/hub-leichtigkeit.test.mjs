@@ -46,9 +46,9 @@ assert.match(css, /border-bottom: 1px solid #ECEAE5 !important/);
 assert.match(css, /background: #F8F8F6/);
 assert.match(css, /@media \(max-width: 560px\)/);
 
-assert.match(config, /APP_VERSION = 'v1\.213 Beta'/);
-assert.match(config, /Phase 187 · KIDZ-Adminfilter & Menü/);
-assert.match(sw, /CACHE_VERSION = 'v173-2026-08-11d'/);
+assert.match(config, /APP_VERSION = 'v1\.214 Beta'/);
+assert.match(config, /Phase 188 · KIDZ-Veranstalterlogo/);
+assert.match(sw, /CACHE_VERSION = 'v174-2026-08-11f'/);
 assert.match(sw, /\/css\/hub\.css\?v=53/);
 assert.match(sw, /\/css\/dashboard\.css\?v=49/);
 assert.match(sw, /\/js\/nav\.js\?v=59/);
