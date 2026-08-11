@@ -7,7 +7,7 @@
   <title>KIDZ Gewinnspiel · Empfehlungsportal</title>
   <link rel="stylesheet" href="../css/style.css?v=33">
   <link rel="stylesheet" href="../css/dashboard.css?v=49">
-  <link rel="stylesheet" href="../css/kidz-gewinnspiel-admin.css?v=2">
+  <link rel="stylesheet" href="../css/kidz-gewinnspiel-admin.css?v=3">
   <script src="../js/config.js"></script>
 </head>
 <body class="has-app-nav kg-admin-page">
@@ -81,7 +81,29 @@
     </main>
   </div>
 
+  <dialog class="kg-admin-dialog" id="deleteDialog" aria-labelledby="deleteDialogTitle">
+    <form method="dialog" class="kg-admin-dialog-card" id="deleteForm">
+      <div class="h-label">Nur für Administratoren</div>
+      <h2 id="deleteDialogTitle">Teilnahme löschen</h2>
+      <p class="kg-admin-dialog-person" id="deletePerson"></p>
+      <p>Die Teilnahme und eine eventuell vergebene Losnummer werden dauerhaft gelöscht. Im Prüfprotokoll bleiben nur Löschgrund, Zeitpunkt und eine nicht rückrechenbare Prüfsumme. Namen und Kontaktdaten werden dort nicht gespeichert.</p>
+      <label class="kg-admin-dialog-label" for="deleteReason">Löschgrund</label>
+      <select id="deleteReason" required>
+        <option value="">Bitte auswählen</option>
+        <option value="test">Testeintrag</option>
+        <option value="duplicate">Dublette</option>
+        <option value="erasure_request">Löschwunsch der teilnehmenden Person</option>
+      </select>
+      <p class="kg-admin-dialog-warning" id="deleteTicketWarning" hidden>Für diese Teilnahme wurde bereits ein Los ausgegeben. Die Losnummer wird nach dem Löschen wieder frei.</p>
+      <p class="kg-admin-dialog-status" id="deleteStatus" role="status"></p>
+      <div class="kg-admin-dialog-actions">
+        <button class="kg-admin-secondary" type="button" id="deleteCancelBtn">Abbrechen</button>
+        <button class="kg-admin-danger" type="submit" id="deleteConfirmBtn">Teilnahme endgültig löschen</button>
+      </div>
+    </form>
+  </dialog>
+
   <script type="module" src="../js/nav.js?v=59"></script>
-  <script type="module" src="../js/kidz-gewinnspiel-admin.js?v=2"></script>
+  <script type="module" src="../js/kidz-gewinnspiel-admin.js?v=3"></script>
 </body>
 </html>

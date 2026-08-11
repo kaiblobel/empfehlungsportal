@@ -40,6 +40,21 @@
 .kg-admin-boundary { margin-top: 18px; padding: 15px 17px; color: #645527; background: #fff8dd; border: 1px solid #ead795; border-radius: 12px; }
 .kg-admin-boundary strong { display: block; margin-bottom: 4px; font-size: 13px; }
 .kg-admin-boundary p { margin: 0; font-size: 12px; line-height: 1.55; }
+.kg-admin-manage { display: block; margin-top: 8px; padding: 0; color: #56616c; background: transparent; border: 0; font: inherit; font-size: 11px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.kg-admin-manage:hover { color: #8f3328; }
+.kg-admin-dialog { width: min(92vw, 560px); padding: 0; color: #263746; background: transparent; border: 0; }
+.kg-admin-dialog::backdrop { background: rgba(20, 29, 38, .55); }
+.kg-admin-dialog-card { padding: 26px; background: #fff; border: 1px solid #deded9; border-radius: 16px; box-shadow: 0 24px 80px rgba(20, 29, 38, .24); }
+.kg-admin-dialog h2 { margin: 5px 0 8px; font-size: 24px; }
+.kg-admin-dialog p { color: #646b72; font-size: 13px; line-height: 1.55; }
+.kg-admin-dialog-person { margin: 0 0 15px; color: #263746 !important; font-weight: 800; }
+.kg-admin-dialog-label { display: block; margin: 20px 0 7px; font-size: 12px; font-weight: 800; }
+.kg-admin-dialog select { width: 100%; min-height: 45px; padding: 0 12px; color: #263746; background: #fff; border: 1px solid #d5d7da; border-radius: 9px; font: inherit; }
+.kg-admin-dialog-warning { padding: 10px 12px; color: #7a4d11 !important; background: #fff7df; border: 1px solid #ead59a; border-radius: 9px; }
+.kg-admin-dialog-status { min-height: 20px; color: #9a3c2e !important; font-weight: 700; }
+.kg-admin-dialog-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 18px; }
+.kg-admin-danger { min-height: 43px; padding: 0 15px; color: #fff; background: #a74437; border: 1px solid #a74437; border-radius: 10px; font: inherit; font-size: 13px; font-weight: 800; cursor: pointer; }
+.kg-admin-danger:disabled { opacity: .55; cursor: wait; }
 @media (max-width: 850px) {
   .kg-admin-intro { align-items: flex-start; flex-direction: column; }
   .kg-admin-kpis { grid-template-columns: 1fr 1fr; }
@@ -51,4 +66,6 @@
   .kg-admin-toolbar { grid-template-columns: 1fr; }
   .kg-admin-toolbar > label:first-child { display: none; }
   .kg-admin-entry { grid-template-columns: 1fr; gap: 8px; }
+  .kg-admin-dialog-actions { flex-direction: column-reverse; }
+  .kg-admin-dialog-actions button { width: 100%; }
 }

@@ -128,7 +128,7 @@ try {
   else process.env.TURNSTILE_SITE_KEY = originalTurnstileSiteKey;
 }
 
-const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, bonusMigration, logoSvg, vercel] = await Promise.all([
+const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, bonusMigration, managementMigration, logoSvg, vercel] = await Promise.all([
   read('kidz-gewinnspiel.html'),
   read('css/kidz-gewinnspiel.css'),
   read('js/kidz-gewinnspiel.js'),
@@ -138,6 +138,7 @@ const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, bon
   read('schema-phase172.sql'),
   read('schema-phase174.sql'),
   read('schema-phase179.sql'),
+  read('schema-phase182.sql'),
   read('assets/images/kidz-marke.svg'),
   read('vercel.json'),
 ]);
@@ -168,6 +169,10 @@ assert.match(adminJs, /kidz_gewinnspiel_teilnahmen/);
 assert.match(adminJs, /berater-einladung/);
 assert.match(adminJs, /issue_kidz_gewinnspiel_ticket/);
 assert.match(adminJs, /ticket_number/);
+assert.match(adminHtml, /Teilnahme endgültig löschen/);
+assert.match(adminJs, /currentAdvisor\?\.ist_admin/);
+assert.match(adminJs, /delete_kidz_gewinnspiel_participation/);
+assert.match(adminJs, /\['test', 'duplicate', 'erasure_request'\]/);
 assert.match(navJs, /KIDZ Gewinnspiel/);
 assert.match(vercel, /\/kidz\/gewinnspiel/);
 assert.match(vercel, /kidz\.teamwachsbleiche\.de/);
@@ -217,5 +222,15 @@ assert.match(bonusMigration, /LIVE ANGEWENDET AM 11\.08\.2026 ALS phase_179_kidz
 assert.match(bonusMigration, /2026-08-11-v3/);
 assert.match(bonusMigration, /security definer/);
 assert.match(bonusMigration, /revoke execute on function public\.register_kidz_gewinnspiel_public/);
+assert.match(managementMigration, /kidz_gewinnspiel_loeschprotokoll/);
+assert.match(managementMigration, /kidz_gewinnspiel_admin_delete/);
+assert.doesNotMatch(managementMigration, /berater_id = public\.current_berater_id/);
+assert.match(managementMigration, /delete_kidz_gewinnspiel_participation[\s\S]*security invoker/);
+assert.match(managementMigration, /is_current_berater_admin\(\)/);
+assert.match(managementMigration, /extensions\.digest/);
+assert.match(managementMigration, /retention_expired/);
+assert.match(managementMigration, /kidz-gewinnspiel-aufbewahrungsfrist/);
+assert.match(managementMigration, /2027-01-01 00:00:00\+01/);
+assert.match(managementMigration, /revoke execute on function public\.cleanup_kidz_gewinnspiel_expired\(\)[\s\S]*authenticated/);
 
 console.log('kidz-gewinnspiel: OK');
