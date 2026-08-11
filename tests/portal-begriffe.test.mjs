@@ -20,9 +20,9 @@ for (const page of [presentation, programAdmin, payouts, advisors, changelogPage
 
 assert.match(index, />Zum Portal<\/a>/);
 assert.doesNotMatch(index, />Zum Hub<\/a>/);
-assert.match(config, /APP_VERSION = 'v1\.197 Beta'/);
-assert.match(config, /Phase 171 · Potenzialbuch-Bedienung/);
+assert.match(config, /APP_VERSION = 'v1\.198 Beta'/);
+assert.match(config, /Phase 172 · KIDZ-Gewinnspiel/);
 assert.doesNotMatch(config, /Premium-HUB/);
-assert.match(sw, /CACHE_VERSION = 'v156-2026-08-10a'/);
+assert.match(sw, /CACHE_VERSION = 'v157-2026-08-11a'/);
 
 console.log('portal-begriffe: OK');

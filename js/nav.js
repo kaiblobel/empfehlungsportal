@@ -34,6 +34,7 @@ export const NAV_ITEMS = [
   // vollständige Liste, und die heißt auf jeder Folgeseite Promoter.
   { id: 'champions',   label: 'Promoter',      icon: 'Trophy',          href: path('dashboard/empfehler.html'),       bottom: false },
   { id: 'potenziale',  label: 'Potenzialbuch', icon: 'NotebookPen',     href: path('dashboard/potenziale.html'),      bottom: false },
+  { id: 'kidz',        label: 'KIDZ Gewinnspiel', icon: 'Sparkles',     href: path('dashboard/kidz-gewinnspiel.html'), bottom: false },
   // Teamleistung ist tägliche Führung und deshalb kein Verwaltungsmenü.
   { id: 'team',        label: 'Team',          icon: 'Users',           href: path('team.html'),                       bottom: false },
   // Auszahlungen ist der einzige Punkt mit Zähler (offene Auszahlungen) — also eine
@@ -68,6 +69,7 @@ function isActive(item) {
   if (item.id === 'programm' && (cur.endsWith('/programm-verwalten.html') || cur.endsWith('/vorlagen.html'))) return true;
   if (item.id === 'champions' && cur.endsWith('/dashboard/empfehler.html')) return true;
   if (item.id === 'potenziale' && cur.endsWith('/dashboard/potenziale.html')) return true;
+  if (item.id === 'kidz' && cur.endsWith('/dashboard/kidz-gewinnspiel.html')) return true;
   return false;
 }
 

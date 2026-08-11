@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0c6c3f">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Sommerfest-Gewinnspiel | Team Wachsbleiche</title>
+  <link rel="stylesheet" href="/css/kidz-gewinnspiel.css?v=1">
+  <script src="/js/config.js"></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+</head>
+<body>
+  <header class="kg-topbar">
+    <div class="kg-brand">
+      <span class="kg-brand-mark" aria-hidden="true">KIDZ</span>
+      <span><strong>Kinderleicht in die Zukunft</strong><small>Team Wachsbleiche</small></span>
+    </div>
+    <span class="kg-free">Eintritt &amp; Teilnahme kostenlos</span>
+  </header>
+
+  <main>
+    <section class="kg-hero" aria-labelledby="kgTitle">
+      <div class="kg-confetti" aria-hidden="true"></div>
+      <p class="kg-date">6. September 2026 · Kutzeburger Mühle</p>
+      <h1 id="kgTitle"><span>Großes</span> Sommerfest-Gewinnspiel!</h1>
+      <p class="kg-lede">Jetzt vor Ort registrieren und fantastische Preise für die ganze Familie gewinnen.</p>
+      <div class="kg-prizes" aria-label="Die Hauptpreise">
+        <article class="kg-prize kg-prize-main">
+          <div class="kg-prize-icon" aria-hidden="true">⛺</div>
+          <p>1. Hauptgewinn</p>
+          <h2>Survival Sommercamp</h2>
+          <span>Das ultimative Vater-Kind-Wochenende</span>
+        </article>
+        <article class="kg-prize">
+          <div class="kg-prize-icon" aria-hidden="true">🍿</div>
+          <p>2. Preis</p>
+          <h2>UCI Kinogutscheine</h2>
+          <span>Für die ganze Familie</span>
+        </article>
+        <article class="kg-prize">
+          <div class="kg-prize-icon" aria-hidden="true">🦒</div>
+          <p>3. Preis</p>
+          <h2>Tierpark-Jahreskarte</h2>
+          <span>Für den Tierpark Cottbus</span>
+        </article>
+      </div>
+      <p class="kg-more">Plus viele weitere Sachpreise und Überraschungen.</p>
+    </section>
+
+    <section class="kg-form-wrap" aria-labelledby="kgFormTitle">
+      <div class="kg-form-intro">
+        <p class="kg-eyebrow">In weniger als einer Minute</p>
+        <h2 id="kgFormTitle">Gewinnchance sichern</h2>
+        <p>Die Anmeldung wird von einer volljährigen Person ausgefüllt. Wir brauchen keine Angaben zu Kindern.</p>
+      </div>
+
+      <form id="kgForm" novalidate>
+        <div class="kg-field">
+          <label for="kgName">Vorname und Nachname</label>
+          <input id="kgName" name="name" type="text" autocomplete="name" maxlength="100" placeholder="Anna Schmidt" required>
+        </div>
+
+        <div class="kg-fields-two">
+          <div class="kg-field">
+            <label for="kgEmail">E-Mail</label>
+            <input id="kgEmail" name="email" type="email" autocomplete="email" maxlength="180" placeholder="anna@beispiel.de">
+          </div>
+          <div class="kg-field">
+            <label for="kgPhone">Mobilnummer</label>
+            <input id="kgPhone" name="telefon" type="tel" inputmode="tel" autocomplete="tel" maxlength="40" placeholder="0171 2345678">
+          </div>
+        </div>
+        <p class="kg-hint">Ein Kontaktweg genügt. Darüber informieren wir ausschließlich im Zusammenhang mit dem Gewinnspiel.</p>
+
+        <div class="kg-field kg-advisor-field">
+          <label for="kgAdvisor">Wer hat dich eingeladen? <span>Optional</span></label>
+          <select id="kgAdvisor" name="beraterSlug">
+            <option value="">Niemand aus dem Team oder nicht bekannt</option>
+            <option value="kai-blobel">Kai Blobel</option>
+            <option value="josephine-buerger">Josephine Bürger</option>
+            <option value="max-kudlek">Max Kudlek</option>
+            <option value="sandro-wernicke">Sandro Wernicke</option>
+            <option value="sven-augustin">Sven Augustin</option>
+          </select>
+          <p class="kg-hint">Die Auswahl ordnet deine Teilnahme dem einladenden Vermögensberater zu. Ohne Auswahl übernimmt Kai Blobel &amp; Team.</p>
+        </div>
+
+        <label class="kg-check" for="kgConsent">
+          <input id="kgConsent" name="consent" type="checkbox" required>
+          <span>Ich bin volljährig, möchte am Sommerfest-Gewinnspiel teilnehmen und habe die <a href="#teilnahmebedingungen">Teilnahmebedingungen und Datenschutzhinweise</a> gelesen.</span>
+        </label>
+
+        <label class="kg-check kg-check-optional" for="kgParentEvening">
+          <input id="kgParentEvening" name="parentEvening" type="checkbox">
+          <span><strong>Optional:</strong> Ich möchte einmalig Informationen zum nächsten KIDZ-Elternabend erhalten.</span>
+        </label>
+
+        <div class="kg-captcha" id="kgCaptcha" aria-label="Bot-Schutz"></div>
+        <div class="kg-error" id="kgError" role="alert" aria-live="polite" hidden></div>
+
+        <button class="kg-submit" id="kgSubmit" type="submit" disabled>Jetzt kostenlos teilnehmen</button>
+        <p class="kg-safe">Kein Kauf, kein Beratungsgespräch und keine Werbeeinwilligung erforderlich.</p>
+      </form>
+
+      <div class="kg-success" id="kgSuccess" role="status" aria-live="polite" hidden>
+        <div aria-hidden="true">✓</div>
+        <h2>Du bist dabei!</h2>
+        <p>Deine Teilnahme wurde gespeichert. Wir wünschen dir viel Glück und einen großartigen Tag beim Kinder-Sommerfest.</p>
+        <span id="kgReference"></span>
+      </div>
+    </section>
+
+    <section class="kg-legal" id="teilnahmebedingungen" aria-labelledby="kgLegalTitle">
+      <p class="kg-eyebrow">Transparent und fair</p>
+      <h2 id="kgLegalTitle">Teilnahmebedingungen und Datenschutz</h2>
+      <div class="kg-legal-grid">
+        <div>
+          <h3>Teilnahme</h3>
+          <p>Veranstalter ist die Regionaldirektion Kai Blobel &amp; Team / Deutsche Vermögensberatung. Teilnehmen dürfen volljährige Besucherinnen und Besucher des Kinder-Sommerfests am 6. September 2026. Pro Person ist eine Teilnahme möglich. Die Teilnahme ist kostenlos und unabhängig von einem Kauf oder Beratungsgespräch.</p>
+          <p>Die Gewinner werden nach dem Fest zufällig ausgelost und über den angegebenen Kontaktweg benachrichtigt. Eine Barauszahlung oder Übertragung des Gewinns ist ausgeschlossen. Der Rechtsweg ist ausgeschlossen.</p>
+        </div>
+        <div>
+          <h3>Datenschutz</h3>
+          <p>Name, Kontaktweg und die freiwillige Auswahl des einladenden Vermögensberaters werden nur zur Durchführung des Gewinnspiels, zur Auslosung, zur Gewinnübergabe und zur internen Zuordnung verarbeitet. Die Daten werden nach Abschluss des Gewinnspiels gelöscht, spätestens am 31. Dezember 2026, soweit keine gesetzlichen Pflichten entgegenstehen.</p>
+          <p>Das freiwillige Interesse am KIDZ-Elternabend wird getrennt gespeichert und nur für eine einmalige Information dazu verwendet. Diese Auswahl hat keinen Einfluss auf die Gewinnchance und kann jederzeit widerrufen werden.</p>
+        </div>
+      </div>
+      <p class="kg-legal-note">Stand: 11. August 2026. Fragen zur Teilnahme oder zum Datenschutz beantworten wir gern vor Ort.</p>
+    </section>
+  </main>
+
+  <footer class="kg-footer">
+    <div><strong>Regionaldirektion Kai Blobel &amp; Team</strong><br>Deutsche Vermögensberatung</div>
+    <div><strong>Zur Kutzeburger Mühle</strong><br>Kutzeburger Mühle 1 · 03051 Cottbus</div>
+  </footer>
+
+  <script type="module" src="/js/kidz-gewinnspiel.js?v=1"></script>
+</body>
+</html>
