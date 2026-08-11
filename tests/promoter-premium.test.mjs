@@ -54,9 +54,9 @@ assert.match(promoterCss, /\.pd-layout/);
 assert.match(promoterCss, /grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
 assert.match(promoterCss, /@media \(max-width: 540px\)/);
 
-assert.match(config, /v1\.208 Beta/);
-assert.match(config, /Phase 182 · Geschützte KIDZ-Teilnehmerverwaltung/);
-assert.match(sw, /CACHE_VERSION = 'v167-2026-08-11b'/);
+assert.match(config, /v1\.209 Beta/);
+assert.match(config, /Phase 183 · KIDZ-Flyermenü/);
+assert.match(sw, /CACHE_VERSION = 'v168-2026-08-11c'/);
 assert.match(sw, /promoter-dashboard\.css\?v=2/);
 
 console.log('promoter-premium: OK');

@@ -7,9 +7,32 @@ const errorBox = document.getElementById('kgError');
 const captchaBox = document.getElementById('kgCaptcha');
 const successBox = document.getElementById('kgSuccess');
 const advisorSelect = document.getElementById('kgAdvisor');
+const menu = document.getElementById('kgMenu');
+const flyerDialog = document.getElementById('kgFlyerDialog');
+const flyerOpen = document.getElementById('kgFlyerOpen');
+const flyerClose = document.getElementById('kgFlyerClose');
+const flyerToForm = document.getElementById('kgFlyerToForm');
 
 let captchaToken = '';
 let captchaWidgetId = null;
+
+function closeFlyer() {
+  if (flyerDialog.open) flyerDialog.close();
+}
+
+flyerOpen.addEventListener('click', () => {
+  menu.removeAttribute('open');
+  flyerDialog.showModal();
+});
+
+flyerClose.addEventListener('click', closeFlyer);
+flyerToForm.addEventListener('click', closeFlyer);
+flyerDialog.addEventListener('click', (event) => {
+  if (event.target === flyerDialog) closeFlyer();
+});
+document.addEventListener('click', (event) => {
+  if (menu.open && !menu.contains(event.target)) menu.removeAttribute('open');
+});
 
 function readSource() {
   const params = new URLSearchParams(window.location.search);

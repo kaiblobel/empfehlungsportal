@@ -26,6 +26,8 @@ body {
 a { color: inherit; }
 
 .kg-topbar {
+  position: relative;
+  z-index: 20;
   width: min(1120px, calc(100% - 32px));
   margin: 18px auto 0;
   padding: 12px 16px;
@@ -57,6 +59,66 @@ a { color: inherit; }
   font-weight: 800;
   text-align: center;
 }
+.kg-topbar-actions { display: flex; align-items: center; gap: 10px; }
+.kg-menu { position: relative; }
+.kg-menu summary {
+  min-height: 40px;
+  padding: 0 13px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--kg-navy);
+  background: #fff;
+  border: 1px solid rgba(22,58,104,.16);
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 800;
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+}
+.kg-menu summary::-webkit-details-marker { display: none; }
+.kg-menu summary i {
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform .18s ease;
+}
+.kg-menu[open] summary i { transform: translateY(2px) rotate(225deg); }
+.kg-menu summary:hover, .kg-menu summary:focus-visible { border-color: rgba(22,58,104,.34); background: #f8fbfc; outline: none; }
+.kg-menu-panel {
+  position: absolute;
+  top: calc(100% + 9px);
+  right: 0;
+  width: min(280px, calc(100vw - 32px));
+  padding: 8px;
+  background: #fff;
+  border: 1px solid rgba(22,58,104,.14);
+  border-radius: 15px;
+  box-shadow: 0 18px 42px rgba(22,58,104,.18);
+}
+.kg-menu-panel > p { margin: 4px 8px 7px; color: var(--kg-muted); font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.kg-menu-panel a, .kg-menu-panel button {
+  width: 100%;
+  min-height: 58px;
+  padding: 10px 12px;
+  display: block;
+  color: var(--kg-ink);
+  background: transparent;
+  border: 0;
+  border-radius: 10px;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.kg-menu-panel a:hover, .kg-menu-panel button:hover,
+.kg-menu-panel a:focus-visible, .kg-menu-panel button:focus-visible { background: #edf5fb; outline: none; }
+.kg-menu-panel strong, .kg-menu-panel small { display: block; }
+.kg-menu-panel strong { color: var(--kg-navy); font-size: 13px; }
+.kg-menu-panel small { margin-top: 3px; color: var(--kg-muted); font-size: 11px; }
 
 main { width: min(1120px, calc(100% - 32px)); margin: 18px auto 48px; }
 .kg-hero {
@@ -183,9 +245,35 @@ main { width: min(1120px, calc(100% - 32px)); margin: 18px auto 48px; }
 .kg-legal-note { margin: 16px 0 0; padding: 12px 14px; color: #765c19; background: #fff7db; border: 1px solid #ead48e; border-radius: 12px; font-size: 12px; line-height: 1.5; }
 .kg-footer { width: min(1120px, calc(100% - 32px)); margin: 0 auto 36px; display: flex; justify-content: space-between; gap: 24px; color: #5c675f; font-size: 12px; line-height: 1.5; }
 
+.kg-flyer-dialog {
+  width: min(760px, calc(100% - 28px));
+  max-width: none;
+  max-height: calc(100dvh - 28px);
+  padding: 0;
+  overflow: hidden;
+  background: #fff;
+  border: 0;
+  border-radius: 22px;
+  box-shadow: 0 28px 80px rgba(14,39,55,.3);
+}
+.kg-flyer-dialog::backdrop { background: rgba(7,27,40,.72); }
+.kg-flyer-shell { max-height: calc(100dvh - 28px); display: grid; grid-template-rows: auto minmax(0, 1fr) auto; }
+.kg-flyer-shell > header { padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 20px; border-bottom: 1px solid var(--kg-line); }
+.kg-flyer-shell > header p { margin: 0 0 2px; color: var(--kg-green); font-size: 10px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+.kg-flyer-shell > header h2 { margin: 0; color: var(--kg-navy); font-size: 20px; }
+.kg-flyer-close { width: 40px; height: 40px; flex: 0 0 40px; color: var(--kg-navy); background: #f1f6f8; border: 0; border-radius: 50%; font: 400 27px/1 sans-serif; cursor: pointer; }
+.kg-flyer-close:hover, .kg-flyer-close:focus-visible { color: #fff; background: var(--kg-navy); outline: none; }
+.kg-flyer-stage { min-height: 0; padding: 14px; display: grid; place-items: center; overflow: auto; background: #edf5f7; }
+.kg-flyer-stage img { display: block; width: auto; max-width: 100%; max-height: calc(100dvh - 174px); border-radius: 10px; box-shadow: 0 12px 30px rgba(22,58,104,.14); }
+.kg-flyer-shell > footer { padding: 12px 16px; display: flex; justify-content: flex-end; gap: 9px; border-top: 1px solid var(--kg-line); }
+.kg-flyer-shell > footer a { min-height: 42px; padding: 0 14px; display: inline-flex; align-items: center; justify-content: center; border-radius: 11px; font-size: 12px; font-weight: 800; text-decoration: none; }
+.kg-flyer-download { color: var(--kg-navy); background: #fff; border: 1px solid rgba(22,58,104,.2); }
+.kg-flyer-register { color: #fff; background: var(--kg-green); border: 1px solid var(--kg-green); }
+.kg-flyer-shell > footer a:hover, .kg-flyer-shell > footer a:focus-visible { transform: translateY(-1px); outline: none; }
+
 @media (max-width: 760px) {
   .kg-topbar { align-items: flex-start; }
-  .kg-free { max-width: 126px; }
+  .kg-free { display: none; }
   main { width: min(100% - 18px, 600px); margin-top: 10px; }
   .kg-prizes { grid-template-columns: 1fr 1fr; }
   .kg-prize-main { grid-column: 1 / -1; transform: none; }
@@ -200,7 +288,8 @@ main { width: min(1120px, calc(100% - 32px)); margin: 18px auto 48px; }
   .kg-brand strong { font-size: 12px; }
   .kg-brand small { font-size: 10px; }
   .kg-brand-mark { width: 52px; height: 52px; flex-basis: 52px; }
-  .kg-free { padding: 7px 9px; font-size: 10px; }
+  .kg-menu summary { min-height: 42px; padding: 0 11px; }
+  .kg-menu-panel { position: fixed; top: 80px; right: 10px; width: calc(100vw - 20px); }
   .kg-prizes { grid-template-columns: 1fr; }
   .kg-prize-main { grid-column: auto; }
   .kg-prize { display: grid; grid-template-columns: 48px 1fr; column-gap: 8px; }
@@ -210,6 +299,12 @@ main { width: min(1120px, calc(100% - 32px)); margin: 18px auto 48px; }
   .kg-chances { padding: 7px; }
   .kg-chances article { grid-template-columns: 38px 1fr; padding: 9px 7px; }
   .kg-chances article > span { width: 38px; height: 38px; }
+  .kg-flyer-dialog { width: calc(100% - 16px); max-height: calc(100dvh - 16px); border-radius: 17px; }
+  .kg-flyer-shell { max-height: calc(100dvh - 16px); }
+  .kg-flyer-stage { padding: 8px; }
+  .kg-flyer-stage img { max-height: calc(100dvh - 164px); border-radius: 8px; }
+  .kg-flyer-shell > footer { padding: 10px; }
+  .kg-flyer-shell > footer a { flex: 1 1 0; padding: 0 9px; text-align: center; }
 }
 
 @media (prefers-reduced-motion: reduce) {

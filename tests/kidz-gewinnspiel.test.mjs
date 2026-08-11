@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
-import { readFile } from 'node:fs/promises';
+import { readFile, stat } from 'node:fs/promises';
 
 const require = createRequire(import.meta.url);
 const registerHandler = require('../api/kidz-register.js');
@@ -142,12 +142,19 @@ const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, bon
   read('assets/images/kidz-marke.svg'),
   read('vercel.json'),
 ]);
+const flyerStat = await stat(new URL('../assets/images/kidz-sommerfest-flyer.jpg', import.meta.url));
 
 assert.match(html, /id="kgConsent"/);
 assert.match(html, /id="kgParentEvening"/);
 assert.match(html, /id="kgAdvisor"/);
 assert.match(html, /sandro-wernicke/);
 assert.match(html, /assets\/images\/kidz-marke\.svg/);
+assert.match(html, /id="kgMenu"/);
+assert.match(html, /Sommerfest-Flyer/);
+assert.match(html, /id="kgFlyerDialog"/);
+assert.match(html, /assets\/images\/kidz-sommerfest-flyer\.jpg/);
+assert.match(html, /Flyer herunterladen/);
+assert.ok(flyerStat.size > 100_000);
 assert.doesNotMatch(html, /kg-brand-mark" aria-hidden="true">KIDZ/);
 assert.match(logoSvg, /<text[^>]*>KIDZ<\/text>/);
 assert.doesNotMatch(logoSvg, /Wagen|Lok|<path|<rect/);
@@ -160,10 +167,15 @@ assert.match(html, /Veranstaltungsort[\s\S]*Kutzeburger Mühle 1 · 03051 Cottbu
 assert.doesNotMatch(html, /Kindername|Geburtsdatum|Gesundheitsdaten/);
 assert.match(css, /color-scheme:\s*light/);
 assert.doesNotMatch(css, /prefers-color-scheme\s*:\s*dark/);
+assert.match(css, /\.kg-menu-panel/);
+assert.match(css, /\.kg-flyer-dialog::backdrop/);
+assert.match(css, /max-height:\s*calc\(100dvh - 164px\)/);
 assert.match(js, /\/api\/kidz-register/);
 assert.match(js, /\/api\/kidz-advisors/);
 assert.match(js, /beraterSlug/);
 assert.match(js, /facebook.*instagram.*whatsapp/);
+assert.match(js, /flyerDialog\.showModal\(\)/);
+assert.match(js, /menu\.removeAttribute\('open'\)/);
 assert.match(adminHtml, /Linas Arbeitsstrecke/);
 assert.match(adminJs, /kidz_gewinnspiel_teilnahmen/);
 assert.match(adminJs, /berater-einladung/);
