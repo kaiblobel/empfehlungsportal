@@ -1,6 +1,6 @@
 <!-- odysseus-passport
 purpose: Empfehlungsportal für DVAG-Berater - Vanilla JS + eigene Supabase; Funnel Klick zu Interesse zu Kunde, privates Potenzialbuch mit Kontakt-Coach, echte Kennzahlen, Champions, Prämien; Cockpit-Brücke
-status: v1.206 vorbereitet; KIDZ-Bonusverlosung und Hauptgewinn-Doppellos live; bevorzugte Adresse kidz.teamwachsbleiche.de ueber DNS, Vercel und HTTPS angebunden; Root-Weiterleitung und Turnstile-Abnahme laufen
+status: v1.207 Phase 181 finalisiert kidz.teamwachsbleiche.de als offizielle KIDZ-Adresse; kidz.kaiblobel.de leitet Pfade und Parameter dorthin weiter; Cloudflare Turnstile erlaubt die offizielle Team-Adresse; keine Aenderung an Anmeldungen, Teilnahmebedingungen, Losen oder Beraterzuordnung
 live_url: https://empfehlungsportal.vercel.app; KIDZ oeffentlich unter https://kidz.teamwachsbleiche.de
 tags: portal, supabase, empfehlung, promoter, potenzialbuch, kontakt-coach, spracheingabe, mobile-first, live, baufinanzierung, kfw, bookings, power-automate
 -->
