@@ -31,6 +31,7 @@ assert.match(html, /assets\/images\/kidz-sommerfest-flyer\.jpg/);
 assert.match(html, /assets\/images\/kidz-sommerfest-gewinnspiel-v2\.png/);
 assert.match(html, /Zur kostenlosen Gewinnspiel-Anmeldung/);
 assert.match(html, /data-registration-link/);
+assert.match(html, /class="kf-footer" id="veranstalter"/);
 assert.match(html, /class="kf-organizer"/);
 assert.match(html, /assets\/images\/team-wachsbleiche-petrol\.jpeg/);
 assert.match(html, /alt="Team Wachsbleiche · Kai Blobel &amp; Team"/);

@@ -168,6 +168,7 @@ assert.match(html, /id="kgFlyerTabEvent"/);
 assert.match(html, /id="kgFlyerTabPrizes"/);
 assert.match(html, /assets\/images\/kidz-sommerfest-gewinnspiel-v2\.png/);
 assert.match(html, /Aktuelle Seite herunterladen/);
+assert.match(html, /class="kg-footer" id="veranstalter"/);
 assert.match(html, /class="kg-organizer"/);
 assert.match(html, /assets\/images\/team-wachsbleiche-petrol\.jpeg/);
 assert.match(html, /alt="Team Wachsbleiche · Kai Blobel &amp; Team"/);
