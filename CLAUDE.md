@@ -1,6 +1,6 @@
 <!-- odysseus-passport
 purpose: Empfehlungsportal für DVAG-Berater - Vanilla JS + eigene Supabase; Funnel Klick zu Interesse zu Kunde, privates Potenzialbuch mit Kontakt-Coach, echte Kennzahlen, Champions, Prämien; Cockpit-Brücke
-status: live v1.198 / Phase 172 seit 11.08.2026 ueber PR 18 auf Produktions-Commit 692b4f2; mobile KIDZ-QR-Anmeldung, freiwillige Beraterauswahl, persoenliche Beraterlinks, getrennter Teilnehmenden-Bestand, Portal-Navigation und geschuetzte Uebersicht sind produktiv; ohne Auswahl wird Kai Blobel zugeordnet; Supabase-Migration phase_172_kidz_gewinnspiel ist angewendet, RLS ist aktiviert und erzwungen; 35 Testdateien sind gruen; Vercel-Produktion dpl_GmWR8F6qggTRKCsQdEA5KESNcS2H READY; Live-Seite, Beraterliste, Turnstile-Konfiguration und Fehlerweg wurden geprueft
+status: live v1.198 / Phase 172 seit 11.08.2026; v1.199 / Phase 173 trennt im Arbeitszweig codex/kidz-adressen-trennen die Anschrift der Regionaldirektion An der Wachsbleiche 1a, 03046 Cottbus eindeutig vom Veranstaltungsort Kutzeburger Muehle 1, 03051 Cottbus; zur Abnahme vorbereitet und nicht live
 live_url: https://empfehlungsportal.vercel.app
 tags: portal, supabase, empfehlung, promoter, potenzialbuch, kontakt-coach, spracheingabe, mobile-first, live, baufinanzierung, kfw, bookings, power-automate
 -->

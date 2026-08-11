@@ -143,6 +143,8 @@ assert.match(html, /id="kgParentEvening"/);
 assert.match(html, /id="kgAdvisor"/);
 assert.match(html, /sandro-wernicke/);
 assert.match(html, /Wir brauchen keine Angaben zu Kindern/);
+assert.match(html, /Veranstalter[\s\S]*An der Wachsbleiche 1a · 03046 Cottbus/);
+assert.match(html, /Veranstaltungsort[\s\S]*Kutzeburger Mühle 1 · 03051 Cottbus/);
 assert.doesNotMatch(html, /Kindername|Geburtsdatum|Gesundheitsdaten/);
 assert.match(css, /color-scheme:\s*light/);
 assert.doesNotMatch(css, /prefers-color-scheme\s*:\s*dark/);
