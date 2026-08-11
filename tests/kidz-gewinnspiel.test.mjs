@@ -204,17 +204,17 @@ assert.match(vercel, /kidz\.teamwachsbleiche\.de/);
 assert.match(vercel, /kidz\.kaiblobel\.de/);
 assert.match(vercel, /"type":\s*"host"/);
 assert.match(vercel, /"redirects"/);
-assert.match(vercel, /"destination":\s*"\/kidz\/gewinnspiel"/);
+assert.match(vercel, /"destination":\s*"\/kidz\/sommerfest"/);
 const vercelConfig = JSON.parse(vercel);
 const hasHost = (entry, host) => entry.has?.some((condition) => condition.type === 'host' && condition.value === host);
 assert.ok(vercelConfig.redirects.some((entry) => (
   entry.source === '/'
-  && entry.destination === '/kidz/gewinnspiel'
+  && entry.destination === '/kidz/sommerfest'
   && hasHost(entry, 'kidz.teamwachsbleiche.de')
 )));
 assert.ok(vercelConfig.redirects.some((entry) => (
   entry.source === '/'
-  && entry.destination === 'https://kidz.teamwachsbleiche.de/kidz/gewinnspiel'
+  && entry.destination === 'https://kidz.teamwachsbleiche.de/kidz/sommerfest'
   && hasHost(entry, 'kidz.kaiblobel.de')
 )));
 assert.ok(vercelConfig.redirects.some((entry) => (
