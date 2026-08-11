@@ -12,6 +12,7 @@ Offizielle Live-Version: **v1.202 Beta** · Bereinigtes KIDZ-Zeichen ohne fehler
 - Das Zeichen zeigt bis zur Übernahme einer echten Originaldatei ausschließlich den goldenen Kreis mit dem weißen KIDZ-Schriftzug.
 - Seitenkopf und Browser-Tab-Symbol verwenden dieselbe bereinigte Marke.
 - Keine Änderungen an Gewinnspiel, QR-Adresse, Anmeldungen, Beraterzuordnung oder vorhandenen Daten.
+- Veröffentlichung über PR 26 auf Produktions-Commit `88cad0d`. Vercel meldet `dpl_6Sthko7MFbxCeHpfseEZLJtqt6Ju` als READY; Live-Seite, bereinigte Logo-Datei und v1.202 antworten mit Status 200, die visuelle Live-Prüfung war fehlerfrei.
 
 ## v1.201 Beta - Phase 175 · KIDZ-Markenlogo
 **2026-08-11 · live veröffentlicht**
