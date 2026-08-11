@@ -1,12 +1,12 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.198 Beta** · KIDZ-Gewinnspiel mit Beraterzuordnung, zur Veröffentlichung freigegeben am 11.08.2026.
+Offizielle Live-Version: **v1.198 Beta** · KIDZ-Gewinnspiel mit Beraterzuordnung, live seit 11.08.2026.
 
 ---
 
 ## v1.198 Beta - Phase 172 · KIDZ-Gewinnspiel
-**2026-08-11 · zur Veröffentlichung freigegeben**
+**2026-08-11 · live veröffentlicht**
 
 - Die mobile Gewinnspielseite ist das feste Ziel für QR-Codes am Kinder-Sommerfest und auf Einladungen.
 - Erwachsene Teilnehmende tragen nur Namen und einen Kontaktweg ein. Angaben zu Kindern werden nicht erhoben.
@@ -14,6 +14,7 @@ Offizielle Live-Version: **v1.198 Beta** · KIDZ-Gewinnspiel mit Beraterzuordnun
 - Gewinnspielteilnahmen bleiben in einem eigenen, geschützten Bestand und werden nicht automatisch als Empfehlung, Kunde oder Promoter angelegt.
 - Die geschützte KIDZ-Übersicht zeigt Teilnahmen, Herkunft, Elternabend-Interesse und Beraterzuordnung. Persönliche Einladungslinks lassen sich direkt kopieren.
 - Turnstile, serverseitige Plausibilitätsprüfung, gehashte Drosselungsmerkmale und zeilenbasierte Zugriffsregeln schützen die öffentliche Anmeldung.
+- Veröffentlichung über PR 18 auf Produktions-Commit `692b4f2`. Vercel meldet den Produktionsbau `dpl_GmWR8F6qggTRKCsQdEA5KESNcS2H` als READY.
 
 ## v1.197 Beta - Phase 171 · Potenzialbuch-Bedienung
 **2026-08-10 · live veröffentlicht**

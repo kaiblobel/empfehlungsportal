@@ -1,7 +1,7 @@
 -- =====================================================================
 -- Phase 172 · KIDZ-Sommerfest-Gewinnspiel mit eigener Datenhaltung
 --
--- ZUR VERÖFFENTLICHUNG FREIGEGEBEN AM 11.08.2026.
+-- LIVE ANGEWENDET AM 11.08.2026 ALS phase_172_kidz_gewinnspiel.
 -- Gewinnspielteilnahmen werden bewusst weder als Promoter noch als
 -- Empfehlungen gespeichert. Das Geheimnis gehört niemals ins Repository.
 -- =====================================================================
@@ -195,7 +195,7 @@ grant execute on function public.register_kidz_gewinnspiel_public(
   text, text, text, text, text, text, text, boolean, text, text, text, boolean
 ) to anon;
 
--- Aktivierung erst nach Kais Freigabe, ohne Rohwert im Repo:
+-- Produktiv nach Kais Freigabe hinterlegt, ohne Rohwert im Repo:
 -- insert into private.integration_secrets (name, secret_hash)
 -- values ('kidz_giveaway_registration', '<sha256-von-KIDZ_GIVEAWAY_REGISTRATION_SECRET>')
 -- on conflict (name) do update set secret_hash = excluded.secret_hash, created_at = now();

@@ -154,7 +154,7 @@ assert.match(adminJs, /kidz_gewinnspiel_teilnahmen/);
 assert.match(adminJs, /berater-einladung/);
 assert.match(navJs, /KIDZ Gewinnspiel/);
 assert.match(vercel, /\/kidz\/gewinnspiel/);
-assert.match(migration, /ZUR VERÖFFENTLICHUNG FREIGEGEBEN AM 11\.08\.2026/);
+assert.match(migration, /LIVE ANGEWENDET AM 11\.08\.2026 ALS phase_172_kidz_gewinnspiel/);
 assert.match(migration, /force row level security/);
 assert.match(migration, /revoke all on table public\.kidz_gewinnspiel_teilnahmen from public, anon, authenticated/);
 assert.match(migration, /grant execute on function public\.register_kidz_gewinnspiel_public[\s\S]*to anon/);
