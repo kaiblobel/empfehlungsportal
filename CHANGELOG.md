@@ -1,9 +1,17 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.201 Beta** · Echtes KIDZ-Markenlogo auf der Gewinnspielstrecke, live seit 11.08.2026.
+Offizielle Live-Version: **v1.202 Beta** · Bereinigtes KIDZ-Zeichen ohne fehlerhafte Lok, live seit 11.08.2026.
 
 ---
+
+## v1.202 Beta - Phase 176 · KIDZ-Logo bereinigt
+**2026-08-11 · live veröffentlicht**
+
+- Die vereinfachte Lok-Nachzeichnung wurde entfernt, weil sie nicht dem freigegebenen Original entspricht.
+- Das Zeichen zeigt bis zur Übernahme einer echten Originaldatei ausschließlich den goldenen Kreis mit dem weißen KIDZ-Schriftzug.
+- Seitenkopf und Browser-Tab-Symbol verwenden dieselbe bereinigte Marke.
+- Keine Änderungen an Gewinnspiel, QR-Adresse, Anmeldungen, Beraterzuordnung oder vorhandenen Daten.
 
 ## v1.201 Beta - Phase 175 · KIDZ-Markenlogo
 **2026-08-11 · live veröffentlicht**
