@@ -1,5 +1,18 @@
 {
+  "redirects": [
+    {
+      "source": "/kidz/gewinnspiel",
+      "has": [{ "type": "host", "value": "empfehlungsportal.vercel.app" }],
+      "destination": "https://kidz.teamwachsbleiche.de",
+      "permanent": false
+    }
+  ],
   "rewrites": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "kidz.teamwachsbleiche.de" }],
+      "destination": "/kidz-gewinnspiel.html"
+    },
     { "source": "/e", "destination": "/api/share" },
     { "source": "/p/:berater/:quelle", "destination": "/promoter-start.html?berater=:berater&quelle=:quelle" },
     { "source": "/kidz/gewinnspiel", "destination": "/kidz-gewinnspiel.html" },
