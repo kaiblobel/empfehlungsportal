@@ -1,9 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.203 Beta** · Eigene kostenlose KIDZ-Wunschadresse, live seit 11.08.2026.
+Offizielle Live-Version: **v1.204 Beta** · Stabile KIDZ-Rootadresse, live seit 11.08.2026.
 
 ---
+
+## v1.204 Beta - Phase 178 · KIDZ-Rootadresse
+**2026-08-11 · live veröffentlicht**
+
+- `https://kidz.kaiblobel.de` führt zuverlässig zur KIDZ-Gewinnspielregistrierung.
+- Der Root-Aufruf nutzt eine hostgebundene Weiterleitung, weil Vercel die vorhandene Portal-Startdatei vor einer bedingten Umschreibung ausliefert.
+- Andere Portaladressen, bestehende QR-Links, Anmeldungen und vorhandene Daten bleiben unverändert.
 
 ## v1.203 Beta - Phase 177 · KIDZ-Wunschadresse
 **2026-08-11 · live veröffentlicht**
