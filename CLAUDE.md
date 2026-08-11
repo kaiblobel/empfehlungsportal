@@ -1,6 +1,6 @@
 <!-- odysseus-passport
 purpose: Empfehlungsportal für DVAG-Berater - Vanilla JS + eigene Supabase; Funnel Klick zu Interesse zu Kunde, privates Potenzialbuch mit Kontakt-Coach, echte Kennzahlen, Champions, Prämien; Cockpit-Brücke
-status: v1.212 Phase 186 live; v1.213 Phase 187 auf Zweig codex/kidz-adminfilter-v1.213 zur Abnahme vorbereitet; Kai erhält als Admin einen gemeinsamen KIDZ-Filter für alle Vermögensberater und Promoter; öffentliche Sommerfest- und Gewinnspielseite verwenden dasselbe KIDZ-Menü, QR-Code bleibt gültig; normale Berater bleiben auf den eigenen Bestand begrenzt; keine Datenbankänderung; Veröffentlichung ausstehend
+status: v1.213 Phase 187 live seit 11.08.2026; Produktions-Commit 12c5c00 und Vercel-Deployment dpl_7WqqCVQuihfUTYvfcbVgQnBqxzwY READY; Kai hat als Admin einen gemeinsamen KIDZ-Filter für alle Vermögensberater und Promoter; öffentliche Sommerfest- und Gewinnspielseite verwenden dasselbe KIDZ-Menü und erhalten QR-Herkunft sowie Beraterzuordnung; normale Berater bleiben auf den eigenen Bestand begrenzt; keine Datenbankänderung; 32 von 32 Testdateien grün
 live_url: https://empfehlungsportal.vercel.app; KIDZ oeffentlich unter https://kidz.teamwachsbleiche.de
 tags: portal, supabase, empfehlung, promoter, potenzialbuch, kontakt-coach, spracheingabe, mobile-first, live, baufinanzierung, kfw, bookings, power-automate
 -->
