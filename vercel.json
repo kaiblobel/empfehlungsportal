@@ -24,6 +24,7 @@
     { "source": "/p/:berater/:quelle", "destination": "/promoter-start.html?berater=:berater&quelle=:quelle" },
     { "source": "/kidz/sommerfest", "destination": "/kidz-sommerfest.html" },
     { "source": "/kidz/gewinnspiel", "destination": "/kidz-gewinnspiel.html" },
+    { "source": "/kidz/elternabend", "destination": "/kidz-elternabend.html" },
     { "source": "/(.*)", "destination": "/$1" }
   ]
 }

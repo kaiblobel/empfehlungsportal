@@ -1,0 +1,24 @@
+.kea-admin-intro { border-left: 4px solid #c9a62b; }
+.kea-admin-kpis article:first-child strong { color: #0d4f4b; }
+.kea-admin-toolbar { grid-template-columns: auto minmax(220px, 1fr) minmax(175px, .62fr) minmax(130px, .42fr) minmax(150px, .48fr); }
+.kea-admin-list .kg-admin-entry { grid-template-columns: minmax(170px, 1fr) minmax(175px, 1fr) minmax(145px, .75fr) minmax(135px, .68fr) minmax(160px, .8fr); }
+.kea-admin-question { margin-top: 7px !important; padding: 8px 10px; color: #5d542d !important; background: #fff8dd; border-radius: 8px; line-height: 1.45; }
+.kea-admin-status { width: 100%; min-height: 40px; padding: 0 32px 0 10px; color: #29424a; background: #f3f7f4; border: 1px solid #cfded7; border-radius: 9px; font: inherit; font-size: 12px; font-weight: 750; }
+.kea-admin-status:disabled { opacity: .6; cursor: wait; }
+.kea-admin-status-note { min-height: 17px; margin-top: 4px !important; color: #0d6b4d !important; }
+.kea-admin-time { color: #0d4f4b !important; font-weight: 750; }
+
+@media (max-width: 1050px) {
+  .kea-admin-toolbar { grid-template-columns: auto minmax(220px, 1fr) 1fr 1fr; }
+  .kea-admin-toolbar #timeFilter { grid-column: 2 / -1; }
+}
+
+@media (max-width: 850px) {
+  .kea-admin-list .kg-admin-entry { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 580px) {
+  .kea-admin-toolbar { grid-template-columns: 1fr; }
+  .kea-admin-toolbar #timeFilter { grid-column: auto; }
+  .kea-admin-list .kg-admin-entry { grid-template-columns: 1fr; }
+}

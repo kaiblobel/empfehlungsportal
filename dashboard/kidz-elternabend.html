@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f5f7">
+  <title>KIDZ Elternabend · Empfehlungsportal</title>
+  <link rel="stylesheet" href="../css/style.css?v=33">
+  <link rel="stylesheet" href="../css/dashboard.css?v=49">
+  <link rel="stylesheet" href="../css/kidz-gewinnspiel-admin.css?v=4">
+  <link rel="stylesheet" href="../css/kidz-elternabend-admin.css?v=1">
+  <script src="../js/config.js"></script>
+</head>
+<body class="has-app-nav kg-admin-page">
+  <div id="appNav"></div>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="app-header-left">
+        <img class="app-header-photo" id="hdrPhoto" alt="">
+        <div>
+          <div class="app-header-name" id="hdrName">…</div>
+          <div class="app-header-sub">KIDZ Elternabend</div>
+        </div>
+      </div>
+      <div class="app-header-right">
+        <a href="../hub.html" class="btn-hub-back">← <span class="lbl">Überblick</span></a>
+        <button class="btn-logout" id="logoutBtn">Abmelden</button>
+      </div>
+    </header>
+
+    <main class="app-content kg-admin-content">
+      <section class="kg-admin-intro kea-admin-intro">
+        <div>
+          <div class="h-label">Linas Elternabend-Strecke</div>
+          <h1>Exklusiver KIDZ-Elternabend</h1>
+          <p>Hier erscheinen alle Vormerkungen sofort und getrennt vom Sommerfest-Gewinnspiel. Jeder Kontakt bleibt dem richtigen Berater oder Promoter zugeordnet.</p>
+        </div>
+        <div class="kg-admin-actions">
+          <a class="kg-admin-secondary" href="/kidz/elternabend?quelle=direkt" target="_blank" rel="noopener">Informationsseite öffnen</a>
+          <button class="kg-admin-secondary" id="copyInviteBtn" type="button">Meinen Einladungslink kopieren</button>
+          <a class="kg-admin-secondary" href="/assets/qr/kidz-elternabend.svg" download>QR-Code herunterladen</a>
+          <button class="kg-admin-primary" id="exportBtn" type="button" disabled>Liste herunterladen</button>
+        </div>
+      </section>
+
+      <section class="kg-admin-kpis kea-admin-kpis" aria-label="Kennzahlen">
+        <article><span>Vormerkungen</span><strong id="totalCount">0</strong><small>insgesamt</small></article>
+        <article><span>Eingeladen</span><strong id="invitedCount">0</strong><small>Termin erhalten</small></article>
+        <article><span>Bestätigt</span><strong id="confirmedCount">0</strong><small>fest zugesagt</small></article>
+        <article><span>Teilgenommen</span><strong id="attendedCount">0</strong><small>Elternabend besucht</small></article>
+      </section>
+
+      <section class="kg-admin-toolbar kea-admin-toolbar" aria-label="Vormerkungen filtern">
+        <label for="searchInput">Suchen</label>
+        <input id="searchInput" type="search" placeholder="Name, Kontakt, Frage oder Vormerkung" autocomplete="off">
+        <select id="advisorFilter" aria-label="Nach Vermögensberater oder Promoter filtern">
+          <option value="">Alle Berater und Promoter</option>
+        </select>
+        <select id="statusFilter" aria-label="Nach Status filtern">
+          <option value="">Alle Status</option>
+          <option value="vorgemerkt">Vorgemerkt</option>
+          <option value="eingeladen">Eingeladen</option>
+          <option value="bestaetigt">Bestätigt</option>
+          <option value="teilgenommen">Teilgenommen</option>
+          <option value="abgesagt">Abgesagt</option>
+        </select>
+        <select id="timeFilter" aria-label="Nach Zeitwunsch filtern">
+          <option value="">Alle Zeitwünsche</option>
+          <option value="werktag-abends">Werktag abends</option>
+          <option value="samstag-vormittags">Samstag vormittags</option>
+          <option value="flexibel">Flexibel</option>
+        </select>
+      </section>
+
+      <section aria-labelledby="entriesTitle">
+        <div class="kg-admin-section-head">
+          <h2 id="entriesTitle">Vormerkungen und Einladungsstatus</h2>
+          <span id="resultMeta">Wird geladen …</span>
+        </div>
+        <div class="kg-admin-list kea-admin-list" id="entries" aria-live="polite">
+          <div class="kg-admin-empty">Vormerkungen werden geladen …</div>
+        </div>
+      </section>
+
+      <aside class="kg-admin-boundary">
+        <strong>Sauber getrennte Strecke</strong>
+        <p>Diese Liste enthält ausschließlich Personen, die sich bewusst für den KIDZ-Elternabend vorgemerkt haben. Sie ist keine Gewinnspielliste und keine allgemeine Werbeliste. Der Kontakt dient der Einladung und Organisation des Elternabends. Eine spätere Beratung entsteht nur auf ausdrücklichen Wunsch der Familie.</p>
+      </aside>
+    </main>
+  </div>
+
+  <script type="module" src="../js/nav.js?v=60"></script>
+  <script type="module" src="../js/kidz-elternabend-admin.js?v=1"></script>
+</body>
+</html>

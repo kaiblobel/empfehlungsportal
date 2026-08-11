@@ -20,6 +20,10 @@ let currentAdvisor = null;
 let selectedParticipantId = '';
 const participantFilterChoices = new Map();
 
+function normalizePromoterName(value) {
+  return String(value || '').trim().toLowerCase() === 'anika bibrach' ? 'Anika Biebrach' : value;
+}
+
 function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>'"]/g, (char) => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;',
@@ -99,7 +103,13 @@ async function loadEntries() {
     .eq('event_key', EVENT_KEY)
     .order('created_at', { ascending: false });
   if (error) throw error;
-  entries = data || [];
+  entries = (data || []).map((entry) => ({
+    ...entry,
+    empfehler: entry.empfehler ? {
+      ...entry.empfehler,
+      name: normalizePromoterName(entry.empfehler.name),
+    } : entry.empfehler,
+  }));
   render();
 }
 

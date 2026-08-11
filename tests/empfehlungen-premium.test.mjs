@@ -22,7 +22,7 @@ assert.match(html, /whatsappLink\(phone\)/);
 assert.match(html, /class="ep-row feed-row"/);
 assert.match(html, /Rechtsklick/);
 assert.match(html, /dashboard\.css\?v=49/);
-assert.match(html, /nav\.js\?v=59/);
+assert.match(html, /nav\.js\?v=60/);
 
 const inlineModule = [...html.matchAll(/<script type="module">([\s\S]*?)<\/script>/g)].at(-1)?.[1] || '';
 const parseableModuleBody = inlineModule.replace(/import\s+\{[\s\S]*?\}\s+from\s+['"][^'"]+['"];?/g, '');
@@ -39,10 +39,10 @@ const recommendationItem = nav.match(/\{ id: 'empfehlungen',[\s\S]*?\},/)?.[0] |
 assert.doesNotMatch(recommendationItem, /subs:/);
 assert.match(nav, /id: 'programm'[\s\S]*?subs:/);
 
-assert.match(config, /v1\.216 Beta/);
-assert.match(config, /Phase 190 · KIDZ-Teilnahme vereinfacht/);
-assert.match(sw, /CACHE_VERSION = 'v174-2026-08-11f'/);
+assert.match(config, /v1\.217 Beta/);
+assert.match(config, /Phase 191 · Exklusiver KIDZ-Elternabend/);
+assert.match(sw, /CACHE_VERSION = 'v176-2026-08-12b'/);
 assert.match(sw, /dashboard\.css\?v=49/);
-assert.match(sw, /nav\.js\?v=59/);
+assert.match(sw, /nav\.js\?v=60/);
 
 console.log('empfehlungen-premium: OK');

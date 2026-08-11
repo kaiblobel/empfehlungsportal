@@ -33,7 +33,7 @@ assert.match(teamHtml, /Alphabetisch · unabhängig vom Ranking/);
 assert.match(teamHtml, /ohne Kundendaten offenzulegen/);
 assert.match(teamHtml, /js\/team\.js\?v=2/);
 assert.match(teamHtml, /css\/hub\.css\?v=53/);
-assert.match(teamHtml, /js\/nav\.js\?v=59/);
+assert.match(teamHtml, /js\/nav\.js\?v=60/);
 
 assert.match(teamJs, /getTeamMetrics\(currentDays\)/);
 assert.match(teamJs, /getTeamActivitySecure\(currentDays\)/);
@@ -84,9 +84,9 @@ assert.match(css, /\.team-ranking/);
 assert.match(css, /\.team-podium-avatar img/);
 assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.team-detail-metrics/);
 
-assert.match(config, /v1\.216 Beta/);
-assert.match(config, /Phase 190 · KIDZ-Teilnahme vereinfacht/);
-assert.match(sw, /CACHE_VERSION = 'v174-2026-08-11f'/);
+assert.match(config, /v1\.217 Beta/);
+assert.match(config, /Phase 191 · Exklusiver KIDZ-Elternabend/);
+assert.match(sw, /CACHE_VERSION = 'v176-2026-08-12b'/);
 assert.match(sw, /'\/team\.html'/);
 assert.match(sw, /'\/js\/team\.js\?v=2'/);
 assert.match(beraterHtml, /<title>Beraterkonten · Empfehlungsportal<\/title>/);

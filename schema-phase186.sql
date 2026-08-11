@@ -40,10 +40,10 @@ begin
 
   update public.empfehler
      set berater_id = v_sven
-   where lower(trim(name)) = 'anika bibrach';
+   where lower(trim(name)) in ('anika bibrach', 'anika biebrach');
   if not found then
     insert into public.empfehler (code, name, berater_id, code_version)
-    values (private.generate_empfehler_code('Anika Bibrach'), 'Anika Bibrach', v_sven, 2);
+    values (private.generate_empfehler_code('Anika Biebrach'), 'Anika Biebrach', v_sven, 2);
   end if;
 
   update public.empfehler
@@ -78,9 +78,9 @@ create index if not exists kidz_gewinnspiel_einladende_berater_idx
   on public.kidz_gewinnspiel_einladende (berater_id);
 
 insert into public.kidz_gewinnspiel_einladende (key, name, berater_id, empfehler_id, ist_aktiv)
-select 'promoter-anika-bibrach', 'Anika Bibrach', b.id, e.id, true
+select 'promoter-anika-bibrach', 'Anika Biebrach', b.id, e.id, true
   from public.berater b
-  join public.empfehler e on e.berater_id = b.id and lower(trim(e.name)) = 'anika bibrach'
+  join public.empfehler e on e.berater_id = b.id and lower(trim(e.name)) in ('anika bibrach', 'anika biebrach')
  where lower(b.slug) = 'sven-augustin'
 on conflict (key) do update
   set name = excluded.name,

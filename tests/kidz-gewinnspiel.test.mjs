@@ -124,6 +124,7 @@ try {
   assert.equal(advisorsResponse.statusCode, 200);
   assert.equal(JSON.parse(advisorsResponse.body).advisors[1].slug, 'sandro-wernicke');
   assert.equal(JSON.parse(advisorsResponse.body).advisors[2].slug, 'promoter-anika-bibrach');
+  assert.equal(JSON.parse(advisorsResponse.body).advisors[2].name, 'Anika Biebrach');
 } finally {
   global.fetch = originalFetch;
   if (originalRegistrationSecret === undefined) delete process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET;
@@ -134,7 +135,7 @@ try {
   else process.env.TURNSTILE_SITE_KEY = originalTurnstileSiteKey;
 }
 
-const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, bonusMigration, managementMigration, promoterMigration, simpleTermsMigration, logoSvg, vercel] = await Promise.all([
+const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, bonusMigration, managementMigration, promoterMigration, simpleTermsMigration, parentEveningMigration, logoSvg, vercel] = await Promise.all([
   read('kidz-gewinnspiel.html'),
   read('css/kidz-gewinnspiel.css'),
   read('js/kidz-gewinnspiel.js'),
@@ -147,6 +148,7 @@ const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, bon
   read('schema-phase182.sql'),
   read('schema-phase186.sql'),
   read('schema-phase190.sql'),
+  read('schema-phase191.sql'),
   read('assets/images/kidz-marke.svg'),
   read('vercel.json'),
 ]);
@@ -158,7 +160,7 @@ assert.match(html, /id="kgConsent"/);
 assert.match(html, /id="kgParentEvening"/);
 assert.match(html, /id="kgAdvisor"/);
 assert.match(html, /sandro-wernicke/);
-assert.match(html, /promoter-anika-bibrach">Anika Bibrach/);
+assert.match(html, /promoter-anika-bibrach">Anika Biebrach/);
 assert.match(html, /promoter-david-stamm">David Stamm/);
 assert.match(html, /assets\/images\/kidz-marke\.svg/);
 assert.match(html, /id="kidzPublicMenu"/);
@@ -231,7 +233,9 @@ assert.match(adminHtml, /Teilnahme endgültig löschen/);
 assert.match(adminJs, /currentAdvisor\?\.ist_admin/);
 assert.match(adminJs, /delete_kidz_gewinnspiel_participation/);
 assert.match(adminJs, /\['test', 'duplicate', 'erasure_request'\]/);
-assert.match(navJs, /KIDZ Gewinnspiel/);
+assert.match(navJs, /label: 'KIDZ'/);
+assert.match(navJs, /Sommerfest-Gewinnspiel/);
+assert.match(navJs, /Elternabend/);
 assert.match(vercel, /\/kidz\/gewinnspiel/);
 assert.match(vercel, /kidz\.teamwachsbleiche\.de/);
 assert.match(vercel, /kidz\.kaiblobel\.de/);
@@ -291,7 +295,7 @@ assert.match(managementMigration, /kidz-gewinnspiel-aufbewahrungsfrist/);
 assert.match(managementMigration, /2027-01-01 00:00:00\+01/);
 assert.match(managementMigration, /revoke execute on function public\.cleanup_kidz_gewinnspiel_expired\(\)[\s\S]*authenticated/);
 assert.match(promoterMigration, /LIVE ANGEWENDET AM 11\.08\.2026/);
-assert.match(promoterMigration, /'promoter-anika-bibrach', 'Anika Bibrach'[\s\S]*where lower\(b\.slug\) = 'sven-augustin'/);
+assert.match(promoterMigration, /'promoter-anika-bibrach', 'Anika Biebrach'[\s\S]*where lower\(b\.slug\) = 'sven-augustin'/);
 assert.match(promoterMigration, /'promoter-david-stamm', 'David Stamm'[\s\S]*where lower\(b\.slug\) = 'claudius-tusche'/);
 assert.match(promoterMigration, /promoter-anika-bibrach/);
 assert.match(promoterMigration, /promoter-david-stamm/);
@@ -307,5 +311,10 @@ assert.match(simpleTermsMigration, /2026-08-12-v4/);
 assert.match(simpleTermsMigration, /security definer/);
 assert.match(simpleTermsMigration, /v_source text := lower\(trim\(coalesce\(p_source, 'direkt'\)\)\);/);
 assert.match(simpleTermsMigration, /revoke execute on function public\.register_kidz_gewinnspiel_public/);
+assert.match(parentEveningMigration, /NOCH NICHT LIVE ANGEWENDET/);
+assert.match(parentEveningMigration, /set name = 'Anika Biebrach'/);
+assert.match(parentEveningMigration, /key = 'promoter-anika-bibrach'/);
+assert.match(parentEveningMigration, /lower\(slug\) = 'sven-augustin'/);
+assert.doesNotMatch(parentEveningMigration, /set key =/);
 
 console.log('kidz-gewinnspiel: OK');
