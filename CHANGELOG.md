@@ -1,12 +1,12 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.199 Beta** · Veranstalteranschrift und Veranstaltungsort eindeutig getrennt, live seit 11.08.2026.
+Offizielle Live-Version: **v1.200 Beta** · Online-Vormerkung und physisches Vor-Ort-Los eindeutig getrennt, live seit 11.08.2026.
 
 ---
 
 ## v1.200 Beta - Phase 174 · KIDZ-Vor-Ort-Los
-**2026-08-11 · zur Veröffentlichung freigegeben**
+**2026-08-11 · live veröffentlicht**
 
 - Die Online-Anmeldung ist jetzt eindeutig als Vormerkung bezeichnet. Sie allein begründet noch keine Gewinnspielteilnahme.
 - Die Teilnahme entsteht erst durch persönliche Anwesenheit am 6. September 2026, Ausgabe genau eines nummerierten Loses und Einwurf des Losabschnitts in die physische Lostrommel.
@@ -14,6 +14,7 @@ Offizielle Live-Version: **v1.199 Beta** · Veranstalteranschrift und Veranstalt
 - Die Auslosung erfolgt ausschließlich aus der Lostrommel. Die gezogene Nummer wird anschließend im geschützten Portal der registrierten Person zugeordnet.
 - Facebook, Instagram und WhatsApp sind als getrennte Herkunftswege vorbereitet. Gewinnspielteilnahmen bleiben weiterhin getrennt von Promotern, Empfehlungen und Kunden.
 - Die Teilnahmebedingungen wurden auf Fassung `2026-08-11-v2` angehoben. Bestehende Vormerkungen bleiben erhalten.
+- Veröffentlichung über PR 22 auf Produktions-Commit `1644e8e`. Vercel meldet `dpl_3zqxw6UKWX8rVXUmzLxkY6ESu5d6` als READY; Live-Seite, Herkunftswege und v1.200 antworten mit Status 200.
 
 ## v1.199 Beta - Phase 173 · Veranstalter und Veranstaltungsort getrennt
 **2026-08-11 · live veröffentlicht**
