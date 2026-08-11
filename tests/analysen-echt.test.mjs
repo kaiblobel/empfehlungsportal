@@ -65,9 +65,9 @@ assert.match(css, /\.analysis-chart-mode/);
 assert.match(css, /@media \(max-width:600px\)/);
 
 assert.match(nav, /id: 'analysen',[\s\S]*?href: path\('dashboard\/overview\.html'\)/);
-assert.match(config, /v1\.212 Beta/);
-assert.match(config, /Phase 186 · KIDZ-Promoterzuordnung/);
-assert.match(sw, /CACHE_VERSION = 'v171-2026-08-11b'/);
+assert.match(config, /v1\.213 Beta/);
+assert.match(config, /Phase 187 · KIDZ-Adminfilter/);
+assert.match(sw, /CACHE_VERSION = 'v172-2026-08-11c'/);
 assert.match(sw, /'\/dashboard\/overview\.html'/);
 assert.match(sw, /'\/css\/analysen\.css\?v=2'/);
 assert.match(sw, /'\/js\/analysen\.js\?v=2'/);

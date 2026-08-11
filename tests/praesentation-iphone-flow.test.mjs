@@ -31,8 +31,8 @@ assert.match(css, /\.iphone-wa-screen/);
 assert.match(css, /\.iphone-reward-option/);
 assert.match(css, /@media \(max-width: 820px\)[\s\S]*\.steps-row\.iphone-flow \{ grid-template-columns: 1fr/);
 
-assert.match(config, /v1\.212 Beta/);
-assert.match(config, /Phase 186 · KIDZ-Promoterzuordnung/);
-assert.match(sw, /CACHE_VERSION = 'v171-2026-08-11b'/);
+assert.match(config, /v1\.213 Beta/);
+assert.match(config, /Phase 187 · KIDZ-Adminfilter/);
+assert.match(sw, /CACHE_VERSION = 'v172-2026-08-11c'/);
 
 console.log('praesentation-iphone-flow: OK');

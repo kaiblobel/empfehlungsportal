@@ -5,6 +5,17 @@ Offizielle Live-Version: **v1.212 Beta** · KIDZ-Promoterzuordnung, live seit 11
 
 ---
 
+## v1.213 Beta - Phase 187 · KIDZ-Adminfilter
+**2026-08-11 · zur Abnahme vorbereitet, noch nicht live**
+
+- Kai erhält als Administrator im KIDZ-Arbeitsbereich einen gemeinsamen Filter mit „Alle Berater und Promoter“.
+- Die Auswahl ist in „Vermögensberater“ und „Promoter“ gegliedert und enthält auch Personen ohne bisherige KIDZ-Teilnahme.
+- Claudius Tusche erscheint als eigener Vermögensberater. Anika Bibrach und David Stamm bleiben als eigenständige Promoter auswählbar, obwohl ihre Teilnahmen intern Sven beziehungsweise Claudius zugeordnet werden.
+- Normale Berater sehen weiterhin nur ihren eigenen, durch die Datenbank geschützten Bestand und erhalten keine teamweite Auswahl.
+- Es ist keine Datenbankänderung erforderlich. Die bestehende öffentliche, kontrollierte KIDZ-Auswahlliste wird wiederverwendet.
+
+---
+
 ## v1.212 Beta - Phase 186 · KIDZ-Promoterzuordnung
 **2026-08-11 · live veröffentlicht**
 

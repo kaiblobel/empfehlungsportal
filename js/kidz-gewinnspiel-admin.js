@@ -20,6 +20,7 @@ const deleteCancelBtn = document.getElementById('deleteCancelBtn');
 let entries = [];
 let currentAdvisor = null;
 let selectedParticipantId = '';
+const participantFilterChoices = new Map();
 
 function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>'"]/g, (char) => ({
@@ -36,10 +37,12 @@ function formatDate(value) {
 
 function visibleEntries() {
   const needle = searchInput.value.trim().toLowerCase();
+  const participantChoice = participantFilterChoices.get(advisorFilter.value);
   return entries.filter((entry) => {
     if (parentOnly.checked && !entry.elternabend_interesse) return false;
     if (withoutTicketOnly.checked && entry.ticket_number) return false;
-    if (advisorFilter.value && entry.berater_id !== advisorFilter.value) return false;
+    if (participantChoice?.kind === 'advisor' && entry.berater?.slug !== participantChoice.slug) return false;
+    if (participantChoice?.kind === 'promoter' && entry.empfehler?.name !== participantChoice.name) return false;
     if (!needle) return true;
     return [entry.name, entry.email, entry.telefon, entry.reference, entry.ticket_number, entry.source, entry.berater?.name, entry.empfehler?.name]
       .some((value) => String(value || '').toLowerCase().includes(needle));
@@ -110,16 +113,61 @@ async function loadEntries() {
     .order('created_at', { ascending: false });
   if (error) throw error;
   entries = data || [];
-  const advisors = [...new Map(entries.map((entry) => [entry.berater_id, entry.berater?.name || 'Kai Blobel'])).entries()]
-    .sort((a, b) => a[1].localeCompare(b[1], 'de'));
-  advisorFilter.innerHTML = '<option value="">Alle Vermögensberater</option>';
-  advisors.forEach(([id, name]) => {
-    const option = document.createElement('option');
-    option.value = id;
-    option.textContent = name;
-    advisorFilter.append(option);
-  });
   render();
+}
+
+function appendParticipantFilterGroup(label, choices, kind) {
+  if (!choices.length) return;
+  const group = document.createElement('optgroup');
+  group.label = label;
+  choices.forEach(({ name, slug }) => {
+    const value = `${kind}:${slug}`;
+    participantFilterChoices.set(value, { kind, name, slug });
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = name;
+    group.append(option);
+  });
+  advisorFilter.append(group);
+}
+
+function participantCatalogFromEntries() {
+  const advisors = [...new Map(entries
+    .filter((entry) => entry.berater?.slug)
+    .map((entry) => [entry.berater.slug, { name: entry.berater.name || 'Kai Blobel', slug: entry.berater.slug }])).values()];
+  const promoters = [...new Map(entries
+    .filter((entry) => entry.empfehler?.name)
+    .map((entry) => [entry.empfehler.name, { name: entry.empfehler.name, slug: entry.empfehler.name }])).values()];
+  return { advisors, promoters };
+}
+
+async function configureParticipantFilter() {
+  advisorFilter.innerHTML = '<option value="">Alle Berater und Promoter</option>';
+  participantFilterChoices.clear();
+
+  if (!currentAdvisor?.ist_admin) {
+    advisorFilter.hidden = true;
+    advisorFilter.disabled = true;
+    return;
+  }
+
+  let catalog = participantCatalogFromEntries();
+  try {
+    const response = await fetch('/api/kidz-advisors', { headers: { Accept: 'application/json' } });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const payload = await response.json();
+    const choices = Array.isArray(payload.advisors) ? payload.advisors : [];
+    catalog = {
+      advisors: choices.filter((choice) => !String(choice.slug || '').startsWith('promoter-')),
+      promoters: choices.filter((choice) => String(choice.slug || '').startsWith('promoter-')),
+    };
+  } catch (error) {
+    console.warn('[kidz-participant-filter]', error);
+  }
+
+  const byName = (a, b) => String(a.name || '').localeCompare(String(b.name || ''), 'de');
+  appendParticipantFilterGroup('Vermögensberater', catalog.advisors.sort(byName), 'advisor');
+  appendParticipantFilterGroup('Promoter', catalog.promoters.sort(byName), 'promoter');
 }
 
 function normalizeTicketNumber(value) {
@@ -279,6 +327,7 @@ if (session) {
   try {
     currentAdvisor = await getCurrentBerater();
     await loadEntries();
+    await configureParticipantFilter();
   } catch (error) {
     console.error('[kidz-gewinnspiel-admin]', error);
     entriesBox.innerHTML = '<div class="kg-admin-empty">Die Teilnahmen konnten noch nicht geladen werden. Die Datenbankfreigabe fehlt oder die Verbindung ist gerade unterbrochen.</div>';
