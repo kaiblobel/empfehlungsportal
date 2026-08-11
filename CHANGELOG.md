@@ -1,12 +1,12 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.213 Beta** · KIDZ-Adminfilter & einheitliches Menü, live seit 11.08.2026.
+Offizielle Live-Version: **v1.214 Beta** · KIDZ-Veranstalterlogo & Symbolkarten, live seit 12.08.2026.
 
 ---
 
 ## v1.214 Beta - Phase 188 · KIDZ-Veranstalterlogo
-**2026-08-11 · zur Abnahme vorbereitet, noch nicht live**
+**2026-08-12 · live veröffentlicht**
 
 - Das freigegebene petrol-goldene Team-Wachsbleiche-Logo ergänzt den Veranstalterbereich auf Sommerfest-Startseite und Gewinnspiel-Anmeldung.
 - Das Logo steht kompakt neben dem vollständigen Veranstaltertext. KIDZ bleibt die führende Marke im Kopfbereich.
@@ -14,6 +14,9 @@ Offizielle Live-Version: **v1.213 Beta** · KIDZ-Adminfilter & einheitliches Men
 - Die Symbolkarten haben eine klare Beschriftung, abgestimmte KIDZ-Farben und bleiben auf dem Handy in einem ruhigen Zweiersystem lesbar.
 - Auf dem Handy wird der Fußbereich ruhig untereinander angeordnet; Adresse und Veranstaltungsort bleiben vollständig lesbar.
 - Gewinnspiel, QR-Code, Herkunftsparameter, Beraterzuordnung und Datenbank bleiben unverändert.
+- Kai hat die Veröffentlichung ausdrücklich freigegeben. PR 47 wurde auf Produktions-Commit `242ca47` zusammengeführt.
+- Vercel-Produktion `dpl_AUgNRdJavizw7o91vJarZre7TAEu` ist `READY` und trägt die offiziellen Adressen einschließlich `kidz.teamwachsbleiche.de`.
+- Live geprüft: Sommerfest und Gewinnspiel antworten mit Status 200, das neue Teamlogo wird auf beiden Seiten ausgeliefert und alle vier SVG-Symbole antworten als Bilddateien. v1.214 und Phase 188 sind sichtbar. Alle 32 Testdateien sind grün; im Produktionsfehlerprotokoll wurden keine Fehler gefunden.
 
 ---
 
