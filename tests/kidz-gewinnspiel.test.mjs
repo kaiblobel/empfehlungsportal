@@ -63,7 +63,7 @@ try {
   assert.equal(rpcBody.p_event_key, 'kidz-sommerfest-2026');
   assert.equal(rpcBody.p_berater_slug, 'sandro-wernicke');
   assert.equal(rpcBody.p_elternabend_interesse, true);
-  assert.equal(rpcBody.p_conditions_version, '2026-08-11-v3');
+  assert.equal(rpcBody.p_conditions_version, '2026-08-12-v4');
   assert.match(rpcBody.p_rate_key, /^[0-9a-f]{64}$/);
   assert.match(rpcBody.p_contact_key, /^[0-9a-f]{64}$/);
   assert.doesNotMatch(requests[1].options.body, /203\.0\.113\.42/);
@@ -134,7 +134,7 @@ try {
   else process.env.TURNSTILE_SITE_KEY = originalTurnstileSiteKey;
 }
 
-const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, bonusMigration, managementMigration, promoterMigration, logoSvg, vercel] = await Promise.all([
+const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, bonusMigration, managementMigration, promoterMigration, simpleTermsMigration, logoSvg, vercel] = await Promise.all([
   read('kidz-gewinnspiel.html'),
   read('css/kidz-gewinnspiel.css'),
   read('js/kidz-gewinnspiel.js'),
@@ -146,6 +146,7 @@ const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, bon
   read('schema-phase179.sql'),
   read('schema-phase182.sql'),
   read('schema-phase186.sql'),
+  read('schema-phase190.sql'),
   read('assets/images/kidz-marke.svg'),
   read('vercel.json'),
 ]);
@@ -184,9 +185,11 @@ assert.doesNotMatch(html, /kg-brand-mark" aria-hidden="true">KIDZ/);
 assert.match(logoSvg, /<text[^>]*>KIDZ<\/text>/);
 assert.doesNotMatch(logoSvg, /Wagen|Lok|<path|<rect/);
 assert.match(html, /Wir brauchen keine Angaben zu Kindern/);
-assert.match(html, /automatisch einmal an der Bonusverlosung teil/);
-assert.match(html, /Doppel-Los am Eingang holen/);
-assert.match(html, /Hauptgewinner nimmt nicht zusätzlich an der Bonusverlosung teil/);
+assert.match(html, /automatisch einmal an der Verlosung/);
+assert.match(html, /Vor Ort ein Los erhalten/);
+assert.match(html, /Eine vorherige Online-Anmeldung ist dafür nicht erforderlich/);
+assert.match(html, /Wer den Hauptgewinn erhält, nimmt nicht noch einmal an der Online-Verlosung teil/);
+assert.doesNotMatch(html, /Doppel-Los|Doppellos|nummeriert|Losnummer/);
 assert.match(html, /Veranstalter[\s\S]*An der Wachsbleiche 1a · 03046 Cottbus/);
 assert.match(html, /Veranstaltungsort[\s\S]*Kutzeburger Mühle 1 · 03051 Cottbus/);
 assert.doesNotMatch(html, /Kindername|Geburtsdatum|Gesundheitsdaten/);
@@ -221,8 +224,9 @@ assert.match(adminJs, /participantChoice\?\.kind === 'promoter'/);
 assert.match(adminJs, /entry\.empfehler\?\.name !== participantChoice\.name/);
 assert.match(adminJs, /if \(!currentAdvisor\?\.ist_admin\)/);
 assert.match(adminJs, /berater-einladung/);
-assert.match(adminJs, /issue_kidz_gewinnspiel_ticket/);
-assert.match(adminJs, /ticket_number/);
+assert.match(adminHtml, /Das Los wird nicht im Portal erfasst/);
+assert.doesNotMatch(adminHtml, /Doppel-Los|Doppellos|nummeriert|Losnummer|Nur ohne Los/);
+assert.doesNotMatch(adminJs, /issue_kidz_gewinnspiel_ticket|ticket_number|data-issue-ticket/);
 assert.match(adminHtml, /Teilnahme endgültig löschen/);
 assert.match(adminJs, /currentAdvisor\?\.ist_admin/);
 assert.match(adminJs, /delete_kidz_gewinnspiel_participation/);
@@ -298,5 +302,9 @@ assert.match(promoterMigration, /revoke all on table public\.kidz_gewinnspiel_ei
 assert.match(promoterMigration, /kidz_gewinnspiel_einladende_berater_idx/);
 assert.match(promoterMigration, /grant execute on function public\.list_kidz_berater_public\(\)[\s\S]*to anon, authenticated/);
 assert.doesNotMatch(promoterMigration, /david-stamm-386wx9bs4678bs/);
+assert.match(simpleTermsMigration, /VORBEREITET, NOCH NICHT LIVE ANGEWENDET/);
+assert.match(simpleTermsMigration, /2026-08-12-v4/);
+assert.match(simpleTermsMigration, /security definer/);
+assert.match(simpleTermsMigration, /revoke execute on function public\.register_kidz_gewinnspiel_public/);
 
 console.log('kidz-gewinnspiel: OK');

@@ -200,7 +200,7 @@ form.addEventListener('submit', async (event) => {
     });
     const result = await response.json().catch(() => ({}));
 
-    if (response.status === 409) throw new Error('Du bist bereits für die Bonusverlosung angemeldet. Zeige deine erste Bestätigung am Veranstaltungstag am Eingang.');
+    if (response.status === 409) throw new Error('Du bist bereits für die Online-Verlosung angemeldet. Für den Hauptgewinn bekommst du vor Ort ein Los.');
     if (response.status === 429) throw new Error('Es gab gerade zu viele Versuche. Bitte probiere es später noch einmal.');
     if (response.status === 503) throw new Error('Die Anmeldung ist noch nicht freigeschaltet. Bitte sprich uns an der KIDZ-Station an.');
     if (!response.ok || !result?.reference) throw new Error('Deine Teilnahme konnte gerade nicht gespeichert werden. Bitte versuche es noch einmal.');
@@ -212,7 +212,7 @@ form.addEventListener('submit', async (event) => {
     successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
   } catch (error) {
     showError(error.message || 'Deine Teilnahme konnte gerade nicht gespeichert werden.');
-    submit.textContent = 'Kostenlos an der Bonusverlosung teilnehmen';
+    submit.textContent = 'Kostenlos am Gewinnspiel teilnehmen';
     resetCaptcha();
   }
 });

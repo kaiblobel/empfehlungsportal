@@ -32,7 +32,7 @@
         <div>
           <div class="h-label">Linas Arbeitsstrecke</div>
           <h1>Sommerfest-Gewinnspiel</h1>
-          <p>Online-Anmeldungen bilden die Bonusverlosung. Das nummerierte Doppel-Los vor Ort schaltet zusätzlich den Hauptgewinn frei.</p>
+          <p>Alle Online-Anmeldungen nehmen an der Preisverlosung teil. Der Hauptgewinn wird getrennt vor Ort über eine Tombola verlost.</p>
         </div>
         <div class="kg-admin-actions">
           <a class="kg-admin-secondary" href="/kidz/gewinnspiel?quelle=direkt" target="_blank" rel="noopener">Anmeldeseite öffnen</a>
@@ -42,8 +42,7 @@
       </section>
 
       <section class="kg-admin-kpis" aria-label="Kennzahlen">
-        <article><span>Bonus-Teilnahmen</span><strong id="totalCount">0</strong><small>online angemeldet</small></article>
-        <article><span>Lose ausgegeben</span><strong id="ticketCount">0</strong><small>persönlich vor Ort</small></article>
+        <article><span>Online-Teilnahmen</span><strong id="totalCount">0</strong><small>bei der Preisverlosung</small></article>
         <article><span>Elternabend</span><strong id="parentCount">0</strong><small>freiwilliges Interesse</small></article>
         <article><span>Berater</span><strong id="advisorCount">0</strong><small>mit zugeordneten Teilnahmen</small></article>
       </section>
@@ -58,15 +57,11 @@
           <input id="parentOnly" type="checkbox">
           Nur Elternabend-Interesse
         </label>
-        <label class="kg-admin-toggle" for="withoutTicketOnly">
-          <input id="withoutTicketOnly" type="checkbox">
-          Nur ohne Los
-        </label>
       </section>
 
       <section aria-labelledby="entriesTitle">
         <div class="kg-admin-section-head">
-          <h2 id="entriesTitle">Teilnahmen und Hauptgewinn-Lose</h2>
+          <h2 id="entriesTitle">Online-Teilnahmen</h2>
           <span id="resultMeta">Wird geladen …</span>
         </div>
         <div class="kg-admin-list" id="entries" aria-live="polite">
@@ -76,7 +71,7 @@
 
       <aside class="kg-admin-boundary">
         <strong>Ablauf am Veranstaltungstag</strong>
-        <p>Alle Online-Anmeldungen nehmen an der Bonusverlosung teil. Für den Hauptgewinn Bestätigung oder Namen suchen, Nummer des Doppelloses eintragen und einmal auf „Los ausgeben“ tippen. Die Person behält einen Abschnitt und wirft den zweiten selbst in die Lostrommel. Den Hauptgewinn zuerst aus der Trommel ziehen, danach die Bonuspreise unter den übrigen Online-Anmeldungen. Diese Liste bleibt getrennt von Promotern, Empfehlungen und Kundendaten.</p>
+        <p>Alle Online-Anmeldungen nehmen an der Preisverlosung teil. Für den Hauptgewinn erhält jede volljährige Person, die beim Sommerfest vor Ort erscheint, ein Los und wirft es selbst in die Tombola. Das Los wird nicht im Portal erfasst. Zuerst den Hauptgewinn aus der Tombola ziehen, danach die weiteren Preise unter den übrigen gültigen Online-Anmeldungen. Diese Liste bleibt getrennt von Promotern, Empfehlungen und Kundendaten.</p>
       </aside>
     </main>
   </div>
@@ -86,7 +81,7 @@
       <div class="h-label">Nur für Administratoren</div>
       <h2 id="deleteDialogTitle">Teilnahme löschen</h2>
       <p class="kg-admin-dialog-person" id="deletePerson"></p>
-      <p>Die Teilnahme und eine eventuell vergebene Losnummer werden dauerhaft gelöscht. Im Prüfprotokoll bleiben nur Löschgrund, Zeitpunkt und eine nicht rückrechenbare Prüfsumme. Namen und Kontaktdaten werden dort nicht gespeichert.</p>
+      <p>Die Online-Teilnahme wird dauerhaft gelöscht. Im Prüfprotokoll bleiben nur Löschgrund, Zeitpunkt und eine nicht rückrechenbare Prüfsumme. Namen und Kontaktdaten werden dort nicht gespeichert.</p>
       <label class="kg-admin-dialog-label" for="deleteReason">Löschgrund</label>
       <select id="deleteReason" required>
         <option value="">Bitte auswählen</option>
@@ -94,7 +89,6 @@
         <option value="duplicate">Dublette</option>
         <option value="erasure_request">Löschwunsch der teilnehmenden Person</option>
       </select>
-      <p class="kg-admin-dialog-warning" id="deleteTicketWarning" hidden>Für diese Teilnahme wurde bereits ein Los ausgegeben. Die Losnummer wird nach dem Löschen wieder frei.</p>
       <p class="kg-admin-dialog-status" id="deleteStatus" role="status"></p>
       <div class="kg-admin-dialog-actions">
         <button class="kg-admin-secondary" type="button" id="deleteCancelBtn">Abbrechen</button>

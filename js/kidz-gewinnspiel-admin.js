@@ -5,7 +5,6 @@ const EVENT_KEY = 'kidz-sommerfest-2026';
 const entriesBox = document.getElementById('entries');
 const searchInput = document.getElementById('searchInput');
 const parentOnly = document.getElementById('parentOnly');
-const withoutTicketOnly = document.getElementById('withoutTicketOnly');
 const advisorFilter = document.getElementById('advisorFilter');
 const exportBtn = document.getElementById('exportBtn');
 const copyInviteBtn = document.getElementById('copyInviteBtn');
@@ -13,7 +12,6 @@ const deleteDialog = document.getElementById('deleteDialog');
 const deleteForm = document.getElementById('deleteForm');
 const deletePerson = document.getElementById('deletePerson');
 const deleteReason = document.getElementById('deleteReason');
-const deleteTicketWarning = document.getElementById('deleteTicketWarning');
 const deleteStatus = document.getElementById('deleteStatus');
 const deleteConfirmBtn = document.getElementById('deleteConfirmBtn');
 const deleteCancelBtn = document.getElementById('deleteCancelBtn');
@@ -40,11 +38,10 @@ function visibleEntries() {
   const participantChoice = participantFilterChoices.get(advisorFilter.value);
   return entries.filter((entry) => {
     if (parentOnly.checked && !entry.elternabend_interesse) return false;
-    if (withoutTicketOnly.checked && entry.ticket_number) return false;
     if (participantChoice?.kind === 'advisor' && entry.berater?.slug !== participantChoice.slug) return false;
     if (participantChoice?.kind === 'promoter' && entry.empfehler?.name !== participantChoice.name) return false;
     if (!needle) return true;
-    return [entry.name, entry.email, entry.telefon, entry.reference, entry.ticket_number, entry.source, entry.berater?.name, entry.empfehler?.name]
+    return [entry.name, entry.email, entry.telefon, entry.reference, entry.source, entry.berater?.name, entry.empfehler?.name]
       .some((value) => String(value || '').toLowerCase().includes(needle));
   });
 }
@@ -52,7 +49,6 @@ function visibleEntries() {
 function render() {
   const visible = visibleEntries();
   document.getElementById('totalCount').textContent = String(entries.length);
-  document.getElementById('ticketCount').textContent = String(entries.filter((entry) => entry.ticket_number).length);
   document.getElementById('parentCount').textContent = String(entries.filter((entry) => entry.elternabend_interesse).length);
   document.getElementById('advisorCount').textContent = String(new Set(entries.map((entry) => entry.berater_id)).size);
   document.getElementById('resultMeta').textContent = `${visible.length} von ${entries.length}`;
@@ -70,15 +66,6 @@ function render() {
       <div><small>Zugeordnet zu</small><strong>${escapeHtml(entry.berater?.name || 'Kai Blobel')}</strong>${entry.empfehler?.name ? `<span>Eingeladen von ${escapeHtml(entry.empfehler.name)}</span>` : ''}</div>
       <div><small>${escapeHtml(formatDate(entry.created_at))}</small><span>${escapeHtml(entry.source)}</span></div>
       <div>
-        ${entry.ticket_number ? `
-          <div class="kg-admin-ticket-issued"><small>Los ausgegeben</small><strong>${escapeHtml(entry.ticket_number)}</strong><span>${escapeHtml(formatDate(entry.ticket_issued_at))}</span></div>
-        ` : `
-          <div class="kg-admin-ticket">
-            <input type="text" maxlength="12" inputmode="text" autocomplete="off" aria-label="Losnummer für ${escapeHtml(entry.name)}" placeholder="Los-Nr.">
-            <button type="button" data-issue-ticket="${escapeHtml(entry.id)}">Los ausgeben</button>
-          </div>
-          <span class="kg-admin-ticket-status" data-ticket-status="${escapeHtml(entry.id)}"></span>
-        `}
         <span class="kg-admin-badge ${entry.elternabend_interesse ? '' : 'kg-admin-badge-none'}">Elternabend: ${entry.elternabend_interesse ? 'Interesse' : 'Nein'}</span>
         ${currentAdvisor?.ist_admin ? `<button class="kg-admin-manage" type="button" data-manage-participant="${escapeHtml(entry.id)}">Teilnahme verwalten</button>` : ''}
       </div>
@@ -91,9 +78,9 @@ function csvCell(value) {
 }
 
 function exportCsv() {
-  const header = ['Teilnahmebestätigung', 'Bonusverlosung', 'Hauptgewinn-Losnummer', 'Los ausgegeben am', 'Name', 'E-Mail', 'Mobilnummer', 'Vermögensberater', 'Eingeladen von', 'Quelle', 'Elternabend-Interesse', 'Teilnahmebedingungen', 'Angemeldet am'];
+  const header = ['Teilnahmebestätigung', 'Online-Verlosung', 'Name', 'E-Mail', 'Mobilnummer', 'Vermögensberater', 'Eingeladen von', 'Quelle', 'Elternabend-Interesse', 'Teilnahmebedingungen', 'Angemeldet am'];
   const rows = entries.map((entry) => [
-    entry.reference, 'Ja', entry.ticket_number, entry.ticket_issued_at ? formatDate(entry.ticket_issued_at) : '', entry.name, entry.email, entry.telefon, entry.berater?.name || 'Kai Blobel', entry.empfehler?.name || '', entry.source,
+    entry.reference, 'Ja', entry.name, entry.email, entry.telefon, entry.berater?.name || 'Kai Blobel', entry.empfehler?.name || '', entry.source,
     entry.elternabend_interesse ? 'Ja' : 'Nein', entry.conditions_version, formatDate(entry.created_at),
   ]);
   const content = `\uFEFF${[header, ...rows].map((row) => row.map(csvCell).join(';')).join('\r\n')}`;
@@ -108,7 +95,7 @@ function exportCsv() {
 async function loadEntries() {
   const { data, error } = await supabase
     .from('kidz_gewinnspiel_teilnahmen')
-    .select('id,reference,name,email,telefon,source,elternabend_interesse,conditions_version,consent_at,created_at,checked_in_at,ticket_number,ticket_issued_at,berater_id,empfehler_id,berater:berater_id(name,slug),empfehler:empfehler_id(name)')
+    .select('id,reference,name,email,telefon,source,elternabend_interesse,conditions_version,consent_at,created_at,berater_id,empfehler_id,berater:berater_id(name,slug),empfehler:empfehler_id(name)')
     .eq('event_key', EVENT_KEY)
     .order('created_at', { ascending: false });
   if (error) throw error;
@@ -170,48 +157,6 @@ async function configureParticipantFilter() {
   appendParticipantFilterGroup('Promoter', catalog.promoters.sort(byName), 'promoter');
 }
 
-function normalizeTicketNumber(value) {
-  return String(value || '').trim().toUpperCase().replace(/\s+/g, '');
-}
-
-async function issueTicket(button) {
-  const id = String(button.dataset.issueTicket || '');
-  const input = button.closest('.kg-admin-ticket')?.querySelector('input');
-  const status = document.querySelector(`[data-ticket-status="${CSS.escape(id)}"]`);
-  const ticketNumber = normalizeTicketNumber(input?.value);
-  if (!/^[A-Z0-9]{1,12}$/.test(ticketNumber)) {
-    if (status) status.textContent = 'Bitte 1 bis 12 Buchstaben oder Ziffern eingeben.';
-    input?.focus();
-    return;
-  }
-
-  button.disabled = true;
-  button.textContent = 'Wird gebucht ...';
-  if (status) status.textContent = '';
-  const { data, error } = await supabase.rpc('issue_kidz_gewinnspiel_ticket', {
-    p_participation_id: id,
-    p_ticket_number: ticketNumber,
-  });
-  if (error) throw error;
-  if (!data?.ok) {
-    const messages = {
-      already_issued: 'Für diese Person wurde bereits ein Los ausgegeben.',
-      ticket_exists: 'Diese Losnummer ist bereits vergeben.',
-      not_found: 'Die Vormerkung wurde nicht gefunden oder ist nicht freigegeben.',
-      invalid_ticket: 'Die Losnummer ist ungültig.',
-    };
-    throw new Error(messages[data?.reason] || 'Das Los konnte nicht ausgegeben werden.');
-  }
-
-  const entry = entries.find((item) => item.id === id);
-  if (entry) {
-    entry.ticket_number = data.ticket_number;
-    entry.ticket_issued_at = data.ticket_issued_at;
-    entry.checked_in_at = data.ticket_issued_at;
-  }
-  render();
-}
-
 async function copyPersonalInviteLink() {
   const advisor = currentAdvisor || await getCurrentBerater();
   const slug = String(advisor?.slug || '').trim();
@@ -233,7 +178,6 @@ function openDeleteDialog(participantId) {
   deletePerson.textContent = `${entry.name} · ${entry.reference}`;
   deleteReason.value = '';
   deleteStatus.textContent = '';
-  deleteTicketWarning.hidden = !entry.ticket_number;
   deleteConfirmBtn.disabled = false;
   deleteDialog.showModal();
   deleteReason.focus();
@@ -273,9 +217,7 @@ async function deleteParticipant() {
   closeDeleteDialog();
   render();
   const resultMeta = document.getElementById('resultMeta');
-  resultMeta.textContent = data.had_ticket
-    ? 'Teilnahme gelöscht, Losnummer wieder frei'
-    : 'Teilnahme gelöscht';
+  resultMeta.textContent = 'Teilnahme gelöscht';
   setTimeout(render, 2600);
 }
 
@@ -283,7 +225,6 @@ applyBeraterHeader();
 document.getElementById('logoutBtn').addEventListener('click', logout);
 searchInput.addEventListener('input', render);
 parentOnly.addEventListener('change', render);
-withoutTicketOnly.addEventListener('change', render);
 advisorFilter.addEventListener('change', render);
 exportBtn.addEventListener('click', exportCsv);
 copyInviteBtn.addEventListener('click', () => copyPersonalInviteLink().catch(() => {
@@ -295,15 +236,6 @@ entriesBox.addEventListener('click', (event) => {
     openDeleteDialog(String(manageButton.dataset.manageParticipant || ''));
     return;
   }
-  const button = event.target.closest('[data-issue-ticket]');
-  if (!button) return;
-  issueTicket(button).catch((error) => {
-    console.error('[kidz-ticket]', error);
-    const status = document.querySelector(`[data-ticket-status="${CSS.escape(button.dataset.issueTicket || '')}"]`);
-    if (status) status.textContent = error.message || 'Das Los konnte nicht ausgegeben werden.';
-    button.disabled = false;
-    button.textContent = 'Los ausgeben';
-  });
 });
 deleteCancelBtn.addEventListener('click', closeDeleteDialog);
 deleteDialog.addEventListener('cancel', (event) => {
