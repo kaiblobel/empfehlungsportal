@@ -9,7 +9,17 @@ const withoutTicketOnly = document.getElementById('withoutTicketOnly');
 const advisorFilter = document.getElementById('advisorFilter');
 const exportBtn = document.getElementById('exportBtn');
 const copyInviteBtn = document.getElementById('copyInviteBtn');
+const deleteDialog = document.getElementById('deleteDialog');
+const deleteForm = document.getElementById('deleteForm');
+const deletePerson = document.getElementById('deletePerson');
+const deleteReason = document.getElementById('deleteReason');
+const deleteTicketWarning = document.getElementById('deleteTicketWarning');
+const deleteStatus = document.getElementById('deleteStatus');
+const deleteConfirmBtn = document.getElementById('deleteConfirmBtn');
+const deleteCancelBtn = document.getElementById('deleteCancelBtn');
 let entries = [];
+let currentAdvisor = null;
+let selectedParticipantId = '';
 
 function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>'"]/g, (char) => ({
@@ -67,6 +77,7 @@ function render() {
           <span class="kg-admin-ticket-status" data-ticket-status="${escapeHtml(entry.id)}"></span>
         `}
         <span class="kg-admin-badge ${entry.elternabend_interesse ? '' : 'kg-admin-badge-none'}">Elternabend: ${entry.elternabend_interesse ? 'Interesse' : 'Nein'}</span>
+        ${currentAdvisor?.ist_admin ? `<button class="kg-admin-manage" type="button" data-manage-participant="${escapeHtml(entry.id)}">Teilnahme verwalten</button>` : ''}
       </div>
     </article>
   `).join('');
@@ -154,7 +165,7 @@ async function issueTicket(button) {
 }
 
 async function copyPersonalInviteLink() {
-  const advisor = await getCurrentBerater();
+  const advisor = currentAdvisor || await getCurrentBerater();
   const slug = String(advisor?.slug || '').trim();
   if (!slug) {
     copyInviteBtn.textContent = 'Beraterkonto nicht zugeordnet';
@@ -164,6 +175,60 @@ async function copyPersonalInviteLink() {
   await navigator.clipboard.writeText(url);
   copyInviteBtn.textContent = 'Einladungslink kopiert';
   setTimeout(() => { copyInviteBtn.textContent = 'Meinen Einladungslink kopieren'; }, 2200);
+}
+
+function openDeleteDialog(participantId) {
+  if (!currentAdvisor?.ist_admin) return;
+  const entry = entries.find((item) => item.id === participantId);
+  if (!entry) return;
+  selectedParticipantId = participantId;
+  deletePerson.textContent = `${entry.name} · ${entry.reference}`;
+  deleteReason.value = '';
+  deleteStatus.textContent = '';
+  deleteTicketWarning.hidden = !entry.ticket_number;
+  deleteConfirmBtn.disabled = false;
+  deleteDialog.showModal();
+  deleteReason.focus();
+}
+
+function closeDeleteDialog() {
+  if (deleteDialog.open) deleteDialog.close();
+  selectedParticipantId = '';
+  deleteStatus.textContent = '';
+}
+
+async function deleteParticipant() {
+  const participantId = selectedParticipantId;
+  const reason = deleteReason.value;
+  if (!participantId || !['test', 'duplicate', 'erasure_request'].includes(reason)) {
+    deleteStatus.textContent = 'Bitte zuerst einen Löschgrund auswählen.';
+    deleteReason.focus();
+    return;
+  }
+
+  deleteConfirmBtn.disabled = true;
+  deleteConfirmBtn.textContent = 'Wird gelöscht ...';
+  deleteStatus.textContent = '';
+
+  const { data, error } = await supabase.rpc('delete_kidz_gewinnspiel_participation', {
+    p_participation_id: participantId,
+    p_reason: reason,
+  });
+  if (error) throw error;
+  if (!data?.ok) {
+    throw new Error(data?.reason === 'not_found'
+      ? 'Die Teilnahme ist nicht mehr vorhanden.'
+      : 'Die Teilnahme konnte nicht gelöscht werden.');
+  }
+
+  entries = entries.filter((entry) => entry.id !== participantId);
+  closeDeleteDialog();
+  render();
+  const resultMeta = document.getElementById('resultMeta');
+  resultMeta.textContent = data.had_ticket
+    ? 'Teilnahme gelöscht, Losnummer wieder frei'
+    : 'Teilnahme gelöscht';
+  setTimeout(render, 2600);
 }
 
 applyBeraterHeader();
@@ -177,6 +242,11 @@ copyInviteBtn.addEventListener('click', () => copyPersonalInviteLink().catch(() 
   copyInviteBtn.textContent = 'Kopieren nicht möglich';
 }));
 entriesBox.addEventListener('click', (event) => {
+  const manageButton = event.target.closest('[data-manage-participant]');
+  if (manageButton) {
+    openDeleteDialog(String(manageButton.dataset.manageParticipant || ''));
+    return;
+  }
   const button = event.target.closest('[data-issue-ticket]');
   if (!button) return;
   issueTicket(button).catch((error) => {
@@ -187,10 +257,27 @@ entriesBox.addEventListener('click', (event) => {
     button.textContent = 'Los ausgeben';
   });
 });
+deleteCancelBtn.addEventListener('click', closeDeleteDialog);
+deleteDialog.addEventListener('cancel', (event) => {
+  event.preventDefault();
+  closeDeleteDialog();
+});
+deleteForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  deleteParticipant().catch((error) => {
+    console.error('[kidz-delete]', error);
+    deleteStatus.textContent = error.message || 'Die Teilnahme konnte nicht gelöscht werden.';
+    deleteConfirmBtn.disabled = false;
+    deleteConfirmBtn.textContent = 'Teilnahme endgültig löschen';
+  }).finally(() => {
+    if (!deleteDialog.open) deleteConfirmBtn.textContent = 'Teilnahme endgültig löschen';
+  });
+});
 
 const session = await requireAuth();
 if (session) {
   try {
+    currentAdvisor = await getCurrentBerater();
     await loadEntries();
   } catch (error) {
     console.error('[kidz-gewinnspiel-admin]', error);

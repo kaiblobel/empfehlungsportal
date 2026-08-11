@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.207 Beta** · KIDZ-Hauptadresse, live seit 11.08.2026.
+Offizielle Version in Veröffentlichung: **v1.208 Beta** · geschützte KIDZ-Teilnehmerverwaltung.
+
+---
+
+## v1.208 Beta - Phase 182 · Geschützte KIDZ-Teilnehmerverwaltung
+
+- Die drei ausdrücklich als Test angelegten Teilnahmen wurden vollständig aus der Produktionsdatenbank entfernt. Es sind keine KIDZ-Testteilnahmen mehr vorhanden.
+- Löschen ist künftig nur für Kai als Administrator möglich. Normale Berater können keine Teilnahmen mehr direkt löschen.
+- Statt eines auffälligen Löschknopfs gibt es die zurückhaltende Funktion „Teilnahme verwalten“ mit Pflichtgrund und endgültiger Bestätigung.
+- Zulässige Gründe sind Testeintrag, Dublette und Löschwunsch der teilnehmenden Person.
+- Vorhandene Namen, Kontaktwege, Referenzen und Losnummern werden beim Löschen nicht in ein Archiv kopiert. Das Prüfprotokoll speichert nur Grund, Zeitpunkt, Los-vorhanden-Kennzeichen und eine nicht rückrechenbare Prüfsumme.
+- Die Aufbewahrungsfrist ist technisch abgesichert: KIDZ-Sommerfest-Daten werden ab dem 1. Januar 2027 automatisch bereinigt.
 
 ---
 
