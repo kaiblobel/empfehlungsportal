@@ -413,7 +413,12 @@ if (page === 'empfehlen') {
       typ,
       vorlage_slug: vorlageSlug,
       empfehler_id: empfehlerData?.id || null,
-      berater_id: empfehlerData?.berater_id || null,
+      // Phase 192 · Der über ?berater=slug aufgelöste Berater zählt auch beim
+      // Speichern, nicht nur fürs Branding. Vorher blieb das Feld ohne
+      // Promoter-Code leer und die Empfehlung fiel still auf den
+      // Standard-Berater (ENV_BERATER_ID = Kai) zurück — die Seite trug dann
+      // Svens Namen und Foto, der Lead landete aber bei Kai.
+      berater_id: empfehlerData?.berater_id || berater?.id || null,
       empfaenger_beruf: beruf || null,
       empfaenger_verbindung: verbindung || null,
       empfaenger_kontext: kontext || null,
