@@ -6,7 +6,7 @@ Offizielle Live-Version: **v1.228 Beta** · Testdaten sind als Test gekennzeichn
 ---
 
 ## v1.228 Beta - Phase 208 · Testdaten sind als Test gekennzeichnet
-**2026-08-12**
+**2026-08-12 · live veröffentlicht**
 
 Bisher war „Test oder echt?" eine Frage der Namensgebung. Wer einen Promoter „Holger Hempel (Test)" nannte, hoffte, dass es später jemand liest. Beim Aufräumen der Demo-Welt musste am 12.08. jeder Datensatz von Hand beurteilt werden, und der Testberater war nur am Namen erkennbar. Das ist jetzt eine Eigenschaft des Datensatzes.
 
