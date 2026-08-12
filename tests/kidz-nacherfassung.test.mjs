@@ -68,6 +68,7 @@ try {
   assert.equal(rpcBody.p_event_key, 'kidz-sommerfest-2026');
   assert.equal(rpcBody.p_conditions_version, '2026-08-12-v5');
   assert.equal(rpcBody.p_schaetzung_cm, 240);
+  assert.equal(rpcBody.p_begleitpersonen, null);
   assert.equal(rpcBody.p_berater_slug, null);
   assert.equal(rpcBody.p_consent, true);
   assert.match(rpcBody.p_contact_key, /^[0-9a-f]{64}$/);
@@ -227,13 +228,15 @@ assert.match(adminHtml, /id="onsiteName"/);
 assert.match(adminHtml, /id="onsiteEmail"/);
 assert.match(adminHtml, /id="onsitePhone"/);
 assert.match(adminHtml, /id="onsiteGuess"[\s\S]*min="10" max="999"/);
+assert.match(adminHtml, /id="onsiteBegleitung"/);
+assert.match(adminHtml, /id="personCount"/);
+assert.match(adminJs, /begleitpersonen/);
 assert.match(adminHtml, /id="onsiteConsent"/);
 assert.match(adminHtml, /id="onsiteNoContactBtn"/);
 assert.match(adminHtml, /id="onsiteCounter"/);
 assert.match(adminHtml, /id="guessDialog"/);
 assert.match(adminHtml, /id="guessValue"/);
 assert.match(adminHtml, /id="onsiteOnly"/);
-assert.match(adminHtml, /id="guessCount"/);
 assert.match(adminHtml, /Ohne E-Mail oder Mobilnummer geht es nicht/);
 assert.match(adminHtml, /Fassung 5/);
 
@@ -361,3 +364,42 @@ assert.match(publicCss, /\.kg-check\[hidden\]\s*\{\s*display:\s*none/);
 assert.match(publicJs, /const parentEvening = !parentEveningRow\.hidden/);
 assert.match(publicJs, /if \(guessInput\.disabled\) return null;/);
 assert.doesNotMatch(publicJs, /2026-09-06/);
+
+// --- Begleitpersonen: freiwillige Angabe fuer die Planung ---------------------
+{
+  const originalSecret = process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET;
+  process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET = 'test-kidz-registration-secret-with-enough-entropy';
+  const originalGlobalFetch = global.fetch;
+  const gesendet = [];
+  global.fetch = async (url, options) => {
+    gesendet.push({ url: String(url), options });
+    return { ok: true, text: async () => JSON.stringify({ ok: true, reference: 'KIDZ-BEGLEIT1' }) };
+  };
+
+  const mitBegleitung = responseMock();
+  await onsiteHandler(request({ ...validBody, schaetzung: null, begleitpersonen: 3 }), mitBegleitung);
+  assert.equal(mitBegleitung.statusCode, 201);
+  assert.equal(JSON.parse(gesendet.at(-1).options.body).p_begleitpersonen, 3);
+
+  // Keine Angabe bleibt leer, statt zu 0 zu werden.
+  const ohneAngabe = responseMock();
+  await onsiteHandler(request({ ...validBody, schaetzung: null, begleitpersonen: '' }), ohneAngabe);
+  assert.equal(ohneAngabe.statusCode, 201);
+  assert.equal(JSON.parse(gesendet.at(-1).options.body).p_begleitpersonen, null);
+
+  // "Ich komme allein" ist eine Angabe und muss als 0 ankommen.
+  const allein = responseMock();
+  await onsiteHandler(request({ ...validBody, schaetzung: null, begleitpersonen: 0 }), allein);
+  assert.equal(JSON.parse(gesendet.at(-1).options.body).p_begleitpersonen, 0);
+
+  for (const unsinn of [-1, 21, 'viele']) {
+    const abgewiesen = responseMock();
+    await onsiteHandler(request({ ...validBody, begleitpersonen: unsinn }), abgewiesen);
+    assert.equal(abgewiesen.statusCode, 400, `Begleitung ${unsinn} müsste abgewiesen werden`);
+    assert.equal(JSON.parse(abgewiesen.body).reason, 'invalid_companions');
+  }
+
+  global.fetch = originalGlobalFetch;
+  if (originalSecret === undefined) delete process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET;
+  else process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET = originalSecret;
+}

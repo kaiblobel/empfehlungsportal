@@ -44,8 +44,8 @@
 
       <section class="kg-admin-kpis" aria-label="Kennzahlen">
         <article><span>Teilnahmen gesamt</span><strong id="totalCount">0</strong><small>online und auf Papier</small></article>
-        <article><span>Mit Schätzung</span><strong id="guessCount">0</strong><small>im Rennen um Platz 1</small></article>
-        <article><span>Elternabend</span><strong id="parentCount">0</strong><small>freiwilliges Interesse</small></article>
+        <article><span>Erwartete Personen</span><strong id="personCount">0</strong><small>inklusive Begleitung</small></article>
+                <article><span>Elternabend</span><strong id="parentCount">0</strong><small>freiwilliges Interesse</small></article>
         <article><span>Berater</span><strong id="advisorCount">0</strong><small>mit zugeordneten Teilnahmen</small></article>
       </section>
 
@@ -120,6 +120,20 @@
       <input id="onsitePhone" type="tel" maxlength="40" autocomplete="off" inputmode="tel">
       <p class="kg-admin-dialog-hint">Ohne E-Mail oder Mobilnummer geht es nicht: Wir könnten die Person im Gewinnfall nicht benachrichtigen. Bitte nichts ergänzen oder raten, sondern den Zettel auf den Stapel „ohne Kontakt“ legen.</p>
 
+      <label class="kg-admin-dialog-label" for="onsiteBegleitung">Wie viele kommen insgesamt?</label>
+      <select id="onsiteBegleitung">
+        <option value="">Keine Angabe</option>
+        <option value="0">Nur die angemeldete Person</option>
+        <option value="1">2 Personen</option>
+        <option value="2">3 Personen</option>
+        <option value="3">4 Personen</option>
+        <option value="4">5 Personen</option>
+        <option value="5">6 Personen</option>
+        <option value="6">7 Personen</option>
+        <option value="7">8 Personen</option>
+        <option value="8">9 oder mehr</option>
+      </select>
+
       <label class="kg-admin-dialog-label" for="onsiteGuess">Geschätzter Ballumfang in cm</label>
       <input id="onsiteGuess" type="number" min="10" max="999" step="1" autocomplete="off" inputmode="numeric">
 
@@ -166,6 +180,6 @@
   </dialog>
 
   <script type="module" src="../js/nav.js?v=60"></script>
-  <script type="module" src="../js/kidz-gewinnspiel-admin.js?v=5"></script>
+  <script type="module" src="../js/kidz-gewinnspiel-admin.js?v=6"></script>
 </body>
 </html>

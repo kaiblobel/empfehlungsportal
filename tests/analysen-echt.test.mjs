@@ -65,9 +65,9 @@ assert.match(css, /\.analysis-chart-mode/);
 assert.match(css, /@media \(max-width:600px\)/);
 
 assert.match(nav, /id: 'analysen',[\s\S]*?href: path\('dashboard\/overview\.html'\)/);
-assert.match(config, /v1\.223 Beta/);
-assert.match(config, /Phase 203 · KIDZ Anmeldung deutlicher auf der Sommerfest-Seite/);
-assert.match(sw, /CACHE_VERSION = 'v182-2026-08-12-phase203'/);
+assert.match(config, /v1\.224 Beta/);
+assert.match(config, /Phase 204 · KIDZ Anmeldung deutlicher auf der Sommerfest-Seite/);
+assert.match(sw, /CACHE_VERSION = 'v183-2026-08-12-phase204'/);
 assert.match(sw, /'\/dashboard\/overview\.html'/);
 assert.match(sw, /'\/css\/analysen\.css\?v=2'/);
 assert.match(sw, /'\/js\/analysen\.js\?v=2'/);
