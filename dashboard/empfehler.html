@@ -69,6 +69,10 @@
           <button class="filter-tab" type="button" data-sort="gesamt">Meiste Empfehlungen</button>
           <button class="filter-tab" type="button" data-sort="name">Name A-Z</button>
         </div>
+        <div class="filter-tabs pr-scope" id="scopeTabs" role="group" aria-label="Bereich" hidden>
+          <button class="filter-tab active" type="button" data-scope="mein">Meine</button>
+          <button class="filter-tab" type="button" data-scope="team">Mein Team</button>
+        </div>
       </section>
 
       <div class="pr-section-head"><h2>Dein Netzwerk</h2><span id="networkCount">Promoter werden geladen</span></div>
@@ -141,17 +145,47 @@
     let beraterSlug = '';
     let suchbegriff = '';
 
+    /* Phase 199 · Umschalter "Meine" / "Mein Team".
+       Er erscheint nur, wenn wirklich jemand unter einem hängt. Wer niemanden
+       führt, sieht keinen Knopf, der ihm dasselbe zweimal zeigt. */
+    const SCOPE_KEY = 'promoter_scope_v1';
+    let bereich = (() => {
+      try { return localStorage.getItem(SCOPE_KEY) === 'team' ? 'team' : 'mein'; } catch (_) { return 'mein'; }
+    })();
+
     (async () => {
       const session = await requireAuth();
       if (!session) return;
       const me = await getCurrentBerater();
       beraterSlug = me?.slug || '';
+      await richteBereichsUmschalterEin();
       await refresh();
       watchPromoterRegistrations();
     })();
 
+    async function richteBereichsUmschalterEin() {
+      const tabs = document.getElementById('scopeTabs');
+      if (!tabs) return;
+      const { getTeamBestand } = await import('../js/supabase.js');
+      const ast = await getTeamBestand(30);
+      // Ein Eintrag ist man immer selbst. Erst ab zwei führt man jemanden.
+      if ((ast || []).length < 2) { bereich = 'mein'; return; }
+
+      tabs.hidden = false;
+      tabs.querySelectorAll('[data-scope]').forEach((b) => {
+        b.classList.toggle('active', b.dataset.scope === bereich);
+        b.addEventListener('click', async () => {
+          if (b.dataset.scope === bereich) return;
+          bereich = b.dataset.scope;
+          try { localStorage.setItem(SCOPE_KEY, bereich); } catch (_) {}
+          tabs.querySelectorAll('[data-scope]').forEach((x) => x.classList.toggle('active', x === b));
+          await refresh();
+        });
+      });
+    }
+
     async function refresh() {
-      allItems = await loadEmpfehlerList();
+      allItems = await loadEmpfehlerList(bereich);
       renderSummary();
       renderPodium();
       renderList();
@@ -260,9 +294,12 @@
       const liste = allItems
         .filter(e => !suchbegriff || [e.name, e.telefon, e.email].some(wert => String(wert || '').toLocaleLowerCase('de').includes(suchbegriff)))
         .sort(SORTIERUNGEN[sortierung] || aktuellsteZuerst);
+      const bereichsText = bereich === 'team' ? ' im Team' : '';
       document.getElementById('networkCount').textContent = suchbegriff
-        ? `${liste.length} von ${allItems.length} Promotern`
-        : `${allItems.length} Promoter · nach ${sortLabel(sortierung)} sortiert`;
+        ? `${liste.length} von ${allItems.length} Promotern${bereichsText}`
+        : `${allItems.length} Promoter${bereichsText} · nach ${sortLabel(sortierung)} sortiert`;
+      const ueberschrift = document.querySelector('.pr-section-head h2');
+      if (ueberschrift) ueberschrift.textContent = bereich === 'team' ? 'Das Netzwerk deines Teams' : 'Dein Netzwerk';
       if (!liste.length) {
         wrap.innerHTML = '<div class="empty-state pr-empty">Kein Promoter passt zu deiner Suche.</div>';
         return;
@@ -276,13 +313,20 @@
         const zielText = ziel ? `Wunschziel: Stufe ${ziel}` : 'Noch kein Wunschziel gewählt';
         const zielStand = ziel ? `${Math.min(kunden, ziel)} von ${ziel}` : `${kunden} Kunde${kunden === 1 ? '' : 'n'}`;
         const aktivitaet = e.letzte_aktivitaet || e.created_at;
+        // Phase 199 · Ein Promoter aus dem Team gehört einem anderen Berater.
+        // Die Detailseite fände ihn wegen der Leseregel nicht, deshalb ohne Link.
+        const fremd = bereich === 'team' && !!e.berater_name && e.berater_name !== (window.CURRENT_BERATER?.name || '');
+        const huelleAuf = fremd
+          ? `<div class="promoter-card feed-row promoter-card-fremd"`
+          : `<a class="promoter-card feed-row" href="promoter.html?id=${encodeURIComponent(e.id)}"`;
+        const huelleZu = fremd ? '</div>' : '</a>';
         return `
-        <a class="promoter-card feed-row" href="promoter.html?id=${encodeURIComponent(e.id)}"
+        ${huelleAuf}
            data-id="${e.id}" data-code="${escapeHtml(e.code)}" data-name="${escapeHtml(e.name)}" data-gesamt="${e.gesamt}"
            data-tel="${escapeHtml(e.telefon || '')}" data-email="${escapeHtml(e.email || '')}">
           <div class="pr-person">
             <span class="pr-initial">${initialen(e.name)}</span>
-            <span><strong>${escapeHtml(e.name)}</strong><small><i class="pr-active-dot"></i>${relativeDate(aktivitaet)}</small></span>
+            <span><strong>${escapeHtml(e.name)}</strong><small><i class="pr-active-dot"></i>${relativeDate(aktivitaet)}${e.berater_name ? ` · ${escapeHtml(e.berater_name)}` : ''}</small></span>
           </div>
           <div class="pr-metrics">
             <div class="pr-metric"><b>${gesamt}</b><span>Empfehlungen</span></div>
@@ -292,7 +336,7 @@
           <div class="pr-goal-label"><span>${zielText}</span><b>${zielStand}</b></div>
           <div class="pr-progress"><i style="width:${fortschritt}%"></i></div>
           <div class="pr-card-foot"><b class="${gesamt ? '' : 'quiet'}">${impulsText(gesamt, kunden, ziel)}</b><span>seit ${formatDate(e.created_at)}</span></div>
-        </a>`;
+        ${huelleZu}`;
       }).join('');
     }
 

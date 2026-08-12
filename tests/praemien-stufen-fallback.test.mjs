@@ -88,10 +88,7 @@ const teamJs = await lies('../js/team.js');
 
 assert.match(supa, /export async function getTeamBestand/);
 assert.match(supa, /supabase\.rpc\('team_bestand'/);
-// Die Namensfunktionen sind fuer angemeldete Berater gesperrt, also darf das
-// Frontend sie gar nicht erst aufrufen.
-assert.doesNotMatch(supa, /rpc\('team_promoter'/);
-assert.doesNotMatch(supa, /rpc\('team_empfehlungen'/);
+// Prämien und KIDZ des Astes bleiben ohne Namen, solange sie niemand braucht.
 assert.doesNotMatch(supa, /rpc\('team_praemien'/);
 assert.doesNotMatch(supa, /rpc\('team_kidz'/);
 
@@ -121,11 +118,39 @@ assert.match(beraterAdmin, /function fuelleCoachAuswahlImAnlegen\(alle\)/);
 assert.match(beraterAdmin, /function untergebene\(id, alle\)/);
 assert.match(beraterAdmin, /\.filter\(\(k\) => k\.id !== b\.id && !gesperrt\.has\(k\.id\)\)/);
 
-/* --- 7) Versionsstand ist mitgezogen --- */
+/* --- 7) Teamsicht in Promoter- und Empfehlungsliste (Phase 199) --- */
+const dashboardJs = await lies('../js/dashboard.js');
+const promoterListe = await lies('../dashboard/empfehler.html');
+const empfehlungsListe = await lies('../dashboard/empfehlungen.html');
+
+// Der Ast kommt über die Datenbankfunktionen, nicht über eine aufgeweichte Leseregel.
+assert.match(supa, /export async function getTeamPromoter/);
+assert.match(supa, /export async function getTeamEmpfehlungen/);
+assert.match(dashboardJs, /export async function loadEmpfehlerList\(bereich = 'mein'\)/);
+assert.match(dashboardJs, /if \(bereich === 'team'\)/);
+assert.match(dashboardJs, /bereich = 'mein' \} = \{\} \) =>|bereich = 'mein' \} = \{\}\)/);
+
+// Beide Listen haben den Umschalter, und er ist voreingestellt versteckt:
+// wer niemanden führt, bekommt keinen Knopf, der ihm dasselbe zweimal zeigt.
+for (const seite of [promoterListe, empfehlungsListe]) {
+  assert.match(seite, /id="scopeTabs"[^>]*hidden/);
+  assert.match(seite, /data-scope="mein"/);
+  assert.match(seite, /data-scope="team"/);
+  assert.match(seite, /async function richteBereichsUmschalterEin\(\)/);
+  // Ein Eintrag ist man immer selbst, erst ab zwei führt man jemanden.
+  assert.match(seite, /if \(\(ast \|\| \[\]\)\.length < 2\)/);
+}
+
+// Fremde Einträge sind sichtbar, aber nicht anklickbar.
+assert.match(promoterListe, /promoter-card-fremd/);
+assert.match(empfehlungsListe, /ep-row-fremd/);
+assert.match(empfehlungsListe, /r\.fremd/);
+
+/* --- 8) Versionsstand ist mitgezogen --- */
 const config = await lies('../js/config.js');
-assert.match(config, /APP_VERSION = 'v1\.218 Beta'/);
-assert.match(config, /Phase 195/);
+assert.match(config, /APP_VERSION = 'v1\.219 Beta'/);
+assert.match(config, /Phase 199/);
 const sw = await lies('../sw.js');
-assert.match(sw, /CACHE_VERSION = 'v177-2026-08-12-phase195'/);
+assert.match(sw, /CACHE_VERSION = 'v178-2026-08-12-phase199'/);
 
 console.log('praemien-stufen-fallback: OK');

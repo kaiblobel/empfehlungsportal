@@ -3310,6 +3310,13 @@ body[data-page="vorlagen-cms"] {
 .team-liste li b { flex: 0 0 auto; min-width: 1.4em; font-size: 11.5px; font-weight: 700; font-variant-numeric: tabular-nums; }
 .team-liste li span { min-width: 0; color: var(--ink-muted, #6B6660); font-size: 10.5px; line-height: 1.45; }
 
+/* Phase 199 · Umschalter "Meine" / "Mein Team" in Promoter- und
+   Empfehlungsliste. Fremde Einträge sind sichtbar, aber nicht anklickbar:
+   die Detailseite fände sie wegen der Leseregel nicht. */
+.pr-scope, .ep-scope { flex: 0 0 auto; }
+.promoter-card-fremd, .ep-row-fremd { cursor: default; opacity: .82; }
+.promoter-card-fremd:hover, .ep-row-fremd:hover { transform: none; box-shadow: var(--shadow-card, 0 4px 12px rgba(0,0,0,.04)); }
+
 .team-error { margin-bottom: 13px; padding: 14px 16px; border: 1px solid rgba(181,101,29,.22); border-radius: 10px; background: rgba(181,101,29,.07); color: #80501F; font-size: 12px; line-height: 1.5; }
 .team-empty { padding: 18px; border: 1px solid var(--hairline, #E8E5E0); border-radius: 10px; background: #fff; color: var(--ink-muted, #6B6660); font-size: 12px; text-align: center; }
 .team-empty.compact { padding: 12px; }
