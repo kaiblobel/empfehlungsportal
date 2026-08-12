@@ -2321,12 +2321,28 @@ body[data-page="vorlagen-cms"] {
   font-weight: 700 !important;
 }
 .berater-fields input,
+.berater-fields select,
 .berater-tech-grid input,
 .berater-pw-row input {
   min-height: 47px;
   padding: 11px 14px;
   border-radius: 9px;
   background: #FBFBFA;
+}
+/* Phase 197 · Coach-Auswahl. Die Grundform kommt von den Textfeldern daneben,
+   damit die Zeile nicht aus der Reihe fällt. */
+.berater-fields select {
+  width: 100%;
+  border: 1px solid var(--hairline, #E8E5E0);
+  color: inherit;
+  font: inherit;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink-muted, #6B6660) 50%),
+                    linear-gradient(135deg, var(--ink-muted, #6B6660) 50%, transparent 50%);
+  background-position: calc(100% - 19px) calc(50% + 1px), calc(100% - 14px) calc(50% + 1px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 34px;
 }
 .berater-field-hint {
   display: block;

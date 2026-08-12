@@ -105,7 +105,23 @@ assert.match(teamJs, /kidz_anmeldungen/);
 // (team-overview.test.mjs prueft dasselbe, hier als Absicherung dieser Aenderung.)
 assert.doesNotMatch(teamJs, /empfaenger_name|empfaenger_telefon|empfehler_name/);
 
-/* --- 6) Versionsstand ist mitgezogen --- */
+/* --- 6) Der Coach ist in der Oberfläche pflegbar (Phase 197) --- */
+const beraterAdmin = await lies('../js/berater-admin.js');
+const beraterHtml = await lies('../berater.html');
+
+// Das Feld wird geladen, angezeigt und mitgespeichert.
+assert.match(supa, /fuehrungskraft_id'\)\s*$|fuehrungskraft_id/m);
+assert.match(beraterAdmin, /function coachAuswahl\(b, alle\)/);
+assert.match(beraterAdmin, /data-f="fuehrungskraft_id"/);
+assert.match(beraterAdmin, /function renderCard\(b, _index, alle\)/);
+// Auch beim Anlegen eines neuen Beraters.
+assert.match(beraterHtml, /data-f="fuehrungskraft_id"/);
+assert.match(beraterAdmin, /function fuelleCoachAuswahlImAnlegen\(alle\)/);
+// Kein Kreis: weder man selbst noch die eigenen Untergebenen stehen zur Wahl.
+assert.match(beraterAdmin, /function untergebene\(id, alle\)/);
+assert.match(beraterAdmin, /\.filter\(\(k\) => k\.id !== b\.id && !gesperrt\.has\(k\.id\)\)/);
+
+/* --- 7) Versionsstand ist mitgezogen --- */
 const config = await lies('../js/config.js');
 assert.match(config, /APP_VERSION = 'v1\.218 Beta'/);
 assert.match(config, /Phase 195/);
