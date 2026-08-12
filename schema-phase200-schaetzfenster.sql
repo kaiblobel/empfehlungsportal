@@ -1,5 +1,5 @@
--- Phase 199, Nachzug: Das Schaetzfenster gilt auch in der Datenbank
--- Anzuwenden als phase_199_kidz_schaetzfenster.
+-- Phase 200, Nachzug: Das Schaetzfenster gilt auch in der Datenbank
+-- ANGEWENDET am 12.08.2026 als phase_199_kidz_schaetzfenster (Name aus einer frueheren Nummerierung).
 --
 -- Der Umfang des XXL-Balls wird erst am Veranstaltungstag gemessen. Wer vorher
 -- schaetzt, hat den Ball nie gesehen. Die oeffentliche Anmeldung nimmt eine

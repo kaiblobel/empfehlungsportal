@@ -1,27 +1,72 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.219 Beta** · KIDZ Ballschätzen und Nacherfassung, live seit 12.08.2026.
+Offizielle Live-Version: **v1.220 Beta** · KIDZ Ballschätzen und Nacherfassung, live seit 12.08.2026.
 
 ---
 
-## v1.219 Beta - Phase 199 · KIDZ Ballschätzen und Nacherfassung
+## v1.220 Beta - Phase 200 · KIDZ Ballschätzen und Nacherfassung
 **2026-08-12 · live veröffentlicht**
 
 - **Der Hauptgewinn wird nicht mehr ausgelost, sondern erschätzt.** Beim Sommerfest steht ein XXL-Ball. Wer seinen Umfang am genauesten schätzt, gewinnt Platz 1. Tombola, Losausgabe und der getrennte Vor-Ort-Weg sind aus Text, Oberfläche und Ablauf verschwunden.
 - Der Hauptgewinn heißt jetzt **Survival Event**. Die Gewinnerin oder der Gewinner wählt zwischen einem Vater-Kind-Wochenende und einer ganzen Sommercamp-Woche.
 - **Anmelden geht auf zwei gleichwertigen Wegen:** online oder vor Ort auf dem Gewinnspiel-Flyer. Beide führen in dieselbe Teilnehmerliste, beide nehmen an der Verlosung der weiteren Preise teil.
 - **Das Schätzfeld ist bis zum Veranstaltungstag zu.** Der Ball wird erst am 6. September gemessen, wer vorher schätzt, hat ihn nie gesehen. Bis dahin steht an dieser Stelle der Hinweis, dass die Schätzung vor Ort abgegeben wird; am 6. September öffnet das Feld von selbst. Ob der Tag da ist, entscheidet der Server, nicht die Uhr im Gerät des Besuchers.
-- Zwei Schranken sichern das ab: Die Serverfunktion verwirft eine zu früh mitgeschickte Schätzung stillschweigend, ohne die Anmeldung selbst abzulehnen, und die Datenbank weist sie über `phase_199_kidz_schaetzfenster` hart ab. Die Nacherfassung der Papierzettel bleibt davon unberührt, dort muss die Schätzung jederzeit eingetragen werden können.
+- Zwei Schranken sichern das ab: Die Serverfunktion verwirft eine zu früh mitgeschickte Schätzung stillschweigend, ohne die Anmeldung selbst abzulehnen, und die Datenbank weist sie hart ab. Die Nacherfassung der Papierzettel bleibt davon unberührt, dort muss die Schätzung jederzeit eingetragen werden können.
 - Neu im geschützten Bereich: **Zettel nacherfassen**. Die Papierzettel werden nach dem Fest über eine eigene Maske eingetippt, mit laufendem Sitzungszähler für erfasste Zettel, Dubletten und Zettel ohne Kontaktweg. Ein Zettel ohne E-Mail und Mobilnummer wird bewusst nicht gespeichert, sondern nur gezählt.
 - Die Nacherfassung erkennt eine bereits vorhandene Online-Anmeldung als Dublette, weil der Dublettenschlüssel zeichengleich zur öffentlichen Anmeldung gebildet wird. Zusätzlich wird gegen E-Mail und Mobilnummer im Klartext geprüft, falls Zettel und Online-Anmeldung verschiedene Kontaktwege tragen.
 - Ein normaler Berater erfasst nur für sich selbst, Kai als Administrator für jeden. Die Datenbank bleibt die Rechteinstanz: Das Portal-Token des Beraters wird an die Datenbank durchgereicht.
 - Teilnehmerliste, Kennzahlen und CSV-Export zeigen die Schätzung, den Erfassungsweg und lesbare Quellenbezeichnungen. Neuer Filter: nur Vor-Ort-Zettel.
 - Die Teilnahmebedingungen stehen in Fassung **2026-08-12-v5**. Sie benennen beide Anmeldewege, die Schätzregel, die Wahl beim Hauptgewinn und den Losentscheid bei gleich guten Schätzungen.
 - Promoter-Auswahl aktualisiert: **Anika Biebrach** ist deaktiviert, **Anja Scholz** (zählt für Sven Augustin) und **Sandra Röhrens** (zählt für Claudius Tusche) sind neu. David Stamm bleibt unverändert.
-- Die Datenbankmigration `phase_192_kidz_schaetzung_nacherfassung` ist angewendet (Datei `schema-phase199.sql`). Sie ergänzt die Schätzspalten, lässt Fassung 5 zu, legt den Nacherfassungsweg an und stellt die Promoter um. Sie muss vor der Veröffentlichung des Codes laufen; die bisherige Fassung 4 bleibt dabei gültig, es entsteht also kein Ausfallfenster.
+- Die Datenbankmigrationen sind angewendet: `phase_192_kidz_schaetzung_nacherfassung` (Datei `schema-phase200.sql`) und `phase_199_kidz_schaetzfenster` (Datei `schema-phase200-schaetzfenster.sql`). Die Migrationsnamen stammen aus einer früheren Nummerierung, weil parallel weitere Phasen auf `main` gelandet sind. Sie ergänzt die Schätzspalten, lässt Fassung 5 zu, legt den Nacherfassungsweg an und stellt die Promoter um. Sie muss vor der Veröffentlichung des Codes laufen; die bisherige Fassung 4 bleibt dabei gültig, es entsteht also kein Ausfallfenster.
 
 Offizielle Live-Version: **v1.218 Beta** · Prämien, Benachrichtigungen und Führungslinie, live seit 12.08.2026.
+
+Offizielle Live-Version: **v1.219 Beta** · Teamsicht in Promoter- und Empfehlungsliste, live seit 12.08.2026.
+
+---
+
+## v1.219 Beta - Phase 199 · Teamsicht in Promoter- und Empfehlungsliste
+**2026-08-12 · live veröffentlicht**
+
+Anlass war ein Praxisfall direkt nach dem Livegang von v1.218: Sandro hatte gestern
+einen echten Promoter angelegt (Johannes Kobbe), und Kai konnte ihn im Portal nicht
+finden. Grund war der Befund P2·1 aus dem Prüfbericht: Die Leseregel auf den Promotern
+lautet schlicht „gehört mir", ohne Admin-Vorbehalt. Wer selbst keinen Promoter hat,
+sieht eine leere Liste, obwohl das Team welche hat.
+
+- **Umschalter „Meine" und „Mein Team"** in der Promoterliste und in der
+  Empfehlungsliste. Er erscheint nur bei Führungskräften, also wenn wirklich jemand
+  unter einem hängt. Wer niemanden führt, bekommt keinen Knopf, der dasselbe zweimal
+  zeigt.
+- In der Teamsicht steht neben jedem Eintrag, **zu welchem Berater er gehört**.
+- Fremde Einträge sind sichtbar, aber **nicht anklickbar**: Die Detailseite fände sie
+  wegen der Leseregel ohnehin nicht und liefe in eine leere Ansicht.
+- Die Auswahl bleibt je Gerät gemerkt.
+
+**Was ausdrücklich nicht passiert ist:** Die Leseregeln auf den Tabellen bleiben eng
+auf die eigenen Daten. Hätte man sie für den Ast geöffnet, zählte jede Kachel im
+Portal plötzlich das ganze Team mit, und jede Zahl bekäme eine andere Bedeutung. Die
+Teamsicht ist ein bewusster Umschalter in der Liste, keine neue Grundregel. Der Ast
+kommt über die Datenbankfunktionen `team_promoter` und `team_empfehlungen`, die über
+`mein_team()` begrenzt sind.
+
+Die **Teamübersicht** unter `/team.html` bleibt wie in Phase 196 datensparsam und zeigt
+weiter nur Zahlen. Prämien und KIDZ-Anmeldungen des Astes bleiben ohne Namen, solange
+sie niemand braucht.
+
+Nachtrag zur Datenbank: **Phase 198** hat die anonymen Ausführungsrechte der in den
+Phasen 192 bis 197 neu angelegten Funktionen entzogen. Beim Anlegen einer Funktion im
+Schema `public` vergibt Supabase automatisch EXECUTE an `anon`, und ein
+`revoke ... from public` entfernt das nicht. Die revoke-Zeilen sahen richtig aus und
+haben nichts bewirkt. Ausnutzbar war nichts, weil alle betroffenen Funktionen an der
+Anmeldung hängen, aber `team_promoter` und Geschwister waren damit für angemeldete
+Berater gesperrt und für anonyme Aufrufer offen. Genau verkehrt herum.
+
+**Phase 197** macht den Coach je Berater in der Beraterverwaltung pflegbar, auch beim
+Anlegen. Kreise in der Führungslinie weist die Datenbank ab (Trigger
+`berater_pruefe_fuehrungslinie`). Zuvor ging die Zuordnung nur per SQL.
 
 ---
 

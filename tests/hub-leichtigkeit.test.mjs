@@ -11,7 +11,7 @@ const [html, css, dashboardCss, nav, manifest, config, sw] = await Promise.all([
   readFile(new URL('../sw.js', import.meta.url), 'utf8'),
 ]);
 
-assert.match(html, /css\/hub\.css\?v=54/);
+assert.match(html, /css\/hub\.css\?v=55/);
 assert.match(html, /id="hHeroLines"/);
 assert.match(html, /id="hTimeline"/);
 assert.match(html, /id="kpiEmpfehler"/);
@@ -46,10 +46,10 @@ assert.match(css, /border-bottom: 1px solid #ECEAE5 !important/);
 assert.match(css, /background: #F8F8F6/);
 assert.match(css, /@media \(max-width: 560px\)/);
 
-assert.match(config, /APP_VERSION = 'v1\.219 Beta'/);
-assert.match(config, /Phase 199 · KIDZ Ballschätzen und Nacherfassung/);
-assert.match(sw, /CACHE_VERSION = 'v178-2026-08-12-phase199'/);
-assert.match(sw, /\/css\/hub\.css\?v=54/);
+assert.match(config, /APP_VERSION = 'v1\.220 Beta'/);
+assert.match(config, /Phase 200 · KIDZ Ballschätzen und Nacherfassung/);
+assert.match(sw, /CACHE_VERSION = 'v179-2026-08-12-phase200'/);
+assert.match(sw, /\/css\/hub\.css\?v=55/);
 assert.match(sw, /\/css\/dashboard\.css\?v=49/);
 assert.match(sw, /\/js\/nav\.js\?v=60/);
 

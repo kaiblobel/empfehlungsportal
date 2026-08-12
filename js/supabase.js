@@ -763,3 +763,32 @@ export async function getTeamBestand(days = 30) {
     return data || [];
   } catch (err) { console.error('[getTeamBestand]', err); return []; }
 }
+
+/* ---------- Phase 199 · Teamsicht in den Listen ----------
+ * Diese beiden liefern den Ast MIT Namen, für den Umschalter in der Promoter-
+ * und der Empfehlungsliste. Anlass war ein Praxisfall: Sandro hatte einen
+ * echten Promoter angelegt, und der Admin fand ihn im Portal nicht, weil die
+ * Leseregel schlicht "gehört mir" lautet.
+ *
+ * Die Teamübersicht selbst bleibt datensparsam und nutzt weiter getTeamBestand.
+ */
+export async function getTeamPromoter(limit = 500) {
+  if (!supabase) return [];
+  try {
+    const { data, error } = await supabase.rpc('team_promoter', { p_limit: Number(limit) || 500 });
+    if (error) throw error;
+    return data || [];
+  } catch (err) { console.error('[getTeamPromoter]', err); return []; }
+}
+
+export async function getTeamEmpfehlungen(days = 90, limit = 500) {
+  if (!supabase) return [];
+  const safeDays = [7, 30, 90].includes(Number(days)) ? Number(days) : 90;
+  try {
+    const { data, error } = await supabase.rpc('team_empfehlungen', {
+      p_days: safeDays, p_limit: Number(limit) || 500,
+    });
+    if (error) throw error;
+    return data || [];
+  } catch (err) { console.error('[getTeamEmpfehlungen]', err); return []; }
+}

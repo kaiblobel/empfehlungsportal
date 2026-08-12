@@ -44,6 +44,10 @@
           <input id="searchInput" type="search" placeholder="Name, Telefon oder Promoter suchen" autocomplete="off" />
         </label>
         <div class="ep-filters" id="filterTabs" aria-label="Statusfilter"></div>
+        <div class="ep-filters ep-scope" id="scopeTabs" role="group" aria-label="Bereich" hidden>
+          <button class="filter-tab active" type="button" data-scope="mein">Meine</button>
+          <button class="filter-tab" type="button" data-scope="team">Mein Team</button>
+        </div>
       </section>
 
       <section id="prioritySection" hidden>
@@ -155,11 +159,39 @@
     let currentSearch = '';
     let allItems = [];
 
+    /* Phase 199 · Umschalter "Meine" / "Mein Team". Erscheint nur bei
+       Führungskräften, also wenn wirklich jemand unter einem hängt. */
+    const SCOPE_KEY = 'empfehlungen_scope_v1';
+    let bereich = (() => {
+      try { return localStorage.getItem(SCOPE_KEY) === 'team' ? 'team' : 'mein'; } catch (_) { return 'mein'; }
+    })();
+
     (async () => {
       const session = await requireAuth();
       if (!session) return;
+      await richteBereichsUmschalterEin();
       await refresh();
     })();
+
+    async function richteBereichsUmschalterEin() {
+      const tabs = document.getElementById('scopeTabs');
+      if (!tabs) return;
+      const { getTeamBestand } = await import('../js/supabase.js');
+      const ast = await getTeamBestand(30);
+      if ((ast || []).length < 2) { bereich = 'mein'; return; }
+
+      tabs.hidden = false;
+      tabs.querySelectorAll('[data-scope]').forEach((b) => {
+        b.classList.toggle('active', b.dataset.scope === bereich);
+        b.addEventListener('click', async () => {
+          if (b.dataset.scope === bereich) return;
+          bereich = b.dataset.scope;
+          try { localStorage.setItem(SCOPE_KEY, bereich); } catch (_) {}
+          tabs.querySelectorAll('[data-scope]').forEach((x) => x.classList.toggle('active', x === b));
+          await refresh();
+        });
+      });
+    }
 
     document.getElementById('filterTabs').addEventListener('click', (e) => {
       const btn = e.target.closest('.filter-tab');
@@ -184,7 +216,7 @@
     async function refresh() {
       const list = document.getElementById('list');
       list.innerHTML = '<div class="skel-row"><div class="skel-body"><span class="skel skel-line"></span><span class="skel skel-line"></span></div><span class="skel skel-tail"></span></div><div class="skel-row"><div class="skel-body"><span class="skel skel-line"></span><span class="skel skel-line"></span></div><span class="skel skel-tail"></span></div>';
-      allItems = await loadEmpfehlungen({ filter: 'alle' });
+      allItems = await loadEmpfehlungen({ filter: 'alle', bereich });
       render();
     }
 
@@ -199,17 +231,25 @@
         list.innerHTML = '<div class="empty-state">Für diese Auswahl gibt es aktuell keine Empfehlungen.</div>';
         return;
       }
-      list.innerHTML = '<div class="ep-list">' + visibleItems.map(r => `
-        <a class="ep-row feed-row" href="detail.html?id=${encodeURIComponent(r.id)}" data-id="${escapeHtml(r.id)}" data-status="${escapeHtml(r.status || 'offen')}">
+      // Phase 199 · Eine Empfehlung aus dem Team gehört einem anderen Berater.
+      // Sie wird gezeigt, aber nicht verlinkt: die Detailseite fände sie wegen
+      // der Leseregel ohnehin nicht und liefe in eine leere Ansicht.
+      list.innerHTML = '<div class="ep-list">' + visibleItems.map(r => {
+        const inhalt = `
           <div class="ep-person">
             <span class="ep-initial">${initials(r.empfaenger_name)}</span>
-            <span><strong>${escapeHtml(r.empfaenger_name || 'Unbekannter Kontakt')}</strong><small>${formatDate(r.created_at)}</small></span>
+            <span><strong>${escapeHtml(r.empfaenger_name || 'Unbekannter Kontakt')}</strong><small>${formatDate(r.created_at)}${r.berater_name ? ` · ${escapeHtml(r.berater_name)}` : ''}</small></span>
           </div>
           <div class="ep-topic">${escapeHtml(topicLabel(r))}<small>Promoter: ${escapeHtml(r.empfehler_name || 'nicht angegeben')}</small></div>
           ${statusPill(r)}
-          <span class="ep-opened${r.link_geoeffnet ? '' : ' off'}"><i></i>${r.link_geoeffnet ? 'geöffnet' : 'ungeöffnet'}</span>
-          <span class="ep-arrow">${icon('ChevronRight', { size: 16 })}</span>
-        </a>`).join('') + '</div>';
+          ${r.fremd
+            ? '<span class="ep-opened off"><i></i>fremder Bestand</span>'
+            : `<span class="ep-opened${r.link_geoeffnet ? '' : ' off'}"><i></i>${r.link_geoeffnet ? 'geöffnet' : 'ungeöffnet'}</span>`}
+          ${r.fremd ? '' : `<span class="ep-arrow">${icon('ChevronRight', { size: 16 })}</span>`}`;
+        return r.fremd
+          ? `<div class="ep-row feed-row ep-row-fremd" data-id="${escapeHtml(r.id)}" data-status="${escapeHtml(r.status || 'offen')}">${inhalt}</div>`
+          : `<a class="ep-row feed-row" href="detail.html?id=${encodeURIComponent(r.id)}" data-id="${escapeHtml(r.id)}" data-status="${escapeHtml(r.status || 'offen')}">${inhalt}</a>`;
+      }).join('') + '</div>';
     }
 
     function renderFilters() {

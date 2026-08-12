@@ -65,9 +65,9 @@ assert.match(css, /\.analysis-chart-mode/);
 assert.match(css, /@media \(max-width:600px\)/);
 
 assert.match(nav, /id: 'analysen',[\s\S]*?href: path\('dashboard\/overview\.html'\)/);
-assert.match(config, /v1\.219 Beta/);
-assert.match(config, /Phase 199 · KIDZ Ballschätzen und Nacherfassung/);
-assert.match(sw, /CACHE_VERSION = 'v178-2026-08-12-phase199'/);
+assert.match(config, /v1\.220 Beta/);
+assert.match(config, /Phase 200 · KIDZ Ballschätzen und Nacherfassung/);
+assert.match(sw, /CACHE_VERSION = 'v179-2026-08-12-phase200'/);
 assert.match(sw, /'\/dashboard\/overview\.html'/);
 assert.match(sw, /'\/css\/analysen\.css\?v=2'/);
 assert.match(sw, /'\/js\/analysen\.js\?v=2'/);

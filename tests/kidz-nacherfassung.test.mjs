@@ -255,9 +255,9 @@ assert.match(adminCss, /\.kg-admin-dialog input\[type="email"\]/);
 
 // --- Migration ----------------------------------------------------------------
 
-const migration = await read('schema-phase199.sql');
+const migration = await read('schema-phase200.sql');
 
-assert.match(migration, /NOCH NICHT ANGEWENDET/);
+assert.match(migration, /ANGEWENDET am 12\.08\.2026/);
 assert.match(migration, /add column if not exists schaetzung_cm smallint/);
 assert.match(migration, /schaetzung_cm between 10 and 999/);
 assert.match(migration, /grant update \(schaetzung_cm, schaetzung_am\)[\s\S]*to authenticated/);
@@ -340,7 +340,7 @@ assert.equal(configHandler.guessOpen(NACH_DEM_FEST), false);
 }
 
 // Die zweite Schranke steht in der Datenbank.
-const fenstermigration = await read('schema-phase199-schaetzfenster.sql');
+const fenstermigration = await read('schema-phase200-schaetzfenster.sql');
 assert.match(fenstermigration, /tstzrange\(\s*\n?\s*timestamptz '2026-09-06 00:00:00\+02', timestamptz '2026-09-07 00:00:00\+02', '\[\)'\)/);
 assert.match(fenstermigration, /KIDZ guess accepted on event day only/);
 assert.match(fenstermigration, /2026-08-12-v5/);
