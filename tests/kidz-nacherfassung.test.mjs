@@ -416,3 +416,25 @@ for (const [name, quelle] of [['Gewinnspiel', adminJs], ['Elternabend', elternab
   assert.doesNotMatch(quelle, /window\.location\.origin\}\/kidz\//,
     `${name}: Einladungslink haengt noch am Fenster`);
 }
+
+// --- Vorschaubilder fuer WhatsApp --------------------------------------------
+// WhatsApp laedt Vorschaubilder nur bis etwa 300 KB und will Querformat. Die
+// grossen Motive (2,3 MB im Hochformat) wurden deshalb gar nicht angezeigt.
+import { stat as dateiInfo } from 'node:fs/promises';
+
+for (const [seite, bild] of [
+  ['kidz-sommerfest.html', 'kidz-vorschau-sommerfest.jpg'],
+  ['kidz-gewinnspiel.html', 'kidz-vorschau-gewinnspiel.jpg'],
+  ['kidz-elternabend.html', 'kidz-vorschau-elternabend.jpg'],
+]) {
+  const seiteninhalt = await read(seite);
+  assert.match(seiteninhalt, new RegExp(`property="og:image" content="[^"]*/${bild}"`),
+    `${seite}: falsches Vorschaubild`);
+  assert.match(seiteninhalt, /property="og:image:width" content="1200"/, `${seite}: Breite`);
+  assert.match(seiteninhalt, /property="og:image:height" content="630"/, `${seite}: Hoehe`);
+
+  const info = await dateiInfo(new URL(`../assets/images/${bild}`, import.meta.url));
+  assert.ok(info.size <= 300 * 1024,
+    `${bild} ist ${Math.round(info.size / 1024)} KB gross, WhatsApp laedt hoechstens etwa 300 KB`);
+  assert.ok(info.size > 20 * 1024, `${bild} wirkt zu klein, wurde es richtig erzeugt?`);
+}

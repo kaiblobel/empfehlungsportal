@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.225 Beta** · KIDZ Ballschätzen und Nacherfassung, live seit 12.08.2026.
+Offizielle Live-Version: **v1.226 Beta** · KIDZ Ballschätzen und Nacherfassung, live seit 12.08.2026.
+
+---
+
+## v1.226 Beta - Phase 206 · Vorschaubilder für WhatsApp
+**2026-08-12 · live veröffentlicht**
+
+- Beim Teilen des Links über WhatsApp erschien **kein Vorschaubild**, nur der nackte Link. Grund: Das hinterlegte Bild war 2,3 MB groß. WhatsApp lädt Vorschaubilder nur bis etwa 300 KB und ignoriert größere stillschweigend. Dasselbe galt für den Elternabend (1,07 MB).
+- Dazu kam das Format: Die Motive sind im Hochformat, für eine große Vorschaukarte braucht es Querformat.
+- Alle drei Seiten haben jetzt ein eigenes Vorschaubild im Format 1200 × 630, als JPEG unter 100 KB: Sommerfest, Gewinnspiel und Elternabend. Sie zeigen Titel, Datum, Ort und die wichtigsten Punkte, lesbar auch in der kleinen Vorschau.
+- Ein Test hält die Maße und die Dateigröße fest, damit hier nicht wieder ein großes Motiv hineinrutscht.
+- **Hinweis für die Praxis:** WhatsApp merkt sich eine einmal geladene Vorschau. Wer den Link vorher schon geteilt hat, hängt womöglich noch an der alten. Ein angehängtes `?v=2` erzwingt eine frische Vorschau.
 
 ---
 

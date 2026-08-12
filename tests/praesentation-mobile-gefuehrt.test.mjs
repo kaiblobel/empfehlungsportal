@@ -72,8 +72,8 @@ assert.match(js, /guide\.classList\.add\('weicht'\);\s*\n\s*planeRueckkehr\(\);/
 assert.match(js, /guide\.classList\.remove\('weicht'\);\s*\n\s*zeichne\(\);/);
 
 // Versionsstempel dieser Phase.
-assert.match(config, /APP_VERSION = 'v1\.225 Beta'/);
-assert.match(config, /Phase 205 · KIDZ Sommerfest-Anmeldung/);
-assert.match(sw, /CACHE_VERSION = 'v184-2026-08-12-phase205'/);
+assert.match(config, /APP_VERSION = 'v1\.226 Beta'/);
+assert.match(config, /Phase 206 · Vorschaubilder für WhatsApp/);
+assert.match(sw, /CACHE_VERSION = 'v185-2026-08-12-phase206'/);
 
 console.log('praesentation-mobile-gefuehrt: OK');

@@ -22,8 +22,8 @@ assert.doesNotMatch(splitRule, /grayscale/);
 
 assert.match(js, /applyBeraterBrand\(data\)/);
 assert.match(js, /getBeraterPublicBySlug\(beraterSlug\)/);
-assert.match(config, /v1\.225 Beta/);
-assert.match(config, /Phase 205 · KIDZ Sommerfest-Anmeldung/);
-assert.match(sw, /CACHE_VERSION = 'v184-2026-08-12-phase205'/);
+assert.match(config, /v1\.226 Beta/);
+assert.match(config, /Phase 206 · Vorschaubilder für WhatsApp/);
+assert.match(sw, /CACHE_VERSION = 'v185-2026-08-12-phase206'/);
 
 console.log('praesentation-portrait-farbe: OK');
