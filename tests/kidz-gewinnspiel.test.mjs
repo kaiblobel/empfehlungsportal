@@ -202,7 +202,7 @@ assert.match(html, /min="10" max="999"/);
 // Das Schaetzfeld bleibt sichtbar, startet aber gesperrt und ausgegraut.
 assert.match(html, /id="kgGuessField" class="[^"]*is-closed|class="[^"]*is-closed[^"]*" id="kgGuessField"/);
 assert.match(html, /id="kgGuess"[^>]*disabled/);
-assert.match(html, /Öffnet am 6\. September/);
+assert.match(html, /ab 6\. September/);
 assert.match(html, /bis zum 6\. September zu/);
 assert.doesNotMatch(html, /Doppel-Los|Doppellos|nummeriert|Losnummer/);
 assert.doesNotMatch(html, /Tombola/);
