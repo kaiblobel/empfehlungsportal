@@ -296,3 +296,61 @@ assert.match(migration, /'promoter-sandra-roehrens', 'Sandra Röhrens'/);
 assert.match(migration, /gen_random_uuid\(\)/);
 assert.doesNotMatch(migration, /anjasscholz-646f'[^\n]*insert/);
 assert.doesNotMatch(migration, /sandra-roehrens-[a-z0-9]{10,}/);
+
+// --- Schaetzfenster: nur am Veranstaltungstag ---------------------------------
+
+const configHandler = require('../api/kidz-config.js');
+
+const VOR_DEM_FEST = Date.parse('2026-08-12T14:00:00+02:00');
+const AM_FEST = Date.parse('2026-09-06T11:00:00+02:00');
+const NACH_DEM_FEST = Date.parse('2026-09-07T09:00:00+02:00');
+
+assert.equal(configHandler.guessOpen(VOR_DEM_FEST), false);
+assert.equal(configHandler.guessOpen(AM_FEST), true);
+assert.equal(configHandler.guessOpen(NACH_DEM_FEST), false);
+
+// Die oeffentliche Anmeldung verwirft eine zu frueh mitgeschickte Schaetzung,
+// laesst die Anmeldung selbst aber durchgehen.
+{
+  const originalSecret = process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET;
+  const originalTurnstile = process.env.TURNSTILE_SECRET_KEY;
+  const originalGlobalFetch = global.fetch;
+  process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET = 'test-kidz-registration-secret-with-enough-entropy';
+  process.env.TURNSTILE_SECRET_KEY = 'test-turnstile-secret';
+  const gesendet = [];
+  global.fetch = async (url, options) => {
+    gesendet.push({ url: String(url), options });
+    if (String(url).includes('siteverify')) return { ok: true, json: async () => ({ success: true }) };
+    return { ok: true, text: async () => JSON.stringify({ ok: true, reference: 'KIDZ-FENSTER1' }) };
+  };
+  const antwort = responseMock();
+  await registerHandler(request({
+    name: 'Frueh Schaetzer', email: 'frueh@example.test', telefon: '', source: 'direkt',
+    beraterSlug: 'kai-blobel', parentEvening: false, captchaToken: 'captcha-token',
+    schaetzung: 240, consent: true,
+  }, { headers: { host: 'localhost:3000', origin: 'http://localhost:3000' } }), antwort);
+  assert.equal(antwort.statusCode, 201);
+  assert.equal(JSON.parse(gesendet.at(-1).options.body).p_schaetzung_cm, null);
+
+  global.fetch = originalGlobalFetch;
+  if (originalSecret === undefined) delete process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET;
+  else process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET = originalSecret;
+  if (originalTurnstile === undefined) delete process.env.TURNSTILE_SECRET_KEY;
+  else process.env.TURNSTILE_SECRET_KEY = originalTurnstile;
+}
+
+// Die zweite Schranke steht in der Datenbank.
+const fenstermigration = await read('schema-phase199-schaetzfenster.sql');
+assert.match(fenstermigration, /tstzrange\(\s*\n?\s*timestamptz '2026-09-06 00:00:00\+02', timestamptz '2026-09-07 00:00:00\+02', '\[\)'\)/);
+assert.match(fenstermigration, /KIDZ guess accepted on event day only/);
+assert.match(fenstermigration, /2026-08-12-v5/);
+// Die Nacherfassung der Papierzettel bleibt ausdruecklich unberuehrt: Die
+// Migration fasst nur die oeffentliche Anmeldung an.
+assert.doesNotMatch(fenstermigration, /create or replace function public\.record_kidz_gewinnspiel_onsite/);
+assert.match(fenstermigration, /create or replace function public\.register_kidz_gewinnspiel_public/);
+
+// Der Browser entscheidet nicht selbst, wann das Feld aufgeht.
+const publicJs = await read('js/kidz-gewinnspiel.js');
+assert.match(publicJs, /applyGuessWindow\(config\?\.guessOpen === true\)/);
+assert.match(publicJs, /if \(guessField\.hidden\) return null;/);
+assert.doesNotMatch(publicJs, /2026-09-06/);

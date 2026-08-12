@@ -190,7 +190,8 @@ assert.match(logoSvg, /<text[^>]*>KIDZ<\/text>/);
 assert.doesNotMatch(logoSvg, /Wagen|Lok|<path|<rect/);
 assert.match(html, /Wir brauchen keine Angaben zu Kindern/);
 assert.match(html, /Jede gültige Anmeldung bis zum 6\. September 2026 um 15 Uhr nimmt automatisch einmal an der Verlosung/);
-assert.match(html, /Ballumfang schätzen/);
+assert.match(html, /Am 6\. September schätzen/);
+assert.match(html, /Vor Ort am Ball/);
 assert.match(html, /Das Survival Event geht an die genaueste Schätzung des Ballumfangs/);
 assert.match(html, /entscheidet unter diesen Personen das Los/);
 assert.match(html, /Wer Platz 1 erhält, nimmt nicht noch einmal an der Verlosung der weiteren Preise teil/);
@@ -198,6 +199,10 @@ assert.match(html, /wählt zwischen einem Vater-Kind-Wochenende und einer ganzen
 assert.match(html, /Stand: 12\. August 2026, Fassung 5/);
 assert.match(html, /id="kgGuess"/);
 assert.match(html, /min="10" max="999"/);
+// Das Schaetzfeld ist bis zum Veranstaltungstag zu und startet versteckt.
+assert.match(html, /id="kgGuessField" hidden/);
+assert.match(html, /id="kgGuessClosed"/);
+assert.match(html, /Deine Schätzung gibst du am 6\. September vor Ort ab/);
 assert.doesNotMatch(html, /Doppel-Los|Doppellos|nummeriert|Losnummer/);
 assert.doesNotMatch(html, /Tombola/);
 assert.match(html, /Veranstalter[\s\S]*An der Wachsbleiche 1a · 03046 Cottbus/);

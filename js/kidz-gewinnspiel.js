@@ -7,6 +7,9 @@ const errorBox = document.getElementById('kgError');
 const captchaBox = document.getElementById('kgCaptcha');
 const successBox = document.getElementById('kgSuccess');
 const advisorSelect = document.getElementById('kgAdvisor');
+const guessField = document.getElementById('kgGuessField');
+const guessClosedNote = document.getElementById('kgGuessClosed');
+const guessInput = document.getElementById('kgGuess');
 const promoterFallbacks = [...advisorSelect.options]
   .filter((option) => option.value.startsWith('promoter-'))
   .map((option) => ({ name: option.textContent, slug: option.value }));
@@ -95,18 +98,33 @@ function clearError() {
   errorBox.hidden = true;
 }
 
-async function getTurnstileSiteKey() {
+async function loadConfig() {
+  try {
+    const response = await fetch('/api/kidz-config', { headers: { Accept: 'application/json' } });
+    return await response.json();
+  } catch (_) {
+    return {};
+  }
+}
+
+/**
+ * Das Schätzfeld ist bis zum Veranstaltungstag zu: Der Ball wird erst dort
+ * gemessen. Ob der Tag da ist, entscheidet der Server, nicht die Uhr im Gerät.
+ * Antwortet der Server nicht, bleibt das Feld zu.
+ */
+function applyGuessWindow(isOpen) {
+  guessField.hidden = !isOpen;
+  guessClosedNote.hidden = Boolean(isOpen);
+  if (!isOpen) guessInput.value = '';
+  guessInput.disabled = !isOpen;
+}
+
+async function getTurnstileSiteKey(config) {
   const host = window.location.hostname;
   if (host === 'localhost' || host === '127.0.0.1') return LOCAL_TURNSTILE_SITE_KEY;
   const configuredKey = String(window.ENV_TURNSTILE_SITE_KEY || '').trim();
   if (configuredKey) return configuredKey;
-  try {
-    const response = await fetch('/api/kidz-config', { headers: { Accept: 'application/json' } });
-    const result = await response.json();
-    return response.ok ? String(result.turnstileSiteKey || '').trim() : '';
-  } catch (_) {
-    return '';
-  }
+  return String(config?.turnstileSiteKey || '').trim();
 }
 
 async function waitForTurnstile() {
@@ -117,8 +135,8 @@ async function waitForTurnstile() {
   return false;
 }
 
-async function initializeCaptcha() {
-  const sitekey = await getTurnstileSiteKey();
+async function initializeCaptcha(config) {
+  const sitekey = await getTurnstileSiteKey(config);
   if (!sitekey) {
     showError('Die Gewinnspiel-Anmeldung ist noch nicht freigeschaltet. Bitte sprich uns an der KIDZ-Station an.');
     return;
@@ -168,7 +186,8 @@ function clientValidation(name, email, telefon, consent, schaetzung) {
 }
 
 function readGuess() {
-  const raw = String(document.getElementById('kgGuess').value || '').trim();
+  if (guessField.hidden) return null;
+  const raw = String(guessInput.value || '').trim();
   if (!raw) return null;
   const value = Number(raw);
   return Number.isFinite(value) ? Math.trunc(value) : Number.NaN;
@@ -221,8 +240,8 @@ form.addEventListener('submit', async (event) => {
     document.querySelector('.kg-form-intro').hidden = true;
     successBox.hidden = false;
     document.getElementById('kgSuccessNote').textContent = schaetzung === null
-      ? 'Wir haben deine Anmeldung. Deine Schätzung für den Ballumfang kannst du beim Sommerfest noch abgeben.'
-      : `Wir haben deine Anmeldung und deine Schätzung von ${schaetzung} cm. Beim Sommerfest messen wir nach.`;
+      ? 'Wir haben deine Anmeldung. Deine Schätzung für den Ballumfang gibst du am 6. September vor Ort ab.'
+      : `Wir haben deine Anmeldung und deine Schätzung von ${schaetzung} cm. Wir messen den Ball heute noch nach.`;
     document.getElementById('kgReference').textContent = `Teilnahmebestätigung: ${result.reference}`;
     successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
   } catch (error) {
@@ -232,4 +251,6 @@ form.addEventListener('submit', async (event) => {
   }
 });
 
-await Promise.all([loadAdvisors(), initializeCaptcha()]);
+const config = await loadConfig();
+applyGuessWindow(config?.guessOpen === true);
+await Promise.all([loadAdvisors(), initializeCaptcha(config)]);

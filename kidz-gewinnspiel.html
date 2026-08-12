@@ -62,7 +62,7 @@
       <div class="kg-confetti" aria-hidden="true"></div>
       <p class="kg-date">6. September 2026 · Kutzeburger Mühle</p>
       <h1 id="kgTitle"><span>Großes</span> Sommerfest-Gewinnspiel!</h1>
-      <p class="kg-lede">Melde dich an und du bist bei der Verlosung unserer Preise dabei. Beim Sommerfest steht außerdem ein XXL-Ball: Wer seinen Umfang am genauesten schätzt, gewinnt das Survival Event.</p>
+      <p class="kg-lede">Melde dich an und du bist bei der Verlosung unserer Preise dabei. Beim Sommerfest steht außerdem ein XXL-Ball: Wer seinen Umfang vor Ort am genauesten schätzt, gewinnt das Survival Event.</p>
       <div class="kg-prizes" aria-label="Die Hauptpreise">
         <article class="kg-prize kg-prize-main">
           <div class="kg-prize-icon" aria-hidden="true">⛺</div>
@@ -93,7 +93,7 @@
         <b aria-hidden="true">+</b>
         <article>
           <span>2</span>
-          <div><strong>Ballumfang schätzen</strong><small>Die genaueste Schätzung gewinnt das Survival Event.</small></div>
+          <div><strong>Am 6. September schätzen</strong><small>Vor Ort am Ball. Die genaueste Schätzung gewinnt das Survival Event.</small></div>
         </article>
       </div>
     </section>
@@ -102,7 +102,7 @@
       <div class="kg-form-intro">
         <p class="kg-eyebrow">Deine Gewinnchance</p>
         <h2 id="kgFormTitle">Jetzt kostenlos mitmachen</h2>
-        <p>Mit dem Absenden nimmst du an der Verlosung unserer Preise teil. Schätze gleich den Ballumfang mit, dann bist du auch bei Platz 1 im Rennen. Wir brauchen keine Angaben zu Kindern.</p>
+        <p>Mit dem Absenden nimmst du an der Verlosung unserer Preise teil. Um Platz 1 geht es am 6. September vor Ort, beim Schätzen des Ballumfangs. Wir brauchen keine Angaben zu Kindern.</p>
       </div>
 
       <form id="kgForm" novalidate>
@@ -123,13 +123,18 @@
         </div>
         <p class="kg-hint">Ein Kontaktweg genügt. Darüber informieren wir ausschließlich im Zusammenhang mit dem Gewinnspiel.</p>
 
-        <div class="kg-field kg-guess-field">
+        <div class="kg-guess-closed" id="kgGuessClosed">
+          <strong>Deine Schätzung gibst du am 6. September vor Ort ab.</strong>
+          <span>Der XXL-Ball steht beim Sommerfest, und erst dort messen wir seinen Umfang. Vorher zu schätzen wäre geraten. Melde dich jetzt an, dann bist du bei der Verlosung dabei, und trag deine Zahl beim Fest an der KIDZ-Station ein.</span>
+        </div>
+
+        <div class="kg-field kg-guess-field" id="kgGuessField" hidden>
           <label for="kgGuess">Wie groß ist der Umfang des XXL-Balls? <span>Optional</span></label>
           <div class="kg-guess-input">
             <input id="kgGuess" name="schaetzung" type="number" inputmode="numeric" min="10" max="999" step="1" placeholder="z. B. 240">
             <span aria-hidden="true">cm</span>
           </div>
-          <p class="kg-hint">Der Ball steht beim Sommerfest. Wer am nächsten dran liegt, gewinnt das Survival Event. Du kannst deine Schätzung auch erst vor Ort abgeben.</p>
+          <p class="kg-hint">Du stehst beim Sommerfest vor dem Ball? Dann trag hier deine Schätzung ein. Wer am nächsten dran liegt, gewinnt das Survival Event.</p>
         </div>
 
         <div class="kg-field kg-advisor-field">
@@ -182,7 +187,7 @@
           <p>Veranstalter ist die Regionaldirektion Kai Blobel &amp; Team / Deutsche Vermögensberatung, An der Wachsbleiche 1a, 03046 Cottbus. Veranstaltungsort ist die Kutzeburger Mühle 1, 03051 Cottbus. Teilnahmeberechtigt sind volljährige Personen. Die Teilnahme ist kostenlos und unabhängig von einem Kauf oder Beratungsgespräch.</p>
           <p><strong>Anmeldung:</strong> Die Anmeldung ist auf dieser Seite möglich oder am 6. September 2026 vor Ort auf dem Gewinnspiel-Flyer. Papieranmeldungen trägt der Veranstalter nach dem Sommerfest in dieselbe Teilnehmerliste ein. Beide Wege sind gleichwertig. Pro volljähriger Person ist eine Anmeldung möglich.</p>
           <p><strong>Verlosung der Preise:</strong> Jede gültige Anmeldung bis zum 6. September 2026 um 15 Uhr nimmt automatisch einmal an der Verlosung der UCI Kinogutscheine, der Tierpark-Jahreskarte und der weiteren bezeichneten Sachpreise teil.</p>
-          <p><strong>Platz 1 durch Schätzen:</strong> Das Survival Event geht an die genaueste Schätzung des Ballumfangs. Beim Sommerfest steht dafür ein XXL-Ball. Die Schätzung kann bei der Anmeldung oder vor Ort abgegeben werden. Maßgeblich ist der Umfang, den der Veranstalter am 6. September 2026 misst. Liegen mehrere Schätzungen gleich weit vom gemessenen Wert entfernt, entscheidet unter diesen Personen das Los. Die Gewinnerin oder der Gewinner wählt zwischen einem Vater-Kind-Wochenende und einer ganzen Sommercamp-Woche.</p>
+          <p><strong>Platz 1 durch Schätzen:</strong> Das Survival Event geht an die genaueste Schätzung des Ballumfangs. Beim Sommerfest steht dafür ein XXL-Ball. Die Schätzung wird ausschließlich am 6. September 2026 vor Ort abgegeben, weil der Ball erst dort zu sehen und zu messen ist. Maßgeblich ist der Umfang, den der Veranstalter an diesem Tag misst. Liegen mehrere Schätzungen gleich weit vom gemessenen Wert entfernt, entscheidet unter diesen Personen das Los. Die Gewinnerin oder der Gewinner wählt zwischen einem Vater-Kind-Wochenende und einer ganzen Sommercamp-Woche.</p>
           <p>Wer Platz 1 erhält, nimmt nicht noch einmal an der Verlosung der weiteren Preise teil. Alle Gewinner werden über den angegebenen Kontaktweg benachrichtigt. Eine Barauszahlung oder Übertragung des Gewinns ist ausgeschlossen. Der Rechtsweg ist ausgeschlossen.</p>
         </div>
         <div>

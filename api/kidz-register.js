@@ -15,6 +15,14 @@ const CONDITIONS_VERSION = '2026-08-12-v5';
 const ALLOWED_SOURCES = new Set(['vor-ort-qr', 'flyer', 'kidz-station', 'berater-einladung', 'facebook', 'instagram', 'whatsapp', 'direkt']);
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Der Ballumfang wird erst am Veranstaltungstag gemessen. Vorher nimmt die
+// oeffentliche Anmeldung keine Schaetzung entgegen.
+const GUESS_OPENS_AT = Date.parse('2026-09-06T00:00:00+02:00');
+const GUESS_CLOSES_AT = Date.parse('2026-09-07T00:00:00+02:00');
+
+function guessOpen(now = Date.now()) {
+  return now >= GUESS_OPENS_AT && now < GUESS_CLOSES_AT;
+}
 
 function send(res, status, payload) {
   res.statusCode = status;
@@ -158,7 +166,11 @@ module.exports = async function handler(req, res) {
   const requestedAdvisorSlug = String(body.beraterSlug || '').trim().toLowerCase().slice(0, 80);
   const beraterSlug = requestedAdvisorSlug || DEFAULT_ADVISOR_SLUG;
   const captchaToken = String(body.captchaToken || '').trim().slice(0, 4096);
-  const schaetzung = cleanGuess(body.schaetzung);
+  // Vor dem Veranstaltungstag wird eine mitgeschickte Schaetzung stillschweigend
+  // verworfen, statt die ganze Anmeldung abzulehnen. Sonst verliert jemand mit
+  // altem Zwischenspeicher seine Teilnahme wegen eines Feldes, das es nicht
+  // mehr geben duerfte.
+  const schaetzung = guessOpen() ? cleanGuess(body.schaetzung) : null;
 
   if (name.length < 2 || body.consent !== true || !SLUG_PATTERN.test(beraterSlug)) {
     return send(res, 400, { ok: false, reason: 'invalid_input' });
