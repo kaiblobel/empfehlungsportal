@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#f5f5f7" />
   <title>Empfehlungen · Empfehlungsportal</title>
   <link rel="stylesheet" href="../css/style.css?v=33" />
-  <link rel="stylesheet" href="../css/dashboard.css?v=51" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=52" />
   <script src="../js/config.js"></script>
 </head>
 <body class="has-app-nav emp-page">
@@ -69,7 +69,7 @@
       <div class="ep-hint"><span><strong>Rechtsklick</strong> öffnet weitere Aktionen.</span><span id="totalMeta"></span></div>
     </main>
 
-    <script type="module" src="../js/nav.js?v=61"></script>
+    <script type="module" src="../js/nav.js?v=62"></script>
   </div>
 
   <!-- Schnell-Menü (Rechtsklick auf eine Empfehlung) -->
@@ -135,7 +135,7 @@
       requireAuth, logout, loadEmpfehlungen, updateStatus, setInteressiert,
       updateEmpfehlung, formatDate, applyBeraterHeader, whatsappLink,
     } from '../js/dashboard.js';
-    import { deleteEmpfehlung, getVorlagen } from '../js/supabase.js';
+    import { deleteEmpfehlung, getVorlagen, markiereGesehen } from '../js/supabase.js';
     import { hydrateIcons, icon } from '../js/icons.js';
 
     applyBeraterHeader();
@@ -171,6 +171,9 @@
       if (!session) return;
       await richteBereichsUmschalterEin();
       await refresh();
+      // Phase 211: Wer die Liste offen hat, hat sie gesehen. Läuft nebenher,
+      // der Zähler im Menü ist es nicht wert, das Laden aufzuhalten.
+      markiereGesehen('empfehlungen');
     })();
 
     async function richteBereichsUmschalterEin() {

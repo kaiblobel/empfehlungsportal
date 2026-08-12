@@ -1,5 +1,5 @@
 import { requireAuth, logout, applyBeraterHeader, getCurrentBerater } from './dashboard.js';
-import { supabase } from './supabase.js';
+import { supabase, markiereGesehen } from './supabase.js';
 
 const KIDZ_ADRESSE = 'https://kidz.teamwachsbleiche.de';
 
@@ -300,6 +300,8 @@ if (session) {
     await loadEntries();
     await configureParticipantFilter();
     subscribeToChanges();
+    // Phase 211: siehe Gewinnspiel, läuft nebenher.
+    markiereGesehen('kidz_elternabend');
   } catch (error) {
     console.error('[kidz-elternabend-admin]', error);
     entriesBox.innerHTML = '<div class="kg-admin-empty">Die Vormerkungen konnten noch nicht geladen werden. Die Datenbankfreigabe fehlt oder die Verbindung ist gerade unterbrochen.</div>';

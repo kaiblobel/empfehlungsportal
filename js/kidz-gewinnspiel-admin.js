@@ -1,5 +1,5 @@
 import { requireAuth, logout, applyBeraterHeader, getCurrentBerater } from './dashboard.js';
-import { supabase } from './supabase.js';
+import { supabase, markiereGesehen } from './supabase.js';
 
 const EVENT_KEY = 'kidz-sommerfest-2026';
 const KIDZ_ADRESSE = 'https://kidz.teamwachsbleiche.de';
@@ -563,6 +563,9 @@ if (session) {
     currentAdvisor = await getCurrentBerater();
     await loadEntries();
     await configureParticipantFilter();
+    // Phase 211: Wer hier ist, hat die Liste gesehen. Läuft nebenher, der
+    // Zähler im Menü ist es nicht wert, das Laden aufzuhalten.
+    markiereGesehen('kidz_gewinnspiel');
   } catch (error) {
     console.error('[kidz-gewinnspiel-admin]', error);
     entriesBox.innerHTML = '<div class="kg-admin-empty">Die Teilnahmen konnten noch nicht geladen werden. Die Datenbankfreigabe fehlt oder die Verbindung ist gerade unterbrochen.</div>';

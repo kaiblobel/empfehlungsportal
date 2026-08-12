@@ -292,6 +292,58 @@ function revealAdminItems(root, sichtbar) {
   });
 }
 
+/* ---------- Zähler am Menüpunkt ---------- */
+
+/**
+ * Zwei Arten von Zahlen, bewusst unterschieden:
+ *
+ *   Aufgabe    (praemien)  Was auf Erledigung wartet. Bleibt stehen, bis es
+ *                          erledigt ist, und pulst deshalb.
+ *   Neuigkeit  (Phase 211) Was seit dem letzten Blick dazukam. Verschwindet,
+ *                          sobald man hinsieht, und bleibt deshalb still.
+ *
+ * Beide teilen sich die Pille, die Neuigkeit trägt zusätzlich nav-badge-neu.
+ */
+const ZAEHLER_ZIEL = {
+  empfehlungen: 'dashboard/empfehlungen.html',
+  kidz_gewinnspiel: 'dashboard/kidz-gewinnspiel.html',
+  kidz_elternabend: 'dashboard/kidz-elternabend.html',
+};
+
+function setzeZaehler(root, dateiname, anzahl, titel, still) {
+  // Sidebar, mobiler Schubladen-Inhalt (beide .nav-item) und die untere
+  // Leiste am Handy (.nav-bottom-item) auf einmal.
+  root.querySelectorAll(
+    `a.nav-item[href$="${dateiname}"], a.nav-bottom-item[href$="${dateiname}"]`,
+  ).forEach((a) => {
+    const vorhanden = a.querySelector('.nav-badge');
+    if (!anzahl) { if (vorhanden) vorhanden.remove(); return; }
+    const badge = vorhanden || document.createElement('span');
+    badge.className = still ? 'nav-badge nav-badge-neu' : 'nav-badge';
+    badge.textContent = anzahl > 99 ? '99+' : String(anzahl);
+    badge.title = titel;
+    if (!vorhanden) a.appendChild(badge);
+  });
+}
+
+async function zeigeZaehler(root) {
+  try {
+    const { getOffenePraemienCount, getNeuigkeiten } = await import('./supabase.js');
+    const [offene, neu] = await Promise.all([getOffenePraemienCount(), getNeuigkeiten()]);
+
+    setzeZaehler(root, 'praemien.html', offene,
+      `${offene} offene Prämie${offene === 1 ? '' : 'n'} zum Auszahlen`, false);
+
+    for (const [bereich, datei] of Object.entries(ZAEHLER_ZIEL)) {
+      // Auf der Seite, die gerade offen ist, ist nichts mehr ungesehen. Ohne
+      // das bliebe die Zahl dort bis zum nächsten Seitenwechsel stehen.
+      const hier = window.location.pathname.endsWith(`/${datei}`);
+      const n = hier ? 0 : (neu[bereich] || 0);
+      setzeZaehler(root, datei, n, `${n} neu seit deinem letzten Blick`, true);
+    }
+  } catch (e) { /* Zähler sind optional, das Menü nicht */ }
+}
+
 async function applyBeraterSlugToLinks(root) {
   try {
     const { supabase } = await import('./supabase.js');
@@ -304,25 +356,7 @@ async function applyBeraterSlugToLinks(root) {
     // Admin-only Items (Verwaltungsblock) nur für Admins einblenden.
     writeAdminFlag(!!b.ist_admin);
     revealAdminItems(root, !!b.ist_admin);
-    {
-      // Badge: offene Prämien am Prämien-Menüpunkt — ploppt auf, sobald eine
-      // Empfehlung Kunde wird. Seit Phase 210 für jeden Berater; die Leseregel
-      // liefert ihm nur die eigenen, dem Admin alle.
-      try {
-        const { getOffenePraemienCount } = await import('./supabase.js');
-        const n = await getOffenePraemienCount();
-        if (n > 0) {
-          root.querySelectorAll('a.nav-item[href$="praemien.html"]').forEach((a) => {
-            if (a.querySelector('.nav-badge')) return;
-            const badge = document.createElement('span');
-            badge.className = 'nav-badge';
-            badge.textContent = n > 99 ? '99+' : String(n);
-            badge.title = `${n} offene Prämie${n === 1 ? '' : 'n'} zum Auszahlen`;
-            a.appendChild(badge);
-          });
-        }
-      } catch (e) { /* Badge ist optional */ }
-    }
+    await zeigeZaehler(root);
     if (!b.slug) return;
     root.querySelectorAll('a[href*="programm.html"], a[href*="empfehlen.html"]').forEach((a) => {
       const u = new URL(a.getAttribute('href'), window.location.origin);

@@ -1,7 +1,30 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.230 Beta** · Prämien für jeden Berater, Absender der Glückwunsch-Mail, live seit 12.08.2026.
+Offizielle Live-Version: **v1.231 Beta** · Neuigkeiten-Zähler im Menü, live seit 12.08.2026.
+
+---
+
+## v1.231 Beta - Phase 211 · Neuigkeiten-Zähler im Menü
+**2026-08-12**
+
+Bisher sah man erst beim Öffnen einer Seite, ob etwas passiert ist. Kommt eine Empfehlung rein oder meldet sich jemand fürs Sommerfest an, gab es kein Signal. Jetzt steht am Menüpunkt eine Zahl, wie man es von Outlook kennt.
+
+**Drei Zähler:** Empfehlungen, KIDZ-Gewinnspiel, KIDZ-Elternabend. Sie erscheinen in der Seitenleiste, im ausgeklappten Menü am Handy und in der unteren Leiste, wo „Empfehlungen" ohnehin sitzt.
+
+**Der Gelesen-Stand liegt in der Datenbank, nicht im Browser.** Was am Rechner gesehen wurde, ist auch auf dem Handy gesehen. Der Zähler geht auf null, sobald man die Seite öffnet, und zwar sofort, nicht erst beim nächsten Seitenwechsel.
+
+**Zwei Regeln machen die Zahl brauchbar:**
+
+- **Testdaten zählen nicht** (Phase 208). Ein Probelauf ist keine Neuigkeit.
+- **Der Zähler zeigt, was auf der Zielseite auch zu finden ist.** Bei Empfehlungen die eigenen, bei KIDZ die eigenen und beim Admin alle, genau wie die Leseregeln dort. Eine Zahl, die man auf der Seite nicht wiederfindet, wäre schlimmer als keine.
+- **Der erste Blick zählt nicht.** Wer einen Bereich noch nie geöffnet hat, startet bei null statt mit der ganzen Historie. Sonst hätte am ersten Morgen eine 7 am KIDZ-Punkt gestanden, für Anmeldungen, die längst bekannt sind.
+
+**Zwei Arten von Zahlen, bewusst unterschieden.** Der Zähler an „Auszahlungen" ist eine wartende Aufgabe: Er bleibt, bis die Prämie ausgezahlt ist, und pulsiert deshalb. Die drei neuen sind Neuigkeiten: Sie verschwinden beim Hinsehen und bleiben deshalb still und in ruhigerem Blau. Drei gleichzeitig blinkende Pillen wären Lärm.
+
+Nebenbei behoben: Ein Zähler verschwand bisher nie wieder, wenn seine Zahl auf null fiel. Aufgefallen ist das nie, weil das Menü bei jedem Seitenwechsel neu gebaut wird.
+
+**Nicht gebaut:** kein Live-Hochzählen im Hintergrund. Der Zähler aktualisiert sich beim Seitenwechsel, und das reicht für den Zweck.
 
 ---
 

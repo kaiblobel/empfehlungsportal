@@ -789,6 +789,16 @@ body.nav-collapsed .nav-version {
 @media (prefers-reduced-motion: reduce) {
   .nav-badge { animation: none; }
 }
+
+/* Phase 211: Neuigkeit statt Aufgabe. Was beim Hinsehen verschwindet, muss
+   nicht pulsieren — sonst blinken drei Pillen gleichzeitig um Aufmerksamkeit.
+   Der Puls bleibt dem vorbehalten, was wirklich auf Erledigung wartet. */
+.nav-badge-neu {
+  animation: none;
+  background: linear-gradient(135deg, #7C93B4 0%, #4A6282 100%);
+  box-shadow: 0 2px 5px rgba(74,98,130,0.35), inset 0 1px 0 rgba(255,255,255,0.22);
+}
+
 body.nav-collapsed .nav-badge {
   position: absolute;
   top: 5px;
@@ -1908,6 +1918,24 @@ body.nav-collapsed .nav-divider { padding: 0 8px; margin: 10px 0 4px; }
     background: var(--bg-primary, #F5F2ED);
   }
   .nav-bottom-item svg { flex: 0 0 auto; }
+
+  /* Phase 211: Zähler in der unteren Leiste. Hier ist kein Platz für eine
+     Pille neben dem Text, also sitzt sie als kleine Zahl über dem Symbol.
+     margin-left:auto aus .nav-badge greift hier nicht, die Leiste ist eine
+     Spalte, deshalb absolut positioniert. */
+  .nav-bottom-item { position: relative; }
+  .nav-bottom-item .nav-badge {
+    position: absolute;
+    top: 1px;
+    left: 50%;
+    margin: 0;
+    transform: translateX(2px);
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    font-size: 9.5px;
+    box-shadow: 0 0 0 2px rgba(255,253,250,0.97), 0 1px 4px rgba(0,0,0,0.18);
+  }
 
   /* Inhalt bekommt Luft, damit nichts dauerhaft unter der Leiste steckt. */
   body.hat-bottom-nav { padding-bottom: calc(66px + env(safe-area-inset-bottom)); }

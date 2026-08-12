@@ -537,6 +537,38 @@ export async function listBerater() {
   }
 }
 
+/* ---------- Phase 211 · Neuigkeiten-Zähler im Menü ---------- */
+
+/**
+ * Wie viel ist je Bereich seit dem letzten Blick dazugekommen?
+ * Ein Aufruf für alle Zähler, weil das Menü auf jeder Seite neu gebaut wird.
+ * Rückgabe: { empfehlungen: 0, kidz_gewinnspiel: 2, kidz_elternabend: 0 }
+ */
+export async function getNeuigkeiten() {
+  if (!supabase) return {};
+  try {
+    const { data, error } = await supabase.rpc('neuigkeiten');
+    if (error) throw error;
+    const out = {};
+    (data || []).forEach((r) => { out[r.bereich] = Number(r.anzahl) || 0; });
+    return out;
+  } catch (err) {
+    // Ein fehlender Zähler ist verschmerzbar, ein fehlendes Menü nicht.
+    console.warn('[getNeuigkeiten]', err);
+    return {};
+  }
+}
+
+/** Setzt den Gelesen-Stand eines Bereichs auf jetzt. */
+export async function markiereGesehen(bereich) {
+  if (!supabase || !bereich) return;
+  try {
+    await supabase.rpc('als_gesehen_markieren', { p_bereich: bereich });
+  } catch (err) {
+    console.warn('[markiereGesehen]', err);
+  }
+}
+
 /* ---------- Phase 208 · Testdaten ---------- */
 
 /**
