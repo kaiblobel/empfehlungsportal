@@ -72,8 +72,8 @@ assert.match(js, /guide\.classList\.add\('weicht'\);\s*\n\s*planeRueckkehr\(\);/
 assert.match(js, /guide\.classList\.remove\('weicht'\);\s*\n\s*zeichne\(\);/);
 
 // Versionsstempel dieser Phase.
-assert.match(config, /APP_VERSION = 'v1\.221 Beta'/);
-assert.match(config, /Phase 201 · KIDZ Elternabend-Häkchen am Festtag/);
-assert.match(sw, /CACHE_VERSION = 'v180-2026-08-12-phase201'/);
+assert.match(config, /APP_VERSION = 'v1\.222 Beta'/);
+assert.match(config, /Phase 202 · KIDZ Elternabend-Häkchen am Festtag/);
+assert.match(sw, /CACHE_VERSION = 'v181-2026-08-12-phase202'/);
 
 console.log('praesentation-mobile-gefuehrt: OK');

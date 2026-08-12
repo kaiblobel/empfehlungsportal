@@ -240,6 +240,9 @@ main { width: min(1120px, calc(100% - 32px)); margin: 18px auto 48px; }
 .kg-guess-input span { position: absolute; top: 50%; right: 15px; color: var(--kg-muted); font-size: 14px; font-weight: 750; transform: translateY(-50%); pointer-events: none; }
 .kg-guess-field .kg-hint { margin: 8px 0 0; }
 .kg-hint { margin: -4px 0 20px; color: var(--kg-muted); font-size: 12px; line-height: 1.5; }
+/* Das Attribut hidden verliert sonst gegen display: grid, und ein ausgeblendetes
+   Haekchen bliebe sichtbar. */
+.kg-check[hidden] { display: none !important; }
 .kg-check { display: grid; grid-template-columns: 22px 1fr; gap: 10px; margin: 12px 0; padding: 14px; background: #f4f8f1; border: 1px solid rgba(12,108,63,.13); border-radius: 13px; font-size: 13px; line-height: 1.5; }
 .kg-check input { width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--kg-green); }
 .kg-check a { color: var(--kg-navy); font-weight: 750; }

@@ -46,9 +46,9 @@ assert.match(css, /border-bottom: 1px solid #ECEAE5 !important/);
 assert.match(css, /background: #F8F8F6/);
 assert.match(css, /@media \(max-width: 560px\)/);
 
-assert.match(config, /APP_VERSION = 'v1\.221 Beta'/);
-assert.match(config, /Phase 201 · KIDZ Elternabend-Häkchen am Festtag/);
-assert.match(sw, /CACHE_VERSION = 'v180-2026-08-12-phase201'/);
+assert.match(config, /APP_VERSION = 'v1\.222 Beta'/);
+assert.match(config, /Phase 202 · KIDZ Elternabend-Häkchen am Festtag/);
+assert.match(sw, /CACHE_VERSION = 'v181-2026-08-12-phase202'/);
 assert.match(sw, /\/css\/hub\.css\?v=55/);
 assert.match(sw, /\/css\/dashboard\.css\?v=49/);
 assert.match(sw, /\/js\/nav\.js\?v=60/);

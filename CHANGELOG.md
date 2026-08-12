@@ -1,16 +1,17 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.221 Beta** · KIDZ Ballschätzen und Nacherfassung, live seit 12.08.2026.
+Offizielle Live-Version: **v1.222 Beta** · KIDZ Ballschätzen und Nacherfassung, live seit 12.08.2026.
 
 ---
 
-## v1.221 Beta - Phase 201 · KIDZ Ballschätzen und Nacherfassung
+## v1.222 Beta - Phase 202 · KIDZ Ballschätzen und Nacherfassung
 **2026-08-12 · live veröffentlicht**
 
 - **Der Hauptgewinn wird nicht mehr ausgelost, sondern erschätzt.** Beim Sommerfest steht ein XXL-Ball. Wer seinen Umfang am genauesten schätzt, gewinnt Platz 1. Tombola, Losausgabe und der getrennte Vor-Ort-Weg sind aus Text, Oberfläche und Ablauf verschwunden.
 - Der Hauptgewinn heißt jetzt **Survival Event**. Die Gewinnerin oder der Gewinner wählt zwischen einem Vater-Kind-Wochenende und einer ganzen Sommercamp-Woche.
 - **Anmelden geht auf zwei gleichwertigen Wegen:** online oder vor Ort auf dem Gewinnspiel-Flyer. Beide führen in dieselbe Teilnehmerliste, beide nehmen an der Verlosung der weiteren Preise teil.
+- **Nachgezogen:** Das Attribut `hidden` allein reichte beim Elternabend-Häkchen nicht. `.kg-check` setzt `display: grid` und gewann gegen den Browser-Standard, das ausgeblendete Häkchen blieb sichtbar. Eine eigene Regel `.kg-check[hidden]` behebt das; ein Test hält sie fest.
 - **Zwei Felder der Anmeldung gehören zum Veranstaltungstag und sind vorher zu.** Das Elternabend-Häkchen ist bis zum 6. September ganz ausgeblendet: Bis dahin laden wir zum Sommerfest ein, vom Elternabend ist auf der Seite sonst nirgends die Rede, und ein Häkchen für etwas Unerklärtes wirkt untergeschoben. Am Festtag wird der Elternabend vor Ort vorgestellt, dann hat es seinen Zusammenhang.
 - **Das Schätzfeld ist ebenfalls bis zum Veranstaltungstag zu, bleibt aber sichtbar.** Der Ball wird erst am 6. September gemessen, wer vorher schätzt, hat ihn nie gesehen. Bis dahin steht an dieser Stelle der Hinweis, dass die Schätzung vor Ort abgegeben wird; am 6. September öffnet das Feld von selbst. Ob der Tag da ist, entscheidet der Server, nicht die Uhr im Gerät des Besuchers.
 - Zwei Schranken sichern das ab: Die Serverfunktion verwirft eine zu früh mitgeschickte Schätzung stillschweigend, ohne die Anmeldung selbst abzulehnen, und die Datenbank weist sie hart ab. Die Nacherfassung der Papierzettel bleibt davon unberührt, dort muss die Schätzung jederzeit eingetragen werden können.

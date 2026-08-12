@@ -354,6 +354,10 @@ const publicJs = await read('js/kidz-gewinnspiel.js');
 assert.match(publicJs, /applyEventDay\(config\?\.eventDay === true/);
 // Das Elternabend-Haekchen haengt am selben Schalter und startet versteckt.
 assert.match(publicJs, /parentEveningRow\.hidden = !isEventDay;/);
+// Das Attribut hidden allein reicht nicht: .kg-check setzt display: grid und
+// wuerde gewinnen. Ohne diese Regel bleibt das ausgeblendete Haekchen sichtbar.
+const publicCss = await read('css/kidz-gewinnspiel.css');
+assert.match(publicCss, /\.kg-check\[hidden\]\s*\{\s*display:\s*none/);
 assert.match(publicJs, /const parentEvening = !parentEveningRow\.hidden/);
 assert.match(publicJs, /if \(guessInput\.disabled\) return null;/);
 assert.doesNotMatch(publicJs, /2026-09-06/);

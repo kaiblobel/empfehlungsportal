@@ -54,9 +54,9 @@ assert.match(promoterCss, /\.pd-layout/);
 assert.match(promoterCss, /grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
 assert.match(promoterCss, /@media \(max-width: 540px\)/);
 
-assert.match(config, /v1\.221 Beta/);
-assert.match(config, /Phase 201 · KIDZ Elternabend-Häkchen am Festtag/);
-assert.match(sw, /CACHE_VERSION = 'v180-2026-08-12-phase201'/);
+assert.match(config, /v1\.222 Beta/);
+assert.match(config, /Phase 202 · KIDZ Elternabend-Häkchen am Festtag/);
+assert.match(sw, /CACHE_VERSION = 'v181-2026-08-12-phase202'/);
 assert.match(sw, /promoter-dashboard\.css\?v=2/);
 
 console.log('promoter-premium: OK');
