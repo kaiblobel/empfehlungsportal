@@ -87,6 +87,7 @@ async function zeigeTestdaten() {
   const box = document.getElementById('testdatenBox');
   const text = document.getElementById('testdatenText');
   const btn = document.getElementById('testdatenBtn');
+  const hinweis = document.getElementById('testdatenHinweis');
   if (!box || !text || !btn) return;
 
   const bestand = await getTestdatenBestand();
@@ -94,15 +95,18 @@ async function zeigeTestdaten() {
     .filter(([, n]) => n > 0)
     .map(([k, n]) => `${n} ${BEREICH_TEXT[k] || k}`);
 
+  box.hidden = false;
+
+  // Ohne Testdaten wären Knopf und Erklärung nur Beiwerk.
   if (!teile.length) {
-    box.hidden = false;
     text.textContent = 'Zurzeit gibt es keine Testdatensätze. Alles, was im Portal steht, ist echt.';
     btn.hidden = true;
+    if (hinweis) hinweis.hidden = true;
     return;
   }
 
-  box.hidden = false;
   btn.hidden = false;
+  if (hinweis) hinweis.hidden = false;
   text.textContent = `Als Test gekennzeichnet: ${teile.join(', ')}. `
     + 'Diese Datensätze zählen in keiner Auswertung mit und lösen keine Mitteilungen aus.';
 }

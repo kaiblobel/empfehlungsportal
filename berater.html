@@ -52,9 +52,10 @@
       <h2 style="margin:0 0 6px;font-size:17px">Testdaten</h2>
       <p id="testdatenText" style="margin:0 0 14px;font-size:14px;line-height:1.5;color:var(--text-secondary)"></p>
       <button class="berater-add-btn" id="testdatenBtn" type="button">Testdaten sichern und entfernen</button>
-      <p style="margin:10px 0 0;font-size:12.5px;line-height:1.5;color:var(--text-secondary)">
-        Alles wird vorher in eine Sicherungstabelle geschrieben. Anmeldungen von Testberatern
-        bleiben bestehen und werden danach genannt, die entfernt der Support gesondert.
+      <p id="testdatenHinweis" hidden style="margin:10px 0 0;font-size:12.5px;line-height:1.5;color:var(--text-secondary)">
+        Vor dem Entfernen wird alles in eine Sicherungstabelle geschrieben. Nur das Login eines
+        Testberaters bleibt bestehen, das lässt sich hier nicht löschen. Falls eines dabei ist,
+        steht es danach in der Meldung.
       </p>
     </section>
   </main>
@@ -156,6 +157,6 @@
 
   <div class="h-toast" id="hToast"></div>
 
-  <script type="module" src="js/berater-admin.js?v=10"></script>
+  <script type="module" src="js/berater-admin.js?v=11"></script>
 </body>
 </html>
