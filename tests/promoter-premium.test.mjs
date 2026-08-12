@@ -54,9 +54,9 @@ assert.match(promoterCss, /\.pd-layout/);
 assert.match(promoterCss, /grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
 assert.match(promoterCss, /@media \(max-width: 540px\)/);
 
-assert.match(config, /v1\.224 Beta/);
-assert.match(config, /Phase 204 · KIDZ Anmeldung deutlicher auf der Sommerfest-Seite/);
-assert.match(sw, /CACHE_VERSION = 'v183-2026-08-12-phase204'/);
+assert.match(config, /v1\.225 Beta/);
+assert.match(config, /Phase 205 · KIDZ Anmeldung deutlicher auf der Sommerfest-Seite/);
+assert.match(sw, /CACHE_VERSION = 'v184-2026-08-12-phase205'/);
 assert.match(sw, /promoter-dashboard\.css\?v=2/);
 
 console.log('promoter-premium: OK');

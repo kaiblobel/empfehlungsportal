@@ -1,6 +1,8 @@
 import { requireAuth, logout, applyBeraterHeader, getCurrentBerater } from './dashboard.js';
 import { supabase } from './supabase.js';
 
+const KIDZ_ADRESSE = 'https://kidz.teamwachsbleiche.de';
+
 const entriesBox = document.getElementById('entries');
 const searchInput = document.getElementById('searchInput');
 const advisorFilter = document.getElementById('advisorFilter');
@@ -242,7 +244,8 @@ async function copyPersonalInviteLink() {
     copyInviteBtn.textContent = 'Beraterkonto nicht zugeordnet';
     return;
   }
-  const url = `${window.location.origin}/kidz/elternabend?berater=${encodeURIComponent(slug)}&quelle=berater-einladung`;
+  // Feste Adresse, nicht die des angemeldeten Fensters.
+  const url = `${KIDZ_ADRESSE}/kidz/elternabend?berater=${encodeURIComponent(slug)}&quelle=berater-einladung`;
   await navigator.clipboard.writeText(url);
   copyInviteBtn.textContent = 'Einladungslink kopiert';
   setTimeout(() => { copyInviteBtn.textContent = 'Meinen Einladungslink kopieren'; }, 2200);

@@ -2,6 +2,7 @@ import { requireAuth, logout, applyBeraterHeader, getCurrentBerater } from './da
 import { supabase } from './supabase.js';
 
 const EVENT_KEY = 'kidz-sommerfest-2026';
+const KIDZ_ADRESSE = 'https://kidz.teamwachsbleiche.de';
 const ONSITE_SOURCE = 'flyer';
 const SOURCE_LABELS = {
   flyer: 'Vor Ort · Papierzettel',
@@ -226,7 +227,9 @@ async function copyPersonalInviteLink() {
     copyInviteBtn.textContent = 'Beraterkonto nicht zugeordnet';
     return;
   }
-  const url = `${window.location.origin}/kidz/gewinnspiel?berater=${encodeURIComponent(slug)}&quelle=berater-einladung`;
+  // Feste Adresse, nicht die des angemeldeten Fensters: Sonst verschickt jemand,
+  // der ueber die alte Portaladresse eingeloggt ist, auch eine alte Adresse.
+  const url = `${KIDZ_ADRESSE}/kidz/gewinnspiel?berater=${encodeURIComponent(slug)}&quelle=berater-einladung`;
   await navigator.clipboard.writeText(url);
   copyInviteBtn.textContent = 'Einladungslink kopiert';
   setTimeout(() => { copyInviteBtn.textContent = 'Meinen Einladungslink kopieren'; }, 2200);

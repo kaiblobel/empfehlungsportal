@@ -1,7 +1,15 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.224 Beta** · KIDZ Ballschätzen und Nacherfassung, live seit 12.08.2026.
+Offizielle Live-Version: **v1.225 Beta** · KIDZ Ballschätzen und Nacherfassung, live seit 12.08.2026.
+
+---
+
+## v1.225 Beta - Phase 205 · Einladungslinks auf die offizielle Adresse
+**2026-08-12 · live veröffentlicht**
+
+- „Meinen Einladungslink kopieren" baute den Link bisher aus der Adresse, über die der Berater gerade angemeldet ist. Wer über die alte Portaladresse eingeloggt war, verschickte damit auch eine alte Adresse. Der Link trägt jetzt fest `kidz.teamwachsbleiche.de`, im Gewinnspiel wie beim Elternabend.
+- Das war der erste P1-Punkt aus der Prüfung vom 12.08.
 
 ---
 

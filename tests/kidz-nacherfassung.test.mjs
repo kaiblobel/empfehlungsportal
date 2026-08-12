@@ -403,3 +403,16 @@ assert.doesNotMatch(publicJs, /2026-09-06/);
   if (originalSecret === undefined) delete process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET;
   else process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET = originalSecret;
 }
+
+// --- Einladungslinks tragen immer die offizielle Adresse ----------------------
+// Sonst verschickt ein Berater, der ueber die alte Portaladresse angemeldet ist,
+// auch eine alte Adresse.
+const elternabendJs = await read('js/kidz-elternabend-admin.js');
+for (const [name, quelle] of [['Gewinnspiel', adminJs], ['Elternabend', elternabendJs]]) {
+  assert.match(quelle, /const KIDZ_ADRESSE = 'https:\/\/kidz\.teamwachsbleiche\.de';/,
+    `${name}: feste KIDZ-Adresse fehlt`);
+  assert.match(quelle, /\$\{KIDZ_ADRESSE\}\/kidz\/(gewinnspiel|elternabend)\?berater=/,
+    `${name}: Einladungslink baut nicht auf der festen Adresse auf`);
+  assert.doesNotMatch(quelle, /window\.location\.origin\}\/kidz\//,
+    `${name}: Einladungslink haengt noch am Fenster`);
+}
