@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.226 Beta** · KIDZ Ballschätzen und Nacherfassung, live seit 12.08.2026.
+Offizielle Live-Version: **v1.227 Beta** · KIDZ Ballschätzen und Nacherfassung, live seit 12.08.2026.
+
+---
+
+## v1.227 Beta - Phase 207 · Vorschau lädt zum Fest ein
+**2026-08-12 · live veröffentlicht**
+
+- Die geteilte Vorschau sprach nur vom Gewinnspiel. Eingeladen wird aber zum **Kinder-Sommerfest**, das Gewinnspiel ist der Anlass, sich anzumelden. Wer die Karte in WhatsApp sah, dachte an ein Gewinnspiel statt an einen Familientag.
+- Titel, Beschreibung und Bild der Gewinnspielseite stellen jetzt das Fest voran: Datum, Uhrzeit, Ort, Eintritt frei, Hüpfburg und Feuerwehr. Die Anmeldung wird als das genannt, was sie ist: eine Hilfe bei der Planung, die zugleich die Gewinnchance bringt.
+- Die Sommerfest-Startseite nennt in ihrer Vorschau jetzt ebenfalls die Anmeldung, vorher stand dort nur der Termin.
 
 ---
 

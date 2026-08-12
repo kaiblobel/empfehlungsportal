@@ -84,9 +84,9 @@ assert.match(css, /\.team-ranking/);
 assert.match(css, /\.team-podium-avatar img/);
 assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.team-detail-metrics/);
 
-assert.match(config, /v1\.226 Beta/);
-assert.match(config, /Phase 206 · Vorschaubilder für WhatsApp/);
-assert.match(sw, /CACHE_VERSION = 'v185-2026-08-12-phase206'/);
+assert.match(config, /v1\.227 Beta/);
+assert.match(config, /Phase 207 · Vorschau lädt zum Fest ein/);
+assert.match(sw, /CACHE_VERSION = 'v186-2026-08-12-phase207'/);
 assert.match(sw, /'\/team\.html'/);
 assert.match(sw, /'\/js\/team\.js\?v=3'/);
 assert.match(beraterHtml, /<title>Beraterkonten · Empfehlungsportal<\/title>/);
