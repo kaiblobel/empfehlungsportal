@@ -198,6 +198,11 @@ async function configureParticipantFilter() {
   advisorFilter.innerHTML = '<option value="">Alle Berater und Promoter</option>';
   participantFilterChoices.clear();
 
+  // Phase 209: Als Admin sieht man hier das ganze Portal. Das gehört
+  // dazugeschrieben, sonst hält man die Zahlen für die eigenen.
+  const adminHinweis = document.getElementById('adminSichtHinweis');
+  if (adminHinweis) adminHinweis.hidden = !currentAdvisor?.ist_admin;
+
   if (!currentAdvisor?.ist_admin) {
     advisorFilter.hidden = true;
     advisorFilter.disabled = true;

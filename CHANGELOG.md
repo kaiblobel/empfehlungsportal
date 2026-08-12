@@ -1,7 +1,32 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.228 Beta** · Testdaten sind als Test gekennzeichnet, live seit 12.08.2026.
+Offizielle Live-Version: **v1.229 Beta** · Anmeldeadresse sichtbar, Admin-Sicht gekennzeichnet, live seit 12.08.2026.
+
+---
+
+## v1.229 Beta - Phase 209 · Anmeldeadresse sichtbar, Admin-Sicht gekennzeichnet
+**2026-08-12**
+
+Zwei Dinge aus derselben Frage: Warum steht in der Beraterkarte eine andere Adresse als die, mit der man sich anmeldet?
+
+**Die Anmeldeadresse steht jetzt dabei, wo sie abweicht**
+
+Im Portal gibt es zwei E-Mail-Felder mit zwei Aufgaben. Die eine ist die Geschäftsadresse, die Kunden sehen: Kontaktlink auf den öffentlichen Seiten, Prämienbeleg. Die andere ist die Anmeldeadresse. Verbunden sind sie über eine interne Kennnummer, nicht über die Adresse, sie dürfen also auseinandergehen.
+
+Bei sechs von sieben Beratern sind sie identisch, weil „Login anlegen" das Konto mit der Karten-Adresse erzeugt. Bei Kai nicht, sein Konto ist das älteste und von Hand entstanden. In der Liste stand bisher nur die Karten-Adresse, dadurch sah es aus, als wäre das auch die Anmeldung.
+
+Die Karte zeigt jetzt bei Abweichung eine zweite, leisere Zeile: „Anmeldung: …". Bei allen anderen bleibt die Karte unverändert. Groß- und Kleinschreibung gilt nicht als Abweichung, sonst hätte Max Kudlek eine gemeldet, die keine ist.
+
+Dahinter steht eine neue Datenbankfunktion, der erste lesende Zugriff auf die Anmeldedaten überhaupt. Sie ist entsprechend eng: nur für Admins, nur Konten, die an einem Berater hängen, und nur Adressen, die tatsächlich abweichen. Was nicht abweicht, verlässt die Datenbank gar nicht erst.
+
+**Wo die Admin-Sicht mehr zeigt, steht es jetzt dabei**
+
+Das Admin-Recht hängt an 22 Leseregeln über 8 Tabellen. Praktisch heißt das: Von den KIDZ-Anmeldungen im Portal gehören Kai zwei, in seiner Verwaltung stehen aber alle, und die Kacheln zählen alle. Für die Festplanung ist das genau richtig. Es stand nur nirgends, und dasselbe gilt für die Prämien, sobald welche entstehen.
+
+Auf der Prämienseite und in den beiden KIDZ-Verwaltungen steht jetzt eine dezente Zeile: „Du siehst hier als Admin alle Einträge des Portals, nicht nur deine eigenen." In den KIDZ-Verwaltungen erscheint sie nur für Admins, dort sehen normale Berater tatsächlich nur ihre eigenen. An den Leseregeln ändert sich nichts, die Sicht wird nur benannt.
+
+**Bewusst nicht gemacht:** kein getrenntes Admin-Konto und kein zweiter Admin. Beraterkonten, Prämien und Vorlagen sind Teil des Alltags; ein Konto, in das man dafür wechseln müsste, wäre bei jeder Aufgabe ein zusätzlicher Handgriff. Und ein Rollenkonzept braucht ein Portal mit sieben Personen nicht.
 
 ---
 

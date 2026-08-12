@@ -575,6 +575,26 @@ export async function entferneTestdaten() {
   }
 }
 
+/**
+ * Die Anmeldeadresse je Berater, aber nur wo sie von der Geschäftsadresse
+ * in der Karte abweicht (Phase 209). Nur Admins bekommen etwas zurück.
+ * Rückgabe: Map berater_id → Anmeldeadresse.
+ */
+export async function getBeraterLoginEmails() {
+  const map = new Map();
+  if (!supabase) return map;
+  try {
+    const { data, error } = await supabase.rpc('berater_login_emails');
+    if (error) throw error;
+    (data || []).forEach((r) => { if (r?.berater_id) map.set(r.berater_id, r.login_email); });
+    return map;
+  } catch (err) {
+    // Die Beraterliste muss auch ohne diese Angabe funktionieren.
+    console.warn('[getBeraterLoginEmails]', err);
+    return map;
+  }
+}
+
 export async function createBerater(berater) {
   if (!supabase) return { data: null, error: { message: 'No Supabase client' } };
   try {

@@ -11,6 +11,7 @@ import {
   createBeraterLogin,
   getTestdatenBestand,
   entferneTestdaten,
+  getBeraterLoginEmails,
 } from './supabase.js';
 import { supabase } from './supabase.js';
 import { requireAuth, logout, applyBeraterHeader, getCurrentBerater } from './dashboard.js';
@@ -66,6 +67,13 @@ async function renderList() {
     return;
   }
   countEl.textContent = `${data.length} ${data.length === 1 ? 'Berater' : 'Berater'} im Team`;
+
+  // Phase 209: Wo die Anmeldeadresse von der Geschäftsadresse abweicht, gehört
+  // sie in die Karte. Sonst sieht es aus, als meldete man sich mit der Adresse
+  // an, die eigentlich für Kunden gedacht ist.
+  const anmeldeAdressen = await getBeraterLoginEmails();
+  data.forEach((b) => { b._anmelde_email = anmeldeAdressen.get(b.id) || null; });
+
   listEl.innerHTML = data.map(renderCard).join('');
   fuelleCoachAuswahlImAnlegen(data);
   attachHandlers(data);
@@ -166,6 +174,9 @@ function renderCard(b, _index, alle) {
         <span class="berater-summary-identity">
           <span class="berater-summary-main"><span class="titel">${escapeHtml(b.name)}</span><span class="berater-summary-role">${escapeHtml(b.rolle || 'Berater')}</span></span>
           <span class="berater-summary-email">${escapeHtml(b.email || 'Keine E-Mail hinterlegt')}</span>
+          ${b._anmelde_email
+            ? `<span class="berater-summary-login" title="Diese Adresse gilt beim Anmelden. Die Adresse darüber sehen Kunden.">Anmeldung: ${escapeHtml(b._anmelde_email)}</span>`
+            : ''}
         </span>
         <span class="berater-summary-statuses">
           ${authBadge}

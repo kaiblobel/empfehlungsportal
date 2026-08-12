@@ -286,6 +286,31 @@
 .badge-kunde          { background: #D7EBD5; color: #1F6B30; }
 .badge-kein_interesse { background: #F5D7D7; color: #8A1F1F; }
 
+/* Phase 209: Hinweis dort, wo das Admin-Recht mehr zeigt als die eigenen
+   Daten. Leise gehalten: Es ist eine Einordnung, keine Warnung. */
+.admin-sicht-hinweis {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 9px 13px;
+  border-radius: 10px;
+  background: rgba(120, 113, 100, 0.07);
+  border: 1px solid rgba(120, 113, 100, 0.14);
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--text-secondary, #6B6660);
+}
+.admin-sicht-hinweis::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 6px;
+  height: 6px;
+  margin-top: 6px;
+  border-radius: 50%;
+  background: var(--accent-gold, #C9B98A);
+}
+
 /* Phase 208: Testdatensatz. Bewusst auffällig gestreift, damit man ihn im
    Vorbeigehen erkennt und nicht mit einem echten Vorgang verwechselt. */
 .badge-test {
