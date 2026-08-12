@@ -65,10 +65,24 @@ async function renderList() {
   }
   countEl.textContent = `${data.length} ${data.length === 1 ? 'Berater' : 'Berater'} im Team`;
   listEl.innerHTML = data.map(renderCard).join('');
+  fuelleCoachAuswahlImAnlegen(data);
   attachHandlers(data);
 }
 
-function renderCard(b) {
+/** Die Coach-Liste im Anlegen-Formular kennt beim Anlegen noch keinen Kreis. */
+function fuelleCoachAuswahlImAnlegen(alle) {
+  const auswahl = document.getElementById('neuerBeraterCoach');
+  if (!auswahl) return;
+  const bisher = auswahl.value;
+  auswahl.innerHTML = '<option value="">Kein Coach hinterlegt</option>' + alle
+    .slice()
+    .sort((x, y) => (x.name || '').localeCompare(y.name || '', 'de'))
+    .map((k) => `<option value="${escapeAttr(k.id)}">${escapeHtml((k.name || 'Ohne Namen') + (k.rolle ? ` · ${k.rolle}` : ''))}</option>`)
+    .join('');
+  if (bisher) auswahl.value = bisher;
+}
+
+function renderCard(b, _index, alle) {
   const inaktivCls = b.ist_aktiv ? '' : ' inaktiv';
   const authBadge = b.auth_user_id
     ? `<span class="berater-auth ok" title="Login ist eingerichtet">Login aktiv</span>`
@@ -122,6 +136,11 @@ function renderCard(b) {
               <div><label>E-Mail</label><input data-f="email" type="email" value="${escapeAttr(b.email || '')}" /></div>
               <div><label>Telefon</label><input data-f="telefon" type="tel" inputmode="tel" value="${escapeAttr(b.telefon || '')}" placeholder="+49 …" /></div>
               <div><label>WhatsApp</label><input data-f="whatsapp" type="tel" inputmode="tel" value="${escapeAttr(b.whatsapp || '')}" placeholder="491701234567" /><span class="berater-field-hint">Mit Ländervorwahl, ohne Leerzeichen.</span></div>
+              <div class="wide">
+                <label>Coach</label>
+                ${coachAuswahl(b, alle)}
+                <span class="berater-field-hint">${coachHinweis(b, alle)}</span>
+              </div>
             </div>
           </div>
         </section>
@@ -181,6 +200,58 @@ function renderCard(b) {
       </div>
     </details>
   `;
+}
+
+/* ---------- Phase 197 · Coach je Berater ----------
+ *
+ * `fuehrungskraft_id` gibt es seit Phase 170, war aber nur per SQL zu setzen.
+ * Damit hing die ganze Teamsichtbarkeit an einem Entwickler.
+ *
+ * Zur Auswahl stehen nur Berater, bei denen kein Kreis entstehen kann: nicht
+ * man selbst, und niemand, der bereits unter einem hängt. Die Datenbank prüft
+ * dasselbe noch einmal (Trigger `berater_pruefe_fuehrungslinie`) — die Liste
+ * hier ist die Bequemlichkeit, der Trigger ist die Zusage.
+ */
+function untergebene(id, alle) {
+  const treffer = new Set();
+  let gewachsen = true;
+  while (gewachsen) {
+    gewachsen = false;
+    alle.forEach((k) => {
+      if (treffer.has(k.id)) return;
+      if (k.fuehrungskraft_id === id || treffer.has(k.fuehrungskraft_id)) {
+        treffer.add(k.id);
+        gewachsen = true;
+      }
+    });
+  }
+  return treffer;
+}
+
+function coachAuswahl(b, alle) {
+  const gesperrt = untergebene(b.id, alle);
+  const waehlbar = alle
+    .filter((k) => k.id !== b.id && !gesperrt.has(k.id))
+    .sort((x, y) => (x.name || '').localeCompare(y.name || '', 'de'));
+
+  const optionen = waehlbar.map((k) => {
+    const zusatz = k.rolle ? ` · ${k.rolle}` : '';
+    const inaktiv = k.ist_aktiv ? '' : ' (inaktiv)';
+    return `<option value="${escapeAttr(k.id)}"${k.id === b.fuehrungskraft_id ? ' selected' : ''}>${escapeHtml((k.name || 'Ohne Namen') + zusatz + inaktiv)}</option>`;
+  }).join('');
+
+  return `<select data-f="fuehrungskraft_id">
+    <option value=""${b.fuehrungskraft_id ? '' : ' selected'}>Kein Coach hinterlegt</option>
+    ${optionen}
+  </select>`;
+}
+
+function coachHinweis(b, alle) {
+  const eigene = alle.filter((k) => k.fuehrungskraft_id === b.id);
+  const teil = eigene.length
+    ? `Unter ${b.name?.split(' ')[0] || 'ihm'} hängen: ${eigene.map((k) => k.name).join(', ')}. `
+    : '';
+  return `${teil}Der Coach entscheidet, wessen Team in der Teamübersicht sichtbar ist. Wer hier steht, sieht diesen Berater und alles darunter.`;
 }
 
 function attachHandlers(list) {

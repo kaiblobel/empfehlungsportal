@@ -54,9 +54,9 @@ assert.match(promoterCss, /\.pd-layout/);
 assert.match(promoterCss, /grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
 assert.match(promoterCss, /@media \(max-width: 540px\)/);
 
-assert.match(config, /v1\.217 Beta/);
-assert.match(config, /Phase 191 · Exklusiver KIDZ-Elternabend/);
-assert.match(sw, /CACHE_VERSION = 'v176-2026-08-12b'/);
+assert.match(config, /v1\.218 Beta/);
+assert.match(config, /Phase 195 · Prämien, Benachrichtigungen und Führungslinie/);
+assert.match(sw, /CACHE_VERSION = 'v177-2026-08-12-phase195'/);
 assert.match(sw, /promoter-dashboard\.css\?v=2/);
 
 console.log('promoter-premium: OK');

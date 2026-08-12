@@ -2321,12 +2321,28 @@ body[data-page="vorlagen-cms"] {
   font-weight: 700 !important;
 }
 .berater-fields input,
+.berater-fields select,
 .berater-tech-grid input,
 .berater-pw-row input {
   min-height: 47px;
   padding: 11px 14px;
   border-radius: 9px;
   background: #FBFBFA;
+}
+/* Phase 197 · Coach-Auswahl. Die Grundform kommt von den Textfeldern daneben,
+   damit die Zeile nicht aus der Reihe fällt. */
+.berater-fields select {
+  width: 100%;
+  border: 1px solid var(--hairline, #E8E5E0);
+  color: inherit;
+  font: inherit;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink-muted, #6B6660) 50%),
+                    linear-gradient(135deg, var(--ink-muted, #6B6660) 50%, transparent 50%);
+  background-position: calc(100% - 19px) calc(50% + 1px), calc(100% - 14px) calc(50% + 1px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 34px;
 }
 .berater-field-hint {
   display: block;
@@ -3282,6 +3298,17 @@ body[data-page="vorlagen-cms"] {
 .team-personal-event:last-child { border-bottom: 0; }
 .team-personal-event i { width: 7px; height: 7px; flex: 0 0 7px; border-radius: 50%; background: var(--event-color); }
 .team-personal-event time { margin-left: auto; color: var(--ink-soft, #8C8680); white-space: nowrap; }
+
+/* Phase 195 · Wer steht hinter den Zahlen: Promoter, Empfehlungen, Prämien
+   und KIDZ-Anmeldungen des eigenen Astes, je ausgewählter Person. */
+.team-detail-listen { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--hairline, #E8E5E0); }
+.team-liste { min-width: 0; padding: 14px; border-radius: 10px; background: var(--surface-soft, #F7F5F1); }
+.team-liste .h-label { margin-bottom: 6px; }
+.team-liste-summe { display: block; margin-bottom: 10px; font-size: 24px; font-weight: 780; letter-spacing: -.03em; }
+.team-liste ul { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.team-liste li { display: flex; gap: 7px; align-items: baseline; min-width: 0; }
+.team-liste li b { flex: 0 0 auto; min-width: 1.4em; font-size: 11.5px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.team-liste li span { min-width: 0; color: var(--ink-muted, #6B6660); font-size: 10.5px; line-height: 1.45; }
 
 .team-error { margin-bottom: 13px; padding: 14px 16px; border: 1px solid rgba(181,101,29,.22); border-radius: 10px; background: rgba(181,101,29,.07); color: #80501F; font-size: 12px; line-height: 1.5; }
 .team-empty { padding: 18px; border: 1px solid var(--hairline, #E8E5E0); border-radius: 10px; background: #fff; color: var(--ink-muted, #6B6660); font-size: 12px; text-align: center; }

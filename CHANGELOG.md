@@ -1,7 +1,52 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.217 Beta** · Exklusiver KIDZ-Elternabend, live seit 12.08.2026.
+Offizielle Live-Version: **v1.218 Beta** · Prämien, Benachrichtigungen und Führungslinie, live seit 12.08.2026.
+
+---
+
+## v1.218 Beta - Phase 192 bis 196 · Prämien, Benachrichtigungen und Führungslinie
+**2026-08-12 · live veröffentlicht**
+
+Aus der vollständigen Prüfung des Portals im Echtbetrieb (Bericht: `docs/PRUEFUNG-2026-08-12.md`).
+Alle drei kritischen Befunde hatten dieselbe Wurzel: Das Portal war als Werkzeug für einen
+einzigen Berater gebaut und an mehreren Stellen nie vollständig auf mehrere umgestellt worden.
+
+**Prämien und Stufen-Mail sind jetzt eine Fachlogik (Phase 192)**
+- Bisher fand `sync_praemien_for_empfehler` die Belohnungsstufen nur unter Kais Berater-ID. Für jeden anderen Berater entstand still keine Prämie, während der Trigger die Glückwunsch-Mail trotzdem an den Promoter verschickte. Ein Promoter bekam also eine schriftliche Zusage über eine Belohnung, die im Portal nicht existierte.
+- Ein Helfer `private.belohnungs_stufen_fuer()` beantwortet die Frage „welche Stufen gelten hier" an genau einer Stelle: eigene Stufen des Beraters, sonst das geteilte Set des Admins. Prämien-Abgleich und Stufen-Mail benutzen ihn beide.
+- Die Prämie entsteht jetzt **vor** der Mail, und die Mail geht nur raus, wenn es die Stufe wirklich gibt.
+- Mit abgedeckt: eine direkt mit Status „Kunde" angelegte Empfehlung erzeugte bisher **auch bei Kai** keine Prämie, weil der Prämien-Trigger nur an UPDATE hing.
+- Der Prämien-Abgleich ist für anonyme Aufrufer nicht mehr ausführbar.
+
+**Benachrichtigungen erreichen den richtigen Empfänger**
+- `notify-interesse` (v9) las die Push-Anmeldungen ohne jeden Filter. Name, Beruf, Anrufwunsch und Empfehler eines Leads wären an **jedes** im Portal angemeldete Gerät gegangen. Jetzt nur an den zuständigen Berater; ohne auflösbare Zuordnung wird gar nichts verschickt.
+- Der Telegram-Sammelkanal nennt jetzt den zuständigen Berater. Bisher stand nirgends, um wessen Lead es geht.
+- `notify-stufe` (v3) unterschreibt mit dem zuständigen Berater statt pauschal mit „Kai Blobel" und löst die Stufe mit demselben Rückfall auf wie die Datenbank.
+
+**Der Berater geht auf dem Weg zur Empfehlung nicht mehr verloren**
+- Der Fußbereich der Programmseite verlinkte „Empfehlung aussprechen" ohne jeden Parameter. Ein Kunde, dem Sven seine Seite zeigte, landete auf einer als Kai gebrandeten Seite, und seine Empfehlung wurde Kai zugeordnet.
+- Die Programmseite reicht den Berater-Slug jetzt an alle Links auf die Empfehlungsseite weiter, ohne einen vorhandenen Promoter-Code zu überschreiben. Der aufgelöste Berater zählt außerdem beim Speichern, nicht mehr nur fürs Aussehen.
+
+**Kennzahlen gehören dem Berater (Phase 194)**
+- `kpi_snapshots` hatte keine Berater-Spalte. Der nächtliche Schnappschuss zählte das gesamte Portal in eine Zeile pro Tag, und jeder Berater sah neben seiner eigenen Zahl einen Trend und eine Kurve über alle sieben. Beides ist jetzt je Berater.
+- Die Historie der letzten 30 Tage wurde aus den echten Anlagedaten zurückgerechnet. Die Leseregel auf der Tabelle lautete bisher schlicht `true`.
+
+**Die Führungslinie greift jetzt auch beim Bestand (Phase 195/196)**
+- Bisher wirkte sie nur in den vier Team-Funktionen. In der Teamübersicht zeigt die Detailansicht jetzt Promoter, Empfehlungen, Prämien und KIDZ-Anmeldungen des eigenen Astes.
+- Ausdrücklich **ohne Namen und Kontaktdaten**: Die Teamseite ist seit Phase 141 datensparsam, und eine Zahl in der Oberfläche mit Namen in der Antwort wäre nur scheinbar sparsam. Ob eine Führungskraft die Namen ihres Astes sehen darf, ist eine offene Datenschutzentscheidung; bis dahin gilt die engere Auslegung.
+- Damit ist auch die Ungleichheit behoben, dass der Admin bei Prämien und KIDZ alles sah, bei Promotern und Empfehlungen aber nicht.
+- Die Leseregeln auf den Tabellen bleiben eng auf die eigenen Daten. Würden sie den Ast freigeben, zählte jede Kachel im Portal plötzlich das ganze Team mit.
+
+**Selbstregistrierung kann kein Beraterkonto mehr übernehmen (Phase 193)**
+- Der Trigger `link_auth_user_to_berater` verknüpfte jeden frisch registrierten Auth-Nutzer mit einem Berater gleicher E-Mail. Da die öffentliche Registrierung offen steht, hätte sich in der Lücke zwischen „Berater angelegt" und „Login erzeugt" jemand dazwischenschieben können.
+- Er greift jetzt nur noch für eingeladene oder vom Admin angelegte Konten. Beide Einrichtungswege laufen unverändert.
+
+**Datenbestand**
+- Die Demo-Welt vom 11.08. ist entfernt: 30 Promoter, 58 Empfehlungen, 12 Prämien und 80 KIDZ-Testanmeldungen. Vollständig gesichert im nicht exponierten Schema `archiv`, Tabelle `backup_demowelt_20260812`.
+- Ein Demo-Promoter bleibt bewusst stehen: an „Holger Hempel (Test)" hängt eine echte Empfehlung vom Vormittag des 12.08. Der Datensatz wurde nicht angefasst.
+
+**Geprüft**: 71 Prüfungen grün. Die Prämien-Reparatur wurde in einer Transaktion gegen die Live-Datenbank gefahren und zurückgerollt. Die Führungslinie ist für jede Ebene einzeln nachgewiesen: Kai sieht 7 Berater, Sven 3, Sandro 2, Max 1, und die eigenen Kennzahlen jedes Beraters bleiben unverändert seine eigenen.
 
 ---
 
