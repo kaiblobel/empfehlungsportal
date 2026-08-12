@@ -255,7 +255,7 @@ assert.match(adminCss, /\.kg-admin-dialog input\[type="email"\]/);
 
 // --- Migration ----------------------------------------------------------------
 
-const migration = await read('schema-phase192.sql');
+const migration = await read('schema-phase199.sql');
 
 assert.match(migration, /NOCH NICHT ANGEWENDET/);
 assert.match(migration, /add column if not exists schaetzung_cm smallint/);

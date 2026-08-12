@@ -1,5 +1,5 @@
--- Phase 192: Ballschaetzung, Nacherfassung der Papierzettel und neue KIDZ-Promoter
--- NOCH NICHT ANGEWENDET. Anzuwenden als phase_192_kidz_schaetzung_nacherfassung.
+-- Phase 199: Ballschaetzung, Nacherfassung der Papierzettel und neue KIDZ-Promoter
+-- NOCH NICHT ANGEWENDET. Anzuwenden als phase_192_kidz_schaetzung_nacherfassung (bereits angewendet).
 --
 -- Reihenfolge: Diese Migration MUSS vor der Veroeffentlichung des neuen Codes laufen.
 -- Sie laesst die bisherige Fassung 2026-08-12-v4 weiter zu, der alte Stand bleibt also

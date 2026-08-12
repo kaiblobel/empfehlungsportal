@@ -2,7 +2,7 @@
  * Phase 141 · Teamübersicht
  * Aggregierte Teamkennzahlen und datensparsame Aktivität ohne Kundendaten.
  */
-import { getTeamActivitySecure, getTeamMetrics } from './supabase.js';
+import { getTeamActivitySecure, getTeamMetrics, getTeamBestand } from './supabase.js';
 import { requireAuth, logout, applyBeraterHeader } from './dashboard.js';
 import { icon, hydrateIcons } from './icons.js';
 import { parseDbDate } from './date-utils.js';
@@ -20,6 +20,11 @@ let metrics = [];
 let activity = [];
 let selectedId = null;
 let rankingMetric = 'kunden';
+
+// Phase 195/196 · Bestand des eigenen Astes: Promoter, Empfehlungen, Prämien
+// und KIDZ-Anmeldungen als Zahlen. Bis dahin griff die Führungslinie nur bei
+// den aggregierten Teamkennzahlen.
+let bestandsZahlen = [];
 
 document.getElementById('logoutBtn')?.addEventListener('click', logout);
 range?.addEventListener('click', (event) => {
@@ -50,12 +55,14 @@ rankingMetricEl?.addEventListener('click', (event) => {
 async function loadTeam() {
   setLoading(true);
   errorEl.hidden = true;
-  const [metricRows, activityRows] = await Promise.all([
+  const [metricRows, activityRows, bestandRows] = await Promise.all([
     getTeamMetrics(currentDays),
     getTeamActivitySecure(currentDays),
+    getTeamBestand(currentDays),
   ]);
   metrics = metricRows || [];
   activity = activityRows || [];
+  bestandsZahlen = bestandRows || [];
 
   if (!metrics.length) {
     setLoading(false);
@@ -222,8 +229,72 @@ function renderDetail() {
       <div class="team-personal-activity">
         ${personalActivity.length ? personalActivity.map(personalActivityHtml).join('') : '<div class="team-empty compact">Noch keine Aktivität in diesem Zeitraum.</div>'}
       </div>
+    </div>
+    ${astListen(row.berater_id)}`;
+}
+
+/* ---------- Phase 195 · Bestand des eigenen Astes ----------
+ *
+ * Die Führungslinie greift jetzt auch bei Promotern, Empfehlungen, Prämien und
+ * KIDZ-Anmeldungen. Was sie NICHT tut: Namen zeigen. Diese Seite bleibt
+ * datensparsam, wie sie es seit Phase 141 ist. Eine Führungskraft sieht, wie
+ * ihr Ast steht, nicht wer dahintersteckt. Wer einen einzelnen Fall bearbeiten
+ * will, macht das in seiner eigenen Akte.
+ *
+ * Die Zahlen kommen aus den Datenbankfunktionen team_promoter, team_empfehlungen,
+ * team_praemien und team_kidz, die den Ast über mein_team() begrenzen.
+ */
+function astListen(beraterId) {
+  const b = bestandsZahlen.find((item) => item.berater_id === beraterId);
+  if (!b) return '';
+
+  const promoter = number(b.promoter_gesamt);
+  const empfehlungen = number(b.empfehlungen_gesamt);
+  const praemien = number(b.praemien_offen) + number(b.praemien_ausgezahlt);
+  const kidz = number(b.kidz_anmeldungen);
+
+  if (!promoter && !empfehlungen && !praemien && !kidz) {
+    return '<div class="team-empty compact">Noch kein Bestand: keine Promoter, Empfehlungen, Prämien oder KIDZ-Anmeldungen.</div>';
+  }
+
+  return `
+    <div class="team-detail-listen">
+      ${bestand('Promoter', promoter, [
+        [b.promoter_aktiv, 'mit mindestens einer Empfehlung'],
+        [promoter - number(b.promoter_aktiv), 'noch ohne Empfehlung'],
+        [b.promoter_selbst_angemeldet, 'selbst angemeldet'],
+      ])}
+
+      ${bestand(`Empfehlungen · ${currentDays} Tage`, empfehlungen, [
+        [b.empfehlungen_offen, 'offen'],
+        [b.empfehlungen_kontaktiert, 'kontaktiert'],
+        [b.empfehlungen_termin, 'Termin'],
+        [b.empfehlungen_kunde, 'Kunde geworden'],
+        [b.empfehlungen_kein_interesse, 'kein Interesse'],
+        [b.anrufwuensche, 'mit Anrufwunsch'],
+      ])}
+
+      ${bestand('Prämien', praemien, [
+        [b.praemien_offen, 'noch auszuzahlen'],
+        [b.praemien_ausgezahlt, 'ausgezahlt'],
+      ])}
+
+      ${bestand('KIDZ-Anmeldungen', kidz, [])}
     </div>`;
 }
+
+function bestand(titel, gesamt, zeilen) {
+  if (!gesamt) return '';
+  const sichtbar = zeilen.filter(([wert]) => number(wert) > 0);
+  return `
+    <section class="team-liste">
+      <div class="h-label">${escapeHtml(titel)}</div>
+      <strong class="team-liste-summe">${number(gesamt)}</strong>
+      ${sichtbar.length ? `<ul>${sichtbar.map(([wert, text]) =>
+        `<li><b>${number(wert)}</b><span>${escapeHtml(text)}</span></li>`).join('')}</ul>` : ''}
+    </section>`;
+}
+
 
 function renderActivity() {
   if (!activity.length) {

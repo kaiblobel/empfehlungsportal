@@ -621,7 +621,30 @@ beraterPromise.then((data) => {
   merkeBerater(brandKey, data);
   if (data.foto_url && fotoVideo) fotoVideo.src = data.foto_url;
   setPromoterEntry(data);
+  reicheBeraterAnFolgeseitenWeiter(data);
 });
+
+/**
+ * Phase 192 · Der Berater muss die Seite verlassen dürfen, ohne verloren zu gehen.
+ *
+ * Der Fußbereich verlinkt "Empfehlung aussprechen" auf empfehlen.html — bisher
+ * ohne jeden Parameter. Wer Sven's Programmseite gezeigt bekam und dort klickte,
+ * landete auf einer Seite, die als Kai gebrandet war, und seine Empfehlung wurde
+ * Kai zugeordnet. Die Berater-Auflösung im Dashboard-Menü (nav.js) greift hier
+ * nicht: der Kunde ist nicht angemeldet.
+ */
+function reicheBeraterAnFolgeseitenWeiter(b) {
+  const slug = b?.slug;
+  if (!slug) return;
+  document.querySelectorAll('a[href*="empfehlen.html"]').forEach((a) => {
+    const roh = a.getAttribute('href');
+    if (!roh) return;
+    const u = new URL(roh, window.location.origin);
+    if (u.searchParams.has('berater') || u.searchParams.has('code')) return;
+    u.searchParams.set('berater', slug);
+    a.setAttribute('href', u.pathname + u.search + u.hash);
+  });
+}
 
 // IntersectionObserver — Fade-Up
 const io = new IntersectionObserver((entries) => {

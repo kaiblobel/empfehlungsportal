@@ -8,7 +8,7 @@
   <title>Beraterkonten · Empfehlungsportal</title>
   <link rel="stylesheet" href="css/style.css?v=33" />
   <link rel="stylesheet" href="css/dashboard.css?v=49" />
-  <link rel="stylesheet" href="css/hub.css?v=53" />
+  <link rel="stylesheet" href="css/hub.css?v=54" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="berater-admin" class="has-app-nav">
@@ -68,6 +68,13 @@
         <label>
           <span>Rolle</span>
           <input data-f="rolle" type="text" placeholder="Vermögensberater" />
+        </label>
+        <label>
+          <span>Coach</span>
+          <select data-f="fuehrungskraft_id" id="neuerBeraterCoach">
+            <option value="">Kein Coach hinterlegt</option>
+          </select>
+          <small class="berater-field-hint">Wer hier steht, sieht diesen Berater und alles darunter in der Teamübersicht. Lässt sich später jederzeit ändern.</small>
         </label>
         <div class="berater-form-row">
           <label>
