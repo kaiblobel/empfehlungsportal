@@ -6,7 +6,7 @@ Offizielle Live-Version: **v1.229 Beta** · Anmeldeadresse sichtbar, Admin-Sicht
 ---
 
 ## v1.229 Beta - Phase 209 · Anmeldeadresse sichtbar, Admin-Sicht gekennzeichnet
-**2026-08-12**
+**2026-08-12 · live veröffentlicht**
 
 Zwei Dinge aus derselben Frage: Warum steht in der Beraterkarte eine andere Adresse als die, mit der man sich anmeldet?
 
