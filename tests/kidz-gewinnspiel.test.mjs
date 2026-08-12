@@ -63,7 +63,7 @@ try {
   assert.equal(rpcBody.p_event_key, 'kidz-sommerfest-2026');
   assert.equal(rpcBody.p_berater_slug, 'sandro-wernicke');
   assert.equal(rpcBody.p_elternabend_interesse, true);
-  assert.equal(rpcBody.p_conditions_version, '2026-08-12-v4');
+  assert.equal(rpcBody.p_conditions_version, '2026-08-12-v5');
   assert.match(rpcBody.p_rate_key, /^[0-9a-f]{64}$/);
   assert.match(rpcBody.p_contact_key, /^[0-9a-f]{64}$/);
   assert.doesNotMatch(requests[1].options.body, /203\.0\.113\.42/);
@@ -115,7 +115,7 @@ try {
     json: async () => [
       { name: 'Kai Blobel', slug: 'kai-blobel' },
       { name: 'Sandro Wernicke', slug: 'sandro-wernicke' },
-      { name: 'Anika Bibrach', slug: 'promoter-anika-bibrach' },
+      { name: 'Anja Scholz', slug: 'promoter-anja-scholz' },
       { name: 'David Stamm', slug: 'promoter-david-stamm' },
     ],
   });
@@ -123,8 +123,8 @@ try {
   await advisorsHandler({ method: 'GET' }, advisorsResponse);
   assert.equal(advisorsResponse.statusCode, 200);
   assert.equal(JSON.parse(advisorsResponse.body).advisors[1].slug, 'sandro-wernicke');
-  assert.equal(JSON.parse(advisorsResponse.body).advisors[2].slug, 'promoter-anika-bibrach');
-  assert.equal(JSON.parse(advisorsResponse.body).advisors[2].name, 'Anika Biebrach');
+  assert.equal(JSON.parse(advisorsResponse.body).advisors[2].slug, 'promoter-anja-scholz');
+  assert.equal(JSON.parse(advisorsResponse.body).advisors[2].name, 'Anja Scholz');
 } finally {
   global.fetch = originalFetch;
   if (originalRegistrationSecret === undefined) delete process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET;
@@ -160,7 +160,9 @@ assert.match(html, /id="kgConsent"/);
 assert.match(html, /id="kgParentEvening"/);
 assert.match(html, /id="kgAdvisor"/);
 assert.match(html, /sandro-wernicke/);
-assert.match(html, /promoter-anika-bibrach">Anika Biebrach/);
+assert.match(html, /promoter-anja-scholz">Anja Scholz/);
+assert.match(html, /promoter-sandra-roehrens">Sandra Röhrens/);
+assert.doesNotMatch(html, /Anika|bibrach/i);
 assert.match(html, /promoter-david-stamm">David Stamm/);
 assert.match(html, /assets\/images\/kidz-marke\.svg/);
 assert.match(html, /id="kidzPublicMenu"/);
@@ -187,11 +189,17 @@ assert.doesNotMatch(html, /kg-brand-mark" aria-hidden="true">KIDZ/);
 assert.match(logoSvg, /<text[^>]*>KIDZ<\/text>/);
 assert.doesNotMatch(logoSvg, /Wagen|Lok|<path|<rect/);
 assert.match(html, /Wir brauchen keine Angaben zu Kindern/);
-assert.match(html, /automatisch einmal an der Verlosung/);
-assert.match(html, /Vor Ort ein Los erhalten/);
-assert.match(html, /Eine vorherige Online-Anmeldung ist dafür nicht erforderlich/);
-assert.match(html, /Wer den Hauptgewinn erhält, nimmt nicht noch einmal an der Online-Verlosung teil/);
+assert.match(html, /Jede gültige Anmeldung bis zum 6\. September 2026 um 15 Uhr nimmt automatisch einmal an der Verlosung/);
+assert.match(html, /Ballumfang schätzen/);
+assert.match(html, /Das Survival Event geht an die genaueste Schätzung des Ballumfangs/);
+assert.match(html, /entscheidet unter diesen Personen das Los/);
+assert.match(html, /Wer Platz 1 erhält, nimmt nicht noch einmal an der Verlosung der weiteren Preise teil/);
+assert.match(html, /wählt zwischen einem Vater-Kind-Wochenende und einer ganzen Sommercamp-Woche/);
+assert.match(html, /Stand: 12\. August 2026, Fassung 5/);
+assert.match(html, /id="kgGuess"/);
+assert.match(html, /min="10" max="999"/);
 assert.doesNotMatch(html, /Doppel-Los|Doppellos|nummeriert|Losnummer/);
+assert.doesNotMatch(html, /Tombola/);
 assert.match(html, /Veranstalter[\s\S]*An der Wachsbleiche 1a · 03046 Cottbus/);
 assert.match(html, /Veranstaltungsort[\s\S]*Kutzeburger Mühle 1 · 03051 Cottbus/);
 assert.doesNotMatch(html, /Kindername|Geburtsdatum|Gesundheitsdaten/);
@@ -226,8 +234,16 @@ assert.match(adminJs, /participantChoice\?\.kind === 'promoter'/);
 assert.match(adminJs, /entry\.empfehler\?\.name !== participantChoice\.name/);
 assert.match(adminJs, /if \(!currentAdvisor\?\.ist_admin\)/);
 assert.match(adminJs, /berater-einladung/);
-assert.match(adminHtml, /Das Los wird nicht im Portal erfasst/);
+assert.match(adminHtml, /Zettel nacherfassen/);
+assert.match(adminHtml, /id="onsiteDialog"/);
+assert.match(adminHtml, /id="onsiteGuess"/);
+assert.match(adminHtml, /Ohne E-Mail oder Mobilnummer geht es nicht/);
+assert.match(adminHtml, /Fassung 5/);
+assert.match(adminHtml, /id="guessDialog"/);
+assert.match(adminHtml, /id="onsiteOnly"/);
+assert.match(adminHtml, /ziehen wir unter diesen Personen zufällig/);
 assert.doesNotMatch(adminHtml, /Doppel-Los|Doppellos|nummeriert|Losnummer|Nur ohne Los/);
+assert.doesNotMatch(adminHtml, /Tombola/);
 assert.doesNotMatch(adminJs, /issue_kidz_gewinnspiel_ticket|ticket_number|data-issue-ticket/);
 assert.match(adminHtml, /Teilnahme endgültig löschen/);
 assert.match(adminJs, /currentAdvisor\?\.ist_admin/);

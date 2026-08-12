@@ -1,20 +1,23 @@
 /**
- * Öffentliche Gewinnspiel-Anmeldung für das KIDZ-Sommerfest 2026.
+ * Nacherfassung der Papierzettel vom KIDZ-Sommerfest durch angemeldete Berater.
  *
- * Gewinnspielteilnahmen bleiben eine eigene Datenstrecke. Bei einer namentlichen
- * Einladung speichert die Datenbank nur die interne Promoter-Verknüpfung.
- * Der Browser erhält weder Promoter-Codes noch interne Datenbankrechte.
+ * Kein Turnstile und keine IP-Bremse: Der Erfasser ist angemeldet und reicht sein
+ * Portal-Token durch. Die Datenbank bleibt die Rechteinstanz und prüft, ob er für
+ * die gewählte Zuordnung erfassen darf.
+ *
+ * Der Dublettenschlüssel wird hier zeichengleich zur öffentlichen Anmeldung
+ * gebildet (api/kidz-register.js). Nur dadurch erkennt das Portal einen Zettel als
+ * Dublette zu einer bereits vorhandenen Online-Anmeldung.
  */
 const crypto = require('node:crypto');
 
 const SUPABASE_URL = 'https://kkseqhmfubzfyloffkwe.supabase.co';
 const ANON = 'sb_publishable_PUSXT6qIH0IoeEgKQ3hgbA_m8hYY4Dv';
 const EVENT_KEY = 'kidz-sommerfest-2026';
-const DEFAULT_ADVISOR_SLUG = 'kai-blobel';
 const CONDITIONS_VERSION = '2026-08-12-v5';
-const ALLOWED_SOURCES = new Set(['vor-ort-qr', 'flyer', 'kidz-station', 'berater-einladung', 'facebook', 'instagram', 'whatsapp', 'direkt']);
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const BEARER_PATTERN = /^Bearer\s+[^\s]+$/i;
 
 function send(res, status, payload) {
   res.statusCode = status;
@@ -40,14 +43,6 @@ function cleanEmail(value) {
   return email && EMAIL_PATTERN.test(email) ? email : '';
 }
 
-function cleanGuess(value) {
-  if (value === null || value === undefined || value === '') return null;
-  const number = Number(value);
-  if (!Number.isFinite(number)) return Number.NaN;
-  const guess = Math.trunc(number);
-  return guess >= 10 && guess <= 999 ? guess : Number.NaN;
-}
-
 function cleanPhone(value) {
   let phone = String(value || '').trim().replace(/[^\d+]/g, '');
   if (!phone) return '';
@@ -58,9 +53,12 @@ function cleanPhone(value) {
   return digits.length >= 8 && digits.length <= 15 ? `+${digits}` : '';
 }
 
-function requestIp(req) {
-  const forwarded = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim();
-  return forwarded || String(req.headers['x-real-ip'] || '').trim() || 'unknown';
+function cleanGuess(value) {
+  if (value === null || value === undefined || value === '') return null;
+  const number = Number(value);
+  if (!Number.isFinite(number)) return Number.NaN;
+  const guess = Math.trunc(number);
+  return guess >= 10 && guess <= 999 ? guess : Number.NaN;
 }
 
 function hmac(secret, value) {
@@ -77,43 +75,26 @@ function sameOrigin(req) {
   }
 }
 
-async function verifyTurnstile(secret, token, ip) {
-  const body = new URLSearchParams();
-  body.set('secret', secret);
-  body.set('response', token);
-  if (ip && ip !== 'unknown') body.set('remoteip', ip);
-
-  const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body,
-  });
-  if (!response.ok) return false;
-  const result = await response.json();
-  return result?.success === true;
-}
-
-async function registerParticipation(secret, payload) {
-  const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/register_kidz_gewinnspiel_public`, {
+async function recordParticipation(secret, accessToken, payload) {
+  const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/record_kidz_gewinnspiel_onsite`, {
     method: 'POST',
     headers: {
       apikey: ANON,
-      Authorization: `Bearer ${ANON}`,
+      Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       p_secret: secret,
       p_event_key: EVENT_KEY,
-      p_berater_slug: payload.beraterSlug,
+      p_berater_slug: payload.beraterSlug || null,
       p_name: payload.name,
       p_email: payload.email || null,
       p_telefon: payload.telefon || null,
-      p_source: payload.source,
-      p_elternabend_interesse: payload.parentEvening,
       p_schaetzung_cm: payload.schaetzung,
+      p_elternabend_interesse: payload.parentEvening,
       p_conditions_version: CONDITIONS_VERSION,
-      p_rate_key: payload.rateKey,
       p_contact_key: payload.contactKey,
+      p_contact_key_alt: payload.contactKeyAlt,
       p_consent: true,
     }),
   });
@@ -123,8 +104,8 @@ async function registerParticipation(secret, payload) {
   try { result = text ? JSON.parse(text) : null; } catch (_) {}
   if (!response.ok) {
     const message = String(result?.message || '');
-    const error = new Error(message || `Supabase Registrierung: ${response.status}`);
-    error.statusCode = message.includes('Zu viele Anfragen') ? 429 : 502;
+    const error = new Error(message || `Supabase Nacherfassung: ${response.status}`);
+    error.statusCode = response.status === 401 || response.status === 403 ? 401 : 502;
     throw error;
   }
   return result;
@@ -141,9 +122,14 @@ module.exports = async function handler(req, res) {
   }
   if (!sameOrigin(req)) return send(res, 403, { ok: false });
 
+  const authorization = String(req.headers.authorization || '').trim();
+  if (!BEARER_PATTERN.test(authorization)) {
+    return send(res, 401, { ok: false, reason: 'authentication_required' });
+  }
+  const accessToken = authorization.replace(/^Bearer\s+/i, '').trim();
+
   const registrationSecret = process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET || '';
-  const turnstileSecret = process.env.TURNSTILE_SECRET_KEY || '';
-  if (!registrationSecret || !turnstileSecret) {
+  if (!registrationSecret) {
     return send(res, 503, { ok: false, reason: 'not_configured' });
   }
 
@@ -153,15 +139,14 @@ module.exports = async function handler(req, res) {
   const rawPhone = String(body.telefon || '').trim();
   const email = cleanEmail(rawEmail);
   const telefon = cleanPhone(rawPhone);
-  const requestedSource = String(body.source || '').trim().toLowerCase();
-  const source = ALLOWED_SOURCES.has(requestedSource) ? requestedSource : 'direkt';
-  const requestedAdvisorSlug = String(body.beraterSlug || '').trim().toLowerCase().slice(0, 80);
-  const beraterSlug = requestedAdvisorSlug || DEFAULT_ADVISOR_SLUG;
-  const captchaToken = String(body.captchaToken || '').trim().slice(0, 4096);
   const schaetzung = cleanGuess(body.schaetzung);
+  const requestedAdvisorSlug = String(body.beraterSlug || '').trim().toLowerCase().slice(0, 80);
 
-  if (name.length < 2 || body.consent !== true || !SLUG_PATTERN.test(beraterSlug)) {
+  if (name.length < 2 || body.consent !== true) {
     return send(res, 400, { ok: false, reason: 'invalid_input' });
+  }
+  if (requestedAdvisorSlug && !SLUG_PATTERN.test(requestedAdvisorSlug)) {
+    return send(res, 400, { ok: false, reason: 'invalid_advisor' });
   }
   if ((rawEmail && !email) || (rawPhone && !telefon) || (!email && !telefon)) {
     return send(res, 400, { ok: false, reason: 'invalid_contact' });
@@ -169,40 +154,35 @@ module.exports = async function handler(req, res) {
   if (Number.isNaN(schaetzung)) {
     return send(res, 400, { ok: false, reason: 'invalid_guess' });
   }
-  if (!captchaToken) return send(res, 400, { ok: false, reason: 'captcha_required' });
 
-  const ip = requestIp(req);
   try {
-    if (!await verifyTurnstile(turnstileSecret, captchaToken, ip)) {
-      return send(res, 400, { ok: false, reason: 'captcha_failed' });
-    }
-
     const contactIdentity = email ? `email:${email}` : `phone:${telefon}`;
-    const result = await registerParticipation(registrationSecret, {
+    const result = await recordParticipation(registrationSecret, accessToken, {
       name,
       email,
       telefon,
-      source,
-      beraterSlug,
       schaetzung,
+      beraterSlug: requestedAdvisorSlug,
       parentEvening: body.parentEvening === true,
-      rateKey: hmac(registrationSecret, `ip:${ip}`),
       contactKey: hmac(registrationSecret, `${EVENT_KEY}|${contactIdentity}`),
+      contactKeyAlt: email && telefon
+        ? hmac(registrationSecret, `${EVENT_KEY}|phone:${telefon}`)
+        : null,
     });
 
     if (result?.reason === 'already_exists') {
-      return send(res, 409, { ok: false, reason: 'already_exists' });
+      return send(res, 409, { ok: false, reason: 'already_exists', reference: result.reference || null });
     }
-    if (result?.reason === 'invalid_advisor' || result?.reason === 'invalid_event') {
-      return send(res, 400, { ok: false, reason: result.reason });
-    }
-    if (!result?.ok || !result?.reference) throw new Error('Unvollständige Registrierungsantwort');
+    if (result?.reason === 'forbidden') return send(res, 403, { ok: false, reason: 'forbidden' });
+    if (result?.reason === 'no_advisor_account') return send(res, 403, { ok: false, reason: 'no_advisor_account' });
+    if (result?.reason === 'invalid_advisor') return send(res, 400, { ok: false, reason: 'invalid_advisor' });
+    if (!result?.ok || !result?.reference) throw new Error('Unvollständige Antwort der Nacherfassung');
     return send(res, 201, { ok: true, reference: result.reference });
   } catch (error) {
-    console.error('[kidz-register]', error.message);
+    console.error('[kidz-nacherfassung]', error.message);
     return send(res, error.statusCode || 502, {
       ok: false,
-      reason: error.statusCode === 429 ? 'rate_limited' : 'registration_failed',
+      reason: error.statusCode === 401 ? 'authentication_required' : 'registration_failed',
     });
   }
 };

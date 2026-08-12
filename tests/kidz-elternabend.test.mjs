@@ -32,7 +32,7 @@ const validBody = {
   source: 'elternabend-qr',
   timePreference: 'werktag-abends',
   question: 'Wie bleiben wir beim Sparen flexibel?',
-  beraterSlug: 'promoter-anika-bibrach',
+  beraterSlug: 'promoter-anja-scholz',
   captchaToken: 'captcha-token',
   consent: true,
 };
@@ -59,7 +59,7 @@ try {
   assert.equal(requests.length, 2);
   const rpcBody = JSON.parse(requests[1].options.body);
   assert.equal(rpcBody.p_event_key, 'kidz-elternabend-warteliste-2026');
-  assert.equal(rpcBody.p_berater_slug, 'promoter-anika-bibrach');
+  assert.equal(rpcBody.p_berater_slug, 'promoter-anja-scholz');
   assert.equal(rpcBody.p_source, 'elternabend-qr');
   assert.equal(rpcBody.p_time_preference, 'werktag-abends');
   assert.equal(rpcBody.p_conditions_version, '2026-08-12-v1');
@@ -111,7 +111,9 @@ assert.match(html, /Exklusiver KIDZ-Elternabend/);
 assert.match(html, /Der persönliche Eltern-Workshop für Familien/);
 assert.match(html, /id="keaForm"/);
 assert.match(html, /id="keaAdvisor"/);
-assert.match(html, /promoter-anika-bibrach">Anika Biebrach/);
+assert.match(html, /promoter-anja-scholz">Anja Scholz/);
+assert.match(html, /promoter-sandra-roehrens">Sandra Röhrens/);
+assert.doesNotMatch(html, /Anika|bibrach/i);
 assert.match(html, /promoter-david-stamm">David Stamm/);
 assert.match(html, /Keine Angaben zu Kindern\. Kein Kauf\. Keine automatische Werbeeinwilligung\./);
 assert.match(html, /keine Gewinnspielteilnahme, keine Kundenanfrage und keine Einwilligung in allgemeine Werbung/);

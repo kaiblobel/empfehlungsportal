@@ -155,13 +155,23 @@ function resetCaptcha() {
   if (captchaWidgetId !== null && window.turnstile?.reset) window.turnstile.reset(captchaWidgetId);
 }
 
-function clientValidation(name, email, telefon, consent) {
+function clientValidation(name, email, telefon, consent, schaetzung) {
   if (name.length < 2) return 'Bitte gib deinen Vor- und Nachnamen ein.';
   if (!email && !telefon) return 'Bitte gib eine E-Mail-Adresse oder Mobilnummer an.';
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'Bitte prüfe deine E-Mail-Adresse.';
+  if (schaetzung !== null && (!Number.isInteger(schaetzung) || schaetzung < 10 || schaetzung > 999)) {
+    return 'Bitte gib den geschätzten Ballumfang als ganze Zahl zwischen 10 und 999 cm an.';
+  }
   if (!consent) return 'Bitte bestätige die Teilnahmebedingungen und Datenschutzhinweise.';
   if (!captchaToken) return 'Bitte führe den Sicherheitscheck durch.';
   return '';
+}
+
+function readGuess() {
+  const raw = String(document.getElementById('kgGuess').value || '').trim();
+  if (!raw) return null;
+  const value = Number(raw);
+  return Number.isFinite(value) ? Math.trunc(value) : Number.NaN;
 }
 
 form.addEventListener('submit', async (event) => {
@@ -174,7 +184,8 @@ form.addEventListener('submit', async (event) => {
   const consent = document.getElementById('kgConsent').checked;
   const parentEvening = document.getElementById('kgParentEvening').checked;
   const beraterSlug = advisorSelect.value;
-  const validationError = clientValidation(name, email, telefon, consent);
+  const schaetzung = readGuess();
+  const validationError = clientValidation(name, email, telefon, consent, schaetzung);
   if (validationError) {
     showError(validationError);
     return;
@@ -195,12 +206,13 @@ form.addEventListener('submit', async (event) => {
         parentEvening,
         beraterSlug,
         captchaToken,
+        schaetzung,
         source: readSource(),
       }),
     });
     const result = await response.json().catch(() => ({}));
 
-    if (response.status === 409) throw new Error('Du bist bereits für die Online-Verlosung angemeldet. Für den Hauptgewinn bekommst du vor Ort ein Los.');
+    if (response.status === 409) throw new Error('Du bist bereits zum Gewinnspiel angemeldet. Deine Schätzung für den Ballumfang kannst du beim Sommerfest abgeben.');
     if (response.status === 429) throw new Error('Es gab gerade zu viele Versuche. Bitte probiere es später noch einmal.');
     if (response.status === 503) throw new Error('Die Anmeldung ist noch nicht freigeschaltet. Bitte sprich uns an der KIDZ-Station an.');
     if (!response.ok || !result?.reference) throw new Error('Deine Teilnahme konnte gerade nicht gespeichert werden. Bitte versuche es noch einmal.');
@@ -208,6 +220,9 @@ form.addEventListener('submit', async (event) => {
     form.hidden = true;
     document.querySelector('.kg-form-intro').hidden = true;
     successBox.hidden = false;
+    document.getElementById('kgSuccessNote').textContent = schaetzung === null
+      ? 'Wir haben deine Anmeldung. Deine Schätzung für den Ballumfang kannst du beim Sommerfest noch abgeben.'
+      : `Wir haben deine Anmeldung und deine Schätzung von ${schaetzung} cm. Beim Sommerfest messen wir nach.`;
     document.getElementById('kgReference').textContent = `Teilnahmebestätigung: ${result.reference}`;
     successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
   } catch (error) {

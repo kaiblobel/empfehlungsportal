@@ -7,7 +7,7 @@
   <title>KIDZ Gewinnspiel · Empfehlungsportal</title>
   <link rel="stylesheet" href="../css/style.css?v=33">
   <link rel="stylesheet" href="../css/dashboard.css?v=49">
-  <link rel="stylesheet" href="../css/kidz-gewinnspiel-admin.css?v=4">
+  <link rel="stylesheet" href="../css/kidz-gewinnspiel-admin.css?v=5">
   <script src="../js/config.js"></script>
 </head>
 <body class="has-app-nav kg-admin-page">
@@ -32,17 +32,19 @@
         <div>
           <div class="h-label">Linas Arbeitsstrecke</div>
           <h1>Sommerfest-Gewinnspiel</h1>
-          <p>Alle Online-Anmeldungen nehmen an der Preisverlosung teil. Der Hauptgewinn wird getrennt vor Ort über eine Tombola verlost.</p>
+          <p>Alle Anmeldungen nehmen an der Verlosung der Preise teil. Platz 1 geht an die genaueste Schätzung des Ballumfangs.</p>
         </div>
         <div class="kg-admin-actions">
           <a class="kg-admin-secondary" href="/kidz/gewinnspiel?quelle=direkt" target="_blank" rel="noopener">Anmeldeseite öffnen</a>
           <button class="kg-admin-secondary" id="copyInviteBtn" type="button">Meinen Einladungslink kopieren</button>
-          <button class="kg-admin-primary" id="exportBtn" type="button" disabled>Liste herunterladen</button>
+          <button class="kg-admin-secondary" id="exportBtn" type="button" disabled>Liste herunterladen</button>
+          <button class="kg-admin-primary" id="onsiteBtn" type="button">Zettel nacherfassen</button>
         </div>
       </section>
 
       <section class="kg-admin-kpis" aria-label="Kennzahlen">
-        <article><span>Online-Teilnahmen</span><strong id="totalCount">0</strong><small>bei der Preisverlosung</small></article>
+        <article><span>Teilnahmen gesamt</span><strong id="totalCount">0</strong><small>online und auf Papier</small></article>
+        <article><span>Mit Schätzung</span><strong id="guessCount">0</strong><small>im Rennen um Platz 1</small></article>
         <article><span>Elternabend</span><strong id="parentCount">0</strong><small>freiwilliges Interesse</small></article>
         <article><span>Berater</span><strong id="advisorCount">0</strong><small>mit zugeordneten Teilnahmen</small></article>
       </section>
@@ -57,11 +59,15 @@
           <input id="parentOnly" type="checkbox">
           Nur Elternabend-Interesse
         </label>
+        <label class="kg-admin-toggle" for="onsiteOnly">
+          <input id="onsiteOnly" type="checkbox">
+          Nur Vor-Ort-Zettel
+        </label>
       </section>
 
       <section aria-labelledby="entriesTitle">
         <div class="kg-admin-section-head">
-          <h2 id="entriesTitle">Online-Teilnahmen</h2>
+          <h2 id="entriesTitle">Teilnahmen</h2>
           <span id="resultMeta">Wird geladen …</span>
         </div>
         <div class="kg-admin-list" id="entries" aria-live="polite">
@@ -71,7 +77,8 @@
 
       <aside class="kg-admin-boundary">
         <strong>Ablauf am Veranstaltungstag</strong>
-        <p>Alle Online-Anmeldungen nehmen an der Preisverlosung teil. Für den Hauptgewinn erhält jede volljährige Person, die beim Sommerfest vor Ort erscheint, ein Los und wirft es selbst in die Tombola. Das Los wird nicht im Portal erfasst. Zuerst den Hauptgewinn aus der Tombola ziehen, danach die weiteren Preise unter den übrigen gültigen Online-Anmeldungen. Diese Liste bleibt getrennt von Promotern, Empfehlungen und Kundendaten.</p>
+        <p>Anmelden geht auf zwei Wegen: online oder vor Ort auf dem Gewinnspiel-Flyer. Die Papierzettel tippen wir nach dem Fest über „Zettel nacherfassen“ in dieselbe Liste. Wer schon angemeldet ist und erst vor Ort schätzt, bekommt seine Zahl über „Schätzung“ an der vorhandenen Zeile nachgetragen.</p>
+        <p>Platz 1, das Survival Event, geht an die genaueste Schätzung des Ballumfangs. Maßgeblich ist der Umfang, den wir am 6. September selbst messen. <strong>Liegen mehrere gleich weit daneben, ziehen wir unter diesen Personen zufällig.</strong> Danach werden die weiteren Preise unter allen übrigen gültigen Anmeldungen verlost. Diese Liste bleibt getrennt von Promotern, Empfehlungen und Kundendaten.</p>
       </aside>
     </main>
   </div>
@@ -97,7 +104,68 @@
     </form>
   </dialog>
 
+  <dialog class="kg-admin-dialog" id="onsiteDialog" aria-labelledby="onsiteDialogTitle">
+    <form method="dialog" class="kg-admin-dialog-card" id="onsiteForm">
+      <div class="h-label">Nacherfassung Sommerfest</div>
+      <h2 id="onsiteDialogTitle">Papierzettel erfassen</h2>
+      <p>Ein Zettel je Durchgang. Nach dem Speichern bleibt das Fenster offen und du kannst den nächsten Zettel abtippen.</p>
+
+      <label class="kg-admin-dialog-label" for="onsiteName">Name laut Zettel</label>
+      <input id="onsiteName" type="text" maxlength="100" autocomplete="off" autocapitalize="words">
+
+      <label class="kg-admin-dialog-label" for="onsiteEmail">E-Mail</label>
+      <input id="onsiteEmail" type="email" maxlength="180" autocomplete="off" inputmode="email">
+
+      <label class="kg-admin-dialog-label" for="onsitePhone">Mobilnummer</label>
+      <input id="onsitePhone" type="tel" maxlength="40" autocomplete="off" inputmode="tel">
+      <p class="kg-admin-dialog-hint">Ohne E-Mail oder Mobilnummer geht es nicht: Wir könnten die Person im Gewinnfall nicht benachrichtigen. Bitte nichts ergänzen oder raten, sondern den Zettel auf den Stapel „ohne Kontakt“ legen.</p>
+
+      <label class="kg-admin-dialog-label" for="onsiteGuess">Geschätzter Ballumfang in cm</label>
+      <input id="onsiteGuess" type="number" min="10" max="999" step="1" autocomplete="off" inputmode="numeric">
+
+      <label class="kg-admin-dialog-label" for="onsiteAdvisor" id="onsiteAdvisorLabel">Zuordnung</label>
+      <select id="onsiteAdvisor"></select>
+      <p class="kg-admin-dialog-hint" id="onsiteAdvisorNote" hidden></p>
+
+      <label class="kg-admin-dialog-check" for="onsiteParentEvening">
+        <input id="onsiteParentEvening" type="checkbox">
+        Elternabend auf dem Zettel angekreuzt
+      </label>
+
+      <label class="kg-admin-dialog-check" for="onsiteConsent">
+        <input id="onsiteConsent" type="checkbox">
+        Der Zettel ist unterschrieben. Die Person ist volljährig und hat die Teilnahmebedingungen in Fassung 5 bestätigt.
+      </label>
+
+      <p class="kg-admin-dialog-status" id="onsiteStatus" role="status"></p>
+      <p class="kg-admin-dialog-counter" id="onsiteCounter"></p>
+      <div class="kg-admin-dialog-actions">
+        <button class="kg-admin-secondary" type="button" id="onsiteNoContactBtn">Zettel ohne Kontakt · zählen und weiter</button>
+        <button class="kg-admin-secondary" type="button" id="onsiteCloseBtn">Fertig</button>
+        <button class="kg-admin-primary" type="submit" id="onsiteSaveBtn" disabled>Erfassen und nächster Zettel</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="kg-admin-dialog" id="guessDialog" aria-labelledby="guessDialogTitle">
+    <form method="dialog" class="kg-admin-dialog-card" id="guessForm">
+      <div class="h-label">Schätzung nachtragen</div>
+      <h2 id="guessDialogTitle">Ballumfang eintragen</h2>
+      <p class="kg-admin-dialog-person" id="guessPerson"></p>
+      <p>Trage hier die Schätzung ein, die diese Person vor Ort abgegeben hat. Ein leeres Feld löscht eine bereits erfasste Schätzung.</p>
+
+      <label class="kg-admin-dialog-label" for="guessValue">Geschätzter Ballumfang in cm</label>
+      <input id="guessValue" type="number" min="10" max="999" step="1" autocomplete="off" inputmode="numeric">
+
+      <p class="kg-admin-dialog-status" id="guessStatus" role="status"></p>
+      <div class="kg-admin-dialog-actions">
+        <button class="kg-admin-secondary" type="button" id="guessCancelBtn">Abbrechen</button>
+        <button class="kg-admin-primary" type="submit" id="guessSaveBtn">Schätzung speichern</button>
+      </div>
+    </form>
+  </dialog>
+
   <script type="module" src="../js/nav.js?v=60"></script>
-  <script type="module" src="../js/kidz-gewinnspiel-admin.js?v=4"></script>
+  <script type="module" src="../js/kidz-gewinnspiel-admin.js?v=5"></script>
 </body>
 </html>

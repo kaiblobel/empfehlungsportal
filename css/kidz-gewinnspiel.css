@@ -223,6 +223,14 @@ main { width: min(1120px, calc(100% - 32px)); margin: 18px auto 48px; }
 .kg-advisor-field { margin: 20px 0; padding: 16px; background: #edf5fb; border: 1px solid rgba(45,127,193,.15); border-radius: 14px; }
 .kg-advisor-field label span { margin-left: 5px; padding: 3px 7px; color: #38647f; background: #dcecf7; border-radius: 999px; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; }
 .kg-advisor-field .kg-hint { margin: 8px 0 0; }
+.kg-guess-field { margin: 20px 0; padding: 16px; background: #fff6e6; border: 1px solid rgba(242,138,40,.22); border-radius: 14px; }
+.kg-guess-field label span { margin-left: 5px; padding: 3px 7px; color: #8a5410; background: #fbe6c6; border-radius: 999px; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; }
+.kg-guess-input { position: relative; max-width: 220px; }
+.kg-guess-input input { padding-right: 52px; text-align: left; }
+.kg-guess-input input::-webkit-outer-spin-button, .kg-guess-input input::-webkit-inner-spin-button { margin: 0; -webkit-appearance: none; appearance: none; }
+.kg-guess-input input { -moz-appearance: textfield; appearance: textfield; }
+.kg-guess-input span { position: absolute; top: 50%; right: 15px; color: var(--kg-muted); font-size: 14px; font-weight: 750; transform: translateY(-50%); pointer-events: none; }
+.kg-guess-field .kg-hint { margin: 8px 0 0; }
 .kg-hint { margin: -4px 0 20px; color: var(--kg-muted); font-size: 12px; line-height: 1.5; }
 .kg-check { display: grid; grid-template-columns: 22px 1fr; gap: 10px; margin: 12px 0; padding: 14px; background: #f4f8f1; border: 1px solid rgba(12,108,63,.13); border-radius: 13px; font-size: 13px; line-height: 1.5; }
 .kg-check input { width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--kg-green); }
