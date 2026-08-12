@@ -157,8 +157,37 @@ export async function loadKPIs() {
 
 /* ---------- Listen ---------- */
 
-export async function loadEmpfehlungen({ filter = 'alle', search = '', limit = 200 } = {}) {
+/**
+ * Empfehlungsliste. `bereich` ist 'mein' (Voreinstellung) oder 'team'.
+ *
+ * Phase 199 · Im Teamfall kommen die Empfehlungen des eigenen Astes über die
+ * Datenbankfunktion team_empfehlungen. Die Leseregel auf der Tabelle bleibt
+ * bewusst eng, damit die Kacheln und Trichterzahlen die eigenen bleiben.
+ * Die Teamsicht liefert weniger Felder als die eigene Liste; das Bearbeiten
+ * fremder Empfehlungen ist ohnehin nicht erlaubt und wird dort ausgeblendet.
+ */
+export async function loadEmpfehlungen({ filter = 'alle', search = '', limit = 200, bereich = 'mein' } = {}) {
   if (!supabase) return [];
+
+  if (bereich === 'team') {
+    const { getTeamEmpfehlungen } = await import('../js/supabase.js');
+    const rows = await getTeamEmpfehlungen(90, limit);
+    return (rows || [])
+      .map((r) => ({
+        id: r.id,
+        empfaenger_name: r.empfaenger_name,
+        status: r.status,
+        interessiert: r.interessiert,
+        anrufwunsch: r.anrufwunsch,
+        empfehler_name: r.empfehler_name,
+        created_at: r.angelegt_am,
+        berater_name: r.berater_name,
+        fremd: true,
+      }))
+      .filter((r) => (filter === 'alle' || r.status === filter)
+        && (!search.trim() || String(r.empfaenger_name || '').toLowerCase().includes(search.trim().toLowerCase())));
+  }
+
   let q = supabase
     .from('empfehlungen')
     .select('*')
@@ -233,8 +262,34 @@ export async function updateEmpfehlung(id, fields) {
 
 /* ---------- Empfehler (Phase 7) ---------- */
 
-export async function loadEmpfehlerList() {
+/**
+ * Promoterliste. `bereich` ist 'mein' (Voreinstellung) oder 'team'.
+ *
+ * Phase 199 · Im Teamfall kommen die Promoter des eigenen Astes über die
+ * Datenbankfunktion team_promoter, weil die Leseregel auf der Tabelle
+ * bewusst eng bleibt: würde sie den Ast freigeben, zählte jede Kachel im
+ * Portal plötzlich das ganze Team mit.
+ */
+export async function loadEmpfehlerList(bereich = 'mein') {
   if (!supabase) return [];
+  if (bereich === 'team') {
+    const { getTeamPromoter } = await import('../js/supabase.js');
+    const rows = await getTeamPromoter(500);
+    return (rows || []).map((r) => ({
+      id: r.id,
+      code: r.code,
+      name: r.name,
+      email: r.email,
+      telefon: r.telefon,
+      ziel_stufe: null,
+      created_at: r.angelegt_am,
+      letzte_aktivitaet: null,
+      gesamt: Number(r.empfehlungen) || 0,
+      kunde: Number(r.kunden) || 0,
+      berater_name: r.berater_name,
+      selbst_angemeldet: r.selbst_angemeldet,
+    }));
+  }
   try {
     const { data: empfehlerRows, error: e1 } = await supabase
       .from('empfehler')

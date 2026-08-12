@@ -32,7 +32,7 @@ assert.match(teamHtml, /data-ranking="quote"/);
 assert.match(teamHtml, /Alphabetisch · unabhängig vom Ranking/);
 assert.match(teamHtml, /ohne Kundendaten offenzulegen/);
 assert.match(teamHtml, /js\/team\.js\?v=3/);
-assert.match(teamHtml, /css\/hub\.css\?v=54/);
+assert.match(teamHtml, /css\/hub\.css\?v=55/);
 assert.match(teamHtml, /js\/nav\.js\?v=60/);
 
 assert.match(teamJs, /getTeamMetrics\(currentDays\)/);
@@ -84,9 +84,9 @@ assert.match(css, /\.team-ranking/);
 assert.match(css, /\.team-podium-avatar img/);
 assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.team-detail-metrics/);
 
-assert.match(config, /v1\.218 Beta/);
-assert.match(config, /Phase 195 · Prämien, Benachrichtigungen und Führungslinie/);
-assert.match(sw, /CACHE_VERSION = 'v177-2026-08-12-phase195'/);
+assert.match(config, /v1\.219 Beta/);
+assert.match(config, /Phase 199 · Teamsicht in Promoter- und Empfehlungsliste/);
+assert.match(sw, /CACHE_VERSION = 'v178-2026-08-12-phase199'/);
 assert.match(sw, /'\/team\.html'/);
 assert.match(sw, /'\/js\/team\.js\?v=3'/);
 assert.match(beraterHtml, /<title>Beraterkonten · Empfehlungsportal<\/title>/);

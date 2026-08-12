@@ -1,7 +1,50 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.218 Beta** · Prämien, Benachrichtigungen und Führungslinie, live seit 12.08.2026.
+Offizielle Live-Version: **v1.219 Beta** · Teamsicht in Promoter- und Empfehlungsliste, live seit 12.08.2026.
+
+---
+
+## v1.219 Beta - Phase 199 · Teamsicht in Promoter- und Empfehlungsliste
+**2026-08-12 · live veröffentlicht**
+
+Anlass war ein Praxisfall direkt nach dem Livegang von v1.218: Sandro hatte gestern
+einen echten Promoter angelegt (Johannes Kobbe), und Kai konnte ihn im Portal nicht
+finden. Grund war der Befund P2·1 aus dem Prüfbericht: Die Leseregel auf den Promotern
+lautet schlicht „gehört mir", ohne Admin-Vorbehalt. Wer selbst keinen Promoter hat,
+sieht eine leere Liste, obwohl das Team welche hat.
+
+- **Umschalter „Meine" und „Mein Team"** in der Promoterliste und in der
+  Empfehlungsliste. Er erscheint nur bei Führungskräften, also wenn wirklich jemand
+  unter einem hängt. Wer niemanden führt, bekommt keinen Knopf, der dasselbe zweimal
+  zeigt.
+- In der Teamsicht steht neben jedem Eintrag, **zu welchem Berater er gehört**.
+- Fremde Einträge sind sichtbar, aber **nicht anklickbar**: Die Detailseite fände sie
+  wegen der Leseregel ohnehin nicht und liefe in eine leere Ansicht.
+- Die Auswahl bleibt je Gerät gemerkt.
+
+**Was ausdrücklich nicht passiert ist:** Die Leseregeln auf den Tabellen bleiben eng
+auf die eigenen Daten. Hätte man sie für den Ast geöffnet, zählte jede Kachel im
+Portal plötzlich das ganze Team mit, und jede Zahl bekäme eine andere Bedeutung. Die
+Teamsicht ist ein bewusster Umschalter in der Liste, keine neue Grundregel. Der Ast
+kommt über die Datenbankfunktionen `team_promoter` und `team_empfehlungen`, die über
+`mein_team()` begrenzt sind.
+
+Die **Teamübersicht** unter `/team.html` bleibt wie in Phase 196 datensparsam und zeigt
+weiter nur Zahlen. Prämien und KIDZ-Anmeldungen des Astes bleiben ohne Namen, solange
+sie niemand braucht.
+
+Nachtrag zur Datenbank: **Phase 198** hat die anonymen Ausführungsrechte der in den
+Phasen 192 bis 197 neu angelegten Funktionen entzogen. Beim Anlegen einer Funktion im
+Schema `public` vergibt Supabase automatisch EXECUTE an `anon`, und ein
+`revoke ... from public` entfernt das nicht. Die revoke-Zeilen sahen richtig aus und
+haben nichts bewirkt. Ausnutzbar war nichts, weil alle betroffenen Funktionen an der
+Anmeldung hängen, aber `team_promoter` und Geschwister waren damit für angemeldete
+Berater gesperrt und für anonyme Aufrufer offen. Genau verkehrt herum.
+
+**Phase 197** macht den Coach je Berater in der Beraterverwaltung pflegbar, auch beim
+Anlegen. Kreise in der Führungslinie weist die Datenbank ab (Trigger
+`berater_pruefe_fuehrungslinie`). Zuvor ging die Zuordnung nur per SQL.
 
 ---
 
