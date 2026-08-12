@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.223 Beta** · KIDZ Ballschätzen und Nacherfassung, live seit 12.08.2026.
+Offizielle Live-Version: **v1.224 Beta** · KIDZ Ballschätzen und Nacherfassung, live seit 12.08.2026.
+
+---
+
+## v1.224 Beta - Phase 204 · Wie viele kommen mit
+**2026-08-12 · live veröffentlicht**
+
+- Die Anmeldung fragt jetzt freiwillig ab, **mit wie vielen jemand kommt**. Man meldet sich mit dem eigenen Namen an und wählt dazu, wie viele Personen mitkommen; Kinder einfach mitgezählt. Ohne Angabe geht die Anmeldung wie bisher durch.
+- Im geschützten Bereich steht dafür die neue Kennzahl **Erwartete Personen**, die die Begleitung mitrechnet. Sie ersetzt die Kachel „Mit Schätzung", weil für die Planung die Personenzahl zählt. Die Zahl steht auch an jeder Zeile und im CSV.
+- Der Papierflyer hat dieselbe Zeile bekommen: „Wir kommen mit ___ Personen". Sonst fehlte die Angabe bei allen Vor-Ort-Anmeldungen.
+- Die Nacherfassung im Portal fragt sie ebenfalls ab.
+- **Der Anmeldeblock auf der Sommerfest-Startseite ist wieder eine Zeile.** Der große Kasten aus v1.223 hat den Flyer zu weit nach unten gedrückt, dabei sollte er nur daran erinnern, sich anzumelden. Jetzt: ein Satz, ein Knopf.
+- Datenbankmigration `phase_204_kidz_begleitpersonen` ist angewendet. Sie ergänzt die Spalte, das Änderungsrecht für Berater und beide Registrierungswege.
 
 ---
 

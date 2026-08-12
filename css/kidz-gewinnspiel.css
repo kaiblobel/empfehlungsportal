@@ -223,6 +223,9 @@ main { width: min(1120px, calc(100% - 32px)); margin: 18px auto 48px; }
 .kg-advisor-field { margin: 20px 0; padding: 16px; background: #edf5fb; border: 1px solid rgba(45,127,193,.15); border-radius: 14px; }
 .kg-advisor-field label span { margin-left: 5px; padding: 3px 7px; color: #38647f; background: #dcecf7; border-radius: 999px; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; }
 .kg-advisor-field .kg-hint { margin: 8px 0 0; }
+.kg-begleit-field { margin: 20px 0; padding: 16px; background: #f2f8fb; border: 1px solid rgba(45,127,193,.15); border-radius: 14px; }
+.kg-begleit-field label span { display: inline-block; margin-left: 5px; padding: 3px 7px; color: #38647f; background: #dcecf7; border-radius: 999px; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
+.kg-begleit-field .kg-hint { margin: 8px 0 0; }
 .kg-guess-field { margin: 20px 0; padding: 16px; background: #fff6e6; border: 1px solid rgba(242,138,40,.22); border-radius: 14px; }
 .kg-guess-field label span { display: inline-block; margin-left: 5px; padding: 3px 7px; color: #8a5410; background: #fbe6c6; border-radius: 999px; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
 /* Bis zum Veranstaltungstag bleibt das Feld sichtbar, aber erkennbar gesperrt:

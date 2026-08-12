@@ -48,6 +48,14 @@ function cleanEmail(value) {
   return email && EMAIL_PATTERN.test(email) ? email : '';
 }
 
+function cleanCompanions(value) {
+  if (value === null || value === undefined || value === '') return null;
+  const number = Number(value);
+  if (!Number.isFinite(number)) return Number.NaN;
+  const anzahl = Math.trunc(number);
+  return anzahl >= 0 && anzahl <= 20 ? anzahl : Number.NaN;
+}
+
 function cleanGuess(value) {
   if (value === null || value === undefined || value === '') return null;
   const number = Number(value);
@@ -119,6 +127,7 @@ async function registerParticipation(secret, payload) {
       p_source: payload.source,
       p_elternabend_interesse: payload.parentEvening,
       p_schaetzung_cm: payload.schaetzung,
+      p_begleitpersonen: payload.begleitpersonen,
       p_conditions_version: CONDITIONS_VERSION,
       p_rate_key: payload.rateKey,
       p_contact_key: payload.contactKey,
@@ -171,6 +180,7 @@ module.exports = async function handler(req, res) {
   // altem Zwischenspeicher seine Teilnahme wegen eines Feldes, das es nicht
   // mehr geben duerfte.
   const schaetzung = guessOpen() ? cleanGuess(body.schaetzung) : null;
+  const begleitpersonen = cleanCompanions(body.begleitpersonen);
 
   if (name.length < 2 || body.consent !== true || !SLUG_PATTERN.test(beraterSlug)) {
     return send(res, 400, { ok: false, reason: 'invalid_input' });
@@ -180,6 +190,9 @@ module.exports = async function handler(req, res) {
   }
   if (Number.isNaN(schaetzung)) {
     return send(res, 400, { ok: false, reason: 'invalid_guess' });
+  }
+  if (Number.isNaN(begleitpersonen)) {
+    return send(res, 400, { ok: false, reason: 'invalid_companions' });
   }
   if (!captchaToken) return send(res, 400, { ok: false, reason: 'captcha_required' });
 
@@ -197,6 +210,7 @@ module.exports = async function handler(req, res) {
       source,
       beraterSlug,
       schaetzung,
+      begleitpersonen,
       parentEvening: body.parentEvening === true,
       rateKey: hmac(registrationSecret, `ip:${ip}`),
       contactKey: hmac(registrationSecret, `${EVENT_KEY}|${contactIdentity}`),

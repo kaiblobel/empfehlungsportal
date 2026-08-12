@@ -11,6 +11,7 @@ const guessField = document.getElementById('kgGuessField');
 const guessInput = document.getElementById('kgGuess');
 const guessTag = document.getElementById('kgGuessTag');
 const guessHint = document.getElementById('kgGuessHint');
+const begleitungSelect = document.getElementById('kgBegleitung');
 const parentEveningRow = document.getElementById('kgParentEveningRow');
 const parentEveningInput = document.getElementById('kgParentEvening');
 const promoterFallbacks = [...advisorSelect.options]
@@ -219,6 +220,7 @@ form.addEventListener('submit', async (event) => {
   const parentEvening = !parentEveningRow.hidden && parentEveningInput.checked;
   const beraterSlug = advisorSelect.value;
   const schaetzung = readGuess();
+  const begleitpersonen = begleitungSelect.value === '' ? null : Number(begleitungSelect.value);
   const validationError = clientValidation(name, email, telefon, consent, schaetzung);
   if (validationError) {
     showError(validationError);
@@ -241,6 +243,7 @@ form.addEventListener('submit', async (event) => {
         beraterSlug,
         captchaToken,
         schaetzung,
+        begleitpersonen,
         source: readSource(),
       }),
     });

@@ -53,6 +53,14 @@ function cleanPhone(value) {
   return digits.length >= 8 && digits.length <= 15 ? `+${digits}` : '';
 }
 
+function cleanCompanions(value) {
+  if (value === null || value === undefined || value === '') return null;
+  const number = Number(value);
+  if (!Number.isFinite(number)) return Number.NaN;
+  const anzahl = Math.trunc(number);
+  return anzahl >= 0 && anzahl <= 20 ? anzahl : Number.NaN;
+}
+
 function cleanGuess(value) {
   if (value === null || value === undefined || value === '') return null;
   const number = Number(value);
@@ -91,6 +99,7 @@ async function recordParticipation(secret, accessToken, payload) {
       p_email: payload.email || null,
       p_telefon: payload.telefon || null,
       p_schaetzung_cm: payload.schaetzung,
+      p_begleitpersonen: payload.begleitpersonen,
       p_elternabend_interesse: payload.parentEvening,
       p_conditions_version: CONDITIONS_VERSION,
       p_contact_key: payload.contactKey,
@@ -140,6 +149,7 @@ module.exports = async function handler(req, res) {
   const email = cleanEmail(rawEmail);
   const telefon = cleanPhone(rawPhone);
   const schaetzung = cleanGuess(body.schaetzung);
+  const begleitpersonen = cleanCompanions(body.begleitpersonen);
   const requestedAdvisorSlug = String(body.beraterSlug || '').trim().toLowerCase().slice(0, 80);
 
   if (name.length < 2 || body.consent !== true) {
@@ -154,6 +164,9 @@ module.exports = async function handler(req, res) {
   if (Number.isNaN(schaetzung)) {
     return send(res, 400, { ok: false, reason: 'invalid_guess' });
   }
+  if (Number.isNaN(begleitpersonen)) {
+    return send(res, 400, { ok: false, reason: 'invalid_companions' });
+  }
 
   try {
     const contactIdentity = email ? `email:${email}` : `phone:${telefon}`;
@@ -162,6 +175,7 @@ module.exports = async function handler(req, res) {
       email,
       telefon,
       schaetzung,
+      begleitpersonen,
       beraterSlug: requestedAdvisorSlug,
       parentEvening: body.parentEvening === true,
       contactKey: hmac(registrationSecret, `${EVENT_KEY}|${contactIdentity}`),

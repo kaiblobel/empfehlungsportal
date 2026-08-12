@@ -200,6 +200,10 @@ assert.match(html, /Wer Platz 1 erhält, nimmt nicht noch einmal an der Verlosun
 assert.match(html, /wählt zwischen einem Vater-Kind-Wochenende und einer ganzen Sommercamp-Woche/);
 assert.match(html, /Stand: 12\. August 2026, Fassung 5/);
 assert.match(html, /id="kgGuess"/);
+// Wie viele kommen mit: freiwillig, fuer die Planung.
+assert.match(html, /id="kgBegleitung"/);
+assert.match(html, /Kommt noch jemand mit\?/);
+assert.match(html, /Kinder einfach mitzählen/);
 assert.match(html, /min="10" max="999"/);
 // Das Schaetzfeld bleibt sichtbar, startet aber gesperrt und ausgegraut.
 assert.match(html, /id="kgGuessField" class="[^"]*is-closed|class="[^"]*is-closed[^"]*" id="kgGuessField"/);

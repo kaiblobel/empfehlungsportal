@@ -34,6 +34,7 @@ const onsiteName = document.getElementById('onsiteName');
 const onsiteEmail = document.getElementById('onsiteEmail');
 const onsitePhone = document.getElementById('onsitePhone');
 const onsiteGuess = document.getElementById('onsiteGuess');
+const onsiteBegleitung = document.getElementById('onsiteBegleitung');
 const onsiteAdvisor = document.getElementById('onsiteAdvisor');
 const onsiteAdvisorLabel = document.getElementById('onsiteAdvisorLabel');
 const onsiteAdvisorNote = document.getElementById('onsiteAdvisorNote');
@@ -92,7 +93,9 @@ function visibleEntries() {
 function render() {
   const visible = visibleEntries();
   document.getElementById('totalCount').textContent = String(entries.length);
-  document.getElementById('guessCount').textContent = String(entries.filter((entry) => entry.schaetzung_cm !== null && entry.schaetzung_cm !== undefined).length);
+  // Jede Anmeldung ist mindestens eine Person; Begleitung wird dazugezaehlt.
+  document.getElementById('personCount').textContent = String(
+    entries.reduce((summe, entry) => summe + 1 + (entry.begleitpersonen ?? 0), 0));
   document.getElementById('parentCount').textContent = String(entries.filter((entry) => entry.elternabend_interesse).length);
   document.getElementById('advisorCount').textContent = String(new Set(entries.map((entry) => entry.berater_id)).size);
   document.getElementById('resultMeta').textContent = `${visible.length} von ${entries.length}`;
@@ -110,7 +113,7 @@ function render() {
       <div><strong>${escapeHtml(entry.name)}</strong><span>${escapeHtml(entry.reference)}</span></div>
       <div><strong>${escapeHtml(entry.email || entry.telefon || 'Kein Kontaktweg')}</strong><span>${escapeHtml(entry.email && entry.telefon ? entry.telefon : '')}</span></div>
       <div><small>Zugeordnet zu</small><strong>${escapeHtml(entry.berater?.name || 'Kai Blobel')}</strong>${entry.empfehler?.name ? `<span>Eingeladen von ${escapeHtml(entry.empfehler.name)}</span>` : ''}</div>
-      <div><small>${escapeHtml(formatDate(entry.created_at))}</small><span>${escapeHtml(sourceLabel(entry.source))}</span></div>
+      <div><small>${escapeHtml(formatDate(entry.created_at))}</small><span>${escapeHtml(sourceLabel(entry.source))}</span>${entry.begleitpersonen === null || entry.begleitpersonen === undefined ? '' : `<span>${1 + entry.begleitpersonen} ${1 + entry.begleitpersonen === 1 ? 'Person' : 'Personen'}</span>`}</div>
       <div>
         ${entry.source === ONSITE_SOURCE ? '<span class="kg-admin-badge kg-admin-badge-onsite">Vor Ort · Papier</span>' : ''}
         <button class="kg-admin-manage" type="button" data-guess-participant="${escapeHtml(entry.id)}">${hasGuess ? `Schätzung: ${escapeHtml(String(entry.schaetzung_cm))} cm` : 'Schätzung eintragen'}</button>
@@ -127,10 +130,11 @@ function csvCell(value) {
 }
 
 function exportCsv() {
-  const header = ['Teilnahmebestätigung', 'Erfassungsweg', 'Schätzung in cm', 'Name', 'E-Mail', 'Mobilnummer', 'Vermögensberater', 'Eingeladen von', 'Quelle', 'Elternabend-Interesse', 'Teilnahmebedingungen', 'Angemeldet am'];
+  const header = ['Teilnahmebestätigung', 'Erfassungsweg', 'Personen', 'Schätzung in cm', 'Name', 'E-Mail', 'Mobilnummer', 'Vermögensberater', 'Eingeladen von', 'Quelle', 'Elternabend-Interesse', 'Teilnahmebedingungen', 'Angemeldet am'];
   const rows = entries.map((entry) => [
     entry.reference,
     entry.source === ONSITE_SOURCE ? 'Vor Ort (Papier)' : 'Online',
+    entry.begleitpersonen === null || entry.begleitpersonen === undefined ? '' : 1 + entry.begleitpersonen,
     entry.schaetzung_cm ?? '',
     entry.name, entry.email, entry.telefon, entry.berater?.name || 'Kai Blobel', entry.empfehler?.name || '', sourceLabel(entry.source),
     entry.elternabend_interesse ? 'Ja' : 'Nein', entry.conditions_version, formatDate(entry.created_at),
@@ -147,7 +151,7 @@ function exportCsv() {
 async function loadEntries() {
   const { data, error } = await supabase
     .from('kidz_gewinnspiel_teilnahmen')
-    .select('id,reference,name,email,telefon,source,schaetzung_cm,schaetzung_am,elternabend_interesse,conditions_version,consent_at,created_at,berater_id,empfehler_id,berater:berater_id(name,slug),empfehler:empfehler_id(name)')
+    .select('id,reference,name,email,telefon,source,schaetzung_cm,schaetzung_am,begleitpersonen,elternabend_interesse,conditions_version,consent_at,created_at,berater_id,empfehler_id,berater:berater_id(name,slug),empfehler:empfehler_id(name)')
     .eq('event_key', EVENT_KEY)
     .order('created_at', { ascending: false });
   if (error) throw error;
@@ -339,6 +343,7 @@ function resetOnsiteFields(keepAdvisor = true) {
   onsiteEmail.value = '';
   onsitePhone.value = '';
   onsiteGuess.value = '';
+  onsiteBegleitung.selectedIndex = 0;
   onsiteParentEvening.checked = false;
   if (!keepAdvisor) onsiteAdvisor.selectedIndex = 0;
   updateOnsiteSaveState();
@@ -391,6 +396,7 @@ async function saveOnsiteEntry() {
         email: onsiteEmail.value.trim(),
         telefon: onsitePhone.value.trim(),
         schaetzung: guess,
+        begleitpersonen: onsiteBegleitung.value === '' ? null : Number(onsiteBegleitung.value),
         parentEvening: onsiteParentEvening.checked,
         beraterSlug: currentAdvisor?.ist_admin ? onsiteAdvisor.value : '',
         consent: true,

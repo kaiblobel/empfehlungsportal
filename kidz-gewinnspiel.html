@@ -26,7 +26,7 @@
   <meta name="twitter:image" content="https://kidz.teamwachsbleiche.de/assets/images/kidz-sommerfest-gewinnspiel-v2.png">
   <title>KIDZ Sommerfest-Gewinnspiel | Team Wachsbleiche</title>
   <link rel="icon" type="image/svg+xml" href="/assets/images/kidz-marke.svg">
-  <link rel="stylesheet" href="/css/kidz-gewinnspiel.css?v=8">
+  <link rel="stylesheet" href="/css/kidz-gewinnspiel.css?v=9">
   <link rel="stylesheet" href="/css/kidz-public-nav.css?v=1">
   <script src="/js/config.js"></script>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
@@ -122,6 +122,23 @@
           </div>
         </div>
         <p class="kg-hint">Ein Kontaktweg genügt. Darüber informieren wir ausschließlich im Zusammenhang mit dem Gewinnspiel.</p>
+
+        <div class="kg-field kg-begleit-field">
+          <label for="kgBegleitung">Kommt noch jemand mit? <span>Optional</span></label>
+          <select id="kgBegleitung" name="begleitpersonen">
+            <option value="">Keine Angabe</option>
+            <option value="0">Ich komme allein</option>
+            <option value="1">Ich und 1 weitere Person</option>
+            <option value="2">Ich und 2 weitere Personen</option>
+            <option value="3">Ich und 3 weitere Personen</option>
+            <option value="4">Ich und 4 weitere Personen</option>
+            <option value="5">Ich und 5 weitere Personen</option>
+            <option value="6">Ich und 6 weitere Personen</option>
+            <option value="7">Ich und 7 weitere Personen</option>
+            <option value="8">Ich und 8 oder mehr</option>
+          </select>
+          <p class="kg-hint">Kinder einfach mitzählen. Wir wissen dadurch, wie viel Essen, Getränke und Material wir vorbereiten müssen.</p>
+        </div>
 
         <div class="kg-field kg-guess-field is-closed" id="kgGuessField">
           <label for="kgGuess">Wie groß ist der Umfang des XXL-Balls?
@@ -230,6 +247,6 @@
   </footer>
 
   <script type="module" src="/js/kidz-public-nav.js?v=1"></script>
-  <script type="module" src="/js/kidz-gewinnspiel.js?v=7"></script>
+  <script type="module" src="/js/kidz-gewinnspiel.js?v=8"></script>
 </body>
 </html>
