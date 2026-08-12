@@ -43,7 +43,7 @@ assert.match(html, /assets\/icons\/kidz-location\.svg/);
 assert.match(html, /assets\/icons\/kidz-ticket\.svg/);
 assert.match(html, /assets\/images\/kidz-sommerfest-flyer\.jpg/);
 assert.match(html, /assets\/images\/kidz-sommerfest-gewinnspiel-v2\.png/);
-assert.match(html, /Zur kostenlosen Gewinnspiel-Anmeldung/);
+assert.match(html, /Jetzt kostenlos anmelden/);
 assert.match(html, /data-registration-link/);
 assert.match(html, /class="kf-footer" id="veranstalter"/);
 assert.match(html, /class="kf-organizer"/);
@@ -109,3 +109,18 @@ delete globalThis.window;
 delete globalThis.document;
 
 console.log('kidz-sommerfest-startseite: OK');
+
+// --- Anmeldung deutlich sichtbar, oberhalb des Flyers -------------------------
+// Wer schon muendlich zugesagt hat, braucht einen Grund, sich trotzdem einzutragen.
+assert.match(html, /class="kf-anmeldebox"/);
+assert.match(html, /Du kommst\? Sag uns hier nochmal Bescheid\./);
+assert.match(html, /Auch wenn wir schon gesprochen haben/);
+assert.match(html, /Wir können planen/);
+assert.match(html, /Du bist beim Gewinnspiel dabei/);
+// Der Block steht vor der ersten Flyerkarte, sonst sieht ihn niemand.
+// (Der Dateiname des Flyers taugt nicht zum Vergleich, er steht schon in den
+// Vorschau-Metadaten im Kopf der Seite.)
+assert.ok(html.indexOf('kf-anmeldebox') < html.indexOf('kf-flyer-card'),
+  'Der Anmeldeblock muss oberhalb der Flyerkarte stehen');
+// Beide Wege zur Anmeldung tragen die Beraterzuordnung mit.
+assert.equal((html.match(/data-registration-link/g) || []).length, 3);

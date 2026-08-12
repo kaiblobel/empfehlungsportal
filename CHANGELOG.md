@@ -1,7 +1,17 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.222 Beta** · KIDZ Ballschätzen und Nacherfassung, live seit 12.08.2026.
+Offizielle Live-Version: **v1.223 Beta** · KIDZ Ballschätzen und Nacherfassung, live seit 12.08.2026.
+
+---
+
+## v1.223 Beta - Phase 203 · Anmeldung deutlicher auf der Sommerfest-Seite
+**2026-08-12 · live veröffentlicht**
+
+- Auf der Sommerfest-Startseite steht jetzt direkt unter den Eckdaten ein eigener Block: **„Du kommst? Sag uns hier nochmal Bescheid."** Er holt genau die Leute ab, die mündlich schon zugesagt haben und sich beim Link fragen, warum sie sich trotzdem eintragen sollen.
+- Zwei Gründe stehen darin, beide konkret: Wir können planen (Essen, Getränke, Material), und nur wer eingetragen ist, kommt in die Verlosung der Preise.
+- Der Block steht **oberhalb des Flyerbildes**, sonst sieht ihn niemand. Ein Test hält diese Reihenfolge fest.
+- Der Abschnitt ganz unten heißt jetzt „Noch nicht eingetragen?" statt „Bereit für deine Gewinnchance?" und nennt beide Gründe kurz.
 
 ---
 

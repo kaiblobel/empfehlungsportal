@@ -81,6 +81,46 @@ h2 { color: var(--kf-navy); font-size: clamp(30px, 5vw, 48px); line-height: 1.05
 .kf-fact-time { background: linear-gradient(180deg, #fff 0%, #f4f9fd 100%); }
 .kf-fact-place { background: linear-gradient(180deg, #fff 0%, #f2faf5 100%); }
 .kf-fact-free { background: linear-gradient(180deg, #fff 0%, #fff9ea 100%); }
+/* Wer schon muendlich zugesagt hat, fragt sich beim Link: warum jetzt nochmal?
+   Dieser Block beantwortet genau das, bevor der Flyer kommt. */
+.kf-anmeldebox {
+  max-width: 760px;
+  margin: 0 auto 26px;
+  padding: 26px clamp(20px, 4vw, 34px);
+  text-align: left;
+  background: linear-gradient(150deg, #fffaea 0%, #fff 62%);
+  border: 2px solid var(--kf-gold, #c8aa22);
+  border-radius: 22px;
+  box-shadow: 0 16px 38px rgba(200,170,34,.16);
+}
+.kf-anmeldebox-eyebrow { margin: 0 0 7px; color: #8a6a10; font-size: 12px; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; }
+.kf-anmeldebox h2 { margin: 0; color: var(--kf-navy); font-size: clamp(21px, 3vw, 28px); line-height: 1.18; }
+.kf-anmeldebox-lede { margin: 11px 0 18px; color: #46596b; font-size: 15px; line-height: 1.55; }
+.kf-anmeldebox-gruende { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; margin-bottom: 20px; }
+.kf-anmeldebox-gruende > div { padding: 15px 16px; background: #fff; border: 1px solid rgba(22,58,104,.12); border-radius: 14px; }
+.kf-anmeldebox-gruende strong { display: block; margin-bottom: 5px; color: var(--kf-green-dark); font-size: 14px; }
+.kf-anmeldebox-gruende span { display: block; color: #5d6b78; font-size: 13px; line-height: 1.5; }
+.kf-anmeldebox-button {
+  width: 100%;
+  min-height: 54px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: var(--kf-green);
+  border: 0;
+  border-radius: 14px;
+  box-shadow: 0 12px 26px rgba(12,108,63,.24);
+  font-size: 16px;
+  font-weight: 850;
+  text-decoration: none;
+}
+.kf-anmeldebox-button:hover, .kf-anmeldebox-button:focus-visible { background: var(--kf-green-dark); outline: none; }
+.kf-anmeldebox-fuss { margin: 11px 0 0; color: #6f7d89; font-size: 12px; line-height: 1.5; text-align: center; }
+@media (max-width: 620px) {
+  .kf-anmeldebox-gruende { grid-template-columns: 1fr; }
+}
+
 .kf-flyer-card { max-width: 760px; margin: 0 auto; padding: 14px; background: #fff; border: 1px solid var(--kf-line); border-radius: 22px; box-shadow: 0 14px 34px rgba(22,58,104,.12); }
 .kf-flyer-card img { display: block; width: 100%; height: auto; border-radius: 13px; }
 .kf-flyer-card figcaption { padding: 13px 0 0; display: flex; justify-content: flex-end; gap: 9px; }
