@@ -46,9 +46,9 @@ assert.match(css, /border-bottom: 1px solid #ECEAE5 !important/);
 assert.match(css, /background: #F8F8F6/);
 assert.match(css, /@media \(max-width: 560px\)/);
 
-assert.match(config, /APP_VERSION = 'v1\.225 Beta'/);
-assert.match(config, /Phase 205 · KIDZ Sommerfest-Anmeldung/);
-assert.match(sw, /CACHE_VERSION = 'v184-2026-08-12-phase205'/);
+assert.match(config, /APP_VERSION = 'v1\.226 Beta'/);
+assert.match(config, /Phase 206 · Vorschaubilder für WhatsApp/);
+assert.match(sw, /CACHE_VERSION = 'v185-2026-08-12-phase206'/);
 assert.match(sw, /\/css\/hub\.css\?v=55/);
 assert.match(sw, /\/css\/dashboard\.css\?v=49/);
 assert.match(sw, /\/js\/nav\.js\?v=60/);

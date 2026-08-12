@@ -105,7 +105,7 @@ const [html, css, publicJs, adminHtml, adminJs, navJs, migration, vercel, sommer
 ]);
 const qrPngStat = await stat(new URL('../assets/qr/kidz-elternabend.png', import.meta.url));
 const qrSvgStat = await stat(new URL('../assets/qr/kidz-elternabend.svg', import.meta.url));
-const ogImageStat = await stat(new URL('../assets/images/kidz-elternabend-og.png', import.meta.url));
+const ogImageStat = await stat(new URL('../assets/images/kidz-vorschau-elternabend.jpg', import.meta.url));
 
 assert.match(html, /Exklusiver KIDZ-Elternabend/);
 assert.match(html, /Der persönliche Eltern-Workshop für Familien/);
@@ -117,9 +117,9 @@ assert.doesNotMatch(html, /Anika|bibrach/i);
 assert.match(html, /promoter-david-stamm">David Stamm/);
 assert.match(html, /Keine Angaben zu Kindern\. Kein Kauf\. Keine automatische Werbeeinwilligung\./);
 assert.match(html, /keine Gewinnspielteilnahme, keine Kundenanfrage und keine Einwilligung in allgemeine Werbung/);
-assert.match(html, /property="og:image:width" content="1730"/);
-assert.match(html, /property="og:image:height" content="909"/);
-assert.match(html, /kidz-elternabend-og\.png/);
+assert.match(html, /property="og:image:width" content="1200"/);
+assert.match(html, /property="og:image:height" content="630"/);
+assert.match(html, /kidz-vorschau-elternabend\.jpg/);
 assert.doesNotMatch(sommerfestHtml, /href="\/kidz\/elternabend/);
 assert.match(css, /color-scheme:\s*light/);
 assert.match(css, /@media \(max-width:\s*640px\)/);
@@ -162,4 +162,6 @@ assert.doesNotMatch(migration, /set key =/);
 
 assert.ok(qrPngStat.size > 4_000);
 assert.ok(qrSvgStat.size > 20_000);
-assert.ok(ogImageStat.size > 100_000);
+// Nicht zu gross: WhatsApp laedt Vorschaubilder nur bis etwa 300 KB.
+assert.ok(ogImageStat.size > 20_000 && ogImageStat.size <= 300 * 1024,
+  `Vorschaubild ist ${Math.round(ogImageStat.size / 1024)} KB gross`);

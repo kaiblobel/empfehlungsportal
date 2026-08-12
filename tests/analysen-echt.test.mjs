@@ -65,9 +65,9 @@ assert.match(css, /\.analysis-chart-mode/);
 assert.match(css, /@media \(max-width:600px\)/);
 
 assert.match(nav, /id: 'analysen',[\s\S]*?href: path\('dashboard\/overview\.html'\)/);
-assert.match(config, /v1\.225 Beta/);
-assert.match(config, /Phase 205 · KIDZ Sommerfest-Anmeldung/);
-assert.match(sw, /CACHE_VERSION = 'v184-2026-08-12-phase205'/);
+assert.match(config, /v1\.226 Beta/);
+assert.match(config, /Phase 206 · Vorschaubilder für WhatsApp/);
+assert.match(sw, /CACHE_VERSION = 'v185-2026-08-12-phase206'/);
 assert.match(sw, /'\/dashboard\/overview\.html'/);
 assert.match(sw, /'\/css\/analysen\.css\?v=2'/);
 assert.match(sw, /'\/js\/analysen\.js\?v=2'/);
