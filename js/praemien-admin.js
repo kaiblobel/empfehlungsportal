@@ -21,8 +21,13 @@ let _filter = 'offen';
 (async () => {
   const session = await requireAuth();
   if (!session) return;
+  // Phase 210: Die Seite steht jedem Berater offen. Die Leseregel auf praemien
+  // zeigt ihm nur die Prämien seiner eigenen Promoter, dem Admin alle; auch
+  // auszahlen_praemie() und sync_praemien() prüfen das serverseitig. Die
+  // Belegnummern laufen ohnehin je Berater.
   const me = await getCurrentBerater();
-  if (!me?.ist_admin) { window.location.href = '/hub.html'; return; }
+  const hinweis = document.getElementById('adminSichtHinweis');
+  if (hinweis) hinweis.hidden = !me?.ist_admin;
   await refresh(true);
 })();
 

@@ -14,7 +14,8 @@ const lies = (datei) => readFile(new URL(`../${datei}`, import.meta.url), 'utf8'
 
 const [migration, supabaseJs, beraterAdmin, hubCss, dashboardCss,
        praemienHtml, kidzGewinnHtml, kidzElternHtml,
-       kidzGewinnJs, kidzElternJs, dashboardJs] = await Promise.all([
+       kidzGewinnJs, kidzElternJs, dashboardJs,
+       praemienJs, navJs, notifyStufe] = await Promise.all([
   lies('schema-phase209-anmelde-email.sql'),
   lies('js/supabase.js'),
   lies('js/berater-admin.js'),
@@ -26,6 +27,9 @@ const [migration, supabaseJs, beraterAdmin, hubCss, dashboardCss,
   lies('js/kidz-gewinnspiel-admin.js'),
   lies('js/kidz-elternabend-admin.js'),
   lies('js/dashboard.js'),
+  lies('js/praemien-admin.js'),
+  lies('js/nav.js'),
+  lies('supabase/functions/notify-stufe/index.ts'),
 ]);
 
 /* --- 1) Die Funktion ist eng gebaut --- */
@@ -103,21 +107,47 @@ assert.ok(
 
 assert.match(dashboardCss, /\.admin-sicht-hinweis\s*\{/, 'Für den Hinweis fehlt der Stil.');
 
-// Prämien: die Seite ist ohnehin nur für Admins, der Hinweis steht fest.
-assert.match(praemienHtml, /class="admin-sicht-hinweis"/, 'Auf der Prämienseite fehlt der Hinweis.');
-assert.match(praemienHtml, /alle Prämien des Portals/);
-
-// KIDZ: dort sehen normale Berater ihre eigenen Daten, der Hinweis ist
-// deshalb versteckt und wird nur für Admins eingeblendet.
+// Auf allen drei Seiten sehen normale Berater seit Phase 210 ihre eigenen
+// Daten, der Hinweis ist deshalb versteckt und wird nur für Admins eingeblendet.
 for (const [name, html, js] of [
+  ['Prämien', praemienHtml, praemienJs],
   ['Gewinnspiel', kidzGewinnHtml, kidzGewinnJs],
   ['Elternabend', kidzElternHtml, kidzElternJs],
 ]) {
   assert.match(html, /id="adminSichtHinweis"[^>]*hidden/,
-    `KIDZ ${name}: Der Hinweis ist nicht versteckt und stünde auch bei normalen Beratern.`);
-  assert.match(js, /adminSichtHinweis[\s\S]{0,120}currentAdvisor\?\.ist_admin/,
-    `KIDZ ${name}: Der Hinweis wird nicht am Admin-Status eingeblendet.`);
+    `${name}: Der Hinweis ist nicht versteckt und stünde auch bei normalen Beratern.`);
+  assert.match(js, /adminSichtHinweis[\s\S]{0,200}ist_admin/,
+    `${name}: Der Hinweis wird nicht am Admin-Status eingeblendet.`);
 }
+assert.match(praemienHtml, /alle Prämien des Portals/);
+
+/* --- 6) Phase 210: Prämien gehören jedem Berater, nicht nur dem Admin --- */
+
+// Die Datenbank konnte das längst: praemien_select und praemien_write lauten
+// "eigene ODER Admin", auszahlen_praemie() und sync_praemien() prüfen dasselbe,
+// und die Belegnummern laufen über private.beleg_zaehler je Berater. Es fehlte
+// allein die Tür im Frontend.
+assert.doesNotMatch(
+  praemienJs,
+  /ist_admin[\s\S]{0,80}window\.location\.href/,
+  'Die Prämienseite wirft Nicht-Admins wieder hinaus.',
+);
+assert.match(
+  navJs,
+  /id: 'praemien',[^\n]*\n?[^\n]*href: path\('praemien\.html'\)[^\n]*bottom: false \},/,
+  'Der Menüpunkt Auszahlungen ist wieder adminOnly.',
+);
+
+/* --- 7) Phase 210: Auch der Absender der Glückwunsch-Mail ist der Berater --- */
+
+assert.match(notifyStufe, /function absenderMit\(/, 'Die Absenderlogik fehlt.');
+assert.match(notifyStufe, /from: absender,/, 'Die Mail geht weiter mit festem Absender raus.');
+// Die Adresse muss erhalten bleiben, sie hängt an der verifizierten Domain.
+assert.match(notifyStufe, /resendFrom\.match\(\/<\(\[\^>\]\+\)>\//, 'Die Absenderadresse wird nicht aus RESEND_FROM übernommen.');
+// Anführungszeichen und spitze Klammern im Namen würden die Kopfzeile brechen.
+assert.match(notifyStufe, /replace\(\/\["\\\\<>\]\/g, ""\)/, 'Der Absendername wird nicht bereinigt.');
+// Der Empfänger bleibt der Promoter, das war nie anders.
+assert.match(notifyStufe, /to: empfehler\.email,/);
 
 /* --- 5) Der Admin-Status kommt überhaupt im Browser an --- */
 

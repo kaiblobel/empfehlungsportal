@@ -43,7 +43,9 @@ export const NAV_ITEMS = [
   { id: 'team',        label: 'Team',          icon: 'Users',           href: path('team.html'),                       bottom: false },
   // Auszahlungen ist der einzige Punkt mit Zähler (offene Auszahlungen) — also eine
   // wartende Aufgabe und damit Tagesgeschäft, nicht Verwaltung.
-  { id: 'praemien',    label: 'Auszahlungen',  icon: 'Banknote',        href: path('praemien.html'),                  bottom: false, adminOnly: true },
+  // Phase 210: für jeden Berater. Die Leseregel zeigt ihm nur die Prämien
+  // seiner eigenen Promoter, dem Admin alle.
+  { id: 'praemien',    label: 'Auszahlungen',  icon: 'Banknote',        href: path('praemien.html'),                  bottom: false },
   { id: 'praesentation',label: 'Präsentation', icon: 'Presentation',    href: path('programm.html?from=hub'),           bottom: false },
   { id: 'analysen',    label: 'Analysen',      icon: 'BarChart3',       href: path('dashboard/overview.html'),        bottom: false },
 
@@ -302,8 +304,10 @@ async function applyBeraterSlugToLinks(root) {
     // Admin-only Items (Verwaltungsblock) nur für Admins einblenden.
     writeAdminFlag(!!b.ist_admin);
     revealAdminItems(root, !!b.ist_admin);
-    if (b.ist_admin) {
-      // Badge: offene Prämien am Prämien-Menüpunkt — ploppt auf, sobald eine Empfehlung Kunde wird.
+    {
+      // Badge: offene Prämien am Prämien-Menüpunkt — ploppt auf, sobald eine
+      // Empfehlung Kunde wird. Seit Phase 210 für jeden Berater; die Leseregel
+      // liefert ihm nur die eigenen, dem Admin alle.
       try {
         const { getOffenePraemienCount } = await import('./supabase.js');
         const n = await getOffenePraemienCount();

@@ -1,7 +1,30 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.229 Beta** · Anmeldeadresse sichtbar, Admin-Sicht gekennzeichnet, live seit 12.08.2026.
+Offizielle Live-Version: **v1.230 Beta** · Prämien für jeden Berater, Absender der Glückwunsch-Mail, live seit 12.08.2026.
+
+---
+
+## v1.230 Beta - Phase 210 · Prämien für jeden Berater, Absender der Glückwunsch-Mail
+**2026-08-12**
+
+Entstanden aus einem Fehlalarm: Ich hatte gemeldet, die Stufen-Benachrichtigung ginge an den Admin statt an den zuständigen Berater. Das stimmte nicht, die Stelle war der Stufen-Rückfall aus Phase 192. Beim Nachsehen kamen aber zwei echte Punkte heraus.
+
+**Auch der Absender der Glückwunsch-Mail ist jetzt der zuständige Berater**
+
+Phase 192 hatte die Unterschrift nachgezogen, den Absendernamen nicht. Ein Promoter von Sven hätte eine Mail bekommen, die im Postfach von „Kai Blobel" kommt und unten mit „— Sven Augustin" endet: ein Widerspruch in derselben Mail.
+
+Der angezeigte Name wechselt jetzt mit dem zuständigen Berater. Die Absenderadresse bleibt unverändert, sie hängt an der bei Resend verifizierten Domain. Anführungszeichen und spitze Klammern im Namen werden entfernt, sie würden die Kopfzeile der Mail zerlegen. Fehlt der Berater, greift der bisherige Rückfall.
+
+**Prämien gehören jetzt jedem Berater, nicht nur dem Admin**
+
+Bisher war „Auszahlungen" ein reiner Admin-Punkt: Der Menüeintrag war ausgeblendet, und wer die Seite direkt aufrief, landete zurück auf dem Überblick. Folge: Wenn ein Promoter von Sven eine Stufe erreichte, bekam **der Promoter** die Glückwunsch-Mail, **Sven erfuhr es nicht**. Nicht per Mail, nicht in einer Liste. Der Promoter wusste mehr über seinen Stand als sein eigener Berater.
+
+Bemerkenswert dabei: Die Datenbank konnte das die ganze Zeit. Leseregel und Schreibregel lauten „eigene oder Admin", `auszahlen_praemie()` und `sync_praemien()` prüfen dasselbe, und die Belegnummern laufen ohnehin je Berater über einen eigenen Zähler. Es fehlte allein die Tür im Frontend.
+
+Jetzt sieht und verwaltet jeder Berater die Prämien seiner eigenen Promoter, inklusive Auszahlen und Beleg. Kai sieht als Admin weiterhin alle, und die Zeile „Du siehst hier als Admin alle Prämien des Portals" erscheint entsprechend nur bei ihm. Auch der Zähler am Menüpunkt gilt jetzt für jeden, er zeigt jedem seine eigenen offenen Prämien.
+
+Ein Test hält beides fest, damit die Tür nicht beim nächsten Umbau wieder zufällt.
 
 ---
 

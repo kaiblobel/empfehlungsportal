@@ -64,6 +64,13 @@ Deno.serve(async (req: Request) => {
     const RESEND_FROM = secrets.RESEND_FROM ?? "Kai Blobel <noreply@empfehlungsportal.vercel.app>";
     const BERATER_NAME = beraterName ?? secrets.BERATER_NAME ?? "Kai Blobel";
 
+    // Phase 210 · Auch der ABSENDERNAME ist der zuständige Berater.
+    // Phase 192 hatte die Unterschrift nachgezogen, den Absender nicht: Ein
+    // Promoter von Sven bekam eine Mail, die im Postfach von "Kai Blobel" kam
+    // und mit "— Sven Augustin" endete. Die Adresse bleibt, sie hängt an der
+    // verifizierten Domain; nur der angezeigte Name wechselt.
+    const absender = absenderMit(BERATER_NAME, RESEND_FROM);
+
     if (!RESEND_API_KEY) {
       console.warn("RESEND_API_KEY nicht gesetzt — Email übersprungen.");
       return new Response(JSON.stringify({ ok: false, reason: "no-resend-key" }), { status: 200 });
@@ -105,7 +112,7 @@ Deno.serve(async (req: Request) => {
         "Authorization": `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: RESEND_FROM,
+        from: absender,
         to: empfehler.email,
         subject,
         html,
@@ -119,7 +126,7 @@ Deno.serve(async (req: Request) => {
       return new Response(JSON.stringify({ ok: false, resend: body }), { status: 200 });
     }
 
-    return new Response(JSON.stringify({ ok: true, resend_id: body.id, berater: BERATER_NAME }), {
+    return new Response(JSON.stringify({ ok: true, resend_id: body.id, berater: BERATER_NAME, from: absender }), {
       headers: { "Content-Type": "application/json" },
     });
   } catch (err) {
@@ -127,6 +134,19 @@ Deno.serve(async (req: Request) => {
     return new Response(JSON.stringify({ ok: false, error: String(err) }), { status: 200 });
   }
 });
+
+/**
+ * Baut den Absender: der Name des zuständigen Beraters vor der hinterlegten
+ * Adresse. Die Adresse selbst bleibt unangetastet, sie hängt an der bei Resend
+ * verifizierten Domain. Steht in RESEND_FROM nur eine nackte Adresse ohne
+ * spitze Klammern, wird der Name davorgesetzt.
+ */
+function absenderMit(name: string, resendFrom: string): string {
+  const adresse = resendFrom.match(/<([^>]+)>/)?.[1] ?? resendFrom.trim();
+  const sauber = String(name).replace(/["\\<>]/g, "").trim();
+  if (!sauber || !adresse) return resendFrom;
+  return `${sauber} <${adresse}>`;
+}
 
 /** Eigene Stufe des Beraters, sonst die des Admins (geteiltes Set, Phase 57). */
 async function ladeStufe(supa: any, beraterId: string | null, stufe: number) {
