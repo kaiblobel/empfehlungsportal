@@ -22,8 +22,8 @@ assert.doesNotMatch(splitRule, /grayscale/);
 
 assert.match(js, /applyBeraterBrand\(data\)/);
 assert.match(js, /getBeraterPublicBySlug\(beraterSlug\)/);
-assert.match(config, /v1\.222 Beta/);
-assert.match(config, /Phase 202 · KIDZ Elternabend-Häkchen am Festtag/);
-assert.match(sw, /CACHE_VERSION = 'v181-2026-08-12-phase202'/);
+assert.match(config, /v1\.223 Beta/);
+assert.match(config, /Phase 203 · KIDZ Anmeldung deutlicher auf der Sommerfest-Seite/);
+assert.match(sw, /CACHE_VERSION = 'v182-2026-08-12-phase203'/);
 
 console.log('praesentation-portrait-farbe: OK');

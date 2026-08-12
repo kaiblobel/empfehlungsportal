@@ -1,7 +1,7 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.222 Beta** · KIDZ Ballschätzen und Nacherfassung, live seit 12.08.2026.
+Offizielle Live-Version: **v1.223 Beta** · KIDZ Ballschätzen und Nacherfassung, live seit 12.08.2026.
 
 ---
 

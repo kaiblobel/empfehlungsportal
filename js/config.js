@@ -7,5 +7,5 @@ window.ENV_BERATER_TITEL = 'Regionaldirektion · Team Wachsbleiche';
 window.ENV_BERATER_FOTO = '/assets/images/kai-portrait.jpg';
 window.ENV_CALENDLY_URL = ''; // sobald Kai einen Link schickt, hier eintragen — Karte erscheint automatisch
 window.ENV_TURNSTILE_SITE_KEY = ''; // optionaler statischer Fallback; produktiv kommt der Site-Key aus /api/promoter-config
-window.APP_VERSION = 'v1.222 Beta';
-window.APP_PHASE = 'Phase 202 · KIDZ Elternabend-Häkchen am Festtag';
+window.APP_VERSION = 'v1.223 Beta';
+window.APP_PHASE = 'Phase 203 · KIDZ Anmeldung deutlicher auf der Sommerfest-Seite';
