@@ -123,18 +123,15 @@
         </div>
         <p class="kg-hint">Ein Kontaktweg genügt. Darüber informieren wir ausschließlich im Zusammenhang mit dem Gewinnspiel.</p>
 
-        <div class="kg-guess-closed" id="kgGuessClosed">
-          <strong>Deine Schätzung gibst du am 6. September vor Ort ab.</strong>
-          <span>Der XXL-Ball steht beim Sommerfest, und erst dort messen wir seinen Umfang. Vorher zu schätzen wäre geraten. Melde dich jetzt an, dann bist du bei der Verlosung dabei, und trag deine Zahl beim Fest an der KIDZ-Station ein.</span>
-        </div>
-
-        <div class="kg-field kg-guess-field" id="kgGuessField" hidden>
-          <label for="kgGuess">Wie groß ist der Umfang des XXL-Balls? <span>Optional</span></label>
+        <div class="kg-field kg-guess-field is-closed" id="kgGuessField">
+          <label for="kgGuess">Wie groß ist der Umfang des XXL-Balls?
+            <span class="kg-guess-tag" id="kgGuessTag">Öffnet am 6. September</span>
+          </label>
           <div class="kg-guess-input">
-            <input id="kgGuess" name="schaetzung" type="number" inputmode="numeric" min="10" max="999" step="1" placeholder="z. B. 240">
+            <input id="kgGuess" name="schaetzung" type="number" inputmode="numeric" min="10" max="999" step="1" placeholder="Erst am Veranstaltungstag" disabled>
             <span aria-hidden="true">cm</span>
           </div>
-          <p class="kg-hint">Du stehst beim Sommerfest vor dem Ball? Dann trag hier deine Schätzung ein. Wer am nächsten dran liegt, gewinnt das Survival Event.</p>
+          <p class="kg-hint" id="kgGuessHint">Der XXL-Ball steht beim Sommerfest, und erst dort messen wir seinen Umfang. Deshalb ist das Feld bis zum 6. September zu. Melde dich jetzt an, dann bist du schon bei der Verlosung dabei, und trag deine Schätzung am Festtag hier oder an der KIDZ-Station ein.</p>
         </div>
 
         <div class="kg-field kg-advisor-field">

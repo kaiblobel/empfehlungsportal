@@ -352,5 +352,5 @@ assert.match(fenstermigration, /create or replace function public\.register_kidz
 // Der Browser entscheidet nicht selbst, wann das Feld aufgeht.
 const publicJs = await read('js/kidz-gewinnspiel.js');
 assert.match(publicJs, /applyGuessWindow\(config\?\.guessOpen === true\)/);
-assert.match(publicJs, /if \(guessField\.hidden\) return null;/);
+assert.match(publicJs, /if \(guessInput\.disabled\) return null;/);
 assert.doesNotMatch(publicJs, /2026-09-06/);

@@ -8,8 +8,9 @@ const captchaBox = document.getElementById('kgCaptcha');
 const successBox = document.getElementById('kgSuccess');
 const advisorSelect = document.getElementById('kgAdvisor');
 const guessField = document.getElementById('kgGuessField');
-const guessClosedNote = document.getElementById('kgGuessClosed');
 const guessInput = document.getElementById('kgGuess');
+const guessTag = document.getElementById('kgGuessTag');
+const guessHint = document.getElementById('kgGuessHint');
 const promoterFallbacks = [...advisorSelect.options]
   .filter((option) => option.value.startsWith('promoter-'))
   .map((option) => ({ name: option.textContent, slug: option.value }));
@@ -109,14 +110,20 @@ async function loadConfig() {
 
 /**
  * Das Schätzfeld ist bis zum Veranstaltungstag zu: Der Ball wird erst dort
- * gemessen. Ob der Tag da ist, entscheidet der Server, nicht die Uhr im Gerät.
+ * gemessen. Es bleibt aber sichtbar, damit man die zweite Gewinnchance kennt.
+ * Ob der Tag da ist, entscheidet der Server, nicht die Uhr im Gerät.
  * Antwortet der Server nicht, bleibt das Feld zu.
  */
 function applyGuessWindow(isOpen) {
-  guessField.hidden = !isOpen;
-  guessClosedNote.hidden = Boolean(isOpen);
-  if (!isOpen) guessInput.value = '';
+  guessField.classList.toggle('is-closed', !isOpen);
   guessInput.disabled = !isOpen;
+  if (!isOpen) {
+    guessInput.value = '';
+    return;
+  }
+  guessInput.placeholder = 'z. B. 240';
+  guessTag.textContent = 'Optional';
+  guessHint.textContent = 'Du stehst vor dem Ball? Dann trag hier deine Schätzung ein. Wer am nächsten dran liegt, gewinnt das Survival Event.';
 }
 
 async function getTurnstileSiteKey(config) {
@@ -186,7 +193,7 @@ function clientValidation(name, email, telefon, consent, schaetzung) {
 }
 
 function readGuess() {
-  if (guessField.hidden) return null;
+  if (guessInput.disabled) return null;
   const raw = String(guessInput.value || '').trim();
   if (!raw) return null;
   const value = Number(raw);

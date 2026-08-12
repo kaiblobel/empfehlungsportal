@@ -199,10 +199,11 @@ assert.match(html, /wählt zwischen einem Vater-Kind-Wochenende und einer ganzen
 assert.match(html, /Stand: 12\. August 2026, Fassung 5/);
 assert.match(html, /id="kgGuess"/);
 assert.match(html, /min="10" max="999"/);
-// Das Schaetzfeld ist bis zum Veranstaltungstag zu und startet versteckt.
-assert.match(html, /id="kgGuessField" hidden/);
-assert.match(html, /id="kgGuessClosed"/);
-assert.match(html, /Deine Schätzung gibst du am 6\. September vor Ort ab/);
+// Das Schaetzfeld bleibt sichtbar, startet aber gesperrt und ausgegraut.
+assert.match(html, /id="kgGuessField" class="[^"]*is-closed|class="[^"]*is-closed[^"]*" id="kgGuessField"/);
+assert.match(html, /id="kgGuess"[^>]*disabled/);
+assert.match(html, /Öffnet am 6\. September/);
+assert.match(html, /bis zum 6\. September zu/);
 assert.doesNotMatch(html, /Doppel-Los|Doppellos|nummeriert|Losnummer/);
 assert.doesNotMatch(html, /Tombola/);
 assert.match(html, /Veranstalter[\s\S]*An der Wachsbleiche 1a · 03046 Cottbus/);
