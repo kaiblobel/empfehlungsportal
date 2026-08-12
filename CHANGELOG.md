@@ -6,7 +6,7 @@ Offizielle Live-Version: **v1.230 Beta** · Prämien für jeden Berater, Absende
 ---
 
 ## v1.230 Beta - Phase 210 · Prämien für jeden Berater, Absender der Glückwunsch-Mail
-**2026-08-12**
+**2026-08-12 · live veröffentlicht**
 
 Entstanden aus einem Fehlalarm: Ich hatte gemeldet, die Stufen-Benachrichtigung ginge an den Admin statt an den zuständigen Berater. Das stimmte nicht, die Stelle war der Stufen-Rückfall aus Phase 192. Beim Nachsehen kamen aber zwei echte Punkte heraus.
 
