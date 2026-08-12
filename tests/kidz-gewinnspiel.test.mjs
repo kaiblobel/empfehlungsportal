@@ -182,7 +182,10 @@ assert.match(html, /alt="Team Wachsbleiche · Kai Blobel &amp; Team"/);
 assert.ok(flyerStat.size > 100_000);
 assert.ok(prizeFlyerStat.size > 1_000_000);
 assert.ok(organizerLogoStat.size > 300_000);
-assert.match(html, /property="og:title" content="Großes KIDZ Sommerfest-Gewinnspiel!"/);
+// Die Vorschau lädt zum Fest ein, nicht zu einem Gewinnspiel: Wer die Karte in
+// WhatsApp sieht, soll den Familientag erkennen, das Gewinnspiel ist der Anlass.
+assert.match(html, /property="og:title" content="Kinder-Sommerfest am 6\. September: jetzt anmelden"/);
+assert.match(html, /property="og:description" content="[^"]*Hüpfburg[^"]*Eintritt frei[^"]*"/);
 assert.match(html, /property="og:image" content="https:\/\/kidz\.teamwachsbleiche\.de\/assets\/images\/kidz-vorschau-gewinnspiel\.jpg"/);
 assert.match(html, /property="og:image:width" content="1200"/);
 assert.match(html, /property="og:image:height" content="630"/);

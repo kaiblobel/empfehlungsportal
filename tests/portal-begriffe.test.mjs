@@ -20,9 +20,9 @@ for (const page of [presentation, programAdmin, payouts, advisors, changelogPage
 
 assert.match(index, />Zum Portal<\/a>/);
 assert.doesNotMatch(index, />Zum Hub<\/a>/);
-assert.match(config, /APP_VERSION = 'v1\.226 Beta'/);
-assert.match(config, /Phase 206 · Vorschaubilder für WhatsApp/);
+assert.match(config, /APP_VERSION = 'v1\.227 Beta'/);
+assert.match(config, /Phase 207 · Vorschau lädt zum Fest ein/);
 assert.doesNotMatch(config, /Premium-HUB/);
-assert.match(sw, /CACHE_VERSION = 'v185-2026-08-12-phase206'/);
+assert.match(sw, /CACHE_VERSION = 'v186-2026-08-12-phase207'/);
 
 console.log('portal-begriffe: OK');
