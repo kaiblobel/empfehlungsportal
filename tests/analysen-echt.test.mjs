@@ -65,9 +65,9 @@ assert.match(css, /\.analysis-chart-mode/);
 assert.match(css, /@media \(max-width:600px\)/);
 
 assert.match(nav, /id: 'analysen',[\s\S]*?href: path\('dashboard\/overview\.html'\)/);
-assert.match(config, /v1\.217 Beta/);
-assert.match(config, /Phase 191 · Exklusiver KIDZ-Elternabend/);
-assert.match(sw, /CACHE_VERSION = 'v176-2026-08-12b'/);
+assert.match(config, /v1\.218 Beta/);
+assert.match(config, /Phase 195 · Prämien, Benachrichtigungen und Führungslinie/);
+assert.match(sw, /CACHE_VERSION = 'v177-2026-08-12-phase195'/);
 assert.match(sw, /'\/dashboard\/overview\.html'/);
 assert.match(sw, /'\/css\/analysen\.css\?v=2'/);
 assert.match(sw, /'\/js\/analysen\.js\?v=2'/);

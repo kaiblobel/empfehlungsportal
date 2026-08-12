@@ -33,9 +33,9 @@ assert.match(js, /id="notizArea"/);
 assert.match(js, /Nächster sinnvoller Schritt/);
 assert.match(js, /Verwaltung anzeigen/);
 
-assert.match(config, /APP_VERSION = 'v1\.217 Beta'/);
-assert.match(config, /Phase 191 · Exklusiver KIDZ-Elternabend/);
-assert.match(sw, /CACHE_VERSION = 'v176-2026-08-12b'/);
+assert.match(config, /APP_VERSION = 'v1\.218 Beta'/);
+assert.match(config, /Phase 195 · Prämien, Benachrichtigungen und Führungslinie/);
+assert.match(sw, /CACHE_VERSION = 'v177-2026-08-12-phase195'/);
 assert.match(sw, /\/css\/empfehlung-detail\.css\?v=1/);
 assert.match(sw, /\/js\/empfehlung-detail\.js\?v=1/);
 

@@ -739,3 +739,27 @@ export async function getTeamActivitySecure(days = 30) {
     return data || [];
   } catch (err) { console.error('[getTeamActivitySecure]', err); return []; }
 }
+
+/* ---------- Phase 195/196 · Führungslinie beim Bestand ----------
+ * Bis Phase 194 griff die Führungslinie nur bei den aggregierten Teamzahlen.
+ * Promoter, Empfehlungen, Prämien und KIDZ-Anmeldungen des eigenen Astes waren
+ * für eine Führungskraft nicht einsehbar, und der Admin sah dort weniger als
+ * bei Prämien und KIDZ.
+ *
+ * Was hier NICHT kommt: Namen, Telefonnummern, E-Mail-Adressen. Die
+ * Teamübersicht ist seit Phase 141 datensparsam, und eine Zahl in der
+ * Oberfläche mit Namen in der Antwort wäre nur scheinbar sparsam. Wer einen
+ * einzelnen Fall bearbeiten will, tut das in seiner eigenen Akte.
+ *
+ * Die Leseregeln auf den Tabellen bleiben eng auf die eigenen Daten: sonst
+ * würde jede Kachel und jede Liste im Portal plötzlich das Team mitzählen.
+ */
+export async function getTeamBestand(days = 30) {
+  if (!supabase) return [];
+  const safeDays = [7, 30, 90].includes(Number(days)) ? Number(days) : 30;
+  try {
+    const { data, error } = await supabase.rpc('team_bestand', { p_days: safeDays });
+    if (error) throw error;
+    return data || [];
+  } catch (err) { console.error('[getTeamBestand]', err); return []; }
+}

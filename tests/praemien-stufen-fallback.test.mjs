@@ -82,4 +82,34 @@ assert.match(programm, /u\.searchParams\.set\('berater', slug\)/);
 // Ein vorhandener Promoter-Code oder Berater darf nicht überschrieben werden.
 assert.match(programm, /if \(u\.searchParams\.has\('berater'\) \|\| u\.searchParams\.has\('code'\)\) return;/);
 
+/* --- 5) Führungssicht zeigt Zahlen, keine Namen (Phase 195/196) --- */
+const supa = await lies('../js/supabase.js');
+const teamJs = await lies('../js/team.js');
+
+assert.match(supa, /export async function getTeamBestand/);
+assert.match(supa, /supabase\.rpc\('team_bestand'/);
+// Die Namensfunktionen sind fuer angemeldete Berater gesperrt, also darf das
+// Frontend sie gar nicht erst aufrufen.
+assert.doesNotMatch(supa, /rpc\('team_promoter'/);
+assert.doesNotMatch(supa, /rpc\('team_empfehlungen'/);
+assert.doesNotMatch(supa, /rpc\('team_praemien'/);
+assert.doesNotMatch(supa, /rpc\('team_kidz'/);
+
+assert.match(teamJs, /getTeamBestand/);
+assert.match(teamJs, /function astListen\(beraterId\)/);
+assert.match(teamJs, /promoter_selbst_angemeldet/);
+assert.match(teamJs, /empfehlungen_kunde/);
+assert.match(teamJs, /praemien_offen/);
+assert.match(teamJs, /kidz_anmeldungen/);
+// Die Datenschutz-Schranke aus Phase 141 gilt weiter: keine Kundendaten hier.
+// (team-overview.test.mjs prueft dasselbe, hier als Absicherung dieser Aenderung.)
+assert.doesNotMatch(teamJs, /empfaenger_name|empfaenger_telefon|empfehler_name/);
+
+/* --- 6) Versionsstand ist mitgezogen --- */
+const config = await lies('../js/config.js');
+assert.match(config, /APP_VERSION = 'v1\.218 Beta'/);
+assert.match(config, /Phase 195/);
+const sw = await lies('../sw.js');
+assert.match(sw, /CACHE_VERSION = 'v177-2026-08-12-phase195'/);
+
 console.log('praemien-stufen-fallback: OK');
