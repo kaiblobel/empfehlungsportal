@@ -158,6 +158,8 @@ const organizerLogoStat = await stat(new URL('../assets/images/team-wachsbleiche
 
 assert.match(html, /id="kgConsent"/);
 assert.match(html, /id="kgParentEvening"/);
+// Das Elternabend-Haekchen ist bis zum Veranstaltungstag ausgeblendet.
+assert.match(html, /id="kgParentEveningRow" hidden/);
 assert.match(html, /id="kgAdvisor"/);
 assert.match(html, /sandro-wernicke/);
 assert.match(html, /promoter-anja-scholz">Anja Scholz/);

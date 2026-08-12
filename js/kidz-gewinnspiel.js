@@ -11,6 +11,8 @@ const guessField = document.getElementById('kgGuessField');
 const guessInput = document.getElementById('kgGuess');
 const guessTag = document.getElementById('kgGuessTag');
 const guessHint = document.getElementById('kgGuessHint');
+const parentEveningRow = document.getElementById('kgParentEveningRow');
+const parentEveningInput = document.getElementById('kgParentEvening');
 const promoterFallbacks = [...advisorSelect.options]
   .filter((option) => option.value.startsWith('promoter-'))
   .map((option) => ({ name: option.textContent, slug: option.value }));
@@ -109,15 +111,21 @@ async function loadConfig() {
 }
 
 /**
- * Das Schätzfeld ist bis zum Veranstaltungstag zu: Der Ball wird erst dort
- * gemessen. Es bleibt aber sichtbar, damit man die zweite Gewinnchance kennt.
- * Ob der Tag da ist, entscheidet der Server, nicht die Uhr im Gerät.
- * Antwortet der Server nicht, bleibt das Feld zu.
+ * Zwei Felder gehören zum Veranstaltungstag. Ob der Tag da ist, entscheidet der
+ * Server, nicht die Uhr im Gerät. Antwortet der Server nicht, bleiben beide zu.
+ *
+ * Das Schätzfeld bleibt vorher sichtbar, aber gesperrt: Man soll die zweite
+ * Gewinnchance kennen. Das Elternabend-Häkchen verschwindet ganz, weil bis zum
+ * Fest zum Sommerfest eingeladen wird und der Elternabend sonst nirgends
+ * vorkommt.
  */
-function applyGuessWindow(isOpen) {
-  guessField.classList.toggle('is-closed', !isOpen);
-  guessInput.disabled = !isOpen;
-  if (!isOpen) {
+function applyEventDay(isEventDay) {
+  parentEveningRow.hidden = !isEventDay;
+  if (!isEventDay) parentEveningInput.checked = false;
+
+  guessField.classList.toggle('is-closed', !isEventDay);
+  guessInput.disabled = !isEventDay;
+  if (!isEventDay) {
     guessInput.value = '';
     return;
   }
@@ -208,7 +216,7 @@ form.addEventListener('submit', async (event) => {
   const email = document.getElementById('kgEmail').value.trim();
   const telefon = document.getElementById('kgPhone').value.trim();
   const consent = document.getElementById('kgConsent').checked;
-  const parentEvening = document.getElementById('kgParentEvening').checked;
+  const parentEvening = !parentEveningRow.hidden && parentEveningInput.checked;
   const beraterSlug = advisorSelect.value;
   const schaetzung = readGuess();
   const validationError = clientValidation(name, email, telefon, consent, schaetzung);
@@ -259,5 +267,5 @@ form.addEventListener('submit', async (event) => {
 });
 
 const config = await loadConfig();
-applyGuessWindow(config?.guessOpen === true);
+applyEventDay(config?.eventDay === true || config?.guessOpen === true);
 await Promise.all([loadAdvisors(), initializeCaptcha(config)]);
