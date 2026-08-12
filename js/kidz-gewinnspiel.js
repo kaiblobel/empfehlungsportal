@@ -7,6 +7,10 @@ const errorBox = document.getElementById('kgError');
 const captchaBox = document.getElementById('kgCaptcha');
 const successBox = document.getElementById('kgSuccess');
 const advisorSelect = document.getElementById('kgAdvisor');
+const guessField = document.getElementById('kgGuessField');
+const guessInput = document.getElementById('kgGuess');
+const guessTag = document.getElementById('kgGuessTag');
+const guessHint = document.getElementById('kgGuessHint');
 const promoterFallbacks = [...advisorSelect.options]
   .filter((option) => option.value.startsWith('promoter-'))
   .map((option) => ({ name: option.textContent, slug: option.value }));
@@ -95,18 +99,39 @@ function clearError() {
   errorBox.hidden = true;
 }
 
-async function getTurnstileSiteKey() {
+async function loadConfig() {
+  try {
+    const response = await fetch('/api/kidz-config', { headers: { Accept: 'application/json' } });
+    return await response.json();
+  } catch (_) {
+    return {};
+  }
+}
+
+/**
+ * Das Schätzfeld ist bis zum Veranstaltungstag zu: Der Ball wird erst dort
+ * gemessen. Es bleibt aber sichtbar, damit man die zweite Gewinnchance kennt.
+ * Ob der Tag da ist, entscheidet der Server, nicht die Uhr im Gerät.
+ * Antwortet der Server nicht, bleibt das Feld zu.
+ */
+function applyGuessWindow(isOpen) {
+  guessField.classList.toggle('is-closed', !isOpen);
+  guessInput.disabled = !isOpen;
+  if (!isOpen) {
+    guessInput.value = '';
+    return;
+  }
+  guessInput.placeholder = 'z. B. 240';
+  guessTag.textContent = 'Optional';
+  guessHint.textContent = 'Du stehst vor dem Ball? Dann trag hier deine Schätzung ein. Wer am nächsten dran liegt, gewinnt das Survival Event.';
+}
+
+async function getTurnstileSiteKey(config) {
   const host = window.location.hostname;
   if (host === 'localhost' || host === '127.0.0.1') return LOCAL_TURNSTILE_SITE_KEY;
   const configuredKey = String(window.ENV_TURNSTILE_SITE_KEY || '').trim();
   if (configuredKey) return configuredKey;
-  try {
-    const response = await fetch('/api/kidz-config', { headers: { Accept: 'application/json' } });
-    const result = await response.json();
-    return response.ok ? String(result.turnstileSiteKey || '').trim() : '';
-  } catch (_) {
-    return '';
-  }
+  return String(config?.turnstileSiteKey || '').trim();
 }
 
 async function waitForTurnstile() {
@@ -117,8 +142,8 @@ async function waitForTurnstile() {
   return false;
 }
 
-async function initializeCaptcha() {
-  const sitekey = await getTurnstileSiteKey();
+async function initializeCaptcha(config) {
+  const sitekey = await getTurnstileSiteKey(config);
   if (!sitekey) {
     showError('Die Gewinnspiel-Anmeldung ist noch nicht freigeschaltet. Bitte sprich uns an der KIDZ-Station an.');
     return;
@@ -155,13 +180,24 @@ function resetCaptcha() {
   if (captchaWidgetId !== null && window.turnstile?.reset) window.turnstile.reset(captchaWidgetId);
 }
 
-function clientValidation(name, email, telefon, consent) {
+function clientValidation(name, email, telefon, consent, schaetzung) {
   if (name.length < 2) return 'Bitte gib deinen Vor- und Nachnamen ein.';
   if (!email && !telefon) return 'Bitte gib eine E-Mail-Adresse oder Mobilnummer an.';
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'Bitte prüfe deine E-Mail-Adresse.';
+  if (schaetzung !== null && (!Number.isInteger(schaetzung) || schaetzung < 10 || schaetzung > 999)) {
+    return 'Bitte gib den geschätzten Ballumfang als ganze Zahl zwischen 10 und 999 cm an.';
+  }
   if (!consent) return 'Bitte bestätige die Teilnahmebedingungen und Datenschutzhinweise.';
   if (!captchaToken) return 'Bitte führe den Sicherheitscheck durch.';
   return '';
+}
+
+function readGuess() {
+  if (guessInput.disabled) return null;
+  const raw = String(guessInput.value || '').trim();
+  if (!raw) return null;
+  const value = Number(raw);
+  return Number.isFinite(value) ? Math.trunc(value) : Number.NaN;
 }
 
 form.addEventListener('submit', async (event) => {
@@ -174,7 +210,8 @@ form.addEventListener('submit', async (event) => {
   const consent = document.getElementById('kgConsent').checked;
   const parentEvening = document.getElementById('kgParentEvening').checked;
   const beraterSlug = advisorSelect.value;
-  const validationError = clientValidation(name, email, telefon, consent);
+  const schaetzung = readGuess();
+  const validationError = clientValidation(name, email, telefon, consent, schaetzung);
   if (validationError) {
     showError(validationError);
     return;
@@ -195,12 +232,13 @@ form.addEventListener('submit', async (event) => {
         parentEvening,
         beraterSlug,
         captchaToken,
+        schaetzung,
         source: readSource(),
       }),
     });
     const result = await response.json().catch(() => ({}));
 
-    if (response.status === 409) throw new Error('Du bist bereits für die Online-Verlosung angemeldet. Für den Hauptgewinn bekommst du vor Ort ein Los.');
+    if (response.status === 409) throw new Error('Du bist bereits zum Gewinnspiel angemeldet. Deine Schätzung für den Ballumfang kannst du beim Sommerfest abgeben.');
     if (response.status === 429) throw new Error('Es gab gerade zu viele Versuche. Bitte probiere es später noch einmal.');
     if (response.status === 503) throw new Error('Die Anmeldung ist noch nicht freigeschaltet. Bitte sprich uns an der KIDZ-Station an.');
     if (!response.ok || !result?.reference) throw new Error('Deine Teilnahme konnte gerade nicht gespeichert werden. Bitte versuche es noch einmal.');
@@ -208,6 +246,9 @@ form.addEventListener('submit', async (event) => {
     form.hidden = true;
     document.querySelector('.kg-form-intro').hidden = true;
     successBox.hidden = false;
+    document.getElementById('kgSuccessNote').textContent = schaetzung === null
+      ? 'Wir haben deine Anmeldung. Deine Schätzung für den Ballumfang gibst du am 6. September vor Ort ab.'
+      : `Wir haben deine Anmeldung und deine Schätzung von ${schaetzung} cm. Wir messen den Ball heute noch nach.`;
     document.getElementById('kgReference').textContent = `Teilnahmebestätigung: ${result.reference}`;
     successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
   } catch (error) {
@@ -217,4 +258,6 @@ form.addEventListener('submit', async (event) => {
   }
 });
 
-await Promise.all([loadAdvisors(), initializeCaptcha()]);
+const config = await loadConfig();
+applyGuessWindow(config?.guessOpen === true);
+await Promise.all([loadAdvisors(), initializeCaptcha(config)]);

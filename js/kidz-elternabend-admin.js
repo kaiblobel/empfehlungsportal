@@ -26,10 +26,6 @@ const TIME_LABELS = {
   flexibel: 'Flexibel',
 };
 
-function normalizePromoterName(value) {
-  return String(value || '').trim().toLowerCase() === 'anika bibrach' ? 'Anika Biebrach' : value;
-}
-
 function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>'"]/g, (char) => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;',
@@ -44,7 +40,7 @@ function formatDate(value) {
 }
 
 function promoterName(entry) {
-  return normalizePromoterName(entry.empfehler?.name || '');
+  return entry.empfehler?.name || '';
 }
 
 function visibleEntries() {
@@ -149,7 +145,7 @@ async function loadEntries() {
   if (error) throw error;
   entries = (data || []).map((entry) => ({
     ...entry,
-    empfehler: entry.empfehler ? { ...entry.empfehler, name: normalizePromoterName(entry.empfehler.name) } : entry.empfehler,
+    empfehler: entry.empfehler,
   }));
   render();
 }

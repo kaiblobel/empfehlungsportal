@@ -1,12 +1,6 @@
 /** Öffentliche, auf das Nötigste begrenzte Beraterliste für KIDZ-Einladungen. */
 const SUPABASE_URL = 'https://kkseqhmfubzfyloffkwe.supabase.co';
 const ANON = 'sb_publishable_PUSXT6qIH0IoeEgKQ3hgbA_m8hYY4Dv';
-const LEGACY_ANIKA_SLUG = 'promoter-anika-bibrach';
-
-function normalizeAdvisor(advisor) {
-  if (String(advisor?.slug || '').toLowerCase() !== LEGACY_ANIKA_SLUG) return advisor;
-  return { ...advisor, name: 'Anika Biebrach' };
-}
 
 module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'public, max-age=300, s-maxage=300');
@@ -32,7 +26,7 @@ module.exports = async function handler(req, res) {
     const advisors = await response.json().catch(() => []);
     if (!response.ok || !Array.isArray(advisors)) throw new Error(`Beraterliste: ${response.status}`);
     res.statusCode = 200;
-    return res.end(JSON.stringify({ ok: true, advisors: advisors.map(normalizeAdvisor) }));
+    return res.end(JSON.stringify({ ok: true, advisors }));
   } catch (error) {
     console.error('[kidz-advisors]', error.message);
     res.statusCode = 502;

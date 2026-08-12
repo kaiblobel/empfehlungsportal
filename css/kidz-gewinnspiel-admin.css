@@ -52,7 +52,21 @@
 .kg-admin-dialog select { width: 100%; min-height: 45px; padding: 0 12px; color: #263746; background: #fff; border: 1px solid #d5d7da; border-radius: 9px; font: inherit; }
 .kg-admin-dialog-warning { padding: 10px 12px; color: #7a4d11 !important; background: #fff7df; border: 1px solid #ead59a; border-radius: 9px; }
 .kg-admin-dialog-status { min-height: 20px; color: #9a3c2e !important; font-weight: 700; }
+.kg-admin-dialog-status.is-ok { color: #245b37 !important; }
+.kg-admin-dialog-status.is-hint { color: #7a4d11 !important; }
 .kg-admin-dialog-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 18px; }
+.kg-admin-dialog input[type="text"], .kg-admin-dialog input[type="email"],
+.kg-admin-dialog input[type="tel"], .kg-admin-dialog input[type="number"] {
+  width: 100%; min-height: 45px; padding: 0 12px; color: #263746; background: #fff;
+  border: 1px solid #d5d7da; border-radius: 9px; font: inherit;
+}
+.kg-admin-dialog input:focus, .kg-admin-dialog select:focus { border-color: #0c6c3f; outline: none; box-shadow: 0 0 0 3px rgba(12,108,63,.12); }
+.kg-admin-dialog-hint { margin: 8px 0 0; padding: 10px 12px; color: #7a4d11 !important; background: #fff7df; border: 1px solid #ead59a; border-radius: 9px; font-size: 12px !important; }
+.kg-admin-dialog-check { display: flex; align-items: flex-start; gap: 9px; margin: 14px 0 0; color: #3e4852; font-size: 13px; line-height: 1.5; }
+.kg-admin-dialog-check input { width: 18px; height: 18px; margin: 1px 0 0; flex: 0 0 auto; accent-color: #0c6c3f; }
+.kg-admin-dialog-counter { min-height: 18px; margin: 6px 0 0; color: #73777f !important; font-size: 12px !important; }
+.kg-admin-badge-onsite { color: #7a4d11 !important; background: #fff3dd; }
+.kg-admin-dialog-actions { flex-wrap: wrap; }
 .kg-admin-danger { min-height: 43px; padding: 0 15px; color: #fff; background: #a74437; border: 1px solid #a74437; border-radius: 10px; font: inherit; font-size: 13px; font-weight: 800; cursor: pointer; }
 .kg-admin-danger:disabled { opacity: .55; cursor: wait; }
 @media (max-width: 850px) {
