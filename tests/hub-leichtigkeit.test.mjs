@@ -47,7 +47,7 @@ assert.match(css, /background: #F8F8F6/);
 assert.match(css, /@media \(max-width: 560px\)/);
 
 assert.match(config, /APP_VERSION = 'v1\.225 Beta'/);
-assert.match(config, /Phase 205 · KIDZ Anmeldung deutlicher auf der Sommerfest-Seite/);
+assert.match(config, /Phase 205 · KIDZ Sommerfest-Anmeldung/);
 assert.match(sw, /CACHE_VERSION = 'v184-2026-08-12-phase205'/);
 assert.match(sw, /\/css\/hub\.css\?v=55/);
 assert.match(sw, /\/css\/dashboard\.css\?v=49/);

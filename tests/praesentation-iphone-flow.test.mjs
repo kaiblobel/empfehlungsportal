@@ -32,7 +32,7 @@ assert.match(css, /\.iphone-reward-option/);
 assert.match(css, /@media \(max-width: 820px\)[\s\S]*\.steps-row\.iphone-flow \{ grid-template-columns: 1fr/);
 
 assert.match(config, /v1\.225 Beta/);
-assert.match(config, /Phase 205 · KIDZ Anmeldung deutlicher auf der Sommerfest-Seite/);
+assert.match(config, /Phase 205 · KIDZ Sommerfest-Anmeldung/);
 assert.match(sw, /CACHE_VERSION = 'v184-2026-08-12-phase205'/);
 
 console.log('praesentation-iphone-flow: OK');

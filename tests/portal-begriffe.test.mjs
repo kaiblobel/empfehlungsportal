@@ -21,7 +21,7 @@ for (const page of [presentation, programAdmin, payouts, advisors, changelogPage
 assert.match(index, />Zum Portal<\/a>/);
 assert.doesNotMatch(index, />Zum Hub<\/a>/);
 assert.match(config, /APP_VERSION = 'v1\.225 Beta'/);
-assert.match(config, /Phase 205 · KIDZ Anmeldung deutlicher auf der Sommerfest-Seite/);
+assert.match(config, /Phase 205 · KIDZ Sommerfest-Anmeldung/);
 assert.doesNotMatch(config, /Premium-HUB/);
 assert.match(sw, /CACHE_VERSION = 'v184-2026-08-12-phase205'/);
 
