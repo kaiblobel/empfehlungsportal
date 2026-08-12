@@ -1,15 +1,20 @@
 /** Öffentliche Laufzeit-Konfiguration für das KIDZ-Sommerfest-Gewinnspiel. */
 
 /**
- * Der Umfang des XXL-Balls wird erst am Veranstaltungstag gemessen. Wer vorher
- * schätzt, hat den Ball nie gesehen. Das Schätzfeld ist deshalb bis zum
- * 6. September 2026 zu und öffnet erst an diesem Tag.
+ * Zwei Felder der Anmeldung gehören zum Veranstaltungstag und sind vorher zu:
+ *
+ * - Das Schätzfeld, weil der Umfang des XXL-Balls erst dort gemessen wird. Wer
+ *   vorher schätzt, hat den Ball nie gesehen.
+ * - Das Elternabend-Häkchen, weil bis zum Fest zum Sommerfest eingeladen wird
+ *   und sonst nirgends vom Elternabend die Rede ist. Ein Häkchen für etwas, das
+ *   auf der Seite nicht vorkommt, wirkt untergeschoben. Am 6. September wird der
+ *   Elternabend vor Ort vorgestellt, dann hat es seinen Zusammenhang.
  */
-const GUESS_OPENS_AT = Date.parse('2026-09-06T00:00:00+02:00');
-const GUESS_CLOSES_AT = Date.parse('2026-09-07T00:00:00+02:00');
+const EVENT_DAY_STARTS_AT = Date.parse('2026-09-06T00:00:00+02:00');
+const EVENT_DAY_ENDS_AT = Date.parse('2026-09-07T00:00:00+02:00');
 
-function guessOpen(now = Date.now()) {
-  return now >= GUESS_OPENS_AT && now < GUESS_CLOSES_AT;
+function eventDay(now = Date.now()) {
+  return now >= EVENT_DAY_STARTS_AT && now < EVENT_DAY_ENDS_AT;
 }
 
 module.exports = function handler(req, res) {
@@ -28,10 +33,12 @@ module.exports = function handler(req, res) {
   return res.end(JSON.stringify({
     ok: Boolean(turnstileSiteKey),
     turnstileSiteKey,
-    guessOpen: guessOpen(),
+    eventDay: eventDay(),
+    // Alter Name, damit ein Browser mit zwischengespeichertem Skript nichts falsch macht.
+    guessOpen: eventDay(),
   }));
 };
 
-module.exports.guessOpen = guessOpen;
-module.exports.GUESS_OPENS_AT = GUESS_OPENS_AT;
-module.exports.GUESS_CLOSES_AT = GUESS_CLOSES_AT;
+module.exports.eventDay = eventDay;
+module.exports.EVENT_DAY_STARTS_AT = EVENT_DAY_STARTS_AT;
+module.exports.EVENT_DAY_ENDS_AT = EVENT_DAY_ENDS_AT;

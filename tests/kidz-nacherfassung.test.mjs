@@ -305,9 +305,9 @@ const VOR_DEM_FEST = Date.parse('2026-08-12T14:00:00+02:00');
 const AM_FEST = Date.parse('2026-09-06T11:00:00+02:00');
 const NACH_DEM_FEST = Date.parse('2026-09-07T09:00:00+02:00');
 
-assert.equal(configHandler.guessOpen(VOR_DEM_FEST), false);
-assert.equal(configHandler.guessOpen(AM_FEST), true);
-assert.equal(configHandler.guessOpen(NACH_DEM_FEST), false);
+assert.equal(configHandler.eventDay(VOR_DEM_FEST), false);
+assert.equal(configHandler.eventDay(AM_FEST), true);
+assert.equal(configHandler.eventDay(NACH_DEM_FEST), false);
 
 // Die oeffentliche Anmeldung verwirft eine zu frueh mitgeschickte Schaetzung,
 // laesst die Anmeldung selbst aber durchgehen.
@@ -351,6 +351,9 @@ assert.match(fenstermigration, /create or replace function public\.register_kidz
 
 // Der Browser entscheidet nicht selbst, wann das Feld aufgeht.
 const publicJs = await read('js/kidz-gewinnspiel.js');
-assert.match(publicJs, /applyGuessWindow\(config\?\.guessOpen === true\)/);
+assert.match(publicJs, /applyEventDay\(config\?\.eventDay === true/);
+// Das Elternabend-Haekchen haengt am selben Schalter und startet versteckt.
+assert.match(publicJs, /parentEveningRow\.hidden = !isEventDay;/);
+assert.match(publicJs, /const parentEvening = !parentEveningRow\.hidden/);
 assert.match(publicJs, /if \(guessInput\.disabled\) return null;/);
 assert.doesNotMatch(publicJs, /2026-09-06/);

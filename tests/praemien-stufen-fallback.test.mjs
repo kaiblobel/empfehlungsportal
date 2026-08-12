@@ -148,9 +148,9 @@ assert.match(empfehlungsListe, /r\.fremd/);
 
 /* --- 8) Versionsstand ist mitgezogen --- */
 const config = await lies('../js/config.js');
-assert.match(config, /APP_VERSION = 'v1\.220 Beta'/);
-assert.match(config, /Phase 200/);
+assert.match(config, /APP_VERSION = 'v1\.221 Beta'/);
+assert.match(config, /Phase 201/);
 const sw = await lies('../sw.js');
-assert.match(sw, /CACHE_VERSION = 'v179-2026-08-12-phase200'/);
+assert.match(sw, /CACHE_VERSION = 'v180-2026-08-12-phase201'/);
 
 console.log('praemien-stufen-fallback: OK');
