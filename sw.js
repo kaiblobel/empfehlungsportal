@@ -13,7 +13,7 @@
  * trägt — die darf nie veraltet sein.
  */
 
-const CACHE_VERSION = 'v186-2026-08-12-phase207';
+const CACHE_VERSION = 'v187-2026-08-12-phase208';
 const SHELL_CACHE = `shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `assets-${CACHE_VERSION}`;
 
@@ -25,28 +25,28 @@ const SHELL_URLS = [
   '/dashboard/kidz-elternabend.html',
   '/thema.html',
   '/css/style.css?v=33',
-  '/css/dashboard.css?v=49',
+  '/css/dashboard.css?v=50',
   '/css/hub.css?v=55',
   '/css/analysen.css?v=2',
   '/css/promoter-dashboard.css?v=2',
   '/css/potenziale.css?v=10',
   '/css/empfehlung-detail.css?v=1',
-  '/css/kidz-gewinnspiel-admin.css?v=4',
+  '/css/kidz-gewinnspiel-admin.css?v=5',
   '/css/kidz-elternabend-admin.css?v=1',
   '/css/thema.css?v=1',
   '/js/nav.js?v=60',
   '/js/icons.js',
   '/js/context-menu.js',
   '/js/cmdk.js',
-  '/js/hub.js?v=48',
+  '/js/hub.js?v=49',
   '/js/team.js?v=3',
-  '/js/analysen.js?v=2',
+  '/js/analysen.js?v=3',
   '/js/potenziale.js?v=10',
   '/js/potenziale-coach.mjs',
   '/js/potenziale-cockpit.mjs',
   '/js/potenziale-utils.mjs',
   '/js/empfehlung-detail.js?v=1',
-  '/js/kidz-elternabend-admin.js?v=1',
+  '/js/kidz-elternabend-admin.js?v=3',
   '/js/thema.js?v=1',
   '/js/hot-lead-watcher.js',
   '/js/dashboard.js',

@@ -286,6 +286,15 @@
 .badge-kunde          { background: #D7EBD5; color: #1F6B30; }
 .badge-kein_interesse { background: #F5D7D7; color: #8A1F1F; }
 
+/* Phase 208: Testdatensatz. Bewusst auffällig gestreift, damit man ihn im
+   Vorbeigehen erkennt und nicht mit einem echten Vorgang verwechselt. */
+.badge-test {
+  background: repeating-linear-gradient(
+    135deg, #FBE9C6, #FBE9C6 6px, #F6DDA8 6px, #F6DDA8 12px);
+  color: #7A5A05;
+  border: 1px solid #E4C577;
+}
+
 
 /* 7-Tage-Chart */
 .chart-card {

@@ -74,6 +74,7 @@ async function loadAnalysis() {
       supabase
         .from('empfehlungen')
         .select('created_at,link_klicks,link_geoeffnet,interessiert,status,vorlage_slug,empfehler_id,empfehler_name')
+        .eq('ist_test', false)
         .gte('created_at', previousStart.toISOString())
         .lt('created_at', periodEnd.toISOString())
         .order('created_at', { ascending: true }),

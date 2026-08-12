@@ -199,12 +199,13 @@ export async function getVorlage(slug, beraterId = null) {
 
 
 /* ---------- Empfehler / Belohnungen (Phase 7) ---------- */
-export async function createEmpfehler({ name, email, telefon, beraterSlug }) {
+export async function createEmpfehler({ name, email, telefon, beraterSlug, istTest = false }) {
   if (!supabase) return { data: null, error: { message: 'Supabase nicht konfiguriert' } };
   try {
     const { data, error } = await supabase.rpc('create_empfehler', {
       p_name: name, p_email: email || '', p_telefon: telefon || '',
       p_berater_slug: beraterSlug || null,
+      p_ist_test: istTest === true,
     });
     if (error) throw error;
     return { data, error: null };
@@ -448,6 +449,7 @@ export async function getOffenePraemienCount() {
     const { count, error } = await supabase
       .from('praemien')
       .select('id', { count: 'exact', head: true })
+      .eq('ist_test', false)
       .eq('status', 'offen');
     if (error) throw error;
     return count || 0;
@@ -468,7 +470,7 @@ export async function getKundenJeEmpfehler(empfehlerIds = []) {
   try {
     const { data, error } = await supabase
       .from('empfehlungen')
-      .select('empfehler_id, empfaenger_name, created_at')
+      .select('empfehler_id, empfaenger_name, created_at, ist_test')
       .in('empfehler_id', empfehlerIds)
       .eq('status', 'kunde')
       .order('created_at', { ascending: true });
@@ -525,13 +527,51 @@ export async function listBerater() {
   try {
     const { data, error } = await supabase
       .from('berater')
-      .select('id, name, slug, email, rolle, telefon, foto_url, whatsapp, bookings_url, impressum_url, datenschutz_url, ist_aktiv, created_at, auth_user_id, fuehrungskraft_id')
+      .select('id, name, slug, email, rolle, telefon, foto_url, whatsapp, bookings_url, impressum_url, datenschutz_url, ist_aktiv, created_at, auth_user_id, fuehrungskraft_id, ist_test')
       .order('created_at', { ascending: true });
     if (error) throw error;
     return { data: data || [], error: null };
   } catch (err) {
     console.error('[listBerater]', err);
     return { data: [], error: err };
+  }
+}
+
+/* ---------- Phase 208 · Testdaten ---------- */
+
+/**
+ * Wie viele Testdatensätze gibt es je Bereich?
+ * Rückgabe: { berater: 0, promoter: 0, empfehlungen: 0, praemien: 0, kidz: 0, potenziale: 0 }
+ */
+export async function getTestdatenBestand() {
+  if (!supabase) return {};
+  try {
+    const { data, error } = await supabase.rpc('testdaten_bestand');
+    if (error) throw error;
+    const out = {};
+    (data || []).forEach((r) => { out[r.bereich] = Number(r.anzahl) || 0; });
+    return out;
+  } catch (err) {
+    console.warn('[getTestdatenBestand]', err);
+    return {};
+  }
+}
+
+/**
+ * Sichert alle Testdatensätze und entfernt sie. Nur für Admins.
+ * Die Bestätigung ist Absicht: ein versehentlicher Klick löscht nichts.
+ */
+export async function entferneTestdaten() {
+  if (!supabase) return { data: null, error: { message: 'Supabase nicht konfiguriert' } };
+  try {
+    const { data, error } = await supabase.rpc('testdaten_entfernen', {
+      p_bestaetigung: 'TESTDATEN ENTFERNEN',
+    });
+    if (error) throw error;
+    return { data, error: null };
+  } catch (err) {
+    console.error('[entferneTestdaten]', err);
+    return { data: null, error: err };
   }
 }
 

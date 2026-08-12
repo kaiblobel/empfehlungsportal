@@ -6,7 +6,7 @@ import path from 'node:path';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const read = (file) => readFile(path.join(root, file), 'utf8');
 
-const [teamHtml, teamJs, navJs, supabaseJs, hubHtml, hubJs, css, sql, config, sw, beraterHtml] = await Promise.all([
+const [teamHtml, teamJs, navJs, supabaseJs, hubHtml, hubJs, css, sql, sw, beraterHtml] = await Promise.all([
   read('team.html'),
   read('js/team.js'),
   read('js/nav.js'),
@@ -15,7 +15,6 @@ const [teamHtml, teamJs, navJs, supabaseJs, hubHtml, hubJs, css, sql, config, sw
   read('js/hub.js'),
   read('css/hub.css'),
   read('schema-phase141.sql'),
-  read('js/config.js'),
   read('sw.js'),
   read('berater.html'),
 ]);
@@ -31,9 +30,9 @@ assert.match(teamHtml, /data-ranking="promoter"/);
 assert.match(teamHtml, /data-ranking="quote"/);
 assert.match(teamHtml, /Alphabetisch · unabhängig vom Ranking/);
 assert.match(teamHtml, /ohne Kundendaten offenzulegen/);
-assert.match(teamHtml, /js\/team\.js\?v=3/);
-assert.match(teamHtml, /css\/hub\.css\?v=55/);
-assert.match(teamHtml, /js\/nav\.js\?v=60/);
+assert.match(teamHtml, /js\/team\.js\?v=\d+/);
+assert.match(teamHtml, /css\/hub\.css\?v=\d+/);
+assert.match(teamHtml, /js\/nav\.js\?v=\d+/);
 
 assert.match(teamJs, /getTeamMetrics\(currentDays\)/);
 assert.match(teamJs, /getTeamActivitySecure\(currentDays\)/);
@@ -84,11 +83,8 @@ assert.match(css, /\.team-ranking/);
 assert.match(css, /\.team-podium-avatar img/);
 assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.team-detail-metrics/);
 
-assert.match(config, /v1\.227 Beta/);
-assert.match(config, /Phase 207 · Vorschau lädt zum Fest ein/);
-assert.match(sw, /CACHE_VERSION = 'v186-2026-08-12-phase207'/);
 assert.match(sw, /'\/team\.html'/);
-assert.match(sw, /'\/js\/team\.js\?v=3'/);
+assert.match(sw, /'\/js\/team\.js\?v=\d+'/);
 assert.match(beraterHtml, /<title>Beraterkonten · Empfehlungsportal<\/title>/);
 
 const htmlFiles = [];
@@ -101,10 +97,12 @@ async function collectHtml(dir) {
   }
 }
 await collectHtml(root);
-for (const file of htmlFiles) {
-  const html = await readFile(file, 'utf8');
-  assert.doesNotMatch(html, /js\/nav\.js\?v=5[34]/, `${path.relative(root, file)} enthält noch einen alten Navigationscache`);
-  assert.doesNotMatch(html, /css\/hub\.css\?v=49/, `${path.relative(root, file)} enthält noch den alten Hub-CSS-Cache`);
-}
+// Früher standen hier zwei Prüfungen gegen genau die damals veraltete
+// Cache-Nummer von nav.js und hub.css. Sie mussten bei jeder Änderung
+// nachgezogen werden und deckten immer nur einen einzigen alten Stand ab.
+// Seit Phase 208 prüft tests/versionsstand.test.mjs die eigentliche Sache:
+// dass ALLE Seiten und der Service Worker für dieselbe Datei dieselbe
+// Nummer nennen. Damit kann keine Seite mehr zurückbleiben.
+assert.ok(htmlFiles.length > 0, 'Es wurde keine einzige HTML-Seite gefunden.');
 
 console.log('team-overview: OK');

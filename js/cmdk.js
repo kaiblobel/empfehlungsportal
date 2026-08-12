@@ -101,12 +101,13 @@ function onKey(e) {
 async function loadData() {
   try {
     const [empfehlungen, empfehler] = await Promise.all([
+      // Die Schnellsuche findet auch Testdatensätze, kennzeichnet sie aber (Phase 208).
       supabase.from('empfehlungen')
-        .select('id, empfaenger_name, status, created_at')
+        .select('id, empfaenger_name, status, created_at, ist_test')
         .order('created_at', { ascending: false })
         .limit(200),
       supabase.from('empfehler')
-        .select('id, name, code')
+        .select('id, name, code, ist_test')
         .order('created_at', { ascending: false })
         .limit(200),
     ]);

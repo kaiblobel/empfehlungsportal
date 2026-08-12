@@ -107,15 +107,16 @@ async function loadKPIs() {
   };
   const safeSum = async () => {
     try {
-      const { data } = await supabase.from('empfehlungen').select('link_klicks');
+      const { data } = await supabase.from('empfehlungen').select('link_klicks').eq('ist_test', false);
       return (data || []).reduce((s, r) => s + (r.link_klicks || 0), 0);
     } catch { return null; }
   };
+  // Phase 208: Testdaten zählen auf der Startseite nirgends mit.
   return Promise.all([
-    safeCount(supabase.from('empfehler').select('id', { count: 'exact', head: true })),
+    safeCount(supabase.from('empfehler').select('id', { count: 'exact', head: true }).eq('ist_test', false)),
     safeSum(),
-    safeCount(supabase.from('empfehlungen').select('id', { count: 'exact', head: true })),
-    safeCount(supabase.from('empfehlungen').select('id', { count: 'exact', head: true }).eq('status', 'kunde')),
+    safeCount(supabase.from('empfehlungen').select('id', { count: 'exact', head: true }).eq('ist_test', false)),
+    safeCount(supabase.from('empfehlungen').select('id', { count: 'exact', head: true }).eq('ist_test', false).eq('status', 'kunde')),
   ]);
 }
 function renderKPIs([empfehler, klicks, gesamt, kunden], subs) {
@@ -178,11 +179,14 @@ async function loadHeroStats() {
   const safe = async (q) => { try { const { count } = await q; return count ?? 0; } catch { return 0; } };
   const [opened, anruf, kunden] = await Promise.all([
     safe(supabase.from('empfehlungen').select('id', { count: 'exact', head: true })
+      .eq('ist_test', false)
       .gte('link_geoeffnet_at', todayStart.toISOString())),
     safe(supabase.from('empfehlungen').select('id', { count: 'exact', head: true })
+      .eq('ist_test', false)
       .not('anrufwunsch', 'is', null)
       .gte('anrufwunsch_at', todayStart.toISOString())),
     safe(supabase.from('empfehlungen').select('id', { count: 'exact', head: true })
+      .eq('ist_test', false)
       .eq('status', 'kunde')
       .gte('created_at', weekStart.toISOString())),
   ]);
@@ -212,6 +216,7 @@ async function loadHotLeads() {
     const { data } = await supabase
       .from('empfehlungen')
       .select('id, empfaenger_name, status, anrufwunsch, anrufwunsch_at, interessiert, interessiert_at, link_geoeffnet_at, created_at')
+      .eq('ist_test', false)
       .or('status.eq.anrufwunsch,interessiert.eq.true')
       .not('status', 'in', '(kontaktiert,kunde,kein_interesse)')
       .limit(20);
@@ -312,11 +317,13 @@ async function loadTimelineEvents() {
       supabase
         .from('empfehlungen')
         .select('id, empfaenger_name, status, anrufwunsch, anrufwunsch_at, interessiert_at, link_geoeffnet_at, created_at')
+        .eq('ist_test', false)
         .order('created_at', { ascending: false })
         .limit(30),
       supabase
         .from('empfehler')
         .select('id, name, self_registered_at')
+        .eq('ist_test', false)
         .not('self_registered_at', 'is', null)
         .order('self_registered_at', { ascending: false })
         .limit(12),
@@ -515,6 +522,7 @@ async function loadTopPromoters() {
     const { data } = await supabase
       .from('empfehlungen')
       .select('empfehler_name, status')
+      .eq('ist_test', false)
       .not('empfehler_name', 'is', null);
     if (!data) return [];
     const tally = new Map();

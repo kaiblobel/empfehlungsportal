@@ -9,6 +9,8 @@ import {
   setBeraterAktiv,
   uploadBeraterFoto,
   createBeraterLogin,
+  getTestdatenBestand,
+  entferneTestdaten,
 } from './supabase.js';
 import { supabase } from './supabase.js';
 import { requireAuth, logout, applyBeraterHeader, getCurrentBerater } from './dashboard.js';
@@ -67,7 +69,66 @@ async function renderList() {
   listEl.innerHTML = data.map(renderCard).join('');
   fuelleCoachAuswahlImAnlegen(data);
   attachHandlers(data);
+  zeigeTestdaten();
 }
+
+/* ---------- Phase 208 · Testdaten gesammelt entfernen ---------- */
+
+const BEREICH_TEXT = {
+  berater: 'Beraterkonten',
+  promoter: 'Promoter',
+  empfehlungen: 'Empfehlungen',
+  praemien: 'Prämien',
+  kidz: 'KIDZ-Anmeldungen',
+  potenziale: 'Potenziale',
+};
+
+async function zeigeTestdaten() {
+  const box = document.getElementById('testdatenBox');
+  const text = document.getElementById('testdatenText');
+  const btn = document.getElementById('testdatenBtn');
+  const hinweis = document.getElementById('testdatenHinweis');
+  if (!box || !text || !btn) return;
+
+  const bestand = await getTestdatenBestand();
+  const teile = Object.entries(bestand)
+    .filter(([, n]) => n > 0)
+    .map(([k, n]) => `${n} ${BEREICH_TEXT[k] || k}`);
+
+  box.hidden = false;
+
+  // Ohne Testdaten wären Knopf und Erklärung nur Beiwerk.
+  if (!teile.length) {
+    text.textContent = 'Zurzeit gibt es keine Testdatensätze. Alles, was im Portal steht, ist echt.';
+    btn.hidden = true;
+    if (hinweis) hinweis.hidden = true;
+    return;
+  }
+
+  btn.hidden = false;
+  if (hinweis) hinweis.hidden = false;
+  text.textContent = `Als Test gekennzeichnet: ${teile.join(', ')}. `
+    + 'Diese Datensätze zählen in keiner Auswertung mit und lösen keine Mitteilungen aus.';
+}
+
+document.getElementById('testdatenBtn')?.addEventListener('click', async (ev) => {
+  const btn = ev.currentTarget;
+  if (!window.confirm('Alle als Test gekennzeichneten Datensätze werden gesichert und dann entfernt. Fortfahren?')) return;
+  btn.disabled = true;
+  btn.textContent = 'Räume auf…';
+  const { data, error } = await entferneTestdaten();
+  btn.disabled = false;
+  btn.textContent = 'Testdaten sichern und entfernen';
+  if (error) {
+    toast('Aufräumen fehlgeschlagen: ' + (error.message || 'unbekannt'));
+    return;
+  }
+  const offen = Array.isArray(data?.offene_auth_konten) ? data.offene_auth_konten : [];
+  toast(offen.length
+    ? `Testdaten entfernt. ${offen.length} Anmeldung${offen.length === 1 ? '' : 'en'} von Testberatern bleibt bestehen.`
+    : 'Testdaten entfernt und gesichert.');
+  await renderList();
+});
 
 /** Die Coach-Liste im Anlegen-Formular kennt beim Anlegen noch keinen Kreis. */
 function fuelleCoachAuswahlImAnlegen(alle) {
@@ -84,9 +145,12 @@ function fuelleCoachAuswahlImAnlegen(alle) {
 
 function renderCard(b, _index, alle) {
   const inaktivCls = b.ist_aktiv ? '' : ' inaktiv';
-  const authBadge = b.auth_user_id
-    ? `<span class="berater-auth ok" title="Login ist eingerichtet">Login aktiv</span>`
-    : `<span class="berater-auth pending" title="Noch kein Login angelegt">Login fehlt</span>`;
+  const authBadge = (b.ist_test
+    ? `<span class="badge badge-test" title="Testkonto: zählt nirgends mit">Test</span> `
+    : '')
+    + (b.auth_user_id
+      ? `<span class="berater-auth ok" title="Login ist eingerichtet">Login aktiv</span>`
+      : `<span class="berater-auth pending" title="Noch kein Login angelegt">Login fehlt</span>`);
   const aktivLabel = b.ist_aktiv ? 'Aktiv' : 'Inaktiv';
   const aktivCls = b.ist_aktiv ? 'on' : 'off';
   const fotoSrc = b.foto_url || '';
@@ -184,6 +248,17 @@ function renderCard(b, _index, alle) {
             <div class="berater-tech-grid">
               <div><label>URL-Kennung</label><input data-f="slug" value="${escapeAttr(b.slug || '')}" pattern="[a-z0-9-]+" placeholder="max-kudlek" /><span class="berater-field-hint">Wird für persönliche Links und Bilddateien benötigt.</span></div>
               <div><label>Interne Benutzer-ID</label><div class="berater-tech-value">${escapeHtml(b.auth_user_id || 'Noch nicht verknüpft')}</div></div>
+              <div class="wide">
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+                  <input type="checkbox" data-f="ist_test" ${b.ist_test ? 'checked' : ''} style="width:auto;margin:0" />
+                  Testkonto
+                </label>
+                <span class="berater-field-hint">
+                  Alles, was diesem Konto gehört, gilt als Testdatensatz: Promoter, Empfehlungen,
+                  Prämien, Anmeldungen. Zählt in keiner Auswertung mit, löst keine Mail und keine
+                  Mitteilung aus und lässt sich gesammelt wieder entfernen.
+                </span>
+              </div>
             </div>
           </details>
         </section>
@@ -264,6 +339,7 @@ function attachHandlers(list) {
       fields.forEach(f => {
         const k = f.dataset.f;
         if (k === 'auth_user_id_readonly') return;
+        if (f.type === 'checkbox') { data[k] = f.checked; return; }
         let v = (f.value || '').trim();
         data[k] = v || null;
       });
@@ -448,6 +524,7 @@ form.addEventListener('submit', async (e) => {
   const data = {};
   fields.forEach(f => {
     const k = f.dataset.f;
+    if (f.type === 'checkbox') { data[k] = f.checked; return; }
     let v = (f.value || '').trim();
     data[k] = v || null;
   });

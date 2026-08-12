@@ -12,10 +12,10 @@ const [summerHtml, giveawayHtml, navCss, navJs] = await Promise.all([
 const header = (html) => html.match(/<header class="kidz-public-nav">[\s\S]*?<\/header>/)?.[0].replace(/\s+/g, ' ').trim();
 assert.ok(header(summerHtml));
 assert.equal(header(summerHtml), header(giveawayHtml));
-assert.match(summerHtml, /kidz-public-nav\.css\?v=1/);
-assert.match(giveawayHtml, /kidz-public-nav\.css\?v=1/);
-assert.match(summerHtml, /kidz-public-nav\.js\?v=1/);
-assert.match(giveawayHtml, /kidz-public-nav\.js\?v=1/);
+assert.match(summerHtml, /kidz-public-nav\.css\?v=\d+/);
+assert.match(giveawayHtml, /kidz-public-nav\.css\?v=\d+/);
+assert.match(summerHtml, /kidz-public-nav\.js\?v=\d+/);
+assert.match(giveawayHtml, /kidz-public-nav\.js\?v=\d+/);
 assert.match(summerHtml, /<strong>Sommerfest<\/strong>/);
 assert.match(summerHtml, /<strong>Gewinne<\/strong>/);
 assert.match(summerHtml, /<strong>Anmeldung<\/strong>/);

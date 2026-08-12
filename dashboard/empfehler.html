@@ -7,7 +7,7 @@
   <meta name="robots" content="noindex,nofollow" />
   <title>Promoter · Empfehlungsportal</title>
   <link rel="stylesheet" href="../css/style.css?v=33" />
-  <link rel="stylesheet" href="../css/dashboard.css?v=49" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=50" />
   <link rel="stylesheet" href="../css/promoter-dashboard.css?v=2" />
   <script src="../js/config.js"></script>
 </head>
@@ -124,6 +124,16 @@
       <div class="edit-field">
         <label for="newNotiz">Interne Notiz (optional)</label>
         <textarea id="newNotiz" rows="2"></textarea>
+      </div>
+      <div class="edit-field">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:500">
+          <input id="newIstTest" type="checkbox" style="width:auto;margin:0" />
+          Nur zum Ausprobieren (Testdatensatz)
+        </label>
+        <small style="display:block;margin-top:4px;color:#6e6e73;line-height:1.4">
+          Zählt in keiner Auswertung mit, löst keine Mail und keine Mitteilung aus
+          und lässt sich später mit einem Klick wieder entfernen.
+        </small>
       </div>
       <div class="edit-actions">
         <button class="edit-btn" id="newCancel" type="button">Abbrechen</button>
@@ -326,7 +336,7 @@
            data-tel="${escapeHtml(e.telefon || '')}" data-email="${escapeHtml(e.email || '')}">
           <div class="pr-person">
             <span class="pr-initial">${initialen(e.name)}</span>
-            <span><strong>${escapeHtml(e.name)}</strong><small><i class="pr-active-dot"></i>${relativeDate(aktivitaet)}${e.berater_name ? ` · ${escapeHtml(e.berater_name)}` : ''}</small></span>
+            <span><strong>${escapeHtml(e.name)}</strong>${e.ist_test ? ' <span class="badge badge-test">Test</span>' : ''}<small><i class="pr-active-dot"></i>${relativeDate(aktivitaet)}${e.berater_name ? ` · ${escapeHtml(e.berater_name)}` : ''}</small></span>
           </div>
           <div class="pr-metrics">
             <div class="pr-metric"><b>${gesamt}</b><span>Empfehlungen</span></div>
@@ -480,10 +490,12 @@
     const newAdresse = document.getElementById('newAdresse');
     const newMotive = document.getElementById('newMotive');
     const newNotiz = document.getElementById('newNotiz');
+    const newIstTest = document.getElementById('newIstTest');
     const newSave = document.getElementById('newSave');
 
     function openNewModal() {
       [newName, newTel, newEmail, newAdresse, newMotive, newNotiz].forEach(el => { el.value = ''; });
+      newIstTest.checked = false;
       newModal.hidden = false;
       requestAnimationFrame(() => newModal.classList.add('open'));
       setTimeout(() => newName.focus(), 60);
@@ -504,7 +516,13 @@
       newSave.disabled = true;
       newSave.textContent = 'Lege an…';
       try {
-        const { data: code, error } = await createEmpfehler({ name, email: newEmail.value.trim(), telefon: newTel.value.trim(), beraterSlug });
+        const { data: code, error } = await createEmpfehler({
+          name,
+          email: newEmail.value.trim(),
+          telefon: newTel.value.trim(),
+          beraterSlug,
+          istTest: newIstTest.checked,
+        });
         if (error || !code) throw (error || new Error('kein Code'));
         // Zusatzfelder (Adresse/Motive/Notiz) per Folge-Update setzen, falls gefüllt
         const extra = {};

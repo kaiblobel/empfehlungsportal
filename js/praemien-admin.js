@@ -94,7 +94,7 @@ function renderCard(p) {
     <article class="pr-card is-${escapeAttr(p.status)}" data-id="${p.id}">
       <div class="pr-main">
         <div class="pr-row1">
-          <span class="pr-name">${escapeHtml(name)}</span>
+          <span class="pr-name">${escapeHtml(name)}${p.ist_test ? ' <span class="badge badge-test">Test</span>' : ''}</span>
           <span class="pr-status ${escapeAttr(p.status)}">${statusLabel(p.status)}</span>
         </div>
         <div class="pr-headline">

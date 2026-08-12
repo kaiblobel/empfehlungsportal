@@ -20,7 +20,7 @@ for (const slug of themes) {
 
 assert.ok(html.includes('data-page="thema"'));
 assert.ok(html.includes('In Arbeit'));
-assert.ok(html.includes('/js/referral-tracking.js?v=2'));
+assert.match(html, /\/js\/referral-tracking\.js\?v=\d+/);
 assert.ok(html.includes('id="interestButton"'));
 assert.ok(html.includes('data-track-booking'));
 assert.ok(html.includes('id="optOutLink"'));

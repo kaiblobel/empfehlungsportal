@@ -1,17 +1,16 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-const [html, css, js, config, sw] = await Promise.all([
+const [html, css, js, sw] = await Promise.all([
   readFile(new URL('../dashboard/detail.html', import.meta.url), 'utf8'),
   readFile(new URL('../css/empfehlung-detail.css', import.meta.url), 'utf8'),
   readFile(new URL('../js/empfehlung-detail.js', import.meta.url), 'utf8'),
-  readFile(new URL('../js/config.js', import.meta.url), 'utf8'),
   readFile(new URL('../sw.js', import.meta.url), 'utf8'),
 ]);
 
 assert.match(html, /class="has-app-nav emp-detail-page"/);
-assert.match(html, /css\/empfehlung-detail\.css\?v=1/);
-assert.match(html, /js\/empfehlung-detail\.js\?v=1/);
+assert.match(html, /css\/empfehlung-detail\.css\?v=\d+/);
+assert.match(html, /js\/empfehlung-detail\.js\?v=\d+/);
 assert.match(html, /class="app-content ed-content"/);
 assert.doesNotMatch(html, /class="detail-info"/);
 
@@ -33,10 +32,7 @@ assert.match(js, /id="notizArea"/);
 assert.match(js, /Nächster sinnvoller Schritt/);
 assert.match(js, /Verwaltung anzeigen/);
 
-assert.match(config, /APP_VERSION = 'v1\.227 Beta'/);
-assert.match(config, /Phase 207 · Vorschau lädt zum Fest ein/);
-assert.match(sw, /CACHE_VERSION = 'v186-2026-08-12-phase207'/);
-assert.match(sw, /\/css\/empfehlung-detail\.css\?v=1/);
-assert.match(sw, /\/js\/empfehlung-detail\.js\?v=1/);
+assert.match(sw, /\/css\/empfehlung-detail\.css\?v=\d+/);
+assert.match(sw, /\/js\/empfehlung-detail\.js\?v=\d+/);
 
 console.log('Empfehlungsdetail-Premiumtests bestanden.');

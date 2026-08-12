@@ -93,12 +93,15 @@ function visibleEntries() {
 
 function render() {
   const visible = visibleEntries();
-  document.getElementById('totalCount').textContent = String(entries.length);
+  // Phase 208: Die Kacheln rechnen ohne Testanmeldungen, die Liste zeigt sie
+  // weiter, dort mit Kennzeichen.
+  const echte = entries.filter((entry) => !entry.ist_test);
+  document.getElementById('totalCount').textContent = String(echte.length);
   // Jede Anmeldung ist mindestens eine Person; Begleitung wird dazugezaehlt.
   document.getElementById('personCount').textContent = String(
-    entries.reduce((summe, entry) => summe + 1 + (entry.begleitpersonen ?? 0), 0));
-  document.getElementById('parentCount').textContent = String(entries.filter((entry) => entry.elternabend_interesse).length);
-  document.getElementById('advisorCount').textContent = String(new Set(entries.map((entry) => entry.berater_id)).size);
+    echte.reduce((summe, entry) => summe + 1 + (entry.begleitpersonen ?? 0), 0));
+  document.getElementById('parentCount').textContent = String(echte.filter((entry) => entry.elternabend_interesse).length);
+  document.getElementById('advisorCount').textContent = String(new Set(echte.map((entry) => entry.berater_id)).size);
   document.getElementById('resultMeta').textContent = `${visible.length} von ${entries.length}`;
   exportBtn.disabled = entries.length === 0;
 
@@ -111,7 +114,7 @@ function render() {
     const hasGuess = entry.schaetzung_cm !== null && entry.schaetzung_cm !== undefined;
     return `
     <article class="kg-admin-entry">
-      <div><strong>${escapeHtml(entry.name)}</strong><span>${escapeHtml(entry.reference)}</span></div>
+      <div><strong>${escapeHtml(entry.name)}</strong>${entry.ist_test ? '<span class="badge badge-test">Test</span>' : ''}<span>${escapeHtml(entry.reference)}</span></div>
       <div><strong>${escapeHtml(entry.email || entry.telefon || 'Kein Kontaktweg')}</strong><span>${escapeHtml(entry.email && entry.telefon ? entry.telefon : '')}</span></div>
       <div><small>Zugeordnet zu</small><strong>${escapeHtml(entry.berater?.name || 'Kai Blobel')}</strong>${entry.empfehler?.name ? `<span>Eingeladen von ${escapeHtml(entry.empfehler.name)}</span>` : ''}</div>
       <div><small>${escapeHtml(formatDate(entry.created_at))}</small><span>${escapeHtml(sourceLabel(entry.source))}</span>${entry.begleitpersonen === null || entry.begleitpersonen === undefined ? '' : `<span>${1 + entry.begleitpersonen} ${1 + entry.begleitpersonen === 1 ? 'Person' : 'Personen'}</span>`}</div>
@@ -152,7 +155,7 @@ function exportCsv() {
 async function loadEntries() {
   const { data, error } = await supabase
     .from('kidz_gewinnspiel_teilnahmen')
-    .select('id,reference,name,email,telefon,source,schaetzung_cm,schaetzung_am,begleitpersonen,elternabend_interesse,conditions_version,consent_at,created_at,berater_id,empfehler_id,berater:berater_id(name,slug),empfehler:empfehler_id(name)')
+    .select('id,reference,name,email,telefon,source,schaetzung_cm,schaetzung_am,begleitpersonen,elternabend_interesse,conditions_version,consent_at,created_at,berater_id,empfehler_id,ist_test,berater:berater_id(name,slug),empfehler:empfehler_id(name)')
     .eq('event_key', EVENT_KEY)
     .order('created_at', { ascending: false });
   if (error) throw error;

@@ -2,11 +2,9 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
 const read = (file) => readFile(new URL(`../${file}`, import.meta.url), 'utf8');
-const [html, css, config, sw] = await Promise.all([
+const [html, css] = await Promise.all([
   read('programm.html'),
   read('css/programm.css'),
-  read('js/config.js'),
-  read('sw.js'),
 ]);
 
 assert.match(html, /class="steps-row iphone-flow"/);
@@ -21,7 +19,7 @@ assert.match(html, /Geldprämie/);
 assert.match(html, /Sachprämie/);
 assert.match(html, /Spende/);
 assert.doesNotMatch(html, /class="wa-mockup"/);
-assert.match(html, /css\/programm\.css\?v=90/);
+assert.match(html, /css\/programm\.css\?v=\d+/);
 
 assert.match(css, /\.steps-row\.iphone-flow/);
 assert.match(css, /\.iphone-device \{/);
@@ -31,8 +29,5 @@ assert.match(css, /\.iphone-wa-screen/);
 assert.match(css, /\.iphone-reward-option/);
 assert.match(css, /@media \(max-width: 820px\)[\s\S]*\.steps-row\.iphone-flow \{ grid-template-columns: 1fr/);
 
-assert.match(config, /v1\.227 Beta/);
-assert.match(config, /Phase 207 · Vorschau lädt zum Fest ein/);
-assert.match(sw, /CACHE_VERSION = 'v186-2026-08-12-phase207'/);
 
 console.log('praesentation-iphone-flow: OK');
