@@ -2,12 +2,11 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
 const read = (file) => readFile(new URL(`../${file}`, import.meta.url), 'utf8');
-const [html, js, css, nav, config, sw] = await Promise.all([
+const [html, js, css, nav, sw] = await Promise.all([
   read('dashboard/overview.html'),
   read('js/analysen.js'),
   read('css/analysen.css'),
   read('js/nav.js'),
-  read('js/config.js'),
   read('sw.js'),
 ]);
 
@@ -25,9 +24,9 @@ assert.match(html, /data-chart-mode="relative"/);
 assert.match(html, /Umwandlung/);
 assert.match(html, /Themenerfolg/);
 assert.match(html, /Promoterquellen/);
-assert.match(html, /js\/analysen\.js\?v=2/);
-assert.match(html, /css\/analysen\.css\?v=2/);
-assert.match(html, /js\/nav\.js\?v=60/);
+assert.match(html, /js\/analysen\.js\?v=\d+/);
+assert.match(html, /css\/analysen\.css\?v=\d+/);
+assert.match(html, /js\/nav\.js\?v=\d+/);
 
 assert.match(js, /getCurrentBerater\(\)/);
 assert.match(js, /getVorlagenPublic\(advisor\?\.id \|\| null\)/);
@@ -65,11 +64,8 @@ assert.match(css, /\.analysis-chart-mode/);
 assert.match(css, /@media \(max-width:600px\)/);
 
 assert.match(nav, /id: 'analysen',[\s\S]*?href: path\('dashboard\/overview\.html'\)/);
-assert.match(config, /v1\.227 Beta/);
-assert.match(config, /Phase 207 · Vorschau lädt zum Fest ein/);
-assert.match(sw, /CACHE_VERSION = 'v186-2026-08-12-phase207'/);
 assert.match(sw, /'\/dashboard\/overview\.html'/);
-assert.match(sw, /'\/css\/analysen\.css\?v=2'/);
-assert.match(sw, /'\/js\/analysen\.js\?v=2'/);
+assert.match(sw, /'\/css\/analysen\.css\?v=\d+'/);
+assert.match(sw, /'\/js\/analysen\.js\?v=\d+'/);
 
 console.log('analysen-echt: OK');

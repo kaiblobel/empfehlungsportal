@@ -1,7 +1,46 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.227 Beta** · KIDZ Ballschätzen und Nacherfassung, live seit 12.08.2026.
+Offizielle Live-Version: **v1.228 Beta** · Testdaten sind als Test gekennzeichnet, live seit 12.08.2026.
+
+---
+
+## v1.228 Beta - Phase 208 · Testdaten sind als Test gekennzeichnet
+**2026-08-12**
+
+Bisher war „Test oder echt?" eine Frage der Namensgebung. Wer einen Promoter „Holger Hempel (Test)" nannte, hoffte, dass es später jemand liest. Beim Aufräumen der Demo-Welt musste am 12.08. jeder Datensatz von Hand beurteilt werden, und der Testberater war nur am Namen erkennbar. Das ist jetzt eine Eigenschaft des Datensatzes.
+
+**Was das Kennzeichen kann**
+
+- Beim Anlegen eines Promoters gibt es ein Häkchen „Nur zum Ausprobieren". In den Beraterkonten gibt es das Gegenstück „Testkonto".
+- Das Kennzeichen vererbt sich von allein: Was einem Testberater gehört, ist Test. Was ein Testpromoter auslöst, ist Test. Auch die Prämie, die dabei automatisch entsteht.
+- Wer es nachträglich setzt, zieht damit alles darunter mit. Ein Handgriff genügt.
+
+**Drei Zusagen, die daraus folgen**
+
+1. **Testdaten zählen in keiner Kennzahl mit.** Nicht auf der Startseite, nicht im Trichter, nicht in den Auswertungen, nicht in der Teamsicht, nicht in den KIDZ-Kacheln. Der nächtliche Schnappschuss lässt sie ebenfalls weg.
+2. **Testdaten lösen keine echte Mitteilung aus.** Keine Mail an den Promoter, keine Mitteilung aufs Handy, kein Telegram. Das stand vorher nur in der Anleitung („vor jedem Test prüfen, welche Mails ausgelöst werden könnten") und hing an der Disziplin des Einzelnen. Jetzt steht es im Code, geprüft an einer Empfehlung, die auf Kunde gesetzt wurde: die Prämie entstand, die Glückwunsch-Mail nicht.
+3. **Testdaten lassen sich mit einem Klick entfernen.** In den Beraterkonten steht, wie viele es gerade gibt, und ein Knopf sichert und löscht sie. Ohne Sicherung wird nichts gelöscht.
+
+**Was sichtbar bleibt**
+
+Testdatensätze verschwinden nicht aus den Arbeitslisten, sie tragen dort ein gestreiftes Kennzeichen. Ein Datensatz, den man selbst angelegt hat und dann nicht wiederfindet, ist schlimmer als einer, der markiert dasteht. Nur die Startseite hält sich frei, weil sie die Frage „wie läuft mein Geschäft" beantwortet.
+
+Eine Ausnahme betrifft den wichtigsten Testfall überhaupt: Wer die Strecke mit einem echten Promoter durchspielt und die Empfehlung als Test markiert, dem soll der Promoter auf seiner eigenen Seite trotzdem zeigen, was er gerade ausgelöst hat. Beim Testpromoter zählt deshalb alles, beim echten nur das Echte.
+
+**Damit es so bleibt**
+
+Ein Test bewacht ab jetzt jede Abfrage auf die betroffenen Tabellen: Sie muss Testdaten entweder herausnehmen oder das Kennzeichen mitlesen. Ohne diesen Wächter wäre die alte Lage über das nächste Feature zurückgekommen.
+
+**Nebenbei: die Versionsnummern aus den Tests genommen**
+
+Die aktuelle Version, die Phase und die Cache-Version standen in vierzehn Testdateien fest verdrahtet, die Cache-Nummern von CSS und JS in weiteren fünfzehn. Jede Veröffentlichung brach dieselben Tests, die inhaltlich nichts damit zu tun hatten. Beides prüft jetzt eine Stelle, und zwar schärfer als vorher:
+
+- Ob Oberfläche, Service Worker und Changelog dieselbe Phase meinen.
+- Ob alle Seiten und der Service Worker für dieselbe Datei dieselbe Fassung einbinden. Diese Prüfung fand sofort zwei Stellen, an denen das auseinandergelaufen war: `js/app.js` in zwei Fassungen und die KIDZ-Admin-CSS in zwei Fassungen. Beide begradigt.
+- Ein Wächter verhindert, dass eine Testdatei die Versionen wieder fest einträgt.
+
+Dazu ein Werkzeug: `node tools/version-setzen.mjs "Titel der Phase"` zieht Version, Phase, Cache-Version und den Changelog gemeinsam hoch. Vorher waren das drei Handgriffe, von denen einer regelmäßig vergessen wurde.
 
 ---
 

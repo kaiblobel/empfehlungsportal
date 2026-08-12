@@ -133,11 +133,12 @@ function redirectLogin() {
 export async function loadKPIs() {
   if (!supabase) return { promotoren: 0, klicks: 0, gesamt: 0, kunden: 0 };
 
+  // Phase 208: Kennzahlen rechnen ohne Testdaten.
   const [all, promoRes, klicksRes, kundenRes] = await Promise.all([
-    supabase.from('empfehlungen').select('id', { count: 'exact', head: true }),
-    supabase.from('empfehlungen').select('empfehler_name').not('empfehler_name', 'is', null),
-    supabase.from('empfehlungen').select('link_klicks'),
-    supabase.from('empfehlungen').select('id', { count: 'exact', head: true }).eq('status', 'kunde'),
+    supabase.from('empfehlungen').select('id', { count: 'exact', head: true }).eq('ist_test', false),
+    supabase.from('empfehlungen').select('empfehler_name').eq('ist_test', false).not('empfehler_name', 'is', null),
+    supabase.from('empfehlungen').select('link_klicks').eq('ist_test', false),
+    supabase.from('empfehlungen').select('id', { count: 'exact', head: true }).eq('ist_test', false).eq('status', 'kunde'),
   ]);
 
   const promotorenSet = new Set();
@@ -182,6 +183,7 @@ export async function loadEmpfehlungen({ filter = 'alle', search = '', limit = 2
         empfehler_name: r.empfehler_name,
         created_at: r.angelegt_am,
         berater_name: r.berater_name,
+        ist_test: r.ist_test === true,
         fremd: true,
       }))
       .filter((r) => (filter === 'alle' || r.status === filter)
@@ -288,23 +290,29 @@ export async function loadEmpfehlerList(bereich = 'mein') {
       kunde: Number(r.kunden) || 0,
       berater_name: r.berater_name,
       selbst_angemeldet: r.selbst_angemeldet,
+      ist_test: r.ist_test === true,
     }));
   }
   try {
+    // Die Promoterliste zeigt Testpromoter mit, aber gekennzeichnet (Phase 208).
     const { data: empfehlerRows, error: e1 } = await supabase
       .from('empfehler')
-      .select('id, code, name, email, telefon, ziel_stufe, created_at')
+      .select('id, code, name, email, telefon, ziel_stufe, created_at, ist_test')
       .order('created_at', { ascending: false });
     if (e1) throw e1;
 
     const { data: counts, error: e2 } = await supabase
       .from('empfehlungen')
-      .select('empfehler_id, status, created_at')
+      .select('empfehler_id, status, created_at, ist_test')
       .not('empfehler_id', 'is', null);
     if (e2) throw e2;
 
+    // Eine Testempfehlung zählt beim Testpromoter mit und beim echten nicht.
+    const istTestPromoter = new Set((empfehlerRows || []).filter(e => e.ist_test).map(e => e.id));
+
     const byId = new Map();
     (counts || []).forEach(r => {
+      if (r.ist_test && !istTestPromoter.has(r.empfehler_id)) return;
       const m = byId.get(r.empfehler_id) || { gesamt: 0, kunde: 0, letzte_aktivitaet: null };
       m.gesamt += 1;
       if (r.status === 'kunde') m.kunde += 1;
@@ -329,7 +337,8 @@ export async function loadAktiveEmpfehlerCount() {
   try {
     const { count, error } = await supabase
       .from('empfehler')
-      .select('id', { count: 'exact', head: true });
+      .select('id', { count: 'exact', head: true })
+      .eq('ist_test', false);
     if (error) throw error;
     return count || 0;
   } catch (err) {
@@ -344,13 +353,16 @@ export async function loadAktiveEmpfehlerCount() {
 export async function loadFunnel() {
   if (!supabase) return { gesendet: 0, geoeffnet: 0, interessiert: 0, kunden: 0 };
 
+  // Phase 208: Der Trichter rechnet ohne Testdaten.
   const [g, o, i, k] = await Promise.all([
-    supabase.from('empfehlungen').select('id', { count: 'exact', head: true }),
+    supabase.from('empfehlungen').select('id', { count: 'exact', head: true }).eq('ist_test', false),
     supabase.from('empfehlungen').select('id', { count: 'exact', head: true })
+      .eq('ist_test', false)
       .or('link_geoeffnet.eq.true,interessiert.eq.true,status.eq.kunde'),
     supabase.from('empfehlungen').select('id', { count: 'exact', head: true })
+      .eq('ist_test', false)
       .or('interessiert.eq.true,status.eq.kunde'),
-    supabase.from('empfehlungen').select('id', { count: 'exact', head: true }).eq('status', 'kunde'),
+    supabase.from('empfehlungen').select('id', { count: 'exact', head: true }).eq('ist_test', false).eq('status', 'kunde'),
   ]);
 
   return {
@@ -382,6 +394,7 @@ export async function loadLast7Days() {
   const { data, error } = await supabase
     .from('empfehlungen')
     .select('created_at')
+    .eq('ist_test', false)
     .gte('created_at', since.toISOString());
 
   if (error || !data) return out;

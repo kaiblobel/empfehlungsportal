@@ -7,7 +7,7 @@
   <meta name="robots" content="noindex,nofollow" />
   <title>Beraterkonten · Empfehlungsportal</title>
   <link rel="stylesheet" href="css/style.css?v=33" />
-  <link rel="stylesheet" href="css/dashboard.css?v=49" />
+  <link rel="stylesheet" href="css/dashboard.css?v=50" />
   <link rel="stylesheet" href="css/hub.css?v=55" />
   <script src="js/config.js"></script>
 </head>
@@ -45,6 +45,17 @@
 
     <section class="cms-list" id="beraterList">
       <div style="padding:24px;text-align:center;color:var(--text-secondary);font-size:14px;">Lade Berater…</div>
+    </section>
+
+    <!-- Phase 208 · Testdaten gesammelt entfernen -->
+    <section class="cms-intro" id="testdatenBox" hidden style="margin-top:28px">
+      <h2 style="margin:0 0 6px;font-size:17px">Testdaten</h2>
+      <p id="testdatenText" style="margin:0 0 14px;font-size:14px;line-height:1.5;color:var(--text-secondary)"></p>
+      <button class="berater-add-btn" id="testdatenBtn" type="button">Testdaten sichern und entfernen</button>
+      <p style="margin:10px 0 0;font-size:12.5px;line-height:1.5;color:var(--text-secondary)">
+        Alles wird vorher in eine Sicherungstabelle geschrieben. Anmeldungen von Testberatern
+        bleiben bestehen und werden danach genannt, die entfernt der Support gesondert.
+      </p>
     </section>
   </main>
 
@@ -108,6 +119,10 @@
           <span>Datenschutz-URL</span>
           <input data-f="datenschutz_url" type="url" placeholder="https://www.dvag.de/vorname.nachname/datenschutz.html" />
         </label>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+          <input data-f="ist_test" type="checkbox" style="width:auto;margin:0" />
+          <span style="margin:0">Testkonto (zählt nirgends mit, löst keine Mitteilungen aus)</span>
+        </label>
         <div class="berater-form-actions">
           <button type="button" class="berater-form-cancel" id="beraterFormCancel">Abbrechen</button>
           <button type="submit" class="berater-form-submit">Berater anlegen</button>
@@ -141,6 +156,6 @@
 
   <div class="h-toast" id="hToast"></div>
 
-  <script type="module" src="js/berater-admin.js?v=9"></script>
+  <script type="module" src="js/berater-admin.js?v=10"></script>
 </body>
 </html>

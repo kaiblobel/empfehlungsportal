@@ -32,18 +32,34 @@ versehentlich etwas an der Live-Seite oder den Daten kaputtgeht**. Bitte einmal 
 - **`main`-Branch** — kein direkter Push (ist auch technisch geschützt).
 - **Supabase / Datenbank-Migrationen** — Schema-/Daten-Änderungen macht Kai. Wenn dein
   Vorschlag eine DB-Änderung braucht: im PR beschreiben, **nicht** selbst ausführen.
-- **Keine echten Test-Empfehlungen anlegen.** Die App spricht mit der **Live-Datenbank** —
-  ein abgeschickter Funnel landet als echte Empfehlung drin (und löst evtl. Benachrichtigungen
-  aus). Zum Ausprobieren von Abläufen vorher mit Kai abstimmen und klar erkennbare Testnamen
-  nutzen.
+- **Zum Ausprobieren das Testkennzeichen setzen** (seit Phase 208). Die App spricht mit der
+  **Live-Datenbank**, ein abgeschickter Funnel landet dort als echte Empfehlung. Deshalb:
+  beim Anlegen eines Promoters das Häkchen „Nur zum Ausprobieren" setzen, oder gleich ein
+  ganzes Testkonto anlegen (Beraterkonten → Technische Angaben → „Testkonto"). Was daran
+  hängt, erbt das Kennzeichen von allein, zählt in keiner Kennzahl mit, löst keine Mail und
+  keine Mitteilung aus und lässt sich in den Beraterkonten gesammelt wieder entfernen.
+  Ein sprechender Name bleibt trotzdem hilfreich, er ersetzt aber nicht mehr das Kennzeichen.
 
 ## Konventionen (kurz)
 - **Kein Build-Step.** Reines HTML/CSS/JS + Supabase. Kein React/Vite/npm einbringen.
-- **Versionsnummer hochzählen** bei sichtbaren Änderungen: `js/config.js` → `APP_VERSION`
-  (`v1.X`) + kurzer Eintrag in `CHANGELOG.md`.
+- **Versionsnummer hochzählen** bei sichtbaren Änderungen. Das macht ein Werkzeug an allen
+  drei Stellen gleichzeitig (`js/config.js`, `sw.js`, `CHANGELOG.md`):
+
+  ```
+  node tools/version-setzen.mjs "Kurztitel der Phase"
+  node tools/version-setzen.mjs "Kurztitel" --probe    # zeigt nur, was passieren würde
+  ```
+
+  Danach den neuen Changelog-Abschnitt füllen. `tests/versionsstand.test.mjs` prüft, dass
+  die drei Stellen dieselbe Phase meinen.
 - **Cache-Buster:** Wenn du eine `js/*.js`- oder `css/*.css`-Datei änderst, die per
-  `?v=NN` eingebunden ist, die Nummer in den HTML-Dateien +1; bei geteilten Modulen zusätzlich
-  `CACHE_VERSION` in `sw.js` hochziehen. Sonst sehen Nutzer alten Code.
+  `?v=NN` eingebunden ist, die Nummer **in allen** HTML-Dateien und in `sw.js` +1. Sonst
+  bekommt derselbe Nutzer je nach Seite zwei verschiedene Fassungen. Der Versionsstand-Test
+  schlägt an, wenn eine Stelle zurückbleibt.
+- **Versionen nicht in Tests festschreiben.** Ein Test darf prüfen, *dass* eine Datei
+  eingebunden ist (`?v=\d+`), nicht *welche Nummer* sie gerade trägt. Sonst bricht bei jeder
+  Veröffentlichung ein Dutzend Tests, die inhaltlich nichts damit zu tun haben. Ein Wächter
+  in `tests/versionsstand.test.mjs` passt darauf auf.
 - **Multi-Tenant / Branding:** Beraterspezifische Werte (Name/Foto/Telefon/…) nie hart
   reinschreiben — über `data-bb="…"`-Hooks lösen (siehe `js/berater-brand.js`). Inhalte
   (Belohnungen/Themen) sind geteilt und nur vom Admin editierbar.

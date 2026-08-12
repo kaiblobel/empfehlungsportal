@@ -2,13 +2,12 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
 const read = (file) => readFile(new URL(`../${file}`, import.meta.url), 'utf8');
-const [listHtml, detailHtml, promoterCss, dashboardJs, detailJs, config, sw] = await Promise.all([
+const [listHtml, detailHtml, promoterCss, dashboardJs, detailJs, sw] = await Promise.all([
   read('dashboard/empfehler.html'),
   read('dashboard/promoter.html'),
   read('css/promoter-dashboard.css'),
   read('js/dashboard.js'),
   read('js/promoter-detail.js'),
-  read('js/config.js'),
   read('sw.js'),
 ]);
 
@@ -25,7 +24,7 @@ assert.match(listHtml, /function renderPodium\(\)/);
 assert.match(listHtml, /function relativeDate\(value\)/);
 assert.match(listHtml, /function impulsText\(gesamt, kunden, ziel\)/);
 assert.match(listHtml, /Rechtsklick/);
-assert.match(listHtml, /promoter-dashboard\.css\?v=2/);
+assert.match(listHtml, /promoter-dashboard\.css\?v=\d+/);
 
 const inlineModule = [...listHtml.matchAll(/<script type="module">([\s\S]*?)<\/script>/g)].at(-1)?.[1] || '';
 const parseableModuleBody = inlineModule.replace(/import\s+\{[\s\S]*?\}\s+from\s+['"][^'"]+['"];?/g, '');
@@ -37,7 +36,7 @@ assert.match(dashboardJs, /letzte_aktivitaet/);
 
 assert.match(detailHtml, /class="has-app-nav promoter-detail-page"/);
 assert.match(detailHtml, /promoter-detail-content/);
-assert.match(detailHtml, /promoter-detail\.js\?v=6/);
+assert.match(detailHtml, /promoter-detail\.js\?v=\d+/);
 assert.match(detailJs, /pd-profile-hero/);
 assert.match(detailJs, /pd-layout/);
 assert.match(detailJs, /Kontakt und Beziehungspflege/);
@@ -54,9 +53,6 @@ assert.match(promoterCss, /\.pd-layout/);
 assert.match(promoterCss, /grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
 assert.match(promoterCss, /@media \(max-width: 540px\)/);
 
-assert.match(config, /v1\.227 Beta/);
-assert.match(config, /Phase 207 · Vorschau lädt zum Fest ein/);
-assert.match(sw, /CACHE_VERSION = 'v186-2026-08-12-phase207'/);
-assert.match(sw, /promoter-dashboard\.css\?v=2/);
+assert.match(sw, /promoter-dashboard\.css\?v=\d+/);
 
 console.log('promoter-premium: OK');

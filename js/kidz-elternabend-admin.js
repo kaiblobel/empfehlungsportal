@@ -69,10 +69,13 @@ function statusOptions(current) {
 
 function render() {
   const visible = visibleEntries();
-  document.getElementById('totalCount').textContent = String(entries.length);
-  document.getElementById('invitedCount').textContent = String(entries.filter((entry) => entry.status === 'eingeladen').length);
-  document.getElementById('confirmedCount').textContent = String(entries.filter((entry) => entry.status === 'bestaetigt').length);
-  document.getElementById('attendedCount').textContent = String(entries.filter((entry) => entry.status === 'teilgenommen').length);
+  // Phase 208: Die Kacheln rechnen ohne Testvormerkungen, die Liste zeigt sie
+  // weiter, dort mit Kennzeichen.
+  const echte = entries.filter((entry) => !entry.ist_test);
+  document.getElementById('totalCount').textContent = String(echte.length);
+  document.getElementById('invitedCount').textContent = String(echte.filter((entry) => entry.status === 'eingeladen').length);
+  document.getElementById('confirmedCount').textContent = String(echte.filter((entry) => entry.status === 'bestaetigt').length);
+  document.getElementById('attendedCount').textContent = String(echte.filter((entry) => entry.status === 'teilgenommen').length);
   document.getElementById('resultMeta').textContent = `${visible.length} von ${entries.length}`;
   exportBtn.disabled = entries.length === 0;
 
@@ -85,6 +88,7 @@ function render() {
     <article class="kg-admin-entry" data-entry-id="${escapeHtml(entry.id)}">
       <div>
         <strong>${escapeHtml(entry.name)}</strong>
+        ${entry.ist_test ? '<span class="badge badge-test">Test</span>' : ''}
         <span>${escapeHtml(entry.reference)}</span>
         ${entry.question ? `<span class="kea-admin-question">${escapeHtml(entry.question)}</span>` : ''}
       </div>
@@ -142,7 +146,7 @@ function exportCsv() {
 async function loadEntries() {
   const { data, error } = await supabase
     .from('kidz_elternabend_anmeldungen')
-    .select('id,reference,name,email,telefon,source,time_preference,question,status,scheduled_for,conditions_version,consent_at,contacted_at,created_at,berater_id,empfehler_id,berater:berater_id(name,slug),empfehler:empfehler_id(name)')
+    .select('id,reference,name,email,telefon,source,time_preference,question,status,scheduled_for,conditions_version,consent_at,contacted_at,created_at,berater_id,empfehler_id,ist_test,berater:berater_id(name,slug),empfehler:empfehler_id(name)')
     .order('created_at', { ascending: false });
   if (error) throw error;
   entries = (data || []).map((entry) => ({

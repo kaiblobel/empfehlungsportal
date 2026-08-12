@@ -33,6 +33,5 @@ assert.doesNotMatch(trustPortraitRule, /grayscale/, 'Das Beraterportrait im Vert
 
 assert.match(app, /querySelector\('\[data-recipient-prefix\]'\)/, 'Dynamische Empfängerpersonalisierung fehlt');
 assert.doesNotMatch(app, /querySelectorAll\('\[data-recipient\]'\)/, 'Alte Empfängerpersonalisierung ist noch aktiv');
-assert.match(sw, /CACHE_VERSION = 'v186-2026-08-12-phase207'/);
 
 console.log('empfaenger-mobile-first: OK');

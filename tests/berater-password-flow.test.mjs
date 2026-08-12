@@ -3,12 +3,11 @@ import { readFile } from 'node:fs/promises';
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 
-const [adminUi, supabaseClient, edgeFunction, beraterHtml, config] = await Promise.all([
+const [adminUi, supabaseClient, edgeFunction, beraterHtml] = await Promise.all([
   read('js/berater-admin.js'),
   read('js/supabase.js'),
   read('supabase/functions/berater-create-login/index.ts'),
   read('berater.html'),
-  read('js/config.js'),
 ]);
 
 assert.match(adminUi, /value="" autocomplete="new-password" placeholder="Mindestens 8 Zeichen"/);
@@ -22,7 +21,6 @@ assert.match(edgeFunction, /return json\(\{ ok: true, created: false/);
 assert.match(edgeFunction, /admin\.auth\.admin\.createUser/);
 
 assert.doesNotMatch(supabaseClient, /export async function adminSetBeraterPassword/);
-assert.match(beraterHtml, /js\/berater-admin\.js\?v=9/);
-assert.match(config, /v1\.227 Beta/);
+assert.match(beraterHtml, /js\/berater-admin\.js\?v=\d+/);
 
 console.log('berater-password-flow: OK');

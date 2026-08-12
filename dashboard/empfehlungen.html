@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#f5f5f7" />
   <title>Empfehlungen · Empfehlungsportal</title>
   <link rel="stylesheet" href="../css/style.css?v=33" />
-  <link rel="stylesheet" href="../css/dashboard.css?v=49" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=50" />
   <script src="../js/config.js"></script>
 </head>
 <body class="has-app-nav emp-page">
@@ -238,7 +238,7 @@
         const inhalt = `
           <div class="ep-person">
             <span class="ep-initial">${initials(r.empfaenger_name)}</span>
-            <span><strong>${escapeHtml(r.empfaenger_name || 'Unbekannter Kontakt')}</strong><small>${formatDate(r.created_at)}${r.berater_name ? ` · ${escapeHtml(r.berater_name)}` : ''}</small></span>
+            <span><strong>${escapeHtml(r.empfaenger_name || 'Unbekannter Kontakt')}</strong>${r.ist_test ? ' <span class="badge badge-test">Test</span>' : ''}<small>${formatDate(r.created_at)}${r.berater_name ? ` · ${escapeHtml(r.berater_name)}` : ''}</small></span>
           </div>
           <div class="ep-topic">${escapeHtml(topicLabel(r))}<small>Promoter: ${escapeHtml(r.empfehler_name || 'nicht angegeben')}</small></div>
           ${statusPill(r)}

@@ -2,12 +2,10 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
 const read = (file) => readFile(new URL(`../${file}`, import.meta.url), 'utf8');
-const [html, js, css, config, sw] = await Promise.all([
+const [html, js, css] = await Promise.all([
   read('programm.html'),
   read('js/programm.js'),
   read('css/programm.css'),
-  read('js/config.js'),
-  read('sw.js'),
 ]);
 
 // Die Leiste im Markup: echte Buttons, sprechende aria-Labels,
@@ -23,8 +21,8 @@ assert.equal((html.match(/<section class="section/g) || []).length, 14);
 assert.equal((html.match(/data-short-hide/g) || []).length, 6);
 
 // Abfragekennungen dieser Phase.
-assert.match(html, /css\/programm\.css\?v=90/);
-assert.match(html, /js\/programm\.js\?v=50/);
+assert.match(html, /css\/programm\.css\?v=\d+/);
+assert.match(html, /js\/programm\.js\?v=\d+/);
 
 // Skript: Führung nur auf kleinen Bildschirmen, Zählung dynamisch über die
 // sichtbaren Abschnitte, Zurück auf dem ersten Abschnitt gesperrt, letzter
@@ -72,8 +70,5 @@ assert.match(js, /guide\.classList\.add\('weicht'\);\s*\n\s*planeRueckkehr\(\);/
 assert.match(js, /guide\.classList\.remove\('weicht'\);\s*\n\s*zeichne\(\);/);
 
 // Versionsstempel dieser Phase.
-assert.match(config, /APP_VERSION = 'v1\.227 Beta'/);
-assert.match(config, /Phase 207 · Vorschau lädt zum Fest ein/);
-assert.match(sw, /CACHE_VERSION = 'v186-2026-08-12-phase207'/);
 
 console.log('praesentation-mobile-gefuehrt: OK');

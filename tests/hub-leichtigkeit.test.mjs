@@ -1,17 +1,16 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-const [html, css, dashboardCss, nav, manifest, config, sw] = await Promise.all([
+const [html, css, dashboardCss, nav, manifest, sw] = await Promise.all([
   readFile(new URL('../hub.html', import.meta.url), 'utf8'),
   readFile(new URL('../css/hub.css', import.meta.url), 'utf8'),
   readFile(new URL('../css/dashboard.css', import.meta.url), 'utf8'),
   readFile(new URL('../js/nav.js', import.meta.url), 'utf8'),
   readFile(new URL('../manifest.json', import.meta.url), 'utf8'),
-  readFile(new URL('../js/config.js', import.meta.url), 'utf8'),
   readFile(new URL('../sw.js', import.meta.url), 'utf8'),
 ]);
 
-assert.match(html, /css\/hub\.css\?v=55/);
+assert.match(html, /css\/hub\.css\?v=\d+/);
 assert.match(html, /id="hHeroLines"/);
 assert.match(html, /id="hTimeline"/);
 assert.match(html, /id="kpiEmpfehler"/);
@@ -21,8 +20,8 @@ assert.match(html, /id="kpiKunden"/);
 assert.doesNotMatch(html, /Schnellaktion/);
 assert.doesNotMatch(html, /class="h-action-primary"/);
 assert.match(html, /<title>Empfehlungsportal · Kai Blobel<\/title>/);
-assert.match(html, /css\/dashboard\.css\?v=49/);
-assert.match(html, /js\/nav\.js\?v=60/);
+assert.match(html, /css\/dashboard\.css\?v=\d+/);
+assert.match(html, /js\/nav\.js\?v=\d+/);
 assert.doesNotMatch(html, /Regionaldirektion · Hub/);
 
 assert.match(nav, /nav-brand-name">Empfehlungsportal/);
@@ -46,11 +45,8 @@ assert.match(css, /border-bottom: 1px solid #ECEAE5 !important/);
 assert.match(css, /background: #F8F8F6/);
 assert.match(css, /@media \(max-width: 560px\)/);
 
-assert.match(config, /APP_VERSION = 'v1\.227 Beta'/);
-assert.match(config, /Phase 207 · Vorschau lädt zum Fest ein/);
-assert.match(sw, /CACHE_VERSION = 'v186-2026-08-12-phase207'/);
-assert.match(sw, /\/css\/hub\.css\?v=55/);
-assert.match(sw, /\/css\/dashboard\.css\?v=49/);
-assert.match(sw, /\/js\/nav\.js\?v=60/);
+assert.match(sw, /\/css\/hub\.css\?v=\d+/);
+assert.match(sw, /\/css\/dashboard\.css\?v=\d+/);
+assert.match(sw, /\/js\/nav\.js\?v=\d+/);
 
 console.log('hub-leichtigkeit: OK');

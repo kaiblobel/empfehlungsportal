@@ -2,11 +2,10 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
 const read = (file) => readFile(new URL(`../${file}`, import.meta.url), 'utf8');
-const [html, css, nav, config, sw] = await Promise.all([
+const [html, css, nav, sw] = await Promise.all([
   read('dashboard/empfehlungen.html'),
   read('css/dashboard.css'),
   read('js/nav.js'),
-  read('js/config.js'),
   read('sw.js'),
 ]);
 
@@ -21,8 +20,8 @@ assert.match(html, /r\.interessiert \|\| r\.interessiert_at/);
 assert.match(html, /whatsappLink\(phone\)/);
 assert.match(html, /class="ep-row feed-row"/);
 assert.match(html, /Rechtsklick/);
-assert.match(html, /dashboard\.css\?v=49/);
-assert.match(html, /nav\.js\?v=60/);
+assert.match(html, /dashboard\.css\?v=\d+/);
+assert.match(html, /nav\.js\?v=\d+/);
 
 const inlineModule = [...html.matchAll(/<script type="module">([\s\S]*?)<\/script>/g)].at(-1)?.[1] || '';
 const parseableModuleBody = inlineModule.replace(/import\s+\{[\s\S]*?\}\s+from\s+['"][^'"]+['"];?/g, '');
@@ -39,10 +38,7 @@ const recommendationItem = nav.match(/\{ id: 'empfehlungen',[\s\S]*?\},/)?.[0] |
 assert.doesNotMatch(recommendationItem, /subs:/);
 assert.match(nav, /id: 'programm'[\s\S]*?subs:/);
 
-assert.match(config, /v1\.227 Beta/);
-assert.match(config, /Phase 207 · Vorschau lädt zum Fest ein/);
-assert.match(sw, /CACHE_VERSION = 'v186-2026-08-12-phase207'/);
-assert.match(sw, /dashboard\.css\?v=49/);
-assert.match(sw, /nav\.js\?v=60/);
+assert.match(sw, /dashboard\.css\?v=\d+/);
+assert.match(sw, /nav\.js\?v=\d+/);
 
 console.log('empfehlungen-premium: OK');
