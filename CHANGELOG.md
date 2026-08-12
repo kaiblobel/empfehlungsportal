@@ -6,7 +6,7 @@ Offizielle Live-Version: **v1.231 Beta** · Neuigkeiten-Zähler im Menü, live s
 ---
 
 ## v1.231 Beta - Phase 211 · Neuigkeiten-Zähler im Menü
-**2026-08-12**
+**2026-08-12 · live veröffentlicht**
 
 Bisher sah man erst beim Öffnen einer Seite, ob etwas passiert ist. Kommt eine Empfehlung rein oder meldet sich jemand fürs Sommerfest an, gab es kein Signal. Jetzt steht am Menüpunkt eine Zahl, wie man es von Outlook kennt.
 
