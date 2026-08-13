@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.231 Beta** · Neuigkeiten-Zähler im Menü, live seit 12.08.2026.
+Offizielle Live-Version: **v1.232 Beta** · KIDZ-Aufrufzähler, live seit 13.08.2026.
+
+---
+
+## v1.232 Beta - Phase 212 · KIDZ-Aufrufzähler
+**2026-08-13 · live veröffentlicht**
+
+Die Sommerfestseite zählt künftig echte Browseraufrufe. Vorschau-Dienste und automatisierte Browserprüfungen werden nicht mitgezählt. Wie bei einem klassischen Seitenzähler zählt ein bewusstes Neuladen als weiterer Aufruf.
+
+Im geschützten KIDZ-Bereich stehen die Aufrufe insgesamt und die Aufrufe über einen Link mit `quelle=whatsapp` direkt neben den Teilnahmen. Gespeichert werden ausschließlich Tageszähler je Quelle und Berater. IP-Adresse, Browserkennung und einzelne Aufrufdaten werden nicht dauerhaft gespeichert.
+
+Ein eigener Knopf kopiert den persönlichen Sommerfest-Link mit WhatsApp-Kennzeichnung. Nur so lässt sich WhatsApp zuverlässig von direkten Aufrufen unterscheiden.
+
+Der Zähler beginnt mit der Veröffentlichung. Frühere WhatsApp-Aufrufe lassen sich nicht rückwirkend erfassen.
 
 ---
 

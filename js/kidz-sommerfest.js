@@ -12,3 +12,24 @@ if (advisor.length <= 80 && SAFE_SLUG.test(advisor)) target.searchParams.set('be
 document.querySelectorAll('[data-registration-link]').forEach((link) => {
   link.href = `${target.pathname}${target.search}#anmeldung`;
 });
+
+async function countPageview() {
+  // Vorschau-Dienste von WhatsApp und anderen Netzwerken fuehren dieses
+  // Browser-Skript nicht aus. Automatisierte Browserpruefungen werden zusaetzlich
+  // ausgeschlossen, damit sie die echte Reichweite nicht aufblasen.
+  if (navigator.webdriver || !['http:', 'https:'].includes(window.location.protocol)) return;
+
+  const trackingSource = ALLOWED_SOURCES.has(source) ? source : 'direkt';
+  const trackingAdvisor = advisor.length <= 80 && SAFE_SLUG.test(advisor) ? advisor : '';
+  try {
+    const response = await fetch('/api/kidz-pageview', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ source: trackingSource, beraterSlug: trackingAdvisor }),
+      keepalive: true,
+    });
+    if (!response.ok && response.status !== 204) throw new Error(`Tracking: ${response.status}`);
+  } catch (_) {}
+}
+
+countPageview();

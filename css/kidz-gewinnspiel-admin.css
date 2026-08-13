@@ -8,8 +8,10 @@
 .kg-admin-primary { color: #fff; background: #0c6c3f; border: 1px solid #0c6c3f; }
 .kg-admin-primary:disabled { opacity: .45; cursor: not-allowed; }
 .kg-admin-secondary { color: #263c52; background: #fff; border: 1px solid #dadce0; }
-.kg-admin-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 13px; margin-bottom: 17px; }
+.kg-admin-kpi-label { margin: 20px 0 9px; color: #9c8955; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+.kg-admin-kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13px; margin-bottom: 17px; }
 .kg-admin-kpis article { padding: 18px; background: #fff; border: 1px solid #e4e3df; border-radius: 13px; box-shadow: 0 8px 25px rgba(40,48,58,.05); }
+.kg-admin-kpis article.kg-admin-kpi-featured { border-color: #d9d0b7; background: #fffdf8; }
 .kg-admin-kpis span, .kg-admin-kpis small { display: block; color: #73777f; font-size: 12px; }
 .kg-admin-kpis strong { display: block; margin: 5px 0 3px; color: #18334b; font-size: 34px; letter-spacing: -.04em; }
 .kg-admin-toolbar { display: grid; grid-template-columns: auto minmax(220px, 1fr) minmax(180px, .55fr) auto auto; gap: 10px; align-items: center; margin: 0 0 24px; padding: 12px 14px; background: #fff; border: 1px solid #e4e3df; border-radius: 12px; }
@@ -76,7 +78,11 @@
 }
 @media (max-width: 580px) {
   .kg-admin-actions, .kg-admin-primary, .kg-admin-secondary { width: 100%; }
-  .kg-admin-kpis { grid-template-columns: 1fr; }
+  .kg-admin-kpis { grid-template-columns: 1fr 1fr; gap: 9px; }
+  .kg-admin-kpis article { min-width: 0; padding: 15px; }
+  .kg-admin-kpis strong { font-size: 29px; }
+  .kg-admin-kpis span, .kg-admin-kpis small { overflow-wrap: anywhere; }
+  .kg-admin-kpis article:last-child:nth-child(odd) { grid-column: 1 / -1; }
   .kg-admin-toolbar { grid-template-columns: 1fr; }
   .kg-admin-toolbar > label:first-child { display: none; }
   .kg-admin-entry { grid-template-columns: 1fr; gap: 8px; }

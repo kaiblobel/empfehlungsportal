@@ -21,6 +21,7 @@ const onsiteOnly = document.getElementById('onsiteOnly');
 const advisorFilter = document.getElementById('advisorFilter');
 const exportBtn = document.getElementById('exportBtn');
 const copyInviteBtn = document.getElementById('copyInviteBtn');
+const copyWhatsAppBtn = document.getElementById('copyWhatsAppBtn');
 const deleteDialog = document.getElementById('deleteDialog');
 const deleteForm = document.getElementById('deleteForm');
 const deletePerson = document.getElementById('deletePerson');
@@ -55,6 +56,7 @@ const guessSaveBtn = document.getElementById('guessSaveBtn');
 const guessCancelBtn = document.getElementById('guessCancelBtn');
 let entries = [];
 let currentAdvisor = null;
+let pageviewStats = { total: 0, whatsapp: 0 };
 let selectedParticipantId = '';
 let guessParticipantId = '';
 const participantFilterChoices = new Map();
@@ -127,6 +129,28 @@ function render() {
     </article>
   `;
   }).join('');
+}
+
+function renderPageviews() {
+  document.getElementById('pageviewCount').textContent = String(pageviewStats.total);
+  document.getElementById('whatsappPageviewCount').textContent = String(pageviewStats.whatsapp);
+}
+
+async function loadPageviews() {
+  const { data, error } = await supabase
+    .from('kidz_seitenaufrufe_tag')
+    .select('source,aufrufe')
+    .eq('event_key', EVENT_KEY)
+    .eq('page_key', 'sommerfest');
+  if (error) throw error;
+
+  pageviewStats = (data || []).reduce((sum, row) => {
+    const views = Number(row.aufrufe) || 0;
+    sum.total += views;
+    if (row.source === 'whatsapp') sum.whatsapp += views;
+    return sum;
+  }, { total: 0, whatsapp: 0 });
+  renderPageviews();
 }
 
 function csvCell(value) {
@@ -241,6 +265,19 @@ async function copyPersonalInviteLink() {
   await navigator.clipboard.writeText(url);
   copyInviteBtn.textContent = 'Einladungslink kopiert';
   setTimeout(() => { copyInviteBtn.textContent = 'Meinen Einladungslink kopieren'; }, 2200);
+}
+
+async function copyWhatsAppLink() {
+  const advisor = currentAdvisor || await getCurrentBerater();
+  const slug = String(advisor?.slug || '').trim();
+  if (!slug) {
+    copyWhatsAppBtn.textContent = 'Beraterkonto nicht zugeordnet';
+    return;
+  }
+  const url = `${KIDZ_ADRESSE}/kidz/sommerfest?berater=${encodeURIComponent(slug)}&quelle=whatsapp`;
+  await navigator.clipboard.writeText(url);
+  copyWhatsAppBtn.textContent = 'WhatsApp-Link kopiert';
+  setTimeout(() => { copyWhatsAppBtn.textContent = 'WhatsApp-Link kopieren'; }, 2200);
 }
 
 function openDeleteDialog(participantId) {
@@ -501,6 +538,9 @@ exportBtn.addEventListener('click', exportCsv);
 copyInviteBtn.addEventListener('click', () => copyPersonalInviteLink().catch(() => {
   copyInviteBtn.textContent = 'Kopieren nicht möglich';
 }));
+copyWhatsAppBtn.addEventListener('click', () => copyWhatsAppLink().catch(() => {
+  copyWhatsAppBtn.textContent = 'Kopieren nicht möglich';
+}));
 entriesBox.addEventListener('click', (event) => {
   const guessButton = event.target.closest('[data-guess-participant]');
   if (guessButton) {
@@ -561,7 +601,13 @@ const session = await requireAuth();
 if (session) {
   try {
     currentAdvisor = await getCurrentBerater();
-    await loadEntries();
+    await Promise.all([
+      loadEntries(),
+      loadPageviews().catch((error) => {
+        console.error('[kidz-pageviews-admin]', error);
+        document.getElementById('pageviewStatus').textContent = 'Zähler noch nicht freigeschaltet';
+      }),
+    ]);
     await configureParticipantFilter();
     // Phase 211: Wer hier ist, hat die Liste gesehen. Läuft nebenher, der
     // Zähler im Menü ist es nicht wert, das Laden aufzuhalten.

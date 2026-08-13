@@ -7,7 +7,7 @@
   <title>KIDZ Gewinnspiel · Empfehlungsportal</title>
   <link rel="stylesheet" href="../css/style.css?v=33">
   <link rel="stylesheet" href="../css/dashboard.css?v=52">
-  <link rel="stylesheet" href="../css/kidz-gewinnspiel-admin.css?v=5">
+  <link rel="stylesheet" href="../css/kidz-gewinnspiel-admin.css?v=6">
   <script src="../js/config.js"></script>
 </head>
 <body class="has-app-nav kg-admin-page">
@@ -36,6 +36,7 @@
         </div>
         <div class="kg-admin-actions">
           <a class="kg-admin-secondary" href="/kidz/gewinnspiel?quelle=direkt" target="_blank" rel="noopener">Anmeldeseite öffnen</a>
+          <button class="kg-admin-secondary" id="copyWhatsAppBtn" type="button">WhatsApp-Link kopieren</button>
           <button class="kg-admin-secondary" id="copyInviteBtn" type="button">Meinen Einladungslink kopieren</button>
           <button class="kg-admin-secondary" id="exportBtn" type="button" disabled>Liste herunterladen</button>
           <button class="kg-admin-primary" id="onsiteBtn" type="button">Zettel nacherfassen</button>
@@ -46,10 +47,17 @@
         Du siehst hier als Admin alle Anmeldungen des Portals, nicht nur deine eigenen. Die Kacheln zählen entsprechend das ganze Fest.
       </p>
 
-      <section class="kg-admin-kpis" aria-label="Kennzahlen">
+      <div class="kg-admin-kpi-label">Reichweite des Sommerfests</div>
+      <section class="kg-admin-kpis kg-admin-kpis-reach" aria-label="Reichweite und Teilnahmen">
+        <article class="kg-admin-kpi-featured"><span>Seite geöffnet</span><strong id="pageviewCount">0</strong><small id="pageviewStatus">echte Browseraufrufe</small></article>
+        <article class="kg-admin-kpi-featured"><span>Über WhatsApp</span><strong id="whatsappPageviewCount">0</strong><small>mit WhatsApp-Link geöffnet</small></article>
         <article><span>Teilnahmen gesamt</span><strong id="totalCount">0</strong><small>online und auf Papier</small></article>
+      </section>
+
+      <div class="kg-admin-kpi-label">Planung für den Festtag</div>
+      <section class="kg-admin-kpis" aria-label="Planungs-Kennzahlen">
         <article><span>Erwartete Personen</span><strong id="personCount">0</strong><small>inklusive Begleitung</small></article>
-                <article><span>Elternabend</span><strong id="parentCount">0</strong><small>freiwilliges Interesse</small></article>
+        <article><span>Elternabend</span><strong id="parentCount">0</strong><small>freiwilliges Interesse</small></article>
         <article><span>Berater</span><strong id="advisorCount">0</strong><small>mit zugeordneten Teilnahmen</small></article>
       </section>
 
@@ -184,6 +192,6 @@
   </dialog>
 
   <script type="module" src="../js/nav.js?v=62"></script>
-  <script type="module" src="../js/kidz-gewinnspiel-admin.js?v=10"></script>
+  <script type="module" src="../js/kidz-gewinnspiel-admin.js?v=11"></script>
 </body>
 </html>
