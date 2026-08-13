@@ -160,6 +160,9 @@ assert.match(html, /id="kgConsent"/);
 assert.match(html, /id="kgParentEvening"/);
 // Das Elternabend-Haekchen ist bis zum Veranstaltungstag ausgeblendet.
 assert.match(html, /id="kgParentEveningRow" hidden/);
+// Derselbe Hinweis bleibt bis dahin ebenfalls verborgen. Auswahl und Erklärung
+// dürfen nie unabhängig voneinander sichtbar sein.
+assert.match(html, /id="kgParentEveningLegal" hidden/);
 assert.match(html, /id="kgAdvisor"/);
 assert.match(html, /sandro-wernicke/);
 assert.match(html, /promoter-anja-scholz">Anja Scholz/);
@@ -234,6 +237,7 @@ assert.match(js, /facebook.*instagram.*whatsapp/);
 assert.match(js, /flyerDialog\.showModal\(\)/);
 assert.match(js, /showFlyerPage\('prizes'\)/);
 assert.match(js, /kidz-sommerfest-gewinnspiel-v2\.png/);
+assert.match(js, /parentEveningLegal\.hidden = !isEventDay/);
 assert.doesNotMatch(js, /menu\.removeAttribute\('open'\)/);
 assert.match(adminHtml, /Linas Arbeitsstrecke/);
 assert.match(adminJs, /kidz_gewinnspiel_teilnahmen/);

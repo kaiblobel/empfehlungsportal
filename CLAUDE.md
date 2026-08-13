@@ -1,7 +1,7 @@
 <!-- odysseus-passport
 purpose: Empfehlungsportal für DVAG-Berater - Vanilla JS + eigene Supabase; Funnel Klick zu Interesse zu Kunde, privates Potenzialbuch mit Kontakt-Coach, echte Kennzahlen, Champions, Prämien; Cockpit-Brücke
-status: LIVE 13.08.2026 v1.232 Phase 212 - KIDZ-Sommerfest-Aufrufe werden datensparsam je Tag, Quelle und Berater gezaehlt; sichtbar in der geschuetzten KIDZ-Verwaltung. WhatsApp-Link kann dort kopiert werden. Vorschau-Bots, Testberater und automatisierte Browser werden nicht gezaehlt. 79 Tests gruen.
-release: KIDZ-Aufrufzaehler v1.232 live; Tageszaehler je Quelle und Berater, WhatsApp-Auswertung in der geschuetzten KIDZ-Verwaltung, 79 Tests gruen
+status: LIVE 13.08.2026 v1.233 Phase 213 - Elternabend-Auswahl und zugehoeriger Datenschutzhinweis bleiben bis zum Sommerfest gemeinsam verborgen und werden am 06.09.2026 durch dieselbe Serverfreigabe gemeinsam eingeblendet.
+release: Elternabend-Hinweis passend zur Auswahl freigeschaltet; Gewinnspiel-Anmeldung spricht bis zum Fest nur ueber Sommerfest und Gewinnspiel
 live_url: https://empfehlungsportal.vercel.app; KIDZ oeffentlich unter https://kidz.teamwachsbleiche.de
 tags: portal, supabase, empfehlung, promoter, potenzialbuch, kontakt-coach, spracheingabe, mobile-first, live, baufinanzierung, kfw, bookings, power-automate
 -->

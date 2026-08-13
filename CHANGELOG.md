@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.232 Beta** · KIDZ-Aufrufzähler, live seit 13.08.2026.
+Offizielle Live-Version: **v1.233 Beta** · Elternabend-Hinweis passend freigeschaltet, live seit 13.08.2026.
+
+---
+
+## v1.233 Beta - Phase 213 · Elternabend-Hinweis passend freischalten
+**2026-08-13 · live veröffentlicht**
+
+Bis zum Sommerfest bleibt nicht nur die freiwillige Elternabend-Auswahl verborgen, sondern auch der dazugehörige Datenschutzhinweis. So spricht die Gewinnspiel-Anmeldung vorher ausschließlich über Sommerfest und Gewinnspiel.
+
+Am 6. September werden Auswahl und Erklärung gemeinsam durch dieselbe Serverfreigabe eingeblendet. Der Hinweis erklärt dann klar, dass das Interesse getrennt gespeichert, nur für eine einmalige Information verwendet und ohne Einfluss auf die Gewinnchance jederzeit widerrufen werden kann.
 
 ---
 

@@ -14,6 +14,7 @@ const guessHint = document.getElementById('kgGuessHint');
 const begleitungSelect = document.getElementById('kgBegleitung');
 const parentEveningRow = document.getElementById('kgParentEveningRow');
 const parentEveningInput = document.getElementById('kgParentEvening');
+const parentEveningLegal = document.getElementById('kgParentEveningLegal');
 const promoterFallbacks = [...advisorSelect.options]
   .filter((option) => option.value.startsWith('promoter-'))
   .map((option) => ({ name: option.textContent, slug: option.value }));
@@ -122,6 +123,7 @@ async function loadConfig() {
  */
 function applyEventDay(isEventDay) {
   parentEveningRow.hidden = !isEventDay;
+  parentEveningLegal.hidden = !isEventDay;
   if (!isEventDay) parentEveningInput.checked = false;
 
   guessField.classList.toggle('is-closed', !isEventDay);
