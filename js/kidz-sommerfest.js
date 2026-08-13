@@ -22,7 +22,7 @@ async function countPageview() {
   const trackingSource = ALLOWED_SOURCES.has(source) ? source : 'direkt';
   const trackingAdvisor = advisor.length <= 80 && SAFE_SLUG.test(advisor) ? advisor : '';
   try {
-    const response = await fetch('/api/kidz-pageview', {
+    const response = await fetch('/api/kidz-config', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ source: trackingSource, beraterSlug: trackingAdvisor }),

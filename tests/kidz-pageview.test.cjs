@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
 
-const handler = require('../api/kidz-pageview.js');
+const handler = require('../api/kidz-config.js');
 
 function response() {
   return {
@@ -76,7 +76,7 @@ test('Browser, Verwaltung und Migration bilden den datensparsamen Zaehler ab', (
 
   assert.match(summer, /navigator\.webdriver/);
   assert.doesNotMatch(summer, /localStorage|sessionStorage|document\.cookie/);
-  assert.match(summer, /fetch\('\/api\/kidz-pageview'/);
+  assert.match(summer, /fetch\('\/api\/kidz-config'/);
   assert.match(admin, /from\('kidz_seitenaufrufe_tag'\)/);
   assert.match(html, /id="pageviewCount"/);
   assert.match(html, /id="whatsappPageviewCount"/);

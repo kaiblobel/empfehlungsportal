@@ -14,6 +14,8 @@ Im geschützten KIDZ-Bereich stehen die Aufrufe insgesamt und die Aufrufe über 
 
 Ein eigener Knopf kopiert den persönlichen Sommerfest-Link mit WhatsApp-Kennzeichnung. Nur so lässt sich WhatsApp zuverlässig von direkten Aufrufen unterscheiden.
 
+Der Zähler nutzt den bestehenden KIDZ-Laufzeit-Endpunkt mit. Dadurch bleibt die Veröffentlichung innerhalb des Funktionslimits des Vercel-Tarifs.
+
 Der Zähler beginnt mit der Veröffentlichung. Frühere WhatsApp-Aufrufe lassen sich nicht rückwirkend erfassen.
 
 ---
