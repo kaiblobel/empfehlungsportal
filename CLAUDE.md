@@ -1,6 +1,6 @@
 <!-- odysseus-passport
 purpose: Empfehlungsportal für DVAG-Berater - Vanilla JS + eigene Supabase; Funnel Klick zu Interesse zu Kunde, privates Potenzialbuch mit Kontakt-Coach, echte Kennzahlen, Champions, Prämien; Cockpit-Brücke
-status: LIVE 14.08.2026 v1.240 Phase 220 mit genau einer CI-Farbfamilie je öffentlicher Themenseite; VORBEREITET, NICHT LIVE: vollständiges klickbares KIDZ-Elternseiten-Muster mit vergrößertem Dreisäulenmodell, neutralisiertem VIP-Ticket, vollständiger Sparbeispiel-Grafik und drei sicheren Vorschauwegen ohne Datenspeicherung
+status: LIVE 14.08.2026 v1.240 Phase 220 mit genau einer CI-Farbfamilie je öffentlicher Themenseite; VORBEREITET, NICHT LIVE: vollständiges klickbares KIDZ-Elternseiten-Muster mit vergrößertem Dreisäulenmodell, neutralisiertem VIP-Ticket, vollständiger Sparbeispiel-Grafik, anbieterfreier Bilderstrecke und drei sicheren Vorschauwegen ohne Datenspeicherung
 release: Investment ist Gold, Förderung Gelb, Absicherung Türkis, Selbstständige Dunkelgrün, Energie Hellgrün, Kinder Hellblau und Karriere Mittelblau; Baufinanzierung und Banking bleiben unverändert; Empfehlungslogik und Inhalte bleiben unverändert
 live_url: https://empfehlungsportal.vercel.app; Baufinanzierung unter https://finanzierung.kaiblobel.de; KIDZ oeffentlich unter https://kidz.teamwachsbleiche.de
 tags: portal, supabase, empfehlung, promoter, potenzialbuch, kontakt-coach, spracheingabe, mobile-first, live, baufinanzierung, kfw, bookings, power-automate

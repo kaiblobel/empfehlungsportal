@@ -200,10 +200,6 @@ img { display: block; max-width: 100%; }
 .source-copy .eyebrow { color: var(--yellow); }
 .source-copy h2 { color: #fff; }
 .source-copy > p:not(.eyebrow) { color: rgba(255, 255, 255, 0.76); font-size: 18px; line-height: 1.6; }
-.source-names { display: flex; align-items: center; gap: 28px; margin: 30px 0 24px; padding: 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.18); border-bottom: 1px solid rgba(255, 255, 255, 0.18); }
-.source-names span { font-size: 13px; line-height: 1.1; }
-.source-names strong { font-size: 18px; }
-.source-names i { width: 1px; height: 40px; background: rgba(255, 255, 255, 0.25); }
 .source-note { padding: 16px 18px; border-left: 3px solid var(--yellow); background: rgba(255, 255, 255, 0.07); font-size: 14px !important; }
 .text-link { padding: 10px 0; color: #fff; border: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.5); background: none; font-weight: 800; cursor: pointer; }
 
@@ -234,6 +230,28 @@ img { display: block; max-width: 100%; }
 .faq-list summary span { display: grid; place-items: center; flex: 0 0 auto; width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 50%; transition: transform 180ms ease; }
 .faq-list details[open] summary span { transform: rotate(45deg); }
 .faq-list details p { max-width: 680px; margin: 0 0 24px; color: var(--muted); line-height: 1.6; }
+
+.story-gallery { overflow: hidden; background: linear-gradient(180deg, #fff 0%, var(--soft) 100%); }
+.story-gallery-heading { max-width: 780px; margin-bottom: 34px; text-align: center; }
+.story-slider { width: min(1180px, 100%); margin: 0 auto; }
+.story-controls { display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin-bottom: 16px; }
+.story-status { margin-right: 8px; color: var(--muted); font-size: 13px; font-weight: 800; }
+.story-controls button { display: grid; place-items: center; width: 48px; height: 48px; padding: 0; color: var(--blue-deep); border: 1px solid rgba(24, 63, 86, 0.16); border-radius: 50%; background: #fff; box-shadow: 0 8px 22px rgba(24, 63, 86, 0.08); cursor: pointer; font-size: 22px; transition: transform 160ms ease, border-color 160ms ease, background 160ms ease; }
+.story-controls button:hover { border-color: var(--gold); background: rgba(255, 218, 90, 0.18); transform: translateY(-2px); }
+.story-track { display: flex; gap: 20px; padding: 8px max(0px, calc((100% - 920px) / 2)) 28px; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.story-track::-webkit-scrollbar { display: none; width: 0; height: 0; }
+.story-track:focus-visible { outline: 3px solid rgba(201, 160, 74, 0.42); outline-offset: 5px; }
+.story-slide { position: relative; flex: 0 0 min(920px, calc(100vw - 96px)); aspect-ratio: 16 / 9; margin: 0; overflow: hidden; border-radius: 30px; background: var(--blue-deep); box-shadow: 0 22px 54px rgba(24, 63, 86, 0.16); scroll-snap-align: center; }
+.story-slide img { width: 100%; height: 100%; object-fit: cover; transition: transform 600ms ease; }
+.story-slide:hover img { transform: scale(1.015); }
+.story-slide-collage img { object-fit: contain; background: #fff; }
+.story-slide::after { content: ""; position: absolute; inset: 45% 0 0; background: linear-gradient(180deg, transparent, rgba(17, 42, 57, 0.82)); pointer-events: none; }
+.story-slide figcaption { position: absolute; z-index: 2; right: 30px; bottom: 28px; left: 30px; display: flex; align-items: center; gap: 14px; color: #fff; }
+.story-slide figcaption span { display: grid; place-items: center; width: 40px; height: 40px; flex: 0 0 auto; border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 50%; font-size: 12px; font-weight: 900; }
+.story-slide figcaption strong { font-size: clamp(22px, 3vw, 34px); line-height: 1.08; }
+.story-dots { display: flex; justify-content: center; gap: 8px; margin-top: 14px; }
+.story-dots button { width: 9px; height: 9px; padding: 0; border: 0; border-radius: 999px; background: rgba(24, 63, 86, 0.2); cursor: pointer; transition: width 180ms ease, background 180ms ease; }
+.story-dots button.is-active { width: 28px; background: var(--gold); }
 
 .closing { position: relative; min-height: 640px; overflow: hidden; }
 .closing > img { width: 100%; height: 640px; object-fit: cover; object-position: center 45%; }
@@ -378,8 +396,6 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
   .source-stage { min-height: 440px; }
   .source-stage-main { width: calc(100% - 28px); height: 410px; }
   .source-stage-small { width: 170px; height: 125px; }
-  .source-names { gap: 18px; }
-  .source-names strong { font-size: 15px; }
   .choice-card { padding: 26px; }
   .faq-section { gap: 28px; }
   .closing, .closing > img { min-height: 680px; height: 680px; }
@@ -400,6 +416,15 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
   .gallery-main { min-height: 330px; }
   .gallery-main img { height: 330px; }
   .gallery-thumbs { grid-template-columns: repeat(4, 120px); overflow-x: auto; }
+  .story-gallery-heading { margin-bottom: 22px; text-align: left; }
+  .story-controls { justify-content: space-between; }
+  .story-status { margin-right: auto; }
+  .story-controls button { width: 44px; height: 44px; }
+  .story-track { gap: 14px; margin: 0 -20px; padding: 6px 20px 24px; }
+  .story-slide { flex-basis: calc(100vw - 40px); aspect-ratio: 4 / 3; border-radius: 22px; }
+  .story-slide figcaption { right: 20px; bottom: 18px; left: 20px; gap: 10px; }
+  .story-slide figcaption span { width: 34px; height: 34px; }
+  .story-slide figcaption strong { font-size: 22px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

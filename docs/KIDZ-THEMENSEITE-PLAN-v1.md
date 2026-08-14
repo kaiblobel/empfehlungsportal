@@ -91,6 +91,8 @@ Verwendet werden ausgewählte Motive aus `Praesentation__KIDZ_V04.pptx` und `Bro
 
 Zusätzlich wird die offizielle runde KIDZ-Marke aus `Broschuere__A4_KIDZ_Produktbausteine.pdf` verwendet. Logo und Lok wurden direkt aus den bereitgestellten Unterlagen exportiert und nicht nachgezeichnet. Beim VIP-Ticket wurde der Gesellschaftsname auf Kais Wunsch grafisch entfernt, damit die Lösung und nicht der Anbieter im Vordergrund steht. Die OneDrive-Originale bleiben unverändert.
 
+Im unteren Seitenteil führt eine bedienbare Bilderstrecke durch sechs unbeschriftete Motive aus den Originalunterlagen. Sie zeigt Familien, Gesundheit, Abenteuer, finanzielle Kompetenz und Wünsche ohne sichtbare Gesellschaftsnamen oder Anbieterlogos. Die Herkunft der Materialien bleibt intern dokumentiert, wird auf der Elternseite aber nicht als Markenblock in den Vordergrund gestellt.
+
 ## Fachliche Grenzen
 
 Vor einer Veröffentlichung müssen aktuelle Produktangaben, Leistungsdarstellungen, Anbieterzuordnungen, Bildrechte und Datenschutzhinweise fachlich geprüft werden. Alte Tarifwerte, Quellen aus 2019 oder 2020 sowie bestehende Sponsorlisten und Werbeeinwilligungen werden nicht übernommen.

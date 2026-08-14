@@ -15,8 +15,11 @@ const [html, css, javascript, plan] = await Promise.all([
 
 assert.match(html, /content="noindex,nofollow"/);
 assert.match(html, /Was wünschen Sie sich für die Zukunft Ihres Kindes\?/);
-assert.match(html, /Deutschen Vermögensberatung/);
-assert.match(html, /Generali Deutschland/);
+assert.doesNotMatch(html, /Generali Deutschland|Deutsche(?:n)? Vermögensberatung/);
+assert.match(html, /Was Zukunft für Kinder bedeuten kann/);
+assert.equal((html.match(/data-story-slide/g) || []).length, 6);
+assert.equal((html.match(/data-story-index=/g) || []).length, 6);
+assert.match(javascript, /showStory\(activeStory \+ 1\)/);
 assert.match(html, /Es werden keine Daten gesendet oder gespeichert/);
 assert.match(html, /id="contactConsent" type="checkbox" required/);
 assert.doesNotMatch(html, /id="contactConsent"[^>]*\bchecked\b/);
