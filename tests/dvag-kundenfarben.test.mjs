@@ -35,10 +35,12 @@ for (const theme of ['investment', 'foerderungen', 'baufi', 'absicherung', 'selb
 
 assert.match(colors, /body\[data-page="baufi"\][\s\S]*--tw-blue:\s*var\(--dvag-blue-dark\)/, 'Baufi-Blau folgt nicht der DVAG-Farbwelt');
 assert.match(colors, /body\[data-page="thema"\] \.topic-hero::before[\s\S]*clip-path:/, 'Geometrisches Stilmerkmal fehlt');
-assert.match(colors, /body\[data-theme="investment"\][\s\S]*--theme-panel:\s*var\(--dvag-blue-dark\)/, 'Investment ist nicht klar blau und gold geführt');
-assert.match(colors, /body\[data-theme="foerderungen"\][\s\S]*--theme-panel:\s*var\(--dvag-green-light\)/, 'Förderungen haben keine eigene hellgrüne Leitfarbe');
+assert.match(colors, /body\[data-theme="investment"\][\s\S]*--theme-panel:\s*var\(--dvag-gold\)/, 'Investment hat keine kräftige goldene Leitfläche');
+assert.match(colors, /body\[data-theme="foerderungen"\][\s\S]*--theme-panel:\s*var\(--dvag-yellow\)/, 'Förderungen haben keine kräftige gelbe Leitfläche');
 assert.match(colors, /body\[data-theme="banking"\][\s\S]*--theme-panel:\s*var\(--dvag-blue-mid\)/, 'Banking ist nicht klar mittelblau geführt');
-assert.match(colors, /body\[data-theme="kinder"\][\s\S]*--theme-panel:\s*var\(--dvag-yellow\)/, 'Kinder haben keine eigene gelbe Leitfarbe');
+assert.match(colors, /body\[data-theme="kinder"\][\s\S]*--theme-panel:\s*var\(--dvag-blue-light\)/, 'Kinder haben keine eigene hellblaue Leitfläche');
 assert.match(colors, /\.topic-hero-card[\s\S]*border-top:\s*6px solid var\(--theme-panel\)/, 'Die Leitfarbe wird auf den Themenseiten nicht sichtbar eingesetzt');
+assert.match(colors, /body\[data-page="thema"\] \.topic-hero::before[\s\S]*background:\s*var\(--theme-panel\)/, 'Kräftige Themenfläche fehlt');
+assert.match(colors, /\[data-theme="banking"\] \.topic-hero::before[\s\S]*background:\s*var\(--accent-soft\)/, 'Freigegebene Banking-Optik wird nicht geschützt');
 
 console.log('dvag-kundenfarben: OK');
