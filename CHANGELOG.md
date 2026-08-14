@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.239 Beta** · Eigene Adresse für Baufinanzierung, live seit 14.08.2026.
+Offizielle Live-Version: **v1.240 Beta** · Eine Leitfarbe je Themenseite, live seit 14.08.2026.
+
+## v1.240 Beta - Phase 220 · Eine Leitfarbe je Themenseite
+**2026-08-14 · live veröffentlicht**
+
+Jede öffentliche Themenseite verwendet jetzt eine eigene, klar erkennbare Farbfamilie aus dem Corporate Design. Investment erscheint in Gold, Förderung in Gelb, Absicherung in Türkis, Selbstständige in Dunkelgrün, Energie in Hellgrün, Kinder in Hellblau und Karriere in Mittelblau.
+
+Helle und dunkle Abstufungen bleiben innerhalb derselben Farbfamilie. Weiß, helles Grau und dunkle Schrift bilden die ruhige neutrale Grundlage. Die bereits freigegebenen Seiten für Baufinanzierung und Banking bleiben optisch unverändert. Inhalte, Empfehlungslogik und persönliche Zuordnungen wurden nicht verändert.
+
+---
 
 ## v1.239 Beta - Phase 219 · Eigene Adresse für Baufinanzierung
 **2026-08-14 · live veröffentlicht**
