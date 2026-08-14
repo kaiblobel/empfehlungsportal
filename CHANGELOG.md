@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.234 Beta** · Gemeinsamer Themenkreislauf und Baufi-Kompass, live seit 14.08.2026.
+Offizielle Live-Version: **v1.235 Beta** · KIDZ auf Instagram verbinden, live seit 14.08.2026.
+
+---
+
+## v1.235 Beta - Phase 215 · KIDZ auf Instagram verbinden
+**2026-08-14 · live veröffentlicht**
+
+Sommerfest, Gewinnspiel und Elternabend weisen jetzt gut sichtbar auf den Instagram-Account von Team Wachsbleiche hin. Der Baustein steht jeweils nach dem Hauptinhalt und vor den Veranstalterdaten, damit er auffällt, ohne von Anmeldung und Veranstaltung abzulenken.
+
+Der Knopf führt direkt zu `@team_wachsbleiche` und ist auf dem Handy über die volle Breite gut antippbar. Eingebettet wird nur ein normaler Link, kein Instagram-Feed. Dadurch lädt die KIDZ-Seite keine zusätzlichen Instagram-Inhalte oder Tracking-Dienste.
 
 ---
 

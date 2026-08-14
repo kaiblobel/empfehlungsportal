@@ -36,9 +36,103 @@
 .kidz-public-menu-panel strong { color: #163a68; font-size: 13px; }
 .kidz-public-menu-panel small { margin-top: 3px; color: #5d6874; font-size: 11px; }
 
+.kidz-instagram {
+  width: min(1120px, calc(100% - 32px));
+  margin: -24px auto 28px;
+  padding: 22px 24px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 18px;
+  color: #163a68;
+  background: linear-gradient(135deg, #fffdf6, #f7fbff);
+  border: 1px solid rgba(22, 58, 104, .15);
+  border-radius: 22px;
+  box-shadow: 0 14px 36px rgba(22, 58, 104, .11);
+}
+.kidz-instagram-icon {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 17px;
+  background: linear-gradient(135deg, #7b2ff7, #f1077b 52%, #ff9c28);
+  box-shadow: 0 8px 20px rgba(197, 42, 119, .22);
+}
+.kidz-instagram-camera {
+  width: 27px;
+  height: 27px;
+  position: relative;
+  box-sizing: border-box;
+  border: 3px solid #fff;
+  border-radius: 8px;
+}
+.kidz-instagram-camera::before {
+  content: '';
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  left: 6px;
+  top: 6px;
+  box-sizing: border-box;
+  border: 3px solid #fff;
+  border-radius: 50%;
+}
+.kidz-instagram-camera::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  right: 3px;
+  top: 3px;
+  background: #fff;
+  border-radius: 50%;
+}
+.kidz-instagram-copy small {
+  display: block;
+  margin-bottom: 3px;
+  color: #0c6c3f;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+.kidz-instagram-copy strong { display: block; font-size: 19px; line-height: 1.2; }
+.kidz-instagram-copy p { margin: 5px 0 0; color: #5d6874; font-size: 13px; line-height: 1.45; }
+.kidz-instagram-link {
+  min-height: 48px;
+  padding: 0 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #fff;
+  background: #163a68;
+  border-radius: 13px;
+  font-size: 14px;
+  font-weight: 850;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.kidz-instagram-link:hover, .kidz-instagram-link:focus-visible {
+  background: #0c6c3f;
+  outline: 3px solid rgba(255, 197, 52, .55);
+  outline-offset: 2px;
+}
+
 @media (max-width: 700px) {
   .kidz-public-nav { top: 6px; width: calc(100% - 18px); }
   .kidz-public-nav-free { display: none; }
+  .kidz-instagram {
+    width: calc(100% - 28px);
+    margin: -18px auto 24px;
+    padding: 18px;
+    grid-template-columns: auto 1fr;
+    gap: 13px;
+  }
+  .kidz-instagram-icon { width: 50px; height: 50px; border-radius: 15px; }
+  .kidz-instagram-copy strong { font-size: 17px; }
+  .kidz-instagram-link { grid-column: 1 / -1; width: 100%; }
 }
 
 @media (max-width: 460px) {

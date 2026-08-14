@@ -2,9 +2,10 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
 const read = (file) => readFile(new URL(`../${file}`, import.meta.url), 'utf8');
-const [summerHtml, giveawayHtml, navCss, navJs] = await Promise.all([
+const [summerHtml, giveawayHtml, parentEveningHtml, navCss, navJs] = await Promise.all([
   read('kidz-sommerfest.html'),
   read('kidz-gewinnspiel.html'),
+  read('kidz-elternabend.html'),
   read('css/kidz-public-nav.css'),
   read('js/kidz-public-nav.js'),
 ]);
@@ -25,6 +26,15 @@ assert.doesNotMatch(navCss, /prefers-color-scheme\s*:\s*dark/);
 assert.match(navJs, /ALLOWED_KIDZ_SOURCES/);
 assert.match(navJs, /SAFE_KIDZ_SLUG/);
 assert.doesNotMatch(navJs, /localStorage|sessionStorage|document\.cookie/);
+
+for (const html of [summerHtml, giveawayHtml, parentEveningHtml]) {
+  assert.match(html, /href="https:\/\/www\.instagram\.com\/team_wachsbleiche\/"/);
+  assert.match(html, /@team_wachsbleiche\s*<span/);
+  assert.doesNotMatch(html, /instagram\.com\/team_wachsbleiche\?igsh=/);
+  assert.match(html, /rel="noopener noreferrer"/);
+}
+assert.match(navCss, /\.kidz-instagram-link/);
+assert.match(navCss, /min-height: 48px/);
 
 const links = [
   { dataset: { kidzDestination: '/kidz/sommerfest#sommerfest' }, href: '', attrs: {}, setAttribute(name, value) { this.attrs[name] = value; } },
