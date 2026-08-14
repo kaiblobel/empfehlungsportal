@@ -76,11 +76,11 @@ Diese Wege bleiben getrennt. Im Muster werden sie vollständig simuliert, ohne D
 
 ## Echtes KIDZ-Material
 
-Verwendet werden ausgewählte Motive aus `Praesentation__KIDZ_V04.pptx`:
+Verwendet werden ausgewählte Motive aus `Praesentation__KIDZ_V04.pptx` und `Broschuere__A4_KIDZ_Produktbausteine.pdf`:
 
 - originale goldene KIDZ-Lok als Wegmotiv
-- VIP-Ticket, Zahnmotiv und Arbeitskraft-Waggon für konkrete Leistungsbeispiele
-- Originalgrafik „Früh anfangen zahlt sich aus“ mit Beispielrechnung
+- neutralisierte VIP-Ticket-Variante ohne Gesellschaftsname, Zahnmotiv und Arbeitskraft-Waggon für konkrete Leistungsbeispiele
+- vollständige Originalgrafik „Früh anfangen zahlt sich aus“ mit Beispielrechnung
 - KIDZ-Familiencollage für den Einstieg
 - Pusteblume als Zukunfts- und Wunschmotiv
 - offizielles Dreisäulenmodell
@@ -89,7 +89,7 @@ Verwendet werden ausgewählte Motive aus `Praesentation__KIDZ_V04.pptx`:
 - Familienmotiv für finanzielle Absicherung
 - Familienweg und Abenteuermotiv für Elternabend und Abschluss
 
-Zusätzlich wird die offizielle runde KIDZ-Marke aus `Broschuere__A4_KIDZ_Produktbausteine.pdf` verwendet. Logo und Lok wurden direkt aus den bereitgestellten Unterlagen exportiert und nicht nachgezeichnet. Die OneDrive-Originale bleiben unverändert.
+Zusätzlich wird die offizielle runde KIDZ-Marke aus `Broschuere__A4_KIDZ_Produktbausteine.pdf` verwendet. Logo und Lok wurden direkt aus den bereitgestellten Unterlagen exportiert und nicht nachgezeichnet. Beim VIP-Ticket wurde der Gesellschaftsname auf Kais Wunsch grafisch entfernt, damit die Lösung und nicht der Anbieter im Vordergrund steht. Die OneDrive-Originale bleiben unverändert.
 
 ## Fachliche Grenzen
 

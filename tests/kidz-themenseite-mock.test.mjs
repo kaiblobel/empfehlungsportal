@@ -28,11 +28,15 @@ assert.match(html, /kidz-logo-original\.png/);
 assert.match(html, /kidz-lok-vermoegensaufbau-original\.png/);
 assert.match(html, /Die KIDZ-Lok steht für einen Weg, der früh beginnt/);
 assert.match(html, /Ein echtes VIP-Ticket in puncto Gesundheit!/);
+assert.match(html, /kidz-vip-ticket-neutral\.png/);
+assert.doesNotMatch(html, /kidz-vip-ticket-original\.png/);
 assert.match(html, /Mehr Möglichkeiten durch den FitBonus\+ Junior/);
 assert.match(html, /Bis zu 100 % Kostenerstattung für Kieferorthopädie/);
 assert.match(html, /Schon heute die künftige Arbeitskraft Ihres Kindes finanziell absichern/);
 assert.match(html, /Möglichkeit der Nutzung von attraktiven, staatlichen Förderungen/);
 assert.match(html, /Früh anfangen zahlt sich aus/);
+assert.match(html, /kidz-frueh-anfangen-v2\.png/);
+assert.match(css, /\.pillar-original img \{ width: 190px; height: 190px;/);
 assert.match(html, /Leistungsbeispiele aus den bereitgestellten KIDZ-Unterlagen/);
 
 for (const pathName of ['elternabend', 'termininfo', 'gespraech']) {
