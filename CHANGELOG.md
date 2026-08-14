@@ -1,10 +1,10 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.236 Beta** · Professionelle Kurzadressen und Schnellnavigation, Veröffentlichung am 14.08.2026 freigegeben.
+Offizielle Live-Version: **v1.236 Beta** · Professionelle Kurzadressen und Schnellnavigation, live seit 14.08.2026.
 
 ## v1.236 Beta - Phase 216 · Professionelle Kurzadressen und Schnellnavigation
-**2026-08-14 · Veröffentlichung freigegeben**
+**2026-08-14 · live veröffentlicht**
 
 Die öffentliche Baufinanzierungsseite erhält die gut lesbare Adresse `/baufinanzierung`. Persönliche Empfehlungen werden künftig über `/empfehlung/<persönliche Kennung>` geteilt. Dateinamen, Betriebsart, Empfängername und Beraterparameter verschwinden damit aus der sichtbaren Browseradresse.
 
