@@ -33,7 +33,7 @@ const SHELL_URLS = [
   '/css/empfehlung-detail.css?v=1',
   '/css/kidz-gewinnspiel-admin.css?v=6',
   '/css/kidz-elternabend-admin.css?v=1',
-  '/css/themen-vorschau.css?v=11',
+  '/css/themen-vorschau.css?v=12',
   '/js/nav.js?v=62',
   '/js/icons.js',
   '/js/context-menu.js',
