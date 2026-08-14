@@ -5,6 +5,12 @@ const read = (file) => readFileSync(new URL(`../${file}`, import.meta.url), 'utf
 
 const vercel = JSON.parse(read('vercel.json'));
 const rewrites = new Map(vercel.rewrites.map((entry) => [entry.source, entry.destination]));
+const financingRoot = vercel.rewrites.find((entry) =>
+  entry.source === '/'
+  && entry.destination === '/baufi.html'
+  && entry.has?.some((condition) => condition.type === 'host' && condition.value === 'finanzierung.kaiblobel.de')
+);
+assert.ok(financingRoot, 'Die eigene Finanzierungsdomain muss direkt den Finanzierungskompass öffnen');
 assert.equal(rewrites.get('/baufinanzierung'), '/baufi.html');
 assert.equal(rewrites.get('/baufinanzierung/:berater'), '/baufi.html?berater=:berater');
 assert.equal(rewrites.get('/empfehlung/:token'), '/api/share?token=:token');
