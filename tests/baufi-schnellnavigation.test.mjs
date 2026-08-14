@@ -15,5 +15,7 @@ assert.match(html, /querySelectorAll\('\[data-open-funding\]'\)/);
 assert.match(js, /function initSectionNavigation\(\)/);
 assert.match(js, /aria-current/);
 assert.match(js, /window\.innerWidth <= 520/);
+assert.match(js, /Nicht der günstigste Zins entscheidet\./);
+assert.match(js, /Die richtige Strategie\./);
 
 console.log('baufi-schnellnavigation: OK');

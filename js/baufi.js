@@ -78,8 +78,8 @@ function applyEntryMode() {
   if (eyebrow) eyebrow.textContent = 'Baufinanzierung mit Überblick';
   if (title) {
     const emphasis = document.createElement('span');
-    emphasis.textContent = 'Plan, der zu deinem Leben passt.';
-    title.replaceChildren(document.createTextNode('Dein Vorhaben. Ein '), emphasis);
+    emphasis.textContent = 'Die richtige Strategie.';
+    title.replaceChildren(document.createTextNode('Nicht der günstigste Zins entscheidet. '), emphasis);
   }
   if (lead) lead.textContent = 'Ordne dein Vorhaben in wenigen Schritten ein. Danach siehst du, welche Fragen für deine Situation wichtig sind und wie wir Finanzierung langfristig betrachten.';
   if (contactNote) contactNote.hidden = true;

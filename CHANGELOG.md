@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.241 Beta** · Lesbare Themenseiten, live seit 14.08.2026.
+Offizielle Live-Version: **v1.242 Beta** · Strategie vor Einzelzins, live seit 14.08.2026.
+
+## v1.242 Beta - Phase 222 · Strategie vor Einzelzins
+**2026-08-14 · live veröffentlicht**
+
+Der Einstieg in den Finanzierungskompass stellt jetzt den entscheidenden Unterschied zur reinen Zinssuche heraus: Nicht der günstigste Zins entscheidet. Die richtige Strategie.
+
+Die Aussage macht klar, dass eine langfristig tragfähige Finanzierung nicht nur anhand eines einzelnen Zinssatzes beurteilt wird. Ablauf, Inhalte, Empfehlungsweg und persönliche Zuordnung bleiben unverändert.
+
+---
 
 ## v1.241 Beta - Phase 221 · Lesbare Themenseiten
 **2026-08-14 · live veröffentlicht**
