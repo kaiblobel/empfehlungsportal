@@ -67,6 +67,8 @@ module.exports = async function handler(req, res) {
     absicherung: '/thema.html',
     karriere: '/thema.html',
     kinder: '/thema.html',
+    banking: '/thema.html',
+    energie: '/thema.html',
   };
   const pagePath = pageByTemplate[template] || '/empfaenger.html';
 

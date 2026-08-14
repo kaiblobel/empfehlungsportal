@@ -4,21 +4,43 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
-  <meta name="description" content="Ein Finanzthema verständlich einordnen und den passenden nächsten Schritt wählen.">
-  <meta property="og:title" content="Jemand hat bei diesem Thema an dich gedacht.">
-  <meta property="og:description" content="Eine persönliche Empfehlung von deinem Ansprechpartner bei Team Wachsbleiche.">
-  <meta property="og:image" content="/assets/images/og-cover.png">
-  <meta name="twitter:image" content="/assets/images/og-cover.png">
-  <title>Themenseite | Team Wachsbleiche</title>
+  <meta name="description" content="Lokale Vorschau der gemeinsamen Themenseiten von Team Wachsbleiche.">
+  <title>Themenseiten Vorschau | Team Wachsbleiche</title>
   <link rel="stylesheet" href="/css/themen-vorschau.css?v=11">
   <script src="/js/config.js"></script>
 </head>
-<body data-page="thema" data-theme="investment" data-mode="public">
+<body data-theme="investment" data-mode="public">
+  <aside class="preview-bar" aria-label="Vorschau einstellen">
+    <div class="preview-bar-title">
+      <strong>Vorschau</strong>
+      <span>Nur lokal, keine Daten werden gespeichert</span>
+    </div>
+    <div class="preview-modes" role="group" aria-label="Einstiegsweg">
+      <button class="is-active" type="button" data-preview-mode="public">Von der Kundenseite</button>
+      <button type="button" data-preview-mode="referral">Persönliche Empfehlung</button>
+    </div>
+    <label>
+      <span>Thema</span>
+      <select id="previewTopic"></select>
+    </label>
+    <label>
+      <span>Ansprechpartner</span>
+      <select id="previewAdvisor">
+        <option value="kai-blobel">Kai Blobel</option>
+        <option value="sven-augustin">Sven Augustin</option>
+        <option value="sandro-wernicke">Sandro Wernicke</option>
+        <option value="claudius-tusche">Claudius Tusche</option>
+        <option value="max-kudlek">Max Kudlek</option>
+        <option value="david-stamm">David Stamm</option>
+      </select>
+    </label>
+  </aside>
+
   <div class="topic-page">
     <header class="topic-topbar">
       <a class="topic-brand" id="backToCustomer" href="https://kaiblobel.de/#beratung">
         <span class="topic-brand-mark" aria-hidden="true">TW</span>
-        <span><strong>Team Wachsbleiche</strong><small id="brandBackLabel">Zur Kundenwebsite</small></span>
+        <span><strong>Team Wachsbleiche</strong><small>Zur Kundenwebsite</small></span>
       </a>
       <div class="topic-advisor-mini">
         <span class="advisor-avatar advisor-avatar-small" data-advisor-avatar aria-hidden="true">KB</span>
@@ -28,11 +50,11 @@
 
     <main>
       <section class="referral-note" id="referralNote" hidden>
-        <span class="referral-avatar" id="refAvatar" aria-hidden="true">E</span>
+        <span class="referral-avatar" aria-hidden="true">TW</span>
         <div>
           <p>Persönlich für dich</p>
-          <h2 id="refHeading"><span id="refName">Jemand aus deinem Umfeld</span> hat bei diesem Thema an dich gedacht.</h2>
-          <blockquote id="refMessage">Diese Empfehlung ist bereits mit deinem persönlichen Ansprechpartner verbunden.</blockquote>
+          <h2 id="refHeading"><span id="refName">Thomas</span> hat bei diesem Thema an dich gedacht.</h2>
+          <blockquote>„Schau dir das einmal in Ruhe an. Bei Kai habe ich selbst einen guten Überblick bekommen.“</blockquote>
         </div>
       </section>
 
@@ -44,20 +66,18 @@
       <section class="topic-hero" aria-labelledby="topicHeading">
         <div class="topic-hero-copy">
           <p class="topic-eyebrow" id="topicEyebrow">Vermögen aufbauen</p>
-          <h1 id="topicHeading"><span id="recipientPrefix"></span>Geld braucht einen Plan, der zum Leben passt.</h1>
+          <h1 id="topicHeading">Geld braucht einen Plan, der zum Leben passt.</h1>
           <p class="topic-lede" id="topicLede">Geldanlage beginnt nicht mit einem Produkt. Sie beginnt mit der Frage, was Sie erreichen möchten und wie viel Sicherheit Sie unterwegs brauchen.</p>
 
           <div class="topic-actions">
             <a class="button button-primary" href="#orientierung" id="orientationCta">Erste Orientierung erhalten</a>
-            <button class="button button-primary" id="interestButton" type="button" hidden>Dieses Thema interessiert mich</button>
-            <a class="button button-secondary" data-bb="booking" data-track-booking target="_blank" rel="noopener" href="https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/">Termin vereinbaren</a>
+            <a class="button button-secondary" data-bb="booking" data-preview-booking target="_blank" rel="noopener" href="https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/">Termin vereinbaren</a>
           </div>
-          <p class="interest-feedback" id="interestFeedback" role="status" aria-live="polite"></p>
 
           <ul class="topic-trust" aria-label="Hinweise">
             <li>Kostenlos</li>
             <li>Verständlich erklärt</li>
-            <li id="decisionTrust">Sie entscheiden</li>
+            <li>Sie entscheiden</li>
           </ul>
         </div>
 
@@ -65,8 +85,8 @@
           <div class="topic-card-head"><span class="topic-number" id="topicNumber">01</span><span class="topic-card-label" id="topicCardLabel">Investment &amp; Gold</span></div>
           <div class="topic-visual" id="topicVisual" aria-hidden="true"></div>
           <ol id="genericHeroGuide">
-            <li><span>01</span><div><strong>Situation einordnen</strong><small id="stepSituation">Was beschäftigt Sie gerade?</small></div></li>
-            <li><span>02</span><div><strong>Möglichkeiten verstehen</strong><small id="stepPossibilities">Was passt wirklich zu Ihnen?</small></div></li>
+            <li><span>01</span><div><strong>Situation einordnen</strong><small>Was beschäftigt Sie gerade?</small></div></li>
+            <li><span>02</span><div><strong>Möglichkeiten verstehen</strong><small>Was passt wirklich zu Ihnen?</small></div></li>
             <li><span>03</span><div><strong>Nächsten Schritt wählen</strong><small>Check, Gespräch oder erst weiterlesen.</small></div></li>
           </ol>
           <div class="baufi-hero-proof" id="baufiHeroProof" hidden>
@@ -127,7 +147,7 @@
           </div>
           <div class="orientation-result-actions">
             <a class="button button-primary" id="orientationToolLink" data-track-tool href="#termin" hidden>Passenden Check öffnen</a>
-            <a class="button button-light" data-bb="booking" data-track-booking target="_blank" rel="noopener" href="https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/">Mit <span data-bb="vorname">Kai</span> besprechen</a>
+            <a class="button button-light" data-bb="booking" data-preview-booking target="_blank" rel="noopener" href="https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/">Mit <span data-bb="vorname">Kai</span> besprechen</a>
             <button class="text-button" id="orientationReset" type="button">Auswahl ändern</button>
           </div>
         </div>
@@ -138,23 +158,21 @@
           <div><p>Immobilienanalyse</p><h2 id="baufiAnalysisHeading">Erst das Objekt verstehen. Dann die Finanzierung bauen.</h2></div>
           <span>Ein günstiger Zinssatz macht aus einer ungeprüften Immobilie noch keine gute Entscheidung. Deshalb betrachten wir vor der Finanzierung auch das Objekt und seine langfristige Wirkung.</span>
         </div>
-        <details class="baufi-analysis-disclosure">
-          <summary><span><small>Bei Interesse vertiefen</small><strong>Was wir an der Immobilie gemeinsam prüfen</strong></span></summary>
-          <div class="baufi-analysis-stage">
-            <figure class="baufi-analysis-image">
-              <img src="/assets/images/baufi/scenes-v1/optimierung.webp" alt="Architekturmodell einer Immobilie mit Materialmustern auf einem Planungstisch" width="1280" height="800">
-              <figcaption><span>01</span><strong>Das Objekt im Gesamtbild</strong><small>Nicht nur Kaufpreis und Rate.</small></figcaption>
-            </figure>
-            <div class="baufi-analysis-grid" role="list" aria-label="Bestandteile der Immobilienanalyse">
-              <article role="listitem"><span>Lage und Markt</span><strong>Passt der Standort auch langfristig?</strong><p>Umfeld, Infrastruktur, Vergleichsangebote und mögliche Nachfrage werden gemeinsam eingeordnet.</p></article>
-              <article role="listitem"><span>Substanz und Energie</span><strong>Welche Kosten könnten später folgen?</strong><p>Baujahr, Zustand, Energiebedarf und erkennbare Maßnahmen gehören früh in das Gesamtbild.</p></article>
-              <article role="listitem"><span>Kaufpreis und Nebenkosten</span><strong>Was kostet das Vorhaben wirklich?</strong><p>Nebenkosten, Modernisierung, Reserve und laufende Belastung werden nicht vom Kaufpreis getrennt.</p></article>
-              <article role="listitem"><span>Zukunftsfähigkeit</span><strong>Bleibt die Immobilie passend?</strong><p>Familie, Beruf, Flexibilität und Wiederverkauf werden mitgedacht, bevor eine lange Bindung entsteht.</p></article>
-            </div>
+        <div class="baufi-analysis-stage">
+          <figure class="baufi-analysis-image">
+            <img src="/assets/images/baufi/scenes-v1/optimierung.webp" alt="Architekturmodell einer Immobilie mit Materialmustern auf einem Planungstisch" width="1280" height="800">
+            <figcaption><span>01</span><strong>Das Objekt im Gesamtbild</strong><small>Nicht nur Kaufpreis und Rate.</small></figcaption>
+          </figure>
+          <div class="baufi-analysis-grid" role="list" aria-label="Bestandteile der Immobilienanalyse">
+            <article role="listitem"><span>Lage und Markt</span><strong>Passt der Standort auch langfristig?</strong><p>Umfeld, Infrastruktur, Vergleichsangebote und mögliche Nachfrage werden gemeinsam eingeordnet.</p></article>
+            <article role="listitem"><span>Substanz und Energie</span><strong>Welche Kosten könnten später folgen?</strong><p>Baujahr, Zustand, Energiebedarf und erkennbare Maßnahmen gehören früh in das Gesamtbild.</p></article>
+            <article role="listitem"><span>Kaufpreis und Nebenkosten</span><strong>Was kostet das Vorhaben wirklich?</strong><p>Nebenkosten, Modernisierung, Reserve und laufende Belastung werden nicht vom Kaufpreis getrennt.</p></article>
+            <article role="listitem"><span>Zukunftsfähigkeit</span><strong>Bleibt die Immobilie passend?</strong><p>Familie, Beruf, Flexibilität und Wiederverkauf werden mitgedacht, bevor eine lange Bindung entsteht.</p></article>
           </div>
-        </details>
+        </div>
         <div class="baufi-analysis-footer">
           <p>Die erste Immobilienanalyse ersetzt kein Verkehrswertgutachten und keine technische Gebäudeprüfung. Sie zeigt früh, an welchen Stellen genauer hingesehen werden sollte.</p>
+          <a class="button button-primary" data-bb="booking" data-track-booking target="_blank" rel="noopener" href="https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/">Immobilie gemeinsam einordnen</a>
         </div>
       </section>
 
@@ -164,30 +182,19 @@
           <span>Je nach Vorhaben, Immobilie, Haushalt und Zeitpunkt können unterschiedliche Förderwege greifen. Wir prüfen, was grundsätzlich passen könnte und was vor einem Auftrag beantragt werden muss.</span>
         </div>
         <div class="baufi-funding-grid">
-          <details class="baufi-funding-card">
-            <summary>
-              <div class="baufi-funding-icon"><img src="/assets/icons/baufi/landmark.svg" alt="" aria-hidden="true"></div>
-              <span>Finanzierung und Investition</span><h3>Öffentliche Fördermittel</h3>
-              <p>KfW, BAFA und Landesprogramme passend zum Vorhaben prüfen.</p>
-              <b>Prüfpunkte anzeigen</b>
-            </summary>
+          <article class="baufi-funding-card">
+            <div class="baufi-funding-icon"><img src="/assets/icons/baufi/landmark.svg" alt="" aria-hidden="true"></div>
+            <span>Finanzierung und Investition</span><h3>Öffentliche Fördermittel</h3>
+            <p>KfW-Programme für Wohneigentum, Neubau und Sanierung, BAFA-Förderung rund um qualifizierte Energieberatung sowie Landesprogramme können je nach Vorhaben eine Rolle spielen.</p>
             <ul><li>Bundesprogramme von KfW und BAFA</li><li>Landesförderung, zum Beispiel über die ILB Brandenburg</li><li>Passende Kombination mit der Gesamtfinanzierung</li></ul>
-          </details>
-          <details class="baufi-funding-card">
-            <summary>
-              <div class="baufi-funding-icon"><img src="/assets/icons/baufi/badge-euro.svg" alt="" aria-hidden="true"></div>
-              <span>Kapital für Wohneigentum</span><h3>Staatliche Förderungen</h3>
-              <p>Prämien, Sparzulagen und vorhandene Riester-Verträge als mögliche Zusatzbausteine einordnen.</p>
-              <b>Prüfpunkte anzeigen</b>
-            </summary>
-            <ul><li>Wohnungsbauprämie, Arbeitnehmer-Sparzulage und vermögenswirksame Leistungen prüfen</li><li>Riester-Guthaben für Kauf, Bau oder die Tilgung eines passenden Darlehens einordnen</li><li>Auch energetische Sanierung oder ein barrierearmer Umbau können unter Voraussetzungen infrage kommen</li><li>Selbstnutzung, Antrag, Nachweise und die spätere Besteuerung über das Wohnförderkonto vorher klären</li></ul>
-          </details>
+          </article>
+          <article class="baufi-funding-card">
+            <div class="baufi-funding-icon"><img src="/assets/icons/baufi/badge-euro.svg" alt="" aria-hidden="true"></div>
+            <span>Kapital für Wohneigentum</span><h3>Staatliche Förderungen</h3>
+            <p>Wohnungsbauprämie und Arbeitnehmer-Sparzulage können beim Aufbau wohnwirtschaftlich nutzbaren Kapitals helfen. Entscheidend sind Einkommen, Sparform und spätere Verwendung.</p>
+            <ul><li>Wohnungsbauprämie passend einordnen</li><li>Arbeitnehmer-Sparzulage und vermögenswirksame Leistungen prüfen</li><li>Förderbausteine mit dem Immobilienziel verbinden</li></ul>
+          </article>
         </div>
-        <aside class="baufi-riester-callout" aria-label="Wohn-Riester als möglicher Finanzierungsbaustein">
-          <span>Oft übersehen</span>
-          <div><h3>Bestehende Riester-Rente fürs Eigenheim nutzen?</h3><p>Auch vorhandenes Riester-Guthaben kann unter Voraussetzungen für selbst genutztes Wohneigentum eingesetzt werden. Ob und wie das sinnvoll ist, gehört mit in die Förderprüfung.</p></div>
-          <strong>Wohn-Riester mitprüfen</strong>
-        </aside>
         <details class="baufi-savings-disclosure">
           <summary><span><small>Optional vertiefen</small><strong>Details zur Sparförderung ansehen</strong></span></summary>
         <section class="baufi-savings-compare" aria-labelledby="baufiSavingsHeading">
@@ -242,60 +249,25 @@
         <div class="baufi-funding-timing">
           <div class="baufi-funding-icon"><img src="/assets/icons/baufi/clock-3.svg" alt="" aria-hidden="true"></div>
           <div><span>Der Zeitpunkt entscheidet</span><strong>Erst Förderweg und Antrag klären, dann verbindlich beauftragen.</strong><p>Die genaue Reihenfolge hängt vom jeweiligen Programm ab. Deshalb gehört die Förderprüfung an den Anfang des Vorhabens.</p></div>
+          <a class="button button-gold" data-bb="booking" data-track-booking target="_blank" rel="noopener" href="https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/">Förderwege prüfen</a>
         </div>
         <nav class="baufi-funding-sources" aria-label="Offizielle Informationen zu Fördermitteln">
-          <span>Offizielle Informationen:</span><a href="https://www.kfw.de/inlandsfoerderung/Privatpersonen/" target="_blank" rel="noopener">KfW</a><a href="https://www.bafa.de/DE/Energie/Energieberatung/Energieberatung_Wohngebaeude/energieberatung_wohngebaeude.html" target="_blank" rel="noopener">BAFA</a><a href="https://www.ilb.de/de/wohnungsbau/uebersicht-der-foerderprogramme/wohneigentum-erwerb-neubau-und-ausbau/" target="_blank" rel="noopener">ILB Brandenburg</a><a href="https://www.bundesfinanzministerium.de/Content/DE/Glossareintraege/A/arbeitnehmer-sparzulage.html" target="_blank" rel="noopener">BMF Sparzulage</a><a href="https://www.gesetze-im-internet.de/wopg/" target="_blank" rel="noopener">Wohnungsbauprämiengesetz</a><a href="https://riester.deutsche-rentenversicherung.de/DE/So-geht-Riester/So-geht-Wohn-Riester/so-geht-wohn-riester_node" target="_blank" rel="noopener">ZfA Wohn-Riester</a>
+          <span>Offizielle Informationen:</span><a href="https://www.kfw.de/inlandsfoerderung/Privatpersonen/" target="_blank" rel="noopener">KfW</a><a href="https://www.bafa.de/DE/Energie/Energieberatung/Energieberatung_Wohngebaeude/energieberatung_wohngebaeude.html" target="_blank" rel="noopener">BAFA</a><a href="https://www.ilb.de/de/wohnungsbau/uebersicht-der-foerderprogramme/wohneigentum-erwerb-neubau-und-ausbau/" target="_blank" rel="noopener">ILB Brandenburg</a><a href="https://www.bundesfinanzministerium.de/Content/DE/Glossareintraege/A/arbeitnehmer-sparzulage.html" target="_blank" rel="noopener">BMF Sparzulage</a><a href="https://www.gesetze-im-internet.de/wopg/" target="_blank" rel="noopener">Wohnungsbauprämiengesetz</a>
         </nav>
       </section>
 
       <section class="baufi-difference" id="baufiDifference" hidden aria-labelledby="baufiDifferenceHeading">
         <div class="section-heading section-heading-left">
-          <p>Der Unterschied zeigt sich später</p>
-          <h2 id="baufiDifferenceHeading">Zehn Jahre sind nicht das Ende Ihrer Finanzierung.</h2>
-          <span>Wir betrachten nicht nur die erste Rate. Wir planen auch, was nach der ersten Zinsbindung mit Ihrer Restschuld passiert.</span>
+          <p>Was bei uns anders läuft</p>
+          <h2 id="baufiDifferenceHeading">Nicht das nächste Angebot. Das passende Gesamtkonzept.</h2>
+          <span>Eine Finanzierung muss nicht nur heute möglich sein. Sie muss auch später noch zu Ihrem Leben passen.</span>
         </div>
-        <div class="baufi-model-compare" aria-label="Vergleich zweier Finanzierungswege">
-          <article class="baufi-model-card baufi-model-card-classic">
-            <header>
-              <span>Klassisches Bankmodell</span>
-              <strong>Die erste Zinsbindung steht.</strong>
-              <p>Das Annuitätendarlehen wird für sich betrachtet. Wie die verbleibende Schuld später finanziert wird, bleibt zunächst offen.</p>
-            </header>
-            <ol class="baufi-model-timeline" aria-label="Ablauf des klassischen Bankmodells">
-              <li><small>Heute</small><strong>Bankdarlehen</strong><span>Rate und Sollzins werden vereinbart.</span></li>
-              <li><small>Zum Beispiel Jahr 1 bis 10</small><strong>Feste Monatsrate</strong><span>Die Restschuld sinkt Schritt für Schritt.</span></li>
-              <li class="baufi-model-open"><small>Nach der Zinsbindung</small><strong>Neue Finanzierung nötig</strong><span>Der dann gültige Marktzins entscheidet über die neue Rate.</span></li>
-            </ol>
-            <div class="baufi-model-result"><span aria-hidden="true">?</span><p><strong>Anschlusszins heute offen</strong>Die spätere Belastung ist noch nicht vollständig planbar.</p></div>
-          </article>
-
-          <article class="baufi-model-card baufi-model-card-concept">
-            <header>
-              <span>Von Anfang an weitergedacht</span>
-              <strong>Erste Finanzierung und Anschluss greifen ineinander.</strong>
-              <p>Bankdarlehen und eine mögliche Anschlusslösung werden gemeinsam geplant. So bekommt auch die Restschuld einen klaren Weg.</p>
-            </header>
-            <ol class="baufi-model-timeline" aria-label="Ablauf des ganzheitlichen Finanzierungskonzepts">
-              <li><small>Heute</small><strong>Gesamtkonzept</strong><span>Rate, Laufzeit, Restschuld und Anschluss werden zusammen geprüft.</span></li>
-              <li><small>Zum Beispiel Jahr 1 bis 10</small><strong>Zwei Bausteine arbeiten</strong><span>Das Bankdarlehen läuft, die Anschlusslösung wird parallel vorbereitet.</span></li>
-              <li class="baufi-model-secured"><small>Nach der Zinsbindung</small><strong>Geplanter Übergang</strong><span>Der zweite Baustein kann die verbleibende Bankschuld ablösen.</span></li>
-            </ol>
-            <div class="baufi-model-choice">
-              <p><span>Später passend entscheiden</span><strong>Günstiger Sollzins</strong></p>
-              <i aria-hidden="true">oder</i>
-              <p><span>Später passend entscheiden</span><strong>Niedrigere Monatsrate</strong></p>
-            </div>
-            <div class="baufi-model-rate"><span>Aktuelles Tarifbeispiel</span><strong>ab 0,95 %</strong><small>gebundener Sollzins p. a.</small></div>
-          </article>
+        <div class="baufi-comparison" role="list">
+          <article role="listitem"><span>Statt Hausbank-Tunnel</span><strong>Über 400 Banken im Vergleich</strong><p>Der Blick bleibt nicht auf ein einzelnes Institut oder das erste Angebot begrenzt.</p></article>
+          <article role="listitem"><span>Statt Zins allein</span><strong>Rate, Laufzeit und Restschuld</strong><p>Wir betrachten, wie sich die Finanzierung über viele Jahre entwickelt und welcher Spielraum bleibt.</p></article>
+          <article role="listitem"><span>Statt Förderung später</span><strong>Förderwege von Anfang an</strong><p>KfW und weitere Möglichkeiten werden passend zu Vorhaben, Zeitpunkt und Voraussetzungen geprüft.</p></article>
+          <article role="listitem"><span>Statt Abschluss und weiter</span><strong>Ein persönlicher Ansprechpartner</strong><p>Von der ersten Einordnung bis zur Entscheidung bleibt der Weg persönlich verbunden.</p></article>
         </div>
-        <div class="baufi-model-proof">
-          <strong>Was Sie vom ersten Gespräch an gewinnen</strong>
-          <div><span>Bankangebote vergleichen</span><span>Restschuld sichtbar machen</span><span>Anschluss früh planen</span><span>Förderwege mitprüfen</span></div>
-        </div>
-        <p class="baufi-model-disclaimer">Das Tarifbeispiel ist kein persönliches Angebot. Konditionen, Zuteilung und Finanzierbarkeit hängen unter anderem von Tarif, Laufzeit, Bonität und den vereinbarten Voraussetzungen ab. Stand: August 2026.</p>
-        <nav class="baufi-model-sources" aria-label="Offizielle Quellen zur Anschlussfinanzierung">
-          <span>Offizielle Informationen:</span><a href="https://www.dvag.de/dvag/das-unternehmen/presse/servicemeldungen/Baufinanzierung.html" target="_blank" rel="noopener">Langfristige Immobilienfinanzierung</a><a href="https://www.badenia.de/fileadmin/user_upload/Tarifuebersicht_Via_Badenia_20.pdf" target="_blank" rel="noopener">Aktuelle Tarifübersicht</a>
-        </nav>
         <blockquote id="baufiPromise">Wenn Ihre bestehende Lösung bereits gut ist, sagen wir das auch. Es geht nicht um eine Finanzierung um jeden Preis, sondern um eine tragfähige Entscheidung.</blockquote>
       </section>
 
@@ -309,28 +281,23 @@
 
       <section class="tools-section" id="toolsSection" aria-labelledby="toolsHeading">
         <div class="section-heading section-heading-left">
-          <p id="toolsEyebrow">Wenn Sie tiefer einsteigen möchten</p>
+          <p>Wenn Sie tiefer einsteigen möchten</p>
           <h2 id="toolsHeading">Passende nächste Schritte</h2>
         </div>
         <div class="tool-grid" id="toolGrid"></div>
       </section>
 
-      <section class="advisor-section" id="termin" aria-labelledby="advisorHeading">
+      <section class="advisor-section" aria-labelledby="advisorHeading">
         <div class="advisor-portrait">
           <span class="advisor-avatar" data-advisor-avatar aria-hidden="true">KB</span>
           <span class="advisor-ring" aria-hidden="true"></span>
         </div>
         <div class="advisor-copy">
-          <p id="advisorKicker">Ihr persönlicher Ansprechpartner</p>
+          <p>Ihr persönlicher Ansprechpartner</p>
           <h2 id="advisorHeading"><span data-bb="name">Kai Blobel</span> begleitet Sie weiter.</h2>
           <span id="advisorText">Sie müssen heute noch nichts entscheiden. Wenn Sie möchten, schauen wir gemeinsam auf Ihre Situation und klären, welcher nächste Schritt sinnvoll ist.</span>
-          <ol class="advisor-next-steps" id="baufiNextSteps" hidden aria-label="So geht es nach der Terminwahl weiter">
-            <li><span>01</span><strong>Ausgangslage klären</strong></li>
-            <li><span>02</span><strong>Möglichkeiten prüfen</strong></li>
-            <li><span>03</span><strong>Nächsten Schritt festlegen</strong></li>
-          </ol>
           <div class="advisor-actions">
-            <a class="button button-light" data-bb="booking" data-track-booking target="_blank" rel="noopener" href="https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/">Termin auswählen</a>
+            <a class="button button-light" data-bb="booking" data-preview-booking target="_blank" rel="noopener" href="https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/">Termin auswählen</a>
             <a class="advisor-back" id="advisorBack" href="https://kaiblobel.de/#beratung">Zurück zur Kundenwebsite</a>
           </div>
         </div>
@@ -355,9 +322,8 @@
     </footer>
   </div>
 
-  <a class="baufi-sticky" id="baufiSticky" data-bb="booking" data-track-booking target="_blank" rel="noopener" href="https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/" hidden>Termin auswählen</a>
+  <a class="baufi-sticky" id="baufiSticky" data-bb="booking" data-preview-booking target="_blank" rel="noopener" href="https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/" hidden>Termin auswählen</a>
 
-  <script src="/js/referral-tracking.js?v=2" defer></script>
   <script type="module" src="/js/themen-vorschau.js?v=8"></script>
 </body>
 </html>

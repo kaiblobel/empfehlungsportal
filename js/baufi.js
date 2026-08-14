@@ -10,6 +10,7 @@ import { applyBeraterBrand, merkeBerater, gemerkterBerater } from './berater-bra
 const root = document.getElementById('finance-v4');
 const params = new URLSearchParams(window.location.search);
 const token = params.get('token') || '';
+const referralMode = Boolean(token || params.get('modus') === 'referral' || params.get('von') || params.get('an'));
 const defaultBookingUrl = 'https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/s/vIk8AVAbE0CCK6qZpumyTA2?ismsaljsauthenabled=true';
 
 let bookingUrl = defaultBookingUrl;
@@ -53,6 +54,34 @@ function setRecommendation(data = {}) {
     note.textContent = `„${message}“`;
     note.hidden = false;
   }
+}
+
+function applyEntryMode() {
+  document.body.dataset.entryMode = referralMode ? 'referral' : 'public';
+  const recommendation = root?.querySelector('.recommendation');
+  const eyebrow = document.getElementById('hero-eyebrow');
+  const title = document.getElementById('hero-title');
+  const lead = document.getElementById('hero-lead');
+  const contactNote = document.getElementById('contact-note');
+  const optOut = document.getElementById('optout-button');
+
+  if (referralMode) {
+    if (recommendation) recommendation.hidden = false;
+    if (contactNote) contactNote.hidden = false;
+    if (optOut) optOut.hidden = false;
+    return;
+  }
+
+  if (recommendation) recommendation.hidden = true;
+  if (eyebrow) eyebrow.textContent = 'Baufinanzierung mit Überblick';
+  if (title) {
+    const emphasis = document.createElement('span');
+    emphasis.textContent = 'Plan, der zu deinem Leben passt.';
+    title.replaceChildren(document.createTextNode('Dein Vorhaben. Ein '), emphasis);
+  }
+  if (lead) lead.textContent = 'Ordne dein Vorhaben in wenigen Schritten ein. Danach siehst du, welche Fragen für deine Situation wichtig sind und wie wir Finanzierung langfristig betrachten.';
+  if (contactNote) contactNote.hidden = true;
+  if (optOut) optOut.hidden = true;
 }
 
 function personalizeTextNode(node) {
@@ -142,6 +171,7 @@ if (sofortBerater) {
 }
 
 (async () => {
+  applyEntryMode();
   setRecommendation();
   let recommendation = null;
   if (token) {

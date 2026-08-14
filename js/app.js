@@ -61,6 +61,16 @@ const NACHRICHT_VORLAGEN = {
     'Hi {{vorname}}, falls Vorsorge für die Kinder bei euch gerade ein Thema ist: {{berater}} hat uns geholfen, die Möglichkeiten einmal in Ruhe zu sortieren.',
     '{{vorname}}, ich musste bei dem Thema Kinder und Zukunft direkt an euch denken. Schau dir die Übersicht von {{berater}} gern unverbindlich an.',
   ],
+  banking: [
+    'Hey {{vorname}}, falls du deine Konten, Rücklagen oder eine private Finanzierung einmal sortieren möchtest: {{berater}} hat mir dabei sehr verständlich geholfen.',
+    'Hi {{vorname}}, wir hatten doch über mehr Überblick bei den laufenden Finanzen gesprochen. Schau dir die Übersicht von {{berater}} einmal in Ruhe an.',
+    '{{vorname}}, beim Thema Konto, Sparziele und Kredit musste ich direkt an dich denken. Vielleicht hilft dir die Einordnung von {{berater}} weiter.',
+  ],
+  energie: [
+    'Hey {{vorname}}, du wolltest doch Strom, Gas oder Photovoltaik einmal genauer prüfen. {{berater}} kann dir helfen, die Möglichkeiten in Ruhe einzuordnen.',
+    'Hi {{vorname}}, bei euren Energiekosten könnte sich ein genauer Blick lohnen. Ich schicke dir dazu die Übersicht von {{berater}}.',
+    '{{vorname}}, wir hatten über Photovoltaik und laufende Energiekosten gesprochen. Vielleicht ist die Einordnung von {{berater}} ein guter erster Schritt.',
+  ],
 };
 
 function vorlagenForSlug(slug) {

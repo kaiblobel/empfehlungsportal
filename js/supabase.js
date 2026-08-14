@@ -157,8 +157,16 @@ export async function getVorlagen(beraterId = null) {
 // Satz statt einer leeren Themen-Auswahl.
 export async function getVorlagenPublic(beraterId = null) {
   const alle = await getVorlagen();
-  return eineZeileProSchluessel(alle, (v) => v.slug, beraterId)
-    .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
+  const sichtbar = eineZeileProSchluessel(alle, (v) => v.slug, beraterId);
+  const vorhandeneSlugs = new Set(sichtbar.map((v) => v.slug));
+  const gemeinsameErgaenzungen = [
+    { slug: 'banking', titel: 'Banking & Kredit', icon: 'Banknote', aktiv: true, sort_order: 8 },
+    { slug: 'energie', titel: 'Energie', icon: 'Activity', aktiv: true, sort_order: 9 },
+  ];
+  gemeinsameErgaenzungen.forEach((vorlage) => {
+    if (!vorhandeneSlugs.has(vorlage.slug)) sichtbar.push(vorlage);
+  });
+  return sichtbar.sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
 }
 
 export async function updateVorlage(slug, data, beraterId = null) {
