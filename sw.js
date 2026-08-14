@@ -13,7 +13,7 @@
  * trägt — die darf nie veraltet sein.
  */
 
-const CACHE_VERSION = 'v151-2026-08-09d';
+const CACHE_VERSION = 'v153-2026-08-09b';
 const SHELL_CACHE = `shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `assets-${CACHE_VERSION}`;
 
@@ -21,21 +21,25 @@ const SHELL_URLS = [
   '/hub.html',
   '/team.html',
   '/dashboard/overview.html',
+  '/dashboard/potenziale.html',
   '/thema.html',
   '/css/style.css?v=33',
   '/css/dashboard.css?v=49',
   '/css/hub.css?v=53',
   '/css/analysen.css?v=2',
   '/css/promoter-dashboard.css?v=2',
+  '/css/potenziale.css?v=2',
   '/css/empfehlung-detail.css?v=1',
   '/css/thema.css?v=1',
-  '/js/nav.js?v=58',
+  '/js/nav.js?v=59',
   '/js/icons.js',
   '/js/context-menu.js',
   '/js/cmdk.js',
   '/js/hub.js?v=48',
   '/js/team.js?v=2',
   '/js/analysen.js?v=2',
+  '/js/potenziale.js?v=2',
+  '/js/potenziale-utils.mjs',
   '/js/empfehlung-detail.js?v=1',
   '/js/thema.js?v=1',
   '/js/hot-lead-watcher.js',

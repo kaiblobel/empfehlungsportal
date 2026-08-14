@@ -1,9 +1,100 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.192 Beta** · Sicherheits-Nachzug, live seit 09.08.2026.
+Offizielle Live-Version: **v1.193 Beta** · Potenzialbuch, live seit 09.08.2026.
 
 ---
+
+## v1.196 Beta - Phase 170 · Team-Sichtbarkeit entlang der Führungslinie
+**2026-08-10 · Backend live (kein Frontend-Deploy nötig)**
+
+Bisher sah jeder eingeloggte Berater in der Teamübersicht und im Hub-Team-Stream das
+gesamte Team. Jetzt sieht jeder nur noch sich selbst plus die Berater, die in der
+Führungslinie unter ihm hängen.
+
+- **Neue Zuordnung:** Spalte `fuehrungskraft_id` am Berater (direkte Führungskraft,
+  leer = oberste Ebene). Eingetragen: Josephine und Sven unter Kai, Sandro unter Sven,
+  Max unter Sandro.
+- **Sichtbarkeitsregel:** Ein interner Datenbank-Helfer (`team_sichtbare_berater`)
+  ermittelt rekursiv den eigenen Ast nach unten; Admins sehen weiterhin alles. Für
+  Clients ist der Helfer nicht direkt aufrufbar.
+- **Überall durchgezogen:** `team_metrics` und `team_activity_secure` (Teamübersicht)
+  sowie `team_activity` und `team_presence` (Hub-Stream) filtern jetzt auf diesen Ast.
+  Ergebnis: Kai sieht alle, Sven sieht Sandro und Max, Sandro sieht Max, Josephine und
+  Max sehen nur sich.
+- **Fail-safe:** Neue Berater ohne Zuordnung und Konten ohne Berater-Verknüpfung sehen
+  nur sich bzw. nichts Fremdes. Zyklen in der Zuordnung können die Abfrage nicht in
+  eine Endlosschleife schicken.
+- **Technik:** Migration `phase170_team_sichtbarkeit` (siehe `schema-phase170.sql`),
+  live geprüft am 10.08.2026: Sichtbarkeitsmatrix je Berater, Ausführungsrechte
+  (anon überall aus, Helfer für alle aus) und ein End-zu-End-Aufruf von
+  `team_metrics` als eingeloggter Sandro (liefert genau Sandro + Max).
+
+## v1.195 Beta - Phase 169 · Telegram-Zugang zum Potenzialbuch
+**2026-08-10 · Backend live (kein Frontend-Deploy nötig)**
+
+Kontakte kommen jetzt auch per Telegram ins Potenzialbuch, ohne Anlegen im Portal.
+
+- **Kontakt teilen genügt:** Ein aus dem Adressbuch geteilter Kontakt (oder eine Textzeile
+  wie „Max Mustermann 0171 2345678") wird als Potenzial mit Ziel Kunde und Status offen
+  angelegt. Zeilen ab der zweiten werden zur Notiz, E-Mail-Adressen werden miterkannt.
+  Auch getippte oder diktierte ganze Sätze („Kannst du mir … ins Potenzialbuch legen")
+  laufen durch die KI-Auswertung; die einfache Zeilen-Zerlegung bleibt Notlösung, falls
+  Groq nicht erreichbar ist. Ohne erkannten Namen wird nichts angelegt.
+- **Einsprechen genügt auch:** Eine Sprachnachricht wie „Leg mir den Max Mustermann an,
+  0171 2345678, kenne ich vom Fußball" wird per Groq-Whisper transkribiert; ein Sprachmodell
+  löst Name, Nummer, E-Mail, Ziel (Kunde/Partner) und Notiz heraus. Die Bestätigung zeigt
+  mit, was verstanden wurde. Schlüssel liegt als `GROQ_API_KEY` in `app_secrets`.
+- **Antwort mit Knöpfen:** Der Bot bestätigt im Chat; per Knopf lässt sich das Ziel auf
+  Partner umstellen oder der Eintrag wieder löschen. Duplikate (gleiche Nummer oder gleicher
+  Name) werden erkannt und nicht doppelt angelegt.
+- **Technik:** Neue Edge Function `telegram-potenzial` (Webhook des bestehenden Portal-Bots).
+  Absicherung über geheimen Webhook-Token plus Chat-Whitelist; nur Kais Chat darf schreiben,
+  fremde Chats werden still ignoriert. Berater fest über `app_secrets.TELEGRAM_BERATER_ID`
+  zugeordnet. Ein Selbsttest-Pfad (nur mit Webhook-Secret erreichbar) erlaubt das Prüfen
+  von Transkription und Auswertung ohne echte Telegram-Nachricht. Getestet am 10.08.2026
+  (Kontakt, Text, Duplikat, beide Knöpfe, Transkription, Auswertung, Sprach-Fehlerpfad),
+  Testdaten wieder entfernt.
+
+## v1.194 Beta - Phase 168 · Kontaktstärke
+**2026-08-09 · vorbereitet, nicht veröffentlicht**
+
+Das Potenzialbuch ordnet Kontakte zusätzlich nach der tatsächlichen Beziehungsstärke.
+
+- Mehrere Kreise pro Person, unter anderem Familie, Freundeskreis, Schulzeit, Ausbildung,
+  Arbeit, Nachbarschaft, Verein oder Hobby und flüchtige Alltagsbekanntschaften.
+- Automatische Einstufung als kalt, lauwarm, warm, heiß oder sehr heiß aus Kreisen,
+  Beziehungsnähe, Kontakthäufigkeit und direkter Erreichbarkeit. Ohne Kontaktweg bleibt ein
+  Eintrag kalt. Eine bewusste manuelle Korrektur bleibt möglich.
+- Fünf ruhige Symbole von Schneeflocke bis Flamme, sichtbare Begründung auf jeder Karte und
+  Filter nach Kontaktstärke sowie mehreren Kreisen gleichzeitig.
+- Additive Migration `schema-phase168.sql`; bestehende freie Umfeldangaben bleiben erhalten.
+  Keine Verbindung zu Empfehlungen, Promotern, Prämien, Benachrichtigungen oder Kennzahlen.
+
+Noch nicht live: Migration, Veröffentlichung und echter eingeloggter Sichttest benötigen das
+Freigabe-Gate. Service-Worker lokal auf `v153-2026-08-09b` vorbereitet.
+
+## v1.193 Beta - Phase 167 · Potenzialbuch
+**2026-08-09 · live veröffentlicht**
+
+Ein eigener, privater Denk- und Arbeitsbereich für Menschen, die später Kunde oder Partner
+werden könnten. Die Datenbankmigration ist angewendet und die Seite im Portal-Menü aktiv.
+
+- **Schnell eintragen und angenehm weiterarbeiten:** Ein Name reicht zum Start. Telefon,
+  E-Mail, Umfeld, Ziel, Notiz, Status und nächster Kontakt können sofort oder später ergänzt
+  werden. Suche, Statusfilter, Dublettenwarnung und ruhige Kontaktkarten halten die Seite
+  leicht bedienbar, auch auf dem iPhone.
+- **Bewusste Cockpit-Übergabe:** Kontaktdaten werden erst in einer Kontrollansicht geprüft,
+  dann kopiert und das Berater-Cockpit geöffnet. Erst nach der manuellen Interessentenanlage
+  bestätigt der Berater die Übernahme im Potenzialbuch. Es gibt keinen direkten Schreibweg
+  in die Cockpit-Datenbank.
+- **Klare fachliche Grenze:** `potenziale` ist eine eigene Tabelle mit RLS je Berater. Die
+  Einträge fließen nicht in Empfehlungen, Promoter, Prämien, Champions, Momentum,
+  Benachrichtigungen oder Kennzahlen ein. Anonyme Zugriffe erhalten keine Rechte.
+
+Live geprüft: `schema-phase167.sql` und der anschließende Rechte-Nachzug sind angewendet.
+RLS ist aktiv und erzwungen. Anonyme Rollen haben keine Tabellenrechte, angemeldete Berater
+nur Lesen, Anlegen, Ändern und Löschen. Service-Worker aktiv auf `v152-2026-08-09a`.
 
 ## v1.192 Beta - Phase 166 · Sicherheits-Nachzug
 **2026-08-09 · live veröffentlicht**

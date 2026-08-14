@@ -623,6 +623,53 @@ export async function deleteEmpfehler(id) {
   return { data, error };
 }
 
+/* ---------- Phase 168 · Privates Potenzialbuch mit Kontaktstärke ---------- */
+// Potenziale sind ein eigener Arbeitsbereich. Diese Funktionen schreiben
+// ausschließlich in `potenziale` und berühren weder Empfehlungen noch Promoter.
+const POTENZIAL_FIELDS = 'id,berater_id,name,telefon,email,ziel,kreis,kreise,beziehungsnaehe,kontakthaeufigkeit,direkt_erreichbar,kontaktstaerke_override,status,notiz,naechster_kontakt_am,zuletzt_angesprochen_at,cockpit_uebernommen_at,created_at,updated_at';
+
+export async function getPotenziale(beraterId) {
+  if (!supabase || !beraterId) return { data: [], error: null };
+  const { data, error } = await supabase
+    .from('potenziale')
+    .select(POTENZIAL_FIELDS)
+    .eq('berater_id', beraterId)
+    .order('updated_at', { ascending: false });
+  return { data: data || [], error };
+}
+
+export async function createPotenzial(beraterId, fields) {
+  if (!supabase || !beraterId) return { data: null, error: { message: 'Kein Beraterkonto gefunden' } };
+  const { data, error } = await supabase
+    .from('potenziale')
+    .insert({ ...fields, berater_id: beraterId })
+    .select(POTENZIAL_FIELDS)
+    .single();
+  return { data, error };
+}
+
+export async function updatePotenzial(id, beraterId, fields) {
+  if (!supabase || !id || !beraterId) return { data: null, error: { message: 'Potenzial nicht gefunden' } };
+  const { data, error } = await supabase
+    .from('potenziale')
+    .update(fields)
+    .eq('id', id)
+    .eq('berater_id', beraterId)
+    .select(POTENZIAL_FIELDS)
+    .single();
+  return { data, error };
+}
+
+export async function deletePotenzial(id, beraterId) {
+  if (!supabase || !id || !beraterId) return { error: { message: 'Potenzial nicht gefunden' } };
+  const { error } = await supabase
+    .from('potenziale')
+    .delete()
+    .eq('id', id)
+    .eq('berater_id', beraterId);
+  return { error };
+}
+
 /* ---------- Phase 76 · Passwort-Verwaltung ---------- */
 // Berater ändert sein EIGENES Passwort (offizielles Supabase-Auth-Primitive).
 export async function updateMyPassword(newPassword) {
