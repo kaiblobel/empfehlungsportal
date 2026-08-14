@@ -34,7 +34,7 @@
     { "source": "/kidz/sommerfest", "destination": "/kidz-sommerfest.html" },
     { "source": "/kidz/gewinnspiel", "destination": "/kidz-gewinnspiel.html" },
     { "source": "/kidz/elternabend", "destination": "/kidz-elternabend.html" },
-    { "source": "/kidz/konzept", "destination": "/mockups/kidz-themenseite-v1.html" },
+    { "source": "/kidz/konzept", "destination": "/kidz-konzept.html" },
     { "source": "/(.*)", "destination": "/$1" }
   ]
 }

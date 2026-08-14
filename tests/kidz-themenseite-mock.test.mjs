@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import { access, readFile } from 'node:fs/promises';
 
-const htmlUrl = new URL('../mockups/kidz-themenseite-v1.html', import.meta.url);
-const cssUrl = new URL('../mockups/kidz-themenseite-v1.css', import.meta.url);
-const jsUrl = new URL('../mockups/kidz-themenseite-v1.js', import.meta.url);
+const htmlUrl = new URL('../kidz-konzept.html', import.meta.url);
+const cssUrl = new URL('../css/kidz-konzept.css', import.meta.url);
+const jsUrl = new URL('../js/kidz-konzept.js', import.meta.url);
 const planUrl = new URL('../docs/KIDZ-THEMENSEITE-PLAN-v1.md', import.meta.url);
 const vercelUrl = new URL('../vercel.json', import.meta.url);
 
@@ -58,7 +58,7 @@ for (const pathName of ['elternabend', 'termininfo', 'gespraech']) {
 assert.doesNotMatch(
   javascript,
   /\bfetch\s*\(|localStorage|sessionStorage|XMLHttpRequest|sendBeacon/,
-  'Das lokale Muster darf keine Daten übertragen oder speichern.',
+  'Die Konzeptseite darf keine Daten im Browser übertragen oder speichern.',
 );
 assert.match(javascript, /contactFieldLabel\.textContent = email \? 'E-Mail-Adresse' : 'Mobilnummer'/);
 assert.match(javascript, /contactConsent\.checked = false/);
@@ -69,7 +69,7 @@ assert.match(css, /\.dialog-step input\[type="email"\]/);
 assert.match(plan, /zur Veröffentlichung freigegeben/i);
 
 const assetReferences = new Set(
-  [...`${html}\n${javascript}`.matchAll(/assets\/kidz-themenseite\/[^"'`)\s]+/g)].map(
+  [...`${html}\n${javascript}`.matchAll(/assets\/images\/kidz-konzept\/[^"'`)\s]+/g)].map(
     ([assetPath]) => assetPath,
   ),
 );
@@ -77,7 +77,7 @@ const assetReferences = new Set(
 assert.ok(assetReferences.size >= 14, 'Alle vorgesehenen Originalmotive und Markenbilder müssen eingebunden sein.');
 
 for (const assetPath of assetReferences) {
-  await access(new URL(`../mockups/${assetPath}`, import.meta.url));
+  await access(new URL(`../${assetPath}`, import.meta.url));
 }
 
-console.log('KIDZ-Themenseiten-Muster und Originalmotive geprüft.');
+console.log('Öffentliche KIDZ-Konzeptseite und Originalmotive geprüft.');
