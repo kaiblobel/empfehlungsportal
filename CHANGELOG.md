@@ -4,7 +4,7 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.238 Beta** · Weiterempfehlen verständlich starten, live seit 14.08.2026.
 
 ## v1.238 Beta - Phase 218 · Weiterempfehlen verständlich starten
-**2026-08-14**
+**2026-08-14 · live veröffentlicht**
 
 Der öffentliche Einstieg spricht jetzt konsequent von Weiterempfehlen statt von der internen Rolle Promoter. Überschrift, Seitentitel, Schaltfläche und Rückmeldungen erklären den Vorgang so, wie Kunden ihn verstehen.
 

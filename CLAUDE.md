@@ -1,6 +1,6 @@
 <!-- odysseus-passport
 purpose: Empfehlungsportal für DVAG-Berater - Vanilla JS + eigene Supabase; Funnel Klick zu Interesse zu Kunde, privates Potenzialbuch mit Kontakt-Coach, echte Kennzahlen, Champions, Prämien; Cockpit-Brücke
-status: v1.238 Phase 218 zur Veröffentlichung freigegeben; der öffentliche Einstieg zur persönlichen Weiterempfehlung ist verständlich benannt und geprüft
+status: LIVE 14.08.2026 v1.238 Phase 218; der öffentliche Einstieg zur persönlichen Weiterempfehlung ist verständlich benannt und auf Rechner sowie Handy geprüft
 release: v1.238 ersetzt die interne Bezeichnung Promoter im öffentlichen Einstieg durch Jemanden weiterempfehlen; bestehende technische Abläufe und Daten bleiben unverändert
 live_url: https://empfehlungsportal.vercel.app; KIDZ oeffentlich unter https://kidz.teamwachsbleiche.de
 tags: portal, supabase, empfehlung, promoter, potenzialbuch, kontakt-coach, spracheingabe, mobile-first, live, baufinanzierung, kfw, bookings, power-automate
