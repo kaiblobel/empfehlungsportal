@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.238 Beta** · Weiterempfehlen verständlich starten, live seit 14.08.2026.
+Offizielle Live-Version: **v1.239 Beta** · Eigene Adresse für Baufinanzierung, zur Veröffentlichung freigegeben.
+
+## v1.239 Beta - Phase 219 · Eigene Adresse für Baufinanzierung
+**2026-08-14 · zur Veröffentlichung freigegeben**
+
+Die Kundenseite führt künftig über `finanzierung.kaiblobel.de` in den bestehenden Finanzierungskompass. Die technische Vercel-Adresse verschwindet damit aus dem sichtbaren Kundenweg.
+
+Der Aufruf der neuen Adresse öffnet direkt die Baufinanzierungsseite mit Video. Persönliche Beraterwege, Empfehlungen, bestehende Kurzadressen und die bereits vorhandene Anwendung unter `baufinanzierung.kaiblobel.de` bleiben unverändert.
+
+---
 
 ## v1.238 Beta - Phase 218 · Weiterempfehlen verständlich starten
 **2026-08-14 · live veröffentlicht**

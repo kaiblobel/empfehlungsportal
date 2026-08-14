@@ -294,9 +294,13 @@ assert.ok(vercelConfig.redirects.some((entry) => (
   && entry.destination === 'https://kidz.teamwachsbleiche.de/:path*'
   && hasHost(entry, 'kidz.kaiblobel.de')
 )));
-assert.equal(
-  vercelConfig.rewrites.some((entry) => entry.source === '/' && entry.has?.some((condition) => condition.type === 'host')),
-  false,
+const rootHostRewrites = vercelConfig.rewrites.filter((entry) =>
+  entry.source === '/' && entry.has?.some((condition) => condition.type === 'host')
+);
+assert.deepEqual(
+  rootHostRewrites.map((entry) => entry.has.find((condition) => condition.type === 'host')?.value),
+  ['finanzierung.kaiblobel.de'],
+  'Nur die Finanzierungsdomain darf am Root intern umgeschrieben werden',
 );
 assert.match(migration, /LIVE ANGEWENDET AM 11\.08\.2026 ALS phase_172_kidz_gewinnspiel/);
 assert.match(migration, /force row level security/);
