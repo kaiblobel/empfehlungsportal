@@ -328,10 +328,11 @@ accessForm.addEventListener('submit', async (event) => {
   accessSubmit.disabled = true;
   accessSubmit.textContent = 'Einmal-Link wird gesendet ...';
   try {
-    const response = await fetch('/api/promoter-access-request', {
+    const response = await fetch('/api/promoter-register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        action: 'access_request',
         email,
         beraterSlug: context.slug,
         captchaToken: accessCaptchaToken,

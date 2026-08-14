@@ -27,10 +27,10 @@ if (!/^[A-Za-z0-9_-]{43}$/.test(token)) {
   fail(false);
 } else {
   try {
-    const response = await fetch('/api/promoter-access-open', {
+    const response = await fetch('/api/promoter-register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token }),
+      body: JSON.stringify({ action: 'access_open', token }),
     });
     const result = await response.json().catch(() => ({}));
     if (response.status === 410 || response.status === 400) {

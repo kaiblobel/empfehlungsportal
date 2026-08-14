@@ -3,8 +3,7 @@ import { createRequire } from 'node:module';
 import { readFile } from 'node:fs/promises';
 
 const require = createRequire(import.meta.url);
-const requestHandler = require('../api/promoter-access-request.js');
-const openHandler = require('../api/promoter-access-open.js');
+const accessHandler = require('../api/promoter-register.js');
 const read = (file) => readFile(new URL(`../${file}`, import.meta.url), 'utf8');
 
 function responseMock() {
@@ -29,6 +28,7 @@ function request(body, overrides = {}) {
 }
 
 const validBody = {
+  action: 'access_request',
   email: 'anna@example.test',
   beraterSlug: 'kai-blobel',
   captchaToken: 'captcha-token',
@@ -47,11 +47,11 @@ try {
     if (String(url).includes('siteverify')) {
       return { ok: true, json: async () => ({ success: true }) };
     }
-    return { ok: true, status: 200 };
+    return { ok: true, status: 200, text: async () => JSON.stringify({ ok: true }) };
   };
 
   const success = responseMock();
-  await requestHandler(request(validBody), success);
+  await accessHandler(request(validBody), success);
   assert.equal(success.statusCode, 200);
   assert.deepEqual(JSON.parse(success.body), { ok: true });
   assert.equal(calls.length, 2);
@@ -66,22 +66,22 @@ try {
   calls = [];
   global.fetch = async () => { calls.push('unexpected'); };
   const invalid = responseMock();
-  await requestHandler(request({ ...validBody, email: 'falsch' }), invalid);
+  await accessHandler(request({ ...validBody, email: 'falsch' }), invalid);
   assert.equal(invalid.statusCode, 400);
   assert.equal(calls.length, 0);
 
   const foreignOrigin = responseMock();
-  await requestHandler(request(validBody, {
+  await accessHandler(request(validBody, {
     headers: { host: 'localhost:3000', origin: 'https://example.org' },
   }), foreignOrigin);
   assert.equal(foreignOrigin.statusCode, 403);
 
   global.fetch = async (url) => {
     if (String(url).includes('siteverify')) return { ok: true, json: async () => ({ success: true }) };
-    return { ok: false, status: 429 };
+    return { ok: false, status: 429, text: async () => '' };
   };
   const limited = responseMock();
-  await requestHandler(request(validBody), limited);
+  await accessHandler(request(validBody), limited);
   assert.equal(limited.statusCode, 429);
 
   const rawToken = 'A'.repeat(43);
@@ -93,24 +93,24 @@ try {
     return { ok: true, text: async () => JSON.stringify({ ok: true, code: 'Code-123_abc' }) };
   };
   const opened = responseMock();
-  await openHandler(request({ token: rawToken }), opened);
+  await accessHandler(request({ action: 'access_open', token: rawToken }), opened);
   assert.equal(opened.statusCode, 200);
   assert.deepEqual(JSON.parse(opened.body), { ok: true, code: 'Code-123_abc' });
   assert.doesNotMatch(opened.body, new RegExp(rawToken));
   assert.equal(opened.headers['Referrer-Policy'], 'no-referrer');
 
   const malformed = responseMock();
-  await openHandler(request({ token: 'zu-kurz' }), malformed);
+  await accessHandler(request({ action: 'access_open', token: 'zu-kurz' }), malformed);
   assert.equal(malformed.statusCode, 400);
   assert.equal(JSON.parse(malformed.body).reason, 'invalid_token');
 
   global.fetch = async () => ({ ok: true, text: async () => JSON.stringify({ ok: false }) });
   const consumed = responseMock();
-  await openHandler(request({ token: rawToken }), consumed);
+  await accessHandler(request({ action: 'access_open', token: rawToken }), consumed);
   assert.equal(consumed.statusCode, 410);
 
   const foreignOpen = responseMock();
-  await openHandler(request({ token: rawToken }, {
+  await accessHandler(request({ action: 'access_open', token: rawToken }, {
     headers: { host: 'localhost:3000', origin: 'https://example.org' },
   }), foreignOpen);
   assert.equal(foreignOpen.statusCode, 403);
@@ -138,12 +138,14 @@ assert.doesNotMatch(html, /id="psExistingLink"[^>]*hidden/);
 assert.match(html, /id="psAccessDialog"/);
 assert.match(html, /15 Minuten gültig/);
 assert.match(css, /\.ps-access-dialog::backdrop/);
-assert.match(js, /\/api\/promoter-access-request/);
+assert.match(js, /\/api\/promoter-register/);
+assert.match(js, /action: 'access_request'/);
 assert.match(js, /accessState === 'ungueltig'/);
 assert.match(accessHtml, /meta name="referrer" content="no-referrer"/);
 assert.match(accessJs, /window\.location\.hash/);
 assert.match(accessJs, /history\.replaceState/);
-assert.match(accessJs, /\/api\/promoter-access-open/);
+assert.match(accessJs, /\/api\/promoter-register/);
+assert.match(accessJs, /action: 'access_open'/);
 assert.match(migration, /create table if not exists private\.empfehler_access_tokens/);
 assert.match(migration, /alter table private\.empfehler_access_tokens enable row level security/);
 assert.doesNotMatch(migration, /\btoken\s+text\b/i);
