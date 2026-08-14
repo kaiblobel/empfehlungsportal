@@ -22,6 +22,7 @@ assert.match(giveawayHtml, /kidz-public-nav\.js\?v=\d+/);
 assert.match(summerHtml, /<strong>Sommerfest<\/strong>/);
 assert.match(summerHtml, /<strong>Gewinne<\/strong>/);
 assert.match(summerHtml, /<strong>Anmeldung<\/strong>/);
+assert.match(summerHtml, /<strong>KIDZ Konzept<\/strong>/);
 assert.match(navCss, /\.kidz-public-menu-panel/);
 assert.match(navCss, /@media \(max-width: 460px\)/);
 assert.doesNotMatch(navCss, /prefers-color-scheme\s*:\s*dark/);
@@ -31,6 +32,10 @@ assert.doesNotMatch(navJs, /localStorage|sessionStorage|document\.cookie/);
 
 for (const html of [summerHtml, giveawayHtml, parentEveningHtml]) {
   assert.match(html, /href="\/assets\/images\/kidz-logo-konzept\.png"/);
+  assert.match(html, /<link rel="apple-touch-icon" href="\/assets\/images\/kidz-logo-konzept\.png">/);
+  assert.match(html, /<meta name="apple-mobile-web-app-capable" content="yes">/);
+  assert.match(html, /<meta name="apple-mobile-web-app-status-bar-style" content="default">/);
+  assert.match(html, /<meta name="apple-mobile-web-app-title" content="KIDZ">/);
   assert.match(html, /src="\/assets\/images\/kidz-logo-konzept\.png" alt="KIDZ Konzept mit Lok"/);
   assert.doesNotMatch(html, /kidz-marke\.svg/);
   assert.match(html, /href="https:\/\/www\.instagram\.com\/team_wachsbleiche\/"/);
@@ -48,6 +53,7 @@ const links = [
   { dataset: { kidzDestination: '/kidz/sommerfest#sommerfest' }, href: '', attrs: {}, setAttribute(name, value) { this.attrs[name] = value; } },
   { dataset: { kidzDestination: '/kidz/sommerfest#gewinnspiel' }, href: '', attrs: {}, setAttribute(name, value) { this.attrs[name] = value; } },
   { dataset: { kidzDestination: '/kidz/gewinnspiel#anmeldung' }, href: '', attrs: {}, setAttribute(name, value) { this.attrs[name] = value; } },
+  { dataset: { kidzDestination: '/kidz/konzept' }, href: '', attrs: {}, setAttribute(name, value) { this.attrs[name] = value; } },
 ];
 const menu = { open: false, contains: () => false, removeAttribute() {} };
 globalThis.window = { location: { href: 'https://kidz.teamwachsbleiche.de/kidz/gewinnspiel?quelle=vor-ort-qr&berater=claudius-tusche#anmeldung' } };
@@ -61,6 +67,7 @@ assert.deepEqual(links.map((link) => link.href), [
   '/kidz/sommerfest?quelle=vor-ort-qr&berater=claudius-tusche#sommerfest',
   '/kidz/sommerfest?quelle=vor-ort-qr&berater=claudius-tusche#gewinnspiel',
   '/kidz/gewinnspiel?quelle=vor-ort-qr&berater=claudius-tusche#anmeldung',
+  '/kidz/konzept?quelle=vor-ort-qr&berater=claudius-tusche',
 ]);
 assert.equal(links[2].attrs['aria-current'], 'page');
 delete globalThis.window;
