@@ -149,7 +149,7 @@
     document.querySelectorAll('.time').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.time').forEach(b=>b.classList.remove('selected'));btn.classList.add('selected');document.getElementById('eSlot').value=btn.dataset.value;document.getElementById('eAnrufConfirm').classList.remove('visible')}));
     document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')show(step-1);if(e.key==='ArrowRight'&&!(step===3&&!interest))show(step+1)});
   </script>
-  <script src="/js/referral-tracking.js?v=2"></script>
-  <script type="module" src="js/app.js?v=51"></script>
+  <script src="/js/referral-tracking.js?v=3"></script>
+  <script type="module" src="js/app.js?v=52"></script>
 </body>
 </html>

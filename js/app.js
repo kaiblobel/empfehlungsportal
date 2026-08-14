@@ -378,7 +378,7 @@ if (page === 'empfehlen') {
   }
 
   function previewLink() {
-    return `${window.location.origin}/e?token=…`;
+    return `${window.location.origin}/empfehlung/…`;
   }
 
   function updatePreview() {
@@ -438,9 +438,9 @@ if (page === 'empfehlen') {
     });
 
     const token = data?.link_token || 'demo';
-    // /e geht über die Server-Funktion (pro-Berater Social-Preview), zeigt aber
-    // dieselbe Empfänger-Seite. Alte /empfaenger.html?token=-Links bleiben gültig.
-    const link = `${window.location.origin}/e?token=${token}&vorlage=${vorlageSlug}`;
+    // Die Kurzadresse geht über die Server-Funktion mit passender Social-Vorschau.
+    // Alte /e?token=- und /empfaenger.html?token=-Links bleiben gültig.
+    const link = `${window.location.origin}/empfehlung/${encodeURIComponent(token)}`;
     const finalMsg = buildMessage(vorname, typ, link, beraterName, beraterVorname);
 
     if (error && !data) {
@@ -486,7 +486,7 @@ if (page === 'empfehlen') {
 /* ---------- EMPFAENGER (Phase 9 · Trust Luxury) ---------- */
 if (page === 'empfaenger') {
   const params = new URLSearchParams(window.location.search);
-  const token = params.get('token');
+  const token = params.get('token') || document.querySelector('meta[name="referral-token"]')?.content || '';
   const urlVorlage = params.get('vorlage');
 
   // Fotos im Hero + Bio-Sektion stehen ohne Quelle im HTML und bleiben leer,

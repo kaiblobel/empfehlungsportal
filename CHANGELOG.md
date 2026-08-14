@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.235 Beta** · KIDZ auf Instagram verbinden, live seit 14.08.2026.
+Offizielle Live-Version: **v1.236 Beta** · Professionelle Kurzadressen und Schnellnavigation, Veröffentlichung am 14.08.2026 freigegeben.
+
+## v1.236 Beta - Phase 216 · Professionelle Kurzadressen und Schnellnavigation
+**2026-08-14 · Veröffentlichung freigegeben**
+
+Die öffentliche Baufinanzierungsseite erhält die gut lesbare Adresse `/baufinanzierung`. Persönliche Empfehlungen werden künftig über `/empfehlung/<persönliche Kennung>` geteilt. Dateinamen, Betriebsart, Empfängername und Beraterparameter verschwinden damit aus der sichtbaren Browseradresse.
+
+Die persönliche Zuordnung, Social-Vorschau, Öffnungsmessung, Interessensmeldung, Terminweg und Abmeldung lesen die Empfehlung weiterhin über dieselbe geschützte Kennung. Bestehende Links über `/e?token=...`, `baufi.html` und `thema.html` bleiben gültig.
+
+Für weitere Berater steht die öffentliche Form `/baufinanzierung/<berater>` bereit. Kais Kundenseite verwendet ohne sichtbaren Zusatz direkt `/baufinanzierung`.
+
+Beim Scrollen erscheint eine ruhige Schnellnavigation. Sie führt direkt zu Vorhaben, Bankenvergleich, Förderungen, Finanzierungsmodell und Termin. Auf dem Handy bleiben die Inhalte seitlich erreichbar, während der Termin separat sichtbar steht. Der Förderpunkt öffnet den Chancencheck unmittelbar, auch wenn vorher noch keine Situation gewählt wurde.
 
 ---
 

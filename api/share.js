@@ -7,7 +7,8 @@
  * HTML-Kopf lesen und KEIN JavaScript ausführen — das clientseitige Branding
  * (berater-brand.js) erreicht den Crawler also nie.
  *
- * Aufruf über Rewrite: /e?token=…  ->  /api/share
+ * Aufruf über Kurzadresse: /empfehlung/:token -> /api/share?token=:token
+ * Alte Links über /e?token=… bleiben dauerhaft gültig.
  * Bei fehlendem Token / Lookup-Fehler bleibt der statische Default (Kai) stehen.
  */
 const SUPABASE_URL = 'https://kkseqhmfubzfyloffkwe.supabase.co';
@@ -17,6 +18,14 @@ function esc(s) {
   return String(s == null ? '' : s).replace(/[&<>"]/g, (m) =>
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m])
   );
+}
+
+function decodePathToken(value) {
+  try {
+    return decodeURIComponent(String(value || '')).slice(0, 200);
+  } catch (_) {
+    return '';
+  }
 }
 
 async function rpc(name, body) {
@@ -43,7 +52,8 @@ module.exports = async function handler(req, res) {
   const proto = (req.headers['x-forwarded-proto'] || 'https').split(',')[0];
   const base = `${proto}://${host}`;
   const requestUrl = new URL(req.url || '/', base);
-  const token = requestUrl.searchParams.get('token') || '';
+  const pathTokenMatch = requestUrl.pathname.match(/^\/empfehlung\/([^/]+)\/?$/i);
+  const token = requestUrl.searchParams.get('token') || (pathTokenMatch ? decodePathToken(pathTokenMatch[1]) : '');
   const requestedTemplate = (requestUrl.searchParams.get('vorlage') || '').toLowerCase();
 
   // Empfehlung und Berater zuerst laden. So funktionieren auch ältere Links,
@@ -80,9 +90,20 @@ module.exports = async function handler(req, res) {
     html = await hr.text();
   } catch (_) {
     // Fallback: direkt auf die statische Seite leiten
+    const fallbackParams = new URLSearchParams(requestUrl.searchParams);
+    if (token) fallbackParams.set('token', token);
+    if (template) fallbackParams.set('vorlage', template);
     res.statusCode = 302;
-    res.setHeader('Location', `${pagePath}${requestUrl.search}`);
+    res.setHeader('Location', `${pagePath}?${fallbackParams.toString()}`);
     return res.end();
+  }
+
+  if (token) {
+    const cleanUrl = `${base}/empfehlung/${encodeURIComponent(token)}`;
+    html = html.replace(
+      /<\/head>/i,
+      `  <meta name="referral-token" content="${esc(token)}" />\n  <meta property="og:url" content="${esc(cleanUrl)}" />\n</head>`
+    );
   }
 
   if (berater && berater.name) {

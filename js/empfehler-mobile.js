@@ -675,7 +675,7 @@ async function createAndShareRecommendation() {
     return;
   }
 
-  const link = `${window.location.origin}/e?token=${encodeURIComponent(data.link_token)}&vorlage=${encodeURIComponent(funnel.topic || 'allgemein')}`;
+  const link = `${window.location.origin}/empfehlung/${encodeURIComponent(data.link_token)}`;
   const message = `${funnel.message || buildMessage()} ${link}`;
   pendingRecommendationId = data.id;
   pendingRecommendationName = funnel.name;
@@ -760,7 +760,7 @@ async function shareLink({ title, text, url }) {
 
 function recommendationLink(item) {
   if (!item.link_token) return '';
-  return `${window.location.origin}/e?token=${encodeURIComponent(item.link_token)}${item.vorlage_slug ? `&vorlage=${encodeURIComponent(item.vorlage_slug)}` : ''}`;
+  return `${window.location.origin}/empfehlung/${encodeURIComponent(item.link_token)}`;
 }
 
 function saveDraft() {

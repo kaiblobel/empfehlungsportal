@@ -9,7 +9,9 @@ import { applyBeraterBrand, merkeBerater, gemerkterBerater } from './berater-bra
 
 const root = document.getElementById('finance-v4');
 const params = new URLSearchParams(window.location.search);
-const token = params.get('token') || '';
+const token = params.get('token') || document.querySelector('meta[name="referral-token"]')?.content || '';
+const cleanAdvisorMatch = window.location.pathname.match(/^\/baufinanzierung\/([a-z0-9-]+)\/?$/i);
+const advisorSlug = params.get('berater') || (cleanAdvisorMatch ? decodeURIComponent(cleanAdvisorMatch[1]) : '');
 const referralMode = Boolean(token || params.get('modus') === 'referral' || params.get('von') || params.get('an'));
 const defaultBookingUrl = 'https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/s/vIk8AVAbE0CCK6qZpumyTA2?ismsaljsauthenabled=true';
 
@@ -82,6 +84,50 @@ function applyEntryMode() {
   if (lead) lead.textContent = 'Ordne dein Vorhaben in wenigen Schritten ein. Danach siehst du, welche Fragen für deine Situation wichtig sind und wie wir Finanzierung langfristig betrachten.';
   if (contactNote) contactNote.hidden = true;
   if (optOut) optOut.hidden = true;
+}
+
+function initSectionNavigation() {
+  const nav = document.getElementById('section-nav');
+  const hero = root?.querySelector('.hero');
+  if (!nav || !hero) return;
+
+  const links = [...nav.querySelectorAll('[data-section-link]')];
+  const targetFor = (key) => key === 'funding'
+    ? document.getElementById('funding-check-section')
+    : document.getElementById(key);
+  let scheduled = false;
+
+  const update = () => {
+    scheduled = false;
+    const showAfter = hero.offsetTop + Math.min(hero.offsetHeight * 0.58, 430);
+    nav.classList.toggle('is-visible', window.scrollY > showAfter);
+
+    const marker = window.scrollY + (window.innerWidth <= 520 ? 92 : 155);
+    const candidates = links.map((link) => {
+      const key = link.dataset.sectionLink;
+      const target = targetFor(key);
+      if (!target || target.hidden) return null;
+      const top = target.getBoundingClientRect().top + window.scrollY;
+      return { key, top };
+    }).filter(Boolean).sort((a, b) => a.top - b.top);
+    const active = candidates.filter((entry) => entry.top <= marker).at(-1)?.key || '';
+    links.forEach((link) => {
+      const current = link.dataset.sectionLink === active;
+      link.classList.toggle('is-active', current);
+      if (current) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+  };
+
+  const schedule = () => {
+    if (scheduled) return;
+    scheduled = true;
+    window.requestAnimationFrame(update);
+  };
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule, { passive: true });
+  links.forEach((link) => link.addEventListener('click', () => window.setTimeout(schedule, 280)));
+  update();
 }
 
 function personalizeTextNode(node) {
@@ -163,7 +209,7 @@ window.baufiOptOut = () => {
 
 // Gemerktes Branding aus einem früheren Aufruf steht sofort — sonst blitzt
 // beim Laden das Standard-Portrait auf, bis der echte Berater da ist.
-const brandKey = params.get('berater') || (token ? `tok_${token}` : 'me');
+const brandKey = advisorSlug || (token ? `tok_${token}` : 'me');
 const sofortBerater = gemerkterBerater(brandKey);
 if (sofortBerater) {
   applyBeraterBrand(sofortBerater);
@@ -172,6 +218,7 @@ if (sofortBerater) {
 
 (async () => {
   applyEntryMode();
+  initSectionNavigation();
   setRecommendation();
   let recommendation = null;
   if (token) {
@@ -184,8 +231,8 @@ if (sofortBerater) {
   if (recommendation?.berater_id) {
     const result = await getBeraterPublicById(recommendation.berater_id);
     advisor = result.data || null;
-  } else if (params.get('berater')) {
-    const result = await getBeraterPublicBySlug(params.get('berater'));
+  } else if (advisorSlug) {
+    const result = await getBeraterPublicBySlug(advisorSlug);
     advisor = result.data || null;
   }
   // Kein Token, kein Slug → eingeloggter Berater (Vorschau der eigenen
