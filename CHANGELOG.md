@@ -6,7 +6,7 @@ Offizielle Live-Version: **v1.234 Beta** · Gemeinsamer Themenkreislauf und Bauf
 ---
 
 ## v1.234 Beta - Phase 214 · Gemeinsamer Themenkreislauf und Baufi-Kompass
-**2026-08-14**
+**2026-08-14 · live veröffentlicht**
 
 Die Empfehlungsseiten und die öffentliche Kundenseite nutzen für Baufinanzierung jetzt denselben Finanzierungskompass. Persönliche Empfehlungslinks behalten Empfehler, Empfänger, Berater und Empfehlungskennung. Aufrufe von der Kundenseite starten ohne Empfehlungstext im neutralen Kundenmodus.
 
