@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.237 Beta** · Baufinanzierungsvideo vor dem Kompass, live seit 14.08.2026.
+Offizielle Live-Version: **v1.238 Beta** · Weiterempfehlen verständlich starten, live seit 14.08.2026.
+
+## v1.238 Beta - Phase 218 · Weiterempfehlen verständlich starten
+**2026-08-14**
+
+Der öffentliche Einstieg spricht jetzt konsequent von Weiterempfehlen statt von der internen Rolle Promoter. Überschrift, Seitentitel, Schaltfläche und Rückmeldungen erklären den Vorgang so, wie Kunden ihn verstehen.
+
+Kundenseite, Karrierecheck und Service-App können diesen Einstieg direkt mit dem gewählten Berater öffnen. Danach bleibt der bewährte Ablauf erhalten: Thema wählen, Empfänger eintragen und einen persönlichen Link erzeugen. Datenmodell und Schnittstelle wurden dafür nicht verändert.
+
+---
 
 ## v1.237 Beta - Phase 217 · Baufinanzierungsvideo vor dem Kompass
 **2026-08-14**

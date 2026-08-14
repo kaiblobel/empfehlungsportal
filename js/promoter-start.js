@@ -56,7 +56,7 @@ function applyAdvisor(data) {
   document.getElementById('psAdvisorName').textContent = `${displayName} & Team`;
   document.getElementById('psFooterName').textContent = `${displayName} & Team`;
   document.getElementById('psInitials').textContent = initials(displayName);
-  document.title = `Promoter werden | ${displayName}`;
+  document.title = `Jemanden weiterempfehlen | ${displayName}`;
 
   setLegalLink(document.getElementById('psPrivacy'), data.datenschutz_url);
   setLegalLink(document.getElementById('psFooterPrivacy'), data.datenschutz_url);
@@ -196,7 +196,7 @@ form.addEventListener('submit', async (event) => {
     const result = await response.json().catch(() => ({}));
 
     if (response.status === 409) {
-      throw new Error('Du bist bereits als Promoter registriert. Nutze deinen vorhandenen Zugangslink oder bitte deinen Berater, ihn dir erneut zu senden.');
+      throw new Error('Du hast bereits einen persönlichen Empfehlungsbereich. Nutze deinen vorhandenen Zugangslink oder bitte deinen Berater, ihn dir erneut zu senden.');
     }
     if (response.status === 429) {
       throw new Error('Es gab gerade zu viele Versuche. Bitte probiere es später noch einmal.');
@@ -212,7 +212,7 @@ form.addEventListener('submit', async (event) => {
     window.location.assign(`/empfehler.html?code=${encodeURIComponent(result.code)}&neu=1`);
   } catch (error) {
     showError(error.message || 'Dein Bereich konnte gerade nicht erstellt werden.');
-    submit.textContent = 'Meinen Bereich erstellen';
+    submit.textContent = 'Empfehlungsbereich öffnen';
     resetCaptcha();
   }
 });

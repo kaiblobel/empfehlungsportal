@@ -133,6 +133,8 @@ assert.match(presentationJs, /if \(!slug\)[\s\S]*Berater-Link nicht verfügbar/)
 
 assert.match(startHtml, /color-scheme" content="light"/);
 assert.match(startHtml, /id="psCaptcha"/);
+assert.match(startHtml, /Jemanden weiterempfehlen/);
+assert.doesNotMatch(startHtml, />Promoter werden[.<]/);
 assert.match(startCss, /color-scheme:\s*light/);
 assert.doesNotMatch(startCss, /prefers-color-scheme\s*:\s*dark/);
 assert.match(startJs, /\/api\/promoter-register/);
