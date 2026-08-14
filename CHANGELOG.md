@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.236 Beta** · Professionelle Kurzadressen und Schnellnavigation, live seit 14.08.2026.
+Offizielle Live-Version: **v1.237 Beta** · Baufinanzierungsvideo vor dem Kompass, live seit 14.08.2026.
+
+## v1.237 Beta - Phase 217 · Baufinanzierungsvideo vor dem Kompass
+**2026-08-14**
+
+Die Baufinanzierungsseite zeigt das neue 55-Sekunden-Video direkt nach dem persönlichen Einstieg und vor dem Finanzierungskompass. Der Kunde versteht dadurch zuerst, wie Marktvergleich, Förderwege, Restschuld und langfristige Planung zusammenspielen, bevor er sein Vorhaben auswählt.
+
+Das Video startet nicht automatisch. Es besitzt ein eigenes Vorschaubild, Untertitel, normale Bedienelemente und einen direkten Übergang in den Kompass. Für die Website liegt eine auf 720p optimierte Fassung mit rund 3,8 MB vor, die beiden hochauflösenden Originalfassungen bleiben unverändert im Videoprojekt erhalten.
+
+Der Videorahmen bleibt auf Rechner, Tablet und Handy im 16:9-Verhältnis. In niedrigen Querformatfenstern wird seine Breite zusätzlich auf rund 70 Prozent der Bildschirmhöhe begrenzt. Der Vollbildmodus zeigt das vollständige Bild ohne Beschnitt.
+
+Die KI-Erstellung wird direkt am Video sichtbar genannt und zusätzlich als C2PA-Information in der Videodatei mitgeführt. Start und vollständiges Abspielen können als anonyme Seitenereignisse erfasst werden.
+
+---
 
 ## v1.236 Beta - Phase 216 · Professionelle Kurzadressen und Schnellnavigation
 **2026-08-14 · live veröffentlicht**

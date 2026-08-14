@@ -1,7 +1,7 @@
 <!-- odysseus-passport
 purpose: Empfehlungsportal für DVAG-Berater - Vanilla JS + eigene Supabase; Funnel Klick zu Interesse zu Kunde, privates Potenzialbuch mit Kontakt-Coach, echte Kennzahlen, Champions, Prämien; Cockpit-Brücke
-status: LIVE 14.08.2026 v1.236 Phase 216; professionelle Kurzadressen für Baufinanzierung und persönliche Empfehlungen sowie die Schnellnavigation sind öffentlich geprüft
-release: /baufinanzierung für den öffentlichen Kundenweg, /empfehlung/<Kennung> für persönliche Links sowie eine mobile Schnellnavigation zu Vorhaben, Bankenvergleich, Förderungen, Finanzierungsmodell und Termin; bestehende technische Adressen bleiben gültig
+status: v1.237 Phase 217 zur Veröffentlichung freigegeben; das neue Baufinanzierungsvideo ist auf Rechner, Tablet, Handy und Querformat vollständig geprüft
+release: v1.237 setzt das 55-Sekunden-Baufinanzierungsvideo vor den Kompass, mit Weboptimierung, sichtbarer und technischer KI-Kennzeichnung, robuster 16:9- und Vollbilddarstellung sowie direktem Übergang in die Situationsauswahl
 live_url: https://empfehlungsportal.vercel.app; KIDZ oeffentlich unter https://kidz.teamwachsbleiche.de
 tags: portal, supabase, empfehlung, promoter, potenzialbuch, kontakt-coach, spracheingabe, mobile-first, live, baufinanzierung, kfw, bookings, power-automate
 -->

@@ -29,6 +29,7 @@ const read = (file) => readFile(new URL(file, root), 'utf8');
 const SEITEN = [
   ['programm.html', 'css/programm.css'],
   ['empfaenger.html', 'empfaenger.html'],
+  ['baufi.html', 'baufi.html'],
 ];
 
 const videos = (await readdir(new URL('assets/video/', root)))
