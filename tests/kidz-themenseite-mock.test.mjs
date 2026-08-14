@@ -24,6 +24,9 @@ assert.match(html, /Nur Termininfo erhalten/);
 assert.match(html, /ohne sich schon für eine Teilnahme vorzumerken/);
 assert.match(html, /Wer führt den Elternabend durch\?/);
 assert.doesNotMatch(html, /Für dieses Muster wurden keine künstlich erzeugten Ersatzbilder verwendet/);
+assert.match(html, /kidz-logo-original\.png/);
+assert.match(html, /kidz-lok-vermoegensaufbau-original\.png/);
+assert.match(html, /Die KIDZ-Lok steht für einen Weg, der früh beginnt/);
 
 for (const pathName of ['elternabend', 'termininfo', 'gespraech']) {
   assert.match(html, new RegExp(`data-open-path="${pathName}"`));
@@ -49,7 +52,7 @@ const assetReferences = new Set(
   ),
 );
 
-assert.ok(assetReferences.size >= 8, 'Alle vorgesehenen Originalmotive müssen eingebunden sein.');
+assert.ok(assetReferences.size >= 10, 'Alle vorgesehenen Originalmotive und Markenbilder müssen eingebunden sein.');
 
 for (const assetPath of assetReferences) {
   await access(new URL(`../mockups/${assetPath}`, import.meta.url));

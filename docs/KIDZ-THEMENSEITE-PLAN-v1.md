@@ -69,6 +69,7 @@ Diese Wege bleiben getrennt. Im Muster werden sie vollständig simuliert, ohne D
 
 Verwendet werden ausgewählte Motive aus `Praesentation__KIDZ_V04.pptx`:
 
+- originale goldene KIDZ-Lok als Wegmotiv
 - KIDZ-Familiencollage für den Einstieg
 - Pusteblume als Zukunfts- und Wunschmotiv
 - offizielles Dreisäulenmodell
@@ -77,7 +78,7 @@ Verwendet werden ausgewählte Motive aus `Praesentation__KIDZ_V04.pptx`:
 - Familienmotiv für finanzielle Absicherung
 - Familienweg und Abenteuermotiv für Elternabend und Abschluss
 
-Die Bilder wurden aus den bereitgestellten Originalunterlagen übernommen. Die OneDrive-Originale bleiben unverändert.
+Zusätzlich wird die offizielle runde KIDZ-Marke aus `Broschuere__A4_KIDZ_Produktbausteine.pdf` verwendet. Logo und Lok wurden direkt aus den bereitgestellten Unterlagen exportiert und nicht nachgezeichnet. Die OneDrive-Originale bleiben unverändert.
 
 ## Fachliche Grenzen
 
