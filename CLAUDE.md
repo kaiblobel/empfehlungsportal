@@ -1,7 +1,7 @@
 <!-- odysseus-passport
 purpose: Empfehlungsportal für DVAG-Berater - Vanilla JS + eigene Supabase; Funnel Klick zu Interesse zu Kunde, privates Potenzialbuch mit Kontakt-Coach, echte Kennzahlen, Champions, Prämien; Cockpit-Brücke
-status: LIVE mit originaler KIDZ-Konzept-Marke auf Sommerfest, Gewinnspiel und Elternabend, inklusive iPhone-App-Symbol; NEU LIVE: vollständige anbieterfreie KIDZ-Konzeptseite mit großer Bilderstrecke unter /kidz/konzept
-release: Die öffentlichen KIDZ-Wege zeigen die originale runde Marke mit Lok auch auf dem iPhone-Home-Bildschirm; die neue Konzeptseite ergänzt einen eigenständigen Elternweg, Navigation, Anmeldung und persönliche Zuordnung der bestehenden Seiten bleiben unverändert
+status: live mit anbieterfreier KIDZ-Konzeptseite und sicherem Gerätewechsel für bestehende Empfehler per 15 Minuten gültigem Einmal-Link
+release: „Mein vorhandener Bereich“ ist auf jedem Gerät erreichbar; der öffentliche Einstieg bleibt neutral, der Einmal-Code wird nur als Hash gespeichert und kann nur einmal verwendet werden
 live_url: https://empfehlungsportal.vercel.app; Baufinanzierung unter https://finanzierung.kaiblobel.de; KIDZ oeffentlich unter https://kidz.teamwachsbleiche.de
 tags: portal, supabase, empfehlung, promoter, potenzialbuch, kontakt-coach, spracheingabe, mobile-first, live, baufinanzierung, kfw, bookings, power-automate
 -->
