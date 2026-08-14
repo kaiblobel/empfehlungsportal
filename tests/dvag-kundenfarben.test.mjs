@@ -39,6 +39,14 @@ assert.match(colors, /body\[data-theme="investment"\][\s\S]*--theme-panel:\s*var
 assert.match(colors, /body\[data-theme="foerderungen"\][\s\S]*--theme-panel:\s*var\(--dvag-yellow\)/, 'Förderungen haben keine kräftige gelbe Leitfläche');
 assert.match(colors, /body\[data-theme="banking"\][\s\S]*--theme-panel:\s*var\(--dvag-blue-mid\)/, 'Banking ist nicht klar mittelblau geführt');
 assert.match(colors, /body\[data-theme="kinder"\][\s\S]*--theme-panel:\s*var\(--dvag-blue-light\)/, 'Kinder haben keine eigene hellblaue Leitfläche');
+assert.match(colors, /body\[data-theme="investment"\][\s\S]*--accent-deep:\s*var\(--dvag-gold-deep\)/, 'Investment mischt eine zweite Themenfarbe hinein');
+assert.match(colors, /body\[data-theme="foerderungen"\][\s\S]*--accent-deep:\s*var\(--dvag-yellow-deep\)/, 'Förderungen mischen eine zweite Themenfarbe hinein');
+assert.match(colors, /body\[data-theme="absicherung"\][\s\S]*--accent-deep:\s*var\(--dvag-teal-deep\)/, 'Absicherung mischt eine zweite Themenfarbe hinein');
+assert.match(colors, /body\[data-theme="absicherung"\][\s\S]*--accent-bright:\s*var\(--dvag-teal\)/, 'Absicherung verwendet keine reine Türkis-Farbfamilie');
+assert.match(colors, /body\[data-theme="selbstaendige"\][\s\S]*--accent-deep:\s*var\(--dvag-green-deep\)/, 'Selbstständige mischen eine zweite Themenfarbe hinein');
+assert.match(colors, /body\[data-theme="energie"\][\s\S]*--accent-deep:\s*var\(--dvag-lime-deep\)/, 'Energie mischt eine zweite Themenfarbe hinein');
+assert.match(colors, /body\[data-theme="kinder"\][\s\S]*--accent-deep:\s*var\(--dvag-blue-deep\)/, 'Kinder mischen eine zweite Themenfarbe hinein');
+assert.match(colors, /body\[data-theme="karriere"\][\s\S]*--accent-bright:\s*var\(--dvag-blue-mid\)/, 'Karriere mischt eine zweite Themenfarbe hinein');
 assert.match(colors, /\.topic-hero-card[\s\S]*border-top:\s*6px solid var\(--theme-panel\)/, 'Die Leitfarbe wird auf den Themenseiten nicht sichtbar eingesetzt');
 assert.match(colors, /body\[data-page="thema"\] \.topic-hero::before[\s\S]*background:\s*var\(--theme-panel\)/, 'Kräftige Themenfläche fehlt');
 assert.match(colors, /\[data-theme="banking"\] \.topic-hero::before[\s\S]*background:\s*var\(--accent-soft\)/, 'Freigegebene Banking-Optik wird nicht geschützt');
