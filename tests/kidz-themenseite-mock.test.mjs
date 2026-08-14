@@ -18,6 +18,12 @@ assert.match(html, /Was wünschen Sie sich für die Zukunft Ihres Kindes\?/);
 assert.match(html, /Deutschen Vermögensberatung/);
 assert.match(html, /Generali Deutschland/);
 assert.match(html, /Es werden keine Daten gesendet oder gespeichert/);
+assert.match(html, /id="contactConsent" type="checkbox" required/);
+assert.doesNotMatch(html, /id="contactConsent"[^>]*\bchecked\b/);
+assert.match(html, /Nur Termininfo erhalten/);
+assert.match(html, /ohne sich schon für eine Teilnahme vorzumerken/);
+assert.match(html, /Wer führt den Elternabend durch\?/);
+assert.doesNotMatch(html, /Für dieses Muster wurden keine künstlich erzeugten Ersatzbilder verwendet/);
 
 for (const pathName of ['elternabend', 'termininfo', 'gespraech']) {
   assert.match(html, new RegExp(`data-open-path="${pathName}"`));
@@ -29,8 +35,12 @@ assert.doesNotMatch(
   /\bfetch\s*\(|localStorage|sessionStorage|XMLHttpRequest|sendBeacon/,
   'Das lokale Muster darf keine Daten übertragen oder speichern.',
 );
+assert.match(javascript, /contactFieldLabel\.textContent = email \? 'E-Mail-Adresse' : 'Mobilnummer'/);
+assert.match(javascript, /contactConsent\.checked = false/);
 assert.match(css, /@media \(max-width: 720px\)/);
 assert.match(css, /\.mobile-cta/);
+assert.match(css, /section\[id\] \{ scroll-margin-top:/);
+assert.match(css, /\.dialog-step input\[type="email"\]/);
 assert.match(plan, /nicht veröffentlicht/i);
 
 const assetReferences = new Set(

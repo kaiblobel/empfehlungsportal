@@ -101,3 +101,14 @@ Vor einer Veröffentlichung müssen aktuelle Produktangaben, Leistungsdarstellun
 5. Der Mock wird in die echte öffentliche Seitenstruktur übernommen.
 6. Rechner und Smartphone werden vollständig geprüft.
 7. Erst nach ausdrücklicher Freigabe wird veröffentlicht.
+
+## Kritische Kundenschleife
+
+Nach der ersten vollständigen Browserprüfung wurde das Muster noch einmal aus Sicht eines skeptischen Elternteils überarbeitet:
+
+- Der Herkunftsabschnitt spricht jetzt über Nutzen und fachlichen Zusammenhang für Familien, nicht mehr über den Bau der Website.
+- Teilnahmevormerkung und reine Termininfo sind klar voneinander getrennt.
+- Die Einwilligung ist nie vorausgewählt und wird passend zum gewählten Weg erklärt.
+- Mobilnummer und E-Mail-Adresse werden im Kontaktfeld eindeutig unterschieden.
+- Sprungziele bleiben auch unter dem festen Kopfbereich vollständig lesbar.
+- Zwei typische Elternfragen zu Leitung und Altersbezug wurden ergänzt.

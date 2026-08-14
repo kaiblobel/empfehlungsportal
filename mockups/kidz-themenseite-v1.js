@@ -46,24 +46,30 @@
   const pathData = {
     elternabend: {
       title: 'Elternabend vormerken',
-      intro: 'Sie erhalten eine Information, sobald der nächste passende Termin feststeht.',
+      intro: 'Sie möchten beim nächsten passenden Elternabend gern dabei sein. Termin und Ort bestätigen Sie später in Ruhe.',
       number: '01',
-      choice: 'Als Gast teilnehmen',
-      detail: 'Unverbindlich und ohne Beratungspflicht'
+      choice: 'Teilnahme vormerken',
+      detail: 'Noch keine feste Zusage und ohne Beratungspflicht',
+      contactTitle: 'So kurz merken Sie sich vor.',
+      consent: 'Ich möchte einmalig zu meiner Teilnahmevormerkung kontaktiert werden.'
     },
     termininfo: {
-      title: 'Termininfo erhalten',
-      intro: 'Sie möchten erst Datum, Ort und Thema des nächsten KIDZ-Abends erfahren.',
+      title: 'Nur Termininfo erhalten',
+      intro: 'Sie erhalten einmalig Datum und Ort, ohne dass Ihre Teilnahme vorgemerkt wird.',
       number: '02',
       choice: 'Einmalig informieren lassen',
-      detail: 'Nur für die nächste passende Terminankündigung'
+      detail: 'Keine Vormerkung und keine weitere Kontaktfolge',
+      contactTitle: 'So kurz erhalten Sie die Termininfo.',
+      consent: 'Ich möchte einmalig Datum und Ort des nächsten KIDZ-Elternabends erhalten.'
     },
     gespraech: {
       title: 'Persönlich sprechen',
       intro: 'Sie möchten Ihre Fragen lieber direkt mit einem Ansprechpartner sortieren.',
       number: '03',
       choice: 'Gespräch anfragen',
-      detail: 'Persönlich, verständlich und in Ihrem Tempo'
+      detail: 'Persönlich, verständlich und in Ihrem Tempo',
+      contactTitle: 'So kurz fragen Sie ein Gespräch an.',
+      consent: 'Ich möchte einmalig wegen eines persönlichen Gesprächs kontaktiert werden.'
     }
   };
 
@@ -85,6 +91,12 @@
   const dialogNumber = document.getElementById('dialogNumber');
   const dialogChoice = document.getElementById('dialogChoice');
   const dialogDetail = document.getElementById('dialogDetail');
+  const contactStepTitle = document.getElementById('contactStepTitle');
+  const consentText = document.getElementById('consentText');
+  const contactConsent = document.getElementById('contactConsent');
+  const contactFieldLabel = document.getElementById('contactFieldLabel');
+  const contactField = document.getElementById('contactField');
+  const contactMethods = Array.from(pathDialog.querySelectorAll('input[name="kontakt"]'));
   const dialogSteps = Array.from(pathDialog.querySelectorAll('[data-dialog-step]'));
   const dialogProgress = Array.from(pathDialog.querySelectorAll('.dialog-progress span'));
 
@@ -161,6 +173,9 @@
     dialogNumber.textContent = item.number;
     dialogChoice.textContent = item.choice;
     dialogDetail.textContent = item.detail;
+    contactStepTitle.textContent = item.contactTitle;
+    consentText.textContent = item.consent;
+    contactConsent.checked = false;
     showDialogStep('choice');
     pathDialog.showModal();
     setBodyDialogState();
@@ -177,6 +192,15 @@
   pathDialog.querySelectorAll('[data-close-dialog]').forEach((button) => button.addEventListener('click', closePath));
   pathDialog.querySelector('[data-dialog-next]').addEventListener('click', () => showDialogStep('contact'));
   pathDialog.querySelector('[data-dialog-back]').addEventListener('click', () => showDialogStep('choice'));
+  contactMethods.forEach((method) => {
+    method.addEventListener('change', () => {
+      const email = method.value === 'email' && method.checked;
+      contactFieldLabel.textContent = email ? 'E-Mail-Adresse' : 'Mobilnummer';
+      contactField.type = email ? 'email' : 'tel';
+      contactField.inputMode = email ? 'email' : 'tel';
+      contactField.value = email ? 'anna.beispiel@example.de' : '0151 00000000';
+    });
+  });
   pathForm.addEventListener('submit', (event) => {
     event.preventDefault();
     showDialogStep('success');
