@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.243 Beta** · Originales KIDZ-Konzept-Logo, live seit 14.08.2026.
+Offizielle Live-Version: **v1.244 Beta** · KIDZ-App-Symbol auf dem iPhone, live seit 15.08.2026.
+
+## v1.244 Beta - Phase 224 · KIDZ-App-Symbol auf dem iPhone
+**2026-08-15 · live veröffentlicht**
+
+Sommerfest, Gewinnspiel und Elternabend melden das originale KIDZ-Konzept-Logo jetzt ausdrücklich als iPhone-App-Symbol an. Wer eine der Seiten über Safari zum Home-Bildschirm hinzufügt, sieht dort die goldene KIDZ-Marke mit Lok und den kurzen Namen „KIDZ“.
+
+Das iPhone erzeugt die abgerundeten Ecken selbst. Inhalte, Anmeldung, Aufrufzählung und persönliche Zuordnung bleiben unverändert.
+
+---
 
 ## v1.243 Beta - Phase 223 · Originales KIDZ-Konzept-Logo
 **2026-08-14 · live veröffentlicht**

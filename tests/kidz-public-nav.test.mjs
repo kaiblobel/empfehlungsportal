@@ -31,6 +31,10 @@ assert.doesNotMatch(navJs, /localStorage|sessionStorage|document\.cookie/);
 
 for (const html of [summerHtml, giveawayHtml, parentEveningHtml]) {
   assert.match(html, /href="\/assets\/images\/kidz-logo-konzept\.png"/);
+  assert.match(html, /<link rel="apple-touch-icon" href="\/assets\/images\/kidz-logo-konzept\.png">/);
+  assert.match(html, /<meta name="apple-mobile-web-app-capable" content="yes">/);
+  assert.match(html, /<meta name="apple-mobile-web-app-status-bar-style" content="default">/);
+  assert.match(html, /<meta name="apple-mobile-web-app-title" content="KIDZ">/);
   assert.match(html, /src="\/assets\/images\/kidz-logo-konzept\.png" alt="KIDZ Konzept mit Lok"/);
   assert.doesNotMatch(html, /kidz-marke\.svg/);
   assert.match(html, /href="https:\/\/www\.instagram\.com\/team_wachsbleiche\/"/);
