@@ -344,7 +344,7 @@ body[data-theme="karriere"] .topic-hero::after { border-radius: 18px; transform:
 .visual-steps small { display: block; margin-bottom: 4px; color: var(--accent-bright); font-size: 7px; }
 .topic-hero-card ol { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
 .topic-hero-card li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; }
-.topic-hero-card li > span { color: var(--gold); font-size: 10px; font-weight: 850; }
+.topic-hero-card li > span { color: var(--accent); font-size: 10px; font-weight: 850; }
 .topic-hero-card li div { display: grid; gap: 3px; }
 .topic-hero-card li strong { font-size: 13px; }
 .topic-hero-card li small { color: var(--muted); font-size: 11px; line-height: 1.4; }
@@ -380,7 +380,7 @@ body[data-theme="karriere"] .topic-hero::after { border-radius: 18px; transform:
 }
 .signal-card::before { position: absolute; inset: 0 auto auto 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent-bright)); content: ""; }
 .signal-card > span,
-.scope-card > span { color: var(--gold); font-size: 10px; font-weight: 850; letter-spacing: 0.12em; }
+.scope-card > span { color: var(--accent); font-size: 10px; font-weight: 850; letter-spacing: 0.12em; }
 .signal-card h3 { margin: 44px 0 10px; font-size: 18px; line-height: 1.25; }
 .signal-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
 
@@ -404,7 +404,7 @@ body[data-theme="baufi"] .orientation {
     linear-gradient(145deg, #fffef9 0%, #f6f3e9 100%);
   box-shadow: 0 24px 64px rgba(0,56,77,0.11);
 }
-body[data-theme="baufi"] .orientation-copy > p { color: #967b00; }
+body[data-theme="baufi"] .orientation-copy > p { color: #775d17; }
 body[data-theme="baufi"] .orientation-copy h2 { color: var(--baufi-blue-deep); }
 body[data-theme="baufi"] .orientation-copy > span { color: var(--muted); }
 body[data-theme="baufi"] .orientation-options { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 14px; }
@@ -482,7 +482,7 @@ body[data-theme="baufi"] .orientation-options { grid-template-columns: repeat(12
 }
 .orientation-icon img { width: 23px; height: 23px; filter: brightness(0) saturate(100%) invert(23%) sepia(43%) saturate(1590%) hue-rotate(156deg) brightness(88%) contrast(101%); }
 .orientation-card-copy { display: flex; min-height: 130px; margin-top: 168px; padding: 19px 20px 0; flex-direction: column; justify-content: flex-start; background: #fff; }
-.orientation-card-copy small { color: #967b00; font-size: 9px; font-style: normal; font-weight: 850; letter-spacing: 0.13em; text-transform: uppercase; }
+.orientation-card-copy small { color: #775d17; font-size: 9px; font-style: normal; font-weight: 850; letter-spacing: 0.13em; text-transform: uppercase; }
 .orientation-option-baufi .orientation-card-copy strong { max-width: 440px; margin-top: 8px; color: var(--baufi-blue-deep); font-size: clamp(19px, 2vw, 25px); line-height: 1.08; letter-spacing: -0.025em; }
 .orientation-card-copy em { display: block; max-width: 430px; margin-top: 9px; color: var(--muted); font-size: 11px; font-style: normal; line-height: 1.45; }
 .orientation-arrow { display: flex; align-items: center; justify-content: space-between; margin: auto 20px 17px; width: calc(100% - 40px); padding-top: 12px; border-top: 1px solid rgba(211,173,0,0.34); color: var(--baufi-blue); font-size: 10px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
@@ -504,11 +504,11 @@ body[data-theme="baufi"] .orientation-options { grid-template-columns: repeat(12
 .baufi-result-points strong { display: block; margin-top: 8px; color: #fff; font-size: 12px; line-height: 1.45; }
 .text-button { border: 0; color: rgba(255,255,255,0.75); background: transparent; font-size: 12px; font-weight: 750; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
 body[data-theme="baufi"] .orientation-result { border-color: rgba(211,173,0,0.55); color: var(--baufi-blue-deep); background: #fff; }
-body[data-theme="baufi"] .orientation-result > span { color: #967b00; }
+body[data-theme="baufi"] .orientation-result > span { color: #775d17; }
 body[data-theme="baufi"] .orientation-result h3 { color: var(--baufi-blue-deep); }
 body[data-theme="baufi"] .orientation-result p { color: var(--muted); }
 body[data-theme="baufi"] .baufi-result-points article { border-color: rgba(0,104,139,0.14); background: #f4f8f8; }
-body[data-theme="baufi"] .baufi-result-points span { color: #967b00; }
+body[data-theme="baufi"] .baufi-result-points span { color: #775d17; }
 body[data-theme="baufi"] .baufi-result-points strong { color: var(--baufi-blue-deep); }
 body[data-theme="baufi"] .orientation-result .button-light { border: 1px solid rgba(0,104,139,0.2); color: var(--baufi-blue-deep); background: #f7f5ed; }
 body[data-theme="baufi"] .orientation-result .text-button { color: var(--baufi-blue); }
@@ -556,7 +556,7 @@ body[data-theme="baufi"] .orientation-result .text-button { color: var(--baufi-b
 .baufi-analysis-disclosure > summary { display: flex; min-height: 78px; padding: 17px 22px; align-items: center; justify-content: space-between; gap: 20px; color: var(--baufi-blue-deep); background: #fff; cursor: pointer; list-style: none; }
 .baufi-analysis-disclosure > summary::-webkit-details-marker { display: none; }
 .baufi-analysis-disclosure > summary span { display: grid; gap: 4px; }
-.baufi-analysis-disclosure > summary small { color: #967b00; font-size: 8px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; }
+.baufi-analysis-disclosure > summary small { color: #775d17; font-size: 8px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; }
 .baufi-analysis-disclosure > summary strong { font-size: 15px; line-height: 1.3; }
 .baufi-analysis-disclosure > summary::after { display: grid; width: 38px; height: 38px; flex: 0 0 38px; place-items: center; border: 1px solid rgba(0,104,139,0.22); border-radius: 50%; color: var(--baufi-blue); background: #f2f7f8; font-size: 21px; content: "+"; }
 .baufi-analysis-disclosure[open] > summary { border-bottom: 1px solid rgba(0,104,139,0.16); }
@@ -610,7 +610,7 @@ body[data-theme="baufi"] .orientation-result .text-button { color: var(--baufi-b
 .baufi-savings-disclosure summary { display: flex; min-height: 78px; padding: 17px 22px; align-items: center; justify-content: space-between; gap: 20px; border: 1px solid rgba(211,173,0,0.55); border-radius: 18px; color: var(--baufi-blue-deep); background: #fff; cursor: pointer; list-style: none; }
 .baufi-savings-disclosure summary::-webkit-details-marker { display: none; }
 .baufi-savings-disclosure summary span { display: grid; gap: 4px; }
-.baufi-savings-disclosure summary small { color: #967b00; font-size: 8px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; }
+.baufi-savings-disclosure summary small { color: #775d17; font-size: 8px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; }
 .baufi-savings-disclosure summary strong { font-size: 15px; line-height: 1.3; }
 .baufi-savings-disclosure summary::after { display: grid; width: 38px; height: 38px; flex: 0 0 38px; place-items: center; border: 1px solid rgba(0,104,139,0.22); border-radius: 50%; color: var(--baufi-blue); background: #f2f7f8; font-size: 21px; font-weight: 500; content: "+"; }
 .baufi-savings-disclosure[open] summary { border-radius: 18px 18px 0 0; }
@@ -618,7 +618,7 @@ body[data-theme="baufi"] .orientation-result .text-button { color: var(--baufi-b
 .baufi-savings-disclosure summary:focus-visible { outline: 3px solid rgba(211,173,0,0.48); outline-offset: -3px; }
 .baufi-savings-compare { margin-top: 0; padding: clamp(24px, 4vw, 38px); border: 1px solid rgba(0,104,139,0.14); border-top: 0; border-radius: 0 0 18px 18px; color: var(--ink); background: #f8fafb; }
 .baufi-savings-heading { display: grid; grid-template-columns: minmax(0,1.1fr) minmax(260px,0.9fr); gap: 28px; align-items: end; padding-bottom: 23px; border-bottom: 1px solid rgba(0,104,139,0.18); }
-.baufi-savings-heading span { color: #967b00; font-size: 9px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; }
+.baufi-savings-heading span { color: #775d17; font-size: 9px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; }
 .baufi-savings-heading h3 { max-width: 590px; margin: 7px 0 0; color: var(--baufi-blue-deep); font-size: clamp(26px,3.5vw,39px); line-height: 1.05; letter-spacing: -0.035em; }
 .baufi-savings-heading p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.58; }
 .baufi-savings-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; margin-top: 22px; }
@@ -626,7 +626,7 @@ body[data-theme="baufi"] .orientation-result .text-button { color: var(--baufi-b
 .baufi-savings-card::before { position: absolute; inset: 0 0 auto; height: 3px; background: var(--baufi-blue); content: ""; }
 .baufi-savings-card-featured { border-color: rgba(211,173,0,0.65); background: linear-gradient(150deg,#fff,#fffbea); }
 .baufi-savings-card-featured::before { background: var(--baufi-gold); }
-.baufi-savings-law { color: #967b00; font-size: 8px; font-weight: 900; letter-spacing: 0.09em; text-transform: uppercase; }
+.baufi-savings-law { color: #775d17; font-size: 8px; font-weight: 900; letter-spacing: 0.09em; text-transform: uppercase; }
 .baufi-savings-card h4 { margin: 17px 0 7px; color: var(--baufi-blue-deep); font-size: 21px; line-height: 1.1; letter-spacing: -0.025em; }
 .baufi-savings-product { min-height: 44px; margin: 0; color: var(--muted); font-size: 11px; line-height: 1.45; }
 .baufi-savings-card dl { display: grid; gap: 0; margin: 19px 0 0; }

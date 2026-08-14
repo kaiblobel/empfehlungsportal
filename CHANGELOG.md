@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.240 Beta** · Eine Leitfarbe je Themenseite, live seit 14.08.2026.
+Offizielle Live-Version: **v1.241 Beta** · Lesbare Themenseiten, live seit 14.08.2026.
+
+## v1.241 Beta - Phase 221 · Lesbare Themenseiten
+**2026-08-14 · live veröffentlicht**
+
+Die Schaltflächen für Restschuld und Förder-Chancen behalten auf den dunklen Teasern ihren weißen Hintergrund und eine dunkle Schrift. Damit kann die allgemeine Baufi-Regel den vorgesehenen Kontrast nicht mehr überschreiben.
+
+Kleine goldene Beschriftungen auf hellen Karten verwenden jetzt dunklere, gut lesbare Farbtöne. Auch der gemeinsame Grauton für Nebentexte wurde leicht abgedunkelt. Die Themenfarben, Inhalte, Empfehlungslogik und persönlichen Zuordnungen bleiben unverändert.
+
+---
 
 ## v1.240 Beta - Phase 220 · Eine Leitfarbe je Themenseite
 **2026-08-14 · live veröffentlicht**

@@ -342,6 +342,21 @@ body[data-page="baufi"] .funding-option:hover {
 body[data-page="baufi"] .answer-option .chevron { color: var(--tw-blue); }
 body[data-page="baufi"] .primary-btn { background: var(--tw-blue-deep); }
 
+body[data-page="baufi"] .rest-teaser .primary-btn,
+body[data-page="baufi"] .funding-teaser .primary-btn {
+  color: var(--tw-blue-deep);
+  background: #fff;
+  box-shadow: none;
+}
+
+body[data-page="baufi"] .funding-teaser .primary-btn { color: var(--dvag-green-deep); }
+
+body[data-page="baufi"] .rest-teaser .primary-btn:hover,
+body[data-page="baufi"] .funding-teaser .primary-btn:hover {
+  background: var(--dvag-soft);
+  box-shadow: 0 12px 28px rgba(0, 29, 40, .18);
+}
+
 body[data-page="baufi"] .rest-teaser,
 body[data-page="baufi"] .funding-teaser,
 body[data-page="baufi"] .kai-quote {
@@ -417,7 +432,7 @@ body[data-page="baufi"] .mobile-bar {
 }
 
 .finance-label {
-  color: #a5821f;
+  color: #775d17;
   font-size: 10px;
   font-weight: 850;
   letter-spacing: .1em;
@@ -534,7 +549,7 @@ body[data-page="baufi"] .mobile-bar {
   text-transform: uppercase;
 }
 
-.finance-model-planned header > span { color: #9b7915; }
+.finance-model-planned header > span { color: #775d17; }
 
 .finance-model h3 {
   margin: 11px 0 8px;
@@ -720,7 +735,7 @@ body[data-page="baufi"] .mobile-bar {
 }
 
 .finance-options i {
-  color: #9b7915;
+  color: #775d17;
   font-size: 8px;
   font-style: normal;
   font-weight: 900;
@@ -786,7 +801,7 @@ body[data-page="baufi"] .mobile-bar {
 
 .finance-explain summary small {
   display: block;
-  color: #a5821f;
+  color: #775d17;
   font-size: 8px;
   font-weight: 850;
   letter-spacing: .08em;
@@ -850,7 +865,7 @@ body[data-page="baufi"] .mobile-bar {
 }
 
 .finance-support span {
-  color: #a5821f;
+  color: #775d17;
   font-size: 8px;
   font-weight: 850;
   letter-spacing: .08em;

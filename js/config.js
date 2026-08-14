@@ -7,5 +7,5 @@ window.ENV_BERATER_TITEL = 'Regionaldirektion · Team Wachsbleiche';
 window.ENV_BERATER_FOTO = '/assets/images/kai-portrait.jpg';
 window.ENV_CALENDLY_URL = ''; // sobald Kai einen Link schickt, hier eintragen — Karte erscheint automatisch
 window.ENV_TURNSTILE_SITE_KEY = ''; // optionaler statischer Fallback; produktiv kommt der Site-Key aus /api/promoter-config
-window.APP_VERSION = 'v1.240 Beta';
-window.APP_PHASE = 'Phase 220 · Eine Leitfarbe je Themenseite';
+window.APP_VERSION = 'v1.241 Beta';
+window.APP_PHASE = 'Phase 221 · Lesbare Themenseiten';

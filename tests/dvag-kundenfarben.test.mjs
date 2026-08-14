@@ -23,7 +23,7 @@ for (const [token, value] of Object.entries({
   '--dvag-yellow': '#f5d547',
   '--dvag-gold': '#c9a04a',
   '--dvag-text': '#2a3b47',
-  '--dvag-text-muted': '#6b7b85',
+  '--dvag-text-muted': '#5f707a',
   '--dvag-soft': '#f7f8f9',
 })) {
   assert.ok(colors.includes(`${token}: ${value}`), `${token} fehlt oder weicht von der Stilvorlage ab`);
