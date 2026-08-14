@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.245 Beta** · KIDZ-Konzeptseite für Eltern, live seit 15.08.2026.
+Offizielle Live-Version: **v1.246 Beta** · Sicherer Zugang per Einmal-Link, zur Veröffentlichung vorbereitet am 15.08.2026.
+
+## v1.246 Beta - Phase 226 · Sicherer Zugang per Einmal-Link
+**2026-08-15**
+
+„Mein vorhandener Bereich“ ist jetzt auf jedem Gerät erreichbar. Bestehende Empfehler fordern per E-Mail einen 15 Minuten gültigen Einmal-Link an und gelangen damit zurück in ihren persönlichen Bereich.
+
+Der Server gibt nie preis, ob eine Adresse registriert ist. Gespeichert wird nur der Hash des Einmal-Codes. Turnstile, Beraterbezug und Mengenbegrenzungen schützen den öffentlichen Einstieg. Der Code steht im Fragment des E-Mail-Links und landet damit nicht in der angeforderten Seitenadresse.
+
+---
 
 ## v1.245 Beta - Phase 225 · KIDZ-Konzeptseite für Eltern
 **2026-08-15 · live veröffentlicht**

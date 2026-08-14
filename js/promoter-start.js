@@ -8,10 +8,21 @@ const submit = document.getElementById('psSubmit');
 const errorBox = document.getElementById('psError');
 const captchaBox = document.getElementById('psCaptcha');
 const existingLink = document.getElementById('psExistingLink');
+const accessDialog = document.getElementById('psAccessDialog');
+const accessForm = document.getElementById('psAccessForm');
+const accessEmail = document.getElementById('psAccessEmail');
+const accessSubmit = document.getElementById('psAccessSubmit');
+const accessError = document.getElementById('psAccessError');
+const accessCaptchaBox = document.getElementById('psAccessCaptcha');
+const accessRequestView = document.getElementById('psAccessRequestView');
+const accessSuccess = document.getElementById('psAccessSuccess');
 
 let advisor = null;
 let captchaToken = '';
 let captchaWidgetId = null;
+let accessCaptchaToken = '';
+let accessCaptchaWidgetId = null;
+let existingCode = '';
 
 function readContext() {
   const params = new URLSearchParams(window.location.search);
@@ -67,9 +78,19 @@ function restoreExistingAccess() {
   try {
     const code = localStorage.getItem('empfehler_code');
     if (!code) return;
+    existingCode = code;
     existingLink.href = `/empfehler.html?code=${encodeURIComponent(code)}`;
-    existingLink.hidden = false;
   } catch (_) {}
+}
+
+function showAccessError(message) {
+  accessError.textContent = message;
+  accessError.hidden = false;
+}
+
+function clearAccessError() {
+  accessError.textContent = '';
+  accessError.hidden = true;
 }
 
 async function getTurnstileSiteKey() {
@@ -134,6 +155,57 @@ function resetCaptcha() {
   }
 }
 
+async function initializeAccessCaptcha() {
+  if (accessCaptchaWidgetId !== null) return;
+  const sitekey = await getTurnstileSiteKey();
+  if (!sitekey || !await waitForTurnstile()) {
+    showAccessError('Der Sicherheitscheck konnte nicht geladen werden. Bitte lade die Seite neu.');
+    return;
+  }
+  accessCaptchaWidgetId = window.turnstile.render(accessCaptchaBox, {
+    sitekey,
+    theme: 'light',
+    language: 'de',
+    callback(token) {
+      accessCaptchaToken = token;
+      clearAccessError();
+      accessSubmit.disabled = !advisor;
+    },
+    'expired-callback'() {
+      accessCaptchaToken = '';
+      accessSubmit.disabled = true;
+    },
+    'error-callback'() {
+      accessCaptchaToken = '';
+      accessSubmit.disabled = true;
+      showAccessError('Der Sicherheitscheck ist fehlgeschlagen. Bitte versuche es erneut.');
+    },
+  });
+}
+
+function resetAccessCaptcha() {
+  accessCaptchaToken = '';
+  accessSubmit.disabled = true;
+  if (accessCaptchaWidgetId !== null && window.turnstile?.reset) {
+    window.turnstile.reset(accessCaptchaWidgetId);
+  }
+}
+
+function openAccessDialog(prefill = '', message = '') {
+  accessRequestView.hidden = false;
+  accessSuccess.hidden = true;
+  clearAccessError();
+  if (prefill) accessEmail.value = prefill;
+  if (message) showAccessError(message);
+  if (!accessDialog.open) accessDialog.showModal();
+  accessEmail.focus();
+  void initializeAccessCaptcha();
+}
+
+function closeAccessDialog() {
+  if (accessDialog.open) accessDialog.close();
+}
+
 function clientValidation(name, email, telefon, consent) {
   if (name.length < 2) return 'Bitte gib deinen Namen ein.';
   if (!email && !telefon) return 'Bitte gib eine E-Mail-Adresse oder Mobilnummer an.';
@@ -156,6 +228,7 @@ async function loadAdvisor() {
   }
   applyAdvisor(data);
   if (captchaToken) submit.disabled = false;
+  if (accessCaptchaToken) accessSubmit.disabled = false;
 }
 
 form.addEventListener('submit', async (event) => {
@@ -196,7 +269,13 @@ form.addEventListener('submit', async (event) => {
     const result = await response.json().catch(() => ({}));
 
     if (response.status === 409) {
-      throw new Error('Du hast bereits einen persönlichen Empfehlungsbereich. Nutze deinen vorhandenen Zugangslink oder bitte deinen Berater, ihn dir erneut zu senden.');
+      submit.textContent = 'Empfehlungsbereich öffnen';
+      resetCaptcha();
+      if (email) {
+        openAccessDialog(email, 'Dieser Bereich besteht schon. Lass dir deinen Einmal-Link schicken.');
+        return;
+      }
+      throw new Error('Du hast bereits einen persönlichen Empfehlungsbereich. Bitte deinen Berater, dir den Zugang erneut zu senden.');
     }
     if (response.status === 429) {
       throw new Error('Es gab gerade zu viele Versuche. Bitte probiere es später noch einmal.');
@@ -217,5 +296,71 @@ form.addEventListener('submit', async (event) => {
   }
 });
 
+existingLink.addEventListener('click', (event) => {
+  if (existingCode) return;
+  event.preventDefault();
+  openAccessDialog();
+});
+
+document.getElementById('psAccessClose').addEventListener('click', closeAccessDialog);
+document.getElementById('psAccessDone').addEventListener('click', closeAccessDialog);
+accessDialog.addEventListener('click', (event) => {
+  if (event.target === accessDialog) closeAccessDialog();
+});
+
+accessForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  clearAccessError();
+  const email = accessEmail.value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showAccessError('Bitte prüfe deine E-Mail-Adresse.');
+    return;
+  }
+  if (!accessCaptchaToken) {
+    showAccessError('Bitte führe den Sicherheitscheck durch.');
+    return;
+  }
+  if (!advisor) {
+    showAccessError('Der Berater konnte nicht geladen werden. Bitte prüfe den Link.');
+    return;
+  }
+
+  accessSubmit.disabled = true;
+  accessSubmit.textContent = 'Einmal-Link wird gesendet ...';
+  try {
+    const response = await fetch('/api/promoter-register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'access_request',
+        email,
+        beraterSlug: context.slug,
+        captchaToken: accessCaptchaToken,
+      }),
+    });
+    if (response.status === 429) {
+      throw new Error('Es gab gerade zu viele Versuche. Bitte probiere es später noch einmal.');
+    }
+    if (!response.ok) {
+      throw new Error('Der Einmal-Link konnte gerade nicht angefordert werden. Bitte versuche es noch einmal.');
+    }
+    accessRequestView.hidden = true;
+    accessSuccess.hidden = false;
+    accessSuccess.focus();
+  } catch (error) {
+    showAccessError(error.message || 'Der Einmal-Link konnte gerade nicht angefordert werden.');
+    resetAccessCaptcha();
+  } finally {
+    accessSubmit.textContent = 'Einmal-Link senden';
+  }
+});
+
 restoreExistingAccess();
 await Promise.all([loadAdvisor(), initializeCaptcha()]);
+
+const accessState = new URLSearchParams(window.location.search).get('zugang');
+if (accessState === 'ungueltig') {
+  openAccessDialog('', 'Dieser Einmal-Link ist abgelaufen oder wurde bereits verwendet. Fordere einfach einen neuen an.');
+} else if (accessState === 'fehler') {
+  openAccessDialog('', 'Der Zugang konnte gerade nicht geöffnet werden. Bitte fordere einen neuen Einmal-Link an.');
+}

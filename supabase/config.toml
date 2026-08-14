@@ -1,0 +1,2 @@
+[functions.promoter-access-request]
+verify_jwt = false
