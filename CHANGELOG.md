@@ -1,10 +1,10 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.246 Beta** · Sicherer Zugang per Einmal-Link, zur Veröffentlichung vorbereitet am 15.08.2026.
+Offizielle Live-Version: **v1.246 Beta** · Sicherer Zugang per Einmal-Link, live seit 15.08.2026.
 
 ## v1.246 Beta - Phase 226 · Sicherer Zugang per Einmal-Link
-**2026-08-15**
+**2026-08-15 · live veröffentlicht**
 
 „Mein vorhandener Bereich“ ist jetzt auf jedem Gerät erreichbar. Bestehende Empfehler fordern per E-Mail einen 15 Minuten gültigen Einmal-Link an und gelangen damit zurück in ihren persönlichen Bereich.
 
