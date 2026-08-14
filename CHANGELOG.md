@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.246 Beta** · Sicherer Zugang per Einmal-Link, live seit 15.08.2026.
+Offizielle Live-Version: **v1.247 Beta** · KIDZ-Kartenstapel auf dem iPhone, live seit 15.08.2026.
+
+## v1.247 Beta - Phase 227 · KIDZ-Kartenstapel auf dem iPhone
+**2026-08-15 · live veröffentlicht**
+
+Die drei KIDZ-Grundlagen sind auf dem iPhone kein waagerechter Slider mehr. Sie erscheinen als kompakter Kartenstapel, der beim Ziehen nach unten sichtbar auffächert und beim Ziehen nach oben wieder zusammenschließt.
+
+Ein Griff und ein kurzer Hinweis erklären die Bewegung. Antippen öffnet den Stapel ebenfalls und wählt direkt die gewünschte Grundlage aus. Tastaturbedienung, Tablogik und die Einstellung für reduzierte Bewegung bleiben erhalten. Der normale Seitenlauf wird nur dann angehalten, wenn eine eindeutige Zugbewegung direkt auf dem Stapel beginnt.
+
+---
 
 ## v1.246 Beta - Phase 226 · Sicherer Zugang per Einmal-Link
 **2026-08-15 · live veröffentlicht**

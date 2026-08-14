@@ -75,6 +75,11 @@
 
   const header = document.querySelector('[data-header]');
   const pillarTabs = Array.from(document.querySelectorAll('[data-pillar]'));
+  const pillarStack = document.querySelector('[data-pillar-stack]');
+  const pillarStackToggle = document.querySelector('[data-pillar-stack-toggle]');
+  const pillarStackLabel = document.querySelector('[data-pillar-stack-label]');
+  const pillarStackMedia = window.matchMedia('(max-width: 720px)');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const pillarMedia = document.querySelector('.pillar-panel-media');
   const pillarImage = document.getElementById('pillarImage');
   const pillarNumber = document.getElementById('pillarNumber');
@@ -112,6 +117,12 @@
   let activePath = 'elternabend';
   let activeStory = 0;
   let storyFrame;
+  let pillarStackExpanded = false;
+  let pillarStackProgress = 0;
+  let pillarTouchStartY = 0;
+  let pillarTouchStartProgress = 0;
+  let pillarTouchMoved = false;
+  let suppressPillarToggleClick = false;
   const localPreview = ['localhost', '127.0.0.1'].includes(window.location.hostname);
 
   function livePathTarget(path) {
@@ -133,6 +144,38 @@
     toast.textContent = message;
     toast.classList.add('is-visible');
     toastTimer = window.setTimeout(() => toast.classList.remove('is-visible'), 2800);
+  }
+
+  function updatePillarStack(progress = pillarStackExpanded ? 1 : 0, activeKey = null) {
+    if (!pillarStack || !pillarStackMedia.matches) return;
+    pillarStackProgress = Math.max(0, Math.min(1, progress));
+    const selectedKey = activeKey || pillarTabs.find((tab) => tab.classList.contains('is-active'))?.dataset.pillar;
+    const collapsedOrder = [
+      ...pillarTabs.filter((tab) => tab.dataset.pillar === selectedKey),
+      ...pillarTabs.filter((tab) => tab.dataset.pillar !== selectedKey),
+    ];
+    pillarTabs.forEach((tab, index) => {
+      const collapsedIndex = collapsedOrder.indexOf(tab);
+      const collapsedY = collapsedIndex * 42;
+      const expandedY = index * 92;
+      const currentY = collapsedY + ((expandedY - collapsedY) * pillarStackProgress);
+      tab.style.setProperty('--stack-y', `${currentY}px`);
+      tab.style.setProperty('--stack-z', String(pillarTabs.length - collapsedIndex));
+    });
+    const currentHeight = 162 + ((262 - 162) * pillarStackProgress);
+    document.getElementById('pillarTabs').style.height = `${currentHeight}px`;
+  }
+
+  function setPillarStackExpanded(expanded) {
+    if (!pillarStack) return;
+    pillarStackExpanded = Boolean(expanded);
+    pillarStack.dataset.expanded = String(pillarStackExpanded);
+    pillarStack.classList.toggle('is-expanded', pillarStackExpanded);
+    pillarStackToggle.setAttribute('aria-expanded', String(pillarStackExpanded));
+    pillarStackLabel.textContent = pillarStackExpanded
+      ? 'Nach oben ziehen, um die Karten wieder zu schließen'
+      : 'Nach unten ziehen, um alle drei Grundlagen zu sehen';
+    updatePillarStack(pillarStackExpanded ? 1 : 0);
   }
 
   function setPillar(key) {
@@ -157,10 +200,14 @@
       pillarPanel.setAttribute('aria-labelledby', activeTab.id);
       pillarMedia.classList.remove('is-changing');
     }, 150);
+    updatePillarStack(pillarStackProgress, key);
   }
 
   pillarTabs.forEach((tab, index) => {
-    tab.addEventListener('click', () => setPillar(tab.dataset.pillar));
+    tab.addEventListener('click', () => {
+      setPillar(tab.dataset.pillar);
+      if (pillarStackMedia.matches && !pillarStackExpanded) setPillarStackExpanded(true);
+    });
     tab.addEventListener('keydown', (event) => {
       if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
       event.preventDefault();
@@ -173,6 +220,75 @@
       setPillar(pillarTabs[next].dataset.pillar);
     });
   });
+
+  if (pillarStack) {
+    pillarStackToggle.addEventListener('click', () => {
+      if (suppressPillarToggleClick) return;
+      setPillarStackExpanded(!pillarStackExpanded);
+    });
+
+    pillarStack.addEventListener('touchstart', (event) => {
+      if (!pillarStackMedia.matches || event.touches.length !== 1) return;
+      pillarTouchStartY = event.touches[0].clientY;
+      pillarTouchStartProgress = pillarStackExpanded ? 1 : 0;
+      pillarTouchMoved = false;
+      pillarStack.classList.add('is-dragging');
+    }, { passive: true });
+
+    pillarStack.addEventListener('touchmove', (event) => {
+      if (!pillarStackMedia.matches || event.touches.length !== 1) return;
+      const deltaY = event.touches[0].clientY - pillarTouchStartY;
+      const isOpening = !pillarStackExpanded && deltaY > 0;
+      const isClosing = pillarStackExpanded && deltaY < 0;
+      if (!isOpening && !isClosing) return;
+      if (Math.abs(deltaY) > 8) {
+        pillarTouchMoved = true;
+        event.preventDefault();
+      }
+      updatePillarStack(pillarTouchStartProgress + (deltaY / 150));
+    }, { passive: false });
+
+    pillarStack.addEventListener('touchend', () => {
+      pillarStack.classList.remove('is-dragging');
+      if (!pillarTouchMoved) {
+        updatePillarStack(pillarStackExpanded ? 1 : 0);
+        return;
+      }
+      suppressPillarToggleClick = true;
+      window.setTimeout(() => { suppressPillarToggleClick = false; }, 250);
+      setPillarStackExpanded(pillarStackProgress >= 0.5);
+    });
+
+    pillarStack.addEventListener('touchcancel', () => {
+      pillarStack.classList.remove('is-dragging');
+      updatePillarStack(pillarStackExpanded ? 1 : 0);
+    });
+
+    const resetPillarStack = () => {
+      if (pillarStackMedia.matches) setPillarStackExpanded(false);
+      else {
+        pillarTabs.forEach((tab) => {
+          tab.style.removeProperty('--stack-y');
+          tab.style.removeProperty('--stack-z');
+        });
+        document.getElementById('pillarTabs').style.removeProperty('height');
+      }
+    };
+    pillarStackMedia.addEventListener('change', resetPillarStack);
+    resetPillarStack();
+
+    if (!reducedMotion.matches && 'IntersectionObserver' in window) {
+      const stackHint = new IntersectionObserver((entries, observer) => {
+        if (!entries.some((entry) => entry.isIntersecting) || !pillarStackMedia.matches || pillarStackExpanded) return;
+        observer.disconnect();
+        pillarStack.classList.add('is-hinting');
+        updatePillarStack(0.12);
+        window.setTimeout(() => updatePillarStack(0), 360);
+        window.setTimeout(() => pillarStack.classList.remove('is-hinting'), 760);
+      }, { threshold: 0.6 });
+      stackHint.observe(pillarStack);
+    }
+  }
 
   function showDialogStep(name) {
     dialogSteps.forEach((step) => { step.hidden = step.dataset.dialogStep !== name; });

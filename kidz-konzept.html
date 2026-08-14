@@ -17,7 +17,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <title>KIDZ | Kinderleicht in die Zukunft</title>
   <link rel="icon" type="image/png" href="/assets/images/kidz-logo-konzept.png">
-  <link rel="stylesheet" href="/css/kidz-konzept.css?v=1">
+  <link rel="stylesheet" href="/css/kidz-konzept.css?v=2">
 </head>
 <body>
   <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
@@ -99,19 +99,25 @@
         <p>Wählen Sie eine Grundlage aus. Die Seite zeigt, welche Fragen Eltern dazu mitnehmen können.</p>
       </div>
 
-      <div class="pillar-tabs" role="tablist" aria-label="Die drei KIDZ-Grundlagen">
-        <button class="pillar-tab is-active" id="tab-kompetenz" type="button" role="tab" aria-selected="true" aria-controls="pillar-panel" data-pillar="kompetenz">
-          <span class="pillar-icon pillar-icon-green" aria-hidden="true">€</span>
-          <span><strong>Finanzielle Kompetenz</strong><small>Mit Geld umgehen lernen</small></span>
+      <div class="pillar-stack" data-pillar-stack data-expanded="false">
+        <button class="pillar-stack-toggle" type="button" aria-expanded="false" aria-controls="pillarTabs" data-pillar-stack-toggle>
+          <span class="pillar-stack-handle" aria-hidden="true"></span>
+          <span data-pillar-stack-label>Nach unten ziehen, um alle drei Grundlagen zu sehen</span>
         </button>
-        <button class="pillar-tab" id="tab-gesundheit" type="button" role="tab" aria-selected="false" aria-controls="pillar-panel" data-pillar="gesundheit">
-          <span class="pillar-icon pillar-icon-orange" aria-hidden="true">+</span>
-          <span><strong>Gesundheit</strong><small>Chancen und Vorsorge verstehen</small></span>
-        </button>
-        <button class="pillar-tab" id="tab-absicherung" type="button" role="tab" aria-selected="false" aria-controls="pillar-panel" data-pillar="absicherung">
-          <span class="pillar-icon pillar-icon-blue" aria-hidden="true">◇</span>
-          <span><strong>Finanzielle Absicherung</strong><small>Pläne auch im Ernstfall schützen</small></span>
-        </button>
+        <div class="pillar-tabs" id="pillarTabs" role="tablist" aria-label="Die drei KIDZ-Grundlagen">
+          <button class="pillar-tab is-active" id="tab-kompetenz" type="button" role="tab" aria-selected="true" aria-controls="pillar-panel" data-pillar="kompetenz">
+            <span class="pillar-icon pillar-icon-green" aria-hidden="true">€</span>
+            <span><strong>Finanzielle Kompetenz</strong><small>Mit Geld umgehen lernen</small></span>
+          </button>
+          <button class="pillar-tab" id="tab-gesundheit" type="button" role="tab" aria-selected="false" aria-controls="pillar-panel" data-pillar="gesundheit">
+            <span class="pillar-icon pillar-icon-orange" aria-hidden="true">+</span>
+            <span><strong>Gesundheit</strong><small>Chancen und Vorsorge verstehen</small></span>
+          </button>
+          <button class="pillar-tab" id="tab-absicherung" type="button" role="tab" aria-selected="false" aria-controls="pillar-panel" data-pillar="absicherung">
+            <span class="pillar-icon pillar-icon-blue" aria-hidden="true">◇</span>
+            <span><strong>Finanzielle Absicherung</strong><small>Pläne auch im Ernstfall schützen</small></span>
+          </button>
+        </div>
       </div>
 
       <article class="pillar-panel" id="pillar-panel" role="tabpanel" aria-live="polite" aria-labelledby="tab-kompetenz">
@@ -424,6 +430,6 @@
   </dialog>
 
   <div class="mock-toast" id="mockToast" role="status" aria-live="polite"></div>
-  <script src="/js/kidz-konzept.js?v=1"></script>
+  <script src="/js/kidz-konzept.js?v=2"></script>
 </body>
 </html>

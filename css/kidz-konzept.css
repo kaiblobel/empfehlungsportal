@@ -119,6 +119,8 @@ img { display: block; max-width: 100%; }
 .kidz-journey-mark span { color: var(--muted); font-size: 14px; line-height: 1.45; }
 
 .pillars-section { max-width: none; padding-right: max(24px, calc((100vw - var(--max)) / 2)); padding-left: max(24px, calc((100vw - var(--max)) / 2)); background: var(--soft); }
+.pillar-stack { max-width: var(--max); margin: 0 auto; }
+.pillar-stack-toggle { display: none; }
 .pillar-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: var(--max); margin: 0 auto 20px; }
 .pillar-tab { display: grid; grid-template-columns: 58px 1fr; gap: 13px; align-items: center; min-height: 92px; padding: 14px 16px; color: var(--muted); border: 1px solid transparent; border-radius: 20px; background: #fff; box-shadow: 0 8px 26px rgba(24, 63, 86, 0.06); text-align: left; cursor: pointer; }
 .pillar-tab.is-active { color: var(--blue-deep); border-color: rgba(44, 95, 124, 0.25); box-shadow: 0 14px 34px rgba(24, 63, 86, 0.12); transform: translateY(-3px); }
@@ -385,8 +387,19 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
   .possibility-invest figure img { height: auto; object-fit: contain; }
   .possibilities-note { padding: 20px; }
   .possibilities-note .button { width: 100%; }
-  .pillar-tabs { display: flex; margin: 0 -20px 18px; padding: 4px 20px 12px; overflow-x: auto; scroll-snap-type: x mandatory; }
-  .pillar-tab { flex: 0 0 82%; min-height: 88px; scroll-snap-align: center; }
+  .pillar-stack { margin-bottom: 22px; touch-action: pan-y; }
+  .pillar-stack-toggle { display: flex; flex-direction: column; align-items: center; width: 100%; min-height: 48px; margin: 0 0 8px; padding: 5px 12px 8px; color: var(--blue-deep); border: 0; background: transparent; font: inherit; font-size: 12px; font-weight: 800; cursor: pointer; }
+  .pillar-stack-handle { width: 46px; height: 5px; margin-bottom: 8px; border-radius: 999px; background: rgba(24, 63, 86, 0.3); box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8); }
+  .pillar-tabs { position: relative; display: block; height: 162px; margin: 0; padding: 0; overflow: visible; transition: height 520ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .pillar-tab { position: absolute; top: 0; right: 0; left: 0; z-index: var(--stack-z, 1); grid-template-columns: 52px 1fr; width: 100%; min-height: 78px; height: 78px; padding: 11px 14px; transform: translateY(var(--stack-y, 0)); transition: transform 520ms cubic-bezier(0.18, 0.88, 0.24, 1.12), box-shadow 220ms ease, border-color 220ms ease; will-change: transform; }
+  .pillar-tab.is-active { transform: translateY(var(--stack-y, 0)); }
+  .pillar-icon { width: 50px; height: 50px; font-size: 23px; }
+  .pillar-tab strong { font-size: 15px; }
+  .pillar-tab small { font-size: 11px; }
+  .pillar-stack.is-expanded .pillar-stack-handle { background: var(--gold); }
+  .pillar-stack.is-dragging, .pillar-stack.is-dragging * { user-select: none; }
+  .pillar-stack.is-dragging .pillar-tabs, .pillar-stack.is-dragging .pillar-tab { transition: none; }
+  .pillar-stack.is-hinting .pillar-stack-handle { animation: pillar-handle-hint 680ms ease both; }
   .pillar-panel-media { min-height: 310px; }
   .pillar-panel-copy { padding: 34px 24px 38px; }
   .pillar-panel-copy h3 { font-size: 32px; }
@@ -425,6 +438,11 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
   .story-slide figcaption { right: 20px; bottom: 18px; left: 20px; gap: 10px; }
   .story-slide figcaption span { width: 34px; height: 34px; }
   .story-slide figcaption strong { font-size: 22px; }
+}
+
+@keyframes pillar-handle-hint {
+  0%, 100% { transform: translateY(0); }
+  45% { transform: translateY(6px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
