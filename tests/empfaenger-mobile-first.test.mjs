@@ -16,7 +16,7 @@ assert.match(html, /data-recipient-prefix/, 'Personalisierung der ruhigen Übers
 assert.match(html, /data-headline-start>Ein/, 'Unpersonalisierter Satzanfang fehlt');
 assert.match(html, /headlineStart\.textContent = 'ein'/, 'Personalisierte Überschrift beginnt nicht korrekt kleingeschrieben');
 assert.match(html, /Unverbindlich entdecken/);
-assert.match(html, /Ganz bewusst für dich/);
+assert.match(html, /Ganz bewusst für Sie/);
 assert.match(html, /profile:before,\.profile\.revealed \.metric i,\.digit-reel\{animation:none!important\}/, 'Mobile Animationen laufen weiter');
 
 assert.doesNotMatch(html, /👍/, 'Doppelte Daumen-Symbole sind noch vorhanden');

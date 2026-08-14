@@ -20,9 +20,9 @@ const TOPICS = {
     title: 'Investment & Gold',
     eyebrow: 'Vermögen aufbauen',
     headlinePublic: 'Geld braucht einen Plan, der zu Ihrem Leben passt.',
-    headlineReferral: 'Geld braucht einen Plan, der zu deinem Leben passt.',
+    headlineReferral: 'Geld braucht einen Plan, der zu Ihrem Leben passt.',
     ledePublic: 'Geldanlage beginnt nicht mit einem Produkt. Sie beginnt mit der Frage, was Sie erreichen möchten und wie viel Sicherheit Sie unterwegs brauchen.',
-    ledeReferral: 'Geldanlage beginnt nicht mit einem Produkt. Sie beginnt mit der Frage, was du erreichen möchtest und wie viel Sicherheit du unterwegs brauchst.',
+    ledeReferral: 'Geldanlage beginnt nicht mit einem Produkt. Sie beginnt mit der Frage, was Sie erreichen möchten und wie viel Sicherheit Sie unterwegs brauchen.',
     signals: [
       ['Geld liegt ohne klare Aufgabe bereit', 'Rücklagen sind vorhanden, aber Sparen, Sicherheit und langfristiger Aufbau sind noch nicht sauber getrennt.'],
       ['Es gibt Anlagen, aber keinen Gesamtplan', 'Einzelne Fonds, Depots oder Edelmetalle sind vorhanden. Unklar ist, ob alles noch zu Zielen und Risikowunsch passt.'],
@@ -49,9 +49,9 @@ const TOPICS = {
     title: 'Vorsorge & Förderung',
     eyebrow: 'Zukunft planbar machen',
     headlinePublic: 'Vorsorge wirkt am besten, wenn Förderung und eigener Plan zusammenpassen.',
-    headlineReferral: 'Vorsorge wirkt am besten, wenn Förderung und dein eigener Plan zusammenpassen.',
+    headlineReferral: 'Vorsorge wirkt am besten, wenn Förderung und eigener Plan zusammenpassen.',
     ledePublic: 'Private Vorsorge, betriebliche Möglichkeiten und staatliche Förderung greifen oft ineinander. Entscheidend ist, welche Bausteine wirklich zu Ihrer Situation passen.',
-    ledeReferral: 'Private Vorsorge, betriebliche Möglichkeiten und staatliche Förderung greifen oft ineinander. Entscheidend ist, welche Bausteine wirklich zu deiner Situation passen.',
+    ledeReferral: 'Private Vorsorge, betriebliche Möglichkeiten und staatliche Förderung greifen oft ineinander. Entscheidend ist, welche Bausteine wirklich zu Ihrer Situation passen.',
     signals: [
       ['Die spätere Versorgung ist schwer einzuschätzen', 'Es gibt Verträge oder Ansprüche, aber kein verständliches Gesamtbild über die zu erwartende Versorgung.'],
       ['Fördermöglichkeiten sind unklar', 'Arbeitgeberleistungen, Zulagen und steuerliche Wege werden möglicherweise noch nicht vollständig genutzt.'],
@@ -78,9 +78,9 @@ const TOPICS = {
     title: 'Baufinanzierung',
     eyebrow: 'Baufinanzierung mit Überblick',
     headlinePublic: 'Ein Vorhaben. Über 400 Banken. Ein Plan, der zu Ihrem Leben passt.',
-    headlineReferral: 'Ein Vorhaben. Über 400 Banken. Ein Plan, der zu deinem Leben passt.',
+    headlineReferral: 'Ein Vorhaben. Über 400 Banken. Ein Plan, der zu Ihrem Leben passt.',
     ledePublic: 'Wir prüfen nicht nur einen Zinssatz. Wir vergleichen Möglichkeiten, beziehen Förderwege ein und schauen darauf, ob Rate, Rücklagen und Laufzeit langfristig zu Ihnen passen.',
-    ledeReferral: 'Wir prüfen nicht nur einen Zinssatz. Wir vergleichen Möglichkeiten, beziehen Förderwege ein und schauen darauf, ob Rate, Rücklagen und Laufzeit langfristig zu dir passen.',
+    ledeReferral: 'Wir prüfen nicht nur einen Zinssatz. Wir vergleichen Möglichkeiten, beziehen Förderwege ein und schauen darauf, ob Rate, Rücklagen und Laufzeit langfristig zu Ihnen passen.',
     signals: [
       ['Der Wunsch ist da, der Rahmen noch nicht', 'Bevor die Suche beginnt, soll klar sein, welcher Gesamtaufwand langfristig gut tragbar bleibt.'],
       ['Ein Objekt oder Angebot liegt vor', 'Jetzt müssen Kaufpreis, Nebenkosten, mögliche Maßnahmen und Zeitplan als Gesamtbild geprüft werden.'],
@@ -109,7 +109,7 @@ const TOPICS = {
     title: 'Absicherung',
     eyebrow: 'Familie und Werte schützen',
     headlinePublic: 'Gute Absicherung schützt das, was für Sie wirklich wichtig ist.',
-    headlineReferral: 'Gute Absicherung schützt das, was für dich wirklich wichtig ist.',
+    headlineReferral: 'Gute Absicherung schützt das, was für Sie wirklich wichtig ist.',
     ledePublic: 'Nicht jede Versicherung ist für jeden Menschen gleich wichtig. Einkommen, Gesundheit, Familie und Sachwerte brauchen eine klare Reihenfolge.',
     ledeReferral: 'Nicht jede Versicherung ist für jeden Menschen gleich wichtig. Einkommen, Gesundheit, Familie und Sachwerte brauchen eine klare Reihenfolge.',
     signals: [
@@ -254,7 +254,7 @@ const TOPICS = {
     title: 'Berufliche Perspektive',
     eyebrow: 'Möglichkeiten ehrlich einordnen',
     headlinePublic: 'Berufliche Veränderung beginnt mit einem klaren Blick auf Erwartungen und Alltag.',
-    headlineReferral: 'Berufliche Veränderung beginnt mit einem klaren Blick auf deine Erwartungen und deinen Alltag.',
+    headlineReferral: 'Berufliche Veränderung beginnt mit einem klaren Blick auf Erwartungen und Alltag.',
     ledePublic: 'Eine neue Perspektive muss fachlich, menschlich und finanziell passen. Deshalb steht am Anfang keine Bewerbung, sondern eine ehrliche Orientierung.',
     ledeReferral: 'Eine neue Perspektive muss fachlich, menschlich und finanziell passen. Deshalb steht am Anfang keine Bewerbung, sondern eine ehrliche Orientierung.',
     signals: [
@@ -306,7 +306,7 @@ const HERO_VISUALS = {
     <div class="visual-timeline"><span><b>Heute</b><small>klein starten</small></span><i></i><span><b>Später</b><small>Möglichkeiten</small></span><i></i><span><b>Zukunft</b><small>frei entscheiden</small></span></div>`,
   karriere: `
     <div class="visual-steps"><span><small>01</small>Einblick</span><span><small>02</small>Passung</span><span><small>03</small>Perspektive</span></div>
-    <strong class="visual-sum">Dein nächster Weg</strong>`,
+    <strong class="visual-sum">Ihr nächster Weg</strong>`,
 };
 const BAUFI_PATHS = {
   orient: {
@@ -543,7 +543,7 @@ function firstName(value) {
 }
 
 function renderRecommendation(data = {}) {
-  const promoter = String(data.empfehler_name || params.get('von') || 'Jemand aus deinem Umfeld').trim();
+  const promoter = String(data.empfehler_name || params.get('von') || 'Jemand aus Ihrem Umfeld').trim();
   const recipient = firstName(data.empfaenger_name || params.get('an'));
   const message = String(data.empfehler_nachricht || data.empfehler_standard_nachricht || '').trim();
   const refName = document.getElementById('refName');
@@ -555,7 +555,7 @@ function renderRecommendation(data = {}) {
   if (refAvatar) refAvatar.textContent = initials(promoter);
   if (refMessage && message) refMessage.textContent = `„${message}“`;
   if (refHeading && currentTopic === 'baufi') {
-    refHeading.replaceChildren(document.createTextNode(`${promoter} hat bei deiner Baufinanzierung an `));
+    refHeading.replaceChildren(document.createTextNode(`${promoter} hat bei Ihrer Baufinanzierung an `));
     const advisor = document.createElement('span');
     advisor.dataset.bb = 'vorname';
     advisor.textContent = String(advisorData?.name || 'Kai').trim().split(/\s+/)[0];
@@ -572,7 +572,7 @@ function setInterestComplete() {
     button.disabled = true;
     button.textContent = 'Interesse ist vorgemerkt';
   }
-  if (feedback) feedback.textContent = 'Danke. Dein Ansprechpartner sieht, dass dieses Thema für dich interessant ist.';
+  if (feedback) feedback.textContent = 'Danke. Ihr Ansprechpartner sieht, dass dieses Thema für Sie interessant ist.';
 }
 
 async function markLeadInterest() {
@@ -589,7 +589,7 @@ async function markLeadInterest() {
       button.disabled = false;
       button.textContent = 'Dieses Thema interessiert mich';
     }
-    if (feedback) feedback.textContent = 'Das hat gerade nicht geklappt. Bitte versuche es noch einmal.';
+    if (feedback) feedback.textContent = 'Das hat gerade nicht geklappt. Bitte versuchen Sie es noch einmal.';
     return false;
   }
   setInterestComplete();
@@ -752,16 +752,16 @@ function renderBaufiMode() {
 
   if (isBaufi) {
     document.getElementById('orientationCta').textContent = tone('Meine Situation einordnen', 'Meine Situation einordnen');
-    document.getElementById('orientationHeading').textContent = tone('Was haben Sie vor?', 'Was hast du vor?');
+    document.getElementById('orientationHeading').textContent = tone('Was haben Sie vor?', 'Was haben Sie vor?');
     document.getElementById('orientationIntro').textContent = tone(
       'Eine Auswahl genügt. Danach sehen Sie sofort, worauf es in Ihrer Situation ankommt.',
-      'Eine Auswahl genügt. Danach siehst du sofort, worauf es in deiner Situation ankommt.'
+      'Eine Auswahl genügt. Danach sehen Sie sofort, worauf es in Ihrer Situation ankommt.'
     );
-    document.getElementById('toolsHeading').textContent = tone('Genau dort weitergehen, wo es für Sie sinnvoll ist.', 'Genau dort weitergehen, wo es für dich sinnvoll ist.');
+    document.getElementById('toolsHeading').textContent = tone('Genau dort weitergehen, wo es für Sie sinnvoll ist.', 'Genau dort weitergehen, wo es für Sie sinnvoll ist.');
     document.getElementById('toolsEyebrow').textContent = 'Ihre passenden Werkzeuge';
     document.getElementById('baufiPromise').textContent = tone(
       'Wenn Ihre bestehende Lösung bereits gut ist, sagen wir das auch. Es geht nicht um eine Finanzierung um jeden Preis, sondern um eine tragfähige Entscheidung.',
-      'Wenn deine bestehende Lösung bereits gut ist, sagen wir das auch. Es geht nicht um eine Finanzierung um jeden Preis, sondern um eine tragfähige Entscheidung.'
+      'Wenn Ihre bestehende Lösung bereits gut ist, sagen wir das auch. Es geht nicht um eine Finanzierung um jeden Preis, sondern um eine tragfähige Entscheidung.'
     );
     document.querySelectorAll('.topic-hero [data-bb="booking"], #termin [data-bb="booking"], #baufiSticky').forEach((link) => {
       link.textContent = tone('Termin zur Baufinanzierung wählen', 'Termin zur Baufinanzierung wählen');
@@ -795,37 +795,37 @@ function render() {
   document.getElementById('topicHeading').textContent = `${recipient ? `${recipient}, ` : ''}${tone(topic.headlinePublic, topic.headlineReferral)}`;
   document.getElementById('topicLede').textContent = tone(topic.ledePublic, topic.ledeReferral);
   document.getElementById('orientationCta').textContent = tone('Erste Orientierung erhalten', 'Erste Orientierung erhalten');
-  document.getElementById('signalsHeading').textContent = tone('Kommt Ihnen davon etwas bekannt vor?', 'Kommt dir davon etwas bekannt vor?');
+  document.getElementById('signalsHeading').textContent = tone('Kommt Ihnen davon etwas bekannt vor?', 'Kommt Ihnen davon etwas bekannt vor?');
   document.getElementById('signalsIntro').textContent = tone('Drei typische Situationen, bei denen sich ein genauer Blick lohnt.', 'Drei typische Situationen, bei denen sich ein genauer Blick lohnt.');
-  document.getElementById('orientationHeading').textContent = tone('Wo stehen Sie gerade?', 'Wo stehst du gerade?');
+  document.getElementById('orientationHeading').textContent = tone('Wo stehen Sie gerade?', 'Wo stehen Sie gerade?');
   document.getElementById('orientationIntro').textContent = tone('Eine Auswahl genügt. Es werden keine Angaben gespeichert.', 'Eine Auswahl genügt. Es werden keine Angaben gespeichert.');
   const decisionTrust = document.getElementById('decisionTrust');
-  if (decisionTrust) decisionTrust.textContent = tone('Sie entscheiden', 'Du entscheidest');
+  if (decisionTrust) decisionTrust.textContent = tone('Sie entscheiden', 'Sie entscheiden');
   const stepSituation = document.getElementById('stepSituation');
-  if (stepSituation) stepSituation.textContent = tone('Was beschäftigt Sie gerade?', 'Was beschäftigt dich gerade?');
+  if (stepSituation) stepSituation.textContent = tone('Was beschäftigt Sie gerade?', 'Was beschäftigt Sie gerade?');
   const stepPossibilities = document.getElementById('stepPossibilities');
-  if (stepPossibilities) stepPossibilities.textContent = tone('Was passt wirklich zu Ihnen?', 'Was passt wirklich zu dir?');
+  if (stepPossibilities) stepPossibilities.textContent = tone('Was passt wirklich zu Ihnen?', 'Was passt wirklich zu Ihnen?');
   const orientationResultLabel = document.getElementById('orientationResultLabel');
-  if (orientationResultLabel) orientationResultLabel.textContent = tone('Ihre erste Einordnung', 'Deine erste Einordnung');
+  if (orientationResultLabel) orientationResultLabel.textContent = tone('Ihre erste Einordnung', 'Ihre erste Einordnung');
   const toolsEyebrow = document.getElementById('toolsEyebrow');
-  if (toolsEyebrow) toolsEyebrow.textContent = tone('Wenn Sie tiefer einsteigen möchten', 'Wenn du tiefer einsteigen möchtest');
+  if (toolsEyebrow) toolsEyebrow.textContent = tone('Wenn Sie tiefer einsteigen möchten', 'Wenn Sie tiefer einsteigen möchten');
   const advisorKicker = document.getElementById('advisorKicker');
-  if (advisorKicker) advisorKicker.textContent = tone('Ihr persönlicher Ansprechpartner', 'Dein persönlicher Ansprechpartner');
+  if (advisorKicker) advisorKicker.textContent = tone('Ihr persönlicher Ansprechpartner', 'Ihr persönlicher Ansprechpartner');
   const advisorHeading = document.getElementById('advisorHeading');
   if (advisorHeading) {
     const advisorName = document.createElement('span');
     advisorName.dataset.bb = 'name';
     advisorName.textContent = advisorData?.name || 'Kai Blobel';
-    advisorHeading.replaceChildren(advisorName, ` begleitet ${tone('Sie', 'dich')} weiter.`);
+    advisorHeading.replaceChildren(advisorName, ` begleitet ${tone('Sie', 'Sie')} weiter.`);
   }
   document.getElementById('advisorText').textContent = tone(
     'Sie müssen heute noch nichts entscheiden. Wenn Sie möchten, schauen wir gemeinsam auf Ihre Situation und klären, welcher nächste Schritt sinnvoll ist.',
-    'Du musst heute noch nichts entscheiden. Wenn du möchtest, schauen wir gemeinsam auf deine Situation und klären, welcher nächste Schritt sinnvoll ist.'
+    'Sie müssen heute noch nichts entscheiden. Wenn Sie möchten, schauen wir gemeinsam auf Ihre Situation und klären, welcher nächste Schritt sinnvoll ist.'
   );
   const refHeading = document.getElementById('refHeading');
   if (refHeading && currentMode === 'referral' && currentTopic !== 'baufi') {
-    const promoter = String(recommendationData?.empfehler_name || params.get('von') || 'Jemand aus deinem Umfeld').trim();
-    refHeading.textContent = `${promoter} hat bei diesem Thema an dich gedacht.`;
+    const promoter = String(recommendationData?.empfehler_name || params.get('von') || 'Jemand aus Ihrem Umfeld').trim();
+    refHeading.textContent = `${promoter} hat bei diesem Thema an Sie gedacht.`;
   }
   document.title = `${topic.title} | Team Wachsbleiche`;
   renderMode();

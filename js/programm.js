@@ -231,9 +231,9 @@ if (presenterLength && openedFromHub) presenterLength.hidden = false;
   }));
 
   const personLines = {
-    freund: 'Für deinen besten Freund könnte dein Tipp der Moment sein, an dem er seine Zukunft endlich anpackt.',
-    familie: 'Für jemanden aus deiner Familie könnte dein Tipp bedeuten, Chancen nicht länger liegen zu lassen.',
-    kollege: 'Für deinen Lieblingskollegen könnte dein Tipp der Anstoß sein, sich endlich einen klaren Überblick zu verschaffen.',
+    freund: 'Für Ihren besten Freund könnte Ihr Tipp der Moment sein, an dem er seine Zukunft endlich anpackt.',
+    familie: 'Für jemanden aus Ihrer Familie könnte Ihr Tipp bedeuten, Chancen nicht länger liegen zu lassen.',
+    kollege: 'Für Ihren Lieblingskollegen könnte Ihr Tipp der Anstoß sein, sich endlich einen klaren Überblick zu verschaffen.',
   };
   personBtns.forEach(btn => btn.addEventListener('click', () => {
     personBtns.forEach(b => b.classList.remove('active'));
@@ -399,9 +399,9 @@ if (presenterLength && openedFromHub) presenterLength.hidden = false;
       node.classList.remove('is-active');
       node.setAttribute('aria-pressed', 'false');
     });
-    kicker.textContent = 'Deine Ziele';
+    kicker.textContent = 'Ihre Ziele';
     title.textContent = 'Ganzheitlich gedacht.';
-    hint.textContent = 'Wähle ein Themenfeld aus.';
+    hint.textContent = 'Wählen Sie ein Themenfeld aus.';
     hint.hidden = false;
     list.hidden = true;
     list.replaceChildren();
@@ -668,7 +668,7 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
   const reise = baueReise(rows);
 
   if (!reise.stationen.length) {
-    wrap.innerHTML = '<li class="reise-leer">Die Belohnungen konnten gerade nicht geladen werden. Bitte lade die Seite neu.</li>';
+    wrap.innerHTML = '<li class="reise-leer">Die Belohnungen konnten gerade nicht geladen werden. Bitte laden Sie die Seite neu.</li>';
     return;
   }
 
@@ -767,7 +767,7 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
     foerderungen: {
       title: 'Staatliche Förderungen',
       kicker: 'Fördermöglichkeiten verständlich sortiert',
-      question: 'Welche Zuschüsse und Vorteile könnten zu deiner Situation passen?',
+      question: 'Welche Zuschüsse und Vorteile könnten zu Ihrer Situation passen?',
       text: 'Die gemeinsame Themenseite führt von der persönlichen Empfehlung zu einer ersten Einordnung und zum richtigen Ansprechpartner.',
       icon: 'Banknote',
       url: '/thema.html?vorlage=foerderungen&von=Thomas&an=Max',
@@ -779,7 +779,7 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
     selbstaendige: {
       title: 'Selbständige',
       kicker: 'Privat und geschäftlich gut aufgestellt',
-      question: 'Was braucht ein stabiles Fundament für deinen eigenen Weg?',
+      question: 'Was braucht ein stabiles Fundament für Ihren eigenen Weg?',
       text: 'Die gemeinsame Themenseite verbindet das Thema mit einer ersten Einordnung und dem passenden nächsten Schritt.',
       icon: 'Briefcase',
       url: '/thema.html?vorlage=selbstaendige&von=Thomas&an=Max',
@@ -791,7 +791,7 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
     investment: {
       title: 'Geldanlage und Investment',
       kicker: 'Vermögen sinnvoll aufbauen',
-      question: 'Wie kann dein Geld langfristig zu deinem Leben passen?',
+      question: 'Wie kann Ihr Geld langfristig zu Ihrem Leben passen?',
       text: 'Die gemeinsame Themenseite verbindet das Thema mit einer ersten Einordnung und dem passenden nächsten Schritt.',
       icon: 'TrendingUp',
       url: '/thema.html?vorlage=investment&von=Thomas&an=Max',
@@ -802,7 +802,7 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
     },
     absicherung: {
       title: 'Absicherung und Familie',
-      kicker: 'Schützen, was dir wichtig ist',
+      kicker: 'Schützen, was Ihnen wichtig ist',
       question: 'Was sollte wirklich abgesichert sein und was nicht?',
       text: 'Die gemeinsame Themenseite verbindet das Thema mit einer ersten Einordnung und dem passenden nächsten Schritt.',
       icon: 'ShieldCheck',
@@ -815,7 +815,7 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
     karriere: {
       title: 'Berufliche Perspektive',
       kicker: 'Neue Möglichkeiten entdecken',
-      question: 'Was wäre möglich, wenn dein nächster Schritt wirklich zu dir passt?',
+      question: 'Was wäre möglich, wenn Ihr nächster Schritt wirklich zu Ihnen passt?',
       text: 'Die gemeinsame Themenseite verbindet das Thema mit einer ersten Einordnung und dem passenden nächsten Schritt.',
       icon: 'Sparkles',
       url: '/thema.html?vorlage=karriere&von=Thomas&an=Max',
@@ -825,7 +825,7 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
       action: 'Vorschau ansehen'
     },
     kinder: {
-      title: 'Für deine Kinder',
+      title: 'Für Ihre Kinder',
       kicker: 'Früh die richtigen Weichen stellen',
       question: 'Wie kann aus einem kleinen Anfang später etwas Großes werden?',
       text: 'Die gemeinsame Themenseite verbindet das Thema mit einer ersten Einordnung und dem passenden nächsten Schritt.',

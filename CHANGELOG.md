@@ -1,7 +1,24 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.243 Beta** · Originales KIDZ-Konzept-Logo, live seit 14.08.2026.
+Offizielle Live-Version: **v1.244 Beta** · Kundenseiten sprechen Sie, live seit 14.08.2026.
+
+## v1.244 Beta - Phase 224 · Kundenseiten sprechen Sie
+**2026-08-14**
+
+Alle öffentlich sichtbaren Kunden-, Themen- und Empfehlungsseiten sprechen jetzt einheitlich in der Sie-Form. Vorher war es eine gewachsene Mischung: der Finanzierungskompass duzte durchgehend, die Themenseiten siezten im öffentlichen Modus und duzten im Empfehlungsmodus, und dazwischen lagen einzelne Seiten mit beidem.
+
+Betroffen sind Kundenseite, Finanzierungskompass, Empfängerseite, Empfehlungsformular, Empfehlungsbereich, Promoter-Einstieg, Themenseiten, Danke- und Austragen-Seite samt der zugehörigen Skripte. Jeder Satz wurde einzeln umformuliert, damit die Grammatik stimmt und der Ton menschlich bleibt.
+
+Bewusst beim Du geblieben sind die Nachrichten, die ein Empfehlungsgeber von seinem eigenen Gerät an einen Bekannten schickt: die WhatsApp-Vorlagen, die Sprechblase auf der Empfängerseite und die Alltagsbeispiele im Handy-Mockup. Wer seiner besten Freundin schreibt, siezt sie nicht.
+
+Auf den Themenseiten sagen öffentlicher Modus und Empfehlungsmodus jetzt dasselbe. Die Umschaltung selbst, Routing, Empfehlungsparameter, Beraterzuordnung, Formulare, Tracking und Datenbankzugriffe sind unverändert.
+
+Neu ist `tests/sie-ansprache.test.mjs`. Der Test durchsucht die neunzehn Kundenseiten nach Du-Pronomen, Verben in der zweiten Person Einzahl und Befehlsformen. Die zehn gewollten Ausnahmen stehen dort einzeln mit Begründung; verschwindet eine aus dem Code, meldet sich der Test, damit die Liste nicht still verrottet.
+
+Offen und noch nicht ausgeführt: In der Datenbank stehen Themen- und Belohnungstexte, die weiterhin duzen. Das dafür vorbereitete `schema-phase224-sie-ansprache-texte.sql` wurde absichtlich nicht eingespielt, weil es sofort auf die laufende Live-Seite wirken würde.
+
+---
 
 ## v1.243 Beta - Phase 223 · Originales KIDZ-Konzept-Logo
 **2026-08-14 · live veröffentlicht**

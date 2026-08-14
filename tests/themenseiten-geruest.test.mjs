@@ -61,7 +61,7 @@ assert.ok(js.includes("document.getElementById('baufiAnalysis').hidden = !isBauf
 assert.ok(js.includes("document.getElementById('baufiFunding').hidden = !isBaufi"), 'Fördermittelbereich ist nicht auf Baufi begrenzt');
 assert.ok(js.includes("document.getElementById('toolsSection').hidden = isBaufi"), 'Doppelte Werkzeugauswahl wird auf der Baufi-Seite nicht ausgeblendet');
 assert.ok(js.includes('hero.after(orientation)'), 'Situationsauswahl steht auf der Baufi-Seite nicht direkt nach dem Einstieg');
-assert.match(baufi, /Was hast du vor\?/i, 'Baufi-Einstieg fragt nicht klar nach dem Vorhaben');
+assert.match(baufi, /Was haben Sie vor\?/i, 'Baufi-Einstieg fragt nicht klar nach dem Vorhaben');
 assert.match(baufi, /primarySituations = \['orientierung', 'kauf', 'neubau', 'sanierung', 'anschluss'\]/, 'Die fünf visuellen Hauptwege fehlen oder sind falsch sortiert');
 assert.match(baufi, /scenes-v2\/(?:orientierung|kauf|neubau|sanierung|anschluss)\.webp/, 'Die nahbaren Baufi-Motive fehlen im Auswahlweg');
 assert.match(baufi, /situation-alt-link/, 'Der zurückgenommene Zusatzweg zur Optimierung fehlt');

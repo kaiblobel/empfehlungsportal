@@ -215,8 +215,8 @@ if (page === 'empfehlen') {
 
   const headline = document.getElementById('formHeadline');
   headline.textContent = typ === 'info'
-    ? 'Wen möchtest du vorab informieren?'
-    : 'Wen möchtest du empfehlen?';
+    ? 'Wen möchten Sie vorab informieren?'
+    : 'Wen möchten Sie empfehlen?';
 
   const vornameEl = document.getElementById('vorname');
   const nachnameEl = document.getElementById('nachname');
@@ -623,7 +623,7 @@ if (page === 'empfaenger') {
     const standard = (d.empfehler_standard_nachricht || '').trim();
     const personal = msg || standard; // Empfaenger-Satz schlaegt Promoter-Standard
     const recipient = (d.empfaenger_name || '').trim().split(/\s+/)[0] || '';
-    const promoterLabel = name || 'Dein Empfehlungsgeber';
+    const promoterLabel = name || 'Ihr Empfehlungsgeber';
     document.querySelectorAll('[data-promoter]').forEach((el) => { el.textContent = promoterLabel; });
     const mark = document.querySelector('.recommendation-mark, .promoter-avatar:not([data-static-icon])');
     if (mark && name) mark.textContent = name.charAt(0).toUpperCase();
@@ -657,7 +657,7 @@ if (page === 'empfaenger') {
     if (anrufConfirm) {
       anrufConfirm.classList.add('visible');
       const t = document.getElementById('eAnrufConfirmText');
-      if (t && slot) t.textContent = `Danke. Ich rufe dich zu deinem Wunsch-Zeitfenster (${slot}) an.`;
+      if (t && slot) t.textContent = `Danke. Ich rufe Sie zu Ihrem Wunsch-Zeitfenster (${slot}) an.`;
     }
   }
 
@@ -672,7 +672,7 @@ if (page === 'empfaenger') {
       if (!token) {
         anrufBtn.disabled = false;
         anrufBtn.textContent = 'Anrufwunsch bestätigen';
-        alert('Dieser Link ist unvollständig. Bitte öffne den Original-Link aus deiner Nachricht.');
+        alert('Dieser Link ist unvollständig. Bitte öffnen Sie den Original-Link aus Ihrer Nachricht.');
         return;
       }
       const { error } = await markAnrufwunsch(token, slot);

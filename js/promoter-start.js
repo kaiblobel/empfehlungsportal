@@ -52,7 +52,7 @@ function setLegalLink(element, href) {
 
 function applyAdvisor(data) {
   advisor = data;
-  const displayName = data.name || 'Dein Beraterteam';
+  const displayName = data.name || 'Ihr Beraterteam';
   document.getElementById('psAdvisorName').textContent = `${displayName} & Team`;
   document.getElementById('psFooterName').textContent = `${displayName} & Team`;
   document.getElementById('psInitials').textContent = initials(displayName);
@@ -97,11 +97,11 @@ async function waitForTurnstile() {
 async function initializeCaptcha() {
   const sitekey = await getTurnstileSiteKey();
   if (!sitekey) {
-    showError('Die Selbstanmeldung ist noch nicht freigeschaltet. Bitte sprich deinen Berater direkt an.');
+    showError('Die Selbstanmeldung ist noch nicht freigeschaltet. Bitte sprechen Sie Ihren Berater direkt an.');
     return;
   }
   if (!await waitForTurnstile()) {
-    showError('Der Sicherheitscheck konnte nicht geladen werden. Bitte lade die Seite neu.');
+    showError('Der Sicherheitscheck konnte nicht geladen werden. Bitte laden Sie die Seite neu.');
     return;
   }
 
@@ -121,7 +121,7 @@ async function initializeCaptcha() {
     'error-callback'() {
       captchaToken = '';
       submit.disabled = true;
-      showError('Der Sicherheitscheck ist fehlgeschlagen. Bitte versuche es erneut.');
+      showError('Der Sicherheitscheck ist fehlgeschlagen. Bitte versuchen Sie es erneut.');
     },
   });
 }
@@ -135,23 +135,23 @@ function resetCaptcha() {
 }
 
 function clientValidation(name, email, telefon, consent) {
-  if (name.length < 2) return 'Bitte gib deinen Namen ein.';
-  if (!email && !telefon) return 'Bitte gib eine E-Mail-Adresse oder Mobilnummer an.';
-  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'Bitte prüfe deine E-Mail-Adresse.';
-  if (!consent) return 'Bitte bestätige den Datenschutzhinweis.';
-  if (!captchaToken) return 'Bitte führe den Sicherheitscheck durch.';
+  if (name.length < 2) return 'Bitte geben Sie Ihren Namen ein.';
+  if (!email && !telefon) return 'Bitte geben Sie eine E-Mail-Adresse oder Mobilnummer an.';
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'Bitte prüfen Sie Ihre E-Mail-Adresse.';
+  if (!consent) return 'Bitte bestätigen Sie den Datenschutzhinweis.';
+  if (!captchaToken) return 'Bitte führen Sie den Sicherheitscheck durch.';
   return '';
 }
 
 async function loadAdvisor() {
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(context.slug)) {
-    showError('Dieser Berater-Link ist ungültig. Bitte prüfe den QR-Code.');
+    showError('Dieser Berater-Link ist ungültig. Bitte prüfen Sie den QR-Code.');
     return;
   }
 
   const { data, error } = await getBeraterPublicBySlug(context.slug);
   if (error || !data) {
-    showError('Dieser Berater-Link ist nicht mehr aktiv. Bitte wende dich direkt an deinen Berater.');
+    showError('Dieser Berater-Link ist nicht mehr aktiv. Bitte wenden Sie sich direkt an Ihren Berater.');
     return;
   }
   applyAdvisor(data);
@@ -172,12 +172,12 @@ form.addEventListener('submit', async (event) => {
     return;
   }
   if (!advisor) {
-    showError('Der Berater konnte nicht geladen werden. Bitte prüfe den QR-Code.');
+    showError('Der Berater konnte nicht geladen werden. Bitte prüfen Sie den QR-Code.');
     return;
   }
 
   submit.disabled = true;
-  submit.textContent = 'Dein Bereich wird erstellt ...';
+  submit.textContent = 'Ihr Bereich wird erstellt ...';
 
   try {
     const response = await fetch('/api/promoter-register', {
@@ -196,22 +196,22 @@ form.addEventListener('submit', async (event) => {
     const result = await response.json().catch(() => ({}));
 
     if (response.status === 409) {
-      throw new Error('Du hast bereits einen persönlichen Empfehlungsbereich. Nutze deinen vorhandenen Zugangslink oder bitte deinen Berater, ihn dir erneut zu senden.');
+      throw new Error('Sie haben bereits einen persönlichen Empfehlungsbereich. Nutzen Sie Ihren vorhandenen Zugangslink oder bitten Sie Ihren Berater, ihn Ihnen erneut zu senden.');
     }
     if (response.status === 429) {
-      throw new Error('Es gab gerade zu viele Versuche. Bitte probiere es später noch einmal.');
+      throw new Error('Es gab gerade zu viele Versuche. Bitte probieren Sie es später noch einmal.');
     }
     if (response.status === 503) {
-      throw new Error('Die Selbstanmeldung ist noch nicht freigeschaltet. Bitte sprich deinen Berater direkt an.');
+      throw new Error('Die Selbstanmeldung ist noch nicht freigeschaltet. Bitte sprechen Sie Ihren Berater direkt an.');
     }
     if (!response.ok || !result?.code) {
-      throw new Error('Dein Bereich konnte gerade nicht erstellt werden. Bitte versuche es noch einmal.');
+      throw new Error('Ihr Bereich konnte gerade nicht erstellt werden. Bitte versuchen Sie es noch einmal.');
     }
 
     try { localStorage.setItem('empfehler_code', result.code); } catch (_) {}
     window.location.assign(`/empfehler.html?code=${encodeURIComponent(result.code)}&neu=1`);
   } catch (error) {
-    showError(error.message || 'Dein Bereich konnte gerade nicht erstellt werden.');
+    showError(error.message || 'Ihr Bereich konnte gerade nicht erstellt werden.');
     submit.textContent = 'Empfehlungsbereich öffnen';
     resetCaptcha();
   }

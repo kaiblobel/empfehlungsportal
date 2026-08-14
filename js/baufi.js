@@ -36,7 +36,7 @@ function initials(name) {
 }
 
 function setRecommendation(data = {}) {
-  const promoter = String(data.empfehler_name || params.get('von') || 'Jemand aus deinem Umfeld').trim();
+  const promoter = String(data.empfehler_name || params.get('von') || 'Jemand aus Ihrem Umfeld').trim();
   const recipient = String(data.empfaenger_name || params.get('an') || '').trim().split(/\s+/)[0] || '';
   const message = String(data.empfehler_nachricht || '').trim();
 
@@ -51,7 +51,7 @@ function setRecommendation(data = {}) {
   if (refName) refName.textContent = promoter;
   if (heroReferrer) heroReferrer.textContent = promoter;
   if (contactReferrer) contactReferrer.textContent = promoter;
-  if (heroRecipient) heroRecipient.textContent = recipient ? `${recipient}, für dich` : 'Für dich';
+  if (heroRecipient) heroRecipient.textContent = recipient ? `${recipient}, für Sie` : 'Für Sie';
   if (note && message) {
     note.textContent = `„${message}“`;
     note.hidden = false;
@@ -81,7 +81,7 @@ function applyEntryMode() {
     emphasis.textContent = 'Die richtige Strategie.';
     title.replaceChildren(document.createTextNode('Nicht der günstigste Zins entscheidet. '), emphasis);
   }
-  if (lead) lead.textContent = 'Ordne dein Vorhaben in wenigen Schritten ein. Danach siehst du, welche Fragen für deine Situation wichtig sind und wie wir Finanzierung langfristig betrachten.';
+  if (lead) lead.textContent = 'Ordnen Sie Ihr Vorhaben in wenigen Schritten ein. Danach sehen Sie, welche Fragen für Ihre Situation wichtig sind und wie wir Finanzierung langfristig betrachten.';
   if (contactNote) contactNote.hidden = true;
   if (optOut) optOut.hidden = true;
 }

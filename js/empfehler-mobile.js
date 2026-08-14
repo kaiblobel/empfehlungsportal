@@ -48,11 +48,11 @@ const VERBINDUNG_OPTS = [
   ['Bekannter', 'Bekannte oder Bekannter'], ['Sonstiges', 'Sonstiges'],
 ];
 const ERREICHBARKEIT_OPTS = [
-  ['', 'Wenn du es weißt'], ['vormittag', 'Vormittag, 8 bis 12 Uhr'], ['mittag', 'Mittag, 12 bis 14 Uhr'],
+  ['', 'Wenn Sie es wissen'], ['vormittag', 'Vormittag, 8 bis 12 Uhr'], ['mittag', 'Mittag, 12 bis 14 Uhr'],
   ['nachmittag', 'Nachmittag, 14 bis 18 Uhr'], ['abend', 'Abend, 18 bis 21 Uhr'], ['we', 'Am Wochenende'],
 ];
 const KANAL_OPTS = [
-  ['', 'Wenn du es weißt'], ['anruf', 'Telefon'], ['whatsapp', 'WhatsApp'], ['sms', 'SMS'], ['email', 'E-Mail'],
+  ['', 'Wenn Sie es wissen'], ['anruf', 'Telefon'], ['whatsapp', 'WhatsApp'], ['sms', 'SMS'], ['email', 'E-Mail'],
 ];
 
 const messageTemplates = {
@@ -171,10 +171,10 @@ function renderGreeting() {
   $('#helloName').textContent = `Hallo ${firstName}`;
   const total = stats.gesamt || 0;
   $('#heroProof').textContent = total
-    ? `${total} ${total === 1 ? 'Mensch' : 'Menschen'} empfohlen. Jeder Kontakt bleibt für dich sichtbar.`
-    : 'Deine erste Empfehlung dauert weniger als eine Minute.';
+    ? `${total} ${total === 1 ? 'Mensch' : 'Menschen'} empfohlen. Jeder Kontakt bleibt für Sie sichtbar.`
+    : 'Ihre erste Empfehlung dauert weniger als eine Minute.';
   if (params.get('neu') === '1') {
-    $('#heroText').textContent = 'Dein persönlicher Bereich ist bereit. Mit vier kurzen Schritten kannst du direkt jemanden empfehlen.';
+    $('#heroText').textContent = 'Ihr persönlicher Bereich ist bereit. Mit vier kurzen Schritten können Sie direkt jemanden empfehlen.';
   }
 }
 
@@ -185,15 +185,15 @@ function renderMetrics() {
 }
 
 function activityFor(item) {
-  const name = firstName(item.empfaenger_name) || 'Deine Empfehlung';
-  if (item.status === 'kunde') return { rank: 8, icon: 'ZIEL', tone: 'sage', title: `${name} ist Kunde geworden`, text: 'Deine Empfehlung hat wirklich geholfen.', time: formatRelative(item.created_at) };
+  const name = firstName(item.empfaenger_name) || 'Ihre Empfehlung';
+  if (item.status === 'kunde') return { rank: 8, icon: 'ZIEL', tone: 'sage', title: `${name} ist Kunde geworden`, text: 'Ihre Empfehlung hat wirklich geholfen.', time: formatRelative(item.created_at) };
   if (item.status === 'kontaktiert') return { rank: 7, icon: 'KON', tone: 'marine', title: `${name} ist jetzt im Gespräch`, text: 'Der persönliche Kontakt ist hergestellt.', time: formatRelative(item.created_at) };
   if (item.booking_state === 'cancelled') return { rank: 7, icon: 'NEU', tone: 'terra', title: `${name}s Termin wurde abgesagt`, text: `${beraterName} stimmt den nächsten Schritt persönlich ab.`, time: formatRelative(item.booking_cancelled_at || item.booking_updated_at || item.created_at) };
   if (item.booking_state === 'confirmed') return { rank: 6, icon: 'TER', tone: 'marine', title: `${name} hat einen Termin vereinbart`, text: `${beraterName} hat die bestätigte Buchung erhalten.`, time: formatRelative(item.booking_updated_at || item.booking_confirmed_at || item.created_at) };
   if (item.status === 'anrufwunsch') return { rank: 5, icon: 'TER', tone: 'marine', title: `${name} möchte ein Gespräch`, text: `${beraterName} übernimmt den nächsten Schritt persönlich.`, time: formatRelative(item.created_at) };
   if (item.booking_state === 'started') return { rank: 3, icon: 'KAL', tone: '', title: `${name} hat die Terminwahl geöffnet`, text: 'Eine Buchung ist noch nicht bestätigt.', time: formatRelative(item.booking_started_at || item.created_at) };
-  if (item.link_geoeffnet) return { rank: 2, icon: 'AUF', tone: '', title: `${name} hat deinen Link geöffnet`, text: 'Der erste wichtige Schritt ist geschafft.', time: formatRelative(item.link_geoeffnet_at || item.created_at) };
-  if (item.empfehler_vorinformiert) return { rank: 1, icon: 'VER', tone: '', title: `Empfehlung an ${name} versendet`, text: 'Du erfährst hier, sobald der Link geöffnet wird.', time: formatRelative(item.created_at) };
+  if (item.link_geoeffnet) return { rank: 2, icon: 'AUF', tone: '', title: `${name} hat Ihren Link geöffnet`, text: 'Der erste wichtige Schritt ist geschafft.', time: formatRelative(item.link_geoeffnet_at || item.created_at) };
+  if (item.empfehler_vorinformiert) return { rank: 1, icon: 'VER', tone: '', title: `Empfehlung an ${name} versendet`, text: 'Sie erfahren hier, sobald der Link geöffnet wird.', time: formatRelative(item.created_at) };
   return { rank: 0, icon: 'NEU', tone: 'terra', title: `Link für ${name} erstellt`, text: 'Der Versand wurde noch nicht bestätigt.', time: formatRelative(item.created_at) };
 }
 
@@ -211,7 +211,7 @@ function recommendationSignature(item) {
 function renderActivities() {
   const wrap = $('#activityList');
   if (!empfehlungen.length) {
-    wrap.innerHTML = '<div class="empty-card">Noch keine Neuigkeit. Deine erste Empfehlung erscheint sofort hier.</div>';
+    wrap.innerHTML = '<div class="empty-card">Noch keine Neuigkeit. Ihre erste Empfehlung erscheint sofort hier.</div>';
     return;
   }
   const items = [...empfehlungen]
@@ -267,7 +267,7 @@ function renderReward() {
   card.innerHTML = `
     <div class="reward-top">
       <div class="reward-mark${image ? ' has-image' : ''}">${image ? `<img src="${escapeAttr(image)}" alt="${escapeAttr(goal.titel)}">` : escapeHtml(goal.icon || 'ZIEL')}</div>
-      <div class="reward-copy"><strong>${remaining ? `Noch ${remaining} bis ${escapeHtml(goal.titel)}` : `${escapeHtml(goal.titel)} erreicht`}</strong><span>${empfehler.ziel_stufe ? 'Dein ausgewähltes Wunschziel.' : 'Das ist dein nächstes erreichbares Ziel.'}</span></div>
+      <div class="reward-copy"><strong>${remaining ? `Noch ${remaining} bis ${escapeHtml(goal.titel)}` : `${escapeHtml(goal.titel)} erreicht`}</strong><span>${empfehler.ziel_stufe ? 'Ihr ausgewähltes Wunschziel.' : 'Das ist Ihr nächstes erreichbares Ziel.'}</span></div>
     </div>
     <div class="progress" aria-label="${reached} von ${goal.stufe} erfolgreichen Empfehlungen"><i style="width:${progress}%"></i></div>
     <div class="progress-meta"><span>${reached} ${reached === 1 ? 'erfolgreiche Empfehlung' : 'erfolgreiche Empfehlungen'}</span><span>Ziel: ${goal.stufe}</span></div>`;
@@ -290,7 +290,7 @@ function renderGoalList() {
     return `<button type="button" class="goal-option${active ? ' active' : ''}" data-goal="${item.stufe}">
       <span class="goal-option-media">${image ? `<img src="${escapeAttr(image)}" alt="" loading="lazy">` : escapeHtml(item.icon || '★')}</span>
       <span><strong>${escapeHtml(item.titel)}</strong><span>${remaining ? `Noch ${remaining} erfolgreiche ${remaining === 1 ? 'Empfehlung' : 'Empfehlungen'}` : 'Bereits erreicht'}</span></span>
-      <b>${active ? 'Dein Ziel' : 'Wählen'}</b>
+      <b>${active ? 'Ihr Ziel' : 'Wählen'}</b>
     </button>`;
   }).join('');
   $$('[data-goal]', wrap).forEach(button => button.addEventListener('click', () => chooseGoal(Number(button.dataset.goal))));
@@ -312,7 +312,7 @@ async function chooseGoal(goal) {
   closeOverlay($('#goalOverlay'));
   renderGoalPlan();
   openOverlay($('#goalPlanOverlay'));
-  toast('Dein Wunschziel ist gespeichert. Die passenden Plätze sind vorbereitet.');
+  toast('Ihr Wunschziel ist gespeichert. Die passenden Plätze sind vorbereitet.');
 }
 
 function loadGoalPlan() {
@@ -348,10 +348,10 @@ function renderGoalPlan() {
   const image = goalImage(goal);
   $('#goalPlanSummary').innerHTML = `
     ${image ? `<img src="${escapeAttr(image)}" alt="${escapeAttr(goal.titel)}">` : `<div class="goal-fallback">${escapeHtml(goal.icon || '★')}</div>`}
-    <div><small>Dein Wunschziel</small><strong>${escapeHtml(goal.titel)}</strong><span>${remaining ? `Noch ${remaining} erfolgreiche ${remaining === 1 ? 'Empfehlung' : 'Empfehlungen'} bis zu deinem Ziel.` : 'Dieses Ziel hast du bereits erreicht.'}</span></div>`;
+    <div><small>Ihr Wunschziel</small><strong>${escapeHtml(goal.titel)}</strong><span>${remaining ? `Noch ${remaining} erfolgreiche ${remaining === 1 ? 'Empfehlung' : 'Empfehlungen'} bis zu Ihrem Ziel.` : 'Dieses Ziel haben Sie bereits erreicht.'}</span></div>`;
   const list = $('#goalPlanList');
   if (!remaining) {
-    list.innerHTML = '<div class="goal-plan-empty">Ziel erreicht. Du kannst jederzeit ein neues Wunschziel wählen.</div>';
+    list.innerHTML = '<div class="goal-plan-empty">Ziel erreicht. Sie können jederzeit ein neues Wunschziel wählen.</div>';
     return;
   }
   list.innerHTML = Array.from({ length: remaining }, (_, index) => {
@@ -412,7 +412,7 @@ function renderTopics() {
 function renderRecommendations() {
   const wrap = $('#recommendationList');
   if (!empfehlungen.length) {
-    wrap.innerHTML = '<div class="empty-card">Noch keine Empfehlung. Tippe auf „Jetzt empfehlen“ und leg direkt los.</div>';
+    wrap.innerHTML = '<div class="empty-card">Noch keine Empfehlung. Tippen Sie auf „Jetzt empfehlen“ und legen Sie direkt los.</div>';
     return;
   }
   wrap.innerHTML = empfehlungen.map((item, index) => recommendationHtml(item, index)).join('');
@@ -469,7 +469,7 @@ function detailsHtml(item) {
   const id = escapeAttr(item.id);
   return `<div class="rec-details" id="details-${id}" hidden>
     <div class="detail-field"><label>Beruf oder Position</label><input type="text" data-f="beruf" value="${escapeAttr(item.empfaenger_beruf || '')}" placeholder="z. B. Architektin, selbständig"></div>
-    <div class="detail-field"><label>Verbindung zu dir</label><select data-f="verbindung">${selectOptions(VERBINDUNG_OPTS, item.empfaenger_verbindung)}</select></div>
+    <div class="detail-field"><label>Verbindung zu Ihnen</label><select data-f="verbindung">${selectOptions(VERBINDUNG_OPTS, item.empfaenger_verbindung)}</select></div>
     <div class="detail-field"><label>Was sollte ${escapeHtml(beraterName)} wissen?</label><textarea data-f="kontext" maxlength="300" placeholder="z. B. kauft gerade ein Haus">${escapeHtml(item.empfaenger_kontext || '')}</textarea></div>
     <div class="detail-two">
       <div class="detail-field"><label>Beste Erreichbarkeit</label><select data-f="erreichbarkeit">${selectOptions(ERREICHBARKEIT_OPTS, item.beste_erreichbarkeit)}</select></div>
@@ -523,12 +523,12 @@ function bindStaticControls() {
   $('#confirmLater').addEventListener('click', () => {
     closeOverlay($('#confirmOverlay'));
     $('#history').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    toast('Im Verlauf gemerkt. Du kannst den Versand später bestätigen.');
+    toast('Im Verlauf gemerkt. Sie können den Versand später bestätigen.');
   });
   $('#changeGoal').addEventListener('click', () => openOverlay($('#goalOverlay')));
   $('#closeGoal').addEventListener('click', () => closeOverlay($('#goalOverlay')));
   $('#closeGoalPlan').addEventListener('click', () => { captureGoalPlan(); closeOverlay($('#goalPlanOverlay')); });
-  $('#goalPlanLater').addEventListener('click', () => { captureGoalPlan(); closeOverlay($('#goalPlanOverlay')); toast('Deine vorbereiteten Empfehlungen bleiben gespeichert.'); });
+  $('#goalPlanLater').addEventListener('click', () => { captureGoalPlan(); closeOverlay($('#goalPlanOverlay')); toast('Ihre vorbereiteten Empfehlungen bleiben gespeichert.'); });
   $('#changeGoalFromPlan').addEventListener('click', () => { captureGoalPlan(); closeOverlay($('#goalPlanOverlay')); openOverlay($('#goalOverlay')); });
   $('#noticeOpen').addEventListener('click', openNotices);
   $('#noticeClose').addEventListener('click', closeNotices);
@@ -572,7 +572,7 @@ function closeFunnel() {
   captureFunnelFields();
   if (hasDraftContent()) {
     saveDraft();
-    toast('Dein Entwurf ist auf diesem Gerät gespeichert.');
+    toast('Ihr Entwurf ist auf diesem Gerät gespeichert.');
   }
   closeOverlay($('#funnelOverlay'));
 }
@@ -591,7 +591,7 @@ function previousOrSave() {
 function nextStep() {
   captureFunnelFields();
   if (funnel.step === 1 && (!funnel.name || !funnel.phone)) {
-    $('#step1Error').textContent = !funnel.name ? 'Bitte trage den Vornamen ein.' : 'Bitte trage die Handynummer ein.';
+    $('#step1Error').textContent = !funnel.name ? 'Bitte tragen Sie den Vornamen ein.' : 'Bitte tragen Sie die Handynummer ein.';
     $('#step1Error').classList.add('visible');
     (!funnel.name ? $('#contactName') : $('#contactPhone')).focus();
     return;
@@ -648,7 +648,7 @@ function renderMessagePreview() {
   $('#previewName').textContent = funnel.name;
   $('#previewInitials').textContent = initials(funnel.name);
   $('#previewTopic').textContent = funnel.topicTitle;
-  $('#messagePreview').innerHTML = `${escapeHtml(funnel.message).replace(/\n/g, '<br>')}<span class="message-link">Dein persönlicher Empfehlungslink</span>`;
+  $('#messagePreview').innerHTML = `${escapeHtml(funnel.message).replace(/\n/g, '<br>')}<span class="message-link">Der persönliche Empfehlungslink</span>`;
 }
 
 async function createAndShareRecommendation() {
@@ -671,7 +671,7 @@ async function createAndShareRecommendation() {
   button.textContent = normalizedPhone ? 'Link erstellen und WhatsApp öffnen' : 'Link erstellen und teilen';
   if (error || !data?.link_token) {
     if (shareWindow) shareWindow.close();
-    toast('Der Link konnte nicht erstellt werden. Bitte versuche es noch einmal.');
+    toast('Der Link konnte nicht erstellt werden. Bitte versuchen Sie es noch einmal.');
     return;
   }
 
@@ -712,7 +712,7 @@ async function confirmSent() {
   const item = empfehlungen.find(entry => entry.id === pendingRecommendationId);
   if (!item) {
     closeOverlay($('#confirmOverlay'));
-    toast('Bitte aktualisiere den Verlauf und versuche es erneut.');
+    toast('Bitte aktualisieren Sie den Verlauf und versuchen Sie es erneut.');
     return;
   }
   $('#confirmSent').disabled = true;
@@ -793,7 +793,7 @@ async function saveDefaultMessage() {
   button.textContent = 'Nachricht speichern';
   if (error) { toast('Die Nachricht konnte nicht gespeichert werden.'); return; }
   empfehler.standard_nachricht = text;
-  toast('Deine persönliche Nachricht ist gespeichert.');
+  toast('Ihre persönliche Nachricht ist gespeichert.');
 }
 
 function restoreLocalPreferences() {
@@ -895,7 +895,7 @@ async function refreshData({ quiet = true } = {}) {
   if (!quiet) {
     $('#refreshButton').disabled = false;
     $('#refreshButton').textContent = 'Aktualisieren';
-    toast('Dein Stand ist aktuell.');
+    toast('Ihr Stand ist aktuell.');
   }
   isRefreshing = false;
 }

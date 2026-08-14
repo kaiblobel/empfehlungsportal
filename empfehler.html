@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f4f2ed">
   <meta name="robots" content="noindex,nofollow">
-  <title>Dein Empfehlungsbereich | Kai Blobel</title>
+  <title>Ihr Empfehlungsbereich | Kai Blobel</title>
   <link rel="stylesheet" href="css/empfehler-mobile.css?v=3">
   <script src="js/config.js"></script>
 </head>
@@ -15,7 +15,7 @@
     <header class="topbar" id="topbar">
       <img class="advisor-photo" data-bb="foto" alt="">
       <div class="top-copy">
-        <strong id="helloName">Dein Empfehlungsbereich</strong>
+        <strong id="helloName">Ihr Empfehlungsbereich</strong>
         <span>Persönlich begleitet von <span data-bb="vorname">Kai</span></span>
       </div>
       <button class="icon-button" id="noticeOpen" type="button" aria-label="Neuigkeiten öffnen">
@@ -26,20 +26,20 @@
     <main id="dashboardMain">
       <section class="hero" aria-labelledby="heroTitle">
         <div class="eyebrow">Heute jemandem helfen</div>
-        <h1 id="heroTitle">Wem möchtest du gerade etwas Gutes tun?</h1>
-        <p id="heroText">Vier kurze Schritte. Dein persönlicher Empfehlungslink ist sofort bereit.</p>
+        <h1 id="heroTitle">Wem möchten Sie gerade etwas Gutes tun?</h1>
+        <p id="heroText">Vier kurze Schritte. Ihr persönlicher Empfehlungslink ist sofort bereit.</p>
         <button class="primary start-funnel" id="heroStart" type="button" disabled>
           <span class="plus-ring">+</span>Jetzt empfehlen
         </button>
         <button class="draft-button" id="resumeDraft" type="button">Gespeicherten Entwurf fortsetzen</button>
         <div class="hero-proof">
           <span class="proof-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span id="heroProof">Deine Empfehlungen bleiben für dich sichtbar.</span>
+          <span id="heroProof">Ihre Empfehlungen bleiben für Sie sichtbar.</span>
         </div>
       </section>
 
       <section class="section" aria-labelledby="impactTitle">
-        <div class="section-head"><div><div class="eyebrow">Deine Wirkung</div><h2 id="impactTitle">Auf einen Blick</h2></div></div>
+        <div class="section-head"><div><div class="eyebrow">Ihre Wirkung</div><h2 id="impactTitle">Auf einen Blick</h2></div></div>
         <div class="metric-grid">
           <div class="metric"><strong id="recommendedCount">0</strong><span>Menschen empfohlen</span><small>alles erfasst</small></div>
           <div class="metric"><strong id="openedCount">0</strong><span>Link geöffnet</span><small>Interesse entsteht</small></div>
@@ -49,26 +49,26 @@
 
       <section class="section" id="activity" aria-labelledby="activityTitle">
         <div class="section-head">
-          <div><div class="eyebrow">Seit deinem letzten Besuch</div><h2 id="activityTitle">Was sich verändert hat</h2></div>
+          <div><div class="eyebrow">Seit Ihrem letzten Besuch</div><h2 id="activityTitle">Was sich verändert hat</h2></div>
           <button class="text-button" id="markRead" type="button">Gelesen</button>
         </div>
-        <div class="activity-list" id="activityList"><div class="empty-card">Deine Neuigkeiten werden geladen.</div></div>
+        <div class="activity-list" id="activityList"><div class="empty-card">Ihre Neuigkeiten werden geladen.</div></div>
       </section>
 
       <section class="section" aria-labelledby="rewardTitle">
         <div class="section-head">
-          <div><div class="eyebrow">Dein Dankeschön</div><h2 id="rewardTitle">Du bist auf dem Weg</h2></div>
+          <div><div class="eyebrow">Ihr Dankeschön</div><h2 id="rewardTitle">Sie sind auf dem Weg</h2></div>
           <button class="text-button" id="changeGoal" type="button">Ziel ändern</button>
         </div>
-        <div class="reward-card" id="rewardCard"><div class="empty-inline">Dein Fortschritt wird geladen.</div></div>
+        <div class="reward-card" id="rewardCard"><div class="empty-inline">Ihr Fortschritt wird geladen.</div></div>
       </section>
 
       <section class="section" id="history" aria-labelledby="historyTitle">
         <div class="section-head">
-          <div><div class="eyebrow">Deine Empfehlungen</div><h2 id="historyTitle">Du siehst, was passiert</h2></div>
+          <div><div class="eyebrow">Ihre Empfehlungen</div><h2 id="historyTitle">Sie sehen, was passiert</h2></div>
           <button class="text-button" type="button" id="refreshButton">Aktualisieren</button>
         </div>
-        <div class="recommendation-list" id="recommendationList"><div class="empty-card">Deine Empfehlungen werden geladen.</div></div>
+        <div class="recommendation-list" id="recommendationList"><div class="empty-card">Ihre Empfehlungen werden geladen.</div></div>
       </section>
 
       <section class="section" id="settings" aria-label="Persönliche Einstellungen">
@@ -76,12 +76,12 @@
           <summary>Persönliche Nachricht und Benachrichtigungen</summary>
           <div class="settings-body">
             <div class="setting-row">
-              <label for="defaultMessage">Deine Standardnachricht</label>
-              <textarea id="defaultMessage" maxlength="240" placeholder="Warum empfiehlst du Kai? Dieser Satz wird persönlich über dem Link angezeigt."></textarea>
+              <label for="defaultMessage">Ihre Standardnachricht</label>
+              <textarea id="defaultMessage" maxlength="240" placeholder="Warum empfehlen Sie Kai? Dieser Satz wird persönlich über dem Link angezeigt."></textarea>
               <div class="setting-meta"><span id="defaultMessageCount">0/240</span><button type="button" id="saveDefaultMessage">Nachricht speichern</button></div>
             </div>
             <div class="setting-row">
-              <label>Wie oft möchtest du hier erinnert werden?</label>
+              <label>Wie oft möchten Sie hier erinnert werden?</label>
               <div class="choice-row" id="notifyChoices">
                 <button type="button" class="choice-chip active" data-frequency="sofort">Sofort</button>
                 <button type="button" class="choice-chip" data-frequency="taeglich">Täglich</button>
@@ -96,14 +96,14 @@
 
       <footer class="footer">
         <strong><span data-bb="name">Kai Blobel</span> &amp; Team</strong><br>
-        Finanzierungsspezialist · persönlich für dich da
+        Finanzierungsspezialist · persönlich für Sie da
       </footer>
     </main>
 
     <section class="error-state" id="errorState" hidden>
       <div class="error-mark">!</div>
       <h1>Dieser Zugang ist nicht gültig.</h1>
-      <p>Bitte öffne noch einmal den persönlichen Link, den du erhalten hast.</p>
+      <p>Bitte öffnen Sie noch einmal den persönlichen Link, den Sie erhalten haben.</p>
     </section>
   </div>
 
@@ -126,39 +126,39 @@
 
       <div class="step-content">
         <section class="step active" data-step="1">
-          <h2>Wem möchtest du helfen?</h2>
+          <h2>Wem möchten Sie helfen?</h2>
           <p>Vorname und Handynummer genügen. Die Nummer wird nur für diese Empfehlung verwendet.</p>
           <div class="field"><label for="contactName">Vorname</label><input id="contactName" autocomplete="given-name" placeholder="z. B. Anna" maxlength="80"></div>
           <div class="field"><label for="contactPhone">Handynummer</label><input id="contactPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="z. B. 0171 2345678" maxlength="40"><div class="input-hint">Die Nummer erscheint nicht öffentlich und wird nicht für Werbung verwendet.</div></div>
-          <div class="error" id="step1Error">Bitte trage Vorname und Handynummer ein.</div>
+          <div class="error" id="step1Error">Bitte tragen Sie Vorname und Handynummer ein.</div>
         </section>
 
         <section class="step" data-step="2">
           <h2>Worum geht es?</h2>
-          <p>Wähle das Thema, das am besten zur aktuellen Situation passt.</p>
+          <p>Wählen Sie das Thema, das am besten zur aktuellen Situation passt.</p>
           <div class="topic-grid" id="topicGrid"></div>
-          <div class="error" id="step2Error">Bitte wähle ein Thema aus.</div>
+          <div class="error" id="step2Error">Bitte wählen Sie ein Thema aus.</div>
         </section>
 
         <section class="step" data-step="3">
-          <h2>Wie möchtest du es sagen?</h2>
-          <p>Wähle einen Ton. Du kannst den Text jederzeit persönlich verändern.</p>
+          <h2>Wie möchten Sie es sagen?</h2>
+          <p>Wählen Sie einen Ton. Sie können den Text jederzeit persönlich verändern.</p>
           <div class="template-list" id="templateList">
             <button class="template-card active" type="button" data-template="warm"><span class="radio"></span><span><strong>Herzlich und persönlich</strong><span>Eine warme Empfehlung aus eigener Erfahrung.</span></span></button>
             <button class="template-card" type="button" data-template="short"><span class="radio"></span><span><strong>Kurz und direkt</strong><span>Gut, wenn ihr ohnehin gerade darüber sprecht.</span></span></button>
             <button class="template-card" type="button" data-template="neutral"><span class="radio"></span><span><strong>Zurückhaltend</strong><span>Ohne Druck, nur als hilfreiches Angebot.</span></span></button>
           </div>
-          <div class="field"><label for="personalMessage">Deine Nachricht</label><textarea id="personalMessage" maxlength="600"></textarea><div class="input-hint">Der persönliche Link wird automatisch ergänzt.</div></div>
+          <div class="field"><label for="personalMessage">Ihre Nachricht</label><textarea id="personalMessage" maxlength="600"></textarea><div class="input-hint">Der persönliche Link wird automatisch ergänzt.</div></div>
         </section>
 
         <section class="step" data-step="4">
           <h2>Alles bereit</h2>
-          <p>Prüfe kurz, ob sich die Nachricht wirklich nach dir anhört.</p>
+          <p>Prüfen Sie kurz, ob sich die Nachricht wirklich nach Ihnen anhört.</p>
           <div class="preview-card">
             <div class="preview-title"><div class="avatar" id="previewInitials">AN</div><div><strong id="previewName">Anna</strong><span id="previewTopic">Baufinanzierung</span></div></div>
             <div class="message-bubble" id="messagePreview"></div>
           </div>
-          <div class="honesty"><b>i</b><span>Erst nach deiner Bestätigung steht im Verlauf „versendet“. Sobald der Link geöffnet wird, aktualisiert sich der Status automatisch.</span></div>
+          <div class="honesty"><b>i</b><span>Erst nach Ihrer Bestätigung steht im Verlauf „versendet“. Sobald der Link geöffnet wird, aktualisiert sich der Status automatisch.</span></div>
         </section>
       </div>
 
@@ -181,17 +181,17 @@
 
   <div class="overlay" id="goalOverlay" aria-hidden="true">
     <section class="sheet goal-sheet" role="dialog" aria-modal="true" aria-labelledby="goalTitle">
-      <header class="sheet-head"><div class="sheet-top"><button class="close" id="closeGoal" type="button" aria-label="Schließen">×</button><div class="sheet-title"><strong id="goalTitle">Dein Wunschziel</strong><span>Du kannst es jederzeit ändern</span></div></div></header>
+      <header class="sheet-head"><div class="sheet-top"><button class="close" id="closeGoal" type="button" aria-label="Schließen">×</button><div class="sheet-title"><strong id="goalTitle">Ihr Wunschziel</strong><span>Sie können es jederzeit ändern</span></div></div></header>
       <div class="goal-list" id="goalList"></div>
     </section>
   </div>
 
   <div class="overlay" id="goalPlanOverlay" aria-hidden="true">
     <section class="sheet goal-plan-sheet" role="dialog" aria-modal="true" aria-labelledby="goalPlanTitle">
-      <header class="sheet-head"><div class="sheet-top"><button class="close" id="closeGoalPlan" type="button" aria-label="Schließen">×</button><div class="sheet-title"><strong id="goalPlanTitle">Dein Weg zum Wunschziel</strong><span>Einträge bleiben auf diesem Gerät gespeichert</span></div><button class="text-button" id="changeGoalFromPlan" type="button">Ziel ändern</button></div></header>
+      <header class="sheet-head"><div class="sheet-top"><button class="close" id="closeGoalPlan" type="button" aria-label="Schließen">×</button><div class="sheet-title"><strong id="goalPlanTitle">Ihr Weg zum Wunschziel</strong><span>Einträge bleiben auf diesem Gerät gespeichert</span></div><button class="text-button" id="changeGoalFromPlan" type="button">Ziel ändern</button></div></header>
       <div class="goal-plan-content">
         <div class="goal-plan-summary" id="goalPlanSummary"></div>
-        <div class="goal-plan-note"><b>Wichtig:</b> Dein Ziel zählt erfolgreiche Empfehlungen. Ein eingetragener Kontakt wird nicht automatisch als Erfolg gewertet.</div>
+        <div class="goal-plan-note"><b>Wichtig:</b> Ihr Ziel zählt erfolgreiche Empfehlungen. Ein eingetragener Kontakt wird nicht automatisch als Erfolg gewertet.</div>
         <div class="goal-plan-list" id="goalPlanList"></div>
       </div>
       <footer class="sheet-actions goal-plan-actions"><button class="secondary" id="goalPlanLater" type="button">Später weitermachen</button></footer>
@@ -208,6 +208,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script type="module" src="js/empfehler-mobile.js?v=8"></script>
+  <script type="module" src="js/empfehler-mobile.js?v=9"></script>
 </body>
 </html>
