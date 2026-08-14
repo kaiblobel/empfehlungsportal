@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.247 Beta** · KIDZ-Kartenstapel auf dem iPhone, live seit 15.08.2026.
+Offizielle Live-Version: **v1.248 Beta** · KIDZ-Grundlagen mobil klar auswählbar, live seit 15.08.2026.
+
+## v1.248 Beta - Phase 228 · KIDZ-Grundlagen mobil klar auswählbar
+**2026-08-15 · live veröffentlicht**
+
+Die drei KIDZ-Grundlagen stehen auf dem Smartphone jetzt dauerhaft als vollständige Auswahlkarten untereinander. Ein kurzer Hinweis erklärt die Bedienung. Die aktive Grundlage trägt sichtbar „✓ Ausgewählt“, alle weiteren Karten zeigen einen Pfeil und laden zum Antippen ein.
+
+Beim Antippen wechseln Bild, Überschrift und Fragen direkt unter den Karten. Der vorherige Zieh- und Klappeffekt wurde entfernt. Auf größeren Bildschirmen bleibt die bewährte Dreierreihe erhalten.
+
+---
 
 ## v1.247 Beta - Phase 227 · KIDZ-Kartenstapel auf dem iPhone
 **2026-08-15 · live veröffentlicht**

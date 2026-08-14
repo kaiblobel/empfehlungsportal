@@ -49,13 +49,14 @@ assert.match(html, /Früh anfangen zahlt sich aus/);
 assert.match(html, /kidz-frueh-anfangen-v2\.png/);
 assert.match(css, /\.pillar-original img \{ width: 190px; height: 190px;/);
 assert.match(html, /Leistungsbeispiele aus den bereitgestellten KIDZ-Unterlagen/);
-assert.match(html, /data-pillar-stack/);
-assert.match(html, /Nach unten ziehen, um alle drei Grundlagen zu sehen/);
-assert.match(css, /\.pillar-stack\.is-dragging/);
-assert.match(javascript, /touchstart/);
-assert.match(javascript, /touchmove/);
-assert.match(javascript, /setPillarStackExpanded/);
-assert.match(javascript, /prefers-reduced-motion: reduce/);
+assert.match(html, /pillar-mobile-instruction/);
+assert.match(html, /Tippen Sie auf eine Grundlage, um mehr zu erfahren/);
+assert.equal((html.match(/pillar-tab-state/g) || []).length, 3);
+assert.equal((html.match(/✓ Ausgewählt/g) || []).length, 3);
+assert.match(css, /\.pillar-tab\.is-active \.pillar-tab-check \{ display: block; \}/);
+assert.match(css, /\.pillar-tabs \{ display: grid; grid-template-columns: 1fr;/);
+assert.doesNotMatch(javascript, /touchstart|touchmove|setPillarStackExpanded/);
+assert.match(css, /prefers-reduced-motion: reduce/);
 
 for (const pathName of ['elternabend', 'termininfo', 'gespraech']) {
   assert.match(html, new RegExp(`data-open-path="${pathName}"`));

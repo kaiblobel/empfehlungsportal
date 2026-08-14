@@ -7,5 +7,5 @@ window.ENV_BERATER_TITEL = 'Regionaldirektion · Team Wachsbleiche';
 window.ENV_BERATER_FOTO = '/assets/images/kai-portrait.jpg';
 window.ENV_CALENDLY_URL = ''; // sobald Kai einen Link schickt, hier eintragen — Karte erscheint automatisch
 window.ENV_TURNSTILE_SITE_KEY = ''; // optionaler statischer Fallback; produktiv kommt der Site-Key aus /api/promoter-config
-window.APP_VERSION = 'v1.247 Beta';
-window.APP_PHASE = 'Phase 227 · KIDZ-Kartenstapel auf dem iPhone';
+window.APP_VERSION = 'v1.248 Beta';
+window.APP_PHASE = 'Phase 228 · KIDZ-Grundlagen mobil klar auswählbar';
