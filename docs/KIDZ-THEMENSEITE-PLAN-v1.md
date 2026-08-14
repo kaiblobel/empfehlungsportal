@@ -1,8 +1,8 @@
 # KIDZ-Themenseite: Plan für Eltern
 
-Stand: 14.08.2026
+Stand: 15.08.2026
 
-Status: klickbares Muster im Feature-Zweig, nicht veröffentlicht
+Status: von Kai zur Veröffentlichung freigegeben, öffentliche Adresse `https://kidz.teamwachsbleiche.de/kidz/konzept`
 
 ## Ziel der Seite
 
@@ -72,7 +72,7 @@ Jede Grundlage beantwortet typische Elternfragen. Danach zeigt ein klar abgegren
 - nur Termininfo erhalten
 - persönliches Gespräch anfragen
 
-Diese Wege bleiben getrennt. Im Muster werden sie vollständig simuliert, ohne Daten zu senden oder zu speichern.
+Diese Wege bleiben getrennt. In der lokalen Vorschau werden sie ohne Datenübertragung simuliert. Öffentlich führt die Teilnahmevormerkung in den bestehenden geschützten KIDZ-Elternabend-Weg. Termininfo und persönliches Gespräch öffnen jeweils eine vorbereitete WhatsApp-Nachricht, die der Besucher selbst absendet.
 
 ## Echtes KIDZ-Material
 
@@ -95,7 +95,7 @@ Im unteren Seitenteil führt eine bedienbare Bilderstrecke durch sechs unbeschri
 
 ## Fachliche Grenzen
 
-Vor einer Veröffentlichung müssen aktuelle Produktangaben, Leistungsdarstellungen, Anbieterzuordnungen, Bildrechte und Datenschutzhinweise fachlich geprüft werden. Alte Tarifwerte, Quellen aus 2019 oder 2020 sowie bestehende Sponsorlisten und Werbeeinwilligungen werden nicht übernommen.
+Kai hat Aufbau, Bildauswahl und Veröffentlichung am 15.08.2026 freigegeben. Produktangaben, Leistungsdarstellungen und Anbieterzuordnungen müssen bei späteren Änderungen erneut fachlich geprüft werden. Alte Tarifwerte, Quellen aus 2019 oder 2020 sowie bestehende Sponsorlisten und Werbeeinwilligungen werden nicht übernommen.
 
 ## Gestaltung
 
@@ -106,15 +106,13 @@ Vor einer Veröffentlichung müssen aktuelle Produktangaben, Leistungsdarstellun
 - Sie-Ansprache durchgehend
 - Smartphone zuerst mit fester Hauptaktion am unteren Rand
 
-## Vor einer Veröffentlichung
+## Veröffentlichung
 
-1. Kai prüft Aufbau, Ton, Bilder und die drei nächsten Schritte.
-2. Terminlogik für den Elternabend wird festgelegt.
-3. Datenschutz und Pflichtfelder werden auf den konkreten Zweck geprüft.
-4. Bild- und Markenfreigabe für die ausgewählten Originalmotive wird bestätigt.
-5. Der Mock wird in die echte öffentliche Seitenstruktur übernommen.
-6. Rechner und Smartphone werden vollständig geprüft.
-7. Erst nach ausdrücklicher Freigabe wird veröffentlicht.
+1. Die Seite liegt unter dem festen öffentlichen Weg `/kidz/konzept`.
+2. Die Elternabend-Vormerkung nutzt den bestehenden KIDZ-Elternabend mit Sicherheitsprüfung und Datenschutzhinweisen.
+3. Termininfo und persönliches Gespräch führen in vorbereitete, freiwillig abzusendende WhatsApp-Nachrichten.
+4. Impressum und Datenschutz verweisen auf die bestehenden öffentlichen Pflichtseiten von Kai Blobel.
+5. Rechner und Smartphone werden nach der Veröffentlichung noch einmal direkt auf der öffentlichen Adresse geprüft.
 
 ## Kritische Kundenschleife
 

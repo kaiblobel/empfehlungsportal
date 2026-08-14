@@ -7,7 +7,7 @@
       kicker: 'Finanzielle Kompetenz',
       heading: 'Geld wird im Alltag gelernt, nicht erst mit dem ersten Gehalt.',
       text: 'Kinder erleben täglich, wie Erwachsene über Wünsche, Sparen und Entscheidungen sprechen. KIDZ gibt Eltern einfache Impulse, wie daraus Schritt für Schritt ein gutes Gefühl für Geld entstehen kann.',
-      image: 'assets/kidz-themenseite/kidz-finanzkompetenz.png',
+      image: '/mockups/assets/kidz-themenseite/kidz-finanzkompetenz.png',
       alt: 'Familien-, Schul- und Ausbildungsszenen aus den KIDZ-Unterlagen',
       questions: [
         'Wie sprechen wir altersgerecht über Geld?',
@@ -20,7 +20,7 @@
       kicker: 'Gesundheit',
       heading: 'Gesundheit schafft Chancen, wenn wichtige Fragen früh gestellt werden.',
       text: 'KIDZ macht Eltern auf Vorsorge und langfristige Entscheidungen aufmerksam. Es geht um Orientierung und den Blick auf mögliche Lücken, nicht um medizinische Beratung.',
-      image: 'assets/kidz-themenseite/kidz-gesundheit.jpg',
+      image: '/mockups/assets/kidz-themenseite/kidz-gesundheit.jpg',
       alt: 'Familie nutzt gemeinsam eine Videosprechstunde',
       questions: [
         'Welche Vorsorge gehört zu welcher Lebensphase?',
@@ -33,7 +33,7 @@
       kicker: 'Finanzielle Absicherung',
       heading: 'Pläne sollen weitergehen können, auch wenn das Leben anders läuft.',
       text: 'Eltern möchten Chancen eröffnen und gleichzeitig Stabilität schaffen. KIDZ zeigt, welche Risiken eine Familie früh besprechen sollte. Konkrete Lösungen entstehen erst in einer aktuellen Beratung.',
-      image: 'assets/kidz-themenseite/kidz-absicherung.jpg',
+      image: '/mockups/assets/kidz-themenseite/kidz-absicherung.jpg',
       alt: 'Eltern und Kind bilden gemeinsam ein Herz mit den Händen',
       questions: [
         'Was soll für unser Kind auf jeden Fall weiterlaufen?',
@@ -112,6 +112,16 @@
   let activePath = 'elternabend';
   let activeStory = 0;
   let storyFrame;
+  const localPreview = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+
+  function livePathTarget(path) {
+    if (path === 'elternabend') return '/kidz/elternabend?quelle=direkt#anmeldung';
+    const messages = {
+      termininfo: 'Hallo Kai, ich möchte gern einmalig über den nächsten KIDZ-Elternabend informiert werden.',
+      gespraech: 'Hallo Kai, ich möchte das KIDZ-Konzept gern persönlich für meine Familie einordnen.',
+    };
+    return `https://wa.me/4915154776159?text=${encodeURIComponent(messages[path] || messages.gespraech)}`;
+  }
 
   function setBodyDialogState() {
     const open = (pathDialog && pathDialog.open) || (galleryDialog && galleryDialog.open);
@@ -172,6 +182,10 @@
   }
 
   function openPath(path) {
+    if (!localPreview) {
+      window.location.href = livePathTarget(path);
+      return;
+    }
     const item = pathData[path] || pathData.elternabend;
     activePath = pathData[path] ? path : 'elternabend';
     dialogTitle.textContent = item.title;

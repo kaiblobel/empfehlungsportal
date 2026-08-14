@@ -5,21 +5,29 @@ const htmlUrl = new URL('../mockups/kidz-themenseite-v1.html', import.meta.url);
 const cssUrl = new URL('../mockups/kidz-themenseite-v1.css', import.meta.url);
 const jsUrl = new URL('../mockups/kidz-themenseite-v1.js', import.meta.url);
 const planUrl = new URL('../docs/KIDZ-THEMENSEITE-PLAN-v1.md', import.meta.url);
+const vercelUrl = new URL('../vercel.json', import.meta.url);
 
-const [html, css, javascript, plan] = await Promise.all([
+const [html, css, javascript, plan, vercel] = await Promise.all([
   readFile(htmlUrl, 'utf8'),
   readFile(cssUrl, 'utf8'),
   readFile(jsUrl, 'utf8'),
   readFile(planUrl, 'utf8'),
+  readFile(vercelUrl, 'utf8'),
 ]);
 
-assert.match(html, /content="noindex,nofollow"/);
+assert.match(html, /content="index,follow"/);
+assert.match(html, /https:\/\/kidz\.teamwachsbleiche\.de\/kidz\/konzept/);
+assert.match(vercel, /"source": "\/kidz\/konzept"/);
 assert.match(html, /Was wünschen Sie sich für die Zukunft Ihres Kindes\?/);
 assert.doesNotMatch(html, /Generali Deutschland|Deutsche(?:n)? Vermögensberatung/);
 assert.match(html, /Was Zukunft für Kinder bedeuten kann/);
 assert.equal((html.match(/data-story-slide/g) || []).length, 6);
 assert.equal((html.match(/data-story-index=/g) || []).length, 6);
 assert.match(javascript, /showStory\(activeStory \+ 1\)/);
+assert.match(javascript, /\/kidz\/elternabend\?quelle=direkt#anmeldung/);
+assert.match(javascript, /https:\/\/wa\.me\/4915154776159/);
+assert.match(html, /https:\/\/www\.dvag\.de\/kai\.blobel\/impressum\.html/);
+assert.match(html, /https:\/\/www\.dvag\.de\/kai\.blobel\/datenschutz\.html/);
 assert.match(html, /Es werden keine Daten gesendet oder gespeichert/);
 assert.match(html, /id="contactConsent" type="checkbox" required/);
 assert.doesNotMatch(html, /id="contactConsent"[^>]*\bchecked\b/);
@@ -58,7 +66,7 @@ assert.match(css, /@media \(max-width: 720px\)/);
 assert.match(css, /\.mobile-cta/);
 assert.match(css, /section\[id\] \{ scroll-margin-top:/);
 assert.match(css, /\.dialog-step input\[type="email"\]/);
-assert.match(plan, /nicht veröffentlicht/i);
+assert.match(plan, /zur Veröffentlichung freigegeben/i);
 
 const assetReferences = new Set(
   [...`${html}\n${javascript}`.matchAll(/assets\/kidz-themenseite\/[^"'`)\s]+/g)].map(
