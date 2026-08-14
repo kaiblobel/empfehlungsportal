@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.242 Beta** · Strategie vor Einzelzins, live seit 14.08.2026.
+Offizielle Live-Version: **v1.243 Beta** · Originales KIDZ-Konzept-Logo, live seit 14.08.2026.
+
+## v1.243 Beta - Phase 223 · Originales KIDZ-Konzept-Logo
+**2026-08-14 · live veröffentlicht**
+
+Sommerfest, Gewinnspiel und Elternabend verwenden jetzt die originale runde KIDZ-Konzept-Marke mit Lok. Das bisherige vereinfachte Zeichen ohne Lok wurde in den Kopfzeilen und als Browserzeichen ersetzt.
+
+Die hochauflösende Originaldatei bleibt auf Rechnern klar und ist für die schmale Handykopfzeile passend verkleinert. Navigation, Inhalte, Anmeldung und persönliche Zuordnung bleiben unverändert.
+
+---
 
 ## v1.242 Beta - Phase 222 · Strategie vor Einzelzins
 **2026-08-14 · live veröffentlicht**

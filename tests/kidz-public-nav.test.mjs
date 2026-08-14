@@ -2,12 +2,14 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
 const read = (file) => readFile(new URL(`../${file}`, import.meta.url), 'utf8');
-const [summerHtml, giveawayHtml, parentEveningHtml, navCss, navJs] = await Promise.all([
+const [summerHtml, giveawayHtml, parentEveningHtml, navCss, parentEveningCss, navJs, kidzLogo] = await Promise.all([
   read('kidz-sommerfest.html'),
   read('kidz-gewinnspiel.html'),
   read('kidz-elternabend.html'),
   read('css/kidz-public-nav.css'),
+  read('css/kidz-elternabend.css'),
   read('js/kidz-public-nav.js'),
+  readFile(new URL('../assets/images/kidz-logo-konzept.png', import.meta.url)),
 ]);
 
 const header = (html) => html.match(/<header class="kidz-public-nav">[\s\S]*?<\/header>/)?.[0].replace(/\s+/g, ' ').trim();
@@ -28,11 +30,17 @@ assert.match(navJs, /SAFE_KIDZ_SLUG/);
 assert.doesNotMatch(navJs, /localStorage|sessionStorage|document\.cookie/);
 
 for (const html of [summerHtml, giveawayHtml, parentEveningHtml]) {
+  assert.match(html, /href="\/assets\/images\/kidz-logo-konzept\.png"/);
+  assert.match(html, /src="\/assets\/images\/kidz-logo-konzept\.png" alt="KIDZ Konzept mit Lok"/);
+  assert.doesNotMatch(html, /kidz-marke\.svg/);
   assert.match(html, /href="https:\/\/www\.instagram\.com\/team_wachsbleiche\/"/);
   assert.match(html, /@team_wachsbleiche\s*<span/);
   assert.doesNotMatch(html, /instagram\.com\/team_wachsbleiche\?igsh=/);
   assert.match(html, /rel="noopener noreferrer"/);
 }
+assert.ok(kidzLogo.length > 50_000);
+assert.match(navCss, /width: 62px; height: 63px/);
+assert.match(parentEveningCss, /width: 62px; height: 63px/);
 assert.match(navCss, /\.kidz-instagram-link/);
 assert.match(navCss, /min-height: 48px/);
 

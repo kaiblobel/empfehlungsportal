@@ -135,7 +135,7 @@ try {
   else process.env.TURNSTILE_SITE_KEY = originalTurnstileSiteKey;
 }
 
-const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, bonusMigration, managementMigration, promoterMigration, simpleTermsMigration, parentEveningMigration, logoSvg, vercel] = await Promise.all([
+const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, bonusMigration, managementMigration, promoterMigration, simpleTermsMigration, parentEveningMigration, logoPng, vercel] = await Promise.all([
   read('kidz-gewinnspiel.html'),
   read('css/kidz-gewinnspiel.css'),
   read('js/kidz-gewinnspiel.js'),
@@ -149,7 +149,7 @@ const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, bon
   read('schema-phase186.sql'),
   read('schema-phase190.sql'),
   read('schema-phase191.sql'),
-  read('assets/images/kidz-marke.svg'),
+  read('assets/images/kidz-logo-konzept.png'),
   read('vercel.json'),
 ]);
 const flyerStat = await stat(new URL('../assets/images/kidz-sommerfest-flyer.jpg', import.meta.url));
@@ -169,7 +169,7 @@ assert.match(html, /promoter-anja-scholz">Anja Scholz/);
 assert.match(html, /promoter-sandra-roehrens">Sandra Röhrens/);
 assert.doesNotMatch(html, /Anika|bibrach/i);
 assert.match(html, /promoter-david-stamm">David Stamm/);
-assert.match(html, /assets\/images\/kidz-marke\.svg/);
+assert.match(html, /assets\/images\/kidz-logo-konzept\.png/);
 assert.match(html, /id="kidzPublicMenu"/);
 assert.match(html, /Flyer &amp; Gewinne/);
 assert.match(html, /id="kgFlyerDialog"/);
@@ -194,8 +194,7 @@ assert.match(html, /property="og:image:width" content="1200"/);
 assert.match(html, /property="og:image:height" content="630"/);
 assert.match(html, /name="twitter:card" content="summary_large_image"/);
 assert.doesNotMatch(html, /kg-brand-mark" aria-hidden="true">KIDZ/);
-assert.match(logoSvg, /<text[^>]*>KIDZ<\/text>/);
-assert.doesNotMatch(logoSvg, /Wagen|Lok|<path|<rect/);
+assert.ok(logoPng.length > 50_000);
 assert.match(html, /Wir brauchen keine Angaben zu Kindern/);
 assert.match(html, /Jede gültige Anmeldung bis zum 6\. September 2026 um 15 Uhr nimmt automatisch einmal an der Verlosung/);
 assert.match(html, /Am 6\. September schätzen/);
