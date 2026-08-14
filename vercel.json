@@ -20,6 +20,9 @@
     }
   ],
   "rewrites": [
+    { "source": "/baufinanzierung", "destination": "/baufi.html" },
+    { "source": "/baufinanzierung/:berater", "destination": "/baufi.html?berater=:berater" },
+    { "source": "/empfehlung/:token", "destination": "/api/share?token=:token" },
     { "source": "/e", "destination": "/api/share" },
     { "source": "/p/:berater/:quelle", "destination": "/promoter-start.html?berater=:berater&quelle=:quelle" },
     { "source": "/kidz/sommerfest", "destination": "/kidz-sommerfest.html" },

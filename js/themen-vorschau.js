@@ -399,7 +399,7 @@ const BAUFI_CARD_META = {
 };
 const params = new URLSearchParams(window.location.search);
 const isPreview = Boolean(document.getElementById('previewTopic'));
-const token = params.get('token') || '';
+const token = params.get('token') || document.querySelector('meta[name="referral-token"]')?.content || '';
 const requestedTopic = params.get('thema') || params.get('vorlage');
 let currentTopic = TOPICS[requestedTopic] ? requestedTopic : 'investment';
 let currentMode = token || params.get('modus') === 'referral' || params.get('einstieg') === 'empfehlung' ? 'referral' : 'public';

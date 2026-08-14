@@ -201,7 +201,7 @@ function renderFeed() {
     const linkInfo = geoeffnet
       ? `<span class="pd-link-status is-open">● Link geöffnet${e.link_geoeffnet_at ? ' · ' + formatDate(e.link_geoeffnet_at) : ''}</span>`
       : '<span class="pd-link-status">○ Link noch nicht geöffnet</span>';
-    const link = e.link_token ? `${origin}/e?token=${encodeURIComponent(e.link_token)}${e.vorlage_slug ? '&vorlage=' + encodeURIComponent(e.vorlage_slug) : ''}` : '';
+    const link = e.link_token ? `${origin}/empfehlung/${encodeURIComponent(e.link_token)}` : '';
     const copyBtn = link ? `<button type="button" class="pd-copy" data-link="${escapeAttr(link)}">Link kopieren</button>` : '';
     const status = e.status || 'offen';
     return `

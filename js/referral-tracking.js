@@ -1,7 +1,9 @@
 (function referralTracking() {
   'use strict';
 
-  const token = new URLSearchParams(window.location.search).get('token') || '';
+  const token = new URLSearchParams(window.location.search).get('token')
+    || document.querySelector('meta[name="referral-token"]')?.content
+    || '';
   const tokenPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
   if (!tokenPattern.test(token)) return;
   document.documentElement.setAttribute('data-referral-tracking', 'ready');

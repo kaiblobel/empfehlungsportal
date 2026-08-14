@@ -52,20 +52,20 @@ async function testFallbackKeepsQuery() {
   }, res);
 
   assert.equal(res.statusCode, 302);
-  assert.equal(headers.Location, '/baufi.html?token=abc%20123&vorlage=baufi');
+  assert.equal(headers.Location, '/baufi.html?token=abc+123&vorlage=baufi');
 }
 
 async function testThemeFallbackRoutes() {
   const routes = {
-    foerderungen: '/thema.html?token=abc%20123&vorlage=foerderungen',
-    selbstaendige: '/thema.html?token=abc%20123&vorlage=selbstaendige',
-    investment: '/thema.html?token=abc%20123&vorlage=investment',
-    absicherung: '/thema.html?token=abc%20123&vorlage=absicherung',
-    karriere: '/thema.html?token=abc%20123&vorlage=karriere',
-    kinder: '/thema.html?token=abc%20123&vorlage=kinder',
-    banking: '/thema.html?token=abc%20123&vorlage=banking',
-    energie: '/thema.html?token=abc%20123&vorlage=energie',
-    unbekannt: '/empfaenger.html?token=abc%20123&vorlage=unbekannt',
+    foerderungen: '/thema.html?token=abc+123&vorlage=foerderungen',
+    selbstaendige: '/thema.html?token=abc+123&vorlage=selbstaendige',
+    investment: '/thema.html?token=abc+123&vorlage=investment',
+    absicherung: '/thema.html?token=abc+123&vorlage=absicherung',
+    karriere: '/thema.html?token=abc+123&vorlage=karriere',
+    kinder: '/thema.html?token=abc+123&vorlage=kinder',
+    banking: '/thema.html?token=abc+123&vorlage=banking',
+    energie: '/thema.html?token=abc+123&vorlage=energie',
+    unbekannt: '/empfaenger.html?token=abc+123&vorlage=unbekannt',
   };
 
   for (const [template, expected] of Object.entries(routes)) {
@@ -153,12 +153,45 @@ async function testStoredBaufiRoutesToCanonicalPage() {
   assert.ok(body.includes('Finanzierungskompass'));
 }
 
+async function testCleanRecommendationAddressCarriesTokenIntoPage() {
+  const token = '125b319f-4ba7-4577-acf3-4ed28468cb27';
+  global.fetch = async (url) => {
+    if (String(url).includes('get_empfehlung_public')) {
+      return new Response(JSON.stringify([{ vorlage_slug: 'baufi' }]), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+    if (String(url).endsWith('/baufi.html')) {
+      return new Response('<html><head><title>Finanzierungskompass</title></head><body></body></html>', { status: 200 });
+    }
+    return new Response('[]', { status: 200 });
+  };
+
+  let body = '';
+  const res = {
+    statusCode: 0,
+    setHeader: () => {},
+    end: (value) => { body = value || ''; },
+  };
+
+  await handler({
+    headers: { host: 'example.test', 'x-forwarded-proto': 'https' },
+    url: `/empfehlung/${token}`,
+  }, res);
+
+  assert.equal(res.statusCode, 200);
+  assert.ok(body.includes(`<meta name="referral-token" content="${token}" />`));
+  assert.ok(body.includes(`<meta property="og:url" content="https://example.test/empfehlung/${token}" />`));
+}
+
 (async () => {
   await testHappyPath();
   await testFallbackKeepsQuery();
   await testThemeFallbackRoutes();
   await testStoredThemeRoutesOldLinks();
   await testStoredBaufiRoutesToCanonicalPage();
+  await testCleanRecommendationAddressCarriesTokenIntoPage();
   console.log('share-handler: OK');
 })().catch((error) => {
   console.error(error);

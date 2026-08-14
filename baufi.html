@@ -120,6 +120,71 @@
       font-weight: 750;
       cursor: pointer;
     }
+    .section-nav {
+      position: fixed;
+      z-index: 45;
+      top: 68px;
+      left: 0;
+      right: 0;
+      border-bottom: 1px solid rgba(23, 24, 23, 0.08);
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 10px 28px rgba(31, 30, 25, 0.07);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-110%);
+      transition: opacity 180ms ease, transform 220ms ease;
+    }
+    .section-nav.is-visible { opacity: 1; pointer-events: auto; transform: none; }
+    .section-nav-inner { min-height: 54px; display: flex; align-items: center; gap: 14px; }
+    .section-nav-links {
+      min-width: 0;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      overscroll-behavior-inline: contain;
+    }
+    .section-nav-links::-webkit-scrollbar { display: none; }
+    .section-nav-link {
+      flex: 0 0 auto;
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 12px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: #5f605b;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 740;
+      text-decoration: none;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: color 160ms ease, background 160ms ease;
+    }
+    .section-nav-link:hover, .section-nav-link.is-active {
+      color: #193e50;
+      background: rgba(46, 82, 102, 0.09);
+    }
+    .section-nav-link.is-active { box-shadow: inset 0 -2px 0 var(--gold); }
+    .section-nav-appointment {
+      flex: 0 0 auto;
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 15px;
+      border-radius: 8px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 780;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    #compass, #funding-check-section, #bankvergleich, #finanzierungsmodell, #contact { scroll-margin-top: 138px; }
 
     .hero {
       position: relative;
@@ -786,6 +851,12 @@
 
     @media (max-width: 520px) {
       .site-header { position: relative; }
+      .section-nav { top: 0; }
+      .section-nav-inner { width: 100%; min-height: 56px; padding: 0 10px; gap: 7px; }
+      .section-nav-links { gap: 2px; }
+      .section-nav-link { min-height: 40px; padding-inline: 10px; font-size: 11px; }
+      .section-nav-appointment { min-height: 40px; padding-inline: 12px; }
+      #compass, #funding-check-section, #bankvergleich, #finanzierungsmodell, #contact { scroll-margin-top: 70px; }
       .header-inner { min-height: 60px; }
       .brand-mark { width: 34px; height: 34px; border-radius: 11px; }
       .brand-copy strong { font-size: 13px; }
@@ -896,6 +967,18 @@
         <button class="header-action" type="button" data-scroll="compass">Kompass starten</button>
       </div>
     </header>
+
+    <nav class="section-nav" id="section-nav" aria-label="Schnell zu den wichtigsten Bereichen">
+      <div class="wrap section-nav-inner">
+        <div class="section-nav-links">
+          <a class="section-nav-link" href="#compass" data-section-link="compass">Vorhaben</a>
+          <a class="section-nav-link" href="#bankvergleich" data-section-link="bankvergleich">Bankenvergleich</a>
+          <button class="section-nav-link" type="button" data-section-link="funding" data-open-funding>Förderungen</button>
+          <a class="section-nav-link" href="#finanzierungsmodell" data-section-link="finanzierungsmodell">Finanzierungsmodell</a>
+        </div>
+        <a class="section-nav-appointment" href="#contact" data-section-link="contact">Termin</a>
+      </div>
+    </nav>
 
     <main id="top">
       <section class="hero">
@@ -1102,7 +1185,7 @@
         <div class="wrap">
           <div class="section-head reveal"><p class="eyebrow">Der Unterschied in der Praxis</p><h2>Heute finanzieren. Und schon heute wissen, wie es später weitergehen kann.</h2><p>Ein guter Zinssatz ist wichtig. Entscheidend ist aber, ob Vergleich, Restschuld, Förderung und Anschluss auch zusammenpassen.</p></div>
 
-          <div class="finance-practice reveal">
+          <div class="finance-practice reveal" id="bankvergleich">
             <div class="finance-practice-copy">
               <span class="finance-label">Echter Einblick aus der Beratung</span>
               <h3>So sieht ein breiter Bankenvergleich tatsächlich aus.</h3>
@@ -1116,7 +1199,7 @@
             </figure>
           </div>
 
-          <div class="finance-models reveal" aria-label="Vergleich zweier Finanzierungswege">
+          <div class="finance-models reveal" id="finanzierungsmodell" aria-label="Vergleich zweier Finanzierungswege">
             <article class="finance-model finance-model-classic">
               <header><span>Klassisches Bankmodell</span><h3>Die erste Zinsbindung steht.</h3><p>Wie die verbleibende Schuld später finanziert wird, bleibt zunächst offen.</p></header>
               <ol><li><small>Heute</small><strong>Bankdarlehen</strong><span>Rate und Sollzins werden vereinbart.</span></li><li><small>Zum Beispiel Jahr 1 bis 10</small><strong>Feste Monatsrate</strong><span>Die Restschuld sinkt Schritt für Schritt.</span></li><li class="finance-open"><small>Nach der Zinsbindung</small><strong>Neue Finanzierung nötig</strong><span>Der dann gültige Marktzins bestimmt die neue Belastung.</span></li></ol>
@@ -1680,6 +1763,7 @@
       }
 
       root.querySelector('#start-funding').addEventListener('click', openFunding);
+      root.querySelectorAll('[data-open-funding]').forEach(button => button.addEventListener('click', openFunding));
       root.querySelector('#funding-back').addEventListener('click', () => { if (fundingIndex > 0) { fundingIndex -= 1; renderFundingQuestion(); } });
       root.querySelector('#edit-funding').addEventListener('click', () => { fundingIndex = 0; fundingQuestionScreen.hidden = false; fundingResult.hidden = true; renderFundingQuestion(); });
       root.querySelector('#close-funding').addEventListener('click', () => {
@@ -1766,7 +1850,7 @@
       root.querySelectorAll('.reveal').forEach(element => revealObserver.observe(element));
     })();
   </script>
-  <script src="/js/referral-tracking.js?v=2"></script>
-  <script type="module" src="/js/baufi.js?v=7"></script>
+  <script src="/js/referral-tracking.js?v=3"></script>
+  <script type="module" src="/js/baufi.js?v=9"></script>
 </body>
 </html>
