@@ -1,7 +1,7 @@
 <!-- odysseus-passport
 purpose: Empfehlungsportal für DVAG-Berater - Vanilla JS + eigene Supabase; Funnel Klick zu Interesse zu Kunde, privates Potenzialbuch mit Kontakt-Coach, echte Kennzahlen, Champions, Prämien; Cockpit-Brücke
-status: LIVE 14.08.2026 v1.240 Phase 220 mit genau einer CI-Farbfamilie je öffentlicher Themenseite; zusätzlich lokale Vorschau einer hellen neutralen Empfängerseite, noch nicht veröffentlicht
-release: Live sind die Themenfarben aus Phase 220; lokal vorbereitet ist eine weiße und hellgraue Empfängerseite mit Dunkelblau als Führung sowie kleinen Gold-, Gelb- und Türkisakzenten in der Auswahl; Ablauf, Daten und Empfehlungslogik bleiben unverändert
+status: LIVE 14.08.2026 v1.240 Phase 220 mit genau einer CI-Farbfamilie je öffentlicher Themenseite; zusätzlich lokale Vorschau für helle Empfänger- und Promoterseiten, noch nicht veröffentlicht
+release: Live sind die Themenfarben aus Phase 220; lokal vorbereitet sind Empfänger- und öffentliche Promoterseite auf Weiß und Hellgrau mit Dunkelblau als Führung sowie gezielten CI-Farben in Auswahl und Schritten; Ablauf, Daten, Registrierung und Empfehlungslogik bleiben unverändert
 live_url: https://empfehlungsportal.vercel.app; Baufinanzierung unter https://finanzierung.kaiblobel.de; KIDZ oeffentlich unter https://kidz.teamwachsbleiche.de
 tags: portal, supabase, empfehlung, promoter, potenzialbuch, kontakt-coach, spracheingabe, mobile-first, live, baufinanzierung, kfw, bookings, power-automate
 -->
