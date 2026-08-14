@@ -27,6 +27,13 @@ assert.doesNotMatch(html, /Für dieses Muster wurden keine künstlich erzeugten 
 assert.match(html, /kidz-logo-original\.png/);
 assert.match(html, /kidz-lok-vermoegensaufbau-original\.png/);
 assert.match(html, /Die KIDZ-Lok steht für einen Weg, der früh beginnt/);
+assert.match(html, /Ein echtes VIP-Ticket in puncto Gesundheit!/);
+assert.match(html, /Mehr Möglichkeiten durch den FitBonus\+ Junior/);
+assert.match(html, /Bis zu 100 % Kostenerstattung für Kieferorthopädie/);
+assert.match(html, /Schon heute die künftige Arbeitskraft Ihres Kindes finanziell absichern/);
+assert.match(html, /Möglichkeit der Nutzung von attraktiven, staatlichen Förderungen/);
+assert.match(html, /Früh anfangen zahlt sich aus/);
+assert.match(html, /Leistungsbeispiele aus den bereitgestellten KIDZ-Unterlagen/);
 
 for (const pathName of ['elternabend', 'termininfo', 'gespraech']) {
   assert.match(html, new RegExp(`data-open-path="${pathName}"`));
@@ -52,7 +59,7 @@ const assetReferences = new Set(
   ),
 );
 
-assert.ok(assetReferences.size >= 10, 'Alle vorgesehenen Originalmotive und Markenbilder müssen eingebunden sein.');
+assert.ok(assetReferences.size >= 14, 'Alle vorgesehenen Originalmotive und Markenbilder müssen eingebunden sein.');
 
 for (const assetPath of assetReferences) {
   await access(new URL(`../mockups/${assetPath}`, import.meta.url));

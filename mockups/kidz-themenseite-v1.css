@@ -148,6 +148,36 @@ img { display: block; max-width: 100%; }
 .pillar-original strong { margin-top: 4px; color: var(--blue-deep); font-size: 18px; }
 .pillar-original p { margin: 4px 0 0; color: var(--muted); font-size: 14px; line-height: 1.45; }
 
+.possibilities-section { max-width: none; padding-right: max(24px, calc((100vw - var(--max)) / 2)); padding-left: max(24px, calc((100vw - var(--max)) / 2)); }
+.possibilities-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; max-width: var(--max); margin: 0 auto; }
+.possibility-card { position: relative; min-height: 320px; overflow: hidden; border: 1px solid var(--line); border-radius: 24px; background: #fff; box-shadow: 0 18px 50px rgba(24, 63, 86, 0.08); }
+.possibility-card-copy { position: relative; z-index: 2; }
+.possibility-card-copy > span, .possibility-invest-copy > span { color: var(--gold-deep); font-size: 11px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; }
+.possibility-card h3 { margin: 10px 0 0; color: var(--blue-deep); font-size: 27px; line-height: 1.12; letter-spacing: -0.025em; }
+.possibility-card p { margin: 13px 0 0; color: var(--muted); font-size: 16px; line-height: 1.5; }
+.possibility-health { grid-column: span 7; display: grid; grid-template-columns: 1fr 210px; align-items: center; padding: 38px; color: #fff; border: 0; background: var(--blue-deep); }
+.possibility-health h3 { color: #fff; font-size: clamp(30px, 3vw, 42px); }
+.possibility-health p { color: rgba(255, 255, 255, 0.76); font-weight: 700; }
+.possibility-health img { width: 210px; height: auto; justify-self: end; transform: rotate(4deg); filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.25)); }
+.possibility-dental { grid-column: span 5; }
+.possibility-dental > img { width: 42%; height: 100%; object-fit: cover; }
+.possibility-dental .possibility-card-copy { position: absolute; top: 0; right: 0; bottom: 0; left: 38%; display: flex; flex-direction: column; justify-content: center; padding: 30px; background: linear-gradient(90deg, rgba(255, 255, 255, 0.84), #fff 22%); }
+.possibility-dental h3 { font-size: 23px; }
+.possibility-workforce { grid-column: span 4; display: grid; grid-template-columns: 104px 1fr; gap: 16px; align-items: center; padding: 30px; background: var(--soft); }
+.possibility-workforce > img { width: 104px; height: 108px; object-fit: contain; }
+.possibility-workforce h3, .possibility-support h3 { font-size: 25px; }
+.possibility-support { grid-column: span 4; display: grid; grid-template-columns: 78px 1fr; gap: 18px; align-items: center; padding: 30px; background: #fffaf0; }
+.possibility-symbol { display: grid; place-items: center; width: 72px; height: 72px; color: #fff; border-radius: 50%; background: var(--gold); font-size: 30px; font-weight: 900; box-shadow: 0 12px 26px rgba(201, 160, 74, 0.28); }
+.possibility-invest { grid-column: span 4; display: flex; flex-direction: column; padding: 30px; background: var(--blue-pale); }
+.possibility-invest h3 { font-size: 28px; }
+.possibility-invest figure { margin: auto -10px -10px; padding-top: 22px; }
+.possibility-invest figure img { width: 100%; height: 180px; object-fit: cover; object-position: center 58%; border-radius: 16px; background: #fff; }
+.possibility-invest figcaption { margin-top: 8px; color: var(--muted); font-size: 11px; text-align: center; }
+.possibilities-note { display: flex; align-items: center; justify-content: space-between; gap: 32px; max-width: var(--max); margin: 24px auto 0; padding: 22px 26px; border-left: 4px solid var(--gold); background: var(--soft); }
+.possibilities-note p { max-width: 780px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+.possibilities-note strong { color: var(--blue-deep); }
+.possibilities-note .button { flex: 0 0 auto; }
+
 .parent-evening { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 90px; align-items: center; }
 .evening-visual { position: relative; min-height: 630px; overflow: hidden; border-radius: 180px 180px 26px 26px; background: linear-gradient(160deg, var(--blue-pale), var(--blue-light)); }
 .evening-visual img { width: 100%; height: 100%; min-height: 630px; object-fit: cover; object-position: center bottom; }
@@ -281,6 +311,12 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
   .intro-grid, .parent-evening, .source-section, .faq-section { grid-template-columns: 1fr; gap: 50px; }
   .intro-image, .intro-image img { min-height: 490px; }
   .pillar-panel { grid-template-columns: 1fr; }
+  .possibility-health, .possibility-dental { grid-column: span 6; }
+  .possibility-health { grid-template-columns: 1fr; }
+  .possibility-health img { position: absolute; right: 20px; bottom: 10px; width: 145px; opacity: 0.32; }
+  .possibility-workforce, .possibility-support, .possibility-invest { grid-column: span 4; grid-template-columns: 1fr; }
+  .possibility-workforce > img { width: 88px; height: 90px; }
+  .possibilities-note { align-items: flex-start; flex-direction: column; }
   .pillar-panel-media { min-height: 360px; }
   .parent-evening { grid-template-columns: 0.8fr 1.2fr; gap: 44px; }
   .choice-grid { grid-template-columns: 1fr; max-width: 660px; }
@@ -315,6 +351,20 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
   .intro-copy > p { font-size: 18px; }
   .kidz-journey-mark { grid-template-columns: 96px 1fr; padding: 16px; }
   .kidz-journey-mark img { width: 96px; }
+  .possibilities-grid { grid-template-columns: 1fr; }
+  .possibility-health, .possibility-dental, .possibility-workforce, .possibility-support, .possibility-invest { grid-column: auto; min-height: 0; }
+  .possibility-health { padding: 30px; }
+  .possibility-health img { right: 8px; bottom: 8px; width: 118px; }
+  .possibility-dental { min-height: 360px; }
+  .possibility-dental > img { width: 100%; height: 190px; }
+  .possibility-dental .possibility-card-copy { position: static; padding: 24px; background: #fff; }
+  .possibility-workforce, .possibility-support { grid-template-columns: 82px 1fr; padding: 24px; }
+  .possibility-workforce > img { width: 80px; height: 82px; }
+  .possibility-symbol { width: 64px; height: 64px; }
+  .possibility-invest { padding: 24px; }
+  .possibility-invest figure img { height: 210px; object-position: center 55%; }
+  .possibilities-note { padding: 20px; }
+  .possibilities-note .button { width: 100%; }
   .pillar-tabs { display: flex; margin: 0 -20px 18px; padding: 4px 20px 12px; overflow-x: auto; scroll-snap-type: x mandatory; }
   .pillar-tab { flex: 0 0 82%; min-height: 88px; scroll-snap-align: center; }
   .pillar-panel-media { min-height: 310px; }

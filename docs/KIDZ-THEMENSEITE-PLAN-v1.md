@@ -25,9 +25,10 @@ Kinder werden weder angesprochen noch als Kontakte oder Profile erfasst.
 1. Emotionaler Einstieg über die Zukunftswünsche der Eltern
 2. KIDZ in einem Satz und als ruhiges Orientierungskonzept erklären
 3. Die drei Grundlagen interaktiv verständlich machen
-4. Ablauf und Charakter des Elternabends zeigen
-5. Echte KIDZ-Bildwelt und Herkunft transparent einordnen
-6. Drei freiwillige nächste Schritte anbieten
+4. Fünf konkrete Möglichkeiten aus den KIDZ-Unterlagen einordnen
+5. Ablauf und Charakter des Elternabends zeigen
+6. Echte KIDZ-Bildwelt und Herkunft transparent einordnen
+7. Drei freiwillige nächste Schritte anbieten
 
 ## Inhalte
 
@@ -49,7 +50,15 @@ Kinder werden weder angesprochen noch als Kontakte oder Profile erfasst.
 - Gesundheit
 - finanzielle Absicherung
 
-Jede Grundlage beantwortet typische Elternfragen. Produktnamen, Tarife, Beiträge und Leistungsversprechen bleiben aus diesem öffentlichen Hauptweg heraus.
+Jede Grundlage beantwortet typische Elternfragen. Danach zeigt ein klar abgegrenzter Abschnitt fünf konkrete Leistungsbeispiele aus den KIDZ-Unterlagen. Erstattungen, Förderungen und Verfügbarkeit werden nicht als pauschale Zusage dargestellt, sondern mit einem sichtbaren Aktualitäts- und Bedingungshinweis verbunden.
+
+### Konkrete Möglichkeiten
+
+- VIP-Ticket in puncto Gesundheit und FitBonus+ Junior
+- Kieferorthopädie und weitere Zahnleistungen
+- künftige Arbeitskraft des Kindes finanziell absichern
+- mögliche staatliche Förderungen nutzen
+- früh mit dem Vermögensaufbau beginnen
 
 ### Elternabend
 
@@ -70,6 +79,8 @@ Diese Wege bleiben getrennt. Im Muster werden sie vollständig simuliert, ohne D
 Verwendet werden ausgewählte Motive aus `Praesentation__KIDZ_V04.pptx`:
 
 - originale goldene KIDZ-Lok als Wegmotiv
+- VIP-Ticket, Zahnmotiv und Arbeitskraft-Waggon für konkrete Leistungsbeispiele
+- Originalgrafik „Früh anfangen zahlt sich aus“ mit Beispielrechnung
 - KIDZ-Familiencollage für den Einstieg
 - Pusteblume als Zukunfts- und Wunschmotiv
 - offizielles Dreisäulenmodell
