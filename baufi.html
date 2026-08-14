@@ -881,6 +881,7 @@
     /* Icon-Bubbles etwas ruhiger, aber weich */
     .icon-orb, .funding-option-icon, .concept-icon { border-radius: 10px; }
   </style>
+  <link rel="stylesheet" href="/css/baufi-empfehlung-mockup.css?v=4">
 </head>
 <body data-page="baufi">
   <div class="page-shell" id="finance-v4">
@@ -904,9 +905,9 @@
               <span class="recommender-avatar" id="ref-avatar">E</span>
               <span><span id="ref-name">Jemand aus deinem Umfeld</span> empfiehlt dir <span data-bb="vorname">Kai</span> persönlich</span>
             </div>
-            <p class="eyebrow">Eine persönliche Empfehlung</p>
-            <h1><span id="hero-recipient">Für dich</span> geht es nicht um irgendeinen Kredit. Es geht um einen <span>Plan, der bleibt.</span></h1>
-            <p class="hero-lead"><span id="hero-referrer">Jemand aus deinem Umfeld</span> hat diese Seite bewusst mit dir geteilt. In wenigen Schritten siehst du, welche Fragen für deine Situation wirklich wichtig sind und wie Kai anders an Finanzierung herangeht.</p>
+            <p class="eyebrow" id="hero-eyebrow">Eine persönliche Empfehlung</p>
+            <h1 id="hero-title"><span id="hero-recipient">Für dich</span> geht es nicht um irgendeinen Kredit. Es geht um einen <span>Plan, der bleibt.</span></h1>
+            <p class="hero-lead" id="hero-lead"><span id="hero-referrer">Jemand aus deinem Umfeld</span> hat diese Seite bewusst mit dir geteilt. In wenigen Schritten siehst du, welche Fragen für deine Situation wirklich wichtig sind und wie Kai anders an Finanzierung herangeht.</p>
             <p class="recommendation-note" id="recommendation-message" hidden></p>
             <div class="hero-actions">
               <button class="primary-btn" type="button" data-scroll="compass">
@@ -940,8 +941,8 @@
         <div class="wrap">
           <div class="section-head reveal">
             <p class="eyebrow">Dein persönlicher Kompass</p>
-            <h2>Wo stehst du gerade?</h2>
-            <p>Ein Tipp genügt. Danach bekommst du keine Standardantwort, sondern die Fragen, auf die es in deiner Situation ankommt.</p>
+            <h2>Was hast du vor?</h2>
+            <p>Eine Auswahl genügt. Danach siehst du sofort, worauf es in deiner Situation ankommt.</p>
           </div>
 
           <div class="compass-app reveal" id="compass-app">
@@ -955,8 +956,12 @@
             </div>
 
             <section class="app-screen" data-screen="1">
-              <div class="screen-intro"><h3>Was beschäftigt dich?</h3><p>Wähle einfach das, was deiner Lage am nächsten kommt.</p></div>
+              <div class="screen-intro situation-intro"><h3>Wähle dein Vorhaben</h3><p>Fünf typische Wege, klar und einfach eingeordnet.</p></div>
               <div class="situation-grid" id="situation-grid"></div>
+              <button class="situation-alt-link" id="situation-optimierung" type="button">
+                <span><strong>Du hast bereits eine Finanzierung?</strong><small>Rate, Sicherheit oder Flexibilität prüfen</small></span>
+                <span aria-hidden="true">›</span>
+              </button>
             </section>
 
             <section class="app-screen" data-screen="2" hidden>
@@ -1095,36 +1100,49 @@
 
       <section class="section soft" id="difference">
         <div class="wrap">
-          <div class="section-head reveal"><p class="eyebrow">Nicht 08/15</p><h2>Der Unterschied liegt nicht im nächsten Angebot. Sondern im gesamten Konzept.</h2><p>Bevor ein Produkt ausgewählt wird, entsteht aus deinem Vorhaben und deinem Leben ein vollständiges Bild.</p></div>
-          <div class="concept-rail reveal" role="list" aria-label="Die fünf Ebenen von Kais Konzeptprüfung">
-            <div class="concept-node" role="listitem"><span class="concept-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 19V8l7-4 7 4v11M8 19h8M9 10h6"/></svg></span><strong>Dein Vorhaben</strong></div>
-            <div class="concept-node" role="listitem"><span class="concept-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M8 12h8M12 8v8"/></svg></span><strong>Deine Möglichkeiten</strong></div>
-            <div class="concept-node" role="listitem"><span class="concept-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16M12 4v16"/><circle cx="12" cy="12" r="8"/></svg></span><strong>Wünsche und Ziele</strong></div>
-            <div class="concept-node" role="listitem"><span class="concept-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 5 6v5c0 4.8 2.8 8 7 10 4.2-2 7-5.2 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg></span><strong>Sicherheit und Vorsorge</strong></div>
-            <div class="concept-node" role="listitem"><span class="concept-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19h16M6 17V9h12v8M8 9V6h8v3"/><path d="m16 5 1.5 1.5L20 4"/></svg></span><strong>Fördermöglichkeiten</strong></div>
+          <div class="section-head reveal"><p class="eyebrow">Der Unterschied in der Praxis</p><h2>Heute finanzieren. Und schon heute wissen, wie es später weitergehen kann.</h2><p>Ein guter Zinssatz ist wichtig. Entscheidend ist aber, ob Vergleich, Restschuld, Förderung und Anschluss auch zusammenpassen.</p></div>
+
+          <div class="finance-practice reveal">
+            <div class="finance-practice-copy">
+              <span class="finance-label">Echter Einblick aus der Beratung</span>
+              <h3>So sieht ein breiter Bankenvergleich tatsächlich aus.</h3>
+              <p>Der Blick bleibt nicht bei einem Institut stehen. Für dein Vorhaben werden passende Wege aus einem Markt mit mehr als 400 Finanzierungspartnern geprüft.</p>
+              <ul><li>Rate und Sollzins</li><li>Restschuld und Laufzeit</li><li>Förderung und Annahmekriterien</li></ul>
+              <button class="secondary-btn" type="button" data-scroll="compass">Meine Situation einordnen</button>
+            </div>
+            <figure class="finance-practice-shot">
+              <div><img src="/assets/images/baufi/bankenvergleich-praxis-2026-08.png" alt="Ausschnitt aus einem echten anonymisierten Bankenvergleich mit mehreren Kreditinstituten und Konditionen"></div>
+              <figcaption>Echter Systemausschnitt ohne Kundendaten. Ein breiter Marktzugang ersetzt keine Prüfung, schafft aber mehr Auswahl.</figcaption>
+            </figure>
           </div>
-          <div class="difference-grid">
-            <article class="difference-card reveal">
-              <div class="icon-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><path d="M4.5 9h15M4.5 15h15M9 4.5c-2 4.8-2 10.2 0 15M15 4.5c2 4.8 2 10.2 0 15"/></svg></div>
-              <h3>Breiter Vergleich statt Hausbank-Tunnel</h3>
-              <p>Bei Bedarf kann deine Finanzierungsanfrage bei mehr als 400 weiteren Banken platziert werden. So bleibt die Prüfung nicht auf eine Hausbank beschränkt.</p>
-              <span class="detail"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg>Mehr Möglichkeiten sichtbar machen</span>
+
+          <div class="finance-models reveal" aria-label="Vergleich zweier Finanzierungswege">
+            <article class="finance-model finance-model-classic">
+              <header><span>Klassisches Bankmodell</span><h3>Die erste Zinsbindung steht.</h3><p>Wie die verbleibende Schuld später finanziert wird, bleibt zunächst offen.</p></header>
+              <ol><li><small>Heute</small><strong>Bankdarlehen</strong><span>Rate und Sollzins werden vereinbart.</span></li><li><small>Zum Beispiel Jahr 1 bis 10</small><strong>Feste Monatsrate</strong><span>Die Restschuld sinkt Schritt für Schritt.</span></li><li class="finance-open"><small>Nach der Zinsbindung</small><strong>Neue Finanzierung nötig</strong><span>Der dann gültige Marktzins bestimmt die neue Belastung.</span></li></ol>
+              <div class="finance-outcome"><b>?</b><span><strong>Anschlusszins heute offen</strong>Die spätere Rate ist noch nicht vollständig planbar.</span></div>
             </article>
-            <article class="difference-card reveal">
-              <div class="icon-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 19h16M6 17V9h12v8M8 9V6h8v3M9 13h6"/><path d="m16.5 4.5 1 1 2-2"/></svg></div>
-              <h3>Förderung von Anfang an mitdenken</h3>
-              <p>Mögliche Programme der KfW und weitere Förderwege werden passend zum Vorhaben geprüft. Im persönlichen Kompass werden daraus konkrete Prüfspuren, ohne vorschnell etwas zu versprechen.</p>
-              <span class="detail"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg>Voraussetzungen und Zeitpunkt früh prüfen</span>
-            </article>
-            <article class="difference-card reveal">
-              <div class="icon-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 19V8l7-4 7 4v11"/><path d="M8 19v-6h8v6M9 9h6"/><circle cx="18" cy="6" r="2.5"/></svg></div>
-              <h3>Dein Leben vor dem Produkt</h3>
-              <p>Rate, Rücklagen, Laufzeit, Wünsche, Absicherung und Flexibilität werden gemeinsam betrachtet. Erst dann entsteht eine dauerhaft tragfähige Lösung.</p>
-              <span class="detail"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></svg>Gesamtbild statt Einzelprodukt</span>
+
+            <article class="finance-model finance-model-planned">
+              <header><span>Von Anfang an weitergedacht</span><h3>Erste Finanzierung und Anschluss greifen ineinander.</h3><p>Bankdarlehen und eine mögliche Anschlusslösung werden gemeinsam geplant.</p></header>
+              <ol><li><small>Heute</small><strong>Gesamtkonzept</strong><span>Rate, Laufzeit, Restschuld und Anschluss werden zusammen geprüft.</span></li><li><small>Zum Beispiel Jahr 1 bis 10</small><strong>Zwei Bausteine arbeiten</strong><span>Das Darlehen läuft, die Anschlusslösung wird parallel vorbereitet.</span></li><li class="finance-secured"><small>Nach der Zinsbindung</small><strong>Geplanter Übergang</strong><span>Der zweite Baustein kann die verbleibende Bankschuld ablösen.</span></li></ol>
+              <div class="finance-options"><span><small>Später passend wählen</small><strong>Günstiger Sollzins</strong></span><i>oder</i><span><small>Später passend wählen</small><strong>Niedrigere Monatsrate</strong></span></div>
+              <div class="finance-rate"><span>Aktuelles Tarifbeispiel<small>gebundener Sollzins p. a.</small></span><strong>ab 0,95 %</strong></div>
             </article>
           </div>
-          <!-- Quelle: DVAG ImmoSmart Flyer CI010758-001, Ausgabe 01/2026. Aussage zu mehr als 400 weiteren Banken laut Flyer mit Stand Dezember 2024. -->
-          <!-- Von Kai am 21.07.2026 für den Livegang freigegeben. -->
+
+          <details class="finance-explain reveal">
+            <summary><span><small>Einfach erklärt</small><strong>Wie kann die geplante Anschlusslösung funktionieren?</strong></span><b aria-hidden="true">+</b></summary>
+            <div><p>Während das erste Bankdarlehen läuft, wird ein zweiter Baustein vorbereitet. Nach der ersten Zinsbindung kann dieser Baustein die verbleibende Bankschuld ablösen. Der dafür vorgesehene Sollzins wird bereits vorher festgelegt.</p><p>Ob dieses Modell passt, hängt von Sparleistung, Laufzeit, Zuteilung, Bonität und persönlicher Planung ab. Deshalb wird es nicht pauschal eingesetzt, sondern mit einer klassischen Finanzierung verglichen.</p></div>
+          </details>
+
+          <div class="finance-support reveal" role="list" aria-label="Weitere Bestandteile der Prüfung">
+            <article role="listitem"><span>Förderwege</span><strong>KfW, regionale Programme und weitere Möglichkeiten mitprüfen</strong></article>
+            <article role="listitem"><span>Oft übersehen</span><strong>Auch vorhandenes Riester-Guthaben kann eine Prüfspur sein</strong></article>
+            <article role="listitem"><span>Persönlich begleitet</span><strong>Ein Ansprechpartner vom ersten Überblick bis zum nächsten Schritt</strong></article>
+          </div>
+          <p class="finance-disclaimer">Das Tarifbeispiel ist kein persönliches Angebot. Konditionen, Zuteilung und Finanzierbarkeit hängen unter anderem von Tarif, Laufzeit, Bonität und den vereinbarten Voraussetzungen ab. Stand: August 2026.</p>
+          <nav class="finance-sources" aria-label="Offizielle Quellen zur Anschlussfinanzierung"><span>Offizielle Informationen:</span><a href="https://www.dvag.de/dvag/das-unternehmen/presse/servicemeldungen/Baufinanzierung.html" target="_blank" rel="noopener">Langfristige Immobilienfinanzierung</a><a href="https://www.badenia.de/fileadmin/user_upload/Tarifuebersicht_Via_Badenia_20.pdf" target="_blank" rel="noopener">Aktuelle Tarifübersicht</a></nav>
         </div>
       </section>
 
@@ -1135,7 +1153,7 @@
             <h2 id="contact-title">Lass uns aus deiner Situation einen klaren Plan machen.</h2>
             <p id="contact-copy">Du musst heute nichts entscheiden. Kai meldet sich persönlich und ordnet mit dir ein, welche nächsten Schritte sinnvoll sind.</p>
             <button class="primary-btn" type="button" id="calendar-button">Terminzeit selbst auswählen</button>
-            <p class="contact-note"><span id="contact-referrer">Jemand aus deinem Umfeld</span> hat den Kontakt persönlich empfohlen. Wenn du keinen Kontakt möchtest, kannst du das hier eindeutig festhalten.</p>
+            <p class="contact-note" id="contact-note"><span id="contact-referrer">Jemand aus deinem Umfeld</span> hat den Kontakt persönlich empfohlen. Wenn du keinen Kontakt möchtest, kannst du das hier eindeutig festhalten.</p>
             <button class="optout" type="button" id="optout-button">Ich möchte keinen Kontakt</button>
             <div class="booking-status" id="booking-status" role="status" aria-live="polite"></div>
           </div>
@@ -1175,12 +1193,20 @@
       };
 
       const scenes = {
-        orientierung: { src:'/assets/images/baufi/scenes-v1/orientierung.webp', alt:'Architekturplanung mit Hausmodell und Blick ins Grüne' },
-        neubau: { src:'/assets/images/baufi/scenes-v1/neubau.webp', alt:'Modernes Architektenhaus im warmen Abendlicht' },
-        kauf: { src:'/assets/images/baufi/scenes-v1/kauf.webp', alt:'Einladende Bestandsimmobilie mit beleuchtetem Eingang' },
-        sanierung: { src:'/assets/images/baufi/scenes-v1/sanierung.webp', alt:'Hochwertiger Umbau zwischen Bestand und neuem Wohnraum' },
-        anschluss: { src:'/assets/images/baufi/scenes-v1/anschluss.webp', alt:'Ruhige Finanzierungsplanung mit Haus im Hintergrund' },
+        orientierung: { src:'/assets/images/baufi/scenes-v2/orientierung.webp', alt:'Ein Paar ordnet gemeinsam seine Möglichkeiten für die eigene Immobilie' },
+        neubau: { src:'/assets/images/baufi/scenes-v2/neubau.webp', alt:'Eine Familie plant ihren Neubau auf der Baustelle' },
+        kauf: { src:'/assets/images/baufi/scenes-v2/kauf.webp', alt:'Ein Paar erhält die Schlüssel für sein neues Zuhause' },
+        sanierung: { src:'/assets/images/baufi/scenes-v2/sanierung.webp', alt:'Ein Paar modernisiert gemeinsam sein Zuhause' },
+        anschluss: { src:'/assets/images/baufi/scenes-v2/anschluss.webp', alt:'Ein Paar prüft gemeinsam die Unterlagen seiner Finanzierung' },
         optimierung: { src:'/assets/images/baufi/scenes-v1/optimierung.webp', alt:'Hausmodell und geordnete Bausteine einer flexiblen Finanzierung' }
+      };
+
+      const situationMeta = {
+        orientierung: { kicker:'Erst verstehen' },
+        kauf: { kicker:'Immobilie kaufen' },
+        neubau: { kicker:'Neu bauen' },
+        sanierung: { kicker:'Wert erhalten' },
+        anschluss: { kicker:'Rechtzeitig handeln' }
       };
 
       function updateSituationScene(imageId, titleId, key, title) {
@@ -1240,15 +1266,24 @@
       };
 
       const grid = root.querySelector('#situation-grid');
-      Object.entries(data).forEach(([key, item]) => {
+      const primarySituations = ['orientierung', 'kauf', 'neubau', 'sanierung', 'anschluss'];
+      primarySituations.forEach((key, index) => {
+        const item = data[key];
+        const scene = scenes[key];
+        const meta = situationMeta[key];
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'situation-card';
         button.dataset.situation = key;
-        button.innerHTML = `<span class="icon-orb" aria-hidden="true">${icons[key]}</span><strong>${item.label}</strong><span>${item.sub}</span>`;
+        button.innerHTML = `
+          <span class="situation-card-media"><img src="${scene.src}" alt="" decoding="async"></span>
+          <span class="situation-card-top" aria-hidden="true"><b>0${index + 1}</b><span class="icon-orb">${icons[key]}</span></span>
+          <span class="situation-card-copy"><small>${meta.kicker}</small><strong>${item.label}</strong><span>${item.sub}</span></span>
+          <span class="situation-card-action">Auswählen <b aria-hidden="true">↗</b></span>`;
         button.addEventListener('click', () => renderQuestion(key));
         grid.append(button);
       });
+      root.querySelector('#situation-optimierung').addEventListener('click', () => renderQuestion('optimierung'));
 
       const screens = [...root.querySelectorAll('[data-screen]')];
       const segments = [...root.querySelectorAll('.step-track i')];
@@ -1270,6 +1305,7 @@
 
       function showScreen(step, shouldScroll = true) {
         currentStep = step;
+        root.querySelector('#compass-app').classList.toggle('is-entry-screen', step === 1);
         screens.forEach(screen => { screen.hidden = Number(screen.dataset.screen) !== step; });
         segments.forEach((segment, index) => { segment.className = index + 1 < step ? 'is-done' : index + 1 === step ? 'is-active' : ''; });
         root.querySelector('#step-label').textContent = `Schritt ${step} von 3`;
@@ -1708,6 +1744,22 @@
       });
       root.querySelector('#discuss-result').addEventListener('click', () => track('restschuld_discussion_clicked'));
 
+      const requestedSituation = new URLSearchParams(location.search).get('situation');
+      const situationAliases = {
+        orient:'orientierung',
+        buy:'kauf',
+        build:'neubau',
+        modernize:'sanierung',
+        follow:'anschluss'
+      };
+      const initialSituation = situationAliases[requestedSituation] || requestedSituation;
+      if (initialSituation && data[initialSituation]) {
+        renderQuestion(initialSituation);
+        track('situation_prefilled', { situation:initialSituation });
+      } else {
+        showScreen(1, false);
+      }
+
       const revealObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); revealObserver.unobserve(entry.target); } });
       }, { threshold:0.12 });
@@ -1715,6 +1767,6 @@
     })();
   </script>
   <script src="/js/referral-tracking.js?v=2"></script>
-  <script type="module" src="/js/baufi.js?v=5"></script>
+  <script type="module" src="/js/baufi.js?v=7"></script>
 </body>
 </html>

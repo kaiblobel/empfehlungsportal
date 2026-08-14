@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.233 Beta** · Elternabend-Hinweis passend freigeschaltet, live seit 13.08.2026.
+Offizielle Live-Version: **v1.234 Beta** · Gemeinsamer Themenkreislauf und Baufi-Kompass, live seit 14.08.2026.
+
+---
+
+## v1.234 Beta - Phase 214 · Gemeinsamer Themenkreislauf und Baufi-Kompass
+**2026-08-14**
+
+Die Empfehlungsseiten und die öffentliche Kundenseite nutzen für Baufinanzierung jetzt denselben Finanzierungskompass. Persönliche Empfehlungslinks behalten Empfehler, Empfänger, Berater und Empfehlungskennung. Aufrufe von der Kundenseite starten ohne Empfehlungstext im neutralen Kundenmodus.
+
+Der Baufinanzierungsweg beginnt mit fünf großen, nahbaren Bildkarten für Orientierung, Immobilienkauf, Neubau, Modernisierung und Anschlussfinanzierung. Danach folgen nur die Fragen, die zur gewählten Situation passen. Eine bestehende Finanzierung kann zusätzlich über einen zurückgenommenen Prüfweg eingeordnet werden.
+
+Die Seite verbindet den persönlichen Einstieg mit Restschuld- und Fördercheck, einem echten anonymisierten Bankenvergleich, dem visuellen Vergleich von klassischer Finanzierung und geplanter Anschlusslösung sowie der Terminvereinbarung. Staatliche Förderung und Wohn-Riester bleiben sichtbar, ausführliche Zahlen sind platzsparend aufklappbar.
+
+Die weiteren Finanzthemen besitzen ein gemeinsames Seitengerüst und sind aus Portalvorschau und Berater-Schnellvorschau erreichbar. Alte direkte Baufi-Themenadressen werden auf den zentralen Kompass weitergeführt, ohne den vorhandenen Kontext zu verlieren.
 
 ---
 

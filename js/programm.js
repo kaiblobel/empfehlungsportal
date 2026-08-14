@@ -758,7 +758,7 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
       question: 'Was ist möglich, ohne dass das Leben nur noch aus Rate besteht?',
       text: 'Ein interaktiver Finanzierungskompass, der zuerst die Situation versteht und dann den nächsten sinnvollen Schritt zeigt.',
       icon: 'Home',
-      url: '/baufi.html?von=Thomas&an=Max',
+      url: '/baufi.html?vorlage=baufi&modus=referral&von=Thomas&an=Max',
       address: 'Finanzierungskompass für Max',
       tone: 'olive',
       status: 'Fertige Themenseite',
@@ -768,73 +768,97 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
       title: 'Staatliche Förderungen',
       kicker: 'Fördermöglichkeiten verständlich sortiert',
       question: 'Welche Zuschüsse und Vorteile könnten zu deiner Situation passen?',
-      text: 'Das technische Gerüst steht. Inhalte und fachliche Aussagen werden als nächster Schritt ergänzt.',
+      text: 'Die gemeinsame Themenseite führt von der persönlichen Empfehlung zu einer ersten Einordnung und zum richtigen Ansprechpartner.',
       icon: 'Banknote',
       url: '/thema.html?vorlage=foerderungen&von=Thomas&an=Max',
       address: 'Förderungen für Max',
       tone: 'champagne',
-      status: 'In Arbeit',
-      action: 'Gerüst ansehen'
+      status: 'Gemeinsame Themenseite',
+      action: 'Vorschau ansehen'
     },
     selbstaendige: {
       title: 'Selbständige',
       kicker: 'Privat und geschäftlich gut aufgestellt',
       question: 'Was braucht ein stabiles Fundament für deinen eigenen Weg?',
-      text: 'Das technische Gerüst steht. Inhalte und fachliche Aussagen werden als nächster Schritt ergänzt.',
+      text: 'Die gemeinsame Themenseite verbindet das Thema mit einer ersten Einordnung und dem passenden nächsten Schritt.',
       icon: 'Briefcase',
       url: '/thema.html?vorlage=selbstaendige&von=Thomas&an=Max',
       address: 'Selbständigen-Thema für Max',
       tone: 'marine',
-      status: 'In Arbeit',
-      action: 'Gerüst ansehen'
+      status: 'Gemeinsame Themenseite',
+      action: 'Vorschau ansehen'
     },
     investment: {
       title: 'Geldanlage und Investment',
       kicker: 'Vermögen sinnvoll aufbauen',
       question: 'Wie kann dein Geld langfristig zu deinem Leben passen?',
-      text: 'Das technische Gerüst steht. Inhalte und fachliche Aussagen werden als nächster Schritt ergänzt.',
+      text: 'Die gemeinsame Themenseite verbindet das Thema mit einer ersten Einordnung und dem passenden nächsten Schritt.',
       icon: 'TrendingUp',
       url: '/thema.html?vorlage=investment&von=Thomas&an=Max',
       address: 'Investment-Thema für Max',
       tone: 'olive',
-      status: 'In Arbeit',
-      action: 'Gerüst ansehen'
+      status: 'Gemeinsame Themenseite',
+      action: 'Vorschau ansehen'
     },
     absicherung: {
       title: 'Absicherung und Familie',
       kicker: 'Schützen, was dir wichtig ist',
       question: 'Was sollte wirklich abgesichert sein und was nicht?',
-      text: 'Das technische Gerüst steht. Inhalte und fachliche Aussagen werden als nächster Schritt ergänzt.',
+      text: 'Die gemeinsame Themenseite verbindet das Thema mit einer ersten Einordnung und dem passenden nächsten Schritt.',
       icon: 'ShieldCheck',
       url: '/thema.html?vorlage=absicherung&von=Thomas&an=Max',
       address: 'Absicherung für Max',
       tone: 'marine',
-      status: 'In Arbeit',
-      action: 'Gerüst ansehen'
+      status: 'Gemeinsame Themenseite',
+      action: 'Vorschau ansehen'
     },
     karriere: {
       title: 'Berufliche Perspektive',
       kicker: 'Neue Möglichkeiten entdecken',
       question: 'Was wäre möglich, wenn dein nächster Schritt wirklich zu dir passt?',
-      text: 'Das technische Gerüst steht. Inhalte und fachliche Aussagen werden als nächster Schritt ergänzt.',
+      text: 'Die gemeinsame Themenseite verbindet das Thema mit einer ersten Einordnung und dem passenden nächsten Schritt.',
       icon: 'Sparkles',
       url: '/thema.html?vorlage=karriere&von=Thomas&an=Max',
       address: 'Berufliche Perspektive für Max',
       tone: 'olive',
-      status: 'In Arbeit',
-      action: 'Gerüst ansehen'
+      status: 'Gemeinsame Themenseite',
+      action: 'Vorschau ansehen'
     },
     kinder: {
       title: 'Für deine Kinder',
       kicker: 'Früh die richtigen Weichen stellen',
       question: 'Wie kann aus einem kleinen Anfang später etwas Großes werden?',
-      text: 'Das technische Gerüst steht. Inhalte und fachliche Aussagen werden als nächster Schritt ergänzt.',
+      text: 'Die gemeinsame Themenseite verbindet das Thema mit einer ersten Einordnung und dem passenden nächsten Schritt.',
       icon: 'Heart',
       url: '/thema.html?vorlage=kinder&von=Thomas&an=Max',
       address: 'Vorsorge für Max und seine Familie',
       tone: 'champagne',
-      status: 'In Arbeit',
-      action: 'Gerüst ansehen'
+      status: 'Gemeinsame Themenseite',
+      action: 'Vorschau ansehen'
+    },
+    banking: {
+      title: 'Banking & Kredit',
+      kicker: 'Geldflüsse und Vorhaben verständlich ordnen',
+      question: 'Wie lassen sich Konten, Rücklagen und Finanzierung sinnvoll miteinander verbinden?',
+      text: 'Die gemeinsame Themenseite führt von der persönlichen Empfehlung zu einer ersten Einordnung und zum richtigen Ansprechpartner.',
+      icon: 'Banknote',
+      url: '/thema.html?vorlage=banking&modus=referral&von=Thomas&an=Max',
+      address: 'Banking und Kredit für Max',
+      tone: 'marine',
+      status: 'Fertige Themenseite',
+      action: 'Vorschau ansehen'
+    },
+    energie: {
+      title: 'Energie',
+      kicker: 'Strom, Gas und Photovoltaik einordnen',
+      question: 'Welche Energieentscheidung passt zu Verbrauch, Gebäude und Planung?',
+      text: 'Die gemeinsame Themenseite verbindet laufende Kosten, mögliche Investitionen und den persönlichen nächsten Schritt.',
+      icon: 'Activity',
+      url: '/thema.html?vorlage=energie&modus=referral&von=Thomas&an=Max',
+      address: 'Energie für Max',
+      tone: 'olive',
+      status: 'Fertige Themenseite',
+      action: 'Vorschau ansehen'
     }
   };
 
