@@ -17,14 +17,15 @@
       "has": [{ "type": "host", "value": "kidz.kaiblobel.de" }],
       "destination": "https://kidz.teamwachsbleiche.de/:path*",
       "permanent": false
-    }
-  ],
-  "rewrites": [
+    },
     {
       "source": "/",
       "has": [{ "type": "host", "value": "finanzierung.kaiblobel.de" }],
-      "destination": "/baufi.html"
-    },
+      "destination": "/baufinanzierung",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
     { "source": "/baufinanzierung", "destination": "/baufi.html" },
     { "source": "/baufinanzierung/:berater", "destination": "/baufi.html?berater=:berater" },
     { "source": "/empfehlung/:token", "destination": "/api/share?token=:token" },
