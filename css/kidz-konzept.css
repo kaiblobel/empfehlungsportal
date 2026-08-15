@@ -1076,8 +1076,18 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
 .gap-law-source { margin: 16px 0 0; color: #6b5450; font-size: 12.5px; line-height: 1.5; }
 .gap-law-source a { color: #8f1d17; text-underline-offset: 3px; }
 
-.gap-meaning { margin: 22px 0 0; }
-.gap-meaning p { margin: 0; color: var(--ink); font-size: 16px; line-height: 1.65; }
+.gap-meaning { margin: 26px 0 0; }
+.gap-meaning-title { margin: 0 0 16px; font-size: clamp(19px, 2.2vw, 24px); font-weight: 800; line-height: 1.25; }
+.gap-meaning p { margin: 16px 0 0; color: var(--ink); font-size: 16px; line-height: 1.65; }
+.gap-fall {
+  margin: 0;
+  padding: 20px 22px;
+  border-left: 4px solid #b3261e;
+  border-radius: 0 14px 14px 0;
+  background: #fdf4f3;
+}
+.gap-fall-kicker { margin: 0 !important; color: #b3261e; font-size: 12px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+.gap-fall p + p, .gap-fall p:last-child { margin-top: 10px; }
 .gap-meaning strong { font-weight: 800; }
 .gap-meaning-source { margin-top: 10px !important; color: var(--muted); font-size: 12.5px; line-height: 1.55; }
 
