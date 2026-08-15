@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.260 Beta** · Drei Grundlagen als Bildkarten, live seit 15.08.2026.
+Offizielle Live-Version: **v1.261 Beta** · KIDZ-Einleitung gestrafft, live seit 15.08.2026.
+
+## v1.261 Beta - Phase 241 · KIDZ-Einleitung gestrafft
+**2026-08-15 · live veröffentlicht**
+
+Die Einleitung duzte, die KIDZ-Seite dahinter siezt. Beim Klick wirkte das wie zwei verschiedene Absender. Die Einleitung spricht jetzt ebenfalls in der Sie-Form.
+
+Der Text stand dreifach: in der Pille, im Fließtext und in den Karten darunter. Übrig bleibt ein Satz. Die Überschrift arbeitete mit einer Verneinung („nicht um ein Produkt") und brachte damit erst auf den Produktgedanken; sie lautet jetzt „Von Eltern zu Eltern weitergegeben. Gute Grundlagen für Ihr Kind." Das beschreibt, was gerade passiert, und behauptet nichts über die Herkunft des Konzepts.
+
+Der Weg zum Elternabend stand gleichberechtigt neben dem Hauptweg, also bevor jemand wusste, worum es geht. Er steht jetzt als eigener ruhiger Block nach den Karten. Die Karten zeigen mit „ansehen" an, dass sie weiterführen. Auf dem Handy ist das Porträt kompakter, damit die Karten früher sichtbar werden.
+
+---
 
 ## v1.260 Beta - Phase 240 · Drei Grundlagen als Bildkarten
 **2026-08-15 · live veröffentlicht**
