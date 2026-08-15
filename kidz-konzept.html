@@ -17,7 +17,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <title>KIDZ | Kinderleicht in die Zukunft</title>
   <link rel="icon" type="image/png" href="/assets/images/kidz-logo-konzept.png">
-  <link rel="stylesheet" href="/css/kidz-konzept.css?v=11">
+  <link rel="stylesheet" href="/css/kidz-konzept.css?v=13">
   <!-- Wird für den Namen im Empfehlungsband gebraucht, wie auf Gewinnspiel- und
        Elternabendseite. Ohne diese Angaben bleibt das Band beim neutralen Text. -->
   <script src="/js/config.js"></script>
@@ -45,7 +45,25 @@
       <a href="#fragen">Fragen</a>
     </nav>
     <button class="header-cta" type="button" data-open-path="elternabend">Elternabend vormerken</button>
+    <button class="mobile-menu-button" id="mobileMenuButton" type="button" aria-expanded="false" aria-controls="mobileMenu">
+      <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+      <span class="sr-only">Menü öffnen</span>
+    </button>
   </header>
+
+  <!-- Kleines Menü für das Handy: die Desktop-Navigation ist dort ausgeblendet. -->
+  <nav class="mobile-menu" id="mobileMenu" aria-label="KIDZ-Menü" hidden>
+    <p class="mobile-menu-label">Die drei Grundlagen</p>
+    <a href="#saeulen" data-pillar-link="kompetenz"><span>01</span>Finanzielle Kompetenz</a>
+    <a href="#saeulen" data-pillar-link="gesundheit"><span>02</span>Gesundheit</a>
+    <a href="#saeulen" data-pillar-link="absicherung"><span>03</span>Finanzielle Absicherung</a>
+    <p class="mobile-menu-label">Mehr auf dieser Seite</p>
+    <a href="#vermoegensaufbau">Vermögensaufbau</a>
+    <a href="#moeglichkeiten">Möglichkeiten</a>
+    <a href="#sommerfest">Sommerfest am 6. September</a>
+    <a href="#elternabend">Elternabend</a>
+    <a href="#fragen">Häufige Fragen</a>
+  </nav>
 
   <main id="inhalt">
     <section class="hero" id="start" aria-labelledby="hero-title">
@@ -237,6 +255,59 @@
       <div class="possibilities-note">
         <p><strong>Wichtig:</strong> Dies sind Leistungsbeispiele aus den bereitgestellten KIDZ-Unterlagen. Erstattungen, Förderungen, Voraussetzungen und Verfügbarkeit richten sich nach den jeweils aktuellen Bedingungen und der persönlichen Situation.</p>
         <button class="button button-primary" type="button" data-open-path="gespraech">Möglichkeiten persönlich einordnen</button>
+      </div>
+    </section>
+
+    <section class="section wealth-section" id="vermoegensaufbau" aria-labelledby="wealth-title">
+      <div class="wealth-grid">
+        <figure class="wealth-visual">
+          <img src="/assets/images/kidz-konzept/kidz-zukunftsblick.jpg" alt="Zwei Kinder blicken von einer Terrasse über Palmen auf das Meer" width="1200" height="1600" loading="lazy">
+          <figcaption>Was möglich ist, entscheidet sich früher, als man denkt.</figcaption>
+        </figure>
+
+        <div class="wealth-copy">
+          <p class="eyebrow">Vermögensaufbau</p>
+          <h2 id="wealth-title">55 Euro im Monat. 18 Jahre lang. Und dann?</h2>
+          <p class="wealth-lede">Eltern legen den Grundstein, das Kind macht später einfach weiter. Der Unterschied liegt nicht im Betrag, sondern in der Zeit, die vorher schon gelaufen ist.</p>
+
+          <ol class="wealth-steps">
+            <li>
+              <span>1</span>
+              <div>
+                <strong>Die Eltern fangen an</strong>
+                <p>18 Jahre lang 55 Euro im Monat. Eingezahlt werden 11.880 Euro, daraus werden rechnerisch <b>25.008 Euro</b> zum 18. Geburtstag.</p>
+              </div>
+            </li>
+            <li>
+              <span>2</span>
+              <div>
+                <strong>Das Kind macht weiter</strong>
+                <p>Es spart dieselben 55 Euro weiter bis zum 67. Lebensjahr. Aus dem Startkapital der Eltern werden dabei rechnerisch <b>1.077.120 Euro</b>.</p>
+              </div>
+            </li>
+            <li>
+              <span>3</span>
+              <div>
+                <strong>Ohne den frühen Start</strong>
+                <p>Beginnt das Kind erst mit 18 bei null, kommt es mit denselben 55 Euro auf <b>287.391 Euro</b>.</p>
+              </div>
+            </li>
+          </ol>
+
+          <div class="wealth-result">
+            <span>Der Vorsprung, den Eltern verschaffen können</span>
+            <strong>789.729 Euro</strong>
+            <p>So groß ist der Unterschied allein dadurch, dass in den ersten 18 Jahren schon etwas gelaufen ist.</p>
+          </div>
+
+          <p class="wealth-note">
+            Beispielrechnung mit 7,3 Prozent Wertentwicklung pro Jahr, monatlich vorschüssig, Zinsen werden angesammelt.
+            Sie dient der Veranschaulichung des Zinseszinseffekts und ist keine Zusage. Kosten, Steuern und Inflation sind
+            nicht berücksichtigt, die tatsächliche Entwicklung kann deutlich abweichen.
+          </p>
+
+          <button class="button button-primary" type="button" data-open-path="gespraech">Für unser Kind durchrechnen lassen</button>
+        </div>
       </div>
     </section>
 
@@ -465,7 +536,7 @@
   </dialog>
 
   <div class="mock-toast" id="mockToast" role="status" aria-live="polite"></div>
-  <script src="/js/kidz-konzept.js?v=4"></script>
+  <script src="/js/kidz-konzept.js?v=5"></script>
   <script src="/js/referral-tracking.js?v=3"></script>
   <script type="module" src="/js/kidz-empfehlung.js?v=1"></script>
 </body>

@@ -143,6 +143,32 @@
     return `https://wa.me/4915154776159?text=${encodeURIComponent(messages[path] || messages.gespraech)}`;
   }
 
+  // Kleines Menue fuers Handy. Ein Klick auf eine Grundlage springt zum
+  // Abschnitt und stellt dort gleich die richtige Karte ein.
+  const menueKnopf = document.getElementById('mobileMenuButton');
+  const menue = document.getElementById('mobileMenu');
+  if (menueKnopf && menue) {
+    const schliessen = () => {
+      menue.hidden = true;
+      menueKnopf.setAttribute('aria-expanded', 'false');
+    };
+    menueKnopf.addEventListener('click', () => {
+      const offen = menue.hidden === false;
+      menue.hidden = offen;
+      menueKnopf.setAttribute('aria-expanded', offen ? 'false' : 'true');
+    });
+    menue.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        const grundlage = link.dataset.pillarLink;
+        if (grundlage) {
+          const tab = document.querySelector(`[data-pillar="${grundlage}"]`);
+          if (tab) tab.click();
+        }
+        schliessen();
+      });
+    });
+  }
+
   function setBodyDialogState() {
     const open = (pathDialog && pathDialog.open) || (galleryDialog && galleryDialog.open);
     document.body.classList.toggle('dialog-open', Boolean(open));
