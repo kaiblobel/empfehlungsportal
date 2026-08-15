@@ -16,7 +16,7 @@
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png">
   <title>Eine persönliche Empfehlung · KIDZ</title>
   <link rel="icon" type="image/png" href="/assets/images/kidz-logo-konzept.png">
-  <link rel="stylesheet" href="/css/kidz-konzept.css?v=9">
+  <link rel="stylesheet" href="/css/kidz-konzept.css?v=10">
   <script src="/js/config.js"></script>
 </head>
 <body class="kidz-intro-body">
@@ -51,17 +51,35 @@
         </ul>
       </div>
 
-      <figure class="intro-person">
-        <img id="introFoto" data-bb="foto" src="/assets/images/kai-portrait.jpg" alt="" width="800" height="1000">
-        <figcaption>
-          <strong data-bb="name">Kai Blobel</strong>
-          <span>Ihr persönlicher Ansprechpartner</span>
-          <span class="intro-person-facts">
-            <b>Zweifacher Vater</b>
-            <b>Über 20 Jahre Erfahrung</b>
-          </span>
-        </figcaption>
-      </figure>
+      <div class="intro-person-flip" id="personFlip">
+        <div class="intro-person-inner">
+          <figure class="intro-person intro-person-front">
+            <img id="introFoto" data-bb="foto" src="/assets/images/kai-portrait.jpg" alt="" width="800" height="1000">
+            <figcaption>
+              <strong data-bb="name">Kai Blobel</strong>
+              <span>Ihr persönlicher Ansprechpartner</span>
+              <span class="intro-person-facts">
+                <b>Zweifacher Vater</b>
+                <b>Über 20 Jahre Erfahrung</b>
+              </span>
+            </figcaption>
+            <button class="intro-person-toggle" type="button" data-flip>Mehr über mich</button>
+          </figure>
+
+          <div class="intro-person intro-person-back">
+            <img class="intro-person-family" src="/assets/images/kai-portrait.jpg" alt="" width="800" height="600">
+            <div class="intro-person-back-copy">
+              <strong>Kurz zu mir</strong>
+              <ul>
+                <li>Zweifacher Vater aus Cottbus. Die Fragen, um die es bei KIDZ geht, stellen wir uns zu Hause selbst.</li>
+                <li>Seit über 20 Jahren begleite ich Familien in der Region, viele davon seit der ersten Wohnung.</li>
+                <li>Mit meinem Team habe ich immer ein festes Gesicht für Sie, nicht wechselnde Zuständigkeiten.</li>
+              </ul>
+              <button class="intro-person-toggle intro-person-toggle-back" type="button" data-flip>Zurück</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="intro-pillars" aria-labelledby="pillarsTitle">
@@ -127,6 +145,6 @@
   </footer>
 
   <script src="/js/referral-tracking.js?v=3"></script>
-  <script type="module" src="/js/kidz-empfehlung-intro.js?v=1"></script>
+  <script type="module" src="/js/kidz-empfehlung-intro.js?v=2"></script>
 </body>
 </html>

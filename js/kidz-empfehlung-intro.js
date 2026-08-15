@@ -87,4 +87,17 @@ async function starte() {
   ergaenzeWege(beraterSlug);
 }
 
+// Drehkarte: Vorderseite Portraet, Rueckseite ein paar Saetze zur Person.
+const flip = document.getElementById('personFlip');
+if (flip) {
+  flip.querySelectorAll('[data-flip]').forEach((knopf) => {
+    knopf.addEventListener('click', () => {
+      const gedreht = flip.classList.toggle('gedreht');
+      flip.querySelector('.intro-person-back')?.setAttribute('aria-hidden', gedreht ? 'false' : 'true');
+      flip.querySelector('.intro-person-front')?.setAttribute('aria-hidden', gedreht ? 'true' : 'false');
+    });
+  });
+  flip.querySelector('.intro-person-back')?.setAttribute('aria-hidden', 'true');
+}
+
 starte();
