@@ -665,18 +665,30 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
 }
 .kidz-intro-body .intro-person-facts b::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); }
 
-.kidz-intro-body .intro-person-back {
-  display: flex;
-  flex-direction: column;
-  transform: rotateY(180deg);
-  background: #0d2f42;
+/* Rueckseite: das Familienbild traegt die Karte, die Saetze liegen darauf. */
+.kidz-intro-body .intro-person-back { transform: rotateY(180deg); background: #0d2f42; }
+.kidz-intro-body .intro-person-family { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 6%; }
+.kidz-intro-body .intro-person-back::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(13, 47, 66, .12) 0%, rgba(13, 47, 66, .55) 42%, rgba(9, 34, 48, .95) 78%);
 }
-.kidz-intro-body .intro-person-family { flex: 0 0 34%; width: 100%; height: 34%; object-fit: cover; object-position: 50% 35%; }
-.kidz-intro-body .intro-person-back-copy { display: flex; flex-direction: column; flex: 1; min-height: 0; padding: 18px 20px 20px; }
-.kidz-intro-body .intro-person-back-copy strong { font-size: 17px; font-weight: 780; }
-.kidz-intro-body .intro-person-back-copy ul { flex: 1; min-height: 0; margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; align-content: start; overflow: auto; }
-.kidz-intro-body .intro-person-back-copy li { position: relative; padding-left: 19px; color: rgba(255, 255, 255, .88); font-size: 13.5px; line-height: 1.45; }
-.kidz-intro-body .intro-person-back-copy li::before { content: ""; position: absolute; left: 0; top: 8px; width: 7px; height: 7px; border-radius: 50%; background: var(--yellow); }
+.kidz-intro-body .intro-person-back-copy {
+  position: absolute;
+  z-index: 2;
+  right: 16px;
+  bottom: 16px;
+  left: 16px;
+  padding: 13px 16px 15px;
+  border-radius: 16px;
+  background: rgba(9, 34, 48, .82);
+  backdrop-filter: blur(4px);
+}
+.kidz-intro-body .intro-person-back-copy strong { font-size: 15px; font-weight: 780; }
+.kidz-intro-body .intro-person-back-copy ul { margin: 9px 0 0; padding: 0; list-style: none; display: grid; gap: 7px; }
+.kidz-intro-body .intro-person-back-copy li { position: relative; padding-left: 18px; color: rgba(255, 255, 255, .92); font-size: 12.5px; line-height: 1.4; }
+.kidz-intro-body .intro-person-back-copy li::before { content: ""; position: absolute; left: 0; top: 7px; width: 7px; height: 7px; border-radius: 50%; background: var(--yellow); }
 
 .kidz-intro-body .intro-person-toggle {
   position: absolute;
@@ -694,7 +706,6 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
   transition: background 180ms ease, border-color 180ms ease;
 }
 .kidz-intro-body .intro-person-toggle:hover { border-color: #fff; background: rgba(9, 38, 53, .92); }
-.kidz-intro-body .intro-person-toggle-back { position: static; align-self: flex-start; margin-top: 14px; }
 
 @media (prefers-reduced-motion: reduce) {
   .kidz-intro-body .intro-person-inner { transition: none; }
