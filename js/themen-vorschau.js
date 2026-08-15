@@ -222,31 +222,31 @@ const TOPICS = {
   },
   kinder: {
     number: '08',
-    title: 'Kinder & Zukunft',
-    eyebrow: 'Früh die richtigen Weichen stellen',
-    headlinePublic: 'Kleine Schritte können Kindern später viele Möglichkeiten öffnen.',
-    headlineReferral: 'Kleine Schritte können Kindern später viele Möglichkeiten öffnen.',
-    ledePublic: 'Ausbildung, Führerschein oder der Start ins eigene Leben lassen sich besser vorbereiten, wenn Ziel, Zeit und familiäre Sicherheit zusammenspielen.',
-    ledeReferral: 'Ausbildung, Führerschein oder der Start ins eigene Leben lassen sich besser vorbereiten, wenn Ziel, Zeit und familiäre Sicherheit zusammenspielen.',
+    title: 'KIDZ für Kinder',
+    eyebrow: 'Kinderleicht in die Zukunft',
+    headlinePublic: 'Was wünschen Sie sich für die Zukunft Ihres Kindes?',
+    headlineReferral: 'Was wünschst du dir für die Zukunft deines Kindes?',
+    ledePublic: 'KIDZ bringt drei Dinge zusammen, die Kinder stark machen: ein gutes Gefühl für Geld, Gesundheit und eine verlässliche Absicherung. Sie müssen heute nichts entscheiden und nichts abschließen.',
+    ledeReferral: 'KIDZ bringt drei Dinge zusammen, die Kinder stark machen: ein gutes Gefühl für Geld, Gesundheit und eine verlässliche Absicherung. Du musst heute nichts entscheiden und nichts abschließen.',
     signals: [
-      ['Es gibt ein Ziel, aber noch keinen Plan', 'Für Ausbildung, Führerschein oder den Start ins eigene Leben soll rechtzeitig etwas aufgebaut werden.'],
-      ['Kindergeld soll teilweise genutzt werden', 'Ein überschaubarer Betrag soll langfristig sinnvoll und flexibel eingesetzt werden.'],
-      ['Vermögensaufbau und Schutz gehören zusammen', 'Der Plan soll auch dann weitertragen, wenn sich die familiäre Situation verändert.']
+      ['Über Geld wird zu Hause selten gesprochen', 'Kinder erleben täglich Entscheidungen über Wünsche, Sparen und Prioritäten, ohne dass sie jemand einordnet.'],
+      ['Für später soll etwas da sein', 'Ausbildung, Führerschein oder der Start ins eigene Leben kommen schneller, als man denkt.'],
+      ['Gesundheit und Absicherung laufen nebeneinander her', 'Zähne, Vorsorge und die spätere Arbeitskraft werden meist einzeln betrachtet statt als Ganzes.']
     ],
     options: [
-      ['start', 'Ich möchte neu anfangen', 'Ziel, Zeitraum und monatlicher Spielraum bilden die Grundlage für einen einfachen Start.'],
-      ['existing', 'Es gibt bereits einen Vertrag', 'Bestehende Lösungen werden auf Kosten, Flexibilität und Zielbezug geprüft.'],
-      ['family', 'Ich möchte das Familienthema komplett ordnen', 'Aufbau, Absicherung und Fördermöglichkeiten werden als gemeinsamer Plan betrachtet.']
+      ['verstehen', 'Ich möchte KIDZ erst einmal verstehen', 'Die drei Grundlagen werden in Ruhe erklärt, ohne Termin und ohne Verpflichtung.'],
+      ['elternabend', 'Ich möchte zu einem Elternabend', 'Dort wird das Konzept gemeinsam vorgestellt, mit Zeit für Fragen.'],
+      ['familie', 'Ich möchte es für meine Familie einordnen', 'Im persönlichen Gespräch wird geklärt, was zur eigenen Situation passt.']
     ],
     scopes: [
-      ['Ziele und Zeit', 'Je früher das Geld gebraucht wird, desto anders muss es geplant werden.'],
-      ['Monatlicher Beitrag', 'Der Plan soll zum Familienbudget passen und auch in anspruchsvollen Monaten tragbar bleiben.'],
-      ['Flexibilität und Zugriff', 'Es muss klar sein, wer entscheidet und wann Geld zur Verfügung stehen kann.'],
-      ['Familiäre Absicherung', 'Der Aufbau für das Kind wird mit der Sicherheit der Familie verbunden.']
+      ['Finanzielle Kompetenz', 'Wie im Familienalltag aus Wünschen nach und nach gute Entscheidungen werden.'],
+      ['Gesundheit', 'Vorsorge, Zähne und Leistungen, die im Familienalltag wirklich gebraucht werden.'],
+      ['Finanzielle Absicherung', 'Die spätere Arbeitskraft des Kindes und die Sicherheit der Familie gehören zusammen.'],
+      ['Früher Vermögensaufbau', 'Kleine Beträge über lange Zeit, wo möglich mit staatlicher Förderung kombiniert.']
     ],
     tools: [
-      ['KIDZ für Eltern', 'Das Elternkonzept in Ruhe ansehen', 'Finanzielle Kompetenz, Gesundheit und Absicherung von Kindern verständlich erklärt, mit Elternabend und häufigen Fragen.', '/kidz/konzept'],
-      ['Finanzcheck', 'Förderung und Familienstruktur prüfen', 'Eine erste Orientierung über mögliche Vorteile und das finanzielle Gesamtbild.', 'https://finanzcheck.kaiblobel.de/?from=thema&schwerpunkt=foerderung'],
+      ['KIDZ für Eltern', 'Das Elternkonzept in Ruhe ansehen', 'Die drei Grundlagen, konkrete Möglichkeiten und häufige Fragen, verständlich auf einer Seite.', '/kidz/konzept'],
+      ['Elternabend', 'Unverbindlich vormerken lassen', 'Das Konzept wird in kleiner Runde vorgestellt. Eine Vormerkung ist keine Anmeldung zu etwas anderem.', '/kidz/elternabend'],
       ['Familiengespräch', 'Den Plan für Ihr Kind gemeinsam aufsetzen', 'Ziele und Möglichkeiten werden in Ruhe und ohne Abschlussdruck sortiert.', '#termin']
     ]
   },
@@ -304,7 +304,8 @@ const HERO_VISUALS = {
     <div class="visual-energy"><span class="visual-sun"></span><div><i></i><i></i><i></i><i></i></div><b>Verbrauch verstehen</b></div>
     <div class="visual-pills"><span>Strom</span><span>Gas</span><span>Solar</span></div>`,
   kinder: `
-    <div class="visual-timeline"><span><b>Heute</b><small>klein starten</small></span><i></i><span><b>Später</b><small>Möglichkeiten</small></span><i></i><span><b>Zukunft</b><small>frei entscheiden</small></span></div>`,
+    <div class="visual-stack"><span><small>01</small>Finanzielle Kompetenz</span><span><small>02</small>Gesundheit</span><span><small>03</small>Absicherung</span></div>
+    <strong class="visual-sum">Kinderleicht in die Zukunft</strong>`,
   karriere: `
     <div class="visual-steps"><span><small>01</small>Einblick</span><span><small>02</small>Passung</span><span><small>03</small>Perspektive</span></div>
     <strong class="visual-sum">Dein nächster Weg</strong>`,

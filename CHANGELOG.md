@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.253 Beta** · Empfehlerbereich im App-Look, live seit 15.08.2026.
+Offizielle Live-Version: **v1.254 Beta** · Kinderthema zeigt KIDZ, live seit 15.08.2026.
+
+## v1.254 Beta - Phase 234 · Kinderthema zeigt KIDZ
+**2026-08-15 · live veröffentlicht**
+
+Wer über das Thema Kinder empfohlen wird, landete bisher auf der allgemeinen Seite „Kinder & Zukunft" mit Ausbildung, Führerschein und Kindergeld. Von KIDZ stand dort nichts, obwohl die Vorlage in der Verwaltung längst auf KIDZ umgestellt war. Der Grund: Themenseiten beziehen ihre Texte aus dem Code, nicht aus der Vorlagenverwaltung, und die gepflegte Fassung wurde nie ausgespielt.
+
+Die Themenseite heißt jetzt „KIDZ für Kinder" und führt mit der KIDZ-Idee ein: ein gutes Gefühl für Geld, Gesundheit und eine verlässliche Absicherung. Die typischen Situationen, die Auswahl und die vier Bereiche sind entsprechend neu geschrieben. Als Wege stehen die Elternseite, die Elternabend-Vormerkung und das persönliche Familiengespräch bereit.
+
+Damit wird KIDZ bewusst schon vor dem Sommerfest am 06.09.2026 in der Empfehlungsstrecke gezeigt. Das öffentliche KIDZ-Menü auf Sommerfest- und Gewinnspielseite bleibt davon unberührt.
+
+---
 
 ## v1.253 Beta - Phase 233 · Empfehlerbereich im App-Look
 **2026-08-15 · live veröffentlicht**
