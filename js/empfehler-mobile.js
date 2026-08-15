@@ -205,15 +205,15 @@ function renderMetrics() {
 
 function activityFor(item) {
   const name = firstName(item.empfaenger_name) || 'Deine Empfehlung';
-  if (item.status === 'kunde') return { rank: 8, icon: 'ZIEL', tone: 'sage', title: `${name} ist Kunde geworden`, text: 'Deine Empfehlung hat wirklich geholfen.', time: formatRelative(item.created_at) };
-  if (item.status === 'kontaktiert') return { rank: 7, icon: 'KON', tone: 'marine', title: `${name} ist jetzt im Gespräch`, text: 'Der persönliche Kontakt ist hergestellt.', time: formatRelative(item.created_at) };
-  if (item.booking_state === 'cancelled') return { rank: 7, icon: 'NEU', tone: 'terra', title: `${name}s Termin wurde abgesagt`, text: `${beraterName} stimmt den nächsten Schritt persönlich ab.`, time: formatRelative(item.booking_cancelled_at || item.booking_updated_at || item.created_at) };
-  if (item.booking_state === 'confirmed') return { rank: 6, icon: 'TER', tone: 'marine', title: `${name} hat einen Termin vereinbart`, text: `${beraterName} hat die bestätigte Buchung erhalten.`, time: formatRelative(item.booking_updated_at || item.booking_confirmed_at || item.created_at) };
-  if (item.status === 'anrufwunsch') return { rank: 5, icon: 'TER', tone: 'marine', title: `${name} möchte ein Gespräch`, text: `${beraterName} übernimmt den nächsten Schritt persönlich.`, time: formatRelative(item.created_at) };
-  if (item.booking_state === 'started') return { rank: 3, icon: 'KAL', tone: '', title: `${name} hat die Terminwahl geöffnet`, text: 'Eine Buchung ist noch nicht bestätigt.', time: formatRelative(item.booking_started_at || item.created_at) };
-  if (item.link_geoeffnet) return { rank: 2, icon: 'AUF', tone: '', title: `${name} hat deinen Link geöffnet`, text: 'Der erste wichtige Schritt ist geschafft.', time: formatRelative(item.link_geoeffnet_at || item.created_at) };
-  if (item.empfehler_vorinformiert) return { rank: 1, icon: 'VER', tone: '', title: `Empfehlung an ${name} versendet`, text: 'Du erfährst hier, sobald der Link geöffnet wird.', time: formatRelative(item.created_at) };
-  return { rank: 0, icon: 'NEU', tone: 'terra', title: `Link für ${name} erstellt`, text: 'Der Versand wurde noch nicht bestätigt.', time: formatRelative(item.created_at) };
+  if (item.status === 'kunde') return { rank: 8, icon: 'stern', tone: 'sage', title: `${name} ist Kunde geworden`, text: 'Deine Empfehlung hat wirklich geholfen.', time: formatRelative(item.created_at) };
+  if (item.status === 'kontaktiert') return { rank: 7, icon: 'gespraech', tone: 'marine', title: `${name} ist jetzt im Gespräch`, text: 'Der persönliche Kontakt ist hergestellt.', time: formatRelative(item.created_at) };
+  if (item.booking_state === 'cancelled') return { rank: 7, icon: 'hinweis', tone: 'terra', title: `${name}s Termin wurde abgesagt`, text: `${beraterName} stimmt den nächsten Schritt persönlich ab.`, time: formatRelative(item.booking_cancelled_at || item.booking_updated_at || item.created_at) };
+  if (item.booking_state === 'confirmed') return { rank: 6, icon: 'kalender', tone: 'marine', title: `${name} hat einen Termin vereinbart`, text: `${beraterName} hat die bestätigte Buchung erhalten.`, time: formatRelative(item.booking_updated_at || item.booking_confirmed_at || item.created_at) };
+  if (item.status === 'anrufwunsch') return { rank: 5, icon: 'gespraech', tone: 'marine', title: `${name} möchte ein Gespräch`, text: `${beraterName} übernimmt den nächsten Schritt persönlich.`, time: formatRelative(item.created_at) };
+  if (item.booking_state === 'started') return { rank: 3, icon: 'kalender', tone: '', title: `${name} hat die Terminwahl geöffnet`, text: 'Eine Buchung ist noch nicht bestätigt.', time: formatRelative(item.booking_started_at || item.created_at) };
+  if (item.link_geoeffnet) return { rank: 2, icon: 'geoeffnet', tone: '', title: `${name} hat deinen Link geöffnet`, text: 'Der erste wichtige Schritt ist geschafft.', time: formatRelative(item.link_geoeffnet_at || item.created_at) };
+  if (item.empfehler_vorinformiert) return { rank: 1, icon: 'gesendet', tone: '', title: `Empfehlung an ${name} versendet`, text: 'Du erfährst hier, sobald der Link geöffnet wird.', time: formatRelative(item.created_at) };
+  return { rank: 0, icon: 'entwurf', tone: 'terra', title: `Link für ${name} erstellt`, text: 'Der Versand wurde noch nicht bestätigt.', time: formatRelative(item.created_at) };
 }
 
 function recommendationSignature(item) {
@@ -239,7 +239,7 @@ function renderActivities() {
     .slice(0, 3);
   wrap.innerHTML = items.map(item => `
     <article class="activity-card">
-      <div class="activity-icon ${item.tone}">${escapeHtml(item.icon)}</div>
+      <div class="activity-icon ${item.tone}" data-symbol="${escapeAttr(item.icon)}" aria-hidden="true"></div>
       <div class="activity-copy"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.text)}</span></div>
       <span class="time">${escapeHtml(item.time)}</span>
     </article>`).join('');

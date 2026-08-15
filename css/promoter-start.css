@@ -1,14 +1,20 @@
 :root {
   color-scheme: light;
-  --ps-ink: #20231F;
-  --ps-muted: #696B64;
-  --ps-paper: #F7F4EE;
-  --ps-surface: #FFFDF9;
-  --ps-champagne: #C9B98A;
-  --ps-sage: #7A8B6F;
-  --ps-line: rgba(32, 35, 31, 0.13);
-  --ps-error: #8A2E2E;
-  --ps-error-bg: #FAECE9;
+  /* Farbwelt wie im Empfehlerbereich und auf kaiblobel.de:
+     Petrol fuehrt, Gold ist Akzent, Weiss traegt. */
+  --ps-ink: #12242a;
+  --ps-muted: #64777d;
+  --ps-paper: #eef2f3;
+  --ps-surface: #ffffff;
+  --ps-champagne: #c8aa22;
+  --ps-champagne-dark: #8f7809;
+  --ps-petrol: #0b4650;
+  --ps-petrol-deep: #07333b;
+  --ps-petrol-soft: #e4eef0;
+  --ps-sage: #0b4650;
+  --ps-line: rgba(11, 70, 80, 0.14);
+  --ps-error: #9d2235;
+  --ps-error-bg: #f7e5e7;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
   background: var(--ps-paper);
   color: var(--ps-ink);
@@ -41,7 +47,7 @@ a { color: inherit; }
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: var(--ps-ink);
+  background: var(--ps-petrol);
   color: #FFF;
   font-size: 12px;
   font-weight: 800;
@@ -63,7 +69,7 @@ a { color: inherit; }
 .ps-intro { min-width: 0; max-width: 560px; }
 .ps-eyebrow {
   margin: 0 0 13px;
-  color: #8D7B4E;
+  color: var(--ps-champagne-dark);
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.15em;
@@ -92,9 +98,9 @@ a { color: inherit; }
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: rgba(201, 185, 138, 0.22);
-  color: #766438;
-  font-size: 12px;
+  background: var(--ps-petrol-soft);
+  color: var(--ps-petrol);
+  font-size: 13px;
   font-weight: 800;
 }
 .ps-steps div { display: grid; gap: 3px; }
@@ -170,16 +176,17 @@ a { color: inherit; }
   min-height: 52px;
   margin-top: 16px;
   border: 0;
-  border-radius: 10px;
-  background: var(--ps-ink);
-  color: #FFF;
-  font-weight: 750;
+  border-radius: 12px;
+  background: var(--ps-champagne);
+  color: #221c00;
+  font-size: 16px;
+  font-weight: 800;
   cursor: pointer;
   transition: transform 0.18s ease, opacity 0.18s ease;
 }
 .ps-submit:hover:not(:disabled) { transform: translateY(-1px); }
 .ps-submit:disabled { cursor: not-allowed; opacity: 0.46; }
-.ps-safe { margin: 12px 0 0; color: var(--ps-muted); text-align: center; font-size: 10.5px; }
+.ps-safe { margin: 12px 0 0; color: var(--ps-muted); text-align: center; font-size: 12px; }
 
 .ps-access-dialog {
   width: min(460px, calc(100% - 28px));

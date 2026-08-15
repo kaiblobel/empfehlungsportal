@@ -8,19 +8,21 @@
 
 body[data-page="empfehlen"],
 body[data-page="danke"] {
-  --f-ivory: #FAF8F5;
-  --f-warm: #FFFCF7;
-  --f-soft: #F2EFE9;
-  --f-anthracite: #1C1C1E;
-  --f-deep: #0A0A0B;
-  --f-muted: #6E6660;
-  --f-soft-text: #8C8680;
-  --f-champagne: #C9B98A;
-  --f-champagne-hover: #B8A570;
-  --f-champagne-soft: rgba(201,185,138,0.18);
-  --f-hairline: rgba(28,28,30,0.10);
-  --f-shadow: 0 24px 60px -20px rgba(28,28,30,0.12);
+  --f-ivory: #eef2f3;
+  --f-warm: #ffffff;
+  --f-soft: #e4eef0;
+  --f-anthracite: #12242a;
+  --f-deep: #07333b;
+  --f-muted: #64777d;
+  --f-soft-text: #7d9096;
+  --f-champagne: #c8aa22;
+  --f-champagne-hover: #8f7809;
+  --f-champagne-soft: rgba(200,170,34,0.16);
+  --f-hairline: rgba(11,70,80,0.14);
+  --f-shadow: 0 20px 50px -20px rgba(11,70,80,0.18);
   --f-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --f-petrol: #0b4650;
+  --f-petrol-soft: #e4eef0;
   --wa-green: #25D366;
   --f-font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --f-font-text: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
