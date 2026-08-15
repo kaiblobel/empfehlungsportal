@@ -940,7 +940,7 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
 .mobile-menu-button { display: none; }
 .mobile-menu { display: none; }
 
-@media (max-width: 900px) {
+@media (max-width: 980px) {
   .mobile-menu-button {
     display: inline-flex;
     align-items: center;
@@ -1114,3 +1114,13 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
 /* Die goldene KIDZ-Lok als Wegmotiv beim Vermögensaufbau. */
 .wealth-lok { display: block; width: 168px; height: auto; margin: 0 0 12px; mix-blend-mode: multiply; }
 @media (max-width: 900px) { .wealth-lok { width: 132px; } }
+
+
+/* Zwischen 980 und 1180 Pixeln wird die Kopfzeile eng: kleinere Abstände,
+   damit die Navigation nicht in den Knopf läuft. */
+@media (min-width: 981px) and (max-width: 1180px) {
+  .desktop-nav { gap: 16px; }
+  .desktop-nav a { font-size: 13px; }
+  .header-cta { padding-inline: 14px; font-size: 13px; }
+  .brand-copy small { font-size: 12px; }
+}

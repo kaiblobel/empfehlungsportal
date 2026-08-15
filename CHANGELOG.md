@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.265 Beta** · Paragraf 12 mit dem Namen des Kindes, live seit 15.08.2026.
+Offizielle Live-Version: **v1.266 Beta** · Krankenhausfall und schlankere Kopfzeile, live seit 15.08.2026.
+
+## v1.266 Beta - Phase 246 · Krankenhausfall und schlankere Kopfzeile
+**2026-08-15 · live veröffentlicht**
+
+Der Gesetzestext bleibt abstrakt, bis man ihn an einem konkreten Tag denkt. Unter § 12 steht deshalb jetzt zuerst der Fall, der Eltern wirklich trifft: Es gibt eine spezialisierte Klinik, sie liegt zwei Stunden entfernt. Die Kasse zahlt das nächstgelegene geeignete Haus, bei freier Wahl können Mehrkosten auferlegt werden. Die Mitaufnahme eines Elternteils gilt nur als Leistung, wenn sie medizinisch notwendig ist. Behandlung durch den erfahrensten Arzt und ein ruhiges Zimmer sind Wahlleistungen.
+
+Die Kieferorthopädie folgt danach mit derselben Logik, nur früher sichtbar. Grundlagen sind § 39 SGB V, § 11 Absatz 3 SGB V und § 29 SGB V; sie stehen mit dem Hinweis darunter, dass im Einzelfall die Krankenkasse entscheidet.
+
+Die Kopfzeile war überladen und lief in den Terminknopf. Sie führt jetzt sechs kurze Punkte: Sommerfest, Die Idee, Grundlagen, Vermögensaufbau, § 12, Elternabend. Bei mittleren Fensterbreiten rücken Abstände und Schriftgrößen zusammen.
+
+---
 
 ## v1.265 Beta - Phase 245 · Paragraf 12 mit dem Namen des Kindes
 **2026-08-15 · live veröffentlicht**
