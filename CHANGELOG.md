@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.264 Beta** · KIDZ-Seite neu sortiert, live seit 15.08.2026.
+Offizielle Live-Version: **v1.265 Beta** · Paragraf 12 mit dem Namen des Kindes, live seit 15.08.2026.
+
+## v1.265 Beta - Phase 245 · Paragraf 12 mit dem Namen des Kindes
+**2026-08-15 · live veröffentlicht**
+
+Die Elternseite versprach bisher „bis zu 100 Prozent Erstattung für Kieferorthopädie", ohne dass irgendwo stand, warum das nötig ist. Jetzt steht davor das Gesetz selbst.
+
+In einem roten Kasten steht der Wortlaut von § 12 Absatz 1 SGB V, dem Wirtschaftlichkeitsgebot. Darüber ein Feld für den Namen des eigenen Kindes. Wer ihn einträgt, liest: „Die Leistungen für Emil müssen ausreichend, zweckmäßig und wirtschaftlich sein; sie dürfen das Maß des Notwendigen nicht überschreiten." Drei Passagen sind hervorgehoben. Der Name bleibt im Browser der Eltern, nichts wird gesendet oder gespeichert.
+
+Darunter in normaler Sprache, was das im Alltag bedeutet: Zahnspange erst ab den Stufen 3 bis 5, zwanzig Prozent Eigenanteil bis zum Abschluss, alles Darüberhinausgehende privat. Mit Verweis auf § 29 SGB V.
+
+Dazu steht die goldene KIDZ-Lok jetzt über dem Vermögensaufbau. Die weiteren Waggons aus den Originalunterlagen liegen im Projekt bereit.
+
+---
 
 ## v1.264 Beta - Phase 244 · KIDZ-Seite neu sortiert
 **2026-08-15 · live veröffentlicht**
