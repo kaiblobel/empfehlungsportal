@@ -17,7 +17,10 @@ const themes = ['foerderungen', 'selbstaendige', 'investment', 'absicherung', 'k
 
 for (const slug of themes) {
   assert.match(js, new RegExp(`\\b${slug}:\\s*\\{`), `${slug} fehlt im Themengerüst`);
-  const expectedPage = slug === 'baufi' ? '/baufi.html' : '/thema.html';
+  // Kinder führt bewusst direkt auf die KIDZ-Elternseite: sie ist die
+  // eigentliche Empfehlung, die Themenseite wäre nur ein Zwischenschritt.
+  const sonderziele = { baufi: '/baufi.html', kinder: '/kidz-konzept.html' };
+  const expectedPage = sonderziele[slug] || '/thema.html';
   assert.match(share, new RegExp(`${slug}: '${expectedPage.replace('.', '\\.')}'`), `${slug} fehlt im Router`);
   assert.match(program, new RegExp(`\\b${slug}:\\s*\\{`), `${slug} fehlt in der Präsentationsvorschau`);
   const expectedPreview = slug === 'baufi' ? `baufi.html?vorlage=${slug}` : `thema.html?vorlage=${slug}`;

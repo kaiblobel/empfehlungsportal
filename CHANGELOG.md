@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.256 Beta** · Empfängerseite und Themenverwaltung nachgezogen, live seit 15.08.2026.
+Offizielle Live-Version: **v1.257 Beta** · Kinder-Empfehlung führt auf die KIDZ-Seite, live seit 15.08.2026.
+
+## v1.257 Beta - Phase 237 · Kinder-Empfehlung führt auf die KIDZ-Seite
+**2026-08-15 · live veröffentlicht**
+
+Wer über das Thema Kinder empfohlen wird, landet jetzt direkt auf der KIDZ-Elternseite. Die Themenseite war ein Zwischenschritt vor dem eigentlichen Ziel; empfohlen werden soll das Konzept selbst.
+
+Damit die Empfehlung dabei nicht ihre Spur verliert, trägt die Elternseite jetzt zwei Dinge mit: Oben erscheint ein schmales Band mit dem Namen der Person, die empfohlen hat, und das Öffnen des Links wird wie auf den anderen Empfehlungsseiten erfasst. Wer die Seite ohne Empfehlung aufruft, sieht das Band nicht.
+
+---
 
 ## v1.256 Beta - Phase 236 · Empfängerseite und Themenverwaltung nachgezogen
 **2026-08-15 · live veröffentlicht**

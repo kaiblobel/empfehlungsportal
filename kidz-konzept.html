@@ -17,10 +17,16 @@
   <meta name="twitter:card" content="summary_large_image">
   <title>KIDZ | Kinderleicht in die Zukunft</title>
   <link rel="icon" type="image/png" href="/assets/images/kidz-logo-konzept.png">
-  <link rel="stylesheet" href="/css/kidz-konzept.css?v=4">
+  <link rel="stylesheet" href="/css/kidz-konzept.css?v=6">
 </head>
 <body>
   <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+
+  <!-- Erscheint nur, wenn jemand über eine persönliche Empfehlung hierher kommt. -->
+  <aside class="empfehlungsband" id="empfehlungsband" hidden>
+    <span class="empfehlungsband-mark" id="empfehlungsbandMark" aria-hidden="true">·</span>
+    <p><strong id="empfehlungsbandName">Jemand aus deinem Umfeld</strong> hat an dich gedacht und dir KIDZ weitergeschickt.</p>
+  </aside>
 
   <header class="site-header" data-header>
     <a class="brand" href="#start" aria-label="KIDZ Startseite">
@@ -456,6 +462,8 @@
   </dialog>
 
   <div class="mock-toast" id="mockToast" role="status" aria-live="polite"></div>
-  <script src="/js/kidz-konzept.js?v=3"></script>
+  <script src="/js/kidz-konzept.js?v=4"></script>
+  <script src="/js/referral-tracking.js?v=3"></script>
+  <script type="module" src="/js/kidz-empfehlung.js?v=1"></script>
 </body>
 </html>
