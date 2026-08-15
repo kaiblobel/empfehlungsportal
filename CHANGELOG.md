@@ -1,7 +1,14 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.261 Beta** · KIDZ-Einleitung gestrafft, live seit 15.08.2026.
+Offizielle Live-Version: **v1.262 Beta** · Zweifacher Vater auf dem Porträt, live seit 15.08.2026.
+
+## v1.262 Beta - Phase 242 · Zweifacher Vater auf dem Porträt
+**2026-08-15 · live veröffentlicht**
+
+Auf der KIDZ-Einleitung trägt das Porträt jetzt zwei kurze Merkmale: „Zweifacher Vater" und „Über 20 Jahre Erfahrung". Auf einer Elternseite ist die erste Frage, ob der Gegenüber das selbst kennt; die Erfahrung ordnet danach ein.
+
+---
 
 ## v1.261 Beta - Phase 241 · KIDZ-Einleitung gestrafft
 **2026-08-15 · live veröffentlicht**
