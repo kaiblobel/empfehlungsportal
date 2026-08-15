@@ -1032,3 +1032,58 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
   .fest-wege { width: 100%; }
   .fest-weg-haupt, .fest-weg { flex: 1; text-align: center; }
 }
+
+/* ---------------------------------------------------------------------------
+   Die Versorgungslücke: erst das Problem benennen, dann die Möglichkeiten.
+   Ohne diesen Abschnitt stand auf der Seite eine Lösung ohne Frage davor.
+   --------------------------------------------------------------------------- */
+
+.gap-section { background: var(--paper); }
+.gap-inner { max-width: var(--max); margin: 0 auto; }
+.gap-head { max-width: 760px; }
+.gap-head h2 { margin: 10px 0 0; font-size: clamp(28px, 3.4vw, 42px); font-weight: 800; line-height: 1.1; letter-spacing: -.02em; }
+.gap-lede { margin: 14px 0 0; color: var(--muted); font-size: 17px; line-height: 1.6; }
+
+.gap-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 30px; }
+.gap-cards article {
+  position: relative;
+  padding: 24px 22px 22px;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--orange);
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 14px 34px rgba(24, 63, 86, .07);
+}
+.gap-mark {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  margin-bottom: 14px;
+  border-radius: 50%;
+  background: #fbe8dd;
+  color: #b4501f;
+  font-size: 14px;
+  font-weight: 900;
+}
+.gap-cards strong { display: block; font-size: 17px; font-weight: 800; line-height: 1.25; }
+.gap-cards p { margin: 9px 0 0; color: var(--muted); font-size: 15px; line-height: 1.55; }
+
+.gap-note { margin: 22px 0 0; max-width: 780px; color: var(--muted); font-size: 12.5px; line-height: 1.6; }
+.gap-note a { color: var(--blue-deep); text-underline-offset: 3px; }
+.gap-bridge {
+  margin: 22px 0 0;
+  padding: 18px 22px;
+  border-left: 4px solid var(--yellow);
+  border-radius: 0 16px 16px 0;
+  background: var(--blue-pale);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .gap-cards { grid-template-columns: 1fr; gap: 14px; }
+  .gap-cards article { padding: 20px 18px 18px; }
+  .gap-bridge { font-size: 16px; padding: 16px 18px; }
+}
