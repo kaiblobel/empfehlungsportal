@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.266 Beta** · Krankenhausfall und schlankere Kopfzeile, live seit 15.08.2026.
+Offizielle Live-Version: **v1.267 Beta** · Anschrift und Rufnummer in der Fußzeile, live seit 15.08.2026.
+
+## v1.267 Beta - Phase 247 · Anschrift und Rufnummer in der Fußzeile
+**2026-08-15 · live veröffentlicht**
+
+Die Elternseite endete bisher mit zwei Zeilen ohne Kontakt. Jetzt stehen dort das Teamlogo, der volle Name der Regionaldirektion, die Anschrift An der Wachsbleiche 1a in Cottbus, die Festnetznummer und die E-Mail-Adresse. Auf Handys stehen die Blöcke untereinander.
+
+Der Gesellschaftsname bleibt bewusst draußen. Ein Test bewacht das, weil die Elternseite anbieterneutral gehalten ist; unter dem Namen steht deshalb „Ihre Ansprechpartner in Cottbus".
+
+---
 
 ## v1.266 Beta - Phase 246 · Krankenhausfall und schlankere Kopfzeile
 **2026-08-15 · live veröffentlicht**
