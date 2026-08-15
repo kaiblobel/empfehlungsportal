@@ -86,6 +86,7 @@ let activePlanIndex = null;
 const draftKey = () => `empfehler_mobile_draft_${code}`;
 const snapshotKey = () => `empfehler_mobile_snapshot_${code}`;
 const notificationKey = () => `empfehler_mobile_frequency_${code}`;
+const lastVisitKey = () => `empfehler_mobile_last_visit_${code}`;
 const goalPlanKey = () => `empfehler_mobile_goal_plan_${code}`;
 const funnel = { step: 1, name: '', phone: '', topic: '', topicTitle: '', template: 'warm', message: '' };
 
@@ -103,8 +104,26 @@ if (!code) {
   init();
 }
 
+// Wer alle paar Monate empfiehlt, soll oben sehen, wann er zuletzt hier war.
+// Der Wert liegt nur auf diesem Geraet, nichts davon geht an den Server.
+function zeigeLetztenBesuch() {
+  const feld = $('#lastVisit');
+  if (!feld) return;
+  let vorher = null;
+  try { vorher = localStorage.getItem(lastVisitKey()); } catch (_) {}
+  if (vorher) {
+    const datum = new Date(vorher);
+    if (!Number.isNaN(datum.getTime())) {
+      feld.textContent = `zuletzt hier: ${datum.toLocaleDateString('de-DE', { day: 'numeric', month: 'long' })}`;
+      feld.hidden = false;
+    }
+  }
+  try { localStorage.setItem(lastVisitKey(), new Date().toISOString()); } catch (_) {}
+}
+
 async function init() {
   bindStaticControls();
+  zeigeLetztenBesuch();
   const [empRes, statsRes, listRes] = await Promise.all([
     getEmpfehlerByCode(code),
     getEmpfehlerStats(code),

@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <!-- Promoterbereich v1.135 · ehrlicher Bookings-Status -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#f4f2ed">
+  <meta name="theme-color" content="#eef2f3">
   <meta name="robots" content="noindex,nofollow">
   <title>Dein Empfehlungsbereich | Kai Blobel</title>
-  <link rel="stylesheet" href="css/empfehler-mobile.css?v=3">
+  <link rel="stylesheet" href="css/empfehler-mobile.css?v=4">
   <script src="js/config.js"></script>
 </head>
 <body data-page="empfehler">
@@ -38,12 +38,38 @@
         </div>
       </section>
 
+      <section class="howto" aria-labelledby="howtoTitle">
+        <div class="howto-head">
+          <strong id="howtoTitle">So läuft es ab</strong>
+          <span id="lastVisit" hidden></span>
+        </div>
+        <div class="howto-steps">
+          <div class="howto-step">
+            <span class="howto-num">1</span>
+            <div><strong>Person eintragen</strong><span>Vorname und Handynummer genügen.</span></div>
+          </div>
+          <div class="howto-step">
+            <span class="howto-num">2</span>
+            <div><strong>Thema wählen</strong><span>Worum geht es gerade? Zum Beispiel Baufinanzierung.</span></div>
+          </div>
+          <div class="howto-step">
+            <span class="howto-num">3</span>
+            <div><strong>Nachricht anpassen</strong><span>Der Text steht fertig da, du kannst ihn in deine Worte bringen.</span></div>
+          </div>
+          <div class="howto-step">
+            <span class="howto-num">4</span>
+            <div><strong>Über WhatsApp senden</strong><span>Du siehst die Nachricht vorher und schickst sie selbst ab.</span></div>
+          </div>
+        </div>
+        <p class="howto-note">Kai meldet sich erst, wenn die Person deinen Link selbst geöffnet hat. Du gibst niemanden ungefragt weiter.</p>
+      </section>
+
       <section class="section" aria-labelledby="impactTitle">
         <div class="section-head"><div><div class="eyebrow">Deine Wirkung</div><h2 id="impactTitle">Auf einen Blick</h2></div></div>
         <div class="metric-grid">
-          <div class="metric"><strong id="recommendedCount">0</strong><span>Menschen empfohlen</span><small>alles erfasst</small></div>
-          <div class="metric"><strong id="openedCount">0</strong><span>Link geöffnet</span><small>Interesse entsteht</small></div>
-          <div class="metric"><strong id="customerCount">0</strong><span>Kunde geworden</span><small>echte Wirkung</small></div>
+          <div class="metric"><strong id="recommendedCount">0</strong><span>Menschen empfohlen</span><small>insgesamt</small></div>
+          <div class="metric"><strong id="openedCount">0</strong><span>Link geöffnet</span><small>Interesse da</small></div>
+          <div class="metric"><strong id="customerCount">0</strong><span>Kunde geworden</span><small>danke dafür</small></div>
         </div>
       </section>
 
@@ -208,6 +234,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script type="module" src="js/empfehler-mobile.js?v=8"></script>
+  <script type="module" src="js/empfehler-mobile.js?v=9"></script>
 </body>
 </html>
