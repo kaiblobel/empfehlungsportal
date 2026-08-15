@@ -449,3 +449,37 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
+
+/* Sommerfest-Hinweis: Wer direkt auf der KIDZ-Seite landet, sieht den nächsten
+   Familientermin sofort, ohne dass er über die Kundenseite kommen muss. */
+.desktop-nav a.nav-event { color: var(--gold-deep); }
+.desktop-nav a.nav-event::before { content: "●"; margin-right: 5px; color: var(--yellow); font-size: 10px; vertical-align: 2px; }
+
+.summer-section { max-width: none; padding: 76px max(24px, calc((100vw - var(--max)) / 2)); background: linear-gradient(160deg, #fffaf0, var(--blue-pale)); }
+.summer-card { display: grid; grid-template-columns: 296px 1fr; gap: 44px; align-items: center; max-width: var(--max); margin: 0 auto; padding: 32px; border: 1px solid rgba(201, 160, 74, 0.3); border-radius: var(--radius); background: var(--paper); box-shadow: var(--shadow); }
+.summer-flyer { position: relative; display: block; overflow: hidden; border-radius: 20px; box-shadow: 0 16px 38px rgba(24, 63, 86, 0.16); }
+.summer-flyer img { display: block; width: 100%; height: auto; }
+.summer-flyer span { position: absolute; right: 10px; bottom: 10px; left: 10px; padding: 9px 12px; color: #fff; background: rgba(24, 63, 86, 0.86); border-radius: 999px; font-size: 12px; font-weight: 800; text-align: center; }
+.summer-copy h2 { margin: 0; color: var(--blue-deep); font-size: clamp(32px, 3.4vw, 46px); line-height: 1.05; letter-spacing: -0.04em; }
+.summer-lede { max-width: 640px; margin: 18px 0 0; color: var(--muted); font-size: 18px; line-height: 1.6; }
+.summer-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 26px 0 0; }
+.summer-facts div { padding: 14px 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--soft); }
+.summer-facts dt { color: var(--gold-deep); font-size: 11px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; }
+.summer-facts dd { margin: 5px 0 0; color: var(--blue-deep); font-size: 15px; font-weight: 800; line-height: 1.3; }
+.summer-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+.summer-note { margin: 16px 0 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+
+@media (max-width: 980px) {
+  .summer-card { grid-template-columns: 216px 1fr; gap: 28px; padding: 24px; }
+  .summer-facts { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 720px) {
+  .summer-section { padding: 54px 20px; }
+  .summer-card { grid-template-columns: 1fr; gap: 22px; padding: 18px; }
+  .summer-flyer { width: 100%; max-width: 320px; margin: 0 auto; }
+  .summer-copy h2 { font-size: clamp(30px, 9vw, 40px); }
+  .summer-lede { font-size: 17px; }
+  .summer-actions { display: grid; }
+  .summer-actions .button { width: 100%; }
+}

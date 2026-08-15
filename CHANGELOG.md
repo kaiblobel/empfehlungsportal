@@ -1,10 +1,21 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.250 Beta** · Nur fertige Themen sind in der Präsentation auswählbar, vorbereitet am 15.08.2026.
+Offizielle Live-Version: **v1.251 Beta** · Sommerfest-Hinweis auf der KIDZ-Elternseite, live seit 15.08.2026.
+
+## v1.251 Beta - Phase 231 · Sommerfest-Hinweis auf der KIDZ-Elternseite
+**2026-08-15 · live veröffentlicht**
+
+Auf der Kundenseite steht das Kinder-Sommerfest weit oben. Wer über Suche, QR-Code oder einen geteilten Link direkt auf der KIDZ-Elternseite landete, hat vom Termin nichts mitbekommen.
+
+Gleich unter dem Einstieg steht jetzt der Flyer mit Datum, Uhrzeit, Ort und dem Hinweis auf den freien Eintritt. Von dort führen zwei Wege weiter: die vollständige Sommerfest-Seite und die Anmeldung zum Gewinnspiel. Ein Satz stellt klar, dass man auch ohne Anmeldung vorbeikommen kann. Im Kopfmenü steht „Sommerfest" als erster Punkt.
+
+Auf dem Handy stapelt sich der Block untereinander, die Eckdaten stehen zweispaltig und beide Schaltflächen nehmen die volle Breite.
+
+---
 
 ## v1.250 Beta - Phase 230 · Nur fertige Themen sind auswählbar
-**2026-08-15 · vorbereitet**
+**2026-08-15 · live veröffentlicht**
 
 In der Präsentation waren bisher alle Themenkacheln anklickbar, obwohl erst drei Themenwelten wirklich fertig sind. Wer eine der übrigen Kacheln angetippt hat, landete in der Vorschau auf der allgemeinen Förderseite. Das wirkte fertig, war aber der falsche Inhalt.
 
@@ -15,7 +26,7 @@ Freigeschaltet wird über eine einzige Liste im Code (`FREIGESCHALTETE_THEMEN` i
 ---
 
 ## v1.249 Beta - Phase 229 · KIDZ im Kinderthema und im Beraterbereich
-**2026-08-15 · vorbereitet**
+**2026-08-15 · live veröffentlicht**
 
 Die Themenseite „Kinder & Zukunft" führt jetzt als ersten Weg auf die KIDZ-Elternseite. Wer über eine Empfehlung oder die Kundenseite dort landet, kommt damit direkt zum Elternkonzept.
 
