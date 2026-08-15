@@ -22,7 +22,10 @@ assert.match(giveawayHtml, /kidz-public-nav\.js\?v=\d+/);
 assert.match(summerHtml, /<strong>Sommerfest<\/strong>/);
 assert.match(summerHtml, /<strong>Gewinne<\/strong>/);
 assert.match(summerHtml, /<strong>Anmeldung<\/strong>/);
-assert.match(summerHtml, /<strong>KIDZ Konzept<\/strong>/);
+// Die Elternseite wird am 6. September vor Ort freigeschaltet und bis dahin
+// nicht über das öffentliche Menü beworben. Erreichbar bleibt sie weiterhin.
+assert.doesNotMatch(summerHtml, /<strong>KIDZ Konzept<\/strong>/);
+assert.doesNotMatch(giveawayHtml, /<strong>KIDZ Konzept<\/strong>/);
 assert.match(navCss, /\.kidz-public-menu-panel/);
 assert.match(navCss, /@media \(max-width: 460px\)/);
 assert.doesNotMatch(navCss, /prefers-color-scheme\s*:\s*dark/);
@@ -53,7 +56,6 @@ const links = [
   { dataset: { kidzDestination: '/kidz/sommerfest#sommerfest' }, href: '', attrs: {}, setAttribute(name, value) { this.attrs[name] = value; } },
   { dataset: { kidzDestination: '/kidz/sommerfest#gewinnspiel' }, href: '', attrs: {}, setAttribute(name, value) { this.attrs[name] = value; } },
   { dataset: { kidzDestination: '/kidz/gewinnspiel#anmeldung' }, href: '', attrs: {}, setAttribute(name, value) { this.attrs[name] = value; } },
-  { dataset: { kidzDestination: '/kidz/konzept' }, href: '', attrs: {}, setAttribute(name, value) { this.attrs[name] = value; } },
 ];
 const menu = { open: false, contains: () => false, removeAttribute() {} };
 globalThis.window = { location: { href: 'https://kidz.teamwachsbleiche.de/kidz/gewinnspiel?quelle=vor-ort-qr&berater=claudius-tusche#anmeldung' } };
@@ -67,7 +69,6 @@ assert.deepEqual(links.map((link) => link.href), [
   '/kidz/sommerfest?quelle=vor-ort-qr&berater=claudius-tusche#sommerfest',
   '/kidz/sommerfest?quelle=vor-ort-qr&berater=claudius-tusche#gewinnspiel',
   '/kidz/gewinnspiel?quelle=vor-ort-qr&berater=claudius-tusche#anmeldung',
-  '/kidz/konzept?quelle=vor-ort-qr&berater=claudius-tusche',
 ]);
 assert.equal(links[2].attrs['aria-current'], 'page');
 delete globalThis.window;

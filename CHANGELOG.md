@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.251 Beta** · Sommerfest-Hinweis auf der KIDZ-Elternseite, live seit 15.08.2026.
+Offizielle Live-Version: **v1.252 Beta** · KIDZ-Menü ohne Elternseite bis zum Fest, live seit 15.08.2026.
+
+## v1.252 Beta - Phase 232 · KIDZ-Menü ohne Elternseite bis zum Fest
+**2026-08-15 · live veröffentlicht**
+
+Das öffentliche KIDZ-Menü auf Sommerfest- und Gewinnspielseite führt nicht mehr zur Elternseite. Das Konzept wird am 6. September vor Ort vorgestellt und erst dann breit beworben.
+
+Die Seite selbst bleibt unter `/kidz/konzept` erreichbar, ebenso über den Beraterbereich. Nur der öffentliche Menüpunkt ist weg. Nach dem Fest reicht ein Eintrag im Menü, um ihn zurückzuholen.
+
+---
 
 ## v1.251 Beta - Phase 231 · Sommerfest-Hinweis auf der KIDZ-Elternseite
 **2026-08-15 · live veröffentlicht**
