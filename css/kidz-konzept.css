@@ -942,22 +942,24 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
 
 @media (max-width: 900px) {
   .mobile-menu-button {
-    display: grid;
-    place-content: center;
-    gap: 5px;
-    width: 44px;
-    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
     flex: 0 0 auto;
-    padding: 0;
+    height: 44px;
+    padding: 0 15px 0 12px;
     border: 1px solid var(--line);
-    border-radius: 14px;
+    border-radius: 999px;
     background: var(--paper);
     cursor: pointer;
   }
-  .mobile-menu-button span[aria-hidden] { display: block; width: 18px; height: 2px; border-radius: 2px; background: var(--blue-deep); transition: transform 180ms ease, opacity 180ms ease; }
-  .mobile-menu-button[aria-expanded="true"] span[aria-hidden]:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .mobile-menu-button[aria-expanded="true"] span[aria-hidden]:nth-child(2) { opacity: 0; }
-  .mobile-menu-button[aria-expanded="true"] span[aria-hidden]:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-menu-icon { display: grid; gap: 4px; }
+  .mobile-menu-icon i { display: block; width: 16px; height: 2px; border-radius: 2px; background: var(--blue-deep); transition: transform 180ms ease, opacity 180ms ease; }
+  .mobile-menu-word { color: var(--blue-deep); font-size: 14px; font-weight: 800; }
+  .mobile-menu-button[aria-expanded="true"] .mobile-menu-icon i:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .mobile-menu-button[aria-expanded="true"] .mobile-menu-icon i:nth-child(2) { opacity: 0; }
+  .mobile-menu-button[aria-expanded="true"] .mobile-menu-icon i:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+  .mobile-menu-title { margin: 0 0 10px; font-size: 17px; font-weight: 900; letter-spacing: -.01em; }
 
   .mobile-menu {
     position: sticky;
@@ -996,4 +998,37 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
     font-size: 11px;
     font-weight: 900;
   }
+}
+
+
+/* Sommerfest als schmaler Streifen: sichtbar, aber ohne den Faden zu reissen.
+   Alle Einzelheiten stehen auf der Sommerfestseite. */
+.fest-streifen {
+  display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+  width: min(var(--max), calc(100% - 48px)); margin: 0 auto; padding: 16px 22px;
+  border: 1px solid var(--line); border-left: 5px solid var(--yellow); border-radius: 16px;
+  background: var(--paper); box-shadow: 0 12px 30px rgba(24, 63, 86, .08);
+}
+.fest-streifen { align-items: center; }
+.fest-flyer { flex: 0 0 auto; width: 74px; border-radius: 10px; overflow: hidden; line-height: 0; box-shadow: 0 6px 16px rgba(24, 63, 86, .18); }
+.fest-flyer img { width: 100%; height: auto; }
+.fest-copy { flex: 1 1 320px; min-width: 0; }
+.fest-kicker { margin: 0 0 4px; color: var(--gold-deep); font-size: 11px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+.fest-streifen strong { display: block; font-size: 17px; font-weight: 800; }
+.fest-streifen .summer-facts { display: flex; flex-wrap: wrap; gap: 6px 20px; margin: 8px 0 0; }
+.fest-streifen .summer-facts div { display: flex; gap: 6px; align-items: baseline; }
+.fest-streifen .summer-facts dt { margin: 0; color: var(--muted); font-size: 12.5px; font-weight: 700; }
+.fest-streifen .summer-facts dd { margin: 0; font-size: 13.5px; font-weight: 650; }
+.fest-wege { display: flex; flex: 0 0 auto; gap: 8px; flex-wrap: wrap; }
+.fest-weg-haupt, .fest-weg { padding: 11px 18px; border-radius: 999px; font-size: 14px; font-weight: 750; text-decoration: none; }
+.fest-weg-haupt { background: var(--blue-deep); color: #fff; }
+.fest-weg-haupt:hover { background: var(--blue); }
+.fest-weg { border: 1px solid var(--line); color: var(--blue-deep); }
+.fest-weg:hover { border-color: var(--blue); }
+.fest-hinweis { width: 100%; margin: 8px 0 0; color: var(--muted); font-size: 12.5px; line-height: 1.45; }
+@media (max-width: 760px) {
+  .fest-streifen { width: calc(100% - 28px); padding: 14px 16px; gap: 14px; }
+  .fest-flyer { width: 58px; }
+  .fest-wege { width: 100%; }
+  .fest-weg-haupt, .fest-weg { flex: 1; text-align: center; }
 }

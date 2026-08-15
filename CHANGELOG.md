@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.263 Beta** · Drehkarte, Vermögensaufbau und Handy-Menü, live seit 15.08.2026.
+Offizielle Live-Version: **v1.264 Beta** · KIDZ-Seite neu sortiert, live seit 15.08.2026.
+
+## v1.264 Beta - Phase 244 · KIDZ-Seite neu sortiert
+**2026-08-15 · live veröffentlicht**
+
+Die Elternseite hatte dreizehn Aufforderungen zum Handeln, drei Schlussteile und das stärkste Argument an sechster Stelle. Wer sie gelesen hat, wurde alle dreihundert Wörter gefragt, ob er sich vormerken möchte. Das passte nicht zum Versprechen „Sie entscheiden selbst".
+
+Neue Reihenfolge: Einstieg, KIDZ in einem Satz, Sommerfest als schmaler Streifen, die Idee, die drei Grundlagen, der Vermögensaufbau mit der Beispielrechnung, die Möglichkeiten, die Bilderstrecke als ruhige Pause, der Elternabend, die häufigen Fragen, die Herkunft und zum Schluss die Entscheidung mit den drei Wegen.
+
+Zwischen der Idee und dem Elternabend steht jetzt kein einziger Knopf mehr. Gefragt wird an drei Stellen statt an dreizehn. Der zweite Abschluss ist entfallen.
+
+Das Sommerfest bleibt vollständig sichtbar, aber kompakt: Flyer, Datum, Zeit, Ort, Eintritt frei, beide Wege und der Hinweis, dass man auch ohne Anmeldung kommen kann. Alle Einzelheiten stehen weiterhin auf der Sommerfestseite.
+
+Das Handy-Menü heißt jetzt sichtbar KIDZ-Menü, der Knopf trägt das Wort „Themen".
+
+---
 
 ## v1.263 Beta - Phase 243 · Drehkarte, Vermögensaufbau und Handy-Menü
 **2026-08-15 · live veröffentlicht**

@@ -17,7 +17,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <title>KIDZ | Kinderleicht in die Zukunft</title>
   <link rel="icon" type="image/png" href="/assets/images/kidz-logo-konzept.png">
-  <link rel="stylesheet" href="/css/kidz-konzept.css?v=13">
+  <link rel="stylesheet" href="/css/kidz-konzept.css?v=14">
   <!-- Wird für den Namen im Empfehlungsband gebraucht, wie auf Gewinnspiel- und
        Elternabendseite. Ohne diese Angaben bleibt das Band beim neutralen Text. -->
   <script src="/js/config.js"></script>
@@ -46,13 +46,15 @@
     </nav>
     <button class="header-cta" type="button" data-open-path="elternabend">Elternabend vormerken</button>
     <button class="mobile-menu-button" id="mobileMenuButton" type="button" aria-expanded="false" aria-controls="mobileMenu">
-      <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
-      <span class="sr-only">Menü öffnen</span>
+      <span class="mobile-menu-icon" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="mobile-menu-word">Themen</span>
+      <span class="sr-only">KIDZ-Menü öffnen</span>
     </button>
   </header>
 
   <!-- Kleines Menü für das Handy: die Desktop-Navigation ist dort ausgeblendet. -->
   <nav class="mobile-menu" id="mobileMenu" aria-label="KIDZ-Menü" hidden>
+    <p class="mobile-menu-title">KIDZ-Menü</p>
     <p class="mobile-menu-label">Die drei Grundlagen</p>
     <a href="#saeulen" data-pillar-link="kompetenz"><span>01</span>Finanzielle Kompetenz</a>
     <a href="#saeulen" data-pillar-link="gesundheit"><span>02</span>Gesundheit</a>
@@ -95,32 +97,28 @@
       <p>KIDZ verbindet <strong>finanzielle Kompetenz</strong>, <strong>Gesundheit</strong> und <strong>finanzielle Absicherung</strong> zu einem verständlichen Weg für Eltern.</p>
     </section>
 
-    <section class="section summer-section" id="sommerfest" aria-labelledby="summer-title">
-      <div class="summer-card">
-        <a class="summer-flyer" href="/assets/images/kidz-sommerfest-flyer.jpg" target="_blank" rel="noopener noreferrer" aria-label="Flyer zum Kinder-Sommerfest groß ansehen">
-          <img src="/assets/images/kidz-sommerfest-flyer.jpg" alt="Flyer zum Kinder-Sommerfest am 6. September 2026 von 10 bis 15 Uhr in der Kutzeburger Mühle" width="904" height="1280" loading="lazy">
-          <span>Flyer groß ansehen ↗</span>
-        </a>
-        <div class="summer-copy">
-          <p class="eyebrow">Nächster Termin für Familien</p>
-          <h2 id="summer-title">Kinder-Sommerfest am 6. September.</h2>
-          <p class="summer-lede">Hüpfburg, Feuerwehr zum Anfassen, Torwand, Dart, Bogenschießen und Kinder-Trödel, dazu Essen und Naschen. Der Eintritt ist frei. Wer sich vorher anmeldet, ist beim großen Sommerfest-Gewinnspiel dabei.</p>
-          <dl class="summer-facts">
-            <div><dt>Datum</dt><dd>6. September 2026</dd></div>
-            <div><dt>Zeit</dt><dd>10 bis 15 Uhr</dd></div>
-            <div><dt>Ort</dt><dd>Kutzeburger Mühle 1, 03051 Cottbus</dd></div>
-            <div><dt>Kosten</dt><dd>Eintritt frei</dd></div>
-          </dl>
-          <div class="summer-actions">
-            <a class="button button-primary" href="/kidz/sommerfest?quelle=direkt#sommerfest">Alles zum Sommerfest</a>
-            <a class="button button-gold" href="/kidz/gewinnspiel?quelle=direkt#anmeldung">Zum Gewinnspiel anmelden</a>
-          </div>
-          <p class="summer-note">Ihr könnt auch ohne Anmeldung einfach vorbeikommen. Die Anmeldung hilft uns nur bei der Planung und bringt die Teilnahme am Gewinnspiel.</p>
-        </div>
+        <aside class="fest-streifen" id="sommerfest" aria-labelledby="summer-title">
+      <a class="fest-flyer" href="/assets/images/kidz-sommerfest-flyer.jpg" target="_blank" rel="noopener noreferrer" aria-label="Flyer zum Kinder-Sommerfest groß ansehen">
+        <img src="/assets/images/kidz-sommerfest-flyer.jpg" alt="Flyer zum Kinder-Sommerfest am 6. September 2026" width="904" height="1280" loading="lazy">
+      </a>
+      <div class="fest-copy">
+        <p class="fest-kicker">Nächster Termin für Familien</p>
+        <strong id="summer-title">Kinder-Sommerfest am 6. September.</strong>
+        <dl class="summer-facts">
+          <div><dt>Datum</dt><dd>6. September 2026</dd></div>
+          <div><dt>Zeit</dt><dd>10 bis 15 Uhr</dd></div>
+          <div><dt>Ort</dt><dd>Kutzeburger Mühle 1, 03051 Cottbus</dd></div>
+          <div><dt>Kosten</dt><dd>Eintritt frei</dd></div>
+        </dl>
       </div>
-    </section>
+      <div class="fest-wege">
+        <a class="fest-weg-haupt" href="/kidz/sommerfest?quelle=direkt#sommerfest">Alles zum Fest</a>
+        <a class="fest-weg" href="/kidz/gewinnspiel?quelle=direkt#anmeldung">Zum Gewinnspiel</a>
+        <p class="fest-hinweis">Ihr könnt auch ohne Anmeldung einfach vorbeikommen.</p>
+      </div>
+    </aside>
 
-    <section class="section intro-section" id="idee" aria-labelledby="idee-title">
+<section class="section intro-section" id="idee" aria-labelledby="idee-title">
       <div class="section-heading section-heading-left">
         <p class="eyebrow">Die KIDZ-Idee</p>
         <h2 id="idee-title">Nicht jede Zukunft lässt sich planen. Gute Grundlagen schon.</h2>
@@ -196,6 +194,57 @@
       </div>
     </section>
 
+    <section class="section wealth-section" id="vermoegensaufbau" aria-labelledby="wealth-title">
+      <div class="wealth-grid">
+        <figure class="wealth-visual">
+          <img src="/assets/images/kidz-konzept/kidz-zukunftsblick.jpg" alt="Zwei Kinder blicken von einer Terrasse über Palmen auf das Meer" width="1200" height="1600" loading="lazy">
+          <figcaption>Was möglich ist, entscheidet sich früher, als man denkt.</figcaption>
+        </figure>
+
+        <div class="wealth-copy">
+          <p class="eyebrow">Vermögensaufbau</p>
+          <h2 id="wealth-title">55 Euro im Monat. 18 Jahre lang. Und dann?</h2>
+          <p class="wealth-lede">Eltern legen den Grundstein, das Kind macht später einfach weiter. Der Unterschied liegt nicht im Betrag, sondern in der Zeit, die vorher schon gelaufen ist.</p>
+
+          <ol class="wealth-steps">
+            <li>
+              <span>1</span>
+              <div>
+                <strong>Die Eltern fangen an</strong>
+                <p>18 Jahre lang 55 Euro im Monat. Eingezahlt werden 11.880 Euro, daraus werden rechnerisch <b>25.008 Euro</b> zum 18. Geburtstag.</p>
+              </div>
+            </li>
+            <li>
+              <span>2</span>
+              <div>
+                <strong>Das Kind macht weiter</strong>
+                <p>Es spart dieselben 55 Euro weiter bis zum 67. Lebensjahr. Aus dem Startkapital der Eltern werden dabei rechnerisch <b>1.077.120 Euro</b>.</p>
+              </div>
+            </li>
+            <li>
+              <span>3</span>
+              <div>
+                <strong>Ohne den frühen Start</strong>
+                <p>Beginnt das Kind erst mit 18 bei null, kommt es mit denselben 55 Euro auf <b>287.391 Euro</b>.</p>
+              </div>
+            </li>
+          </ol>
+
+          <div class="wealth-result">
+            <span>Der Vorsprung, den Eltern verschaffen können</span>
+            <strong>789.729 Euro</strong>
+            <p>So groß ist der Unterschied allein dadurch, dass in den ersten 18 Jahren schon etwas gelaufen ist.</p>
+          </div>
+
+          <p class="wealth-note">
+            Beispielrechnung mit 7,3 Prozent Wertentwicklung pro Jahr, monatlich vorschüssig, Zinsen werden angesammelt.
+            Sie dient der Veranschaulichung des Zinseszinseffekts und ist keine Zusage. Kosten, Steuern und Inflation sind
+            nicht berücksichtigt, die tatsächliche Entwicklung kann deutlich abweichen.
+          </p>
+        </div>
+      </div>
+    </section>
+
     <section class="section possibilities-section" id="moeglichkeiten" aria-labelledby="possibilities-title">
       <div class="section-heading">
         <p class="eyebrow">Was KIDZ konkret vertiefen kann</p>
@@ -254,158 +303,6 @@
 
       <div class="possibilities-note">
         <p><strong>Wichtig:</strong> Dies sind Leistungsbeispiele aus den bereitgestellten KIDZ-Unterlagen. Erstattungen, Förderungen, Voraussetzungen und Verfügbarkeit richten sich nach den jeweils aktuellen Bedingungen und der persönlichen Situation.</p>
-        <button class="button button-primary" type="button" data-open-path="gespraech">Möglichkeiten persönlich einordnen</button>
-      </div>
-    </section>
-
-    <section class="section wealth-section" id="vermoegensaufbau" aria-labelledby="wealth-title">
-      <div class="wealth-grid">
-        <figure class="wealth-visual">
-          <img src="/assets/images/kidz-konzept/kidz-zukunftsblick.jpg" alt="Zwei Kinder blicken von einer Terrasse über Palmen auf das Meer" width="1200" height="1600" loading="lazy">
-          <figcaption>Was möglich ist, entscheidet sich früher, als man denkt.</figcaption>
-        </figure>
-
-        <div class="wealth-copy">
-          <p class="eyebrow">Vermögensaufbau</p>
-          <h2 id="wealth-title">55 Euro im Monat. 18 Jahre lang. Und dann?</h2>
-          <p class="wealth-lede">Eltern legen den Grundstein, das Kind macht später einfach weiter. Der Unterschied liegt nicht im Betrag, sondern in der Zeit, die vorher schon gelaufen ist.</p>
-
-          <ol class="wealth-steps">
-            <li>
-              <span>1</span>
-              <div>
-                <strong>Die Eltern fangen an</strong>
-                <p>18 Jahre lang 55 Euro im Monat. Eingezahlt werden 11.880 Euro, daraus werden rechnerisch <b>25.008 Euro</b> zum 18. Geburtstag.</p>
-              </div>
-            </li>
-            <li>
-              <span>2</span>
-              <div>
-                <strong>Das Kind macht weiter</strong>
-                <p>Es spart dieselben 55 Euro weiter bis zum 67. Lebensjahr. Aus dem Startkapital der Eltern werden dabei rechnerisch <b>1.077.120 Euro</b>.</p>
-              </div>
-            </li>
-            <li>
-              <span>3</span>
-              <div>
-                <strong>Ohne den frühen Start</strong>
-                <p>Beginnt das Kind erst mit 18 bei null, kommt es mit denselben 55 Euro auf <b>287.391 Euro</b>.</p>
-              </div>
-            </li>
-          </ol>
-
-          <div class="wealth-result">
-            <span>Der Vorsprung, den Eltern verschaffen können</span>
-            <strong>789.729 Euro</strong>
-            <p>So groß ist der Unterschied allein dadurch, dass in den ersten 18 Jahren schon etwas gelaufen ist.</p>
-          </div>
-
-          <p class="wealth-note">
-            Beispielrechnung mit 7,3 Prozent Wertentwicklung pro Jahr, monatlich vorschüssig, Zinsen werden angesammelt.
-            Sie dient der Veranschaulichung des Zinseszinseffekts und ist keine Zusage. Kosten, Steuern und Inflation sind
-            nicht berücksichtigt, die tatsächliche Entwicklung kann deutlich abweichen.
-          </p>
-
-          <button class="button button-primary" type="button" data-open-path="gespraech">Für unser Kind durchrechnen lassen</button>
-        </div>
-      </div>
-    </section>
-
-    <section class="section parent-evening" id="elternabend" aria-labelledby="evening-title">
-      <div class="evening-visual">
-        <img src="/assets/images/kidz-konzept/kidz-familienweg.png" alt="Familie geht gemeinsam einen Weg entlang" width="560" height="780" loading="lazy">
-        <div class="evening-badge"><strong>60 bis 75 Minuten</strong><span>Orientierung, Fragen und Austausch</span></div>
-      </div>
-      <div class="evening-copy">
-        <p class="eyebrow">Der KIDZ-Elternabend</p>
-        <h2 id="evening-title">Ein Abend, nach dem die nächsten Fragen klarer sind.</h2>
-        <p>Der Elternabend ist keine Produktshow. Er bringt Eltern in entspannter Runde zusammen und übersetzt die drei Grundlagen in verständliche Alltagssituationen.</p>
-        <ol class="evening-steps">
-          <li><span>1</span><div><strong>Ankommen</strong><p>Was wünschen Eltern ihren Kindern und was beschäftigt sie heute?</p></div></li>
-          <li><span>2</span><div><strong>Verstehen</strong><p>Die drei KIDZ-Grundlagen werden ohne Fachsprache erklärt.</p></div></li>
-          <li><span>3</span><div><strong>Fragen stellen</strong><p>Es bleibt Zeit für Austausch, ohne dass jemand etwas entscheiden muss.</p></div></li>
-          <li><span>4</span><div><strong>Nächsten Schritt wählen</strong><p>Nur zuhören, eine Termininfo erhalten oder persönlich sprechen.</p></div></li>
-        </ol>
-        <button class="button button-primary" type="button" data-open-path="elternabend">Unverbindlich vormerken</button>
-      </div>
-    </section>
-
-    <section class="section source-section" aria-labelledby="source-title">
-      <div class="source-stage">
-        <img class="source-stage-main" src="/assets/images/kidz-konzept/kidz-abenteuer.jpg" alt="Kind mit Kletterausrüstung erlebt ein Abenteuer" width="1100" height="730" loading="lazy">
-        <img class="source-stage-small" src="/assets/images/kidz-konzept/kidz-original-collage.jpg" alt="Bildcollage aus den KIDZ-Unterlagen" width="1024" height="768" loading="lazy">
-      </div>
-      <div class="source-copy">
-        <img class="source-kidz-logo" src="/assets/images/kidz-konzept/kidz-logo-original.png" alt="KIDZ-Konzept Logo" width="1080" height="1100" loading="lazy">
-        <p class="eyebrow">Konzept und Qualität</p>
-        <h2 id="source-title">Ein bestehendes KIDZ-Konzept, für Eltern verständlich aufbereitet.</h2>
-        <p>Die Inhalte, Bildmotive und das Dreisäulenmodell stammen aus den bereitgestellten KIDZ-Originalunterlagen. Auf dieser Seite stehen Familien, ihre Wünsche und die verständliche Einordnung im Mittelpunkt.</p>
-        <p class="source-note">Konkrete Produkte, Leistungen und Bedingungen werden erst nach einer aktuellen fachlichen Prüfung und immer passend zur persönlichen Situation besprochen.</p>
-        <button class="text-link" type="button" data-open-gallery>Bildmotive aus dem Konzept ansehen <span aria-hidden="true">→</span></button>
-      </div>
-    </section>
-
-    <section class="section choices-section" id="naechster-schritt" aria-labelledby="choices-title">
-      <div class="section-heading">
-        <p class="eyebrow">Ihr nächster Schritt</p>
-        <h2 id="choices-title">Sie wählen, wie nah Sie das Thema kennenlernen möchten.</h2>
-        <p>Jeder Weg ist freiwillig. Eine Auswahl genügt.</p>
-      </div>
-      <div class="choice-grid">
-        <article class="choice-card choice-card-featured">
-          <span class="choice-label">Empfohlen zum Einstieg</span>
-          <strong>01</strong>
-          <h3>Teilnahme vormerken</h3>
-          <p>Sie möchten beim nächsten passenden Elternabend gern dabei sein. Termin und Ort bestätigen Sie später in Ruhe.</p>
-          <button type="button" data-open-path="elternabend">Teilnahme vormerken</button>
-        </article>
-        <article class="choice-card">
-          <strong>02</strong>
-          <h3>Nur Termininfo erhalten</h3>
-          <p>Sie möchten einmalig Datum und Ort erfahren, ohne sich schon für eine Teilnahme vorzumerken.</p>
-          <button type="button" data-open-path="termininfo">Einmalig informieren</button>
-        </article>
-        <article class="choice-card">
-          <strong>03</strong>
-          <h3>Persönlich sprechen</h3>
-          <p>Sie möchten Ihre Familiensituation lieber direkt mit einem Ansprechpartner einordnen.</p>
-          <button type="button" data-open-path="gespraech">Gespräch anfragen</button>
-        </article>
-      </div>
-      <p class="privacy-line"><span aria-hidden="true">○</span> KIDZ erfasst keine Profile, Geburtsdaten oder Gesundheitsdaten von Kindern.</p>
-    </section>
-
-    <section class="section faq-section" id="fragen" aria-labelledby="faq-title">
-      <div class="faq-intro">
-        <p class="eyebrow">Kurz beantwortet</p>
-        <h2 id="faq-title">Was Eltern häufig wissen möchten.</h2>
-        <p>Fehlt Ihre Frage? Wählen Sie unten den persönlichen Gesprächsweg.</p>
-      </div>
-      <div class="faq-list">
-        <details>
-          <summary>Ist der Elternabend eine Verkaufsveranstaltung?<span aria-hidden="true">+</span></summary>
-          <p>Nein. Im Mittelpunkt stehen Orientierung, verständliche Fragen und die drei KIDZ-Grundlagen. Ob Sie danach einen persönlichen Termin wünschen, entscheiden Sie selbst.</p>
-        </details>
-        <details>
-          <summary>Werden Daten meines Kindes erfasst?<span aria-hidden="true">+</span></summary>
-          <p>Nein. Für eine Termininfo oder Vormerkung werden nur die Kontaktdaten der volljährigen Person benötigt, die sich selbst meldet.</p>
-        </details>
-        <details>
-          <summary>Muss ich schon wissen, welche Lösung ich suche?<span aria-hidden="true">+</span></summary>
-          <p>Nein. KIDZ beginnt bewusst bei Ihren Fragen und Zielen. Konkrete Lösungen werden erst später und nur nach persönlicher Einordnung betrachtet.</p>
-        </details>
-        <details>
-          <summary>Kann ich auch erst einmal nur zuhören?<span aria-hidden="true">+</span></summary>
-          <p>Ja. Sie können als Gast teilnehmen, ohne eine Beratung oder weitere Kontaktaufnahme zu vereinbaren.</p>
-        </details>
-        <details>
-          <summary>Wer führt den Elternabend durch?<span aria-hidden="true">+</span></summary>
-          <p>Kai Blobel oder ein fachlich freigegebener Berater aus dem Team Wachsbleiche führt durch den Abend und beantwortet die Fragen der Eltern.</p>
-        </details>
-        <details>
-          <summary>Für welches Alter ist KIDZ gedacht?<span aria-hidden="true">+</span></summary>
-          <p>KIDZ richtet sich an Eltern in unterschiedlichen Familienphasen. Die Fragen werden passend zum Alter und zur Lebensphase des Kindes eingeordnet.</p>
-        </details>
       </div>
     </section>
 
@@ -458,19 +355,105 @@
       </div>
     </section>
 
-    <section class="closing" aria-labelledby="closing-title">
-      <img src="/assets/images/kidz-konzept/kidz-absicherung.jpg" alt="Eltern und Kind bilden mit den Händen ein Herz" width="1600" height="1067" loading="lazy">
-      <div class="closing-overlay">
-        <p class="eyebrow">Kinderleicht in die Zukunft</p>
-        <h2 id="closing-title">Der beste nächste Schritt ist der, der zu Ihrer Familie passt.</h2>
-        <p>Lernen Sie KIDZ unverbindlich kennen und entscheiden Sie danach in Ruhe.</p>
-        <div>
-          <button class="button button-gold" type="button" data-open-path="elternabend">Elternabend vormerken</button>
-          <button class="button button-glass" type="button" data-open-path="gespraech">Persönlich sprechen</button>
-        </div>
+    <section class="section parent-evening" id="elternabend" aria-labelledby="evening-title">
+      <div class="evening-visual">
+        <img src="/assets/images/kidz-konzept/kidz-familienweg.png" alt="Familie geht gemeinsam einen Weg entlang" width="560" height="780" loading="lazy">
+        <div class="evening-badge"><strong>60 bis 75 Minuten</strong><span>Orientierung, Fragen und Austausch</span></div>
+      </div>
+      <div class="evening-copy">
+        <p class="eyebrow">Der KIDZ-Elternabend</p>
+        <h2 id="evening-title">Ein Abend, nach dem die nächsten Fragen klarer sind.</h2>
+        <p>Der Elternabend ist keine Produktshow. Er bringt Eltern in entspannter Runde zusammen und übersetzt die drei Grundlagen in verständliche Alltagssituationen.</p>
+        <ol class="evening-steps">
+          <li><span>1</span><div><strong>Ankommen</strong><p>Was wünschen Eltern ihren Kindern und was beschäftigt sie heute?</p></div></li>
+          <li><span>2</span><div><strong>Verstehen</strong><p>Die drei KIDZ-Grundlagen werden ohne Fachsprache erklärt.</p></div></li>
+          <li><span>3</span><div><strong>Fragen stellen</strong><p>Es bleibt Zeit für Austausch, ohne dass jemand etwas entscheiden muss.</p></div></li>
+          <li><span>4</span><div><strong>Nächsten Schritt wählen</strong><p>Nur zuhören, eine Termininfo erhalten oder persönlich sprechen.</p></div></li>
+        </ol>
+        <button class="button button-primary" type="button" data-open-path="elternabend">Unverbindlich vormerken</button>
       </div>
     </section>
-  </main>
+
+    <section class="section faq-section" id="fragen" aria-labelledby="faq-title">
+      <div class="faq-intro">
+        <p class="eyebrow">Kurz beantwortet</p>
+        <h2 id="faq-title">Was Eltern häufig wissen möchten.</h2>
+        <p>Fehlt Ihre Frage? Wählen Sie unten den persönlichen Gesprächsweg.</p>
+      </div>
+      <div class="faq-list">
+        <details>
+          <summary>Ist der Elternabend eine Verkaufsveranstaltung?<span aria-hidden="true">+</span></summary>
+          <p>Nein. Im Mittelpunkt stehen Orientierung, verständliche Fragen und die drei KIDZ-Grundlagen. Ob Sie danach einen persönlichen Termin wünschen, entscheiden Sie selbst.</p>
+        </details>
+        <details>
+          <summary>Werden Daten meines Kindes erfasst?<span aria-hidden="true">+</span></summary>
+          <p>Nein. Für eine Termininfo oder Vormerkung werden nur die Kontaktdaten der volljährigen Person benötigt, die sich selbst meldet.</p>
+        </details>
+        <details>
+          <summary>Muss ich schon wissen, welche Lösung ich suche?<span aria-hidden="true">+</span></summary>
+          <p>Nein. KIDZ beginnt bewusst bei Ihren Fragen und Zielen. Konkrete Lösungen werden erst später und nur nach persönlicher Einordnung betrachtet.</p>
+        </details>
+        <details>
+          <summary>Kann ich auch erst einmal nur zuhören?<span aria-hidden="true">+</span></summary>
+          <p>Ja. Sie können als Gast teilnehmen, ohne eine Beratung oder weitere Kontaktaufnahme zu vereinbaren.</p>
+        </details>
+        <details>
+          <summary>Wer führt den Elternabend durch?<span aria-hidden="true">+</span></summary>
+          <p>Kai Blobel oder ein fachlich freigegebener Berater aus dem Team Wachsbleiche führt durch den Abend und beantwortet die Fragen der Eltern.</p>
+        </details>
+        <details>
+          <summary>Für welches Alter ist KIDZ gedacht?<span aria-hidden="true">+</span></summary>
+          <p>KIDZ richtet sich an Eltern in unterschiedlichen Familienphasen. Die Fragen werden passend zum Alter und zur Lebensphase des Kindes eingeordnet.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="section source-section" aria-labelledby="source-title">
+      <div class="source-stage">
+        <img class="source-stage-main" src="/assets/images/kidz-konzept/kidz-abenteuer.jpg" alt="Kind mit Kletterausrüstung erlebt ein Abenteuer" width="1100" height="730" loading="lazy">
+        <img class="source-stage-small" src="/assets/images/kidz-konzept/kidz-original-collage.jpg" alt="Bildcollage aus den KIDZ-Unterlagen" width="1024" height="768" loading="lazy">
+      </div>
+      <div class="source-copy">
+        <img class="source-kidz-logo" src="/assets/images/kidz-konzept/kidz-logo-original.png" alt="KIDZ-Konzept Logo" width="1080" height="1100" loading="lazy">
+        <p class="eyebrow">Konzept und Qualität</p>
+        <h2 id="source-title">Ein bestehendes KIDZ-Konzept, für Eltern verständlich aufbereitet.</h2>
+        <p>Die Inhalte, Bildmotive und das Dreisäulenmodell stammen aus den bereitgestellten KIDZ-Originalunterlagen. Auf dieser Seite stehen Familien, ihre Wünsche und die verständliche Einordnung im Mittelpunkt.</p>
+        <p class="source-note">Konkrete Produkte, Leistungen und Bedingungen werden erst nach einer aktuellen fachlichen Prüfung und immer passend zur persönlichen Situation besprochen.</p>
+        <button class="text-link" type="button" data-open-gallery>Bildmotive aus dem Konzept ansehen <span aria-hidden="true">→</span></button>
+      </div>
+    </section>
+
+    <section class="section choices-section" id="naechster-schritt" aria-labelledby="choices-title">
+      <div class="section-heading">
+        <p class="eyebrow">Ihr nächster Schritt</p>
+        <h2 id="choices-title">Sie wählen, wie nah Sie das Thema kennenlernen möchten.</h2>
+        <p>Jeder Weg ist freiwillig. Eine Auswahl genügt.</p>
+      </div>
+      <div class="choice-grid">
+        <article class="choice-card choice-card-featured">
+          <span class="choice-label">Empfohlen zum Einstieg</span>
+          <strong>01</strong>
+          <h3>Teilnahme vormerken</h3>
+          <p>Sie möchten beim nächsten passenden Elternabend gern dabei sein. Termin und Ort bestätigen Sie später in Ruhe.</p>
+          <button type="button" data-open-path="elternabend">Teilnahme vormerken</button>
+        </article>
+        <article class="choice-card">
+          <strong>02</strong>
+          <h3>Nur Termininfo erhalten</h3>
+          <p>Sie möchten einmalig Datum und Ort erfahren, ohne sich schon für eine Teilnahme vorzumerken.</p>
+          <button type="button" data-open-path="termininfo">Einmalig informieren</button>
+        </article>
+        <article class="choice-card">
+          <strong>03</strong>
+          <h3>Persönlich sprechen</h3>
+          <p>Sie möchten Ihre Familiensituation lieber direkt mit einem Ansprechpartner einordnen.</p>
+          <button type="button" data-open-path="gespraech">Gespräch anfragen</button>
+        </article>
+      </div>
+      <p class="privacy-line"><span aria-hidden="true">○</span> KIDZ erfasst keine Profile, Geburtsdaten oder Gesundheitsdaten von Kindern.</p>
+    </section>
+
+    </main>
 
   <footer class="site-footer">
     <div class="footer-brand"><strong>Team Wachsbleiche</strong><span>Kai Blobel &amp; Team</span></div>
@@ -536,7 +519,7 @@
   </dialog>
 
   <div class="mock-toast" id="mockToast" role="status" aria-live="polite"></div>
-  <script src="/js/kidz-konzept.js?v=5"></script>
+  <script src="/js/kidz-konzept.js?v=6"></script>
   <script src="/js/referral-tracking.js?v=3"></script>
   <script type="module" src="/js/kidz-empfehlung.js?v=1"></script>
 </body>
