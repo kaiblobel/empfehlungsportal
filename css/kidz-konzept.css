@@ -607,11 +607,74 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
 .kidz-intro-body .intro-person strong { display: block; font-size: 16px; font-weight: 750; }
 .kidz-intro-body .intro-person span { display: block; margin-top: 2px; color: rgba(255, 255, 255, .78); font-size: 12.5px; }
 
-.kidz-intro-body .intro-preview { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
-.kidz-intro-body .intro-preview article { padding: 22px; border: 1px solid rgba(255, 255, 255, .2); border-radius: 20px; background: rgba(255, 255, 255, .08); }
-.kidz-intro-body .intro-preview span { color: var(--yellow); font-size: 12px; font-weight: 900; letter-spacing: .1em; }
-.kidz-intro-body .intro-preview strong { display: block; margin-top: 10px; font-size: 17px; font-weight: 750; }
-.kidz-intro-body .intro-preview p { margin: 8px 0 0; color: rgba(255, 255, 255, .82); font-size: 14px; line-height: 1.5; }
+/* Drei Grundlagen als Appetitmacher: eigenes Bild, eigene Farbe, ein
+   Halbsatz. Erklaert wird nichts, das macht die KIDZ-Seite selbst. Die Karten
+   fuehren deshalb ebenfalls dorthin. */
+.kidz-intro-body .intro-pillars { margin-top: 54px; }
+.kidz-intro-body .intro-pillars-head { max-width: 640px; margin-bottom: 22px; }
+.kidz-intro-body .intro-pillars-head h2 { margin: 0; font-size: clamp(26px, 3vw, 34px); font-weight: 780; line-height: 1.14; }
+
+.kidz-intro-body .intro-pillar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+
+.kidz-intro-body .intro-pillar {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, .07);
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .18);
+  transition: transform 200ms ease, border-color 200ms ease, background 200ms ease, box-shadow 200ms ease;
+}
+.kidz-intro-body .intro-pillar:hover,
+.kidz-intro-body .intro-pillar:focus-visible {
+  transform: translateY(-6px);
+  border-color: var(--akzent, var(--yellow));
+  background: rgba(255, 255, 255, .12);
+  box-shadow: 0 26px 54px rgba(0, 0, 0, .26);
+}
+.kidz-intro-body .intro-pillar::before {
+  content: "";
+  position: absolute;
+  top: 0; right: 0; left: 0;
+  z-index: 3;
+  height: 5px;
+  background: var(--akzent, var(--yellow));
+}
+.kidz-intro-body .intro-pillar-kompetenz { --akzent: var(--yellow); }
+.kidz-intro-body .intro-pillar-gesundheit { --akzent: var(--turquoise); }
+.kidz-intro-body .intro-pillar-absicherung { --akzent: var(--green-light); }
+
+.kidz-intro-body .intro-pillar-media { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; }
+.kidz-intro-body .intro-pillar-media img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 420ms ease; }
+.kidz-intro-body .intro-pillar:hover .intro-pillar-media img { transform: scale(1.05); }
+.kidz-intro-body .intro-pillar-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(24, 63, 86, 0) 40%, rgba(24, 63, 86, .85) 100%);
+}
+.kidz-intro-body .intro-pillar-num {
+  position: absolute;
+  z-index: 2;
+  top: 14px;
+  left: 14px;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--akzent, var(--yellow));
+  color: #17323f;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.kidz-intro-body .intro-pillar-copy { display: block; padding: 18px 20px 20px; }
+.kidz-intro-body .intro-pillar-copy strong { display: block; font-size: 19px; font-weight: 780; line-height: 1.2; }
+.kidz-intro-body .intro-pillar-copy > span { display: block; margin-top: 7px; color: rgba(255, 255, 255, .82); font-size: 14.5px; line-height: 1.5; }
 
 .kidz-intro-body .intro-note { max-width: 720px; margin: 30px auto 0; color: rgba(255, 255, 255, .72); font-size: 13.5px; line-height: 1.6; text-align: center; }
 
@@ -635,7 +698,7 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
   /* Am Handy zuerst die Botschaft, danach das Bild. */
   .kidz-intro-body .intro-person { order: 1; }
 .kidz-intro-body .intro-person img { max-height: 340px; }
-.kidz-intro-body .intro-preview { grid-template-columns: 1fr; }
+.kidz-intro-body .intro-pillar-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 560px) {
 .kidz-intro-body .intro-main { padding-top: 26px; }

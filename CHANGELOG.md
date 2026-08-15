@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.259 Beta** · Einleitung vor der KIDZ-Seite, live seit 15.08.2026.
+Offizielle Live-Version: **v1.260 Beta** · Drei Grundlagen als Bildkarten, live seit 15.08.2026.
+
+## v1.260 Beta - Phase 240 · Drei Grundlagen als Bildkarten
+**2026-08-15 · live veröffentlicht**
+
+Auf der Einleitung vor der KIDZ-Seite standen die drei Grundlagen als drei gleich aussehende Textkacheln. Jetzt trägt jede ein eigenes Motiv aus den KIDZ-Unterlagen, eine eigene Farbe im Kopfbalken und in der Nummer sowie einen Halbsatz statt eines Absatzes.
+
+Erklärt wird dort bewusst nichts, das macht die KIDZ-Seite selbst. Die Karten sind stattdessen anklickbar und führen ebenfalls zum Konzept, mit Token, Berater und Herkunft im Link.
+
+---
 
 ## v1.259 Beta - Phase 239 · Einleitung vor der KIDZ-Seite
 **2026-08-15 · live veröffentlicht**

@@ -37,7 +37,7 @@ function ergaenzeWege(beraterSlug) {
   const quelle = ERLAUBTE_QUELLEN.has(quelleRoh) ? quelleRoh : 'direkt';
   const berater = String(beraterSlug || params.get('berater') || '').trim().toLowerCase();
 
-  document.querySelectorAll('#introWeiter, #introElternabend').forEach((link) => {
+  document.querySelectorAll('#introWeiter, #introElternabend, .intro-pillar').forEach((link) => {
     const ziel = new URL(link.getAttribute('href'), window.location.origin);
     if (token) ziel.searchParams.set('token', token);
     if (berater && berater.length <= 80 && SICHERER_SLUG.test(berater)) ziel.searchParams.set('berater', berater);
