@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.255 Beta** · Anrede als eigener Satz, live seit 15.08.2026.
+Offizielle Live-Version: **v1.256 Beta** · Empfängerseite und Themenverwaltung nachgezogen, live seit 15.08.2026.
+
+## v1.256 Beta - Phase 236 · Empfängerseite und Themenverwaltung nachgezogen
+**2026-08-15 · live veröffentlicht**
+
+Die allgemeine Empfängerseite stand noch in der alten Champagner-Welt, weil ihre Gestaltung direkt in der Seite steht und beim Umbau des Empfehler-Wegs deshalb übersehen wurde. Sie läuft jetzt auf derselben Farbwelt: kühler heller Grund, Petrol als Akzent, Gold im Fortschritt.
+
+In der Themenverwaltung öffnete „Vorschau öffnen" für jedes Thema die allgemeine Empfängerseite. Man sah also nie die Seite, auf der eine echte Empfehlung wirklich landet. Die Vorschau zeigt jetzt das richtige Ziel: die Themenseite, bei Baufinanzierung den Kompass, bei Allgemein die Empfängerseite.
+
+Dazu ein ehrlicher Hinweis in der Verwaltung: Überschrift, Text und Knopfziel wirken nur bei „Allgemein" und „Baufinanzierung". Alle anderen Themen beziehen ihre Inhalte aus dem Programmcode. Vorher konnte man dort pflegen, ohne dass etwas ankam.
+
+---
 
 ## v1.255 Beta - Phase 235 · Anrede als eigener Satz
 **2026-08-15 · live veröffentlicht**

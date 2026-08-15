@@ -816,6 +816,7 @@ body[data-page="vorlagen-cms"] {
   letter-spacing: -0.01em;
 }
 .cms-intro p { font-size: 14px; color: var(--text-secondary); margin: 0; line-height: 1.5; }
+.cms-intro .cms-hinweis { margin-top: 12px; padding: 12px 14px; border-left: 3px solid var(--accent-gold); background: rgba(200, 170, 34, .08); border-radius: 0 8px 8px 0; font-size: 13px; }
 
 .cms-list { display: flex; flex-direction: column; gap: 12px; }
 
