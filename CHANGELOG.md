@@ -1,7 +1,14 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.257 Beta** · Kinder-Empfehlung führt auf die KIDZ-Seite, live seit 15.08.2026.
+Offizielle Live-Version: **v1.258 Beta** · Name im Empfehlungsband, live seit 15.08.2026.
+
+## v1.258 Beta - Phase 238 · Name im Empfehlungsband
+**2026-08-15 · live veröffentlicht**
+
+Im Band auf der KIDZ-Elternseite stand immer „Jemand aus deinem Umfeld", auch wenn der Name bekannt war. Der Seite fehlten die Verbindungsangaben, die Gewinnspiel- und Elternabendseite bereits laden. Jetzt steht dort der Name der Person, die empfohlen hat.
+
+---
 
 ## v1.257 Beta - Phase 237 · Kinder-Empfehlung führt auf die KIDZ-Seite
 **2026-08-15 · live veröffentlicht**
