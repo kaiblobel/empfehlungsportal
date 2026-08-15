@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.262 Beta** · Zweifacher Vater auf dem Porträt, live seit 15.08.2026.
+Offizielle Live-Version: **v1.263 Beta** · Drehkarte, Vermögensaufbau und Handy-Menü, live seit 15.08.2026.
+
+## v1.263 Beta - Phase 243 · Drehkarte, Vermögensaufbau und Handy-Menü
+**2026-08-15 · live veröffentlicht**
+
+Auf der KIDZ-Einleitung lässt sich das Porträt jetzt umdrehen. Hinter „Mehr über mich" liegen ein Bild mit den beiden Söhnen und zwei Sätze: zweifacher Vater, seit über 20 Jahren für Familien in und um Cottbus da. Ohne Bewegungswunsch des Systems wird ohne Animation umgeschaltet.
+
+Die KIDZ-Elternseite hat einen eigenen Abschnitt Vermögensaufbau bekommen. Er zeigt in drei Schritten, was aus 55 Euro im Monat wird: 18 Jahre Eltern ergeben rechnerisch 25.008 Euro, das Kind spart bis 67 weiter und kommt auf 1.077.120 Euro statt 287.391 Euro ohne den frühen Start. Der Unterschied von 789.729 Euro steht groß daneben. Dazu ein Bild der beiden Söhne mit Blick aufs Meer und ein klarer Hinweis: Beispielrechnung mit 7,3 Prozent, keine Zusage, ohne Kosten, Steuern und Inflation.
+
+Auf dem Handy war die Navigation bisher ausgeblendet. Jetzt öffnet ein Knopf oben rechts ein kleines Menü mit den drei Grundlagen, dem Vermögensaufbau, den Möglichkeiten, dem Sommerfest, dem Elternabend und den häufigen Fragen. Ein Tipp auf eine Grundlage springt zum Abschnitt und stellt dort gleich die passende Karte ein.
+
+---
 
 ## v1.262 Beta - Phase 242 · Zweifacher Vater auf dem Porträt
 **2026-08-15 · live veröffentlicht**
