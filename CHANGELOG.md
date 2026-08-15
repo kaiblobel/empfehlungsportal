@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.252 Beta** · KIDZ-Menü ohne Elternseite bis zum Fest, live seit 15.08.2026.
+Offizielle Live-Version: **v1.253 Beta** · Empfehlerbereich im App-Look, live seit 15.08.2026.
+
+## v1.253 Beta - Phase 233 · Empfehlerbereich im App-Look
+**2026-08-15 · live veröffentlicht**
+
+Der gesamte Weg des Empfehlers hat eine neue Optik: Einstieg, persönlicher Bereich, Empfehlungsformular und Danke-Seite. Creme, Champagner, Salbei und Terrakotta sind raus. Es führt jetzt dasselbe Petrol wie auf der Kundenseite, Gold ist der Akzent auf der Hauptaktion, Weiß trägt die Karten.
+
+Der Bereich ist für Menschen gebaut, die ihn alle paar Monate einmal öffnen. Neu ist deshalb ein Block „So läuft es ab" mit den vier Schritten in Klartext und der Angabe, wann der Empfehler zuletzt hier war. Diese Angabe liegt nur auf seinem Gerät. Ein Satz nimmt außerdem die häufigste Sorge: Kai meldet sich erst, wenn die empfohlene Person den Link selbst geöffnet hat.
+
+Die Kürzel ZIEL, AUF, KON, TER und NEU in den Meldungen sind durch gezeichnete Symbole ersetzt. Schriftgrößen wurden angehoben, nichts steht mehr unter 11 Pixel; vorher ging es bis 8 Pixel herunter. Zustände wie „Termin abgesagt" oder „kein Interesse" erscheinen neutral statt rot, weil sie kein Fehler des Empfehlers sind. Echtes Rot bleibt dem ungültigen Zugang vorbehalten.
+
+Geprüft mit einer als Test gekennzeichneten Empfehlerin und drei Empfehlungen in verschiedenen Zuständen, auf Handy und Rechner.
+
+---
 
 ## v1.252 Beta - Phase 232 · KIDZ-Menü ohne Elternseite bis zum Fest
 **2026-08-15 · live veröffentlicht**
