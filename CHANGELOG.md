@@ -1,7 +1,29 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.248 Beta** · KIDZ-Grundlagen mobil klar auswählbar, live seit 15.08.2026.
+Offizielle Live-Version: **v1.250 Beta** · Nur fertige Themen sind in der Präsentation auswählbar, vorbereitet am 15.08.2026.
+
+## v1.250 Beta - Phase 230 · Nur fertige Themen sind auswählbar
+**2026-08-15 · vorbereitet**
+
+In der Präsentation waren bisher alle Themenkacheln anklickbar, obwohl erst drei Themenwelten wirklich fertig sind. Wer eine der übrigen Kacheln angetippt hat, landete in der Vorschau auf der allgemeinen Förderseite. Das wirkte fertig, war aber der falsche Inhalt.
+
+Auswählbar sind jetzt nur noch „Ganz allgemein", „Baufinanzierung" und „Für deine Kinder". Alle anderen Kacheln stehen grau, tragen den Vermerk „In Vorbereitung" und lassen sich nicht mehr anklicken. Unter der Reihe steht ein kurzer Hinweis, dass diese Themen gerade entstehen und freigeschaltet werden, sobald ihre Themenseite steht.
+
+Freigeschaltet wird über eine einzige Liste im Code (`FREIGESCHALTETE_THEMEN` in `js/programm.js`). Kommt eine Themenseite dazu, reicht dort ein Eintrag.
+
+---
+
+## v1.249 Beta - Phase 229 · KIDZ im Kinderthema und im Beraterbereich
+**2026-08-15 · vorbereitet**
+
+Die Themenseite „Kinder & Zukunft" führt jetzt als ersten Weg auf die KIDZ-Elternseite. Wer über eine Empfehlung oder die Kundenseite dort landet, kommt damit direkt zum Elternkonzept.
+
+Die KIDZ-Seite reicht die Beraterzuordnung an die Elternabend-Anmeldung weiter. Bisher ging sie beim Klick verloren und jede Vormerkung landete beim Standardberater. Herkunftsangaben werden dabei gegen dieselbe Liste geprüft, die auch die Anmeldung selbst erlaubt.
+
+Im Beraterbereich unter Einstellungen steht die KIDZ-Elternseite als eigene Vorschaukachel neben den Themenseiten.
+
+---
 
 ## v1.248 Beta - Phase 228 · KIDZ-Grundlagen mobil klar auswählbar
 **2026-08-15 · live veröffentlicht**

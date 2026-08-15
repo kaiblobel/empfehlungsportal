@@ -114,8 +114,28 @@
   let storyFrame;
   const localPreview = ['localhost', '127.0.0.1'].includes(window.location.hostname);
 
+  // gleiche Liste wie die Elternabend-Anmeldung, damit dort keine unbekannte Herkunft ankommt
+  const ALLOWED_SOURCES = new Set(['elternabend-qr', 'kidz-station', 'berater-einladung', 'sommerfest-danke', 'facebook', 'instagram', 'whatsapp', 'direkt']);
+  const SAFE_SLUG = /^[a-z0-9-]+$/;
+
+  function currentParams() {
+    const search = new URLSearchParams(window.location.search);
+    const source = String(search.get('quelle') || '').trim().toLowerCase();
+    const advisor = String(search.get('berater') || '').trim().toLowerCase();
+    return {
+      quelle: ALLOWED_SOURCES.has(source) ? source : 'direkt',
+      berater: advisor.length <= 80 && SAFE_SLUG.test(advisor) ? advisor : ''
+    };
+  }
+
   function livePathTarget(path) {
-    if (path === 'elternabend') return '/kidz/elternabend?quelle=direkt#anmeldung';
+    if (path === 'elternabend') {
+      const { quelle, berater } = currentParams();
+      const target = new URL('/kidz/elternabend', window.location.origin);
+      target.searchParams.set('quelle', quelle);
+      if (berater) target.searchParams.set('berater', berater);
+      return `${target.pathname}${target.search}#anmeldung`;
+    }
     const messages = {
       termininfo: 'Hallo Kai, ich möchte gern einmalig über den nächsten KIDZ-Elternabend informiert werden.',
       gespraech: 'Hallo Kai, ich möchte das KIDZ-Konzept gern persönlich für meine Familie einordnen.',

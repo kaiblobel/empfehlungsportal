@@ -890,17 +890,24 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
     </button>
   `;
 
+  // Freigeschaltet ist nur, wofür es eine eigene, fertige Themenwelt gibt.
+  // Alle übrigen Kacheln zeigten bisher dieselbe allgemeine Förderseite. Das sah
+  // nach fertigem Thema aus, war inhaltlich aber der falsche Einstieg. Sie bleiben
+  // deshalb grau und nicht anklickbar, bis ihre Themenseite wirklich steht.
+  const FREIGESCHALTETE_THEMEN = new Set(['allgemein', 'baufi', 'kinder', 'kidz']);
+
   const renderCompact = (template) => {
     const page = readyPages[template.slug];
+    const frei = Boolean(page) && FREIGESCHALTETE_THEMEN.has(template.slug);
     return `
-    <button class="topic-compact" type="button" data-slug="${escapeAttr(template.slug || '')}" data-page-key="${escapeAttr(template.slug || '')}"${page ? '' : ' disabled'}>
+    <button class="topic-compact${frei ? '' : ' is-locked'}" type="button" data-slug="${escapeAttr(template.slug || '')}"${frei ? ` data-page-key="${escapeAttr(template.slug || '')}"` : ' disabled aria-disabled="true"'}>
       <span class="topic-compact-icon" aria-hidden="true">${renderIcon(template.icon || 'Compass', 22)}</span>
       <span class="topic-compact-copy">
-        <span class="topic-compact-status">${escapeHtml(page?.status || 'Geplant')}</span>
+        <span class="topic-compact-status">${escapeHtml(frei ? (page.status || 'Fertige Themenseite') : 'In Vorbereitung')}</span>
         <strong>${escapeHtml(template.titel || '')}</strong>
         <small>${escapeHtml(template.headline || template.subtext || '')}</small>
       </span>
-      <span class="topic-compact-arrow" aria-hidden="true">→</span>
+      <span class="topic-compact-arrow" aria-hidden="true">${frei ? '→' : ''}</span>
     </button>
   `;
   };
@@ -960,6 +967,11 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
       <div class="topics-compact-grid">
         ${compactTemplates.map(renderCompact).join('')}
       </div>
+      ${compactTemplates.some(v => !FREIGESCHALTETE_THEMEN.has(v.slug)) ? `
+      <p class="topics-locked-note">
+        Grau hinterlegte Themen entstehen gerade und sind noch nicht auswählbar.
+        Sobald die eigene Themenseite dahinter steht, wird die Kachel freigeschaltet.
+      </p>` : ''}
     `;
 
     wrap.querySelectorAll('[data-page-key]').forEach(card => {

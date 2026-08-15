@@ -5262,6 +5262,33 @@ body.market-overview-open { overflow: hidden; }
   font-weight: 800;
 }
 
+/* Themen ohne eigene Themenseite: sichtbar zurückgenommen und nicht anklickbar */
+.topic-compact.is-locked {
+  --compact-accent: #B6B1A8;
+  background: #F7F6F3;
+  border-color: #E5E2DB;
+  border-top-color: #DAD6CE;
+  cursor: default;
+}
+
+.topic-compact.is-locked:hover,
+.topic-compact.is-locked:focus-visible {
+  transform: none;
+  border-color: #E5E2DB;
+  box-shadow: none;
+}
+
+.topic-compact.is-locked .topic-compact-copy strong { color: #8D877D; }
+.topic-compact.is-locked .topic-compact-copy small { color: #A5A099; }
+.topic-compact.is-locked .topic-compact-status { color: #A5A099; }
+
+.topics-locked-note {
+  margin: 11px 1px 0;
+  color: #8B857B;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
 .topics-footnote {
   margin: 16px 0 0;
   color: #6C675E;

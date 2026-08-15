@@ -245,6 +245,7 @@ const TOPICS = {
       ['Familiäre Absicherung', 'Der Aufbau für das Kind wird mit der Sicherheit der Familie verbunden.']
     ],
     tools: [
+      ['KIDZ für Eltern', 'Das Elternkonzept in Ruhe ansehen', 'Finanzielle Kompetenz, Gesundheit und Absicherung von Kindern verständlich erklärt, mit Elternabend und häufigen Fragen.', '/kidz/konzept'],
       ['Finanzcheck', 'Förderung und Familienstruktur prüfen', 'Eine erste Orientierung über mögliche Vorteile und das finanzielle Gesamtbild.', 'https://finanzcheck.kaiblobel.de/?from=thema&schwerpunkt=foerderung'],
       ['Familiengespräch', 'Den Plan für Ihr Kind gemeinsam aufsetzen', 'Ziele und Möglichkeiten werden in Ruhe und ohne Abschlussdruck sortiert.', '#termin']
     ]
