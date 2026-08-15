@@ -169,6 +169,17 @@
     });
   }
 
+  // Der Name des eigenen Kindes im Gesetzestext. Nichts davon wird gespeichert
+  // oder gesendet; er steht nur im Browser der Eltern.
+  const nameFeld = document.getElementById('kindName');
+  const nameAusgabe = document.getElementById('kindNameAusgabe');
+  if (nameFeld && nameAusgabe) {
+    nameFeld.addEventListener('input', () => {
+      const wert = nameFeld.value.trim().slice(0, 24);
+      nameAusgabe.textContent = wert || 'Ihr Kind';
+    });
+  }
+
   function setBodyDialogState() {
     const open = (pathDialog && pathDialog.open) || (galleryDialog && galleryDialog.open);
     document.body.classList.toggle('dialog-open', Boolean(open));

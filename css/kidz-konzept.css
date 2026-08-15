@@ -1034,45 +1034,55 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
 }
 
 /* ---------------------------------------------------------------------------
-   Die Versorgungslücke: erst das Problem benennen, dann die Möglichkeiten.
-   Ohne diesen Abschnitt stand auf der Seite eine Lösung ohne Frage davor.
+   Der Paragraf, der Eltern trifft: § 12 SGB V mit dem Namen des eigenen Kindes.
+   Bewusst als Warnkasten gesetzt, nicht als hübsche Kachelreihe.
    --------------------------------------------------------------------------- */
 
 .gap-section { background: var(--paper); }
-.gap-inner { max-width: var(--max); margin: 0 auto; }
+.gap-inner { max-width: 940px; margin: 0 auto; }
 .gap-head { max-width: 760px; }
 .gap-head h2 { margin: 10px 0 0; font-size: clamp(28px, 3.4vw, 42px); font-weight: 800; line-height: 1.1; letter-spacing: -.02em; }
 .gap-lede { margin: 14px 0 0; color: var(--muted); font-size: 17px; line-height: 1.6; }
 
-.gap-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 30px; }
-.gap-cards article {
-  position: relative;
-  padding: 24px 22px 22px;
+.gap-name { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 26px; }
+.gap-name label { color: var(--ink); font-size: 14px; font-weight: 800; }
+.gap-name input {
+  flex: 1 1 240px;
+  max-width: 320px;
+  height: 50px;
+  padding: 0 16px;
   border: 1px solid var(--line);
-  border-top: 4px solid var(--orange);
-  border-radius: 20px;
+  border-radius: 12px;
   background: #fff;
-  box-shadow: 0 14px 34px rgba(24, 63, 86, .07);
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 650;
 }
-.gap-mark {
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  margin-bottom: 14px;
-  border-radius: 50%;
-  background: #fbe8dd;
-  color: #b4501f;
-  font-size: 14px;
-  font-weight: 900;
-}
-.gap-cards strong { display: block; font-size: 17px; font-weight: 800; line-height: 1.25; }
-.gap-cards p { margin: 9px 0 0; color: var(--muted); font-size: 15px; line-height: 1.55; }
+.gap-name input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(44, 95, 124, .16); }
 
-.gap-note { margin: 22px 0 0; max-width: 780px; color: var(--muted); font-size: 12.5px; line-height: 1.6; }
-.gap-note a { color: var(--blue-deep); text-underline-offset: 3px; }
+.gap-law {
+  position: relative;
+  margin: 20px 0 0;
+  padding: 26px 28px 22px;
+  border: 2px solid #b3261e;
+  border-left-width: 8px;
+  border-radius: 4px;
+  background: #fdf4f3;
+}
+.gap-law-kicker { margin: 0; color: #b3261e; font-size: 12px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+.gap-law-text { margin: 14px 0 0; color: #2a1b1a; font-size: clamp(18px, 2.1vw, 22px); line-height: 1.62; }
+.gap-law-text b { background: rgba(179, 38, 30, .14); box-shadow: 0 0 0 3px rgba(179, 38, 30, .14); font-weight: 800; }
+.gap-law-name { font-weight: 900; color: #8f1d17; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.gap-law-source { margin: 16px 0 0; color: #6b5450; font-size: 12.5px; line-height: 1.5; }
+.gap-law-source a { color: #8f1d17; text-underline-offset: 3px; }
+
+.gap-meaning { margin: 22px 0 0; }
+.gap-meaning p { margin: 0; color: var(--ink); font-size: 16px; line-height: 1.65; }
+.gap-meaning strong { font-weight: 800; }
+.gap-meaning-source { margin-top: 10px !important; color: var(--muted); font-size: 12.5px; line-height: 1.55; }
+
 .gap-bridge {
-  margin: 22px 0 0;
+  margin: 24px 0 0;
   padding: 18px 22px;
   border-left: 4px solid var(--yellow);
   border-radius: 0 16px 16px 0;
@@ -1082,8 +1092,15 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
   line-height: 1.5;
 }
 
-@media (max-width: 900px) {
-  .gap-cards { grid-template-columns: 1fr; gap: 14px; }
-  .gap-cards article { padding: 20px 18px 18px; }
+@media (max-width: 700px) {
+  .gap-law { padding: 20px 18px 18px; border-left-width: 6px; }
+  .gap-law-text { font-size: 17px; line-height: 1.6; }
+  .gap-name input { max-width: none; }
   .gap-bridge { font-size: 16px; padding: 16px 18px; }
 }
+
+}
+
+/* Die goldene KIDZ-Lok als Wegmotiv beim Vermögensaufbau. */
+.wealth-lok { display: block; width: 168px; height: auto; margin: 0 0 12px; mix-blend-mode: multiply; }
+@media (max-width: 900px) { .wealth-lok { width: 132px; } }

@@ -17,7 +17,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <title>KIDZ | Kinderleicht in die Zukunft</title>
   <link rel="icon" type="image/png" href="/assets/images/kidz-logo-konzept.png">
-  <link rel="stylesheet" href="/css/kidz-konzept.css?v=15">
+  <link rel="stylesheet" href="/css/kidz-konzept.css?v=17">
   <!-- Wird für den Namen im Empfehlungsband gebraucht, wie auf Gewinnspiel- und
        Elternabendseite. Ohne diese Angaben bleibt das Band beim neutralen Text. -->
   <script src="/js/config.js"></script>
@@ -204,6 +204,7 @@
         </figure>
 
         <div class="wealth-copy">
+          <img class="wealth-lok" src="/assets/images/kidz-konzept/kidz-lok-vermoegensaufbau.png" alt="" width="180" height="115" loading="lazy">
           <p class="eyebrow">Vermögensaufbau</p>
           <h2 id="wealth-title">55 Euro im Monat. 18 Jahre lang. Und dann?</h2>
           <p class="wealth-lede">Eltern legen den Grundstein, das Kind macht später einfach weiter. Der Unterschied liegt nicht im Betrag, sondern in der Zeit, die vorher schon gelaufen ist.</p>
@@ -251,36 +252,35 @@
       <div class="gap-inner">
         <div class="gap-head">
           <p class="eyebrow">Das eigentliche Thema</p>
-          <h2 id="gap-title">Die Kasse zahlt die Grundversorgung. Nicht mehr.</h2>
-          <p class="gap-lede">Viele Eltern merken das erst beim Kieferorthopäden. Bis dahin geht man davon aus, dass für das Kind schon alles geregelt ist.</p>
+          <h2 id="gap-title">Was die Kasse Ihrem Kind schuldet, steht im Gesetz.</h2>
+          <p class="gap-lede">Ein Satz, den die meisten Eltern nie gelesen haben. Setzen Sie den Namen Ihres Kindes ein und lesen Sie ihn noch einmal.</p>
         </div>
 
-        <div class="gap-cards">
-          <article>
-            <span class="gap-mark" aria-hidden="true">1</span>
-            <strong>Leichte Zahnfehlstellungen zahlt die Kasse nicht</strong>
-            <p>Sie übernimmt eine Zahnspange erst ab einer ausgeprägten Fehlstellung, den Stufen 3 bis 5 der kieferorthopädischen Indikationsgruppen. Was darunter liegt, tragen Eltern selbst.</p>
-          </article>
-          <article>
-            <span class="gap-mark" aria-hidden="true">2</span>
-            <strong>Auch bewilligt heißt erst einmal vorstrecken</strong>
-            <p>Bei einer bewilligten Behandlung zahlen Eltern 20 Prozent des Kassenanteils zunächst selbst. Zurück gibt es das Geld erst, wenn die Behandlung vollständig abgeschlossen ist.</p>
-          </article>
-          <article>
-            <span class="gap-mark" aria-hidden="true">3</span>
-            <strong>Das Angenehmere ist meistens privat</strong>
-            <p>Unsichtbare Schienen, hochwertigere Materialien, professionelle Reinigung: Was über die reine Grundversorgung hinausgeht, steht auf der eigenen Rechnung.</p>
-          </article>
+        <div class="gap-name">
+          <label for="kindName">Name Ihres Kindes</label>
+          <input id="kindName" type="text" maxlength="24" placeholder="zum Beispiel Emil" autocomplete="off" spellcheck="false">
         </div>
 
-        <p class="gap-note">
-          Grundlage ist § 29 SGB V zur kieferorthopädischen Versorgung und die Einstufung nach den
-          kieferorthopädischen Indikationsgruppen. Was im Einzelfall übernommen wird, entscheidet die
-          Krankenkasse nach den jeweils geltenden Richtlinien.
-          <a href="https://www.gesetze-im-internet.de/sgb_5/__29.html" target="_blank" rel="noopener noreferrer">§ 29 SGB V nachlesen</a>
-        </p>
+        <blockquote class="gap-law" aria-live="polite">
+          <p class="gap-law-kicker">§ 12 Absatz 1 Sozialgesetzbuch V, Wirtschaftlichkeitsgebot</p>
+          <p class="gap-law-text">
+            Die Leistungen für <span class="gap-law-name" id="kindNameAusgabe">Ihr Kind</span> müssen
+            <b>ausreichend, zweckmäßig und wirtschaftlich</b> sein; sie <b>dürfen das Maß des Notwendigen nicht überschreiten</b>.
+            Leistungen, die nicht notwendig oder unwirtschaftlich sind, <b>können Versicherte nicht beanspruchen</b>,
+            dürfen die Leistungserbringer nicht bewirken und die Krankenkassen nicht bewilligen.
+          </p>
+          <p class="gap-law-source">
+            Wortlaut nach § 12 Absatz 1 SGB V, ergänzt um den Namen.
+            <a href="https://www.gesetze-im-internet.de/sgb_5/__12.html" target="_blank" rel="noopener noreferrer">Gesetzestext ansehen</a>
+          </p>
+        </blockquote>
 
-        <p class="gap-bridge">Deshalb schaut KIDZ bei Gesundheit nicht nur auf das, was da ist, sondern auch auf das, was fehlt.</p>
+        <div class="gap-meaning">
+          <p><strong>Im Alltag heißt das:</strong> Eine Zahnspange zahlt die Kasse erst ab einer ausgeprägten Fehlstellung, den Stufen 3 bis 5 der kieferorthopädischen Indikationsgruppen. Bei bewilligter Behandlung strecken Eltern zunächst 20 Prozent vor und bekommen sie erst nach vollständigem Abschluss zurück. Unsichtbare Schienen, hochwertigere Materialien oder eine professionelle Reinigung sind nicht notwendig im Sinne des Gesetzes und stehen deshalb auf der eigenen Rechnung.</p>
+          <p class="gap-meaning-source">Grundlage: § 29 SGB V und die Richtlinie zu den kieferorthopädischen Indikationsgruppen. Was im Einzelfall übernommen wird, entscheidet die Krankenkasse.</p>
+        </div>
+
+        <p class="gap-bridge">Ausreichend ist nicht dasselbe wie das Beste, was möglich wäre. Genau da setzt KIDZ an.</p>
       </div>
     </section>
 
@@ -558,7 +558,7 @@
   </dialog>
 
   <div class="mock-toast" id="mockToast" role="status" aria-live="polite"></div>
-  <script src="/js/kidz-konzept.js?v=6"></script>
+  <script src="/js/kidz-konzept.js?v=7"></script>
   <script src="/js/referral-tracking.js?v=3"></script>
   <script type="module" src="/js/kidz-empfehlung.js?v=1"></script>
 </body>
