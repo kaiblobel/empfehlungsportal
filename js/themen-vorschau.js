@@ -794,7 +794,9 @@ function render() {
   document.getElementById('topicNumber').textContent = topic.number;
   document.getElementById('topicEyebrow').textContent = topic.eyebrow;
   const recipient = currentMode === 'referral' ? firstName(recommendationData?.empfaenger_name || params.get('an')) : '';
-  document.getElementById('topicHeading').textContent = `${recipient ? `${recipient}, ` : ''}${tone(topic.headlinePublic, topic.headlineReferral)}`;
+  // Anrede als eigener Satz. Mit Komma stand vorher ein Grossbuchstabe mitten
+  // im Satz: "Familie, Was wuenschst du dir ...".
+  document.getElementById('topicHeading').textContent = `${recipient ? `${recipient}. ` : ''}${tone(topic.headlinePublic, topic.headlineReferral)}`;
   document.getElementById('topicLede').textContent = tone(topic.ledePublic, topic.ledeReferral);
   document.getElementById('orientationCta').textContent = tone('Erste Orientierung erhalten', 'Erste Orientierung erhalten');
   document.getElementById('signalsHeading').textContent = tone('Kommt Ihnen davon etwas bekannt vor?', 'Kommt dir davon etwas bekannt vor?');

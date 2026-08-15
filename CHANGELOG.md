@@ -1,7 +1,14 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.254 Beta** · Kinderthema zeigt KIDZ, live seit 15.08.2026.
+Offizielle Live-Version: **v1.255 Beta** · Anrede als eigener Satz, live seit 15.08.2026.
+
+## v1.255 Beta - Phase 235 · Anrede als eigener Satz
+**2026-08-15 · live veröffentlicht**
+
+Auf den Themenseiten stand der Name der empfohlenen Person mit Komma vor der Überschrift. Dadurch begann mitten im Satz ein Großbuchstabe: „Familie, Was wünschst du dir …". Der Name steht jetzt als eigener Satz davor.
+
+---
 
 ## v1.254 Beta - Phase 234 · Kinderthema zeigt KIDZ
 **2026-08-15 · live veröffentlicht**
