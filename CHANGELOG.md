@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.258 Beta** · Name im Empfehlungsband, live seit 15.08.2026.
+Offizielle Live-Version: **v1.259 Beta** · Einleitung vor der KIDZ-Seite, live seit 15.08.2026.
+
+## v1.259 Beta - Phase 239 · Einleitung vor der KIDZ-Seite
+**2026-08-15 · live veröffentlicht**
+
+Eine Kinder-Empfehlung landete direkt auf der KIDZ-Elternseite. Wer den Link öffnete, stand damit sofort mitten in der Seite; nur ein schmales Band oben erklärte, woher er kommt. Beim Finanzierungskompass gibt es dafür längst eine Einleitung, hier fehlte sie.
+
+Neu ist deshalb eine kurze Einleitungsseite im KIDZ-Blau: Wer empfohlen hat, steht als Erstes da, danach die Botschaft in einem Satz, der Weg zum Konzept, die drei Grundlagen als Vorgeschmack und das Porträt des Ansprechpartners. Am Handy kommt zuerst die Botschaft, dann das Bild.
+
+Token, Berater und Herkunft werden an die Folgeseiten weitergereicht, damit eine spätere Elternabend-Vormerkung beim richtigen Berater ankommt. Das Öffnen des Links wird wie bisher erfasst.
+
+---
 
 ## v1.258 Beta - Phase 238 · Name im Empfehlungsband
 **2026-08-15 · live veröffentlicht**

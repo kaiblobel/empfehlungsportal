@@ -513,3 +513,135 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
   .empfehlungsband { padding: 10px 16px; gap: 10px; }
   .empfehlungsband p { font-size: 13px; }
 }
+
+/* ---------------------------------------------------------------------------
+   Einleitung vor der Elternseite (kidz-empfehlung.html)
+   Der Empfohlene sieht zuerst, von wem die Empfehlung kommt und wer dahinter
+   steht. Erst danach geht es auf das Konzept.
+   --------------------------------------------------------------------------- */
+
+.kidz-intro-body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(165deg, var(--blue-deep) 0%, var(--blue) 62%, #2f6a88 100%);
+  color: #fff;
+  font-family: var(--font, inherit);
+}
+.kidz-intro-body .intro-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, .16);
+}
+.kidz-intro-body .intro-logo { width: 46px; height: 46px; object-fit: contain; }
+.kidz-intro-body .intro-brand strong { display: block; font-size: 15px; font-weight: 750; }
+.kidz-intro-body .intro-brand small { display: block; margin-top: 2px; color: rgba(255, 255, 255, .72); font-size: 12px; }
+
+.kidz-intro-body .intro-main { width: min(1120px, calc(100% - 40px)); margin: 0 auto; padding: 36px 0 48px; }
+.kidz-intro-body .intro-hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
+
+.kidz-intro-body .intro-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 22px;
+  padding: 8px 16px 8px 8px;
+  border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .16);
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+.kidz-intro-body .intro-avatar {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--blue-deep);
+  font-size: 12px;
+  font-weight: 800;
+}
+.kidz-intro-body .intro-eyebrow { margin: 0 0 12px; color: var(--yellow); font-size: 12px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; }
+.kidz-intro-body .intro-hero h1 { margin: 0; font-size: clamp(32px, 4.6vw, 52px); font-weight: 780; line-height: 1.08; letter-spacing: -.02em; }
+.kidz-intro-body .intro-hero h1 span { color: var(--yellow); }
+.kidz-intro-body .intro-hero h1 em { font-style: normal; color: rgba(255, 255, 255, .78); }
+.kidz-intro-body .intro-lede { max-width: 620px; margin: 22px 0 0; color: rgba(255, 255, 255, .86); font-size: 17px; line-height: 1.6; }
+.kidz-intro-body .intro-message {
+  max-width: 620px;
+  margin: 18px 0 0;
+  padding: 14px 18px;
+  border-left: 3px solid var(--yellow);
+  background: rgba(255, 255, 255, .1);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.kidz-intro-body .intro-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 30px; }
+.kidz-intro-body .intro-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 17px 28px;
+  border-radius: 999px;
+  background: var(--yellow);
+  color: #2a3b47;
+  font-size: 17px;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, .22);
+  transition: transform 140ms ease, filter 140ms ease;
+}
+.kidz-intro-body .intro-button:hover { transform: translateY(-1px); filter: brightness(1.04); }
+.kidz-intro-body .intro-link { color: #fff; font-size: 14.5px; font-weight: 650; text-underline-offset: 4px; }
+
+.kidz-intro-body .intro-trust { display: flex; flex-wrap: wrap; gap: 10px 22px; margin: 26px 0 0; padding: 0; list-style: none; color: rgba(255, 255, 255, .78); font-size: 13px; }
+.kidz-intro-body .intro-trust li::before { content: "✓"; margin-right: 7px; color: var(--yellow); font-weight: 900; }
+
+.kidz-intro-body .intro-person { position: relative; margin: 0; border-radius: var(--radius); overflow: hidden; box-shadow: 0 30px 70px rgba(0, 0, 0, .3); }
+.kidz-intro-body .intro-person img { display: block; width: 100%; height: 100%; max-height: 520px; object-fit: cover; object-position: 50% 20%; }
+.kidz-intro-body .intro-person figcaption { position: absolute; right: 16px; bottom: 16px; left: 16px; padding: 14px 16px; border-radius: 16px; background: rgba(24, 63, 86, .88); }
+.kidz-intro-body .intro-person strong { display: block; font-size: 16px; font-weight: 750; }
+.kidz-intro-body .intro-person span { display: block; margin-top: 2px; color: rgba(255, 255, 255, .78); font-size: 12.5px; }
+
+.kidz-intro-body .intro-preview { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
+.kidz-intro-body .intro-preview article { padding: 22px; border: 1px solid rgba(255, 255, 255, .2); border-radius: 20px; background: rgba(255, 255, 255, .08); }
+.kidz-intro-body .intro-preview span { color: var(--yellow); font-size: 12px; font-weight: 900; letter-spacing: .1em; }
+.kidz-intro-body .intro-preview strong { display: block; margin-top: 10px; font-size: 17px; font-weight: 750; }
+.kidz-intro-body .intro-preview p { margin: 8px 0 0; color: rgba(255, 255, 255, .82); font-size: 14px; line-height: 1.5; }
+
+.kidz-intro-body .intro-note { max-width: 720px; margin: 30px auto 0; color: rgba(255, 255, 255, .72); font-size: 13.5px; line-height: 1.6; text-align: center; }
+
+.kidz-intro-body .intro-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 24px 0 32px;
+  border-top: 1px solid rgba(255, 255, 255, .16);
+  color: rgba(255, 255, 255, .7);
+  font-size: 12.5px;
+}
+.kidz-intro-body .intro-footer a { margin-left: 16px; color: inherit; text-underline-offset: 3px; }
+
+@media (max-width: 900px) {
+.kidz-intro-body .intro-hero { grid-template-columns: 1fr; gap: 30px; }
+  /* Am Handy zuerst die Botschaft, danach das Bild. */
+  .kidz-intro-body .intro-person { order: 1; }
+.kidz-intro-body .intro-person img { max-height: 340px; }
+.kidz-intro-body .intro-preview { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+.kidz-intro-body .intro-main { padding-top: 26px; }
+.kidz-intro-body .intro-hero h1 { font-size: clamp(28px, 8vw, 36px); }
+.kidz-intro-body .intro-lede { font-size: 15.5px; }
+.kidz-intro-body .intro-button { width: 100%; justify-content: center; }
+.kidz-intro-body .intro-actions { gap: 12px; }
+.kidz-intro-body .intro-link { width: 100%; text-align: center; }
+}

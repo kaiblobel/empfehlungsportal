@@ -76,9 +76,9 @@ module.exports = async function handler(req, res) {
     investment: '/thema.html',
     absicherung: '/thema.html',
     karriere: '/thema.html',
-    // Kinder fuehrt direkt auf die KIDZ-Elternseite. Sie ist die eigentliche
-    // Empfehlung; die Themenseite waere nur ein Zwischenschritt davor.
-    kinder: '/kidz-konzept.html',
+    // Kinder fuehrt auf die kurze KIDZ-Einleitung. Sie zeigt, von wem die
+    // Empfehlung kommt und wer dahintersteht, und fuehrt dann auf das Konzept.
+    kinder: '/kidz-empfehlung.html',
     banking: '/thema.html',
     energie: '/thema.html',
   };
