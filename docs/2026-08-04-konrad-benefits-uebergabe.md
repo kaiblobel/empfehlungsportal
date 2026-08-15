@@ -1,6 +1,6 @@
 # Übergabe: Benefits als vertikale Mobile-First-Meilensteinreise
 
-Stand: 04.08.2026 · Auftrag: `docs/2026-08-04-conrad-benefits-meilensteine.md`
+Stand: 04.08.2026 · Auftrag: `docs/2026-08-04-konrad-benefits-meilensteine.md`
 
 **Status: gestoppt vor `main`, gestoppt vor Live, Datenbank unverändert.**
 

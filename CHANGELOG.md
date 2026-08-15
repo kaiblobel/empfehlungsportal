@@ -1376,7 +1376,7 @@ Video-Markup und prüfen dann den Kommentar. Steht jetzt als Warnung im CSS-Komm
 ## v1.153 Beta - Phase 127 · Belohnungen als senkrechte Meilensteinreise
 **2026-08-04**
 
-> Migration `schema-phase127.sql` am 04.08.2026 angewandt: 15 echte Stufen, Meilensteine bei 2, 5, 7, 10 und 15, fehlender Wert bei Stufe 1 und bei sieben bereits verdienten Stufe-1-Prämien nachgetragen. Keine neue Prämienzeile entstanden. Nachweise: `docs/2026-08-04-conrad-benefits-uebergabe.md` und `docs/nachweise-benefits/`.
+> Migration `schema-phase127.sql` am 04.08.2026 angewandt: 15 echte Stufen, Meilensteine bei 2, 5, 7, 10 und 15, fehlender Wert bei Stufe 1 und bei sieben bereits verdienten Stufe-1-Prämien nachgetragen. Keine neue Prämienzeile entstanden. Nachweise: `docs/2026-08-04-konrad-benefits-uebergabe.md` und `docs/nachweise-benefits/`.
 
 - **Die Belohnungen erfanden Stufen, die es nicht gab.** Die Seite leitete aus den Lücken zwischen den vorhandenen Zeilen zusätzliche 100-€-Boni für die Stufen 4, 6, 8, 9, 11–14 ab. In der Datenbank existieren nur 1, 2, 3, 5, 7, 10, 15 — und Prämien entstehen ausschließlich aus echten Zeilen. Ein Promoter mit vier gewonnenen Kunden hätte einen Bonus gesehen, der in den Auszahlungen nie erscheint.
 - Statt waagerechter Roadmap, vier Filter-Chips und getrennter Galerie gibt es jetzt **eine senkrechte Reise von Stufe 1 bis 15**: kleine Geldstufen als ruhige Zeilen, fünf Meilensteine als Bildkarten, die zum Finale hin größer werden. Gebaut für 320 px aufwärts.

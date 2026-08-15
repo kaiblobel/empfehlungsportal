@@ -1,4 +1,4 @@
-# Auftrag an Conrad: Benefits als vertikale Mobile-First-Meilensteinreise
+# Auftrag an Konrad: Benefits als vertikale Mobile-First-Meilensteinreise
 
 Stand: 04.08.2026
 
@@ -157,7 +157,7 @@ Technische Daten:
 - SHA-256 `99AB9396A328FEC66483DB5F005D69C72BB503023011C60A2BA02608E4C312EC`
 - eigenes Projektmotiv, kein externer Hotlink und keine fremde Fotolizenz nötig
 
-Das alte unpassende Motiv bleibt lokal als Sicherung unter `tmp/mallorca-vorher-falsches-motiv-2026-08-04.jpg` erhalten. Conrad verwendet ausschließlich die neue Datei aus `assets/images/programm/`.
+Das alte unpassende Motiv bleibt lokal als Sicherung unter `tmp/mallorca-vorher-falsches-motiv-2026-08-04.jpg` erhalten. Konrad verwendet ausschließlich die neue Datei aus `assets/images/programm/`.
 
 ## Empfohlene Datenlösung
 
@@ -173,7 +173,7 @@ Die Datenbank sollte die Wahrheit sein. Deshalb:
 8. Die Migration als neue, reversible SQL-Datei vorbereiten, aber nicht auf Live anwenden.
 9. Vor dem Schreiben eine reine Auswirkungsabfrage für mögliche rückwirkende Prämien liefern.
 
-Die vorhandene Funktion `sync_praemien_for_empfehler()` kann alle 15 Stufen grundsätzlich materialisieren, sobald alle Zeilen existieren. Conrad muss trotzdem mit synthetischen Daten prüfen:
+Die vorhandene Funktion `sync_praemien_for_empfehler()` kann alle 15 Stufen grundsätzlich materialisieren, sobald alle Zeilen existieren. Konrad muss trotzdem mit synthetischen Daten prüfen:
 
 - 0 Kunden erzeugt 0 Prämien
 - 1 Kunde erzeugt genau Stufe 1
@@ -328,7 +328,7 @@ Keine mutierenden End-to-End-Tests gegen die Live-Datenbank.
 
 ## Definition of Done für die Übergabe an Kai
 
-Conrad stoppt vor `main` und vor Live. Er liefert:
+Konrad stoppt vor `main` und vor Live. Er liefert:
 
 1. Zweig und genauen Commit.
 2. Kurze Dateiliste mit Begründung.
@@ -343,6 +343,6 @@ Conrad stoppt vor `main` und vor Live. Er liefert:
 
 Erst danach entscheidet Kai über Belohnungswerte, Rückwirkung, Compliance-Freigabe, Migration und Veröffentlichung.
 
-## Kurztext zum direkten Start für Conrad
+## Kurztext zum direkten Start für Konrad
 
-> Lies zuerst `CLAUDE.md`, `CONTRIBUTING.md` und `docs/2026-08-04-conrad-benefits-meilensteine.md` vollständig. Nutze den Mock `mockups/benefits-meilensteine-v4-mobile-first.html` nur als visuelle Referenz. Arbeite in einem getrennten Zweig ab `origin/main` Commit `68cd0c7`. Baue die vertikale Mobile-First-Reise datengetrieben und bereite die fehlenden Stufen als nicht angewandte Migration vor. Keine Live-Daten ändern, keine echten Empfehlungen anlegen, nichts auf `main` veröffentlichen. Stoppe mit Zweig, Diff, Tests, mobilen Nachweisen, Präsentationsnachweisen und der anonymen Rückwirkungsanalyse zur Freigabe durch Kai.
+> Lies zuerst `CLAUDE.md`, `CONTRIBUTING.md` und `docs/2026-08-04-konrad-benefits-meilensteine.md` vollständig. Nutze den Mock `mockups/benefits-meilensteine-v4-mobile-first.html` nur als visuelle Referenz. Arbeite in einem getrennten Zweig ab `origin/main` Commit `68cd0c7`. Baue die vertikale Mobile-First-Reise datengetrieben und bereite die fehlenden Stufen als nicht angewandte Migration vor. Keine Live-Daten ändern, keine echten Empfehlungen anlegen, nichts auf `main` veröffentlichen. Stoppe mit Zweig, Diff, Tests, mobilen Nachweisen, Präsentationsnachweisen und der anonymen Rückwirkungsanalyse zur Freigabe durch Kai.
