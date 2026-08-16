@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.276 Beta** · Die zwei Karten und die fünf Wege, live seit 16.08.2026.
+Offizielle Live-Version: **v1.277 Beta** · Aktuelle Gesetzeslage oben, Haushaltsplan im Detail, live seit 16.08.2026.
+
+## v1.277 Beta - Phase 257 · Aktuelle Gesetzeslage oben, Haushaltsplan im Detail
+**2026-08-16**
+
+**Was gerade gesetzlich passiert, steht jetzt ganz oben im Überblick.** Vorher war die Reform 2027 der letzte von sechs Schritten, also der Teil, den im Termin kaum jemand erreicht. Dabei ist es der einzige Punkt mit einer Frist und damit der beste Anlass für ein Gespräch.
+
+Der Block ist dunkel abgesetzt und zeigt den Stand des Gesetzes als Zeitleiste: Bundestag am 27.03.2026, Bundesrat am 08.05.2026, Start am 01.01.2027. Dazu drei Eckpunkte (bis zu 540 € Zulage im Jahr, Riester noch bis 31.12.2026, bestehende Verträge bleiben und lassen sich kostenlos überführen) und die Quelle. Die Zahlen stammen aus der eigenen Altersvorsorgedepot-Seite, nicht aus einer Ankündigung.
+
+**Neu dazu: der Haushaltsplan im Detail** als Schritt 03, direkt nach der Formel. Vier Bereiche, jede Position einzeln mit ihrem Betrag, darunter der Anteil am Einkommen und der Überschuss. Das ist die Stelle, an der aus einem Gefühl eine Zahl wird. Über die ganze Breite, auf dem Handy seitlich wischbar.
+
+---
 
 ## v1.276 Beta - Phase 256 · Die zwei Karten und die fünf Wege
 **2026-08-16**

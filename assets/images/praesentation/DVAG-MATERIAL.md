@@ -9,6 +9,7 @@ DVAG-Beratungsunterlagen, nicht aus einer Bilddatenbank.
 | `dvag-glueck.webp` | `Broschuere_Finanzielles_Glueck_laesst_sich_planen_DVAG.pdf`, Titelseite, oberer Teil ohne Logo-Band |
 | `dvag-formel.webp` | Bildschirmaufnahme der Beratungssoftware, Seite „Die Formel zum finanziellen Glück". Zugeschnitten auf den Beutel; das Eingabefeld und die Software-Knöpfe sind draußen. |
 | `dvag-zwei-konten.webp` | Bildschirmaufnahme der Beratungssoftware, Seite „Zwei-Konten-Modell". Zugeschnitten auf das Schaubild; die Titelzeile mit dem Namen des Musterkunden und die Navigation sind draußen. |
+| `dvag-haushaltsplan.webp` | Bildschirmaufnahme der Beratungssoftware, Haushaltsplan mit den vier Bereichen und allen Einzelpositionen. Unten ist die Navigationsleiste weggeschnitten, die Überschuss-Zeile bleibt. |
 
 Die ersten beiden liegen im Original unter
 `OneDrive - DVAG\60 🧠 Persönliche Arbeitswelt\DVAG-Wissen\beratungswelt\_quellen\beratungsansatz\`
@@ -17,9 +18,22 @@ und wurden aus dem PDF gerendert (3-fache Auflösung), zugeschnitten und auf
 
 ## Zu den Zahlen in den beiden Aufnahmen
 
-Beide zeigen den Musterkunden der Software mit 2.770,37 € Nettoeinkommen, also
-Beispielwerte und keine Kundendaten. Am Zwei-Konten-Bild steht das auch auf der
-Seite dabei, damit niemand die Beträge für eine Zusage hält.
+Alle drei zeigen den Musterkunden der Software mit 2.770,37 € Nettoeinkommen,
+also Beispielwerte und keine Kundendaten. Am Zwei-Konten-Bild und am
+Haushaltsplan steht das auch auf der Seite dabei, damit niemand die Beträge für
+eine Zusage hält.
+
+In `dvag-formel.webp` sind die vier leeren „0,00 €" unter den Prozentwerten mit
+der jeweiligen Segmentfarbe zugedeckt. Sie standen nur da, weil in der Software
+nichts gerechnet war, und lasen sich wie ein Fehler. Die Prozentangaben selbst
+sind unverändert.
+
+## Die Zahlen im Aktuell-Block
+
+Die Termine (Bundestag 27.03.2026, Bundesrat 08.05.2026, Start 01.01.2027) und
+die Förderbeträge (bis 540 € Zulage, bis 1.800 € geförderter Eigenbeitrag)
+stammen aus `C:\Projekte\altersvorsorgedepot-check`, der öffentlichen Seite zum
+Altersvorsorgedepot. Ändert sich dort etwas, gehört es hier nachgezogen.
 
 ## Zu bedenken
 

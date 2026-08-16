@@ -14,7 +14,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
-  <link rel="stylesheet" href="css/praesentation.css?v=5" />
+  <link rel="stylesheet" href="css/praesentation.css?v=6" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="programm">
@@ -643,9 +643,49 @@
 
       <!-- Überblick: Wer „ganz allgemein" empfiehlt, meint alles außer den
            beiden eigenen Strecken. Deshalb steht hier nicht nur der Rechner,
-           sondern das ganze Bild in fünf Schritten. Die Grafiken sind eigens
-           gezeichnet, für Pyramide und Zwei-Konten gab es kein Material. -->
+           sondern das ganze Bild. Oben das, was gerade gesetzlich passiert,
+           danach die Schritte der Beratung. -->
       <div class="thema-inhalt thema-ueberblick" id="themaUeberblick" hidden>
+
+        <!-- Was gerade gesetzlich passiert, steht vorne. Es ist der aktuellste
+             Anlass für ein Gespräch und der einzige Teil mit einer Frist.
+             Die Eckdaten stammen aus dem verabschiedeten Gesetz, nicht aus
+             einer Ankündigung; die Zeitleiste macht das nachprüfbar. -->
+        <section class="aktuell">
+          <div class="aktuell-kopf">
+            <span class="aktuell-marke">Aktuell</span>
+            <h3>Die Altersvorsorge wird neu geregelt</h3>
+            <p>Zum 1. Januar 2027 startet das Altersvorsorgedepot: geförderte Vorsorge mit
+               Fonds und ETFs statt garantierter Verzinsung. Das Gesetz ist beschlossen,
+               der Termin steht.</p>
+          </div>
+
+          <ol class="aktuell-zeit" aria-label="Stand des Altersvorsorgereformgesetzes">
+            <li class="ist-erledigt"><span class="aktuell-wann">27.03.2026</span><span class="aktuell-was">Bundestag beschließt das Gesetz</span></li>
+            <li class="ist-erledigt"><span class="aktuell-wann">08.05.2026</span><span class="aktuell-was">Bundesrat stimmt zu</span></li>
+            <li class="ist-ziel"><span class="aktuell-wann">01.01.2027</span><span class="aktuell-was">Start des Altersvorsorgedepots</span></li>
+          </ol>
+
+          <div class="aktuell-punkte">
+            <article>
+              <strong>Bis zu 540 €</strong>
+              <span>Zulage im Jahr, wenn der Eigenbeitrag stimmt. Gefördert werden bis zu 1.800 € im Jahr.</span>
+            </article>
+            <article>
+              <strong>Riester bis 31.12.2026</strong>
+              <span>Wer die alte Förderung noch mitnehmen will, muss vorher abschließen.</span>
+            </article>
+            <article>
+              <strong>Bestehendes bleibt</strong>
+              <span>Laufende Riester-Verträge gelten weiter und lassen sich ab 2027 kostenlos überführen.</span>
+            </article>
+          </div>
+
+          <p class="aktuell-fuss">
+            Grundlage ist das verabschiedete Altersvorsorgereformgesetz.
+            <a href="https://www.bundesregierung.de/breg-de/aktuelles/reform-private-altersvorsorge-2400072" target="_blank" rel="noopener">Quelle: Bundesregierung</a>
+          </p>
+        </section>
 
         <article class="ueberblick-teil">
           <span class="ueberblick-nr">01</span>
@@ -676,8 +716,24 @@
           </div>
         </article>
 
-        <article class="ueberblick-teil">
+        <article class="ueberblick-teil ueberblick-teil-breit">
           <span class="ueberblick-nr">03</span>
+          <div class="ueberblick-text">
+            <h3>Und dann Zeile für Zeile</h3>
+            <p>Absicherung, Wohnen, Alltag, Sparen: jede Position einzeln, mit ihrem Betrag.
+               Am Ende steht, wie viel Prozent des Einkommens in welchen Bereich geht und was
+               übrig bleibt. Das ist der Punkt, an dem aus einem Gefühl eine Zahl wird.</p>
+          </div>
+          <div class="ueberblick-bild">
+            <div class="ueberblick-schiene">
+              <img src="/assets/images/praesentation/dvag-haushaltsplan.webp" alt="Haushaltsplan mit vier Spalten: Absicherung, Wohnen, Leben und Konsum, Sparen. Unter jeder Spalte steht der Anteil am Einkommen, darunter der monatliche und jährliche Überschuss." loading="lazy" decoding="async">
+            </div>
+            <small class="ueberblick-hinweis">Beispielzahlen aus der Beratungssoftware<span class="ueberblick-wisch"> · zum Lesen seitlich wischen</span></small>
+          </div>
+        </article>
+
+        <article class="ueberblick-teil">
+          <span class="ueberblick-nr">04</span>
           <div class="ueberblick-text">
             <h3>Die Reihenfolge macht den Unterschied</h3>
             <p>Unten die Risikovorsorge: Vermögensabsicherung, Gesundheit, Rücklagen. Darüber das
@@ -690,7 +746,7 @@
         </article>
 
         <article class="ueberblick-teil ueberblick-teil-breit">
-          <span class="ueberblick-nr">04</span>
+          <span class="ueberblick-nr">05</span>
           <div class="ueberblick-text">
             <h3>Zwei Konten, und der Monat wird ruhig</h3>
             <p>Ein Konto trägt alles, was ohnehin abgeht: Wohnen, Absicherung, Sparen, die
@@ -706,7 +762,7 @@
         </article>
 
         <article class="ueberblick-teil">
-          <span class="ueberblick-nr">05</span>
+          <span class="ueberblick-nr">06</span>
           <div class="ueberblick-text">
             <h3>Verstehen statt vertrauen müssen</h3>
             <p>Am Ende soll niemand einen Vertrag haben, den er nicht erklären kann. Was drin
@@ -714,20 +770,6 @@
           </div>
           <div class="ueberblick-bild">
             <img src="/assets/images/kidz-konzept/kidz-finanzkompetenz.png" alt="" loading="lazy" decoding="async">
-          </div>
-        </article>
-
-        <article class="ueberblick-teil">
-          <span class="ueberblick-nr">06</span>
-          <div class="ueberblick-text">
-            <h3>Und was sich gerade ändert</h3>
-            <p>Ab 1. Januar 2027 starten neue geförderte Vorsorgeprodukte, dazu gehört das
-               Altersvorsorgedepot mit Fonds und ETFs. Bestehende Riester-Verträge bleiben.</p>
-            <a class="ueberblick-quelle" href="https://www.bundesregierung.de/breg-de/aktuelles/reform-private-altersvorsorge-2400072" target="_blank" rel="noopener">Quelle: Bundesregierung</a>
-          </div>
-          <div class="ueberblick-bild ueberblick-bild-jahr">
-            <span class="ueberblick-jahr">2027</span>
-            <small>Altersvorsorge neu geregelt</small>
           </div>
         </article>
       </div>

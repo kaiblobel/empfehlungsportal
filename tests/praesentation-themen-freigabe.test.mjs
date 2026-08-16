@@ -39,10 +39,26 @@ assert.match(html, /id="themaUeberblick"/);
 assert.equal((html.match(/class="ueberblick-teil[ "]/g) || []).length, 6,
   'sechs Schritte im Überblick');
 
-// --- Die drei Darstellungen sind die echten aus den DVAG-Unterlagen, keine
+// --- Was gerade gesetzlich passiert, steht vor den Schritten. Es ist der
+// einzige Teil mit einer Frist, deshalb gehört er nach oben und nicht ans
+// Ende. Die Termine sind die des verabschiedeten Gesetzes; ohne Zeitleiste
+// und Quelle wäre es eine Behauptung. ---
+const ueberblickStart = html.indexOf('id="themaUeberblick"');
+const aktuellPos = html.indexOf('<section class="aktuell">', ueberblickStart);
+const ersterSchritt = html.indexOf('class="ueberblick-teil', ueberblickStart);
+assert.ok(aktuellPos > -1, 'der Block mit der aktuellen Gesetzeslage fehlt');
+assert.ok(aktuellPos < ersterSchritt, 'der Aktuell-Block gehört vor die Schritte');
+['27.03.2026', '08.05.2026', '01.01.2027'].forEach((datum) => {
+  assert.ok(html.includes(datum), `${datum} fehlt in der Zeitleiste`);
+});
+assert.match(html, /Altersvorsorgereformgesetz/);
+assert.match(html, /aktuell-fuss[\s\S]{0,200}bundesregierung\.de/,
+  'die Quellenangabe unter dem Aktuell-Block fehlt');
+
+// --- Die Darstellungen sind die echten aus den DVAG-Unterlagen, keine
 // selbst gezeichneten Ersatzgrafiken. Das SVG, das früher an der Stelle des
 // Zwei-Konten-Modells stand, darf nicht zurückkommen. ---
-['dvag-formel.webp', 'dvag-pyramide.webp', 'dvag-zwei-konten.webp'].forEach((datei) => {
+['dvag-formel.webp', 'dvag-pyramide.webp', 'dvag-zwei-konten.webp', 'dvag-haushaltsplan.webp'].forEach((datei) => {
   assert.match(html, new RegExp(`praesentation/${datei.replace('.', '\\.')}`),
     `${datei} fehlt im Überblick`);
 });

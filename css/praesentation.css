@@ -936,10 +936,87 @@ h1, h2, h3{letter-spacing:-0.021em;}
    nicht hingehört. */
 .thema-rechner{display:grid; grid-template-columns:minmax(0,1fr) 300px; gap:20px; align-items:start;}
 
-/* Überblick hinter „Ganz allgemein": sechs Schritte, je eine Aussage und ein
-   Bild. Die Darstellungen kommen aus den DVAG-Unterlagen, nicht aus einer
-   Bilddatenbank. Herkunft: assets/images/praesentation/DVAG-MATERIAL.md */
+/* Überblick hinter „Ganz allgemein": oben die aktuelle Gesetzeslage, darunter
+   sechs Schritte, je eine Aussage und ein Bild. Die Darstellungen kommen aus
+   den DVAG-Unterlagen, nicht aus einer Bilddatenbank.
+   Herkunft: assets/images/praesentation/DVAG-MATERIAL.md */
 .thema-ueberblick{display:block;}
+
+/* Was gerade gesetzlich passiert. Dunkel abgesetzt, weil es kein Schritt der
+   Beratung ist, sondern der Anlass: Es hat als Einziges ein Datum und eine
+   Frist. Zahlen und Termine stehen so da, dass man sie nachschlagen kann. */
+.aktuell{
+  margin:0 0 30px; padding:26px 26px 22px;
+  border-radius:var(--r);
+  background:var(--ink); color:#fff;
+}
+.aktuell-marke{
+  display:inline-flex; align-items:center; gap:8px;
+  margin-bottom:14px; padding:5px 11px 5px 9px;
+  border:1px solid rgba(200,170,34,.45); border-radius:999px;
+  font:600 11px/1 var(--sans); letter-spacing:.09em; text-transform:uppercase;
+  color:var(--gold);
+}
+.aktuell-marke::before{
+  content:''; width:6px; height:6px; border-radius:50%;
+  background:var(--gold);
+}
+.aktuell-kopf h3{
+  margin:0 0 10px;
+  font-family:var(--head); font-weight:600;
+  font-size:clamp(21px,2.4vw,28px); line-height:1.16; color:#fff;
+}
+.aktuell-kopf p{margin:0; max-width:44em; font-size:15.5px; line-height:1.6; color:#B7BEC3;}
+
+/* Die Zeitleiste macht aus einer Ankündigung einen belegten Vorgang. */
+.aktuell-zeit{
+  display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:0;
+  margin:24px 0 22px; padding:0; list-style:none;
+}
+.aktuell-zeit li{
+  position:relative; padding:16px 14px 0 0;
+  border-top:1px solid rgba(255,255,255,.16);
+}
+.aktuell-zeit li::before{
+  content:''; position:absolute; top:-5px; left:0;
+  width:9px; height:9px; border-radius:50%;
+  background:var(--ink); border:2px solid rgba(255,255,255,.35);
+}
+.aktuell-zeit .ist-erledigt::before{background:#7E868C; border-color:#7E868C;}
+.aktuell-zeit .ist-ziel::before{background:var(--gold); border-color:var(--gold);}
+.aktuell-zeit .ist-ziel{border-top-color:var(--gold);}
+.aktuell-wann{
+  display:block; margin-bottom:4px;
+  font:600 13px/1 var(--sans); color:#fff;
+}
+.aktuell-zeit .ist-ziel .aktuell-wann{color:var(--gold);}
+.aktuell-was{display:block; font-size:12.5px; line-height:1.45; color:#8C949A;}
+
+.aktuell-punkte{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:10px;
+}
+.aktuell-punkte article{
+  padding:15px 16px;
+  border:1px solid rgba(255,255,255,.13); border-radius:12px;
+  background:rgba(255,255,255,.035);
+}
+.aktuell-punkte strong{
+  display:block; margin-bottom:5px;
+  font-family:var(--head); font-weight:600; font-size:16px; color:#fff;
+}
+.aktuell-punkte span{display:block; font-size:13px; line-height:1.5; color:#AEB6BB;}
+.aktuell-fuss{
+  margin:18px 0 0;
+  font-family:var(--serif); font-size:12.5px; color:#8C949A;
+}
+.aktuell-fuss a{color:#B7BEC3; border-bottom:1px solid rgba(255,255,255,.22);}
+.aktuell-fuss a:hover{color:var(--gold); border-bottom-color:var(--gold);}
+
+@media (max-width:640px){
+  .aktuell{padding:22px 20px 20px;}
+  .aktuell-zeit{grid-template-columns:1fr; gap:2px;}
+  .aktuell-zeit li{padding:14px 0 0;}
+}
 .ueberblick-teil{
   display:grid; grid-template-columns:52px minmax(0,1fr) 260px;
   gap:24px; align-items:center;
@@ -1005,6 +1082,9 @@ h1, h2, h3{letter-spacing:-0.021em;}
     overscroll-behavior-x:contain;
   }
   .ueberblick-schiene img{width:auto; height:230px; max-width:none;}
+  /* Der Haushaltsplan ist fast quadratisch. Auf 230 px Höhe wäre er auch
+     seitlich gewischt nicht mehr zu lesen, deshalb bekommt er mehr. */
+  .ueberblick-schiene img[src*="haushaltsplan"]{height:460px;}
   .ueberblick-wisch{display:inline;}
 }
 .ueberblick-bild-zahl, .ueberblick-bild-jahr{background:var(--ink); border-color:var(--ink); text-align:center;}
