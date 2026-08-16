@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.286 Beta** · Regleranzeige und Bildauflösung nachgezogen, live seit 16.08.2026.
+Offizielle Live-Version: **v1.287 Beta** · Ein eigenes Zeichen für Homebildschirm und Tab, live seit 16.08.2026.
+
+## v1.287 Beta - Phase 267 · Ein eigenes Zeichen für Homebildschirm und Tab
+**2026-08-16**
+
+**Das Portal hat ein eigenes Zeichen: zwei Hände, die sich greifen.** Gold auf Ink, aufgebaut auf demselben 24er Raster wie die übrigen Symbole der Seite. Vorher stand dort ein „K" in Georgia auf hellem Grund, ein Rest aus der Champagne-Zeit vor dem Umbau.
+
+**Dabei einen Fehler gefunden, der genau das verhinderte, wofür das Zeichen da ist:** Als `apple-touch-icon` war ein SVG eingetragen, und **iOS kann dafür kein SVG**. Wer die Seite auf den Homebildschirm legte, bekam kein Zeichen, sondern einen Ausschnitt der Seite als Bild. Aufgefallen wäre das erst beim Ausprobieren.
+
+Es gibt jetzt PNG in allen nötigen Größen (180 für iOS, 192 und 512 fürs Manifest, dazu eine maskable-Fassung mit Sicherheitsrand, in die Android hineinschneiden darf) und eine `favicon.ico` mit sechs Größen für den Browser-Tab und Verknüpfungen auf dem Rechner. Alle 33 Portalseiten binden das Zeichen ein; die KIDZ-Seiten behalten ihr eigenes.
+
+Ein Test hält beides fest: dass kein `apple-touch-icon` auf ein SVG zeigt und dass keine ausgelieferte Seite ohne Zeichen dasteht.
+
+---
 
 ## v1.286 Beta - Phase 266 · Regleranzeige und Bildauflösung nachgezogen
 **2026-08-16**
