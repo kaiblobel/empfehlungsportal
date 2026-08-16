@@ -8,7 +8,7 @@ import {
   whatsappLink,
   toast,
 } from './dashboard.js';
-import { supabase, deleteEmpfehlung } from './supabase.js';
+import { supabase, deleteEmpfehlung, getFunnelQuellen } from './supabase.js';
 
 const ERR_LABELS = {
   vormittag: 'Vormittag (8 bis 12 Uhr)',
@@ -98,19 +98,14 @@ function phoneHref(phone) {
 }
 
 /* Leads aus den Funnel-Seiten (Phase 270). Sie kommen ohne Promoter und
-   haben oft nur eine E-Mail statt einer Telefonnummer. */
-const QUELLEN_NAMEN = {
-  'av-depot-check': 'Altersvorsorgedepot-Check',
-  'depot-check': 'Depot-Krisencheck',
-  'restschuldcheck': 'Restschuld-Check',
-  'vermoegensstrategie-check': 'Vermögensstrategie-Check',
-  'finanzcheck': 'Finanzcheck',
-  'reform2027': 'reform2027',
-};
+   haben oft nur eine E-Mail statt einer Telefonnummer. Die Namen der
+   Funnels stehen in der Tabelle funnel_quellen (Phase 272). */
+let QUELLEN_NAMEN = {};
 
 function quelleLabel(quelle) {
   if (!quelle) return '';
-  return QUELLEN_NAMEN[quelle] || quelle;
+  const eintrag = QUELLEN_NAMEN[quelle];
+  return (eintrag && eintrag.anzeige) || quelle;
 }
 
 function summaryCard(icon, value, label, hint) {
@@ -226,7 +221,8 @@ if (!id) content.innerHTML = '<div class="empty-state">Keine Empfehlung ausgewä
   const session = await requireAuth();
   if (!session || !id) return;
 
-  const record = await loadDetail(id);
+  const [record, quellen] = await Promise.all([loadDetail(id), getFunnelQuellen()]);
+  QUELLEN_NAMEN = quellen;
   if (!record) {
     content.innerHTML = '<div class="empty-state">Empfehlung nicht gefunden.</div>';
     return;

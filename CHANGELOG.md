@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.292 Beta** · Auf der KIDZ-Empfehlung steht der richtige Berater, live seit 16.08.2026.
+Offizielle Live-Version: **v1.293 Beta** · Ein neuer Funnel ist eine Zeile, live seit 16.08.2026.
+
+## v1.293 Beta - Phase 273 · Ein neuer Funnel ist eine Zeile
+
+**2026-08-16**
+
+**Ein Funnelname stand an fünf Stellen:** in der Aufnahme-Funktion der Datenbank, in der Empfehlungsliste, in der Detailansicht, auf dem Überblick und im Stylesheet. Wer einen neuen Funnel anschloss, musste alle fünf finden, und wer eine vergaß, sah in der Liste den technischen Namen statt „Depot-Krisencheck".
+
+**Jetzt steht das an einer Stelle:** der Tabelle `funnel_quellen` mit technischem Namen, Anzeigename, Farbe und einem Schalter. Ein neuer Funnel ist eine Zeile in der Datenbank, kein Veröffentlichen. Die Farbe der Marke bringt jede Zeile selbst mit, das Stylesheet mischt die Fläche daraus; damit bleibt die Liste ruhig, egal wie viele Funnels dazukommen.
+
+**`aktiv = false` legt einen Funnel still,** ohne seine Geschichte zu löschen: neue Leads werden abgewiesen, die alten bleiben mit ihrer Herkunft stehen.
+
+**Damit ist der Umbau eines Funnels gefahrlos.** Inhalt, Rechner, Bilder und Thema einer Funnel-Seite lassen sich frei ändern, die Verbindung hängt nur an drei Dingen: der Datei `lead.php`, dem Quellennamen und den drei Feldnamen `name`, `email`, `phone` im Formular. Wechselt das Thema, zieht man den Quellennamen mit; alte Leads behalten den alten und bleiben dadurch sauber vom neuen Abschnitt getrennt.
+
+---
+
 
 ## v1.292 Beta - Phase 272 · Auf der KIDZ-Empfehlung steht der richtige Berater
 **2026-08-16**

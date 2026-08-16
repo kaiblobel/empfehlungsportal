@@ -1,4 +1,4 @@
-import { supabase, touchPresence, getTeamActivity, getTeamPresence } from './supabase.js';
+import { supabase, touchPresence, getTeamActivity, getTeamPresence, getFunnelQuellen } from './supabase.js';
 import { parseDbDate } from './date-utils.js';
 import { requireAuth, logout, formatDate, loadFunnel, applyBeraterHeader } from './dashboard.js';
 import { icon, hydrateIcons } from './icons.js';
@@ -619,26 +619,15 @@ async function loadTrend(daysBack) {
    Beantwortet die Frage, die sich heute gar nicht stellen laesst:
    welcher Funnel bringt etwas. Zaehlt nur, was wirklich erfasst ist,
    Testdatensaetze bleiben draussen. */
-const QUELLEN_NAMEN = {
-  'av-depot-check': 'Altersvorsorgedepot',
-  'depot-check': 'Depot-Krisencheck',
-  'restschuldcheck': 'Restschuld-Check',
-  'vermoegensstrategie-check': 'Vermögensstrategie',
-  'finanzcheck': 'Finanzcheck',
-  'reform2027': 'reform2027',
-};
-const QUELLEN_TOENE = {
-  empfehlung: '#9CC0C7',
-  'av-depot-check': '#0B4650',
-  'depot-check': '#5E939E',
-  'restschuldcheck': '#2E6E7A',
-  'vermoegensstrategie-check': '#8F7809',
-  'finanzcheck': '#13191D',
-  'reform2027': '#13191D',
-};
+/* Namen und Toene der Funnels stehen in der Tabelle funnel_quellen
+   (Phase 272). Empfehlungen sind kein Funnel und behalten ihren
+   festen Ton. */
+let FUNNEL_QUELLEN = {};
+const TON_EMPFEHLUNG = '#9CC0C7';
 
 async function loadHerkunft(tageZurueck) {
   try {
+    FUNNEL_QUELLEN = await getFunnelQuellen();
     const seit = new Date();
     seit.setDate(seit.getDate() - tageZurueck);
     const { data, error } = await supabase
@@ -674,8 +663,9 @@ function renderHerkunft(rows) {
 
   abschnitt.hidden = false;
   wrap.innerHTML = zeilen.map(([key, n]) => {
-    const name = key === 'empfehlung' ? 'Empfehlungen' : (QUELLEN_NAMEN[key] || key);
-    const ton = QUELLEN_TOENE[key] || '#5E939E';
+    const eintrag = FUNNEL_QUELLEN[key];
+    const name = key === 'empfehlung' ? 'Empfehlungen' : ((eintrag && eintrag.anzeige) || key);
+    const ton = key === 'empfehlung' ? TON_EMPFEHLUNG : ((eintrag && eintrag.ton) || '#5E939E');
     const breite = Math.max(4, Math.round((n / max) * 100));
     return `
       <div class="h-herkunft-row">

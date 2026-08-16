@@ -261,14 +261,19 @@ td[data-zahl],
    dieselbe Arbeit ist. Man muss aber auf einen Blick sehen,
    was man vor sich hat.
    ============================================================ */
+/* Den Ton bringt jede Marke selbst mit (--marke-ton). Er steht in der
+   Tabelle funnel_quellen, damit ein neuer Funnel keine Änderung am
+   Stylesheet braucht (Phase 273). Die Fläche wird aus demselben Ton
+   gemischt, so bleibt die Liste ruhig, egal wie viele Funnels dazu
+   kommen. */
 .ep-herkunft{
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 3px 8px;
   border-radius: 6px;
-  background: var(--dna-petrol-tint);
-  color: var(--dna-petrol);
+  color: var(--marke-ton, var(--dna-petrol));
+  background: color-mix(in srgb, var(--marke-ton, var(--dna-petrol)) 10%, transparent);
   font-weight: 600;
   white-space: nowrap;
 }
@@ -280,13 +285,6 @@ td[data-zahl],
   background: currentColor;
   font-style: normal;
 }
-/* Je Funnel ein eigener Ton aus derselben Familie: unterscheidbar,
-   ohne dass die Liste bunt wird. */
-.ep-herkunft[data-quelle="depot-check"]{ color: var(--dna-petrol-light); }
-.ep-herkunft[data-quelle="restschuldcheck"]{ color: var(--dna-petrol-mid); }
-.ep-herkunft[data-quelle="vermoegensstrategie-check"]{ color: var(--dna-gold-dark); background: var(--dna-gold-tint); }
-.ep-herkunft[data-quelle="finanzcheck"]{ color: var(--ink); background: var(--surface-2); }
-.ep-herkunft[data-quelle="reform2027"]{ color: var(--ink); background: var(--surface-2); }
 
 /* Woher die Leads kommen, als Aufstellung auf dem Überblick. */
 .h-herkunft{
