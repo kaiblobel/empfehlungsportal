@@ -1,7 +1,14 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.268 Beta** · Ein Weg für das Thema Kinder, live seit 16.08.2026.
+Offizielle Live-Version: **v1.269 Beta** · KIDZ heißt auch in der Präsentation KIDZ, live seit 16.08.2026.
+
+## v1.269 Beta - Phase 249 · KIDZ heißt auch in der Präsentation KIDZ
+**2026-08-16 · live veröffentlicht**
+
+In der Präsentation und im Beraterbereich hieß das Thema weiter „Für deine Kinder" und wurde als gemeinsame Themenseite beschrieben. Der Weg führt aber längst ins KIDZ-Elternkonzept. Karte und Kachel heißen jetzt „KIDZ für Kinder", der Untertitel lautet „Kinderleicht in die Zukunft", und der Beschreibungstext sagt, was wirklich kommt: drei Grundlagen, die Rechnung zum frühen Start und der Weg zum Elternabend.
+
+---
 
 ## v1.268 Beta - Phase 248 · Ein Weg für das Thema Kinder
 **2026-08-16 · live veröffentlicht**
