@@ -356,14 +356,25 @@ async function loadTimelineEvents() {
   } catch { return []; }
 }
 
+/* Die Farbe sagt, was das Ereignis bedeutet, das Symbol sagt, welches
+   es ist. Deshalb tragen mehrere Ereignisse dieselbe Farbe: Petrol wird
+   dunkler, je weiter jemand im Funnel steht, Gold heißt "will etwas von
+   dir". Sieben eigene Farben nebeneinander waren ein Regenbogen, in dem
+   nichts mehr eine Bedeutung hatte.
+
+   ACHTUNG: Diese Werte stehen in css/hub.css noch einmal, als Selektor
+   .h-activity-row[style*="#0B4650"]. Wer hier eine Farbe ändert, muss
+   sie dort mitändern, sonst greift die Tönung des Avatars nicht mehr.
+   Schreibweise in Großbuchstaben beibehalten, der Selektor vergleicht
+   Zeichen für Zeichen. */
 const EVENT_META = {
-  created:           { label: 'Empfehlung erhalten', color: '#B5953F', icon: 'Send' },            // Champagne Gold
-  opened:            { label: 'Link geklickt',       color: '#4A7D48', icon: 'Eye' },             // Grün
-  interest:          { label: 'Interesse',           color: '#C28447', icon: 'HeartHandshake' },  // Terracotta
-  call:              { label: 'Anrufwunsch',         color: '#B5651D', icon: 'PhoneCall' },       // Burnt-Orange
-  kunde:             { label: 'Neuer Kunde',         color: '#1A5C29', icon: 'Trophy' },          // Dunkelgrün
-  promotor_created:  { label: 'Promoter erstellt',   color: '#2C5F7C', icon: 'UserPlus' },        // DVAG Blau
-  termin_booked:     { label: 'Termin gebucht',      color: '#3E8B8B', icon: 'Calendar' },        // Türkis
+  created:           { label: 'Empfehlung erhalten', color: '#2E6E7A', icon: 'Send' },            // Fortschritt
+  opened:            { label: 'Link geklickt',       color: '#5E939E', icon: 'Eye' },             // früher Kontakt
+  interest:          { label: 'Interesse',           color: '#C8AA22', icon: 'HeartHandshake' },  // Aufmerksamkeit
+  call:              { label: 'Anrufwunsch',         color: '#8F7809', icon: 'PhoneCall' },       // verlangt Handlung
+  kunde:             { label: 'Neuer Kunde',         color: '#0B4650', icon: 'Trophy' },          // Ergebnis
+  promotor_created:  { label: 'Promoter erstellt',   color: '#13191D', icon: 'UserPlus' },        // neuer Mensch
+  termin_booked:     { label: 'Termin gebucht',      color: '#2E6E7A', icon: 'Calendar' },        // Fortschritt
 };
 
 const NEW_BADGE_WINDOW_MS = 24 * 60 * 60 * 1000; // 24h
@@ -422,9 +433,9 @@ function timelineTime(ts) {
 
 /* ---------- Team-Momentum (Phase 82) ---------- */
 const TEAM_META = {
-  empfehlung: { label: 'Empfehlung', color: '#B5953F', icon: 'Send',     text: 'hat eine Empfehlung erhalten' },
-  promoter:   { label: 'Promoter',   color: '#2C5F7C', icon: 'UserPlus', text: 'hat einen neuen Promoter gewonnen' },
-  kunde:      { label: 'Kunde',      color: '#1A5C29', icon: 'Trophy',   text: 'hat einen Kunden gewonnen' },
+  empfehlung: { label: 'Empfehlung', color: '#2E6E7A', icon: 'Send',     text: 'hat eine Empfehlung erhalten' },
+  promoter:   { label: 'Promoter',   color: '#13191D', icon: 'UserPlus', text: 'hat einen neuen Promoter gewonnen' },
+  kunde:      { label: 'Kunde',      color: '#0B4650', icon: 'Trophy',   text: 'hat einen Kunden gewonnen' },
 };
 async function loadTeamMomentum() {
   try {
@@ -608,11 +619,16 @@ function renderTrendChart(rows) {
     const d = new Date(r.day);
     return d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' });
   });
+  /* Vier Linien in einem Bild müssen auch dann auseinanderzuhalten sein,
+     wenn jemand Farben schwächer unterscheidet. Diese vier sind darauf
+     geprüft: der engste Abstand liegt bei normalem Sehen weit über der
+     Grenze, bei Rot-Grün-Schwäche ebenfalls. Vier Abstufungen desselben
+     Petrol wären durchgefallen. */
   const datasets = [
-    { label: 'Aktive Promoter',  data: rows.map(r => r.aktive_empfehler),    borderColor: '#C9B98A', backgroundColor: 'rgba(201,185,138,0.08)', tension: 0.35, borderWidth: 2,   pointRadius: 0, pointHoverRadius: 5, fill: true  },
-    { label: 'Link-Klicks',      data: rows.map(r => r.link_klicks),         borderColor: '#7A8B6F', backgroundColor: 'rgba(122,139,111,0.06)', tension: 0.35, borderWidth: 2,   pointRadius: 0, pointHoverRadius: 5, fill: false },
-    { label: 'Empfehlungen',     data: rows.map(r => r.empfehlungen_gesamt), borderColor: '#C28447', backgroundColor: 'rgba(194,132,71,0.06)',  tension: 0.35, borderWidth: 2,   pointRadius: 0, pointHoverRadius: 5, fill: false },
-    { label: 'Kunden',           data: rows.map(r => r.kunden),              borderColor: '#2E5266', backgroundColor: 'rgba(46,82,102,0.06)',   tension: 0.35, borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 5, fill: false },
+    { label: 'Aktive Promoter',  data: rows.map(r => r.aktive_empfehler),    borderColor: '#5E939E', backgroundColor: 'rgba(94,147,158,0.08)',  tension: 0.35, borderWidth: 2,   pointRadius: 0, pointHoverRadius: 5, fill: true  },
+    { label: 'Link-Klicks',      data: rows.map(r => r.link_klicks),         borderColor: '#0B4650', backgroundColor: 'rgba(11,70,80,0.06)',    tension: 0.35, borderWidth: 2,   pointRadius: 0, pointHoverRadius: 5, fill: false },
+    { label: 'Empfehlungen',     data: rows.map(r => r.empfehlungen_gesamt), borderColor: '#8F7809', backgroundColor: 'rgba(143,120,9,0.06)',    tension: 0.35, borderWidth: 2,   pointRadius: 0, pointHoverRadius: 5, fill: false },
+    { label: 'Kunden',           data: rows.map(r => r.kunden),              borderColor: '#13191D', backgroundColor: 'rgba(19,25,29,0.06)',     tension: 0.35, borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 5, fill: false },
   ];
 
   if (trendChartInstance) trendChartInstance.destroy();
@@ -626,7 +642,7 @@ function renderTrendChart(rows) {
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: '#1A1A1A',
+          backgroundColor: '#13191D',
           titleFont: { family: 'Inter, sans-serif', size: 11, weight: '600' },
           bodyFont:  { family: 'Inter, sans-serif', size: 12 },
           padding: 10, cornerRadius: 6, displayColors: true, boxPadding: 4,
@@ -635,12 +651,12 @@ function renderTrendChart(rows) {
       scales: {
         x: {
           grid: { display: false },
-          ticks: { color: '#6B6660', font: { family: 'Inter, sans-serif', size: 10 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 8 },
-          border: { color: '#E8E5E0' },
+          ticks: { color: '#6A747C', font: { family: 'Inter, sans-serif', size: 10 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 8 },
+          border: { color: '#E3E7E9' },
         },
         y: {
-          grid: { color: '#F0EDE8', drawBorder: false },
-          ticks: { color: '#6B6660', font: { family: 'Inter, sans-serif', size: 10 }, padding: 8 },
+          grid: { color: '#EDF0F1', drawBorder: false },
+          ticks: { color: '#6A747C', font: { family: 'Inter, sans-serif', size: 10 }, padding: 8 },
           border: { display: false },
           beginAtZero: true,
         },

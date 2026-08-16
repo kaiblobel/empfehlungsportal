@@ -511,7 +511,7 @@ img { max-width: 100%; display: block; }
 .vorlage-kachel:active { transform: scale(0.98); }
 .vorlage-kachel.selected {
   border-color: var(--text-primary);
-  background: #fafafc;
+  background: var(--surface-2);
   box-shadow: 0 4px 14px rgba(0,0,0,0.06);
 }
 .vorlage-kachel .icon {
@@ -525,7 +525,7 @@ img { max-width: 100%; display: block; }
   line-height: 1.25;
 }
 .vorlage-skel {
-  background: linear-gradient(90deg, #ececef 25%, #f5f5f7 50%, #ececef 75%);
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-2) 50%, var(--surface-2) 75%);
   background-size: 200% 100%;
   animation: vorlage-skel-shimmer 1.2s ease-in-out infinite;
   border-radius: var(--radius-card);
@@ -569,12 +569,12 @@ img { max-width: 100%; display: block; }
 /* PHASE 14 - Praesentation Emotional Activation */
 
 body[data-page="index"] {
-  --ed-bg: #FAF8F5;
-  --ed-bg-dark: #16110C;
-  --ed-ink: #1A1A1A;
-  --ed-ink-soft: #4A4540;
-  --ed-muted: #8C8680;
-  --ed-champagne: #C9B98A;
+  --ed-bg: var(--bg);
+  --ed-bg-dark: var(--ink);
+  --ed-ink: var(--ink);
+  --ed-ink-soft: var(--ink);
+  --ed-muted: var(--ink-soft);
+  --ed-champagne: var(--accent);
   --ed-ease: cubic-bezier(0.22, 1, 0.36, 1);
   background: var(--ed-bg);
   color: var(--ed-ink);
@@ -785,7 +785,7 @@ body[data-page="index"] .slide.ed-cover .ed-eyebrow {
 }
 body[data-page="index"] .slide.ed-cover .ed-headline,
 body[data-page="index"] .slide.ed-cover .ed-headline.xs {
-  color: #FAF8F5;
+  color: var(--bg);
 }
 
 body[data-page="index"] .slide.ed-bg-soft .ed-bg-img {
@@ -877,7 +877,7 @@ body[data-page="index"] .ed-btn {
 }
 body[data-page="index"] .ed-btn-primary {
   background: var(--ed-ink);
-  color: #FAF8F5;
+  color: var(--bg);
   border: 1px solid var(--ed-ink);
 }
 body[data-page="index"] .ed-btn-primary:hover {
@@ -958,9 +958,9 @@ body[data-page="index"] .nav-counter {
 .skel {
   background: linear-gradient(
     90deg,
-    var(--surface-2, #F5F5F2) 25%,
+    var(--surface-2, var(--surface-2)) 25%,
     rgba(248, 246, 240, 0.8) 50%,
-    var(--surface-2, #F5F5F2) 75%
+    var(--surface-2, var(--surface-2)) 75%
   );
   background-size: 200% 100%;
   animation: skel-shimmer 1.4s ease-in-out infinite;
@@ -993,7 +993,7 @@ body[data-page="index"] .nav-counter {
   gap: 12px;
   align-items: center;
   padding: 14px 0;
-  border-bottom: 1px solid var(--hairline, #E8E5E0);
+  border-bottom: 1px solid var(--hairline, var(--hairline));
 }
 .skel-row:last-child { border-bottom: 0; }
 .skel-row .skel-body { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
@@ -1003,7 +1003,7 @@ body[data-page="index"] .nav-counter {
 
 .skel-card {
   background: var(--surface, #FFFFFF);
-  border: 1px solid var(--hairline, #E8E5E0);
+  border: 1px solid var(--hairline, var(--hairline));
   border-radius: var(--radius-lg, 14px);
   padding: 18px 20px;
   display: flex;
@@ -1028,7 +1028,7 @@ body[data-page="index"] .nav-counter {
 .cmdk-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(26, 26, 26, 0.5);
+  background: rgba(19,25,29, 0.5);
   backdrop-filter: blur(4px);
   z-index: 200;
   display: flex;
@@ -1043,7 +1043,7 @@ body[data-page="index"] .nav-counter {
   max-width: 620px;
   margin: 0 16px;
   background: var(--surface, #fff);
-  border: 1px solid var(--hairline, #E8E5E0);
+  border: 1px solid var(--hairline, var(--hairline));
   border-radius: var(--radius-lg, 14px);
   box-shadow: 0 32px 80px -10px rgba(0,0,0,0.25);
   display: flex;
@@ -1057,9 +1057,9 @@ body[data-page="index"] .nav-counter {
   align-items: center;
   gap: 12px;
   padding: 14px 16px;
-  border-bottom: 1px solid var(--hairline, #E8E5E0);
+  border-bottom: 1px solid var(--hairline, var(--hairline));
 }
-.cmdk-icon { display: inline-flex; color: var(--ink-soft, #8C8680); }
+.cmdk-icon { display: inline-flex; color: var(--ink-soft, var(--ink-soft)); }
 .cmdk-input {
   flex: 1;
   border: 0;
@@ -1067,17 +1067,17 @@ body[data-page="index"] .nav-counter {
   background: transparent;
   font-family: 'Inter', sans-serif;
   font-size: 16px;
-  color: var(--ink, #1A1A1A);
+  color: var(--ink, var(--ink));
 }
-.cmdk-input::placeholder { color: var(--ink-soft, #8C8680); }
+.cmdk-input::placeholder { color: var(--ink-soft, var(--ink-soft)); }
 .cmdk-kbd {
   font-family: 'Inter', sans-serif;
   font-size: 11px;
   padding: 3px 8px;
-  background: var(--surface-2, #F5F5F2);
-  border: 1px solid var(--hairline, #E8E5E0);
+  background: var(--surface-2, var(--surface-2));
+  border: 1px solid var(--hairline, var(--hairline));
   border-radius: 4px;
-  color: var(--ink-muted, #6B6660);
+  color: var(--ink-muted, var(--ink-muted));
 }
 
 .cmdk-list {
@@ -1098,25 +1098,25 @@ body[data-page="index"] .nav-counter {
   cursor: pointer;
   text-align: left;
   font-family: 'Inter', sans-serif;
-  color: var(--ink, #1A1A1A);
+  color: var(--ink, var(--ink));
 }
 .cmdk-item.active {
-  background: var(--accent-soft, rgba(201, 185, 138, 0.16));
+  background: var(--accent-soft, rgba(200,170,34, 0.16));
 }
-.cmdk-item-icon { display: inline-flex; color: var(--ink-muted, #6B6660); justify-content: center; }
-.cmdk-item.active .cmdk-item-icon { color: var(--accent-hover, #B8A570); }
+.cmdk-item-icon { display: inline-flex; color: var(--ink-muted, var(--ink-muted)); justify-content: center; }
+.cmdk-item.active .cmdk-item-icon { color: var(--accent-hover, var(--accent)); }
 .cmdk-item-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .cmdk-item-label {
   font-size: 14px;
   font-weight: 500;
-  color: var(--ink, #1A1A1A);
+  color: var(--ink, var(--ink));
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .cmdk-item-sub {
   font-size: 12px;
-  color: var(--ink-soft, #8C8680);
+  color: var(--ink-soft, var(--ink-soft));
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1126,13 +1126,13 @@ body[data-page="index"] .nav-counter {
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--ink-soft, #8C8680);
+  color: var(--ink-soft, var(--ink-soft));
 }
 
 .cmdk-empty {
   padding: 32px;
   text-align: center;
-  color: var(--ink-soft, #8C8680);
+  color: var(--ink-soft, var(--ink-soft));
   font-size: 14px;
 }
 
@@ -1140,16 +1140,16 @@ body[data-page="index"] .nav-counter {
   display: flex;
   gap: 18px;
   padding: 10px 16px;
-  border-top: 1px solid var(--hairline, #E8E5E0);
+  border-top: 1px solid var(--hairline, var(--hairline));
   font-size: 11px;
-  color: var(--ink-soft, #8C8680);
+  color: var(--ink-soft, var(--ink-soft));
 }
 .cmdk-footer kbd {
   font-family: 'Inter', sans-serif;
   font-size: 10px;
   padding: 2px 6px;
-  background: var(--surface-2, #F5F5F2);
-  border: 1px solid var(--hairline, #E8E5E0);
+  background: var(--surface-2, var(--surface-2));
+  border: 1px solid var(--hairline, var(--hairline));
   border-radius: 3px;
   margin-right: 4px;
 }
