@@ -97,6 +97,22 @@ function phoneHref(phone) {
   return clean ? `tel:${clean}` : '';
 }
 
+/* Leads aus den Funnel-Seiten (Phase 270). Sie kommen ohne Promoter und
+   haben oft nur eine E-Mail statt einer Telefonnummer. */
+const QUELLEN_NAMEN = {
+  'av-depot-check': 'Altersvorsorgedepot-Check',
+  'depot-check': 'Depot-Krisencheck',
+  'restschuldcheck': 'Restschuld-Check',
+  'vermoegensstrategie-check': 'Vermögensstrategie-Check',
+  'finanzcheck': 'Finanzcheck',
+  'reform2027': 'reform2027',
+};
+
+function quelleLabel(quelle) {
+  if (!quelle) return '';
+  return QUELLEN_NAMEN[quelle] || quelle;
+}
+
 function summaryCard(icon, value, label, hint) {
   return `
     <article class="ed-summary-card">
@@ -221,6 +237,9 @@ if (!id) content.innerHTML = '<div class="empty-state">Keine Empfehlung ausgewä
     : '';
   const score = await fetchEmpfehlerScore(record.empfehler_id);
   const phone = record.empfaenger_telefon || '';
+  const mail = record.empfaenger_email || '';
+  const istLead = record.typ === 'funnel' || Boolean(record.quelle);
+  const quelle = quelleLabel(record.quelle);
   const channel = KANAL_LABELS[record.bevorzugter_kanal] || record.bevorzugter_kanal || 'Nicht angegeben';
   const reachability = ERR_LABELS[record.beste_erreichbarkeit] || record.beste_erreichbarkeit || 'Nicht angegeben';
   const topic = topicLabel(record.vorlage_slug);
@@ -237,12 +256,14 @@ if (!id) content.innerHTML = '<div class="empty-state">Keine Empfehlung ausgewä
       <div class="ed-person">
         <span class="ed-initial">${escapeHtml(initials(record.empfaenger_name))}</span>
         <div class="ed-person-copy">
-          <div class="ed-eyebrow">Empfehlung · ${escapeHtml(topic)}</div>
+          <div class="ed-eyebrow">${istLead ? 'Lead' : 'Empfehlung'} · ${escapeHtml(topic)}</div>
           <h1>${escapeHtml(record.empfaenger_name || 'Unbekannter Kontakt')}</h1>
           <div class="ed-hero-meta">
             <span>${escapeHtml(formatDate(record.created_at))}</span>
             <span>·</span>
-            <span>über ${escapeHtml(record.empfehler_name || 'unbekannt')}</span>
+            <span>${istLead
+              ? `über ${escapeHtml(quelle || 'einen Funnel')}`
+              : `über ${escapeHtml(record.empfehler_name || 'unbekannt')}`}</span>
             ${statusPill(currentStatus)}
           </div>
         </div>
@@ -251,11 +272,13 @@ if (!id) content.innerHTML = '<div class="empty-state">Keine Empfehlung ausgewä
         <button class="ed-action warm" id="copyBtn" type="button"${recipientLink ? '' : ' hidden'}>Link kopieren</button>
         <a class="ed-action" id="callBtn"${phone ? ` href="${escapeHtml(phoneHref(phone))}"` : ' hidden'}>Anrufen</a>
         <a class="ed-action primary" id="waBtn" target="_blank" rel="noopener"${phone ? ` href="${escapeHtml(whatsappLink(phone))}"` : ' hidden'}>Per WhatsApp schreiben</a>
+        <a class="ed-action" id="mailBtn"${mail ? ` href="mailto:${escapeHtml(mail)}"` : ' hidden'}>E-Mail schreiben</a>
       </div>
     </section>
 
     <section class="ed-summary" aria-label="Kontakt auf einen Blick">
       ${summaryCard('TEL', phone || 'Nicht angegeben', 'Telefonnummer', phone ? 'direkt erreichbar' : 'noch ergänzen')}
+      ${mail ? summaryCard('MAIL', mail, 'E-Mail', 'aus dem Funnel') : ''}
       ${summaryCard('KAN', channel, 'Bevorzugter Kanal', record.bevorzugter_kanal ? 'vom Kontakt gewählt' : 'noch offen')}
       ${summaryCard('ZEIT', reachability, 'Beste Erreichbarkeit', record.beste_erreichbarkeit ? 'Wunschzeit' : 'noch offen')}
       ${summaryCard('LINK', record.link_geoeffnet ? 'Geöffnet' : 'Ungeöffnet', 'Empfehlungslink', `${Number(record.link_klicks) || 0} Klick${Number(record.link_klicks) === 1 ? '' : 's'}`)}
@@ -267,8 +290,10 @@ if (!id) content.innerHTML = '<div class="empty-state">Keine Empfehlung ausgewä
           <h2>Kontakt und Empfehlung</h2>
           <div class="ed-contact-grid">
             ${contactCard('THE', 'Thema', topic)}
-            ${contactCard('TYP', 'Art', record.typ === 'info' ? 'Info-Variante' : 'Direkt-Empfehlung')}
-            ${contactCard('PRO', 'Promoter', record.empfehler_name || 'Nicht angegeben')}
+            ${contactCard('TYP', 'Art', istLead ? 'Lead aus einem Funnel' : (record.typ === 'info' ? 'Info-Variante' : 'Direkt-Empfehlung'))}
+            ${istLead
+              ? contactCard('QUE', 'Herkunft', quelle || 'Unbekannter Funnel')
+              : contactCard('PRO', 'Promoter', record.empfehler_name || 'Nicht angegeben')}
             ${contactCard('ERG', 'Promoter-Erfolg', scoreLabel(score))}
             ${contactCard('VER', 'Verbindung', record.empfaenger_verbindung || 'Nicht angegeben')}
             ${contactCard('BER', 'Beruf', record.empfaenger_beruf || 'Nicht angegeben')}

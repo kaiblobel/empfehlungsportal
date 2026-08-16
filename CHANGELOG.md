@@ -1,7 +1,25 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.289 Beta** · Was auf dich wartet, steht oben, live seit 16.08.2026.
+Offizielle Live-Version: **v1.290 Beta** · Leads aus den Funnels landen im Portal, live seit 16.08.2026.
+
+## v1.290 Beta - Phase 270 · Leads aus den Funnels landen im Portal
+**2026-08-16**
+
+**Fünf Funnel-Seiten schickten ihre Interessenten bisher nur per Mail und WhatsApp weiter.** Damit existierten diese Menschen in keinem System: kein Partner konnte sie sehen, keine Auswertung sie zählen. Die Entscheidungs-Akte vom 16.08. hat das Portal als Heimat aller Leads festgelegt (North-Star §3). Der erste Funnel hängt jetzt dran.
+
+**Neu: `api/lead-intake.js`.** Nimmt Leads von den Funnel-Seiten an, geschützt über ein gemeinsames Geheimnis im Kopf (`X-Lead-Secret`, bei Vercel als `LEAD_INTAKE_SECRET`). Nur bekannte Quellen werden angenommen; eine unbekannte ist eher ein Tippfehler als ein neuer Funnel. Telefonnummern werden auf eine wählbare Form gebracht, E-Mails geprüft.
+
+**Datenbank:** Die Telefonnummer ist bei einer Empfehlung nicht mehr Pflicht (`empfaenger_telefon` war NOT NULL). Grund: Funnel-Leads hinterlassen oft nur eine E-Mail und wären sonst nirgends erfassbar. Dafür kamen zwei Spalten dazu, `empfaenger_email` und `quelle`. Neue Funktion `create_lead_public` legt den Lead an; sie ist bewusst getrennt von `create_empfehlung_public`, in der die Promoter-Logik steckt, die ein Funnel-Lead nicht hat. Sie weist ab, was keinen Namen oder gar keinen Kontaktweg hat. Sicherung vor der Migration: `empfehlungen_sicherung_2026_08_16`.
+
+**Kein stiller Verlust.** Der Funnel wertet die Antwort aus. Klappt die Aufnahme nicht, trägt die Mail an Kai den Zusatz „[NICHT im Portal]" im Betreff und im Text den Hinweis, den Lead von Hand anzulegen. Ein Lead, der unbemerkt verschwindet, ist teurer als einer, der nur per Mail kommt.
+
+**In der Detailansicht** trägt ein Lead jetzt „Lead" statt „Empfehlung", nennt statt des Promoters die Herkunft (z. B. Altersvorsorgedepot-Check), zeigt die E-Mail-Adresse und bietet „E-Mail schreiben" an. Ohne diese Anzeige läge ein Lead ohne Telefonnummer im Portal, ohne dass man ihn erreichen könnte.
+
+**Noch nicht scharf:** Das Geheimnis muss bei Vercel und in der `config.local.php` auf dem Webspace eingetragen werden. Bis dahin läuft der Funnel wie bisher über die Mail und sagt es im Betreff.
+
+---
+
 
 ## v1.289 Beta - Phase 269 · Was auf dich wartet, steht oben
 **2026-08-16**
