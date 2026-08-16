@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.284 Beta** · Die Geldstufen bekommen ein Gesicht, live seit 16.08.2026.
+Offizielle Live-Version: **v1.285 Beta** · Das Wertfeld der Geldstufen neu gesetzt, live seit 16.08.2026.
+
+## v1.285 Beta - Phase 265 · Das Wertfeld der Geldstufen neu gesetzt
+**2026-08-16**
+
+**Der erste Anlauf für das Wertfeld sah gebastelt aus.** Zahl und Euro-Zeichen standen untereinander, und die beiden goldenen Linien darüber und darunter lasen sich wie Streichungen. Der Versuch, eine Banknote nachzuempfinden, ging daneben.
+
+Jetzt steht der Betrag in einer Zeile, groß und in Gold, darunter in der Serif ein leises „je Stufe". Rundum ein feiner Goldrahmen auf dunklem Grund, sonst nichts. Ruhiger und wertiger als jede Nachahmung.
+
+Geprüft wurde auch ein Foto von Geldscheinen, wie es die Bildkarten daneben haben. Es gibt kein Motiv, das zu 100 € und einer Beratung passt, ohne nach schnellem Geld auszusehen.
+
+---
 
 ## v1.284 Beta - Phase 264 · Die Geldstufen bekommen ein Gesicht
 **2026-08-16**

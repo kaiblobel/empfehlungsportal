@@ -201,7 +201,8 @@ export function geldBlockHtml(reise) {
   return `
     <div class="geldstufen">
       <span class="geldschein" aria-hidden="true">
-        <b>${escapeHtml(zahl)}</b><i>€</i>
+        <b>${escapeHtml(zahl)}<i>€</i></b>
+        <small>je Stufe</small>
       </span>
       <div class="geldstufen-text">
         <strong>${geld.length} Mal ${escapeHtml(wert)} auf dem Weg</strong>
