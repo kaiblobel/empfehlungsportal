@@ -892,3 +892,32 @@ export async function getTeamEmpfehlungen(days = 90, limit = 500) {
     return data || [];
   } catch (err) { console.error('[getTeamEmpfehlungen]', err); return []; }
 }
+
+/* ---------- Funnel-Quellen (Phase 272) ----------
+   Welche Funnel-Seiten es gibt, wie sie heissen und in welchem Ton ihre
+   Marke erscheint, steht in der Tabelle funnel_quellen. Vorher stand das
+   an fuenf Stellen im Code; ein neuer Funnel ist jetzt eine Zeile in der
+   Datenbank, ohne Veroeffentlichen.
+
+   Die Liste aendert sich selten, deshalb wird sie je Seitenaufruf einmal
+   geholt und dann im Speicher gehalten. */
+let _funnelQuellen = null;
+
+export async function getFunnelQuellen() {
+  if (_funnelQuellen) return _funnelQuellen;
+  if (!supabase) return {};
+  try {
+    const { data, error } = await supabase
+      .from('funnel_quellen')
+      .select('quelle, anzeige, ton')
+      .order('sortierung');
+    if (error) throw error;
+    _funnelQuellen = Object.fromEntries((data || []).map(r => [r.quelle, r]));
+    return _funnelQuellen;
+  } catch (err) {
+    console.error('[getFunnelQuellen]', err);
+    // Lieber der technische Name als eine leere Zeile: der Aufrufer faellt
+    // in dem Fall auf r.quelle zurueck.
+    return {};
+  }
+}

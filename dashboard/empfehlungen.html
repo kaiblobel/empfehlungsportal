@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
   <link rel="stylesheet" href="../css/style.css?v=34" />
   <link rel="stylesheet" href="../css/dashboard.css?v=53" />
-  <link rel="stylesheet" href="../css/dna.css?v=8" />
+  <link rel="stylesheet" href="../css/dna.css?v=9" />
   <script src="../js/config.js"></script>
   <script src="../js/wartung.js?v=4"></script>
 </head>
@@ -150,7 +150,7 @@
       requireAuth, logout, loadEmpfehlungen, updateStatus, setInteressiert,
       updateEmpfehlung, formatDate, applyBeraterHeader, whatsappLink,
     } from '../js/dashboard.js';
-    import { deleteEmpfehlung, getVorlagen, markiereGesehen } from '../js/supabase.js';
+    import { deleteEmpfehlung, getVorlagen, markiereGesehen, getFunnelQuellen } from '../js/supabase.js';
     import { hydrateIcons, icon } from '../js/icons.js';
 
     applyBeraterHeader();
@@ -171,15 +171,12 @@
        Menschen, ein Lead über eine Funnel-Seite. Beides ist dieselbe Arbeit,
        deshalb dieselbe Liste — aber man muss auf einen Blick sehen, was man
        vor sich hat. Neue Funnels hier eintragen. */
-    const QUELLEN = {
-      'av-depot-check': 'Altersvorsorgedepot',
-      'depot-check': 'Depot-Krisencheck',
-      'restschuldcheck': 'Restschuld-Check',
-      'vermoegensstrategie-check': 'Vermögensstrategie',
-      'finanzcheck': 'Finanzcheck',
-      'reform2027': 'reform2027',
-    };
-    const quelleLabel = (q) => QUELLEN[q] || q || 'Funnel';
+    /* Namen und Farben der Funnels kommen aus der Tabelle funnel_quellen.
+       Bis sie geladen ist, steht der technische Name da: lieber der als
+       eine leere Zeile. */
+    let QUELLEN = {};
+    const quelleLabel = (q) => (QUELLEN[q] && QUELLEN[q].anzeige) || q || 'Funnel';
+    const quelleTon = (q) => (QUELLEN[q] && QUELLEN[q].ton) || '#5E939E';
     const istLead = (r) => r.typ === 'funnel' || Boolean(r.quelle);
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -251,7 +248,12 @@
     async function refresh() {
       const list = document.getElementById('list');
       list.innerHTML = '<div class="skel-row"><div class="skel-body"><span class="skel skel-line"></span><span class="skel skel-line"></span></div><span class="skel skel-tail"></span></div><div class="skel-row"><div class="skel-body"><span class="skel skel-line"></span><span class="skel skel-line"></span></div><span class="skel skel-tail"></span></div>';
-      allItems = await loadEmpfehlungen({ filter: 'alle', bereich });
+      const [rows, quellen] = await Promise.all([
+        loadEmpfehlungen({ filter: 'alle', bereich }),
+        getFunnelQuellen(),
+      ]);
+      allItems = rows;
+      QUELLEN = quellen;
       render();
     }
 
@@ -295,8 +297,7 @@
       if (!istLead(r)) {
         return `Promoter: ${escapeHtml(r.empfehler_name || 'nicht angegeben')}`;
       }
-      const slug = String(r.quelle || '').replace(/[^a-z0-9-]/gi, '');
-      return `<span class="ep-herkunft" data-quelle="${escapeHtml(slug)}"><i></i>${escapeHtml(quelleLabel(r.quelle))}</span>`;
+      return `<span class="ep-herkunft" style="--marke-ton:${escapeHtml(quelleTon(r.quelle))}"><i></i>${escapeHtml(quelleLabel(r.quelle))}</span>`;
     }
 
     /* Die Herkunfts-Reiter erscheinen erst, wenn wirklich Leads da sind.
