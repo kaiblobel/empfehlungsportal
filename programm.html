@@ -14,7 +14,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
-  <link rel="stylesheet" href="css/praesentation.css?v=4" />
+  <link rel="stylesheet" href="css/praesentation.css?v=5" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="programm">
@@ -247,7 +247,7 @@
         </article>
 
         <article class="alltag-karte alltag-karte-weg" data-bb-optional>
-          <img class="alltag-weg-bild" data-bb="teamfoto" src="/assets/images/praesentation/team-wand.jpg" alt="Teamwork-Wand im Büro">
+          <img class="alltag-weg-bild" data-bb="teamfoto" src="/assets/images/praesentation/team-wand-schriftzug.jpg" alt="Teamwork als Moosschriftzug an der Bürowand">
           <div class="alltag-weg-text">
             <small>Fünf Einstiegswege</small>
             <q>„Empfiehl eine neue berufliche Perspektive.“</q>
@@ -256,15 +256,44 @@
             <button class="alltag-klapp" id="alltagKlapp" type="button" aria-expanded="false" aria-controls="alltagDetails">
               Welche fünf?
             </button>
-            <ul class="alltag-details" id="alltagDetails" hidden>
-              <li>Finanzcoach</li>
-              <li>Finanzspezialist:in</li>
-              <li>Einstieg über die Ausbildung</li>
-              <li>Nebenberuflicher Einstieg</li>
-              <li>Backoffice und Organisation</li>
-            </ul>
           </div>
         </article>
+
+        <!-- Die fünf Wege liegen unter beiden Karten und nehmen die ganze
+             Breite. In der schmalen rechten Spalte wäre für Symbol, Name und
+             Satz kein Platz; so sehen sie aus wie auf der Karriereseite. -->
+        <div class="wege-auf" id="alltagDetails" hidden>
+          <div class="wege-intro">
+            <!-- Das Leerzeichen vor dem Umbruch bleibt stehen, wenn der Umbruch
+                 auf schmalen Schirmen ausgeblendet wird. Ohne es klebten die
+                 beiden Sätze am Handy aneinander. -->
+            <p class="wege-kopf">Ein Team. <br>Fünf Einstiegswege.</p>
+            <p class="wege-fuss">Niemand muss heute wissen, welcher Weg der richtige ist.
+               Ein Gespräch reicht für den Anfang.</p>
+          </div>
+          <ul class="wege-liste">
+            <li>
+              <span class="wege-icon"><img src="/assets/images/wege-icons/finanzcoach.svg" alt="" aria-hidden="true" width="34" height="34"></span>
+              <div><strong>Finanzcoach</strong><small>Quereinstieg mit Begleitung und unternehmerischer Perspektive.</small></div>
+            </li>
+            <li>
+              <span class="wege-icon"><img src="/assets/images/wege-icons/finanzspezialist.svg" alt="" aria-hidden="true" width="34" height="34"></span>
+              <div><strong>Finanzspezialist:in</strong><small>Fachkarriere in Festanstellung mit klarer Spezialisierung.</small></div>
+            </li>
+            <li>
+              <span class="wege-icon"><img src="/assets/images/wege-icons/ausbildung.svg" alt="" aria-hidden="true" width="34" height="34"></span>
+              <div><strong>Ausbildung</strong><small>Anerkannter IHK-Beruf und drei Jahre vollständig begleitet.</small></div>
+            </li>
+            <li>
+              <span class="wege-icon"><img src="/assets/images/wege-icons/nebenberuf.svg" alt="" aria-hidden="true" width="34" height="34"></span>
+              <div><strong>Nebenberuflicher Einstieg</strong><small>Erst ausprobieren, dann bewusst über den nächsten Schritt entscheiden.</small></div>
+            </li>
+            <li>
+              <span class="wege-icon"><img src="/assets/images/wege-icons/backoffice.svg" alt="" aria-hidden="true" width="34" height="34"></span>
+              <div><strong>Backoffice</strong><small>Organisation, Prozesse und Kundenservice zuverlässig steuern.</small></div>
+            </li>
+          </ul>
+        </div>
       </div>
 
       <p class="alltag-merksatz">

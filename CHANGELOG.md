@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.275 Beta** · Der Überblick zeigt die echten DVAG-Darstellungen, live seit 16.08.2026.
+Offizielle Live-Version: **v1.276 Beta** · Die zwei Karten und die fünf Wege, live seit 16.08.2026.
+
+## v1.276 Beta - Phase 256 · Die zwei Karten und die fünf Wege
+**2026-08-16**
+
+**Die dunkle Karte „Empfiehl meine Beratung." war eine reine schwarze Fläche.** Neben der hellen Karte mit Foto wirkte sie leer. Jetzt liegt ein Bild unter dem Verlauf, dazu eine goldene Kante oben und der Link am unteren Rand, damit beide Karten gleich hoch stehen.
+
+**Der Moosschriftzug an der Bürowand war oben angeschnitten.** Das Bild stand auf einer festen Höhe von 132 Pixeln, und der Ausschnitt schnitt „TEAMWORK" mitten durch. Es gibt jetzt einen eigenen Zuschnitt auf den Schriftzug, und das Bild behält sein Seitenverhältnis statt auf eine Höhe gezwungen zu werden.
+
+**Die fünf Einstiegswege sehen aus wie auf der Karriereseite.** Statt einer nackten Aufzählung stehen dort dieselben Symbole, Namen und Sätze wie unter „Ein Team. Fünf Einstiegswege." Der Bereich klappt unter beiden Karten über die ganze Breite auf; in der schmalen rechten Spalte wäre für Symbol, Name und Satz kein Platz gewesen.
+
+**Dabei ein Fehler gefunden:** Auf der dunklen Themenkachel „Ganz allgemein" war der Titel unsichtbar. Nicht weil die Farbe fehlte, sondern weil die allgemeine Regel im Stylesheet hinter der Sonderregel stand. Beide sind gleich spezifisch, also gewann die spätere und setzte den Titel wieder auf Ink, mitten auf die Ink-Fläche. Die Regeln stehen jetzt in der richtigen Reihenfolge, ein Test hält sie dort.
+
+---
 
 ## v1.275 Beta - Phase 255 · Der Überblick zeigt die echten DVAG-Darstellungen
 **2026-08-16 · live veröffentlicht**

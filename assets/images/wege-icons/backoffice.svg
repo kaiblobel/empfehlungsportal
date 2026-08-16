@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Organisation für das Backoffice">
+  <rect x="14" y="12" width="36" height="43" rx="7" fill="#FFFFFF" stroke="#13191D" stroke-width="2.4"/>
+  <path d="M25 12v-2.5A3.5 3.5 0 0 1 28.5 6h7A3.5 3.5 0 0 1 39 9.5V12" fill="#FFFFFF" stroke="#13191D" stroke-width="2.4"/>
+  <path d="m22 29 3 3 5-6M22 42l3 3 5-6" fill="none" stroke="#c8aa22" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M35 29h8M35 42h8" stroke="#13191D" stroke-width="2.4" stroke-linecap="round"/>
+</svg>

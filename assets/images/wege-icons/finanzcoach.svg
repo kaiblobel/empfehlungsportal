@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Kompass für den Finanzcoach">
+  <circle cx="32" cy="32" r="23" fill="#FFFFFF" stroke="#13191D" stroke-width="2.4"/>
+  <path d="M39.5 24.5 35 35l-10.5 4.5L29 29z" fill="#c8aa22" stroke="#13191D" stroke-width="2.2" stroke-linejoin="round"/>
+  <circle cx="32" cy="32" r="2.7" fill="#13191D"/>
+  <path d="M32 13v4M32 47v4M13 32h4M47 32h4" stroke="#13191D" stroke-width="2.2" stroke-linecap="round"/>
+</svg>

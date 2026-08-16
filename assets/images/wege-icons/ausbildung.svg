@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Abschluss für die Ausbildung">
+  <path d="m8 25 24-12 24 12-24 12z" fill="#FFFFFF" stroke="#13191D" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M18 31v12c8 7 20 7 28 0V31" fill="none" stroke="#13191D" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M56 25v17" stroke="#c8aa22" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="56" cy="45" r="3.2" fill="#c8aa22"/>
+</svg>

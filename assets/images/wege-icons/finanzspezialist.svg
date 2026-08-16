@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Analyse für die Finanzspezialisierung">
+  <rect x="10" y="11" width="44" height="42" rx="10" fill="#FFFFFF" stroke="#13191D" stroke-width="2.4"/>
+  <path d="M20 42V33M30 42V27M40 42V21" stroke="#13191D" stroke-width="3" stroke-linecap="round"/>
+  <path d="m18 26 10-7 9 4 9-8" stroke="#c8aa22" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m41 15 5-.5-.5 5" fill="none" stroke="#c8aa22" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

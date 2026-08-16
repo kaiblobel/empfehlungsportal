@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Zeit und Entwicklung für den nebenberuflichen Einstieg">
+  <circle cx="29" cy="34" r="20" fill="#FFFFFF" stroke="#13191D" stroke-width="2.4"/>
+  <path d="M29 22v13l8 5" fill="none" stroke="#13191D" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M40 18h12v12" fill="none" stroke="#c8aa22" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m52 18-13 13" stroke="#c8aa22" stroke-width="3" stroke-linecap="round"/>
+</svg>
