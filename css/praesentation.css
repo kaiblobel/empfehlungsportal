@@ -1580,11 +1580,17 @@ h1, h2, h3{letter-spacing:-0.021em;}
 .reise-karte-copy p{margin:8px 0 0; font-size:13.5px; color:var(--muted);}
 .reise-finale .reise-karte{border-color:var(--gold);}
 
-/* Die Meilensteine stehen nebeneinander, sobald Platz ist */
+/* Die Meilensteine stehen nebeneinander, sobald Platz ist.
+   Feste Spaltenzahl statt auto-fit: Bei sechs Karten legte auto-fit je nach
+   Fensterbreite fünf in die erste Reihe und ließ die sechste allein darunter
+   stehen. Drei oder sechs Spalten gehen bei sechs Meilensteinen immer auf. */
 @media (min-width:760px){
-  .reise{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; align-items:start;}
+  .reise{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; align-items:start;}
   .reise-geld{grid-column:1 / -1; margin:0;}
   .reise-meilenstein{margin:0;}
+}
+@media (min-width:1180px){
+  .reise{grid-template-columns:repeat(6,minmax(0,1fr));}
 }
 
 .reise-finish{

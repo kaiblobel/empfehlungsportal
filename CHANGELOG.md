@@ -1,7 +1,14 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.280 Beta** · Ein Auto deiner Wahl bei 20 Empfehlungen, live seit 16.08.2026.
+Offizielle Live-Version: **v1.281 Beta** · Sechs Meilensteine ohne Waise in der zweiten Reihe, live seit 16.08.2026.
+
+## v1.281 Beta - Phase 261 · Sechs Meilensteine ohne Waise in der zweiten Reihe
+**2026-08-16**
+
+**Mit dem sechsten Meilenstein ging das Raster nicht mehr auf.** Es stand auf `auto-fit` mit einer Mindestbreite von 200 Pixeln; je nach Fensterbreite landeten fünf Karten in der ersten Reihe und die sechste stand allein darunter. Jetzt sind es feste Spalten: drei ab 760 Pixel, sechs ab 1180. Bei sechs Meilensteinen geht beides glatt auf.
+
+---
 
 ## v1.280 Beta - Phase 260 · Ein Auto deiner Wahl bei 20 Empfehlungen
 **2026-08-16**
