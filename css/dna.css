@@ -254,3 +254,98 @@ td[data-zahl],
    beiden könnte weg, das ist eine inhaltliche Entscheidung.
    ============================================================ */
 .h-funnel-bar{ background: var(--stufe-ton, var(--dna-petrol)); }
+
+/* ============================================================
+   Herkunft eines Kontakts (Phase 271). Empfehlungen und Leads
+   aus den Funnel-Seiten stehen in derselben Liste, weil es
+   dieselbe Arbeit ist. Man muss aber auf einen Blick sehen,
+   was man vor sich hat.
+   ============================================================ */
+.ep-herkunft{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--dna-petrol-tint);
+  color: var(--dna-petrol);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.ep-herkunft i{
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  flex: 0 0 auto;
+  background: currentColor;
+  font-style: normal;
+}
+/* Je Funnel ein eigener Ton aus derselben Familie: unterscheidbar,
+   ohne dass die Liste bunt wird. */
+.ep-herkunft[data-quelle="depot-check"]{ color: var(--dna-petrol-light); }
+.ep-herkunft[data-quelle="restschuldcheck"]{ color: var(--dna-petrol-mid); }
+.ep-herkunft[data-quelle="vermoegensstrategie-check"]{ color: var(--dna-gold-dark); background: var(--dna-gold-tint); }
+.ep-herkunft[data-quelle="finanzcheck"]{ color: var(--ink); background: var(--surface-2); }
+.ep-herkunft[data-quelle="reform2027"]{ color: var(--ink); background: var(--surface-2); }
+
+/* Woher die Leads kommen, als Aufstellung auf dem Überblick. */
+.h-herkunft{
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-card);
+  padding: 16px 18px;
+}
+.h-herkunft-row{
+  display: grid;
+  grid-template-columns: 158px minmax(0, 1fr) 44px;
+  gap: 14px;
+  align-items: center;
+  padding: 7px 0;
+}
+.h-herkunft-name{ font-size: 13.5px; color: var(--ink-muted); }
+.h-herkunft-bar{
+  height: 8px;
+  border-radius: 3px;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.h-herkunft-bar i{ display: block; height: 100%; }
+.h-herkunft-wert{
+  text-align: right;
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 560px){
+  .h-herkunft-row{ grid-template-columns: 116px minmax(0, 1fr) 38px; gap: 10px; }
+  .h-herkunft-name{ font-size: 12.5px; }
+}
+
+/* Die Auswahl des einzelnen Funnels. Sitzt eine Ebene unter den
+   Reitern und tritt entsprechend zurück. */
+.ep-quellen{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.ep-quelle{
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: var(--radius-button);
+  border: 1px solid var(--hairline);
+  background: var(--surface-2);
+  color: var(--ink-muted);
+  cursor: pointer;
+}
+.ep-quelle:hover{ color: var(--ink); }
+.ep-quelle.active{
+  background: var(--surface);
+  border-color: var(--dna-petrol);
+  color: var(--dna-petrol);
+}
+.ep-quelle:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; }

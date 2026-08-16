@@ -37,7 +37,7 @@ let currentRange = parseInt(sessionStorage.getItem(RANGE_KEY) || '30', 10);
   hydrateIcons();
   initFilterChips();
 
-  const [kpiRows, kpiSubs, heroStats, hotLeads, timelineEvents, funnel, topPromoters, trendRows] = await Promise.all([
+  const [kpiRows, kpiSubs, heroStats, hotLeads, timelineEvents, funnel, topPromoters, trendRows, herkunftRows] = await Promise.all([
     loadKPIs(),
     loadKPISubStats(),
     loadHeroStats(),
@@ -46,6 +46,7 @@ let currentRange = parseInt(sessionStorage.getItem(RANGE_KEY) || '30', 10);
     loadFunnel(),
     loadTopPromoters(),
     loadTrend(currentRange),
+    loadHerkunft(currentRange),
   ]);
 
   renderKPIs(kpiRows, kpiSubs);
@@ -56,6 +57,7 @@ let currentRange = parseInt(sessionStorage.getItem(RANGE_KEY) || '30', 10);
   renderTopPromoters(topPromoters);
   renderTimeline(timelineEvents);
   renderTrendChart(trendRows);
+  renderHerkunft(herkunftRows);
 
   // Realtime Hot-Lead-Watcher (Phase 18)
   watchHotLeads({
@@ -613,6 +615,77 @@ async function loadTrend(daysBack) {
   } catch { return []; }
 }
 
+/* ---------- Woher die Leads kommen (Phase 271) ----------
+   Beantwortet die Frage, die sich heute gar nicht stellen laesst:
+   welcher Funnel bringt etwas. Zaehlt nur, was wirklich erfasst ist,
+   Testdatensaetze bleiben draussen. */
+const QUELLEN_NAMEN = {
+  'av-depot-check': 'Altersvorsorgedepot',
+  'depot-check': 'Depot-Krisencheck',
+  'restschuldcheck': 'Restschuld-Check',
+  'vermoegensstrategie-check': 'Vermögensstrategie',
+  'finanzcheck': 'Finanzcheck',
+  'reform2027': 'reform2027',
+};
+const QUELLEN_TOENE = {
+  empfehlung: '#9CC0C7',
+  'av-depot-check': '#0B4650',
+  'depot-check': '#5E939E',
+  'restschuldcheck': '#2E6E7A',
+  'vermoegensstrategie-check': '#8F7809',
+  'finanzcheck': '#13191D',
+  'reform2027': '#13191D',
+};
+
+async function loadHerkunft(tageZurueck) {
+  try {
+    const seit = new Date();
+    seit.setDate(seit.getDate() - tageZurueck);
+    const { data, error } = await supabase
+      .from('empfehlungen')
+      .select('quelle')
+      .eq('ist_test', false)
+      .gte('created_at', seit.toISOString());
+    if (error) return [];
+    return data || [];
+  } catch (e) {
+    console.warn('[loadHerkunft]', e);
+    return [];
+  }
+}
+
+function renderHerkunft(rows) {
+  const abschnitt = document.getElementById('hHerkunftSection');
+  const wrap = document.getElementById('hHerkunft');
+  if (!abschnitt || !wrap) return;
+
+  const leads = (rows || []).filter(r => r.quelle);
+  // Ohne einen einzigen Funnel-Lead sagt die Aufstellung nichts.
+  if (!leads.length) { abschnitt.hidden = true; return; }
+
+  const zaehler = new Map();
+  zaehler.set('empfehlung', (rows || []).length - leads.length);
+  leads.forEach(r => zaehler.set(r.quelle, (zaehler.get(r.quelle) || 0) + 1));
+
+  const zeilen = [...zaehler.entries()]
+    .filter(([, n]) => n > 0)
+    .sort((a, b) => b[1] - a[1]);
+  const max = Math.max(...zeilen.map(([, n]) => n), 1);
+
+  abschnitt.hidden = false;
+  wrap.innerHTML = zeilen.map(([key, n]) => {
+    const name = key === 'empfehlung' ? 'Empfehlungen' : (QUELLEN_NAMEN[key] || key);
+    const ton = QUELLEN_TOENE[key] || '#5E939E';
+    const breite = Math.max(4, Math.round((n / max) * 100));
+    return `
+      <div class="h-herkunft-row">
+        <span class="h-herkunft-name">${escapeHtml(name)}</span>
+        <span class="h-herkunft-bar"><i style="width:${breite}%;background:${ton}"></i></span>
+        <span class="h-herkunft-wert">${n}</span>
+      </div>`;
+  }).join('');
+}
+
 /* ---------- Verlaufslinie je Kennzahl (Phase 269) ----------
    "55 Klicks, plus 52" sagt nicht, ob es gerade anzieht oder abflacht.
    Die Linie zeigt die Richtung, ohne eine einzige Zahl mehr. Sie nutzt
@@ -734,8 +807,12 @@ function initFilterChips() {
       chip.classList.add('active');
       const label = document.getElementById('hChartRangeLabel');
       if (label) label.textContent = `Letzte ${newRange} Tage`;
-      const rows = await loadTrend(newRange);
+      const [rows, herkunft] = await Promise.all([
+        loadTrend(newRange),
+        loadHerkunft(newRange),
+      ]);
       renderTrendChart(rows);
+      renderHerkunft(herkunft);
     });
   });
   // Label initial setzen falls aus Session restored

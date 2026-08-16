@@ -184,6 +184,10 @@ export async function loadEmpfehlungen({ filter = 'alle', search = '', limit = 2
         created_at: r.angelegt_am,
         berater_name: r.berater_name,
         ist_test: r.ist_test === true,
+        // Ohne diese beiden zeigte die Team-Ansicht bei jedem Funnel-Lead
+        // "Promoter: nicht angegeben" statt der Herkunft (Phase 271).
+        typ: r.typ,
+        quelle: r.quelle,
         fremd: true,
       }))
       .filter((r) => (filter === 'alle' || r.status === filter)

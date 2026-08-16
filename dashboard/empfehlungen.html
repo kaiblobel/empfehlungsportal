@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
   <link rel="stylesheet" href="../css/style.css?v=34" />
   <link rel="stylesheet" href="../css/dashboard.css?v=53" />
-  <link rel="stylesheet" href="../css/dna.css?v=6" />
+  <link rel="stylesheet" href="../css/dna.css?v=8" />
   <script src="../js/config.js"></script>
   <script src="../js/wartung.js?v=4"></script>
 </head>
@@ -53,6 +53,16 @@
           <button class="filter-tab active" type="button" data-scope="mein">Meine</button>
           <button class="filter-tab" type="button" data-scope="team">Mein Team</button>
         </div>
+
+        <!-- Woher jemand kommt. Erscheint erst, wenn wirklich Leads aus
+             einem Funnel da sind: solange nur Empfehlungen im Bestand
+             sind, waere die Zeile eine Auswahl ohne Auswahl. -->
+        <div class="ep-filters ep-herkunft" id="artTabs" role="group" aria-label="Herkunft" hidden>
+          <button class="filter-tab active" type="button" data-art="alle">Alle</button>
+          <button class="filter-tab" type="button" data-art="empfehlung">Empfehlungen</button>
+          <button class="filter-tab" type="button" data-art="funnel">Funnels</button>
+        </div>
+        <div class="ep-quellen" id="quellenTabs" role="group" aria-label="Welcher Funnel" hidden></div>
       </section>
 
       <section id="prioritySection" hidden>
@@ -157,12 +167,29 @@
       selbstaendige: 'Selbständige', investment: 'Geldanlage & Investment',
       absicherung: 'Absicherung & Familie', karriere: 'Berufliche Perspektive', kinder: 'Für deine Kinder',
     };
+    /* Woher ein Kontakt kommt (Phase 271). Eine Empfehlung kommt über einen
+       Menschen, ein Lead über eine Funnel-Seite. Beides ist dieselbe Arbeit,
+       deshalb dieselbe Liste — aber man muss auf einen Blick sehen, was man
+       vor sich hat. Neue Funnels hier eintragen. */
+    const QUELLEN = {
+      'av-depot-check': 'Altersvorsorgedepot',
+      'depot-check': 'Depot-Krisencheck',
+      'restschuldcheck': 'Restschuld-Check',
+      'vermoegensstrategie-check': 'Vermögensstrategie',
+      'finanzcheck': 'Finanzcheck',
+      'reform2027': 'reform2027',
+    };
+    const quelleLabel = (q) => QUELLEN[q] || q || 'Funnel';
+    const istLead = (r) => r.typ === 'funnel' || Boolean(r.quelle);
+
     const urlParams = new URLSearchParams(window.location.search);
     const allowed = new Set(FILTERS.map(([key]) => key));
     const initParam = urlParams.get('status');
     let currentFilter = initParam && allowed.has(initParam) ? initParam : 'alle';
     let currentSearch = '';
     let allItems = [];
+    let currentArt = 'alle';      // alle · empfehlung · funnel
+    let currentQuelle = 'alle';   // welcher Funnel, wenn currentArt = funnel
 
     /* Phase 199 · Umschalter "Meine" / "Mein Team". Erscheint nur bei
        Führungskräften, also wenn wirklich jemand unter einem hängt. */
@@ -230,6 +257,7 @@
 
     function render() {
       renderFilters();
+      renderHerkunft();
       renderPriorities();
       const visibleItems = allItems.filter(matchesCurrentView);
       const list = document.getElementById('list');
@@ -248,7 +276,7 @@
             <span class="ep-initial">${initials(r.empfaenger_name)}</span>
             <span><strong>${escapeHtml(r.empfaenger_name || 'Unbekannter Kontakt')}</strong>${r.ist_test ? ' <span class="badge badge-test">Test</span>' : ''}<small>${formatDate(r.created_at)}${r.berater_name ? ` · ${escapeHtml(r.berater_name)}` : ''}</small></span>
           </div>
-          <div class="ep-topic">${escapeHtml(topicLabel(r))}<small>Promoter: ${escapeHtml(r.empfehler_name || 'nicht angegeben')}</small></div>
+          <div class="ep-topic">${escapeHtml(topicLabel(r))}<small>${herkunftHtml(r)}</small></div>
           ${statusPill(r)}
           ${r.fremd
             ? '<span class="ep-opened off"><i></i>fremder Bestand</span>'
@@ -259,6 +287,60 @@
           : `<a class="ep-row feed-row" href="detail.html?id=${encodeURIComponent(r.id)}" data-id="${escapeHtml(r.id)}" data-status="${escapeHtml(r.status || 'offen')}">${inhalt}</a>`;
       }).join('') + '</div>';
     }
+
+    /* Die Herkunft steht in derselben Zeile wie das Thema. Bei einer
+       Empfehlung ist das der Promoter, bei einem Lead die Funnel-Seite,
+       farbig abgesetzt: so sieht man es beim Ueberfliegen. */
+    function herkunftHtml(r) {
+      if (!istLead(r)) {
+        return `Promoter: ${escapeHtml(r.empfehler_name || 'nicht angegeben')}`;
+      }
+      const slug = String(r.quelle || '').replace(/[^a-z0-9-]/gi, '');
+      return `<span class="ep-herkunft" data-quelle="${escapeHtml(slug)}"><i></i>${escapeHtml(quelleLabel(r.quelle))}</span>`;
+    }
+
+    /* Die Herkunfts-Reiter erscheinen erst, wenn wirklich Leads da sind.
+       Und die Liste der Funnels baut sich aus dem auf, was im Bestand
+       steht: kein Reiter fuer einen Funnel, der nichts geliefert hat. */
+    function renderHerkunft() {
+      const leads = allItems.filter(istLead);
+      const artTabs = document.getElementById('artTabs');
+      const quellenTabs = document.getElementById('quellenTabs');
+      artTabs.hidden = leads.length === 0;
+      if (leads.length === 0) {
+        quellenTabs.hidden = true;
+        return;
+      }
+      artTabs.querySelectorAll('.filter-tab').forEach((b) => {
+        b.classList.toggle('active', b.dataset.art === currentArt);
+      });
+
+      const zeigen = currentArt === 'funnel';
+      quellenTabs.hidden = !zeigen;
+      if (!zeigen) return;
+
+      const vorhanden = [...new Set(leads.map(r => r.quelle).filter(Boolean))].sort();
+      quellenTabs.innerHTML = [['alle', `alle Funnels (${leads.length})`]]
+        .concat(vorhanden.map(q => [q, `${quelleLabel(q)} (${leads.filter(r => r.quelle === q).length})`]))
+        .map(([key, label]) => `
+          <button class="ep-quelle${key === currentQuelle ? ' active' : ''}" type="button" data-quelle="${escapeHtml(key)}">${escapeHtml(label)}</button>`)
+        .join('');
+    }
+
+    document.getElementById('artTabs').addEventListener('click', (e) => {
+      const btn = e.target.closest('.filter-tab');
+      if (!btn) return;
+      currentArt = btn.dataset.art;
+      if (currentArt !== 'funnel') currentQuelle = 'alle';
+      render();
+    });
+
+    document.getElementById('quellenTabs').addEventListener('click', (e) => {
+      const btn = e.target.closest('.ep-quelle');
+      if (!btn) return;
+      currentQuelle = btn.dataset.quelle;
+      render();
+    });
 
     function renderFilters() {
       const counts = Object.fromEntries(FILTERS.map(([key]) => [key, key === 'alle' ? allItems.length : allItems.filter(r => effectiveStatus(r) === key).length]));
@@ -296,8 +378,15 @@
 
     function matchesCurrentView(r) {
       if (currentFilter !== 'alle' && effectiveStatus(r) !== currentFilter) return false;
+      if (currentArt === 'empfehlung' && istLead(r)) return false;
+      if (currentArt === 'funnel') {
+        if (!istLead(r)) return false;
+        if (currentQuelle !== 'alle' && r.quelle !== currentQuelle) return false;
+      }
       if (!currentSearch) return true;
-      return [r.empfaenger_name, r.empfaenger_telefon, r.empfehler_name, topicLabel(r)]
+      // Die Herkunft ist mitdurchsuchbar: "restschuld" findet die Leads von dort.
+      return [r.empfaenger_name, r.empfaenger_telefon, r.empfaenger_email,
+              r.empfehler_name, topicLabel(r), quelleLabel(r.quelle)]
         .some(value => String(value || '').toLowerCase().includes(currentSearch));
     }
 

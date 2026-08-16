@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="css/style.css?v=34" />
   <link rel="stylesheet" href="css/dashboard.css?v=53" />
   <link rel="stylesheet" href="css/hub.css?v=59" />
-  <link rel="stylesheet" href="css/dna.css?v=6" />
+  <link rel="stylesheet" href="css/dna.css?v=8" />
   <script src="js/config.js"></script>
   <script src="js/wartung.js?v=4"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js" defer></script>
@@ -159,6 +159,16 @@
       </div>
     </section>
 
+    <!-- Woher die Leads kommen (Phase 271). Erscheint erst, wenn wirklich
+         etwas aus einem Funnel gekommen ist: solange nur Empfehlungen im
+         Bestand sind, waere eine Aufstellung mit einer einzigen Zeile
+         Platzverschwendung. -->
+    <section id="hHerkunftSection" hidden>
+      <div class="h-label">Woher deine Leads kommen</div>
+      <p class="h-section-sub">Empfehlungen und Funnel-Seiten im gewählten Zeitraum.</p>
+      <div class="h-herkunft" id="hHerkunft" style="margin-top:10px;"></div>
+    </section>
+
     <!-- Conversion-Treppe -->
     <section>
       <div class="h-label">Vom Klick zum Kunden</div>
@@ -211,6 +221,6 @@
   <div class="h-toast" id="hToast"></div>
 
   <script type="module" src="js/nav.js?v=62"></script>
-  <script type="module" src="js/hub.js?v=52"></script>
+  <script type="module" src="js/hub.js?v=53"></script>
 </body>
 </html>
