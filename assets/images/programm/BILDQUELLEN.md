@@ -15,25 +15,24 @@ Das Motiv zeigt eine allgemein gehaltene mallorquinische Bucht. Es steht nicht f
 
 - Zweck: Bildmeilenstein Stufe 20, „Ein Auto deiner Wahl"
 - Stand: 16.08.2026
-- Herkunft: **Bildschirmaufnahme einer Autohaus-Website**, von Kai bereitgestellt.
-  Das Motiv ist ein Werbebild zum VW ID.7 Tourer Pro.
+- Herkunft: Motiv des Autohauses **MAHAG, München** — dort bezieht Kai das
+  Fahrzeug, das hinter dieser Stufe steht. Als Bildschirmaufnahme der
+  Händlerseite übernommen.
 - Format: JPEG, 1.206 mal 804 Pixel
 - SHA-256: `42D942876210981F609509ADA9E374A77720BF916781AE390C1E063F8FC33DB6`
 - Nutzung: lokal ausliefern, nicht durch einen externen Hotlink ersetzen
 
 Zugeschnitten auf das Fahrzeug: Werbezeile, Schaltfläche und die Marken-Kacheln
-der fremden Seite sind draußen. Das Seitenverhältnis liegt bei 1,5 und damit
+der Händlerseite sind draußen. Das Seitenverhältnis liegt bei 1,5 und damit
 zwischen den beiden Kartenbreiten der Reise (183 und 280 Pixel bei 150 Pixel
 Höhe), damit in beiden Fällen ein erkennbarer Teil des Fahrzeugs stehen bleibt
 und nicht nur ein Streifen Lack.
 
-**Offener Punkt, bewusst so entschieden:** Die Rechte an diesem Bild liegen bei
-Volkswagen beziehungsweise dem Autohaus. Eine Nutzung auf einer öffentlich
-erreichbaren Seite der Regionaldirektion ist davon nicht gedeckt; anders als
-beim vorherigen Unsplash-Motiv gibt es hier keine Lizenz, die das erlaubt. Kai
-hat das Bild ausdrücklich gewünscht und kennt den Punkt. Wer hier später
-aufräumt: Ein lizenzfreies Motiv oder eine eigene Aufnahme wäre der saubere
-Ersatz.
+**Zur Einordnung:** Das Motiv gehört dem Händler beziehungsweise dem Hersteller.
+Die Verwendung ist betrieblich begründet, weil das Fahrzeug der Stufe von dort
+kommt; eine schriftliche Freigabe von MAHAG liegt nicht vor. Falls das Motiv
+einmal ersetzt werden soll, ist eine eigene Aufnahme des Fahrzeugs der sauberste
+Weg.
 
 ### Vorher an dieser Stelle
 

@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.283 Beta** · Autofoto ausgetauscht, live seit 16.08.2026.
+Offizielle Live-Version: **v1.284 Beta** · Die Geldstufen bekommen ein Gesicht, live seit 16.08.2026.
+
+## v1.284 Beta - Phase 264 · Die Geldstufen bekommen ein Gesicht
+**2026-08-16**
+
+**Die 100-€-Stufen standen als grauer Satz zwischen den Bildkarten.** Vierzehn Stufen und zusammen 1.400 €, aber neben sechs Fotos ging die Zeile unter. Jetzt haben sie eine eigene Fläche: links der Betrag als Kachel im Format eines Scheins, rechts die Aussage und darunter die Stufennummern als Kette. So sieht man auf einen Blick, wie dicht die Geldstufen auf dem Weg liegen.
+
+Bewusst eine eigene Gestaltung und keine Abbildung einer echten Banknote: Dafür gelten eigene Reproduktionsregeln, und ein Foto vom Geldschein hätte neben den ruhigen Karten billig gewirkt. Die Doppellinie oben und unten zitiert die Anmutung, ohne etwas nachzumachen.
+
+**Zum Autobild:** Das Motiv kommt vom Autohaus MAHAG in München, wo das Fahrzeug der Stufe herkommt. Das steht jetzt richtig in den Bildquellen; vorher war dort nur „Bildschirmaufnahme einer Autohaus-Website" vermerkt.
+
+---
 
 ## v1.283 Beta - Phase 263 · Autofoto ausgetauscht
 **2026-08-16 · live veröffentlicht**

@@ -1,7 +1,7 @@
 import { getBelohnungsStufenPublic, getVorlagenPublic, getBeraterPublicBySlug, supabase } from './supabase.js';
 import { icon as lucideIcon, ICONS } from './icons.js';
 import { applyBeraterBrand, merkeBerater, gemerkterBerater } from './berater-brand.js';
-import { baueReise, meilensteinHtml, geldSummary } from './belohnungs-reise.js';
+import { baueReise, meilensteinHtml, geldBlockHtml } from './belohnungs-reise.js';
 
 // Multi-Tenant: Berater-Einstieg via ?berater=slug (z. B. ?berater=sven-augustin).
 // Wird unten zum Branding und für den persönlichen QR-Einstieg genutzt.
@@ -717,7 +717,7 @@ function reicheBeraterAnFolgeseitenWeiter(b) {
   wrap.innerHTML = meilensteine.map((st) => meilensteinHtml(st, st === finale)).join('');
 
   const summaryEl = document.getElementById('t-ReiseGeldSummary');
-  if (summaryEl) summaryEl.textContent = geldSummary(reise);
+  if (summaryEl) summaryEl.innerHTML = geldBlockHtml(reise);
 
   // Gesamtwert aus den echten Stufen — keine feste Zahl im HTML mehr.
   const counterEl = document.querySelector('.rewards-total-counter');

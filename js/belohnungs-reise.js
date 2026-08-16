@@ -178,3 +178,36 @@ export function geldSummary(reise) {
   const wert = geld[0].daten.wert_label ? ` à ${geld[0].daten.wert_label}` : '';
   return `Dazu ${geld.length} Geldstufen${wert} auf dem Weg dorthin — Stufe ${stufen}.`;
 }
+
+/**
+ * Dieselbe Aussage, aber sichtbar statt als Fließtext.
+ *
+ * Zwischen den Bildkarten stand ein grauer Satz, der neben sechs Fotos
+ * unterging — dabei sind es vierzehn Stufen und 1.400 €. Der Betrag steht
+ * jetzt in einer eigenen Fläche, die Stufennummern daneben als Kette. So
+ * sieht man auf einen Blick, wie dicht die Geldstufen auf dem Weg liegen.
+ *
+ * Bewusst eine eigene Gestaltung und keine Abbildung einer echten Banknote:
+ * Für die gelten eigene Reproduktionsregeln, und ein Foto vom Geldschein
+ * würde neben den ruhigen Karten billig wirken.
+ */
+export function geldBlockHtml(reise) {
+  const geld = (reise?.stationen || []).filter(s => s.art === 'geld');
+  if (!geld.length) return '';
+  const wert = geld[0].daten.wert_label || '';
+  const zahl = wert.replace(/\s*€\s*$/, '').trim();
+  const summe = geld.reduce((s, st) => s + wertAusLabel(st.daten.wert_label), 0);
+  const nummern = geld.map(s => `<li>${s.stufe}</li>`).join('');
+  return `
+    <div class="geldstufen">
+      <span class="geldschein" aria-hidden="true">
+        <b>${escapeHtml(zahl)}</b><i>€</i>
+      </span>
+      <div class="geldstufen-text">
+        <strong>${geld.length} Mal ${escapeHtml(wert)} auf dem Weg</strong>
+        <p>Jede Stufe ohne Bildkarte bringt dasselbe: als Wunschgutschein, per
+           Auszahlung oder als Spende. Zusammen ${summe.toLocaleString('de-DE')} €.</p>
+        <ul class="geldstufen-nummern" aria-label="Stufen mit Geld-Bonus">${nummern}</ul>
+      </div>
+    </div>`;
+}

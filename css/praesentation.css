@@ -1547,12 +1547,59 @@ h1, h2, h3{letter-spacing:-0.021em;}
 .reise-geld-card > b{font-size:15px; color:var(--muted);}
 
 /* Im Präsentationsmodus fasst ein Satz die Geldstufen zusammen */
-.reise-geld-summary{
-  margin:0 0 26px; padding:14px 0;
-  border-top:1px solid var(--line); border-bottom:1px solid var(--line);
-  font-size:14.5px; color:var(--muted);
-}
+.reise-geld-summary{margin:0 0 26px;}
 .reise-geld-summary:empty{display:none;}
+
+/* Die Geldstufen standen als grauer Satz zwischen den Bildkarten und gingen
+   dort unter. Jetzt bekommen sie eine eigene Fläche: links der Betrag, rechts
+   die Stufen, auf denen er fällig wird. */
+.geldstufen{
+  display:grid; grid-template-columns:auto minmax(0,1fr); gap:22px; align-items:center;
+  padding:18px 20px;
+  border:1px solid var(--line); border-radius:var(--r);
+  background:var(--card);
+}
+/* Eine eigene Fläche im Format eines Scheins, keine Abbildung einer echten
+   Banknote: dafür gelten eigene Reproduktionsregeln. Die Doppellinie oben und
+   unten zitiert die Anmutung, ohne etwas nachzumachen. */
+.geldschein{
+  position:relative; display:grid; place-items:center;
+  width:132px; height:66px; border-radius:8px;
+  background:var(--ink); color:var(--gold);
+  box-shadow:0 6px 18px rgba(19,25,29,.16);
+}
+.geldschein::before, .geldschein::after{
+  content:''; position:absolute; left:8px; right:8px; height:1px;
+  background:rgba(200,170,34,.45);
+}
+.geldschein::before{top:7px;}
+.geldschein::after{bottom:7px;}
+.geldschein b{
+  font-family:var(--head); font-weight:600; font-size:30px; line-height:1;
+  letter-spacing:-0.02em;
+}
+.geldschein i{
+  font-style:normal; font-family:var(--head); font-weight:600;
+  font-size:17px; margin-left:3px;
+}
+.geldstufen-text strong{
+  display:block; margin-bottom:4px;
+  font-family:var(--head); font-weight:600; font-size:17px; color:var(--ink);
+}
+.geldstufen-text p{margin:0; max-width:46em; font-size:14px; line-height:1.55; color:var(--muted);}
+.geldstufen-nummern{
+  display:flex; flex-wrap:wrap; gap:6px;
+  margin:12px 0 0; padding:0; list-style:none;
+}
+.geldstufen-nummern li{
+  min-width:26px; padding:4px 7px;
+  border:1px solid var(--line-soft); border-radius:7px;
+  background:var(--paper);
+  font:600 12px/1 var(--sans); color:var(--muted); text-align:center;
+}
+@media (max-width:600px){
+  .geldstufen{grid-template-columns:1fr; gap:14px; justify-items:start;}
+}
 
 /* Meilensteine: die fünf bekommen Platz */
 .reise-meilenstein{margin:0 0 16px;}
