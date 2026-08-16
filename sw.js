@@ -13,7 +13,7 @@
  * trägt — die darf nie veraltet sein.
  */
 
-const CACHE_VERSION = 'v251-2026-08-16-phase271';
+const CACHE_VERSION = 'v252-2026-08-16-phase272';
 const SHELL_CACHE = `shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `assets-${CACHE_VERSION}`;
 
