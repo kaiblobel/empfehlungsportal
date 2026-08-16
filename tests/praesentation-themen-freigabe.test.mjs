@@ -22,11 +22,32 @@ assert.match(js, /typ: 'rechner'/);
 assert.match(js, /typ: 'vorschau'/);
 assert.match(js, /typ: 'impuls'/);
 
-// --- Der Rechner hängt an „Ganz allgemein" und „Staatliche Förderungen" ---
+// --- Der Rechner hängt direkt an „Staatliche Förderungen" und ist aus dem
+// Überblick unter „Ganz allgemein" heraus erreichbar. Nur über diese beiden
+// Wege erscheint die Eurosumme; wer über Baufinanzierung oder KIDZ empfiehlt,
+// bekommt sie nie zu sehen. ---
 const stark = js.match(/const THEMEN_STARK = \[([\s\S]*?)\n  \];/)[1];
-const rechnerThemen = [...stark.matchAll(/slug: '([^']+)'[\s\S]{0,120}?typ: 'rechner'/g)].map(m => m[1]);
-assert.deepEqual(rechnerThemen.sort(), ['allgemein', 'foerderungen'],
-  'nur diese beiden zeigen die Eurosumme');
+const rechnerThemen = [...stark.matchAll(/slug: '([^']+)'[\s\S]{0,160}?typ: 'rechner'/g)].map(m => m[1]);
+assert.deepEqual(rechnerThemen.sort(), ['foerderungen']);
+
+// „Ganz allgemein" öffnet den Überblick über alle Themen; von dort führt ein
+// Knopf zum Rechner, ohne dass das Overlay dazwischen schließt.
+assert.match(js, /slug: 'allgemein'[\s\S]{0,140}?typ: 'ueberblick'/);
+assert.match(js, /ueberblickRechner'\)\?\.addEventListener/);
+assert.match(js, /themaAuf\(\{ \.\.\.allgemein, typ: 'rechner'/);
+assert.match(html, /id="themaUeberblick"/);
+assert.equal((html.match(/class="ueberblick-teil[ "]/g) || []).length, 6,
+  'sechs Schritte im Überblick');
+
+// --- Die drei Darstellungen sind die echten aus den DVAG-Unterlagen, keine
+// selbst gezeichneten Ersatzgrafiken. Das SVG, das früher an der Stelle des
+// Zwei-Konten-Modells stand, darf nicht zurückkommen. ---
+['dvag-formel.webp', 'dvag-pyramide.webp', 'dvag-zwei-konten.webp'].forEach((datei) => {
+  assert.match(html, new RegExp(`praesentation/${datei.replace('.', '\\.')}`),
+    `${datei} fehlt im Überblick`);
+});
+const ueberblick = html.match(/id="themaUeberblick"[\s\S]*?\n      <\/div>/)[0];
+assert.doesNotMatch(ueberblick, /<svg/, 'keine eigene Zeichnung mehr im Überblick');
 
 // --- Baufi und Kinder zeigen die fertige Seite, so wie die Person sie bekommt ---
 const vorschauThemen = [...stark.matchAll(/slug: '([^']+)'[\s\S]{0,120}?typ: 'vorschau'/g)].map(m => m[1]);

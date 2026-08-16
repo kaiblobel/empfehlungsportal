@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.273 Beta** · Apple-Produkt deiner Wahl bei 5 und 10 Empfehlungen, live seit 16.08.2026.
+Offizielle Live-Version: **v1.274 Beta** · Der Überblick zeigt die echten DVAG-Darstellungen, live seit 16.08.2026.
+
+## v1.274 Beta - Phase 254 · Der Überblick zeigt die echten DVAG-Darstellungen
+**2026-08-16**
+
+**Hinter der Kachel „Ganz allgemein" stehen jetzt die echten Darstellungen aus der Beratung.** Die Formel zum finanziellen Glück, die Vermögensaufbaupyramide und das Zwei-Konten-Modell, so wie sie im Termin auch auf dem Bildschirm stehen. Vorher war das Zwei-Konten-Modell eine selbst gezeichnete Ersatzgrafik, die zwar sauber aussah, aber nichts mit dem zu tun hatte, was der Kunde später zu sehen bekommt.
+
+Der Überblick hat damit sechs Schritte statt fünf: finanzielles Glück lässt sich planen (mit dem Rechner), die Formel dahinter, die Reihenfolge, die zwei Konten, verstehen statt vertrauen müssen, und was sich 2027 ändert.
+
+Das Zwei-Konten-Modell läuft über die ganze Breite, weil es quer ist und von seinen Beschriftungen lebt. In der schmalen Bildspalte wäre nichts davon zu lesen gewesen. Beide neuen Aufnahmen zeigen den Musterkunden der Software; am Zwei-Konten-Bild steht deshalb dabei, dass die Beträge Beispielwerte sind.
+
+---
 
 ## v1.273 Beta - Phase 253 · Apple-Produkt deiner Wahl bei 5 und 10
 **2026-08-16 · live veröffentlicht**

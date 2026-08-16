@@ -807,7 +807,12 @@ h1, h2, h3{letter-spacing:-0.021em;}
 .thema-kachel-ink .thema-kachel-text{padding-top:26px;}
 .thema-kachel-ink strong{color:#fff;}
 .thema-kachel-ink span{color:#AEB6BB;}
-.thema-kachel-ink .thema-kachel-tun{color:#fff;}
+.thema-kachel-ink .thema-kachel-punkte{
+  display:block; margin-top:10px;
+  font-size:12px; line-height:1.5; color:var(--faint);
+}
+.thema-kachel-ink .thema-kachel-punkte{color:#8C949A;}
+.thema-kachel-tun{color:#fff;}
 .thema-kachel-ink:hover, .thema-kachel-ink:focus-visible{border-color:var(--gold);}
 
 /* Die vier bleiben lange nebeneinander. Erst wenn eine Spalte schmaler als
@@ -878,6 +883,93 @@ h1, h2, h3{letter-spacing:-0.021em;}
    hidden-Attribut überstimmen und der Rechner stünde auch dort, wo er
    nicht hingehört. */
 .thema-rechner{display:grid; grid-template-columns:minmax(0,1fr) 300px; gap:20px; align-items:start;}
+
+/* Überblick hinter „Ganz allgemein": sechs Schritte, je eine Aussage und ein
+   Bild. Die Darstellungen kommen aus den DVAG-Unterlagen, nicht aus einer
+   Bilddatenbank. Herkunft: assets/images/praesentation/DVAG-MATERIAL.md */
+.thema-ueberblick{display:block;}
+.ueberblick-teil{
+  display:grid; grid-template-columns:52px minmax(0,1fr) 260px;
+  gap:24px; align-items:center;
+  padding:26px 0;
+  border-top:1px solid var(--line);
+}
+.ueberblick-teil:last-child{border-bottom:1px solid var(--line);}
+.ueberblick-nr{
+  font-family:var(--serif); font-size:15px; color:var(--faint);
+  align-self:start; padding-top:4px;
+}
+.ueberblick-text h3{
+  margin:0 0 8px;
+  font-family:var(--head); font-weight:600;
+  font-size:clamp(19px,2.2vw,24px); line-height:1.2; color:var(--ink);
+}
+.ueberblick-text p{margin:0; max-width:38em; font-size:15px; line-height:1.6; color:var(--muted);}
+.ueberblick-knopf{
+  margin-top:14px; padding:11px 20px;
+  border:1px solid var(--ink); border-radius:999px;
+  background:transparent; color:var(--ink);
+  font:600 13.5px/1 var(--sans); cursor:pointer;
+  transition:background .14s ease, color .14s ease;
+}
+.ueberblick-knopf:hover{background:var(--ink); color:#fff;}
+.ueberblick-knopf span{color:var(--gold);}
+.ueberblick-quelle{
+  display:inline-block; margin-top:12px;
+  font-size:12.5px; color:var(--muted);
+  border-bottom:1px solid var(--line);
+}
+
+.ueberblick-bild{
+  display:grid; place-items:center;
+  padding:14px;
+  border:1px solid var(--line); border-radius:var(--r);
+  background:var(--card);
+}
+.ueberblick-bild svg{width:100%; height:auto; max-height:180px;}
+.ueberblick-bild img{width:100%; height:auto; max-height:170px; object-fit:contain;}
+/* Der Geldbeutel steht hochkant. Auf 170 px gedeckelt bliebe er so schmal,
+   dass die Prozentzahlen darin nicht mehr zu lesen wären. */
+.ueberblick-bild-hoch img{max-height:250px;}
+/* Das Zwei-Konten-Modell ist quer und lebt von seinen Beschriftungen. In der
+   schmalen Bildspalte wäre nichts davon lesbar, also läuft es unter dem Text
+   über die ganze Breite. */
+.ueberblick-teil-breit{grid-template-columns:52px minmax(0,1fr);}
+.ueberblick-teil-breit .ueberblick-bild{grid-column:2; margin-top:18px; padding:18px;}
+.ueberblick-teil-breit .ueberblick-bild img{max-height:none;}
+.ueberblick-hinweis{
+  margin-top:10px; align-self:end;
+  font-size:11.5px; color:var(--faint);
+}
+.ueberblick-schiene{width:100%;}
+.ueberblick-wisch{display:none;}
+/* Auf dem Handy wäre das Schaubild über die Gerätebreite nur noch gut 130 px
+   hoch, die Beträge darin also nicht mehr zu lesen. Deshalb behält es dort
+   eine Höhe, in der man es lesen kann, und wird seitlich gewischt. Nur das
+   Bild wandert, die Zeile darunter bleibt stehen. */
+@media (max-width:720px){
+  .ueberblick-schiene{
+    overflow-x:auto; -webkit-overflow-scrolling:touch;
+    overscroll-behavior-x:contain;
+  }
+  .ueberblick-schiene img{width:auto; height:230px; max-width:none;}
+  .ueberblick-wisch{display:inline;}
+}
+.ueberblick-bild-zahl, .ueberblick-bild-jahr{background:var(--ink); border-color:var(--ink); text-align:center;}
+.ueberblick-zahl, .ueberblick-jahr{
+  display:block;
+  font-family:var(--head); font-weight:600;
+  font-size:clamp(30px,4vw,44px); line-height:1; color:var(--gold);
+}
+.ueberblick-bild-zahl small, .ueberblick-bild-jahr small{
+  display:block; margin-top:10px;
+  font-size:12px; line-height:1.4; color:#AEB6BB;
+}
+
+@media (max-width:900px){
+  .ueberblick-teil{grid-template-columns:38px minmax(0,1fr); gap:16px;}
+  .ueberblick-bild{grid-column:2; margin-top:16px;}
+}
 
 .thema-vorschau{display:block;}
 .thema-browser{

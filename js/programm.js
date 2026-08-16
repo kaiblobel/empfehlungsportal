@@ -777,6 +777,7 @@ function reicheBeraterAnFolgeseitenWeiter(b) {
   if (!starkWrap || !weitereWrap || !overlay) return;
 
   const bloecke = {
+    ueberblick: document.getElementById('themaUeberblick'),
     rechner: document.getElementById('themaRechner'),
     vorschau: document.getElementById('themaVorschau'),
     impuls: document.getElementById('themaImpuls'),
@@ -788,9 +789,10 @@ function reicheBeraterAnFolgeseitenWeiter(b) {
   // wie ein Baukasten.
   const THEMEN_STARK = [
     {
-      slug: 'allgemein', titel: 'Ganz allgemein', typ: 'rechner', art: 'ink',
+      slug: 'allgemein', titel: 'Ganz allgemein', typ: 'ueberblick', art: 'ink',
       zeile: 'Für alle, die erst einmal wissen wollen, wo sie stehen.',
-      tun: 'Vorteil berechnen',
+      punkte: ['Vorteil', 'Strategie', 'Zwei Konten', 'Kompetenz', 'Reform 2027'],
+      tun: 'Das ganze Bild ansehen',
     },
     {
       slug: 'foerderungen', titel: 'Staatliche Förderungen', typ: 'rechner', art: 'foto',
@@ -847,7 +849,8 @@ function reicheBeraterAnFolgeseitenWeiter(b) {
       thema.untertitel ? `${thema.titel} · ${thema.untertitel}` : thema.titel;
     document.getElementById('themaZeile').textContent = thema.zeile || '';
     document.getElementById('themaKicker').textContent =
-      thema.typ === 'rechner' ? 'Was hätte die empfohlene Person davon?'
+      thema.typ === 'ueberblick' ? 'Worum es überhaupt geht'
+      : thema.typ === 'rechner' ? 'Was hätte die empfohlene Person davon?'
       : thema.typ === 'vorschau' ? 'So kommt deine Empfehlung an'
       : 'Zum Weiterreden';
 
@@ -888,11 +891,17 @@ function reicheBeraterAnFolgeseitenWeiter(b) {
     const titel = thema.untertitel
       ? `<strong>${escapeHtml(thema.titel)}</strong><em>${escapeHtml(thema.untertitel)}</em>`
       : `<strong>${escapeHtml(thema.titel)}</strong>`;
+    // Was hinter der Kachel steckt, steht auf der Kachel. Sonst sieht die
+    // ruhige Fläche nach weniger aus, als sie enthält.
+    const inhalt = thema.punkte
+      ? `<span class="thema-kachel-punkte">${thema.punkte.map(escapeHtml).join(' · ')}</span>`
+      : '';
     k.innerHTML = `
       ${kopf}
       <span class="thema-kachel-text">
         ${titel}
         <span>${escapeHtml(thema.zeile)}</span>
+        ${inhalt}
         <span class="thema-kachel-tun">${escapeHtml(thema.tun)}</span>
       </span>`;
     k.addEventListener('click', () => themaAuf(thema));
@@ -907,6 +916,13 @@ function reicheBeraterAnFolgeseitenWeiter(b) {
     z.textContent = thema.titel;
     z.addEventListener('click', () => themaAuf({ ...thema, typ: 'impuls', zeile: '' }));
     weitereWrap.appendChild(z);
+  });
+
+  // Aus dem Überblick heraus zum Rechner. Das Overlay bleibt offen, nur der
+  // Inhalt wechselt — im Termin ist das ein Schritt weiter, kein Neuanfang.
+  document.getElementById('ueberblickRechner')?.addEventListener('click', () => {
+    const allgemein = THEMEN_STARK.find(t => t.slug === 'allgemein');
+    themaAuf({ ...allgemein, typ: 'rechner', zeile: 'Was für die empfohlene Person drin sein könnte.' });
   });
 
   document.getElementById('themaSchliessen')?.addEventListener('click', themaZu);

@@ -14,7 +14,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
-  <link rel="stylesheet" href="css/praesentation.css?v=2" />
+  <link rel="stylesheet" href="css/praesentation.css?v=4" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="programm">
@@ -612,6 +612,97 @@
         <p id="themaZeile"></p>
       </div>
 
+      <!-- Überblick: Wer „ganz allgemein" empfiehlt, meint alles außer den
+           beiden eigenen Strecken. Deshalb steht hier nicht nur der Rechner,
+           sondern das ganze Bild in fünf Schritten. Die Grafiken sind eigens
+           gezeichnet, für Pyramide und Zwei-Konten gab es kein Material. -->
+      <div class="thema-inhalt thema-ueberblick" id="themaUeberblick" hidden>
+
+        <article class="ueberblick-teil">
+          <span class="ueberblick-nr">01</span>
+          <div class="ueberblick-text">
+            <h3>Finanzielles Glück lässt sich planen</h3>
+            <p>Die meisten wissen nicht, was ihnen zusteht. Zulagen, Arbeitgeberleistungen,
+               Beitragsvorteile: einzeln klein, zusammen jedes Jahr ein spürbarer Betrag.
+               Der erste Schritt ist, das überhaupt einmal zusammenzurechnen.</p>
+            <button class="ueberblick-knopf" id="ueberblickRechner" type="button">
+              Vorteil für deine Empfehlung berechnen <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div class="ueberblick-bild">
+            <img src="/assets/images/praesentation/dvag-glueck.webp" alt="Kleeblatt in einem Glas voller Münzen" loading="lazy" decoding="async">
+          </div>
+        </article>
+
+        <article class="ueberblick-teil">
+          <span class="ueberblick-nr">02</span>
+          <div class="ueberblick-text">
+            <h3>Die Formel dahinter</h3>
+            <p>Rund 30 Prozent fürs Wohnen, 30 für den Alltag, 30 für Vermögen, 10 für
+               Absicherung. Keine Vorschrift, ein Maßstab. Wer die eigenen Zahlen daneben
+               legt, sieht in einer Minute, wo es klemmt.</p>
+          </div>
+          <div class="ueberblick-bild ueberblick-bild-hoch">
+            <img src="/assets/images/praesentation/dvag-formel.webp" alt="Geldbeutel, aufgeteilt in 30 Prozent Wohnen, 30 Prozent Konsum, 30 Prozent Sparen und 10 Prozent Absicherung" loading="lazy" decoding="async">
+          </div>
+        </article>
+
+        <article class="ueberblick-teil">
+          <span class="ueberblick-nr">03</span>
+          <div class="ueberblick-text">
+            <h3>Die Reihenfolge macht den Unterschied</h3>
+            <p>Unten die Risikovorsorge: Vermögensabsicherung, Gesundheit, Rücklagen. Darüber das
+               langfristige Sparen für Rente und Wohneigentum. Erst darauf der private
+               Vermögensaufbau. Wer oben anfängt, baut auf Sand.</p>
+          </div>
+          <div class="ueberblick-bild">
+            <img src="/assets/images/praesentation/dvag-pyramide.webp" alt="Vermögensaufbaupyramide: unten Risikovorsorge, darüber langfristiges Sparen, oben privater Vermögensaufbau" loading="lazy" decoding="async">
+          </div>
+        </article>
+
+        <article class="ueberblick-teil ueberblick-teil-breit">
+          <span class="ueberblick-nr">04</span>
+          <div class="ueberblick-text">
+            <h3>Zwei Konten, und der Monat wird ruhig</h3>
+            <p>Ein Konto trägt alles, was ohnehin abgeht: Wohnen, Absicherung, Sparen, die
+               festen Kosten. Auf das andere geht per Dauerauftrag, was wirklich frei ist.
+               Wer das trennt, muss nicht mehr rechnen, sondern sieht es.</p>
+          </div>
+          <div class="ueberblick-bild">
+            <div class="ueberblick-schiene">
+              <img src="/assets/images/praesentation/dvag-zwei-konten.webp" alt="Zwei-Konten-Modell: vom Nettoeinkommen gehen Wohnen, Sparen, Absicherung und feste Kosten vom Vermögensaufbaukonto ab, per Dauerauftrag fließt der freie Teil auf das Konsumkonto" loading="lazy" decoding="async">
+            </div>
+            <small class="ueberblick-hinweis">Beispielzahlen aus der Beratungssoftware<span class="ueberblick-wisch"> · zum Lesen seitlich wischen</span></small>
+          </div>
+        </article>
+
+        <article class="ueberblick-teil">
+          <span class="ueberblick-nr">05</span>
+          <div class="ueberblick-text">
+            <h3>Verstehen statt vertrauen müssen</h3>
+            <p>Am Ende soll niemand einen Vertrag haben, den er nicht erklären kann. Was drin
+               ist, warum es drin ist und was es kostet: das gehört zu jeder Entscheidung dazu.</p>
+          </div>
+          <div class="ueberblick-bild">
+            <img src="/assets/images/kidz-konzept/kidz-finanzkompetenz.png" alt="" loading="lazy" decoding="async">
+          </div>
+        </article>
+
+        <article class="ueberblick-teil">
+          <span class="ueberblick-nr">06</span>
+          <div class="ueberblick-text">
+            <h3>Und was sich gerade ändert</h3>
+            <p>Ab 1. Januar 2027 starten neue geförderte Vorsorgeprodukte, dazu gehört das
+               Altersvorsorgedepot mit Fonds und ETFs. Bestehende Riester-Verträge bleiben.</p>
+            <a class="ueberblick-quelle" href="https://www.bundesregierung.de/breg-de/aktuelles/reform-private-altersvorsorge-2400072" target="_blank" rel="noopener">Quelle: Bundesregierung</a>
+          </div>
+          <div class="ueberblick-bild ueberblick-bild-jahr">
+            <span class="ueberblick-jahr">2027</span>
+            <small>Altersvorsorge neu geregelt</small>
+          </div>
+        </article>
+      </div>
+
       <div class="thema-inhalt thema-rechner" id="themaRechner" hidden>
         <div class="werkzeug">
           <div class="werkzeug-kopf">
@@ -770,6 +861,6 @@
   </div>
 
   <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
-  <script type="module" src="js/programm.js?v=53"></script>
+  <script type="module" src="js/programm.js?v=55"></script>
 </body>
 </html>
