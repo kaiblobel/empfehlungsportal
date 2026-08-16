@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.277 Beta** · Aktuelle Gesetzeslage oben, Haushaltsplan im Detail, live seit 16.08.2026.
+Offizielle Live-Version: **v1.278 Beta** · Alle vier Themenkacheln zeigen ein Bild, live seit 16.08.2026.
+
+## v1.278 Beta - Phase 258 · Alle vier Themenkacheln zeigen ein Bild
+**2026-08-16**
+
+**„Ganz allgemein" war eine dunkle Fläche mit Text und viel Leerraum darunter.** Die Kachel zeigt jetzt, was sie öffnet: die Formel, die Vermögensaufbaupyramide und das Zwei-Konten-Modell als Kontaktbogen, in den Fugen dieselbe Ink-Fläche wie die Kachel selbst. Kein Stockfoto, das eine Stimmung behauptet, sondern ein Blick auf den Inhalt.
+
+**Das KIDZ-Zeichen füllt die Kachel.** Vorher stand das Logo als kleines Quadrat mit weißem Rand mittig auf grauem Grund und wirkte wie ein Platzhalter. Das Zeichen ist jetzt aus dem Logo freigestellt und sitzt auf einer Fläche im KIDZ-Gold, das direkt aus der Datei abgetastet ist.
+
+Damit trägt jede der vier Kacheln ein Bild, und jedes füllt seine Fläche. Der erste Anlauf hatte vier Miniaturen im Kontaktbogen, darunter den Haushaltsplan; in Kachelgröße war der nur noch Raster ohne Aussage und ist wieder raus.
+
+---
 
 ## v1.277 Beta - Phase 257 · Aktuelle Gesetzeslage oben, Haushaltsplan im Detail
 **2026-08-16**

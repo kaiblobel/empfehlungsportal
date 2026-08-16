@@ -113,4 +113,17 @@ assert.match(js, /art: 'ink'/);
 assert.match(js, /art: 'foto'/);
 assert.match(js, /art: 'logo'/);
 
+// --- Jede der vier Kacheln zeigt ein Bild, und jedes füllt seine Fläche.
+// „Ganz allgemein" stand vorher als reine Textfläche da, KIDZ als kleines
+// Quadrat mittig auf grauem Grund. ---
+const bilder = [...stark.matchAll(/bild: '([^']+)'/g)].map(m => m[1]);
+assert.equal(bilder.length, 4, 'jede der vier starken Kacheln braucht ein Bild');
+assert.match(js, /slug: 'allgemein'[\s\S]{0,400}?bild: '[^']*ueberblick-vorschau/,
+  'die dunkle Kachel zeigt die Vorschau auf das, was dahinter liegt');
+assert.match(js, /slug: 'kinder'[\s\S]{0,400}?bild: '[^']*thema-kidz/,
+  'KIDZ nutzt das freigestellte Zeichen, nicht mehr das Logo mit weißem Rand');
+assert.match(css, /\.thema-kachel-logo \.thema-kachel-bild img\{object-fit:cover;\}/);
+assert.doesNotMatch(css, /\.thema-kachel-logo[^}]*object-fit:contain/,
+  'contain lässt das Zeichen wieder als kleines Quadrat stehen');
+
 console.log('praesentation-themen-freigabe: OK');

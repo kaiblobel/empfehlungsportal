@@ -790,6 +790,10 @@ function reicheBeraterAnFolgeseitenWeiter(b) {
   const THEMEN_STARK = [
     {
       slug: 'allgemein', titel: 'Ganz allgemein', typ: 'ueberblick', art: 'ink',
+      // Kein Stockfoto, sondern ein Blick auf das, was dahinter liegt: die vier
+      // Darstellungen aus dem Überblick als Kontaktbogen. Die Kachel zeigt
+      // damit, was sie öffnet, statt eine Stimmung zu behaupten.
+      bild: '/assets/images/praesentation/ueberblick-vorschau.webp',
       zeile: 'Für alle, die erst einmal wissen wollen, wo sie stehen.',
       punkte: ['Vorteil', 'Strategie', 'Zwei Konten', 'Kompetenz', 'Reform 2027'],
       tun: 'Das ganze Bild ansehen',
@@ -811,7 +815,9 @@ function reicheBeraterAnFolgeseitenWeiter(b) {
     {
       slug: 'kinder', titel: 'KIDZ', untertitel: 'Kinderleicht in die Zukunft',
       typ: 'vorschau', art: 'logo',
-      bild: '/assets/images/praesentation/kidz-logo.png',
+      // Das Zeichen füllt die Fläche, statt als kleines Quadrat mit weißem
+      // Rand auf grauem Grund zu stehen. Freigestellt aus kidz-logo.png.
+      bild: '/assets/images/praesentation/thema-kidz.webp',
       zeile: 'Finanzielle Kompetenz, Gesundheit und Absicherung von Anfang an.',
       tun: 'Seite ansehen',
       // Kinder-Empfehlungen laufen ueber die eigene KIDZ-Einleitung, die von
@@ -886,8 +892,9 @@ function reicheBeraterAnFolgeseitenWeiter(b) {
     k.type = 'button';
     k.className = `thema-kachel thema-kachel-${thema.art}`;
     k.dataset.slug = thema.slug;
-    const kopf = thema.art === 'ink' ? ''
-      : `<span class="thema-kachel-bild"><img src="${escapeAttr(thema.bild)}" alt="" loading="lazy" decoding="async"></span>`;
+    const kopf = thema.bild
+      ? `<span class="thema-kachel-bild"><img src="${escapeAttr(thema.bild)}" alt="" loading="lazy" decoding="async"></span>`
+      : '';
     const titel = thema.untertitel
       ? `<strong>${escapeHtml(thema.titel)}</strong><em>${escapeHtml(thema.untertitel)}</em>`
       : `<strong>${escapeHtml(thema.titel)}</strong>`;

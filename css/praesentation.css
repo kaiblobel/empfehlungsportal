@@ -830,19 +830,11 @@ h1, h2, h3{letter-spacing:-0.021em;}
 .thema-kachel-bild{display:block; width:100%; aspect-ratio:16/10; overflow:hidden;}
 .thema-kachel-bild img{display:block; width:100%; height:100%; object-fit:cover;}
 
-/* KIDZ traegt sein eigenes Zeichen statt eines Fotos. Das Gold kommt aus dem
-   Logo selbst, deshalb steht es auf ruhigem Grund. */
-.thema-kachel-logo .thema-kachel-bild{
-  display:grid; place-items:center;
-  background:var(--paper-2);
-}
-/* Ueber die Breite bemessen, nicht ueber die Hoehe: Die Hoehe des Containers
-   ergibt sich nur aus dem Seitenverhaeltnis, und eine Prozent-Hoehe darauf
-   loest je nach Browser zu null auf. Dann steht die Kachel leer da.
-   Das Zeichen ist quadratisch, 46 % Breite ergeben rund 74 % Hoehe. */
-.thema-kachel-logo .thema-kachel-bild img{
-  width:46%; height:auto; max-height:80%; object-fit:contain;
-}
+/* KIDZ traegt sein eigenes Zeichen statt eines Fotos. Es fuellt die Flaeche
+   wie die Fotos der Nachbarkacheln; das Gold ist aus dem Logo abgetastet und
+   sitzt schon im Bild, deshalb braucht es hier keinen eigenen Grund. Vorher
+   stand das Logo als kleines Quadrat mittig auf grauer Flaeche. */
+.thema-kachel-logo .thema-kachel-bild img{object-fit:cover;}
 /* Zuerst die Grundform jeder Kachel, danach erst die Sonderfälle. Standen die
    Sonderfälle vorher, gewann bei gleicher Spezifität die allgemeine Regel:
    der Titel auf der dunklen Kachel bekam wieder Ink auf Ink und war
@@ -868,7 +860,10 @@ h1, h2, h3{letter-spacing:-0.021em;}
    nebeneinander lesen sich wie ein Baukasten; eine ruhige Flaeche dazwischen
    gibt der Reihe Halt und dem Text mehr Gewicht. */
 .thema-kachel-ink{background:var(--ink); border-color:var(--ink);}
-.thema-kachel-ink .thema-kachel-text{padding-top:26px;}
+/* Der Kontaktbogen sitzt in den Fugen auf derselben Ink-Fläche wie die Kachel,
+   deshalb geht er ohne Kante in den Textteil über. */
+.thema-kachel-ink .thema-kachel-bild{background:var(--ink);}
+.thema-kachel-ink .thema-kachel-text{padding-top:16px;}
 .thema-kachel-ink strong{color:#fff;}
 .thema-kachel-ink span{color:#AEB6BB;}
 .thema-kachel-ink .thema-kachel-punkte{
