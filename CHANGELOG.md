@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.278 Beta** · Alle vier Themenkacheln zeigen ein Bild, live seit 16.08.2026.
+Offizielle Live-Version: **v1.279 Beta** · Altbestand der alten Präsentation entfernt, live seit 16.08.2026.
+
+## v1.279 Beta - Phase 259 · Altbestand der alten Präsentation entfernt
+**2026-08-16**
+
+**Die alte Präsentation ist raus.** `css/programm.css` mit 6.367 Zeilen lag seit dem Umbau als Rückweg im Projekt, wurde aber von keiner Seite mehr geladen. Dazu neun Bilder, die nur noch diese Datei kannte: die Pexels-Motive der alten Fassung (`s1-vertrauen`, `s3-alltag`, `s4-kern`, `s5-leben`, `s7-aktion`) und die erzeugten Motive (`topic-allgemein-v1`, `topic-baufi-v1`, `foerder-freunde-v1`, `s4-kern-modern-v2`). In der Git-Historie liegt alles weiter.
+
+**Dabei ein Fehler aufgefallen:** Die Prüfung der KI-Kennzeichnung las die Stile von `programm.html` noch aus der alten Datei. Sie prüft, ob der Hinweis „Mit KI erstellt" beim Video nicht nur dasteht, sondern auch gestaltet ist. Seit dem Umbau prüfte sie damit eine Datei, die die Seite gar nicht mehr lädt. Die Regel selbst war in Ordnung, der Test zeigte auf die falsche Stelle.
+
+Aufgeräumt außerdem: drei verwaiste CSS-Blöcke aus dem Überblick (die 2027-Kachel, die Quellenzeile und die Regel für eigene Zeichnungen), die Prüfseite für die Belohnungsstufen zeigt auf die aktuelle Stildatei, und `CREDITS.md` sagt jetzt, was noch da ist und was weggefallen ist.
+
+---
 
 ## v1.278 Beta - Phase 258 · Alle vier Themenkacheln zeigen ein Bild
 **2026-08-16**

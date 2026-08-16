@@ -1038,19 +1038,12 @@ h1, h2, h3{letter-spacing:-0.021em;}
 }
 .ueberblick-knopf:hover{background:var(--ink); color:#fff;}
 .ueberblick-knopf span{color:var(--gold);}
-.ueberblick-quelle{
-  display:inline-block; margin-top:12px;
-  font-size:12.5px; color:var(--muted);
-  border-bottom:1px solid var(--line);
-}
-
 .ueberblick-bild{
   display:grid; place-items:center;
   padding:14px;
   border:1px solid var(--line); border-radius:var(--r);
   background:var(--card);
 }
-.ueberblick-bild svg{width:100%; height:auto; max-height:180px;}
 .ueberblick-bild img{width:100%; height:auto; max-height:170px; object-fit:contain;}
 /* Der Geldbeutel steht hochkant. Auf 170 px gedeckelt bliebe er so schmal,
    dass die Prozentzahlen darin nicht mehr zu lesen wären. */
@@ -1082,17 +1075,6 @@ h1, h2, h3{letter-spacing:-0.021em;}
   .ueberblick-schiene img[src*="haushaltsplan"]{height:460px;}
   .ueberblick-wisch{display:inline;}
 }
-.ueberblick-bild-zahl, .ueberblick-bild-jahr{background:var(--ink); border-color:var(--ink); text-align:center;}
-.ueberblick-zahl, .ueberblick-jahr{
-  display:block;
-  font-family:var(--head); font-weight:600;
-  font-size:clamp(30px,4vw,44px); line-height:1; color:var(--gold);
-}
-.ueberblick-bild-zahl small, .ueberblick-bild-jahr small{
-  display:block; margin-top:10px;
-  font-size:12px; line-height:1.4; color:#AEB6BB;
-}
-
 @media (max-width:900px){
   .ueberblick-teil{grid-template-columns:38px minmax(0,1fr); gap:16px;}
   .ueberblick-bild{grid-column:2; margin-top:16px;}

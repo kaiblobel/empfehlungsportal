@@ -27,7 +27,7 @@ const read = (file) => readFile(new URL(file, root), 'utf8');
 // Unterscheidung würde der Test eine Seite grün melden, deren Hinweis unformatiert
 // im Rahmen klebt (dort steht line-height: 0 für das <video>).
 const SEITEN = [
-  ['programm.html', 'css/programm.css'],
+  ['programm.html', 'css/praesentation.css'],
   ['empfaenger.html', 'empfaenger.html'],
   ['baufi.html', 'baufi.html'],
 ];
