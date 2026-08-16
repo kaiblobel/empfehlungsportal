@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.273 Beta** · Apple-Produkt deiner Wahl bei 5 und 10 Empfehlungen, live seit 16.08.2026.
+Offizielle Live-Version: **v1.274 Beta** · Zeichnung auf dem Wartungshinweis, live seit 16.08.2026.
+
+## v1.274 Beta - Phase 254 · Zeichnung auf dem Wartungshinweis
+**2026-08-16**
+
+Der Wartungshinweis hatte oben nur ein kleines Uhrsymbol und las sich dadurch wie eine Fehlermeldung. Jetzt steht dort eine Zeichnung: das Portal selbst als Entwurf auf Millimeterpapier. Kopfleiste, Menüspalte und zwei Kacheln stehen schon, die dritte ist noch eine gestrichelte Kontur. Das sagt „hier wird gerade gebaut", ohne Warnschild.
+
+Bewusst gezeichnet statt fotografiert. Ein Stockfoto oder ein erzeugtes Motiv wäre in diesem Editorial-Look ein Fremdkörper und riecht nach Baukasten. Die Zeichnung liegt als SVG direkt in `js/wartung.js`: sie skaliert scharf auf jedem Gerät, kostet keine zweite Anfrage und steht auch dann, wenn sonst nichts mehr lädt.
+
+Farben aus der Palette: Ink für die Konstruktion, Champagne für Akzent und Maßlinie, Burnt-Orange für die eine Kachel, an der noch gearbeitet wird. Am Handy geprüft.
+
+Unten steht jetzt der Absender: das Team-Wachsbleiche-Logo mit „Regionaldirektion Kai Blobel & Team" und „Deutsche Vermögensberatung". Für den kleinen Abdruck liegt eine eigene Fassung bereit (`team-wachsbleiche-marke-96.webp`, 3,9 KB statt 308 KB des Originals) — sonst lädt ein Hinweisfenster ein Drittel Megabyte für ein 48-Pixel-Zeichen.
+
+Der Absender steht bewusst fest und wird nicht aus dem angemeldeten Berater gezogen: Das Portal betreibt die Regionaldirektion, der Hinweis kommt von ihr, nicht vom jeweiligen Partner.
+
+---
 
 ## v1.273 Beta - Phase 253 · Apple-Produkt deiner Wahl bei 5 und 10
 **2026-08-16 · live veröffentlicht**
