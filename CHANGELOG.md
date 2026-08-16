@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.272 Beta** · Eigene Bilder pflegen und Skala als Schieberegler, live seit 16.08.2026.
+Offizielle Live-Version: **v1.273 Beta** · Apple-Produkt deiner Wahl bei 5 und 10 Empfehlungen, live seit 16.08.2026.
+
+## v1.273 Beta - Phase 253 · Apple-Produkt deiner Wahl bei 5 und 10
+**2026-08-16 · live veröffentlicht**
+
+**Stufe 5 und Stufe 10 sind jetzt frei wählbar.** Statt eines festen Geräts steht dort „Apple-Produkt deiner Wahl": bei fünf erfolgreichen Empfehlungen im Wert von 500 Euro, bei zehn im Wert von 1.000 Euro. Wer bei Stufe 5 lieber grillt als tippt, nimmt weiterhin den Weber-Gasgrill.
+
+**Dabei ein Fehler gefunden:** Der Goldbarren auf Stufe 7 hatte gar kein Wertfeld, sein Wert stand nur im Titel. Der Gesamtwert wird ausschließlich aus den Wertfeldern gerechnet, deshalb fehlten in der angezeigten Summe 500 Euro. Jetzt trägt die Stufe ihren Wert im dafür vorgesehenen Feld.
+
+Die Gesamtsumme steigt damit von 4.298 auf **5.150 Euro**. Sie wird aus den echten Stufen gerechnet, der feste Rückfallwert im HTML ist mitgezogen.
+
+---
+
 
 ## v1.272 Beta - Phase 252 · Eigene Bilder pflegen, Skala als Schieberegler
 **2026-08-16 · live veröffentlicht**
