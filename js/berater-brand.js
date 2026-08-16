@@ -32,7 +32,11 @@
  * Berater als den Standard heißt das: sein Besucher sieht kurz ein fremdes
  * Gesicht. Mit dem Merker ist beim zweiten Aufruf sofort das richtige da.
  */
-const BRAND_CACHE_PREFIX = 'bb_berater_';
+// Die Zahl im Schlüssel steigt, sobald der Datensatz neue Felder bekommt.
+// Sonst liegt im Browser ein alter Stand ohne die neuen Bilder, und die Seite
+// setzt daraus das Portrait, obwohl längst ein Bürofoto hinterlegt ist. Ein
+// neuer Schlüssel lässt den alten Eintrag einfach links liegen.
+const BRAND_CACHE_PREFIX = 'bb_berater_v2_';
 
 export function merkeBerater(key, b) {
   if (!key || !b) return;
@@ -78,12 +82,21 @@ export function applyBeraterBrand(b) {
       case 'buerofoto':
         // Bild aus dem eigenen Büro. Wer keins hinterlegt hat, bekommt sein
         // Portrait — nie das Büro eines anderen Beraters.
-        el.src = b.buero_foto_url || b.foto_url || initialsAvatar(b.name);
-        el.alt = b.name ? `${b.name} im Büro` : '';
+        //
+        // Kennt der Datensatz das Feld gar nicht (alter Zwischenspeicher, oder
+        // ein Leseweg, der die Spalte nicht mitliefert), bleibt das Bild aus
+        // dem HTML stehen. Sonst würde ein unvollständiger Datensatz das
+        // Bürofoto stillschweigend durch das Portrait ersetzen.
+        if ('buero_foto_url' in b) {
+          el.src = b.buero_foto_url || b.foto_url || initialsAvatar(b.name);
+          el.alt = b.name ? `${b.name} im Büro` : '';
+        }
         break;
       case 'teamfoto': {
         // Ohne eigenes Teambild bleibt die Karte ohne Bild, statt fremde
-        // Räume zu zeigen.
+        // Räume zu zeigen. Kennt der Datensatz das Feld nicht, bleibt das
+        // Bild aus dem HTML stehen (siehe Begründung bei buerofoto).
+        if (!('team_foto_url' in b)) break;
         const traeger = el.closest('[data-bb-optional]') || el;
         if (b.team_foto_url) {
           el.src = b.team_foto_url;
@@ -96,6 +109,7 @@ export function applyBeraterBrand(b) {
       }
       case 'buerozeile':
         // Bildunterschrift zum Bürofoto. Ohne Eintrag verschwindet sie ganz.
+        if (!('buero_bildzeile' in b)) break;
         if (b.buero_bildzeile) {
           el.textContent = b.buero_bildzeile;
           el.hidden = false;

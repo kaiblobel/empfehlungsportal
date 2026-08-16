@@ -22,10 +22,14 @@ for (const slug of themes) {
   const sonderziele = { baufi: '/baufi.html', kinder: '/kidz-empfehlung.html' };
   const expectedPage = sonderziele[slug] || '/thema.html';
   assert.match(share, new RegExp(`${slug}: '${expectedPage.replace('.', '\\.')}'`), `${slug} fehlt im Router`);
-  assert.match(program, new RegExp(`\\b${slug}:\\s*\\{`), `${slug} fehlt in der Präsentationsvorschau`);
-  // Baufi und Kinder haben eigene Strecken; ihre Vorschau zeigt dorthin.
-  const vorschauSonderwege = { baufi: 'baufi.html?vorlage=baufi', kinder: 'kidz-empfehlung.html' };
-  const expectedPreview = vorschauSonderwege[slug] || `thema.html?vorlage=${slug}`;
+  // In der Präsentation steht jedes Thema mit derselben Kennung wie im Portal.
+  // Vier tragen die Auswahl als Kachel, die übrigen als Zeile mit einem Satz
+  // zum Weiterreden. Fehlt eines, fällt es hier auf.
+  assert.match(program, new RegExp(`slug: '${slug}'`), `${slug} fehlt in der Präsentationsauswahl`);
+  // Die Schnellvorschau zeigt denselben Weg, den der Versand nimmt. Fuer Baufi
+  // und Kinder sind das eigene Seiten, nicht die allgemeine Themenseite.
+  const vorschauZiele = { baufi: 'baufi.html?vorlage=baufi', kinder: 'kidz-empfehlung.html' };
+  const expectedPreview = vorschauZiele[slug] || `thema.html?vorlage=${slug}`;
   assert.ok(settings.includes(expectedPreview), `${slug} fehlt in den Schnellvorschauen`);
 }
 
@@ -85,7 +89,9 @@ assert.match(messages, /banking:\s*\[/, 'Für Banking fehlt die eigene Nachricht
 assert.match(messages, /energie:\s*\[/, 'Für Energie fehlt die eigene Nachrichtenvorlage');
 assert.ok(supabaseClient.includes("slug: 'banking'"), 'Banking fehlt in der gemeinsamen Themenauswahl');
 assert.ok(supabaseClient.includes("slug: 'energie'"), 'Energie fehlt in der gemeinsamen Themenauswahl');
-assert.match(program, /data-page-key=/, 'Die unfertigen Themenkarten sind nicht auswählbar');
+// Auch die Themen ohne fertige Seite sind anwaehlbar: sie oeffnen einen
+// Gespraechsimpuls statt einer grauen Flaeche.
+assert.match(program, /typ: 'impuls'/, 'Themen ohne fertige Seite geben keinen Gespraechsimpuls');
 
 assert.match(baufi, /\/css\/baufi-empfehlung-mockup\.css\?v=\d+/, 'Baufi-Empfehlungsmockup ist nicht eingebunden');
 assert.ok(baufiMockCss.includes('--tw-blue: #00688b'), 'Blau-Gold-Stil der Baufi-Vorschau fehlt');

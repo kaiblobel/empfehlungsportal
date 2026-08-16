@@ -1,7 +1,30 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.270 Beta** · Wartungsschalter für den Partnerbereich, live seit 16.08.2026.
+Offizielle Live-Version: **v1.271 Beta** · Präsentation neu erzählt, live seit 16.08.2026.
+
+## v1.271 Beta - Phase 251 · Präsentation neu erzählt
+**2026-08-16 · live veröffentlicht**
+
+Die Präsentation hatte vierzehn Abschnitte, die alle gleich gebaut waren: kleines Label, große dünne Serif-Überschrift mit einem kursiven Wort, Fließtext, Karten, Knopf. Ab dem dritten Abschnitt liest das niemand mehr. Jetzt sind es elf Abschnitte, jeder mit eigener Form.
+
+**Die ehrliche Frage steht am Anfang.** Vorher kam davor ein Hero mit „Du bist begeistert von unserer Zusammenarbeit?" und danach die Frage „Würdest du dich heute wieder für mich entscheiden?". Zwei Überschriften, die dasselbe sagten, und die erste nahm die Antwort vorweg. Beides ist jetzt ein Einstieg.
+
+**Die Themenauswahl ist die Weiche im Gespräch.** Sie sitzt nicht mehr hinten, sondern mittendrin und fragt „Worüber würdest du mich weiterempfehlen?". Je nach Thema geht etwas anderes auf: Bei „Ganz allgemein" und „Staatliche Förderungen" der Rechner mit „Jetzt den Vorteil für deine Empfehlung berechnen", bei Baufinanzierung und KIDZ die fertige Seite so, wie die empfohlene Person sie bekommt, bei den übrigen ein Satz zum Weiterreden.
+
+Damit sieht die Eurosumme aus dem Rechner nur noch, wen sie etwas angeht. Wer über Baufinanzierung oder über die Kinder empfiehlt, bekommt sie nie zu Gesicht und fragt sich auch nicht, wo denn sein eigener Anteil bleibt. Der Förderrechner ist deshalb kein eigener Abschnitt mehr.
+
+**Überschriften laufen auf Outfit,** derselben Schrift wie die Kundenseite. Die Serif trägt nur noch das Zitat und die kleinen Kicker. Die Flächen sind neutral statt creme, Farbe kommt nur von Ink und Gold. Die Einblend-Animation beim Scrollen ist ganz entfernt.
+
+**Jeder Berater bringt eigene Bilder mit.** Neue Felder am Berater für Bürofoto, Teamfoto und Bildzeile. Fehlt das Bürofoto, rückt das eigene Portrait nach, nie das eines anderen. Fehlt das Teambild, verschwindet es ganz.
+
+**Schriften und Bilder liegen jetzt lokal.** Vorher lud die Seite Fraunces und Inter bei Google und sechs Alltagsbilder bei Unsplash. Im Termin standen die Kacheln bei schlechtem Netz leer, und die IP-Adresse der betrachtenden Person ging an fremde Server.
+
+Die Belohnungsreise zeigt nur noch die fünf großen Meilensteine als Karten, die zehn Geldstufen stehen als ein Satz darüber. Vorher waren es fünfzehn fast gleiche Zeilen untereinander.
+
+Das Stylesheet der Präsentation liegt neu unter `css/praesentation.css` und ist von 6.367 auf rund 1.700 Zeilen geschrumpft. `css/programm.css` bleibt vorerst liegen, wird aber nicht mehr geladen.
+
+---
 
 ## v1.270 Beta - Phase 250 · Wartungsschalter für den Partnerbereich
 **2026-08-16 · live veröffentlicht**

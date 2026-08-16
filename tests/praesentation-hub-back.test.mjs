@@ -5,14 +5,14 @@ const read = (file) => readFile(new URL(`../${file}`, import.meta.url), 'utf8');
 const [html, js, css, nav] = await Promise.all([
   read('programm.html'),
   read('js/programm.js'),
-  read('css/programm.css'),
+  read('css/praesentation.css'),
   read('js/nav.js'),
 ]);
 
 assert.match(html, /id="presenterHubBack" href="hub\.html" hidden/);
 assert.match(html, /Zurück zum Portal/);
 assert.doesNotMatch(html, /Zurück zum H(?:ub|UB)/);
-assert.match(html, /css\/programm\.css\?v=\d+/);
+assert.match(html, /css\/praesentation\.css\?v=\d+/);
 assert.match(html, /js\/programm\.js\?v=\d+/);
 
 assert.match(js, /get\('from'\) === 'hub'/);
@@ -22,7 +22,8 @@ assert.doesNotMatch(js, /presenterHubBack\.hidden = true/);
 assert.match(nav, /href: path\('programm\.html\?from=hub'\)/);
 assert.match(nav, /u\.searchParams\.set\('berater', b\.slug\)/);
 
-assert.match(css, /\.presenter-hub-back\[hidden\] \{ display: none; \}/);
-assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.presenter-hub-back span \{ display: none; \}/);
+assert.match(css, /\.presenter-hub-back\[hidden\]\{display:none;\}/);
+// Auf schmalen Schirmen bleibt nur der Pfeil, die Beschriftung weicht.
+assert.match(css, /@media \(max-width:900px\)\{[\s\S]*?\.presenter-hub-back span\{display:none;\}/);
 
 console.log('praesentation-hub-back: OK');

@@ -1,7 +1,7 @@
 import { getBelohnungsStufenPublic, getVorlagenPublic, getBeraterPublicBySlug, supabase } from './supabase.js';
 import { icon as lucideIcon, ICONS } from './icons.js';
 import { applyBeraterBrand, merkeBerater, gemerkterBerater } from './berater-brand.js';
-import { baueReise, reiseHtml } from './belohnungs-reise.js';
+import { baueReise, meilensteinHtml, geldSummary } from './belohnungs-reise.js';
 
 // Multi-Tenant: Berater-Einstieg via ?berater=slug (z. B. ?berater=sven-augustin).
 // Wird unten zum Branding und für den persönlichen QR-Einstieg genutzt.
@@ -105,7 +105,6 @@ if (presenterLength && openedFromHub) presenterLength.hidden = false;
   const kinderBtns = document.querySelectorAll('[data-field="kinder"] button');
   const personBtns = document.querySelectorAll('[data-foerder-person]');
   const personLineEl = document.getElementById('foerderPersonLine');
-  const alltagSumEl= document.getElementById('alltagFoerderSum');
   if (!alterEl || !amountEl) return;
 
   const fmtEUR = (n) => Math.round(n).toLocaleString('de-DE');
@@ -211,10 +210,10 @@ if (presenterLength && openedFromHub) presenterLength.hidden = false;
       `<li><span>${l.label}</span><span>${fmtEUR(l.val)} €</span></li>`
     ).join('');
 
-    // Hero-Card in der Alltag-Sektion mit synchronisieren
-    if (alltagSumEl) {
-      alltagSumEl.innerHTML = `${fmtEUR(sum)}&nbsp;€`;
-    }
+    // Die Summe stand früher zusätzlich in der Alltag-Sektion. Dort ist sie
+    // bewusst weg: eine Eurosumme neben „Empfiehl meine Beratung" liest sich
+    // für den Empfehlungsgeber wie sein eigener Anteil. Sie erscheint jetzt
+    // nur noch hier im Rechner, wo der Zusammenhang klar ist.
   }
 
   alterEl.addEventListener('input', render);
@@ -394,6 +393,17 @@ if (presenterLength && openedFromHub) presenterLength.hidden = false;
     if (iconEl && ICONS[iconName]) iconEl.innerHTML = lucideIcon(iconName, { size: 24 });
   });
 
+  // Die Felder exakt auf dem Kreis verteilen: 360 durch ihre Anzahl, alle mit
+  // demselben Radius. Vorher standen die Koordinaten von Hand im HTML, dadurch
+  // schwankten die Winkel zwischen 31 und 45 Grad. Gerechnet stimmt es auch,
+  // wenn irgendwann ein elftes Thema dazukommt.
+  const RADIUS = 36; // Prozent, derselbe Wert wie der Ring im SVG
+  nodes.forEach((node, i) => {
+    const winkel = (90 - i * (360 / nodes.length)) * Math.PI / 180;
+    node.style.setProperty('--x', `${(50 + RADIUS * Math.cos(winkel)).toFixed(3)}%`);
+    node.style.setProperty('--y', `${(50 - RADIUS * Math.sin(winkel)).toFixed(3)}%`);
+  });
+
   function resetDetails() {
     nodes.forEach(node => {
       node.classList.remove('is-active');
@@ -543,7 +553,6 @@ const TOPIC_ICON_SVG = {
 const brandKey = beraterSlug || 'me';
 const sofortBerater = gemerkterBerater(brandKey);
 if (sofortBerater) applyBeraterBrand(sofortBerater);
-const fotoVideo = document.getElementById('t-FotoVideo');
 
 // Multi-Tenant: Welcher Berater wird gebrandet?
 // 1. ?berater=slug in der URL (öffentlicher Funnel-Link für Kunden)
@@ -607,19 +616,19 @@ function setPromoterEntry(data) {
 
 beraterPromise.then((data) => {
   if (!data) {
-    // Kein Berater auflösbar → Standard-Berater (ENV) als letzter Fallback,
-    // damit das Portrait nicht leer bleibt.
-    if (!sofortBerater) {
-      const el = document.getElementById('t-Foto');
-      if (el) { el.src = window.ENV_BERATER_FOTO || ''; el.alt = window.ENV_BERATER_NAME || ''; }
-    }
+    // Lässt sich kein Berater auflösen (kein Slug, niemand angemeldet), bleibt
+    // stehen, was im HTML steht: das Bürofoto des Standard-Beraters.
+    //
+    // Hier stand früher ein Rückfall auf ENV_BERATER_FOTO, also auf das
+    // Portrait. Das war richtig, solange an dieser Stelle das Portrait hing.
+    // Seit dort das Bürofoto steht, hat der Rückfall es beim Laden sichtbar
+    // überschrieben: erst der Tresen, dann wieder das Porträt.
     setPromoterEntry(null);
     return;
   }
   window.__beraterPublic = data;
   applyBeraterBrand(data);
   merkeBerater(brandKey, data);
-  if (data.foto_url && fotoVideo) fotoVideo.src = data.foto_url;
   setPromoterEntry(data);
   reicheBeraterAnFolgeseitenWeiter(data);
 });
@@ -646,13 +655,10 @@ function reicheBeraterAnFolgeseitenWeiter(b) {
   });
 }
 
-// IntersectionObserver — Fade-Up
-const io = new IntersectionObserver((entries) => {
-  entries.forEach((e) => {
-    if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-  });
-}, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+// Die Einblend-Animation ist bewusst entfernt. Sie lag vorher auf praktisch
+// jedem Element der Seite, und genau dieses gleichförmige Auffahren beim
+// Scrollen ist eines der Merkmale, an denen man generierte Seiten erkennt.
+// Ruhe wirkt hier wertiger als Bewegung.
 
 // === Belohnungs-Reise (Phase 127) ===========================================
 // Eine einzige senkrechte Reise von Stufe 1 bis 15, gerendert aus den echten
@@ -680,9 +686,17 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
   const fmtEUR = (n) => Math.round(n).toLocaleString('de-DE');
 
-  // Markup kommt aus dem reinen Modul — dieselbe Quelle nutzt die Prüfseite
-  // mockups/benefits-pruefung.html, damit beide nicht auseinanderlaufen.
-  wrap.innerHTML = reiseHtml(reise);
+  // Nur die fuenf grossen Meilensteine bekommen eine Karte. Die zehn
+  // Geldstufen unterscheiden sich fast nur durch die Nummer; einzeln
+  // untereinander ergaben sie eine lange, gleichfoermige Liste. Sie stehen
+  // jetzt als ein Satz darunter. Markup kommt weiter aus dem reinen Modul,
+  // damit Praesentation und Pruefseite nicht auseinanderlaufen.
+  const meilensteine = reise.stationen.filter((s) => s.art === 'meilenstein');
+  const finale = meilensteine[meilensteine.length - 1];
+  wrap.innerHTML = meilensteine.map((st) => meilensteinHtml(st, st === finale)).join('');
+
+  const summaryEl = document.getElementById('t-ReiseGeldSummary');
+  if (summaryEl) summaryEl.textContent = geldSummary(reise);
 
   // Gesamtwert aus den echten Stufen — keine feste Zahl im HTML mehr.
   const counterEl = document.querySelector('.rewards-total-counter');
@@ -722,296 +736,249 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 })();
 
 // Themen-Auswahl mit direkter Vorschau der fertigen Themenwelten
-(async function initTopicShowcase() {
-  const wrap = document.getElementById('t-Topics');
-  const preview = document.getElementById('topicPreview');
-  const previewClose = document.getElementById('topicPreviewClose');
-  const previewBack = document.getElementById('topicPreviewBack');
-  const previewFrame = document.getElementById('topicPreviewFrame');
-  const previewTitle = document.getElementById('topicPreviewTitle');
-  const previewText = document.getElementById('topicPreviewText');
-  const previewIcon = document.getElementById('topicPreviewIcon');
-  const previewOpen = document.getElementById('topicPreviewOpen');
-  const previewAddress = document.getElementById('topicPreviewAddress');
-  if (!wrap) return;
+// === Themenauswahl · die Weiche im Gespräch ================================
+// Früher führte jede Kachel in dieselbe Vorschau. Jetzt sagt jedes Thema
+// selbst, was beim Antippen passieren soll:
+//
+//   rechner  → was hätte die empfohlene Person davon (Förderrechner)
+//   vorschau → die fertige Themenseite, so wie die Person sie bekommt
+//   impuls   → die Seite entsteht noch, es gibt einen Satz zum Weiterreden
+//
+// Das löst nebenbei ein inhaltliches Problem: Die Eurosumme aus dem Rechner
+// sieht nur noch, wer über Förderung oder ganz allgemein empfiehlt. Wer an
+// Baufinanzierung oder an Kinder denkt, bekommt sie nie zu sehen und fragt
+// sich auch nicht, wo denn sein Anteil bleibt.
+(async function initThemenweiche() {
+  const starkWrap = document.getElementById('themenStark');
+  const weitereWrap = document.getElementById('themenWeitere');
+  const overlay = document.getElementById('themaOverlay');
+  const rahmen = document.getElementById('themaRahmen');
+  if (!starkWrap || !weitereWrap || !overlay) return;
 
-  // Das Modal darf nicht im Stapelkontext des Themen-Abschnitts bleiben.
-  // Direkt unter body liegt es zuverlässig über allen Präsentationsfolien.
-  if (preview && preview.parentElement !== document.body) document.body.appendChild(preview);
-
-  const readyPages = {
-    allgemein: {
-      title: 'Ganz allgemein',
-      kicker: 'Für alle, die erst einmal Klarheit wollen',
-      question: 'Vielleicht steckt in den eigenen Finanzen mehr, als man gerade sieht.',
-      text: 'Ein persönlicher Einstieg ohne festes Thema. Sieben Fragen führen zu einer ersten Orientierung.',
-      icon: 'Compass',
-      url: '/empfaenger.html?von=Thomas&an=Max',
-      address: 'Persönliche Empfehlung für Max',
-      tone: 'champagne',
-      status: 'Fertige Themenseite',
-      action: 'Vorschau ansehen'
-    },
-    baufi: {
-      title: 'Baufinanzierung',
-      kicker: 'Für Kauf, Neubau und Anschluss',
-      question: 'Was ist möglich, ohne dass das Leben nur noch aus Rate besteht?',
-      text: 'Ein interaktiver Finanzierungskompass, der zuerst die Situation versteht und dann den nächsten sinnvollen Schritt zeigt.',
-      icon: 'Home',
-      url: '/baufi.html?vorlage=baufi&modus=referral&von=Thomas&an=Max',
-      address: 'Finanzierungskompass für Max',
-      tone: 'olive',
-      status: 'Fertige Themenseite',
-      action: 'Vorschau ansehen'
-    },
-    foerderungen: {
-      title: 'Staatliche Förderungen',
-      kicker: 'Fördermöglichkeiten verständlich sortiert',
-      question: 'Welche Zuschüsse und Vorteile könnten zu deiner Situation passen?',
-      text: 'Die gemeinsame Themenseite führt von der persönlichen Empfehlung zu einer ersten Einordnung und zum richtigen Ansprechpartner.',
-      icon: 'Banknote',
-      url: '/thema.html?vorlage=foerderungen&von=Thomas&an=Max',
-      address: 'Förderungen für Max',
-      tone: 'champagne',
-      status: 'Gemeinsame Themenseite',
-      action: 'Vorschau ansehen'
-    },
-    selbstaendige: {
-      title: 'Selbständige',
-      kicker: 'Privat und geschäftlich gut aufgestellt',
-      question: 'Was braucht ein stabiles Fundament für deinen eigenen Weg?',
-      text: 'Die gemeinsame Themenseite verbindet das Thema mit einer ersten Einordnung und dem passenden nächsten Schritt.',
-      icon: 'Briefcase',
-      url: '/thema.html?vorlage=selbstaendige&von=Thomas&an=Max',
-      address: 'Selbständigen-Thema für Max',
-      tone: 'marine',
-      status: 'Gemeinsame Themenseite',
-      action: 'Vorschau ansehen'
-    },
-    investment: {
-      title: 'Geldanlage und Investment',
-      kicker: 'Vermögen sinnvoll aufbauen',
-      question: 'Wie kann dein Geld langfristig zu deinem Leben passen?',
-      text: 'Die gemeinsame Themenseite verbindet das Thema mit einer ersten Einordnung und dem passenden nächsten Schritt.',
-      icon: 'TrendingUp',
-      url: '/thema.html?vorlage=investment&von=Thomas&an=Max',
-      address: 'Investment-Thema für Max',
-      tone: 'olive',
-      status: 'Gemeinsame Themenseite',
-      action: 'Vorschau ansehen'
-    },
-    absicherung: {
-      title: 'Absicherung und Familie',
-      kicker: 'Schützen, was dir wichtig ist',
-      question: 'Was sollte wirklich abgesichert sein und was nicht?',
-      text: 'Die gemeinsame Themenseite verbindet das Thema mit einer ersten Einordnung und dem passenden nächsten Schritt.',
-      icon: 'ShieldCheck',
-      url: '/thema.html?vorlage=absicherung&von=Thomas&an=Max',
-      address: 'Absicherung für Max',
-      tone: 'marine',
-      status: 'Gemeinsame Themenseite',
-      action: 'Vorschau ansehen'
-    },
-    karriere: {
-      title: 'Berufliche Perspektive',
-      kicker: 'Neue Möglichkeiten entdecken',
-      question: 'Was wäre möglich, wenn dein nächster Schritt wirklich zu dir passt?',
-      text: 'Die gemeinsame Themenseite verbindet das Thema mit einer ersten Einordnung und dem passenden nächsten Schritt.',
-      icon: 'Sparkles',
-      url: '/thema.html?vorlage=karriere&von=Thomas&an=Max',
-      address: 'Berufliche Perspektive für Max',
-      tone: 'olive',
-      status: 'Gemeinsame Themenseite',
-      action: 'Vorschau ansehen'
-    },
-    kinder: {
-      title: 'KIDZ für Kinder',
-      kicker: 'Kinderleicht in die Zukunft',
-      question: 'Was wünschst du dir für die Zukunft deines Kindes?',
-      text: 'Führt direkt ins KIDZ-Elternkonzept: drei Grundlagen, die Rechnung zum frühen Start und der Weg zum Elternabend.',
-      icon: 'Heart',
-      url: '/kidz-empfehlung.html?von=Thomas&an=Max',
-      address: 'KIDZ für Max und seine Familie',
-      tone: 'champagne',
-      status: 'KIDZ-Elternkonzept',
-      action: 'Vorschau ansehen'
-    },
-    banking: {
-      title: 'Banking & Kredit',
-      kicker: 'Geldflüsse und Vorhaben verständlich ordnen',
-      question: 'Wie lassen sich Konten, Rücklagen und Finanzierung sinnvoll miteinander verbinden?',
-      text: 'Die gemeinsame Themenseite führt von der persönlichen Empfehlung zu einer ersten Einordnung und zum richtigen Ansprechpartner.',
-      icon: 'Banknote',
-      url: '/thema.html?vorlage=banking&modus=referral&von=Thomas&an=Max',
-      address: 'Banking und Kredit für Max',
-      tone: 'marine',
-      status: 'Fertige Themenseite',
-      action: 'Vorschau ansehen'
-    },
-    energie: {
-      title: 'Energie',
-      kicker: 'Strom, Gas und Photovoltaik einordnen',
-      question: 'Welche Energieentscheidung passt zu Verbrauch, Gebäude und Planung?',
-      text: 'Die gemeinsame Themenseite verbindet laufende Kosten, mögliche Investitionen und den persönlichen nächsten Schritt.',
-      icon: 'Activity',
-      url: '/thema.html?vorlage=energie&modus=referral&von=Thomas&an=Max',
-      address: 'Energie für Max',
-      tone: 'olive',
-      status: 'Fertige Themenseite',
-      action: 'Vorschau ansehen'
-    }
+  const bloecke = {
+    rechner: document.getElementById('themaRechner'),
+    vorschau: document.getElementById('themaVorschau'),
+    impuls: document.getElementById('themaImpuls'),
   };
 
-  // Die Themenseiten laufen im iframe ohne Token und ohne Login-Kontext des
-  // Elternfensters. Ohne ?berater=slug fallen sie auf den Standard-Berater
-  // zurück — dann sieht z. B. Sandro auf seiner eigenen Seite Kais Portrait.
-  let previewBerater = null;
-  const withBerater = (url) => {
-    const slug = previewBerater?.slug;
+  // Vier Themen tragen die Auswahl. Jedes bekommt die Darstellung, die zu ihm
+  // passt: zwei echte Aufnahmen, das KIDZ-Zeichen, und der allgemeine Einstieg
+  // ohne Bild. Ungleich ist hier Absicht, vier gleiche Bildkacheln lesen sich
+  // wie ein Baukasten.
+  const THEMEN_STARK = [
+    {
+      slug: 'allgemein', titel: 'Ganz allgemein', typ: 'rechner', art: 'ink',
+      zeile: 'Für alle, die erst einmal wissen wollen, wo sie stehen.',
+      tun: 'Vorteil berechnen',
+    },
+    {
+      slug: 'foerderungen', titel: 'Staatliche Förderungen', typ: 'rechner', art: 'foto',
+      bild: '/assets/images/praesentation/thema-foerderung.webp',
+      zeile: 'Was der Staat dazugibt, und wer davon wirklich etwas hat.',
+      tun: 'Vorteil berechnen',
+    },
+    {
+      slug: 'baufi', titel: 'Baufinanzierung', typ: 'vorschau', art: 'foto',
+      bild: '/assets/images/praesentation/thema-baufi.webp',
+      zeile: 'Kauf, Neubau oder Anschluss, ohne dass das Leben nur noch aus Rate besteht.',
+      tun: 'Seite ansehen',
+      url: '/baufi.html?vorlage=baufi&modus=referral&von=Thomas&an=Max',
+      adresse: 'Finanzierungskompass für Max',
+    },
+    {
+      slug: 'kinder', titel: 'KIDZ', untertitel: 'Kinderleicht in die Zukunft',
+      typ: 'vorschau', art: 'logo',
+      bild: '/assets/images/praesentation/kidz-logo.png',
+      zeile: 'Finanzielle Kompetenz, Gesundheit und Absicherung von Anfang an.',
+      tun: 'Seite ansehen',
+      // Kinder-Empfehlungen laufen ueber die eigene KIDZ-Einleitung, die von
+      // dort aufs Konzept weiterfuehrt. Dasselbe Ziel nutzt der Versand-Router.
+      url: '/kidz-empfehlung.html?modus=referral&von=Thomas&an=Max',
+      adresse: 'KIDZ für Max',
+    },
+  ];
+
+  const THEMEN_WEITERE = [
+    { slug: 'selbstaendige', titel: 'Selbständige',           impuls: 'Privat und geschäftlich sind zwei Baustellen. Meist ist eine davon seit Jahren offen.' },
+    { slug: 'investment',    titel: 'Geldanlage',             impuls: 'Viele sparen, ohne zu wissen wofür. Ein Ziel verändert die ganze Rechnung.' },
+    { slug: 'absicherung',   titel: 'Absicherung & Familie',  impuls: 'Die meisten sind für das Falsche versichert. Das, was wirklich weh täte, bleibt offen.' },
+    { slug: 'karriere',      titel: 'Berufliche Perspektive', impuls: 'Nicht jeder, der unzufrieden ist, sucht aktiv. Manchmal reicht der Hinweis, dass es etwas gibt.' },
+    { slug: 'banking',       titel: 'Banking & Kredit',       impuls: 'Konten, Rücklagen, Finanzierung. Selten hat das jemand mal zusammen angeschaut.' },
+    { slug: 'energie',       titel: 'Energie',                impuls: 'Strom, Gas, vielleicht Photovoltaik. Da liegt oft Geld, das niemand hebt.' },
+  ];
+
+  // Die Vorschau läuft im Rahmen ohne Login. Ohne ?berater=slug fällt sie auf
+  // den Standard-Berater zurück, dann sähe z. B. Sandro auf seiner eigenen
+  // Seite Kais Portrait.
+  let vorschauBerater = null;
+  const mitBerater = (url) => {
+    const slug = vorschauBerater?.slug;
     if (!slug) return url;
     return `${url}${url.includes('?') ? '&' : '?'}berater=${encodeURIComponent(slug)}`;
   };
+  beraterPromise.then((b) => { vorschauBerater = b; }).catch(() => {});
 
-  const renderIcon = (iconKey, size = 28) => {
-    if (ICONS[iconKey]) return lucideIcon(iconKey, { size });
-    if (TOPIC_ICON_SVG[iconKey]) return TOPIC_ICON_SVG[iconKey];
-    return lucideIcon('Compass', { size });
-  };
+  let zuTimer = null;
 
-  const renderFeature = (page, template = {}) => `
-    <button class="topic-feature topic-feature-${page.tone}" type="button" data-page-key="${escapeAttr(template.slug || '')}">
-      <span class="topic-feature-status"><i aria-hidden="true"></i>${escapeHtml(page.status || 'Fertige Themenseite')}</span>
-      <span class="topic-feature-icon" aria-hidden="true">${renderIcon(page.icon, 34)}</span>
-      <span class="topic-feature-kicker">${escapeHtml(page.kicker)}</span>
-      <strong>${escapeHtml(page.title)}</strong>
-      <span class="topic-feature-question">${escapeHtml(page.question)}</span>
-      <span class="topic-feature-action">${escapeHtml(page.action || 'Vorschau ansehen')} <span aria-hidden="true">→</span></span>
-      <span class="topic-feature-orbit" aria-hidden="true"></span>
-    </button>
-  `;
+  function themaAuf(thema) {
+    window.clearTimeout(zuTimer);
+    document.getElementById('themaTitel').textContent =
+      thema.untertitel ? `${thema.titel} · ${thema.untertitel}` : thema.titel;
+    document.getElementById('themaZeile').textContent = thema.zeile || '';
+    document.getElementById('themaKicker').textContent =
+      thema.typ === 'rechner' ? 'Was hätte die empfohlene Person davon?'
+      : thema.typ === 'vorschau' ? 'So kommt deine Empfehlung an'
+      : 'Zum Weiterreden';
 
-  // Freigeschaltet ist nur, wofür es eine eigene, fertige Themenwelt gibt.
-  // Alle übrigen Kacheln zeigten bisher dieselbe allgemeine Förderseite. Das sah
-  // nach fertigem Thema aus, war inhaltlich aber der falsche Einstieg. Sie bleiben
-  // deshalb grau und nicht anklickbar, bis ihre Themenseite wirklich steht.
-  const FREIGESCHALTETE_THEMEN = new Set(['allgemein', 'baufi', 'kinder', 'kidz']);
+    Object.entries(bloecke).forEach(([typ, el]) => { if (el) el.hidden = typ !== thema.typ; });
 
-  const renderCompact = (template) => {
-    const page = readyPages[template.slug];
-    const frei = Boolean(page) && FREIGESCHALTETE_THEMEN.has(template.slug);
-    return `
-    <button class="topic-compact${frei ? '' : ' is-locked'}" type="button" data-slug="${escapeAttr(template.slug || '')}"${frei ? ` data-page-key="${escapeAttr(template.slug || '')}"` : ' disabled aria-disabled="true"'}>
-      <span class="topic-compact-icon" aria-hidden="true">${renderIcon(template.icon || 'Compass', 22)}</span>
-      <span class="topic-compact-copy">
-        <span class="topic-compact-status">${escapeHtml(frei ? (page.status || 'Fertige Themenseite') : 'In Vorbereitung')}</span>
-        <strong>${escapeHtml(template.titel || '')}</strong>
-        <small>${escapeHtml(template.headline || template.subtext || '')}</small>
-      </span>
-      <span class="topic-compact-arrow" aria-hidden="true">${frei ? '→' : ''}</span>
-    </button>
-  `;
-  };
-
-  let hideTimer = null;
-
-  function openTopicPreview(pageKey) {
-    const page = readyPages[pageKey];
-    if (!page || !preview) return;
-    window.clearTimeout(hideTimer);
-    previewTitle.textContent = page.title;
-    previewText.textContent = page.text;
-    previewIcon.innerHTML = renderIcon(page.icon, 34);
-    const url = withBerater(page.url);
-    previewOpen.href = url;
-    previewAddress.textContent = page.address;
-    previewFrame.title = `Vorschau: ${page.title}`;
-    previewFrame.src = url;
-    preview.hidden = false;
-    preview.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('topic-preview-open');
-    requestAnimationFrame(() => {
-      preview.classList.add('is-open');
-      previewClose?.focus({ preventScroll: true });
-    });
-  }
-
-  function closeTopicPreview() {
-    if (!preview) return;
-    preview.classList.remove('is-open');
-    preview.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('topic-preview-open');
-    hideTimer = window.setTimeout(() => {
-      preview.hidden = true;
-      previewFrame.src = 'about:blank';
-      wrap.querySelector('[data-page-key]')?.focus({ preventScroll: true });
-    }, 320);
-  }
-
-  try {
-    const brandBerater = await beraterPromise.catch(() => null);
-    previewBerater = brandBerater;
-    const templates = await getVorlagenPublic(brandBerater?.id || window.ENV_BERATER_ID);
-    const generalTemplate = templates.find(v => v.slug === 'allgemein') || { slug: 'allgemein', titel: 'Ganz allgemein', icon: 'Compass' };
-    const baufiTemplate = templates.find(v => v.slug === 'baufi') || { slug: 'baufi', titel: 'Baufinanzierung', icon: 'Home' };
-    const compactTemplates = templates.filter(v => !['allgemein', 'baufi'].includes(v.slug));
-
-    wrap.innerHTML = `
-      <div class="topics-featured">
-        ${renderFeature(readyPages.allgemein, generalTemplate)}
-        ${renderFeature(readyPages.baufi, baufiTemplate)}
-      </div>
-      <div class="topics-more-head">
-        <span>Weitere Themenwelten</span>
-        <small>Für das, was im Leben gerade ansteht</small>
-      </div>
-      <div class="topics-compact-grid">
-        ${compactTemplates.map(renderCompact).join('')}
-      </div>
-      ${compactTemplates.some(v => !FREIGESCHALTETE_THEMEN.has(v.slug)) ? `
-      <p class="topics-locked-note">
-        Grau hinterlegte Themen entstehen gerade und sind noch nicht auswählbar.
-        Sobald die eigene Themenseite dahinter steht, wird die Kachel freigeschaltet.
-      </p>` : ''}
-    `;
-
-    wrap.querySelectorAll('[data-page-key]').forEach(card => {
-      card.addEventListener('click', () => openTopicPreview(card.dataset.pageKey));
-    });
-  } catch (e) {
-    console.warn('[Themen] Konnte nicht geladen werden:', e);
-    wrap.innerHTML = '';
-  }
-
-  previewClose?.addEventListener('click', closeTopicPreview);
-  previewBack?.addEventListener('click', closeTopicPreview);
-  document.addEventListener('keydown', event => {
-    if (!preview?.classList.contains('is-open')) return;
-    event.stopImmediatePropagation();
-    if (event.key === 'Escape') {
-      event.preventDefault();
-      closeTopicPreview();
+    if (thema.typ === 'vorschau' && rahmen) {
+      document.getElementById('themaAdresse').textContent = thema.adresse || 'Persönliche Empfehlung';
+      rahmen.src = mitBerater(thema.url);
     }
+    if (thema.typ === 'impuls') {
+      document.getElementById('themaImpulsText').textContent = `„${thema.impuls}“`;
+    }
+
+    overlay.hidden = false;
+    document.body.classList.add('thema-offen');
+    requestAnimationFrame(() => {
+      overlay.classList.add('offen');
+      document.getElementById('themaSchliessen')?.focus({ preventScroll: true });
+    });
+  }
+
+  function themaZu() {
+    overlay.classList.remove('offen');
+    document.body.classList.remove('thema-offen');
+    zuTimer = window.setTimeout(() => {
+      overlay.hidden = true;
+      if (rahmen) rahmen.src = 'about:blank';
+    }, 210);
+  }
+
+  THEMEN_STARK.forEach(thema => {
+    const k = document.createElement('button');
+    k.type = 'button';
+    k.className = `thema-kachel thema-kachel-${thema.art}`;
+    k.dataset.slug = thema.slug;
+    const kopf = thema.art === 'ink' ? ''
+      : `<span class="thema-kachel-bild"><img src="${escapeAttr(thema.bild)}" alt="" loading="lazy" decoding="async"></span>`;
+    const titel = thema.untertitel
+      ? `<strong>${escapeHtml(thema.titel)}</strong><em>${escapeHtml(thema.untertitel)}</em>`
+      : `<strong>${escapeHtml(thema.titel)}</strong>`;
+    k.innerHTML = `
+      ${kopf}
+      <span class="thema-kachel-text">
+        ${titel}
+        <span>${escapeHtml(thema.zeile)}</span>
+        <span class="thema-kachel-tun">${escapeHtml(thema.tun)}</span>
+      </span>`;
+    k.addEventListener('click', () => themaAuf(thema));
+    starkWrap.appendChild(k);
+  });
+
+  THEMEN_WEITERE.forEach(thema => {
+    const z = document.createElement('button');
+    z.type = 'button';
+    z.className = 'thema-zeile';
+    z.dataset.slug = thema.slug;
+    z.textContent = thema.titel;
+    z.addEventListener('click', () => themaAuf({ ...thema, typ: 'impuls', zeile: '' }));
+    weitereWrap.appendChild(z);
+  });
+
+  document.getElementById('themaSchliessen')?.addEventListener('click', themaZu);
+  document.addEventListener('keydown', (e) => {
+    if (overlay.hidden) return;
+    e.stopImmediatePropagation();
+    if (e.key === 'Escape') { e.preventDefault(); themaZu(); }
   }, true);
 })();
 
-// Karriere-Karte (alltag) drehen – Tap/Klick + Tastatur, mobil-sicher
-document.querySelectorAll('.alltag-flip').forEach((card) => {
-  const toggle = () => card.classList.toggle('flipped');
-  card.addEventListener('click', toggle);
-  card.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+// === Die fünf Einstiegswege aufklappen =====================================
+// Aufklappen statt drehen: ein 3D-Flip ist der Effekt, den jedes Template kann.
+(function initEinstiegswege() {
+  const klapp = document.getElementById('alltagKlapp');
+  const details = document.getElementById('alltagDetails');
+  if (!klapp || !details) return;
+  klapp.addEventListener('click', () => {
+    const offen = details.hidden;
+    details.hidden = !offen;
+    klapp.setAttribute('aria-expanded', String(offen));
+    klapp.textContent = offen ? 'Wieder zuklappen' : 'Welche fünf?';
   });
-});
+})();
 
-// Sticky-CTA Reveal nach Hero-Scroll
-const sticky = document.getElementById('t-StickyCta');
-const hero = document.querySelector('.hero');
-const heroObserver = new IntersectionObserver((entries) => {
-  entries.forEach((e) => {
-    sticky.classList.toggle('visible', !e.isIntersecting);
+// === Promoter-Vorschau =====================================================
+// Zeigt im Termin, wie der persönliche Bereich nach der Anmeldung aussieht.
+// Der Rahmen lädt erst beim Öffnen, damit die Präsentation nicht ungefragt
+// eine zweite Seite nachzieht.
+(function initPromoterVorschau() {
+  const overlay = document.getElementById('vorschauOverlay');
+  const rahmen = document.getElementById('vorschauRahmen');
+  const oeffnen = document.getElementById('vorschauOeffnen');
+  const schliessen = document.getElementById('vorschauSchliessen');
+  if (!overlay || !rahmen || !oeffnen || !schliessen) return;
+
+  const VORSCHAU_URL = '/mockups/empfehler-app-vorschau.html';
+
+  // Die Vorschauseite hat oben eine eigene Umschaltleiste für Ansicht und
+  // Farbe. Im Kundengespräch verwirrt die nur.
+  function rahmenAufraeumen() {
+    try {
+      const doc = rahmen.contentDocument;
+      if (!doc) return;
+      const leiste = doc.querySelector('.vorschau-leiste');
+      if (leiste) leiste.style.display = 'none';
+      doc.defaultView.scrollTo(0, 0);
+    } catch (e) {
+      console.warn('[Vorschau] Rahmen konnte nicht aufgeräumt werden:', e);
+    }
+  }
+
+  function auf() {
+    rahmen.addEventListener('load', rahmenAufraeumen, { once: true });
+    rahmen.src = VORSCHAU_URL;
+    overlay.hidden = false;
+    document.body.classList.add('thema-offen');
+    requestAnimationFrame(() => overlay.classList.add('offen'));
+  }
+  function zu() {
+    overlay.classList.remove('offen');
+    document.body.classList.remove('thema-offen');
+    window.setTimeout(() => { overlay.hidden = true; rahmen.src = 'about:blank'; }, 230);
+  }
+
+  oeffnen.addEventListener('click', auf);
+  schliessen.addEventListener('click', zu);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) zu(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !overlay.hidden) zu();
   });
-}, { threshold: 0.05 });
-if (hero) heroObserver.observe(hero);
+})();
+
+
+// Die Karriere-Karte dreht sich nicht mehr, sie klappt auf. Die Logik dazu
+// steht oben bei initEinstiegswege.
+
+// Sticky-Knopf und Kopfleiste erscheinen, sobald der Einstieg durchgescrollt
+// ist. Vorher hing das an `.hero` — den Abschnitt gibt es nicht mehr, seit
+// Hero und Zufriedenheitsfrage zusammengelegt sind, und der Knopf wäre nie
+// aufgetaucht.
+const sticky = document.getElementById('t-StickyCta');
+const ctaTop = document.querySelector('.cta-top');
+const einstieg = document.querySelector('.einstieg');
+if (einstieg) {
+  const einstiegObserver = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      const durch = !e.isIntersecting;
+      sticky?.classList.toggle('is-visible', durch);
+      ctaTop?.classList.toggle('is-visible', durch);
+    });
+  }, { threshold: 0.05 });
+  einstiegObserver.observe(einstieg);
+}
 
 // === Geführte mobile Präsentation (Phase 163) ==============================
 // Auf kleinen Bildschirmen führt eine feste Leiste unten durch die Abschnitte:

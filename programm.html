@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#FAF8F5" />
+  <meta name="theme-color" content="#FBFCFC" />
   <meta name="color-scheme" content="light" />
   <title>Vertrauen weitergeben · Kai Blobel</title>
 
@@ -14,8 +14,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
-  <link rel="stylesheet" href="css/style.css?v=33" />
-  <link rel="stylesheet" href="css/programm.css?v=91" />
+  <link rel="stylesheet" href="css/praesentation.css?v=1" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="programm">
@@ -28,487 +27,273 @@
     <button type="button" data-presentation-mode="full" aria-pressed="true">Ausführlich</button>
   </div>
 
-  <!-- ===== Sticky Top-CTA (Desktop) ===== -->
   <a class="cta-top" href="#anmelden">Jetzt empfehlen</a>
 
-  <!-- ===== 1 · Hero (Split-Layout) ===== -->
-  <section class="section hero hero-split" id="hero-haupt" data-short-hide>
-    <div class="inner hero-split-inner">
-      <div class="hero-split-text">
-        <p class="t-eyebrow reveal">Empfehlung</p>
-        <h1 class="t-h1 reveal d1">
-          Du bist <em>begeistert</em><br>von unserer<br>Zusammenarbeit?
-        </h1>
-        <p class="t-lede reveal d2">
-          Dann mache ich es dir jetzt maximal leicht,
-          mich weiter zu empfehlen.
+  <!-- ===== 1 · Einstieg ==========================================
+       Die ehrliche Frage steht am Anfang. Früher kam davor ein Hero
+       mit „Du bist begeistert?" — zwei Überschriften, die dasselbe
+       sagten, und die erste nahm die Antwort schon vorweg.
+       ============================================================ -->
+  <section class="section einstieg" id="reflexion">
+    <div class="inner einstieg-grid">
+      <div>
+        <h1>Würdest du dich heute <br>wieder für mich entscheiden?</h1>
+        <p class="einstieg-lede">
+          Nicht, was du glaubst, dass ich hören möchte. Sondern was du wirklich denkst.
+          Deine Antwort entscheidet, ob wir über den Rest überhaupt reden.
         </p>
-        <div class="hero-cta-stack reveal d3">
-          <a class="btn btn-primary" href="#anmelden">Jetzt empfehlen</a>
-          <a class="btn btn-secondary" href="#funktioniert">So funktioniert es</a>
-        </div>
-      </div>
-      <div class="hero-split-image reveal d2">
-        <img class="hero-portrait" id="t-Foto" data-bb="foto" alt="Kai Blobel" />
-      </div>
-    </div>
-  </section>
 
-  <!-- ===== 0 · Pre-Hero · Reflexions-Sektion mit NPS-Skala ===== -->
-  <section class="section pre-hero" id="reflexion">
-    <div class="pre-hero-layout">
-      <div class="pre-hero-content">
-      <p class="t-eyebrow reveal">Bevor es um Empfehlungen geht</p>
-      <h1 class="t-h1 pre-hero-h1 reveal d1">
-        Würdest du dich heute<br><em>wieder für mich entscheiden?</em>
-      </h1>
-      <p class="t-lede reveal d2">
-        Nicht, was du glaubst, dass ich hören möchte. Sondern was du wirklich denkst.
-      </p>
+        <div class="nps-block">
+          <div class="nps-question">
+            <span>Deine ehrliche Einschätzung</span>
+            <strong>Wie zufrieden bist du mit unserer Zusammenarbeit?</strong>
+          </div>
+          <div class="nps-scale" id="npsScale" role="radiogroup" aria-label="Zufriedenheit auf einer Skala von 1 bis 10">
+            <button class="nps-btn" type="button" data-score="1" role="radio" aria-checked="false">1</button>
+            <button class="nps-btn" type="button" data-score="2" role="radio" aria-checked="false">2</button>
+            <button class="nps-btn" type="button" data-score="3" role="radio" aria-checked="false">3</button>
+            <button class="nps-btn" type="button" data-score="4" role="radio" aria-checked="false">4</button>
+            <button class="nps-btn" type="button" data-score="5" role="radio" aria-checked="false">5</button>
+            <button class="nps-btn" type="button" data-score="6" role="radio" aria-checked="false">6</button>
+            <button class="nps-btn" type="button" data-score="7" role="radio" aria-checked="false">7</button>
+            <button class="nps-btn" type="button" data-score="8" role="radio" aria-checked="false">8</button>
+            <button class="nps-btn" type="button" data-score="9" role="radio" aria-checked="false">9</button>
+            <button class="nps-btn" type="button" data-score="10" role="radio" aria-checked="false">10</button>
+          </div>
+          <div class="nps-scale-labels">
+            <span>Da fehlt noch etwas</span>
+            <span>Jederzeit wieder</span>
+          </div>
+        </div>
 
-      <div class="nps-block reveal d3">
-        <div class="nps-question">
-          <span>Deine ehrliche Einschätzung</span>
-          <strong>Wie zufrieden bist du mit unserer Zusammenarbeit?</strong>
+        <div class="nps-response nps-response-low" id="npsResponseLow" hidden>
+          <div class="nps-response-card">
+            <p class="nps-response-title">Danke für deine Ehrlichkeit.</p>
+            <p class="nps-response-text">
+              Das tut mir leid. Und ich nehme es ernst. Lass uns kurz reden, damit ich verstehen kann, was bei dir nicht passt.
+            </p>
+            <div class="nps-response-actions">
+              <a class="nps-cta-primary" data-bb="tel" href="tel:+4915154776159">Jetzt anrufen</a>
+              <a class="nps-cta-secondary" data-bb="whatsapp" href="https://wa.me/4915154776159?text=Hallo%2C%20ich%20wollte%20dir%20kurz%20R%C3%BCckmeldung%20zu%20unserer%20Zusammenarbeit%20geben." target="_blank" rel="noopener">Per WhatsApp</a>
+            </div>
+          </div>
         </div>
-        <div class="nps-scale" id="npsScale" role="radiogroup" aria-label="Zufriedenheit auf einer Skala von 1 bis 10">
-          <button class="nps-btn" type="button" data-score="1" role="radio" aria-checked="false">1</button>
-          <button class="nps-btn" type="button" data-score="2" role="radio" aria-checked="false">2</button>
-          <button class="nps-btn" type="button" data-score="3" role="radio" aria-checked="false">3</button>
-          <button class="nps-btn" type="button" data-score="4" role="radio" aria-checked="false">4</button>
-          <button class="nps-btn" type="button" data-score="5" role="radio" aria-checked="false">5</button>
-          <button class="nps-btn" type="button" data-score="6" role="radio" aria-checked="false">6</button>
-          <button class="nps-btn" type="button" data-score="7" role="radio" aria-checked="false">7</button>
-          <button class="nps-btn" type="button" data-score="8" role="radio" aria-checked="false">8</button>
-          <button class="nps-btn" type="button" data-score="9" role="radio" aria-checked="false">9</button>
-          <button class="nps-btn" type="button" data-score="10" role="radio" aria-checked="false">10</button>
-        </div>
-        <div class="nps-scale-labels">
-          <span>Da fehlt noch etwas</span>
-          <span>Jederzeit wieder</span>
-        </div>
-      </div>
 
-      <!-- Response-Karten (alle 3 versteckt, JS blendet die richtige ein) -->
-      <div class="nps-response nps-response-low" id="npsResponseLow" hidden>
-        <div class="nps-response-card">
-          <p class="nps-response-title">Danke für deine Ehrlichkeit.</p>
-          <p class="nps-response-text">
-            Das tut mir leid. Und ich nehme es ernst. Lass uns kurz reden, damit ich verstehen kann, was bei dir nicht passt.
-          </p>
-          <div class="nps-response-actions">
-            <a class="nps-cta-primary" data-bb="tel" href="tel:+4915154776159">Jetzt anrufen</a>
-            <a class="nps-cta-secondary" data-bb="whatsapp" href="https://wa.me/4915154776159?text=Hallo%2C%20ich%20wollte%20dir%20kurz%20R%C3%BCckmeldung%20zu%20unserer%20Zusammenarbeit%20geben." target="_blank" rel="noopener">Per WhatsApp</a>
+        <div class="nps-response nps-response-mid" id="npsResponseMid" hidden>
+          <div class="nps-response-card">
+            <p class="nps-response-title">Verstanden.</p>
+            <p class="nps-response-text">
+              Da ist also noch etwas Luft. Wenn du sagen willst, was wir besser machen können, freu ich mich über deinen Anruf. Schau dir trotzdem gerne an, was ich vorbereitet habe.
+            </p>
+            <div class="nps-response-actions">
+              <a class="nps-cta-secondary" data-bb="tel" href="tel:+4915154776159">Kurz Feedback geben</a>
+              <a class="nps-cta-primary" href="#mehrwert">Trotzdem weiterlesen</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="nps-response nps-response-high" id="npsResponseHigh" hidden>
+          <div class="nps-response-card">
+            <p class="nps-response-title">Das freut mich.</p>
+            <p class="nps-response-text">
+              Dann hab ich gleich etwas für dich. Ich mach es dir so leicht wie möglich, mich an die Menschen weiterzugeben, die du im Kopf hast.
+            </p>
+            <div class="nps-response-actions">
+              <a class="nps-cta-primary" href="#mehrwert">Zeig mir, wie das geht</a>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="nps-response nps-response-mid" id="npsResponseMid" hidden>
-        <div class="nps-response-card">
-          <p class="nps-response-title">Verstanden.</p>
-          <p class="nps-response-text">
-            Da ist also noch etwas Luft. Wenn du sagen willst, was wir besser machen können, freu ich mich über deinen Anruf. Schau dir trotzdem gerne an, was ich vorbereitet habe.
-          </p>
-          <div class="nps-response-actions">
-            <a class="nps-cta-secondary" data-bb="tel" href="tel:+4915154776159">Kurz Feedback geben</a>
-            <a class="nps-cta-primary" href="#mehrwert">Trotzdem weiterlesen →</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="nps-response nps-response-high" id="npsResponseHigh" hidden>
-        <div class="nps-response-card">
-          <p class="nps-response-title">Das freut mich.</p>
-          <p class="nps-response-text">
-            Dann hab ich gleich etwas für dich: mein Empfehlungs-Programm. Ich mach es dir maximal leicht, mich an die Menschen weiterzugeben, die du im Kopf hast.
-          </p>
-          <div class="nps-response-actions">
-            <a class="nps-cta-primary nps-cta-pulse" href="#mehrwert">Zeig mir das Programm →</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Portrait entfällt hier: Es steht schon auf der Seite darüber.
-           Der Satz bleibt, er nimmt der Frage den Prüfungscharakter. -->
-      <figure class="pre-hero-zitat reveal d3">
-        <blockquote>„Deine ehrliche Antwort ist mir wichtiger als eine perfekte Zahl."</blockquote>
-        <figcaption data-bb="name">Kai Blobel</figcaption>
+      <!-- Das Foto läuft rechts aus dem Raster und unten in den nächsten
+           Abschnitt hinein. Genau ein Element, das den Rahmen bricht.
+           Hat der Berater kein Bürofoto hinterlegt, rückt sein Portrait nach. -->
+      <figure class="einstieg-foto">
+        <img id="t-Foto" data-bb="buerofoto" src="/assets/images/praesentation/kai-buero-teamwand.jpg" alt="Kai Blobel im Büro" />
+        <figcaption class="foto-notiz" data-bb="buerozeile">Büro Cottbus. Hier sitzen wir, wenn wir reden.</figcaption>
       </figure>
-      </div>
     </div>
   </section>
 
-  <!-- ===== 0a · Mehrwert-Sammlung (live editierbar im Termin) ===== -->
+  <!-- ===== 2 · Mehrwert (live im Termin betippt) ===== -->
   <section class="section mehrwert" id="mehrwert">
     <div class="inner">
-      <p class="t-eyebrow reveal" style="text-align:center;">Jetzt mal du</p>
-      <h2 class="t-h2 reveal d1" style="text-align:center;">
-        Welchen <em>Mehrwert</em> hast du<br>durch mich?
-      </h2>
-      <p class="t-lede reveal d2" style="text-align:center; margin: 0 auto 36px; max-width:600px;">
-        Was haben wir bisher zusammen erreicht?<br>
-        <span class="mehrwert-hint">Klick in die Felder und tipp rein. Ich schreibe mit.</span>
-      </p>
-      <ol class="mehrwert-list reveal d3" id="mehrwertList">
+      <div class="mehrwert-kopf">
+        <h2>Was hast du davon, dass es mich gibt?</h2>
+        <small class="mehrwert-hint">Tipp rein, ich schreibe mit.</small>
+      </div>
+      <ol class="mehrwert-list" id="mehrwertList">
         <li>
           <span class="mehrwert-num">1</span>
-          <div class="mehrwert-input" contenteditable="true" data-slot="1" data-placeholder="z. B. „Endlich Übersicht über meine Verträge"…" spellcheck="false"></div>
+          <div class="mehrwert-input" contenteditable="true" data-slot="1" data-placeholder="z. B. „Endlich Übersicht über meine Verträge“" spellcheck="false"></div>
         </li>
         <li>
           <span class="mehrwert-num">2</span>
-          <div class="mehrwert-input" contenteditable="true" data-slot="2" data-placeholder="z. B. „Ich spare jetzt, ohne es zu merken"…" spellcheck="false"></div>
+          <div class="mehrwert-input" contenteditable="true" data-slot="2" data-placeholder="z. B. „Ich spare jetzt, ohne es zu merken“" spellcheck="false"></div>
         </li>
         <li>
           <span class="mehrwert-num">3</span>
-          <div class="mehrwert-input" contenteditable="true" data-slot="3" data-placeholder="z. B. „Endlich jemand, der mitdenkt"…" spellcheck="false"></div>
+          <div class="mehrwert-input" contenteditable="true" data-slot="3" data-placeholder="z. B. „Endlich jemand, der mitdenkt“" spellcheck="false"></div>
         </li>
         <li>
           <span class="mehrwert-num">4</span>
           <div class="mehrwert-input" contenteditable="true" data-slot="4" data-placeholder="…" spellcheck="false"></div>
         </li>
       </ol>
-      <div class="mehrwert-tools reveal d3">
+      <div class="mehrwert-tools">
         <button class="mehrwert-clear" type="button" id="mehrwertClear" title="Alle Felder leeren">Alles löschen</button>
       </div>
     </div>
   </section>
 
-  <!-- ===== 0a2 · Teamwork-Botschaft (kompakt im Einstieg) ===== -->
-  <section class="section teamwork-intro" data-short-hide>
-    <div class="inner teamwork-story">
-      <p class="t-eyebrow reveal">Ein Leben. Viele Entscheidungen.</p>
-      <h2 class="t-h2 reveal d1">
-        Ein Ansprechpartner.<br><em>Für alles, was mit Geld zu tun hat.</em>
-      </h2>
-      <p class="t-lede reveal d2">
-        Wenn sich dein Leben verändert, musst du nicht jedes Mal bei null anfangen. Ich kenne deine Ziele, sehe die Zusammenhänge und hole bei Bedarf die passenden Spezialisten dazu.
-      </p>
-      <p class="teamwork-promise reveal d3">
-        <span class="teamwork-promise-mark" aria-hidden="true">✓</span>
-        Du erzählst deine Geschichte nur einmal.
-      </p>
-      <button class="market-open reveal d3" id="marketOpen" type="button" aria-haspopup="dialog" aria-controls="marketOverlay">
-        <span>Was alles dazugehört</span>
-        <span class="market-open-icon" aria-hidden="true">+</span>
-      </button>
-    </div>
-
-    <div class="market-overlay" id="marketOverlay" role="dialog" aria-modal="true" aria-labelledby="marketOverlayTitle" aria-hidden="true" hidden>
-      <button class="market-close" id="marketClose" type="button" aria-label="Marktübersicht schließen">
-        <span aria-hidden="true">×</span>
-      </button>
-
-      <div class="market-overlay-head">
-        <p class="market-eyebrow">Was alles dazugehört</p>
-        <h2 id="marketOverlayTitle">Ein Ansprechpartner.&nbsp;<em>Das ganze Bild.</em></h2>
-        <p>Klicke auf ein Thema, wenn du genauer hinschauen möchtest.</p>
-      </div>
-
-      <div class="market-map" id="marketMap">
-        <svg class="market-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <line x1="50" y1="50" x2="50" y2="8" />
-          <line x1="50" y1="50" x2="72" y2="13" />
-          <line x1="50" y1="50" x2="88" y2="32" />
-          <line x1="50" y1="50" x2="88" y2="64" />
-          <line x1="50" y1="50" x2="72" y2="82" />
-          <line x1="50" y1="50" x2="50" y2="90" />
-          <line x1="50" y1="50" x2="28" y2="82" />
-          <line x1="50" y1="50" x2="12" y2="64" />
-          <line x1="50" y1="50" x2="12" y2="32" />
-          <line x1="50" y1="50" x2="28" y2="13" />
-        </svg>
-
-        <button class="market-node" type="button" style="--market-x:50%; --market-y:8%; --market-delay:1;" data-market-icon="Sparkles" data-title="Energie &amp; Versorgung" data-details="Kosten dauerhaft im Blick behalten|Anbieter und Versorgung passend strukturieren">
-          <span class="market-node-icon" aria-hidden="true"></span>
-          <span>Energie &amp;<br>Versorgung</span>
-        </button>
-        <button class="market-node" type="button" style="--market-x:72%; --market-y:13%; --market-delay:2;" data-market-icon="Heart" data-title="Gesundheit" data-details="Gesundheit langfristig absichern|Vorsorge und Notfallplanung mitdenken">
-          <span class="market-node-icon" aria-hidden="true"></span>
-          <span>Gesundheit</span>
-        </button>
-        <button class="market-node" type="button" style="--market-x:88%; --market-y:32%; --market-delay:3;" data-market-icon="Banknote" data-title="Liquidität &amp; Banking" data-details="Finanzen übersichtlich ordnen|Liquidität und Reserven sinnvoll planen">
-          <span class="market-node-icon" aria-hidden="true"></span>
-          <span>Liquidität &amp;<br>Banking</span>
-        </button>
-        <button class="market-node" type="button" style="--market-x:88%; --market-y:64%; --market-delay:4;" data-market-icon="Home" data-title="Immobilien" data-details="Den Weg ins Eigenheim planen|Finanzierung und Modernisierung zusammendenken">
-          <span class="market-node-icon" aria-hidden="true"></span>
-          <span>Immobilien</span>
-        </button>
-        <button class="market-node" type="button" style="--market-x:72%; --market-y:82%; --market-delay:5;" data-market-icon="TrendingUp" data-title="Vermögensaufbau" data-details="Ziele und Zeithorizonte festlegen|Vermögen Schritt für Schritt aufbauen">
-          <span class="market-node-icon" aria-hidden="true"></span>
-          <span>Vermögensaufbau</span>
-        </button>
-        <button class="market-node" type="button" style="--market-x:50%; --market-y:90%; --market-delay:6;" data-market-icon="FileText" data-title="Finanzierung" data-details="Vorhaben solide finanzieren|Bestehende Verbindlichkeiten im Blick behalten">
-          <span class="market-node-icon" aria-hidden="true"></span>
-          <span>Finanzierung</span>
-        </button>
-        <button class="market-node" type="button" style="--market-x:28%; --market-y:82%; --market-delay:7;" data-market-icon="FileText" data-title="Steueroptimierung" data-details="Mögliche Steuervorteile prüfen|Entscheidungen sauber aufeinander abstimmen">
-          <span class="market-node-icon" aria-hidden="true"></span>
-          <span>Steueroptimierung</span>
-        </button>
-        <button class="market-node" type="button" style="--market-x:12%; --market-y:64%; --market-delay:8;" data-market-icon="ShieldCheck" data-title="Staatliche Förderung" data-details="Fördermöglichkeiten prüfen|Staatliche Vorteile sinnvoll einbeziehen">
-          <span class="market-node-icon" aria-hidden="true"></span>
-          <span>Staatliche<br>Förderung</span>
-        </button>
-        <button class="market-node" type="button" style="--market-x:12%; --market-y:32%; --market-delay:9;" data-market-icon="Briefcase" data-title="Arbeitgeberlösungen" data-details="Betriebliche Möglichkeiten nutzen|Mitarbeiterbindung und Absicherung verbinden">
-          <span class="market-node-icon" aria-hidden="true"></span>
-          <span>Arbeitgeber-<br>lösungen</span>
-        </button>
-        <button class="market-node" type="button" style="--market-x:28%; --market-y:13%; --market-delay:10;" data-market-icon="Compass" data-title="Mobilität &amp; KFZ" data-details="Fahrzeuge passend absichern|Kosten und Schutz gemeinsam betrachten">
-          <span class="market-node-icon" aria-hidden="true"></span>
-          <span>Mobilität &amp; KFZ</span>
-        </button>
-
-        <div class="market-center" aria-live="polite">
-          <span class="market-center-kicker" id="marketDetailKicker">Deine Ziele</span>
-          <h3 id="marketDetailTitle">Ganzheitlich gedacht.</h3>
-          <p id="marketDetailHint">Wähle ein Themenfeld aus.</p>
-          <ul id="marketDetailList" hidden></ul>
-        </div>
-      </div>
-
-      <p class="market-overlay-foot">Ein Ansprechpartner, der die Zusammenhänge im Blick behält.</p>
-    </div>
-  </section>
-
-  <!-- ===== 0b · Der Tipp bekommt ein Gesicht ===== -->
-  <section class="section foerder-rechner" id="foerder" data-short-hide>
-    <div class="foerder-story">
-      <div class="foerder-story-shade" aria-hidden="true"></div>
-      <div class="foerder-story-copy reveal">
-        <p class="t-eyebrow">Ein Tipp, der Zukunft verändern kann</p>
-        <h2>Was könnte dein Tipp einem Menschen bringen, der dir wichtig ist?</h2>
-        <p>Vielleicht ist es dein bester Freund. Vielleicht jemand aus deiner Familie. Manchmal beginnt etwas Gutes mit einem einzigen Hinweis.</p>
-      </div>
-
-      <div class="foerder-person-card reveal d2">
-        <span>An wen denkst du gerade?</span>
-        <div class="foerder-person-switch" aria-label="Nahestehende Person auswählen">
-          <button type="button" class="active" data-foerder-person="freund">Bester Freund</button>
-          <button type="button" data-foerder-person="familie">Familie</button>
-          <button type="button" data-foerder-person="kollege">Lieblingskollege</button>
-        </div>
-        <p id="foerderPersonLine">Für deinen besten Freund könnte dein Tipp der Moment sein, an dem er seine Zukunft endlich anpackt.</p>
-      </div>
-    </div>
-
-    <div class="foerder-stage">
-      <article class="reform-card reveal d1">
-        <div class="reform-card-topline" aria-hidden="true"><i></i><i></i><i></i></div>
-        <div class="reform-card-head">
-          <div class="reform-document" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h6"/></svg>
-          </div>
-          <div>
-            <p>Deutschland · Altersvorsorge 2027</p>
-            <span>Beschlossen und in Kraft</span>
-          </div>
-        </div>
-        <h3>Die Regeln werden neu aufgestellt.</h3>
-        <p class="reform-card-copy">Ab 1. Januar 2027 starten neue geförderte Vorsorgeprodukte. Dazu gehört auch das Altersvorsorgedepot mit Fonds und ETFs.</p>
-        <div class="reform-facts">
-          <span>Neue Möglichkeiten ab 2027</span>
-          <span>Bestehende Riester-Verträge bleiben</span>
-        </div>
-        <a href="https://www.bundesregierung.de/breg-de/aktuelles/reform-private-altersvorsorge-2400072" target="_blank" rel="noopener">Quelle: Bundesregierung</a>
-      </article>
-
-      <div class="foerder-tool reveal d2">
-        <div class="foerder-tool-head">
-          <div>
-            <span class="foerder-tool-kicker">Erste Orientierung</span>
-            <h3>Was könnte heute schon drin sein?</h3>
-          </div>
-          <p>Keine Zusage, sondern ein Gesprächseinstieg.</p>
-        </div>
-
-        <div class="foerder-inputs">
-          <div class="foerder-input-group">
-            <label>Alter</label>
-            <div class="foerder-slider">
-              <input type="range" min="18" max="65" value="35" id="foerderAlter" aria-label="Alter" />
-              <span class="foerder-slider-val"><span id="foerderAlterVal">35</span> Jahre</span>
-            </div>
-          </div>
-          <div class="foerder-input-group">
-            <label>Brutto-Einkommen</label>
-            <div class="foerder-slider">
-              <input type="range" min="20000" max="120000" step="2500" value="45000" id="foerderEinkommen" aria-label="Brutto-Einkommen pro Jahr" />
-              <span class="foerder-slider-val"><span id="foerderEinkommenVal">45.000</span> €</span>
-            </div>
-          </div>
-          <div class="foerder-input-group foerder-input-compact">
-            <label>Familienstand</label>
-            <div class="foerder-btn-group" data-field="familie">
-              <button type="button" data-val="single" class="active">Single</button>
-              <button type="button" data-val="verheiratet">Verheiratet</button>
-            </div>
-          </div>
-          <div class="foerder-input-group foerder-input-compact">
-            <label>Kinder</label>
-            <div class="foerder-btn-group" data-field="kinder">
-              <button type="button" data-val="0" class="active">0</button>
-              <button type="button" data-val="1">1</button>
-              <button type="button" data-val="2">2</button>
-              <button type="button" data-val="3">3+</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="foerder-result">
-          <div class="foerder-result-summary">
-            <p class="foerder-result-label">Mögliche Vorteile im Beispiel pro Jahr</p>
-            <p class="foerder-result-amount"><span id="foerderAmount" class="foerder-result-amount-num">0</span><span class="foerder-result-amount-unit">€</span></p>
-            <p class="foerder-result-sub">Förderungen, Arbeitgeberleistungen und Beitragsvorteile. Was wirklich passt, prüfen wir persönlich.</p>
-          </div>
-          <ul class="foerder-result-breakdown" id="foerderBreakdown"></ul>
-          <a class="foerder-cta" data-bb="finanzcheck" href="https://finanzcheck.kaiblobel.de?from=empfehlung" target="_blank" rel="noopener">
-            Persönlich prüfen
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </a>
-        </div>
-      </div>
-
-      <p class="foerder-stage-closing reveal d3"><span>Ein Tipp.</span> Ein Gespräch. Vielleicht ein echter Unterschied.</p>
-    </div>
-  </section>
-
-  <!-- ===== 0c · Vorteile unserer Zusammenarbeit (Orbit) ===== -->
-  <section class="section vorteile-section" id="vorteile" data-short-hide>
+  <!-- ===== 3 · Das Zitat, quer über die Breite ===== -->
+  <!-- Bewusst eine section und kein figure: Die Längen-Umschaltung und die
+       geführte Handy-Navigation zählen `section.section`. Als figure wäre
+       dieser Abschnitt im Kurzmodus stehen geblieben, obwohl er ausgeblendet
+       werden soll. -->
+  <section class="section zitat" data-short-hide>
     <div class="inner">
-      <p class="t-eyebrow reveal" style="text-align:center;">Deine Vorteile</p>
-      <h2 class="t-h2 reveal d1" style="text-align:center;">
-        Was dir die Zusammenarbeit mit mir <em>bringt</em>.
-      </h2>
-      <div class="vorteile-orbit reveal d2">
-        <svg class="vo-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <line x1="50" y1="50" x2="89" y2="65" />
-          <line x1="50" y1="50" x2="66" y2="87" />
-          <line x1="50" y1="50" x2="34" y2="87" />
-          <line x1="50" y1="50" x2="11" y2="65" />
-          <line x1="50" y1="50" x2="11" y2="35" />
-          <line x1="50" y1="50" x2="34" y2="13" />
-          <line x1="50" y1="50" x2="66" y2="13" />
-          <line x1="50" y1="50" x2="89" y2="35" />
-        </svg>
-
-        <div class="vo-center">
-          <span class="vo-center-eyebrow">Ein Partner</span>
-          <span class="vo-center-title">Klarheit.<br>Sicherheit.<br>Vermögen.</span>
-        </div>
-
-        <ul class="vo-ring">
-          <li class="vo-node vo-n1" style="--d:.14s">
-            <span class="vo-node-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg></span>
-            <span class="vo-node-label">Ein Ansprechpartner</span>
-          </li>
-          <li class="vo-node vo-n2" style="--d:.22s">
-            <span class="vo-node-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><circle cx="12" cy="12" r="3"/></svg></span>
-            <span class="vo-node-label">Strategie statt Produkte</span>
-          </li>
-          <li class="vo-node vo-n3" style="--d:.3s">
-            <span class="vo-node-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg></span>
-            <span class="vo-node-label">Kurze Wege</span>
-          </li>
-          <li class="vo-node vo-n4" style="--d:.38s">
-            <span class="vo-node-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></span>
-            <span class="vo-node-label">Ein Leben lang begleitet</span>
-          </li>
-          <li class="vo-node vo-n5" style="--d:.46s">
-            <span class="vo-node-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>
-            <span class="vo-node-label">Mehr aus deinem Geld</span>
-          </li>
-          <li class="vo-node vo-n6" style="--d:.54s">
-            <span class="vo-node-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 0 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg></span>
-            <span class="vo-node-label">So wie es dir passt</span>
-          </li>
-          <li class="vo-node vo-n7" style="--d:.62s">
-            <span class="vo-node-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v5h5"/><path d="m9 15 2 2 4-4"/></svg></span>
-            <span class="vo-node-label">Verträge im Blick</span>
-          </li>
-          <li class="vo-node vo-n8" style="--d:.7s">
-            <span class="vo-node-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg></span>
-            <span class="vo-node-label">Alles aus einer Hand</span>
-          </li>
-        </ul>
-      </div>
+      <figure>
+        <blockquote>„Deine ehrliche Antwort ist mir wichtiger als eine perfekte Zahl.“</blockquote>
+        <figcaption data-bb="name">Kai Blobel</figcaption>
+      </figure>
     </div>
   </section>
 
-  <!-- ===== 0c · Empfehlen ist Alltag ===== -->
+  <!-- ===== 4 · Ein Ansprechpartner ===== -->
+  <section class="section anker" id="vorteile" data-short-hide>
+    <div class="inner">
+      <div class="anker-kopf">
+        <div>
+          <h2>Ein Ansprechpartner für alles, was mit Geld zu tun hat.</h2>
+          <p>Wenn sich dein Leben verändert, fängst du nicht jedes Mal bei null an.</p>
+        </div>
+        <p class="anker-versprechen">Du erzählst deine Geschichte nur einmal.</p>
+      </div>
+
+      <div class="anker-felder">
+        <article class="anker-feld">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+          <strong>Absicherung und Vorsorge</strong>
+          <span>Einkommen, Arbeitskraft, Rente</span>
+        </article>
+        <article class="anker-feld">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+          <strong>Bauen, Kaufen, Finanzieren</strong>
+          <span>Vom ersten Angebot bis zur Anschlussfinanzierung</span>
+        </article>
+        <article class="anker-feld">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg>
+          <strong>Vermögen und Geldanlage</strong>
+          <span>Sparen, anlegen, den Überblick behalten</span>
+        </article>
+        <article class="anker-feld">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg>
+          <strong>Gesundheit und Pflege</strong>
+          <span>Krankenversicherung, Zähne, Pflegefall</span>
+        </article>
+        <article class="anker-feld">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>
+          <strong>Sach, KFZ und Energie</strong>
+          <span>Haus, Auto, Strom und Gas</span>
+        </article>
+        <article class="anker-feld">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <strong>Kinder und Familie</strong>
+          <span>Früh anfangen, damit später mehr geht</span>
+        </article>
+      </div>
+
+      <button class="anker-mehr" id="marketOpen" type="button" aria-haspopup="dialog" aria-controls="marketOverlay">Was alles dazugehört</button>
+    </div>
+  </section>
+
+  <!-- ===== 5 · Empfehlen gehört zum Alltag ===== -->
   <section class="section alltag" data-short-hide>
     <div class="inner">
-      <p class="t-eyebrow reveal" style="text-align:center;">Was wir alle tun</p>
-      <h2 class="t-h2 reveal d1" style="text-align:center;">
-        Empfehlen gehört <br>zum <em>Alltag</em>.
-      </h2>
-      <p class="t-lede reveal d2" style="text-align:center; margin: 0 auto 36px; max-width:600px;">
-        Wir tun es jeden Tag, ohne lang darüber nachzudenken:
-      </p>
-      <div class="alltag-quotes alltag-quotes-standard reveal d3">
-        <div class="alltag-quote" data-mood="restaurant">„Geh in das eine Restaurant."</div>
-        <div class="alltag-quote" data-mood="film">„Schau diesen Film."</div>
-        <div class="alltag-quote" data-mood="handwerker">„Frag den Handwerker."</div>
-        <div class="alltag-quote" data-mood="baecker">„Kauf bei dem Bäcker."</div>
-        <div class="alltag-quote" data-mood="arzt">„Geh zu meinem Hausarzt."</div>
-        <div class="alltag-quote" data-mood="buch">„Lies dieses Buch."</div>
+      <h2>Empfehlen gehört zum Alltag.</h2>
+      <div class="alltag-saetze">
+        <figure class="alltag-satz alltag-satz-restaurant"><span>„Geh in das eine Restaurant.“</span></figure>
+        <figure class="alltag-satz alltag-satz-film"><span>„Schau diesen Film.“</span></figure>
+        <figure class="alltag-satz alltag-satz-handwerker"><span>„Frag den Handwerker.“</span></figure>
+        <figure class="alltag-satz alltag-satz-baecker"><span>„Kauf bei dem Bäcker.“</span></figure>
+        <figure class="alltag-satz alltag-satz-arzt"><span>„Geh zu meinem Hausarzt.“</span></figure>
+        <figure class="alltag-satz alltag-satz-buch"><span>„Lies dieses Buch.“</span></figure>
       </div>
 
-      <div class="alltag-quotes alltag-quotes-hero reveal d3">
-        <div class="alltag-quote alltag-quote-hero alltag-quote-hero-gold" data-mood="finanz">
-          <span class="alltag-quote-badge">Worum es hier geht</span>
-          <span class="alltag-quote-text">„Empfiehl meine <em>Beratung</em>."</span>
-          <span class="alltag-quote-tipp-value">
-            Im Schnitt ca.
-            <strong id="alltagFoerderSum">0&nbsp;€</strong>
-            im Jahr für die empfohlene Person.
-          </span>
-        </div>
-        <div class="alltag-quote alltag-quote-hero alltag-quote-hero-marine alltag-flip" data-mood="karriere" tabindex="0" role="button" aria-label="Berufliche Perspektive – Details anzeigen">
-          <div class="alltag-flip-inner">
-            <div class="alltag-face alltag-front">
-              <span class="alltag-status"><span class="alltag-status-dot" aria-hidden="true"></span>5 Positionen · jetzt gesucht</span>
-              <div class="alltag-front-body">
-                <span class="alltag-quote-text">„Empfiehl eine neue <em>berufliche</em> Perspektive."</span>
-                <span class="alltag-tagline">Fünf Wege. Ein Team. Dein Einstieg.</span>
-              </div>
-              <span class="alltag-flip-hint">Was dahintersteckt <span aria-hidden="true">→</span></span>
-            </div>
-            <div class="alltag-face alltag-back">
-              <span class="alltag-quote-badge">Deine Perspektive</span>
-              <ul class="alltag-perspektive">
-                <li>Vom ersten Tag an verdienen</li>
-                <li>Klare Aufstiegsperspektive im Team</li>
-                <li>Arbeit, die wirklich Sinn ergibt</li>
-              </ul>
-              <span class="alltag-flip-hint">Zurück <span aria-hidden="true">↩</span></span>
-            </div>
+      <p class="alltag-wende">Wir tun das jeden Tag, ohne lang darüber nachzudenken. Um zwei Sätze geht es hier:</p>
+
+      <div class="alltag-zwei">
+        <article class="alltag-karte alltag-karte-kern">
+          <small>Worum es hier geht</small>
+          <q>„Empfiehl meine Beratung.“</q>
+          <p>Die meisten wissen gar nicht, was ihnen zusteht und was sie jedes Jahr liegen lassen.
+             Ein Gespräch bringt Klarheit darüber, was möglich ist und was davon wirklich zum
+             Leben passt.</p>
+          <a class="alltag-rechnen" href="#themen">
+            Worüber würdest du mich empfehlen? <span aria-hidden="true">→</span>
+          </a>
+        </article>
+
+        <article class="alltag-karte alltag-karte-weg" data-bb-optional>
+          <img class="alltag-weg-bild" data-bb="teamfoto" src="/assets/images/praesentation/team-wand.jpg" alt="Teamwork-Wand im Büro">
+          <div class="alltag-weg-text">
+            <small>Fünf Einstiegswege</small>
+            <q>„Empfiehl eine neue berufliche Perspektive.“</q>
+            <p>Bei uns sind gerade fünf Wege offen, und längst nicht jeder führt in die Beratung.
+               Vom Backoffice bis zum Finanzcoach, auch nebenberuflich.</p>
+            <button class="alltag-klapp" id="alltagKlapp" type="button" aria-expanded="false" aria-controls="alltagDetails">
+              Welche fünf?
+            </button>
+            <ul class="alltag-details" id="alltagDetails" hidden>
+              <li>Finanzcoach</li>
+              <li>Finanzspezialist:in</li>
+              <li>Einstieg über die Ausbildung</li>
+              <li>Nebenberuflicher Einstieg</li>
+              <li>Backoffice und Organisation</li>
+            </ul>
           </div>
-        </div>
+        </article>
       </div>
 
-      <p class="t-body reveal d3" style="text-align:center; margin: 44px auto 0; max-width:680px;">
-        Beim Restaurant ist es ein guter Abend. Beim Hausarzt ist es Gesundheit.<br>
-        <strong>Beim Geld ist es die Zukunft. Bei der Karriere ist es ein neues Leben.</strong>
+      <p class="alltag-merksatz">
+        Beim Restaurant ist es ein guter Abend. Beim Hausarzt ist es Gesundheit.
+        <b>Beim Geld ist es die Zukunft. Bei der Karriere ist es ein neues Leben.</b>
       </p>
     </div>
   </section>
 
-
-  <!-- ===== 1a · Persönliche Botschaft an den Empfehlungsgeber ===== -->
-  <section class="section promoter-message">
-    <div class="promoter-message-copy">
-      <p class="promoter-message-eyebrow reveal">Eine persönliche Bitte</p>
-      <h2 class="reveal d1">
-        Du verkaufst nichts.<br>
-        Du öffnest nur <em>eine Tür.</em>
-      </h2>
-      <p class="promoter-message-lede reveal d2">
-        Wenn du an einen Menschen denkst, dem ein Gespräch mit mir helfen könnte,
-        dann stell uns einfach einander vor. <strong>Mehr musst du nicht tun.</strong>
+  <!-- ===== 6 · Worüber? Die Weiche im Gespräch =====================
+       Je nach Thema geht etwas anderes auf: der Rechner, die fertige
+       Themenseite, oder ein Satz zum Weiterreden. Deshalb sieht die
+       Eurosumme nur, wen sie etwas angeht.
+       ============================================================ -->
+  <section class="section themen" id="themen">
+    <div class="inner">
+      <h2>Worüber würdest du mich weiterempfehlen?</h2>
+      <p class="themen-lede">
+        Menschen empfehlen keine Produkte. Sie empfehlen, was gerade helfen könnte.
+        Tipp auf das Thema, das zu der Person passt, an die du denkst.
       </p>
 
-      <div class="promoter-message-facts reveal d3" aria-label="So einfach ist die Empfehlung">
+      <div class="themen-stark" id="themenStark" aria-live="polite"></div>
+
+      <div class="themen-rest">
+        <p class="themen-rest-kopf">Oder es geht um etwas anderes:</p>
+        <div class="themen-weitere" id="themenWeitere"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 7 · Die Tür ===== -->
+  <section class="section tuer">
+    <div class="inner">
+      <h2>Du verkaufst nichts. Du öffnest nur eine Tür.</h2>
+      <p>
+        Wenn du an einen Menschen denkst, dem ein Gespräch mit mir helfen könnte, dann stell uns
+        einfach einander vor. Mehr musst du nicht tun.
+      </p>
+      <div class="tuer-fakten">
         <div>
           <span>30 Sekunden</span>
           <b>Ein persönlicher Link ist schnell erstellt.</b>
@@ -522,247 +307,148 @@
           <b>Die Person schaut in Ruhe und entscheidet selbst.</b>
         </div>
       </div>
-    </div>
-
-    <div class="promoter-message-light" aria-hidden="true">
-      <div class="promoter-door-glow"></div>
-      <div class="promoter-door-frame">
-        <div class="promoter-door-opening"></div>
-      </div>
-      <div class="promoter-message-signature">
-        <span>Danke für dein Vertrauen.</span>
-        <b data-bb="name">Kai Blobel</b>
-      </div>
+      <p class="tuer-signatur">Danke für dein Vertrauen. <span data-bb="name">Kai Blobel</span></p>
     </div>
   </section>
 
-  <!-- ===== 2 · So funktioniert es (3-Schritte-Row) ===== -->
-  <section class="section alt" id="funktioniert">
+  <!-- ===== 8 · Ablauf in drei Schritten ===== -->
+  <section class="section ablauf" id="funktioniert">
     <div class="inner wide">
-      <p class="t-eyebrow reveal" style="text-align:center;">So funktioniert es</p>
-      <h2 class="t-h2 reveal d1" style="text-align:center;">
-        So kannst du mich <em>empfehlen</em><br>und gleichzeitig profitieren.
-      </h2>
-      <div class="steps-row iphone-flow">
-        <article class="iphone-step reveal d1">
-          <div class="iphone-step-head">
-            <span class="iphone-step-num"><i></i>01<i></i></span>
+      <h2>So empfiehlst du mich, in drei Schritten.</h2>
+
+      <div class="schritte">
+        <article class="schritt">
+          <div class="schritt-kopf">
+            <p class="schritt-num"><i></i>01</p>
             <h3>Empfehlung anlegen</h3>
             <p>Name und passendes Thema auswählen. Der persönliche Link entsteht sofort.</p>
           </div>
-          <div class="iphone-device" aria-label="Handyansicht zum Anlegen einer Empfehlung">
-            <div class="iphone-screen">
-              <span class="iphone-island" aria-hidden="true"></span>
-              <div class="iphone-status"><span>9:41</span><span>5G&nbsp;&nbsp;▰</span></div>
-              <div class="iphone-app iphone-referral-app">
-                <div class="iphone-app-brand"><span>KB</span><div><strong>Empfehlungsportal</strong><small>Neue Empfehlung</small></div></div>
+          <div class="geraet" aria-label="Handyansicht zum Anlegen einer Empfehlung">
+            <div class="schirm">
+              <span class="insel" aria-hidden="true"></span>
+              <div class="statuszeile"><span>9:41</span><span>5G&nbsp;&nbsp;▰</span></div>
+              <div class="app">
+                <div class="app-marke">
+                  <span data-bb="initialen">KB</span>
+                  <div><strong>Empfehlungsportal</strong><small>Neue Empfehlung</small></div>
+                </div>
                 <h4>Wen möchtest du empfehlen?</h4>
                 <p>Nur die wichtigsten Angaben. Den Rest übernehme ich.</p>
-                <div class="iphone-field"><small>Vorname</small><b>Anna</b></div>
-                <div class="iphone-field"><small>Mobilnummer</small><b>0173 1234567</b></div>
-                <div class="iphone-chips"><span class="active">Baufinanzierung</span><span>Allgemein</span></div>
-                <span class="iphone-app-button">Persönlichen Link erstellen</span>
-                <div class="iphone-ready"><span>✓</span><b>Link ist bereit zum Versenden</b></div>
+                <div class="feld"><small>Vorname</small><b>Anna</b></div>
+                <div class="feld"><small>Mobilnummer</small><b>0173 1234567</b></div>
+                <div class="chips"><span class="aktiv">Baufinanzierung</span><span>Allgemein</span></div>
+                <span class="app-knopf">Persönlichen Link erstellen</span>
+                <div class="fertig"><span>✓</span><b>Link ist bereit zum Versenden</b></div>
               </div>
-              <span class="iphone-home" aria-hidden="true"></span>
+              <span class="homebar" aria-hidden="true"></span>
             </div>
           </div>
         </article>
 
-        <article class="iphone-step reveal d2">
-          <div class="iphone-step-head">
-            <span class="iphone-step-num"><i></i>02<i></i></span>
+        <article class="schritt">
+          <div class="schritt-kopf">
+            <p class="schritt-num"><i></i>02</p>
             <h3>Per WhatsApp senden</h3>
             <p>Eine persönliche Nachricht ist vorbereitet und kann direkt verschickt werden.</p>
           </div>
-          <div class="iphone-device" aria-label="Handyansicht einer vorbereiteten WhatsApp-Nachricht">
-            <div class="iphone-screen iphone-wa-screen">
-              <span class="iphone-island" aria-hidden="true"></span>
-              <div class="iphone-status light"><span>9:41</span><span>5G&nbsp;&nbsp;▰</span></div>
-              <div class="iphone-wa-head"><span class="iphone-wa-back">‹</span><span class="iphone-wa-avatar">A</span><div><strong>Anna</strong><small>online</small></div></div>
-              <div class="iphone-chat">
-                <span class="iphone-chat-day">HEUTE</span>
-                <div class="iphone-chat-bubble">
-                  Hi Anna, ich wollte dir kurz <strong data-bb="name">Kai Blobel</strong> empfehlen. Er hat mir bei meiner Baufinanzierung sehr geholfen. Schau dir das hier mal in Ruhe an:<br><a>empfehlung.de/anna</a>
+          <div class="geraet" aria-label="Handyansicht einer vorbereiteten WhatsApp-Nachricht">
+            <div class="schirm wa-schirm">
+              <span class="insel" aria-hidden="true"></span>
+              <div class="statuszeile hell"><span>9:41</span><span>5G&nbsp;&nbsp;▰</span></div>
+              <div class="wa-kopf">
+                <span class="wa-zurueck">‹</span>
+                <span class="wa-avatar">A</span>
+                <div><strong>Anna</strong><small>online</small></div>
+              </div>
+              <div class="chat">
+                <span class="chat-tag">HEUTE</span>
+                <div class="chat-blase">
+                  Hi Anna, ich wollte dir kurz <strong data-bb="name">Kai Blobel</strong> empfehlen. Er hat mir bei
+                  meiner Baufinanzierung sehr geholfen. Schau dir das hier mal in Ruhe an:<br>
+                  <a>empfehlung.de/anna</a>
                   <span>12:34&nbsp; ✓✓</span>
                 </div>
-                <div class="iphone-chat-input"><span>Nachricht</span><i>›</i></div>
+                <div class="chat-eingabe"><span>Nachricht</span><i>›</i></div>
               </div>
-              <span class="iphone-home" aria-hidden="true"></span>
+              <span class="homebar" aria-hidden="true"></span>
             </div>
           </div>
         </article>
 
-        <article class="iphone-step reveal d3">
-          <div class="iphone-step-head">
-            <span class="iphone-step-num"><i></i>03<i></i></span>
+        <article class="schritt">
+          <div class="schritt-kopf">
+            <p class="schritt-num"><i></i>03</p>
             <h3>Dankeschön auswählen</h3>
-            <p>Wenn daraus ein Kunde wird, entscheidet der Promoter selbst über seine Belohnung.</p>
+            <p>Wenn daraus ein Kunde wird, entscheidest du selbst über deine Belohnung.</p>
           </div>
-          <div class="iphone-device" aria-label="Handyansicht zur Auswahl einer Belohnung">
-            <div class="iphone-screen">
-              <span class="iphone-island" aria-hidden="true"></span>
-              <div class="iphone-status"><span>9:41</span><span>5G&nbsp;&nbsp;▰</span></div>
-              <div class="iphone-app iphone-reward-app">
-                <span class="iphone-reward-mark">♡</span>
+          <div class="geraet" aria-label="Handyansicht zur Auswahl einer Belohnung">
+            <div class="schirm">
+              <span class="insel" aria-hidden="true"></span>
+              <div class="statuszeile"><span>9:41</span><span>5G&nbsp;&nbsp;▰</span></div>
+              <div class="app pramien-app">
+                <span class="pramien-mark">♡</span>
                 <h4>Dein Dankeschön</h4>
                 <p>Du entscheidest selbst, was am besten zu dir passt.</p>
-                <div class="iphone-reward-option active"><span>€</span><div><strong>Geldprämie</strong><small>Direkt auf dein Konto</small></div><i></i></div>
-                <div class="iphone-reward-option"><span>□</span><div><strong>Sachprämie</strong><small>Aus der aktuellen Auswahl</small></div><i></i></div>
-                <div class="iphone-reward-option"><span>♡</span><div><strong>Spende</strong><small>An ein Projekt deiner Wahl</small></div><i></i></div>
-                <span class="iphone-app-button">Auswahl bestätigen</span>
-                <small class="iphone-reward-note">Deine Auswahl kannst du später noch ändern.</small>
+                <div class="pramien-option aktiv">
+                  <span>€</span><div><strong>Geldprämie</strong><small>Direkt auf dein Konto</small></div><i></i>
+                </div>
+                <div class="pramien-option">
+                  <span>□</span><div><strong>Sachprämie</strong><small>Aus der aktuellen Auswahl</small></div><i></i>
+                </div>
+                <div class="pramien-option">
+                  <span>♡</span><div><strong>Spende</strong><small>An ein Projekt deiner Wahl</small></div><i></i>
+                </div>
+                <span class="app-knopf">Auswahl bestätigen</span>
+                <small class="pramien-notiz">Deine Auswahl kannst du später noch ändern.</small>
               </div>
-              <span class="iphone-home" aria-hidden="true"></span>
+              <span class="homebar" aria-hidden="true"></span>
             </div>
           </div>
         </article>
       </div>
-      <div class="section-cta reveal d3">
+
+      <div class="section-cta">
         <a class="btn btn-primary" href="#anmelden">Jetzt empfehlen</a>
       </div>
     </div>
   </section>
-  <!-- ===== 2b · Themen-Auswahl ===== -->
-  <section class="section topics" id="themen">
+
+  <!-- ===== 9 · Deine Reise von 1 bis 15 ===== -->
+  <section class="section meilen" id="belohnungen">
     <div class="inner wide">
-      <div class="topics-head">
-        <p class="t-eyebrow reveal">Der passende Gedanke zur richtigen Zeit</p>
-        <h2 class="t-h2 reveal d1">
-          Menschen empfehlen keine Produkte.<br>Sie empfehlen, <em>was gerade helfen könnte.</em>
-        </h2>
-        <p class="t-lede reveal d2">
-          Du wählst die Themenwelt, die zum Leben der Person passt. Oder du empfiehlst mich einfach ganz allgemein.
-        </p>
-      </div>
+      <h2>Deine Reise von 1 bis 15.</h2>
+      <p class="meilen-lede">Jede Person, die durch dich Kundin wird, schaltet die nächste Stufe frei.</p>
 
-      <div class="topics-grid" id="t-Topics" aria-live="polite">
-        <div class="topic-card-skel"></div>
-        <div class="topic-card-skel"></div>
-      </div>
-
-      <p class="topics-footnote reveal">Die Person sieht nur den passenden Einstieg und entscheidet selbst, wie weit sie gehen möchte.</p>
-    </div>
-
-    <div class="topic-preview" id="topicPreview" role="dialog" aria-modal="true" aria-labelledby="topicPreviewTitle" aria-hidden="true" hidden>
-      <button class="topic-preview-close" id="topicPreviewClose" type="button" aria-label="Vorschau schließen">
-        <span aria-hidden="true">×</span>
-      </button>
-      <div class="topic-preview-shell">
-        <aside class="topic-preview-copy">
-          <p class="topic-preview-eyebrow">So kommt die Empfehlung an</p>
-          <span class="topic-preview-icon" id="topicPreviewIcon" aria-hidden="true"></span>
-          <h2 id="topicPreviewTitle">Themenwelt</h2>
-          <p id="topicPreviewText">Eine persönliche Seite, passend zum Anlass der Empfehlung.</p>
-          <div class="topic-preview-actions">
-            <a class="topic-preview-open" id="topicPreviewOpen" href="#" target="_blank" rel="noopener">Themenseite groß öffnen</a>
-            <button class="topic-preview-back" id="topicPreviewBack" type="button">Zur Themenauswahl</button>
-          </div>
-          <p class="topic-preview-note">Die Namen in der Vorschau sind nur Beispiele.</p>
-        </aside>
-        <div class="topic-preview-browser">
-          <div class="topic-preview-browserbar">
-            <span class="topic-preview-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-            <span id="topicPreviewAddress">Persönliche Empfehlung</span>
-            <span class="topic-preview-live">Interaktive Vorschau</span>
-          </div>
-          <iframe id="topicPreviewFrame" title="Vorschau der Themenwelt" loading="lazy"></iframe>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 2c · Trust-Brücke: Was die empfohlene Person bekommt ===== -->
-  <section class="section trust-bridge" data-short-hide>
-    <div class="inner">
-      <p class="t-eyebrow reveal" style="text-align:center;">Was nach deiner Empfehlung passiert</p>
-      <h2 class="t-h2 reveal d1 trust-bridge-title" style="text-align:center;">
-        Ich rufe <em>selbst</em> an.
-      </h2>
-
-      <div class="trust-points reveal d3">
-        <div class="trust-point">
-          <span class="trust-point-mark">✓</span>
-          <div class="trust-point-body">
-            <span class="trust-point-title">Erst einmal in Ruhe anschauen</span>
-            <span class="trust-point-text">Dein Kontakt erhält deinen Link und kann sich vorab ansehen, worum es geht.</span>
-          </div>
-        </div>
-        <div class="trust-point">
-          <span class="trust-point-mark">✓</span>
-          <div class="trust-point-body">
-            <span class="trust-point-title">Alle Möglichkeiten bleiben offen</span>
-            <span class="trust-point-text">Direkt einen Termin wählen, die Kontaktaufnahme ablehnen oder einfach abwarten.</span>
-          </div>
-        </div>
-        <div class="trust-point">
-          <span class="trust-point-mark">✓</span>
-          <div class="trust-point-body">
-            <span class="trust-point-title">Dann übernehme ich persönlich</span>
-            <span class="trust-point-text">Wenn kein Termin gewählt und nicht abgelehnt wurde, melde ich mich in den nächsten Tagen. Kein Callcenter, keine Hotline.</span>
-          </div>
-        </div>
-      </div>
-
-      <p class="trust-bridge-close reveal d3" style="text-align:center;">
-        Du gibst den Hinweis. Dein Kontakt behält die Kontrolle. Ich kümmere mich persönlich um den Rest.
-      </p>
-    </div>
-  </section>
-
-  <!-- ===== 3 · Belohnungs-Galerie ===== -->
-  <section class="section alt" id="belohnungen">
-    <div class="inner wide">
-      <p class="t-eyebrow reveal">Deine Benefits</p>
-      <h2 class="t-h2 reveal d1" style="text-align:center;">
-        Folgende Vorteile<br>erwarten dich.
-      </h2>
-      <p class="t-body reveal d2" style="text-align:center; margin: 0 auto; max-width:560px;">
-        Jede Person, die durch dich Kundin wird, schaltet die nächste Stufe frei.
-      </p>
-
-      <!-- Zählweise: einmal klar sagen, was als Erfolg zählt -->
-      <div class="reise-zaehlweise reveal d2">
+      <div class="reise-zaehlweise">
         <span class="reise-zaehlweise-dot" aria-hidden="true"></span>
         <p>
           <strong>Gezählt wird, wer Kunde wird.</strong>
-          Ein weitergegebener Name ist der erste Schritt — die Stufe steigt, sobald aus der Empfehlung
-          eine echte Zusammenarbeit geworden ist.
+          Ein weitergegebener Name ist der erste Schritt. Die Stufe steigt, sobald aus der
+          Empfehlung eine echte Zusammenarbeit geworden ist.
         </p>
       </div>
 
-      <!-- Senkrechte Reise Stufe 1 bis 15 · JS füllt sie aus den echten Stufen -->
-      <div class="reise-intro reveal d2">
-        <p class="t-eyebrow">Deine Reise von 1 bis 15</p>
-        <h3 class="reise-intro-h">Jede Stufe sichtbar.<br>Jedes große Ziel spürbar.</h3>
-        <p class="reise-intro-p">
-          Die kleinen Boni bleiben kompakt. Die besonderen Belohnungen bekommen den Raum,
-          den sie verdienen — bis zum Finale.
-        </p>
-      </div>
+      <!-- Erst der Satz zu den Geldstufen, dann die grossen Meilensteine.
+           Zehn fast gleiche Zeilen davor haetten den Blick auf die fuenf
+           Karten verstellt. Beides kommt aus der Datenbank. -->
+      <p class="reise-geld-summary" id="t-ReiseGeldSummary"></p>
 
-      <ol class="reise" id="t-Reise" aria-label="Belohnungsreise von Stufe 1 bis Stufe 15">
+      <ol class="reise" id="t-Reise" aria-label="Die grossen Meilensteine der Belohnungsreise">
         <li class="reise-skeleton" aria-hidden="true"></li>
         <li class="reise-skeleton" aria-hidden="true"></li>
         <li class="reise-skeleton" aria-hidden="true"></li>
       </ol>
+      <p class="reise-finish" id="t-ReiseFinish">15 Stufen, ein sichtbarer Weg und echte Vorfreude.</p>
 
-      <!-- Nur im Präsentations-Modus: die Geldstufen als ein Satz statt als zehn Zeilen -->
-      <p class="reise-geld-summary" id="t-ReiseGeldSummary"></p>
-
-      <p class="reise-finish reveal" id="t-ReiseFinish">15 Stufen, ein sichtbarer Weg und echte Vorfreude.</p>
-
-      <!-- Gesamtwert · Zahl kommt aus den echten Stufen -->
-      <div class="rewards-total-card reveal" id="t-RewardsTotal">
-        <span class="rewards-total-eyebrow">✦ Im besten Fall wartet auf dich</span>
+      <div class="rewards-total-card" id="t-RewardsTotal">
+        <span class="rewards-total-eyebrow">Im besten Fall wartet auf dich</span>
         <span class="rewards-total-value">
           bis zu <span class="rewards-total-counter" data-target="4798">0</span>&nbsp;€
         </span>
-        <span class="rewards-total-sub">Gesamt-Wert der Stufen 1 bis 15 · alle Geld-Boni plus die fünf großen Meilensteine</span>
+        <span class="rewards-total-sub">Gesamtwert der Stufen 1 bis 15, alle Geld-Boni plus die fünf großen Meilensteine.</span>
       </div>
 
-      <!-- Wahlfreiheit + der ruhige Hinweis, dass es auch ohne geht -->
-      <div class="reise-wahl reveal d2">
+      <div class="reise-wahl">
         <div class="reise-wahl-main">
           <p class="t-eyebrow">Dein Dankeschön, deine Entscheidung</p>
           <h3>Geld, ein echter Wunsch oder etwas Gutes tun.</h3>
@@ -779,84 +465,82 @@
         </div>
         <div class="reise-wahl-quiet">
           <strong>Auch einfach so.</strong>
-          <p>Du möchtest jemanden weiterbringen, ohne ein Dankeschön anzunehmen? Auch das geht — sag mir einfach Bescheid.</p>
-        </div>
-      </div>
-
-      <div class="section-cta reveal">
-        <a class="btn btn-primary" href="#anmelden">Jetzt empfehlen</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 8 · QR-Einstieg ===== -->
-  <section class="section alt" id="anmelden">
-    <div class="inner wide">
-      <div class="promoter-qr-entry reveal">
-        <div class="promoter-qr-copy">
-          <p class="t-eyebrow">Jetzt loslegen</p>
-          <h2 class="t-h2">Promoter werden.<br>Direkt weiterempfehlen.</h2>
-          <p class="t-body">Scanne den QR-Code. Du meldest dich kurz an und landest direkt in deinem persönlichen Empfehlungsbereich.</p>
-          <ol class="promoter-qr-steps" aria-label="So geht es weiter">
-            <li><span>1</span>QR-Code scannen</li>
-            <li><span>2</span>Kurz als Promoter anmelden</li>
-            <li><span>3</span>Thema auswählen und Link versenden</li>
-          </ol>
-          <p class="promoter-qr-benefit">Dort siehst du auch deine Benefits, Wunschziele und deinen Fortschritt.</p>
-        </div>
-
-        <div class="promoter-qr-panel">
-          <img class="promoter-qr-image" id="t-PromoterQr" src="/assets/qr/promoter-kai-blobel-praesentation.svg" alt="QR-Code zur Promoter-Anmeldung" width="320" height="320" />
-          <strong>Mit der Kamera scannen</strong>
-          <span class="promoter-qr-caption">Der QR-Code führt direkt zu deinem persönlichen Start.</span>
-          <a class="promoter-qr-link" id="t-PromoterStartLink" href="/p/kai-blobel/praesentation">Auf diesem Gerät öffnen</a>
+          <p>Du möchtest jemanden weiterbringen, ohne ein Dankeschön anzunehmen? Auch das geht, sag mir einfach Bescheid.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== 9 · Das Portal in 60 Sekunden (Abschluss-Video) ===== -->
+  <!-- ===== 10 · Loslegen: QR, Promoter-Vorschau und Film ===== -->
+  <section class="section los" id="anmelden">
+    <div class="inner promoter-qr-entry">
+      <div class="promoter-qr-copy">
+        <h2>Promoter werden und direkt loslegen.</h2>
+        <p class="t-body">Scanne den Code, melde dich kurz an und du landest in deinem persönlichen
+           Empfehlungsbereich. Dort siehst du auch deine Benefits, Wunschziele und deinen Fortschritt.</p>
+        <ol class="promoter-qr-steps" aria-label="So geht es weiter">
+          <li><span>1</span>QR-Code scannen</li>
+          <li><span>2</span>Kurz als Promoter anmelden</li>
+          <li><span>3</span>Thema auswählen und Link versenden</li>
+        </ol>
+
+        <div class="vorschau-zeile">
+          <p>
+            <strong>Und so sieht dein Bereich danach aus.</strong>
+            Übersicht, Fortschritt und die nächste Stufe auf einen Blick.
+          </p>
+          <button class="vorschau-knopf" id="vorschauOeffnen" type="button">Promoter-Vorschau öffnen</button>
+        </div>
+      </div>
+
+      <div class="promoter-qr-panel">
+        <img class="promoter-qr-image" id="t-PromoterQr" src="/assets/qr/promoter-kai-blobel-praesentation.svg" alt="QR-Code zur Promoter-Anmeldung" width="320" height="320" />
+        <strong>Mit der Kamera scannen</strong>
+        <span class="promoter-qr-caption">Der QR-Code führt direkt zu deinem persönlichen Start.</span>
+        <a class="promoter-qr-link" id="t-PromoterStartLink" href="/p/kai-blobel/praesentation">Auf diesem Gerät öffnen</a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Das Video ist bewusst ein eigener Abschnitt und nicht Teil des
+       QR-Blocks: Im 60-Sekunden-Modus bleiben genau diese beiden stehen,
+       und dort wird das Video vor die Anmeldung geschoben. Optisch schließt
+       es ohne Abstand an, damit es trotzdem als ein Block wirkt. -->
   <section class="section story-video" id="video">
     <div class="inner">
-      <div class="story-video-copy reveal">
+      <div class="story-video-copy">
         <p class="t-eyebrow">Zum Schluss</p>
-        <h2 class="t-h2">Das Portal in 60&nbsp;Sekunden.</h2>
-        <p class="t-body">Wie aus dem Gedanken an einen Menschen eine Empfehlung wird — einmal kurz gezeigt statt lang erklärt.</p>
+        <h2>Das Portal in 60&nbsp;Sekunden.</h2>
+        <p class="t-body">Einmal kurz gezeigt statt lang erklärt.</p>
       </div>
 
-      <figure class="story-video-frame reveal d1">
-        <!-- preload="none": es wird erst geladen, wenn Kai wirklich auf Play drückt.
-             Sonst zieht die Seite im Kundengespräch ungefragt Datenvolumen. Das
-             Vorschaubild steht sofort, ohne dass ein Byte Video geflossen ist. -->
-        <video
-          id="storyVideo"
-          controls
-          preload="none"
-          playsinline
-          poster="/assets/video/empfehlungsportal-story-poster.jpg"
-          width="1920" height="1080">
+      <figure class="story-video-frame">
+        <!-- preload="none": Das Video lädt erst beim Antippen. Sonst zieht die
+             Seite im Kundengespräch ungefragt Datenvolumen. -->
+        <video id="storyVideo" controls preload="none" playsinline
+               poster="/assets/video/empfehlungsportal-story-poster.jpg"
+               width="1920" height="1080">
           <source src="/assets/video/empfehlungsportal-story.mp4" type="video/mp4" />
           <p>Dein Browser kann dieses Video nicht abspielen —
             <a href="/assets/video/empfehlungsportal-story.mp4">hier herunterladen</a>.</p>
         </video>
         <!-- KI-Kennzeichnung, Pflicht seit 02.08.2026 (EU-Transparenzpflicht).
-             Steht bewusst UNTER dem Video und nicht als Einblendung im Bild: die
-             Datei ist nachträglich gekennzeichnet worden, ohne sie neu zu
-             berechnen. In der Datei selbst sitzt dieselbe Angabe als C2PA-Manifest,
-             damit sie beim Herunterladen mitreist. Geprüft von
+             Steht bewusst UNTER dem Video: die Datei ist nachträglich
+             gekennzeichnet worden, ohne sie neu zu berechnen. In der Datei
+             selbst sitzt dieselbe Angabe als C2PA-Manifest. Geprüft von
              tests/ki-kennzeichnung.test.mjs — nicht entfernen. -->
         <figcaption class="ki-hinweis">Mit KI erstellt. Bewegtbild und Sprecherstimme dieses Films wurden mit generativer KI erzeugt.</figcaption>
       </figure>
     </div>
   </section>
 
-  <!-- ===== 10 · Footer ===== -->
+  <!-- ===== Fußzeile ===== -->
   <footer class="site-footer">
     <div class="footer-inner">
-
-      <!-- Spalte 1: Brand + Initial-Mark -->
       <div class="footer-col footer-brand-col">
-        <div class="footer-mark-circle" data-bb="initialen" aria-hidden="true">KB</div>
+        <img class="footer-mark-logo" src="/assets/images/team-wachsbleiche-petrol.jpeg"
+             alt="Team Wachsbleiche" width="56" height="56" loading="lazy" decoding="async">
         <div class="footer-brand-text">
           <span class="footer-brand-name" data-bb="name">Kai Blobel</span>
           <span class="footer-brand-role" data-bb="rolle">Regionaldirektion</span>
@@ -864,7 +548,6 @@
         </div>
       </div>
 
-      <!-- Spalte 2: Kontakt -->
       <div class="footer-col">
         <span class="footer-col-label">Kontakt</span>
         <a class="footer-link" data-bb="email-text" href="mailto:kai.blobel@dvag.de">kai.blobel@dvag.de</a>
@@ -872,24 +555,20 @@
         <span class="footer-link footer-link-static">Team Wachsbleiche · Cottbus</span>
       </div>
 
-      <!-- Spalte 3: Rechtliches -->
       <div class="footer-col">
         <span class="footer-col-label">Rechtliches</span>
         <a class="footer-link" data-bb="impressum" href="https://www.dvag.de/kai.blobel/impressum.html" target="_blank" rel="noopener">Impressum</a>
         <a class="footer-link" data-bb="datenschutz" href="https://www.dvag.de/kai.blobel/datenschutz.html" target="_blank" rel="noopener">Datenschutz</a>
       </div>
 
-      <!-- Spalte 4: System -->
       <div class="footer-col">
         <span class="footer-col-label">System</span>
         <a class="footer-link" href="hub.html">Login Berater</a>
         <a class="footer-link" href="empfehlen.html">Empfehlung aussprechen</a>
         <a class="footer-link" href="changelog.html">Änderungen</a>
       </div>
-
     </div>
 
-    <!-- Bottom-Bar -->
     <div class="footer-bottom">
       <div class="footer-bottom-inner">
         <span class="footer-copy">© <span id="footerYear">2026</span> <span data-bb="name">Kai Blobel</span> · Alle Rechte vorbehalten</span>
@@ -898,23 +577,186 @@
     </div>
   </footer>
 
-  <!-- Sticky Mobile CTA -->
+  <!-- Sticky-Knopf auf dem Handy -->
   <div class="sticky-cta" id="t-StickyCta">
     <a href="#anmelden">Jetzt empfehlen</a>
   </div>
 
-  <!-- Geführte mobile Präsentation (Phase 163): Auf kleinen Bildschirmen führt
-       diese feste Leiste unten durch die Abschnitte — Zurück · „2 von 14" ·
-       Weiter (auf dem letzten Abschnitt „Fertig"). Die Abschnittszahl steht
-       nirgends fest im Code: gezählt wird, was gerade sichtbar ist, damit
-       Ausführlich, Kurz und 60 Sekunden automatisch stimmen. Solange die
-       Führung aktiv ist, bleibt die Sticky-CTA ausgeblendet (CSS). -->
+  <!-- Geführte mobile Präsentation: Zurück · „2 von 10" · Weiter. Die
+       Abschnittszahl steht nirgends fest, gezählt wird was sichtbar ist,
+       damit Ausführlich, Kurz und 60 Sekunden von selbst stimmen. -->
   <nav class="mobile-guide" id="mobileGuide" hidden aria-label="Geführte Navigation durch die Präsentation">
     <button class="mobile-guide-btn mobile-guide-prev" id="mobileGuidePrev" type="button" aria-label="Zurück zum vorherigen Abschnitt">Zurück</button>
     <span class="mobile-guide-progress" id="mobileGuideProgress" aria-live="polite">1 von 1</span>
     <button class="mobile-guide-btn mobile-guide-next" id="mobileGuideNext" type="button" aria-label="Weiter zum nächsten Abschnitt">Weiter</button>
   </nav>
 
+  <!-- ===== Themen-Overlay: Rechner, Vorschau oder Gesprächsimpuls ===== -->
+  <div class="thema-overlay" id="themaOverlay" role="dialog" aria-modal="true" aria-labelledby="themaTitel" hidden>
+    <button class="thema-schliessen" id="themaSchliessen" type="button" aria-label="Schließen">×</button>
+    <div class="thema-inner">
+      <div class="thema-kopf">
+        <span class="thema-kicker" id="themaKicker">Thema</span>
+        <h2 id="themaTitel">Thema</h2>
+        <p id="themaZeile"></p>
+      </div>
+
+      <div class="thema-inhalt thema-rechner" id="themaRechner" hidden>
+        <div class="werkzeug">
+          <div class="werkzeug-kopf">
+            <h3>Jetzt den Vorteil für deine Empfehlung berechnen</h3>
+            <span>Keine Zusage, ein Gesprächseinstieg</span>
+          </div>
+
+          <div class="foerder-person-card">
+            <span>An wen denkst du gerade?</span>
+            <div class="knopfgruppe foerder-person-switch" aria-label="Nahestehende Person auswählen">
+              <button type="button" class="aktiv" data-foerder-person="freund">Bester Freund</button>
+              <button type="button" data-foerder-person="familie">Familie</button>
+              <button type="button" data-foerder-person="kollege">Lieblingskollege</button>
+            </div>
+            <p id="foerderPersonLine">Für deinen besten Freund könnte dein Tipp der Moment sein, an dem er seine Zukunft endlich anpackt.</p>
+          </div>
+
+          <div class="regler">
+            <div>
+              <label for="foerderAlter">Alter</label>
+              <input type="range" min="18" max="65" value="35" id="foerderAlter" aria-label="Alter" />
+              <span class="regler-wert"><span id="foerderAlterVal">35</span> Jahre</span>
+            </div>
+            <div>
+              <label for="foerderEinkommen">Brutto-Einkommen</label>
+              <input type="range" min="20000" max="120000" step="2500" value="45000" id="foerderEinkommen" aria-label="Brutto-Einkommen pro Jahr" />
+              <span class="regler-wert"><span id="foerderEinkommenVal">45.000</span> €</span>
+            </div>
+            <div>
+              <label>Familienstand</label>
+              <div class="knopfgruppe" data-field="familie">
+                <button type="button" data-val="single" class="aktiv">Single</button>
+                <button type="button" data-val="verheiratet">Verheiratet</button>
+              </div>
+            </div>
+            <div>
+              <label>Kinder</label>
+              <div class="knopfgruppe" data-field="kinder">
+                <button type="button" data-val="0" class="aktiv">0</button>
+                <button type="button" data-val="1">1</button>
+                <button type="button" data-val="2">2</button>
+                <button type="button" data-val="3">3+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="ergebnis">
+            <span class="ergebnis-zahl" id="foerderAmount">0 €</span>
+            <small>könnten für die empfohlene Person pro Jahr drin sein: Förderungen,
+                   Arbeitgeberleistungen und Beitragsvorteile. Was wirklich passt, prüfen wir persönlich.</small>
+          </div>
+          <ul class="foerder-breakdown" id="foerderBreakdown"></ul>
+          <a class="foerder-cta" data-bb="finanzcheck" href="https://finanzcheck.kaiblobel.de?from=empfehlung" target="_blank" rel="noopener">Persönlich prüfen</a>
+        </div>
+
+        <article class="reform">
+          <small>Deutschland · Altersvorsorge 2027</small>
+          <b>Beschlossen und in Kraft</b>
+          <h3>Die Regeln werden neu aufgestellt.</h3>
+          <p>Ab 1. Januar 2027 starten neue geförderte Vorsorgeprodukte. Dazu gehört auch das
+             Altersvorsorgedepot mit Fonds und ETFs.</p>
+          <ul>
+            <li>Neue Möglichkeiten ab 2027</li>
+            <li>Bestehende Riester-Verträge bleiben</li>
+          </ul>
+          <a href="https://www.bundesregierung.de/breg-de/aktuelles/reform-private-altersvorsorge-2400072" target="_blank" rel="noopener">Quelle: Bundesregierung</a>
+        </article>
+      </div>
+
+      <div class="thema-inhalt thema-vorschau" id="themaVorschau" hidden>
+        <div class="thema-browser">
+          <div class="thema-browserbar">
+            <span class="thema-punkte" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span id="themaAdresse">Persönliche Empfehlung</span>
+            <span class="thema-live">So kommt es bei der Person an</span>
+          </div>
+          <iframe id="themaRahmen" title="Vorschau der Themenseite" src="about:blank" loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <div class="thema-inhalt thema-impuls" id="themaImpuls" hidden>
+        <blockquote id="themaImpulsText"></blockquote>
+        <p class="thema-impuls-fuss">
+          Die eigene Themenseite dazu entsteht gerade. Bis dahin führt die Empfehlung über
+          den allgemeinen Einstieg, und den Rest machen wir im Gespräch.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Marktübersicht ===== -->
+  <div class="markt-overlay" id="marketOverlay" role="dialog" aria-modal="true" aria-labelledby="marketOverlayTitle" hidden>
+    <button class="markt-schliessen" id="marketClose" type="button" aria-label="Übersicht schließen">×</button>
+    <div class="markt-inner">
+      <div class="markt-kopf">
+        <h2 id="marketOverlayTitle">Ein Ansprechpartner. Das ganze Bild.</h2>
+        <p>Tippe auf ein Feld, wenn du genauer hinschauen möchtest.</p>
+      </div>
+
+      <div class="markt-buehne">
+        <div class="markt-karte" id="marketMap">
+          <svg class="markt-ring" viewBox="0 0 100 100" aria-hidden="true">
+            <circle cx="50" cy="50" r="36"/>
+          </svg>
+          <!-- Die Felder stehen hier, ihre Position rechnet das Skript: zehnmal
+               36 Grad auf gleichem Radius. Vorher waren die Werte von Hand
+               eingetippt, dadurch schwankten die Winkel zwischen 31 und 45 Grad
+               und die Karte stand sichtbar schief. -->
+          <button class="market-node markt-knoten" type="button" aria-pressed="false" data-title="Energie &amp; Versorgung" data-details="Kosten dauerhaft im Blick behalten|Anbieter und Versorgung passend strukturieren">Energie &amp; Versorgung</button>
+          <button class="market-node markt-knoten" type="button" aria-pressed="false" data-title="Gesundheit" data-details="Gesundheit langfristig absichern|Vorsorge und Notfallplanung mitdenken">Gesundheit</button>
+          <button class="market-node markt-knoten" type="button" aria-pressed="false" data-title="Liquidität &amp; Banking" data-details="Finanzen übersichtlich ordnen|Liquidität und Reserven sinnvoll planen">Liquidität &amp; Banking</button>
+          <button class="market-node markt-knoten" type="button" aria-pressed="false" data-title="Immobilien" data-details="Den Weg ins Eigenheim planen|Finanzierung und Modernisierung zusammendenken">Immobilien</button>
+          <button class="market-node markt-knoten" type="button" aria-pressed="false" data-title="Vermögensaufbau" data-details="Ziele und Zeithorizonte festlegen|Vermögen Schritt für Schritt aufbauen">Vermögensaufbau</button>
+          <button class="market-node markt-knoten" type="button" aria-pressed="false" data-title="Finanzierung" data-details="Vorhaben solide finanzieren|Bestehende Verbindlichkeiten im Blick behalten">Finanzierung</button>
+          <button class="market-node markt-knoten" type="button" aria-pressed="false" data-title="Steueroptimierung" data-details="Mögliche Steuervorteile prüfen|Entscheidungen sauber aufeinander abstimmen">Steueroptimierung</button>
+          <button class="market-node markt-knoten" type="button" aria-pressed="false" data-title="Staatliche Förderung" data-details="Fördermöglichkeiten prüfen|Staatliche Vorteile sinnvoll einbeziehen">Staatliche Förderung</button>
+          <button class="market-node markt-knoten" type="button" aria-pressed="false" data-title="Arbeitgeberlösungen" data-details="Betriebliche Möglichkeiten nutzen|Mitarbeiterbindung und Absicherung verbinden">Arbeitgeberlösungen</button>
+          <button class="market-node markt-knoten" type="button" aria-pressed="false" data-title="Mobilität &amp; KFZ" data-details="Fahrzeuge passend absichern|Kosten und Schutz gemeinsam betrachten">Mobilität &amp; KFZ</button>
+
+          <div class="markt-mitte">
+            <img data-bb="foto" src="/assets/images/kai-portrait.jpg" alt="Kai Blobel">
+            <strong data-bb="name">Kai Blobel</strong>
+            <small>Ein Ansprechpartner</small>
+          </div>
+        </div>
+
+        <div class="markt-detail" aria-live="polite">
+          <span class="markt-detail-kicker" id="marketDetailKicker">Deine Ziele</span>
+          <h3 id="marketDetailTitle">Ganzheitlich gedacht.</h3>
+          <p id="marketDetailHint">Wähle ein Themenfeld aus, dann siehst du, was dazugehört.</p>
+          <ul id="marketDetailList" hidden></ul>
+        </div>
+      </div>
+
+      <p class="markt-fuss">Ein Ansprechpartner, der die Zusammenhänge im Blick behält.</p>
+    </div>
+  </div>
+
+  <!-- ===== Promoter-Vorschau ===== -->
+  <div class="vorschau-overlay" id="vorschauOverlay" role="dialog" aria-modal="true" aria-label="Vorschau des Promoter-Bereichs" hidden>
+    <button class="vorschau-schliessen" id="vorschauSchliessen" type="button" aria-label="Vorschau schließen">×</button>
+    <div class="vorschau-buehne">
+      <div class="vorschau-text">
+        <h3>Dein persönlicher Bereich</h3>
+        <p>Genau das siehst du nach der Anmeldung auf deinem Handy.</p>
+        <ul>
+          <li>Wer schon geklickt und wer sich gemeldet hat</li>
+          <li>Auf welcher Stufe du gerade stehst</li>
+          <li>Was als Nächstes freigeschaltet wird</li>
+        </ul>
+      </div>
+      <div class="vorschau-geraet">
+        <iframe id="vorschauRahmen" title="Vorschau des Promoter-Bereichs" src="about:blank" loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
 
   <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
   <script type="module" src="js/programm.js?v=52"></script>

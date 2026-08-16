@@ -62,7 +62,9 @@ async function testThemeFallbackRoutes() {
     investment: '/thema.html?token=abc+123&vorlage=investment',
     absicherung: '/thema.html?token=abc+123&vorlage=absicherung',
     karriere: '/thema.html?token=abc+123&vorlage=karriere',
-    kinder: '/thema.html?token=abc+123&vorlage=kinder',
+    // Kinder führt auf die eigene KIDZ-Einleitung, die von dort aufs Konzept
+    // weitergeht. Die allgemeine Themenseite ist hier bewusst nicht das Ziel.
+    kinder: '/kidz-empfehlung.html?token=abc+123&vorlage=kinder',
     banking: '/thema.html?token=abc+123&vorlage=banking',
     energie: '/thema.html?token=abc+123&vorlage=energie',
     unbekannt: '/empfaenger.html?token=abc+123&vorlage=unbekannt',
@@ -97,7 +99,7 @@ async function testStoredThemeRoutesOldLinks() {
         headers: { 'Content-Type': 'application/json' },
       });
     }
-    if (String(url).endsWith('/thema.html')) {
+    if (String(url).endsWith('/kidz-empfehlung.html')) {
       return new Response('<title>Themenseite</title>', { status: 200 });
     }
     return new Response('[]', { status: 200 });
@@ -116,7 +118,8 @@ async function testStoredThemeRoutesOldLinks() {
   }, res);
 
   assert.equal(res.statusCode, 200);
-  assert.ok(calls.some((url) => url.endsWith('/thema.html')));
+  assert.ok(calls.some((url) => url.endsWith('/kidz-empfehlung.html')),
+    'ein alter Kinder-Link landet auf der KIDZ-Einleitung, nicht mehr auf der Themenseite');
   assert.ok(body.includes('Themenseite'));
 }
 

@@ -9,7 +9,7 @@ import { readFile, stat } from 'node:fs/promises';
 const read = (file) => readFile(new URL(`../${file}`, import.meta.url), 'utf8');
 const [html, css, sw, js] = await Promise.all([
   read('programm.html'),
-  read('css/programm.css'),
+  read('css/praesentation.css'),
   read('sw.js'),
   read('js/programm.js'),
 ]);
@@ -48,9 +48,9 @@ assert.ok(poster.size > 0 && poster.size < 400 * 1024, 'Vorschaubild bleibt schl
 assert.match(sw, /url\.pathname\.endsWith\('\.mp4'\)\) return;/);
 
 // --- Styles vorhanden, und der Abschnitt haengt beim Scrollen nicht fest ---
-assert.match(css, /\.section\.story-video \{/);
-assert.match(css, /\.story-video-frame video \{[\s\S]*?aspect-ratio: 16 \/ 9;/);
-assert.match(css, /\.section\.story-video \{ scroll-snap-align: none; \}/);
+assert.match(css, /\.section\.story-video\{/);
+assert.match(css, /\.story-video-frame video\{aspect-ratio: 16 \/ 9;\}/);
+assert.match(css, /\.section\.story-video\{scroll-snap-align: none;\}/);
 
 // --- Im Kurzmodus bleibt das Video sichtbar (es ist der Abschluss, keine Vertiefung) ---
 const abschnitt = html.slice(posVideo - 200, posVideo + 200);
@@ -68,7 +68,9 @@ assert.match(js, /url\.searchParams\.set\('modus', 'video'\)/, 'Modus bleibt als
 // `.section { display: flex }` schlug die Browser-Regel `[hidden] { display: none }`.
 // Im Browser gemessen: hidden=true, display=flex, 14 von 14 Abschnitten sichtbar.
 // Ohne diese Regel ist auch der Kurzmodus wirkungslos.
-assert.match(css, /\.section\[hidden\] \{ display: none; \}/);
-assert.match(css, /body\.presentation-video \.reveal \{ opacity: 1;/, 'im Kurzestmodus nichts Blasses');
+assert.match(css, /\.section\[hidden\]\{display:none;\}/);
+// Die Einblend-Animation ist ganz entfernt, damit kann im Kurzestmodus
+// auch nichts mehr blass stehen bleiben.
+assert.doesNotMatch(css, /\.reveal/, 'keine Einblend-Animation mehr');
 
 console.log('praesentation-abschlussvideo: OK');

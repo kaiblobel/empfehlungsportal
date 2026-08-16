@@ -1779,10 +1779,9 @@ const THEMEN_STARK = [
     bild: '../assets/images/kidz-konzept/kidz-abenteuer.jpg',
     zeile: 'Früh anfangen, damit später mehr möglich ist.',
     tun: 'Seite ansehen',
-    // modus=referral fehlte hier. Ohne den Parameter läuft thema.html im
-    // öffentlichen Modus und zeigt die neutrale Seite statt der persönlichen
-    // Empfehlung, von der aus es weiter zum KIDZ-Konzept geht.
-    url: '/thema.html?vorlage=kinder&modus=referral&von=Thomas&an=Max',
+    // Kinder-Empfehlungen laufen über die eigene KIDZ-Einleitung, die von dort
+    // aufs Konzept weiterführt. Dasselbe Ziel nutzt der Versand-Router.
+    url: '/kidz-empfehlung.html?modus=referral&von=Thomas&an=Max',
     adresse: 'Kinder und Zukunft für Max',
   },
 ];

@@ -1,31 +1,79 @@
+// Die Themenauswahl ist die Weiche im Gespräch.
+//
+// Früher führte jede Kachel in dieselbe Vorschau, und Themen ohne fertige
+// Seite mussten deshalb gesperrt werden. Jetzt sagt jedes Thema selbst, was
+// beim Antippen passiert. Das löst zwei Dinge auf einmal: Niemand landet mehr
+// auf einer Seite, die nicht zum Thema passt, und die Eurosumme aus dem
+// Rechner sieht nur noch, wen sie etwas angeht. Wer über Baufinanzierung oder
+// über die Kinder empfiehlt, bekommt sie nie zu sehen und fragt sich auch
+// nicht, wo denn sein eigener Anteil bleibt.
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
 const read = (file) => readFile(new URL(`../${file}`, import.meta.url), 'utf8');
-const [js, css] = await Promise.all([
+const [html, js, css] = await Promise.all([
+  read('programm.html'),
   read('js/programm.js'),
-  read('css/programm.css'),
+  read('css/praesentation.css'),
 ]);
 
-// Nur Themen mit eigener, fertiger Themenseite sind auswählbar.
-assert.match(js, /const FREIGESCHALTETE_THEMEN = new Set\(\['allgemein', 'baufi', 'kinder', 'kidz'\]\)/);
-assert.match(js, /const frei = Boolean\(page\) && FREIGESCHALTETE_THEMEN\.has\(template\.slug\)/);
+// --- Drei Wege, und jedes Thema wählt seinen ---
+assert.match(js, /typ: 'rechner'/);
+assert.match(js, /typ: 'vorschau'/);
+assert.match(js, /typ: 'impuls'/);
 
-// Gesperrte Kacheln tragen die graue Optik, sind deaktiviert und haben keinen
-// data-page-key — damit greift auch der Klick-Handler nicht.
-assert.match(js, /class="topic-compact\$\{frei \? '' : ' is-locked'\}"/);
-assert.match(js, /frei \? ` data-page-key="\$\{escapeAttr\(template\.slug \|\| ''\)\}"` : ' disabled aria-disabled="true"'/);
-assert.match(js, /frei \? \(page\.status \|\| 'Fertige Themenseite'\) : 'In Vorbereitung'/);
+// --- Der Rechner hängt an „Ganz allgemein" und „Staatliche Förderungen" ---
+const stark = js.match(/const THEMEN_STARK = \[([\s\S]*?)\n  \];/)[1];
+const rechnerThemen = [...stark.matchAll(/slug: '([^']+)'[\s\S]{0,120}?typ: 'rechner'/g)].map(m => m[1]);
+assert.deepEqual(rechnerThemen.sort(), ['allgemein', 'foerderungen'],
+  'nur diese beiden zeigen die Eurosumme');
 
-// Der Vermerk erscheint nur, wenn tatsächlich etwas gesperrt ist.
-assert.match(js, /compactTemplates\.some\(v => !FREIGESCHALTETE_THEMEN\.has\(v\.slug\)\)/);
-assert.match(js, /Grau hinterlegte Themen entstehen gerade und sind noch nicht auswählbar\./);
+// --- Baufi und Kinder zeigen die fertige Seite, so wie die Person sie bekommt ---
+const vorschauThemen = [...stark.matchAll(/slug: '([^']+)'[\s\S]{0,120}?typ: 'vorschau'/g)].map(m => m[1]);
+assert.deepEqual(vorschauThemen.sort(), ['baufi', 'kinder']);
 
-// Optik: zurückgenommen, kein Hover-Anheben, kein Zeigefinger.
-const lockedRule = css.match(/\.topic-compact\.is-locked \{([\s\S]*?)\}/)?.[1] || '';
-assert.match(lockedRule, /cursor: default/);
-assert.match(lockedRule, /--compact-accent: #B6B1A8/);
-assert.match(css, /\.topic-compact\.is-locked:hover,[\s\S]*?transform: none/);
-assert.match(css, /\.topics-locked-note \{/);
+// --- Beide Vorschau-Adressen tragen modus=referral. Ohne den Parameter läuft
+// die Themenseite im öffentlichen Modus und zeigt die neutrale Fassung statt
+// der persönlichen Empfehlung. ---
+const vorschauUrls = [...stark.matchAll(/url: '([^']+)'/g)].map(m => m[1]);
+assert.equal(vorschauUrls.length, 2);
+vorschauUrls.forEach((u) => assert.match(u, /modus=referral/, `${u} braucht modus=referral`));
+
+// --- Die Vorschau bekommt den Berater-Slug mit. Ohne ihn sähe ein Partner
+// beim Öffnen das Portrait des Standard-Beraters auf seiner eigenen Seite. ---
+assert.match(js, /const mitBerater = \(url\) =>/);
+assert.match(js, /rahmen\.src = mitBerater\(thema\.url\)/);
+
+// --- Die übrigen Themen sind nicht gesperrt, sondern geben einen Satz zum
+// Weiterreden. Grau und tot wäre im Gespräch zu wenig. ---
+assert.match(js, /const THEMEN_WEITERE = \[/);
+const weitere = js.match(/const THEMEN_WEITERE = \[([\s\S]*?)\n  \];/)[1];
+assert.equal((weitere.match(/impuls:/g) || []).length, 6);
+
+// --- Im Overlay steht die Absicht im Vordergrund, nicht die Mechanik ---
+assert.match(html, /Jetzt den Vorteil für deine Empfehlung berechnen/);
+assert.match(js, /'Was hätte die empfohlene Person davon\?'/);
+
+// --- Der Rechner liegt im Overlay, nicht mehr als eigener Abschnitt ---
+assert.match(html, /id="themaRechner"/);
+assert.doesNotMatch(html, /<section class="section foerder-rechner"/);
+
+// --- Anzeige: Der Rechner darf nur in seinem eigenen Weg auftauchen.
+// Als ID-Regel würde display:grid das hidden-Attribut überstimmen. ---
+assert.match(css, /\.thema-rechner\{display:grid;/);
+assert.doesNotMatch(css, /#themaRechner\{display:grid/);
+assert.match(css, /\.thema-inhalt\[hidden\]\{display:none;\}/);
+
+// --- KIDZ heisst KIDZ und traegt seinen Satz mit ---
+assert.match(js, /titel: 'KIDZ', untertitel: 'Kinderleicht in die Zukunft'/);
+
+// --- Kein Thema nutzt mehr die alten, sichtbar erzeugten Motive ---
+assert.doesNotMatch(stark, /topic-allgemein-v1|topic-baufi-v1|foerder-freunde-v1/,
+  'die erzeugten Motive sind ersetzt');
+
+// --- Drei Darstellungen, damit die Reihe nicht wie ein Baukasten wirkt ---
+assert.match(js, /art: 'ink'/);
+assert.match(js, /art: 'foto'/);
+assert.match(js, /art: 'logo'/);
 
 console.log('praesentation-themen-freigabe: OK');

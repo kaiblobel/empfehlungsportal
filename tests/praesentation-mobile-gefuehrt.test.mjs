@@ -5,7 +5,7 @@ const read = (file) => readFile(new URL(`../${file}`, import.meta.url), 'utf8');
 const [html, js, css] = await Promise.all([
   read('programm.html'),
   read('js/programm.js'),
-  read('css/programm.css'),
+  read('css/praesentation.css'),
 ]);
 
 // Die Leiste im Markup: echte Buttons, sprechende aria-Labels,
@@ -17,11 +17,11 @@ assert.match(html, /<button class="mobile-guide-btn mobile-guide-next" id="mobil
 
 // Abschnittsbestand unverändert: 14 Abschnitte, 6 davon vertiefend.
 // Die Führung zählt dynamisch — diese Zahlen stehen NICHT in der Logik.
-assert.equal((html.match(/<section class="section/g) || []).length, 14);
-assert.equal((html.match(/data-short-hide/g) || []).length, 6);
+assert.equal((html.match(/<section class="section/g) || []).length, 11);
+assert.equal((html.match(/data-short-hide/g) || []).length, 3);
 
 // Abfragekennungen dieser Phase.
-assert.match(html, /css\/programm\.css\?v=\d+/);
+assert.match(html, /css\/praesentation\.css\?v=\d+/);
 assert.match(html, /js\/programm\.js\?v=\d+/);
 
 // Skript: Führung nur auf kleinen Bildschirmen, Zählung dynamisch über die
@@ -38,18 +38,18 @@ assert.match(js, /progressEl\.textContent !== stand/);
 // CSS: feste Leiste unten mit iPhone-Safe-Area; Sticky-CTA, Hero-Knöpfe und
 // oberer CTA entfallen, solange die Führung aktiv ist.
 assert.match(css, /@media \(max-width: 767px\)/);
-assert.match(css, /body\.mobile-guided \.mobile-guide \{[\s\S]*?position: fixed;[\s\S]*?bottom: 0;/);
+assert.match(css, /body\.mobile-guided \.mobile-guide\{[\s\S]*?position: fixed;[\s\S]*?bottom: 0;/);
 assert.match(css, /calc\(10px \+ env\(safe-area-inset-bottom\)\)/);
 assert.match(css, /body\.mobile-guided \.sticky-cta \{ display: none; \}/);
-assert.match(css, /body\.mobile-guided \.hero-cta-stack \{ display: none; \}/);
+assert.match(css, /body\.mobile-guided \.section-cta \{ display: none; \}/);
 assert.match(css, /body\.mobile-guided \.cta-top \{ display: none; \}/);
 
 // Vollbild-Einstieg und Zufriedenheits-Abschnitt: svh mit vh-Rückfall,
 // Porträt vollständig, Skala als zwei Fünferreihen.
-assert.match(css, /body\.mobile-guided \.hero\.hero-split \{[\s\S]*?min-height: 100svh;/);
-assert.match(css, /body\.mobile-guided \.hero-split-image \.hero-portrait \{[\s\S]*?max-height: 36svh;/);
-assert.match(css, /body\.mobile-guided \.pre-hero \{ min-height: 100vh; min-height: 100svh; \}/);
-assert.match(css, /body\.mobile-guided \.nps-scale \{ grid-template-columns: repeat\(5, 1fr\)/);
+assert.match(css, /body\.mobile-guided \.einstieg\{ min-height: 100vh; min-height: 100svh; \}/);
+assert.match(css, /body\.mobile-guided \.einstieg-foto img\{ max-height: 34svh; \}/);
+assert.match(css, /body\.mobile-guided section\.section\.zitat\{/);
+assert.match(css, /body\.mobile-guided \.nps-scale\{ grid-template-columns: repeat\(5, 1fr\)/);
 
 // Kein verpflichtendes Scroll-Einrasten — nirgends, auch nicht auf dem Handy.
 assert.doesNotMatch(css, /scroll-snap-type:\s*y\s+mandatory/);
@@ -57,8 +57,8 @@ assert.doesNotMatch(css, /scroll-snap-type:\s*y\s+mandatory/);
 // Phase 164: Jeder Abschnitt füllt in der Führung mindestens den Bildschirm
 // (Weiter zeigt eine komplette Seite), die zwei randlosen Grid-Flächen und
 // die Zufriedenheit ordnen ihren Inhalt weiter selbst.
-assert.match(css, /body\.mobile-guided section\.section:where\(:not\(\.pre-hero\)\) \{[\s\S]*?min-height: 100svh;/);
-assert.match(css, /:where\(:not\(\.pre-hero\):not\(\.promoter-message\):not\(\.foerder-rechner\)\)/);
+assert.match(css, /body\.mobile-guided section\.section:where\(:not\(\.zitat\)\)\{[\s\S]*?min-height: 100svh;/);
+assert.match(css, /body\.mobile-guided \.mobile-guide\{[\s\S]*?position: fixed;/);
 
 // Phase 164: Beim freien Scrollen (Finger oder Mausrad) weicht die Leiste
 // und kommt bei Ruhe zurück; Sprünge über die Knöpfe erzeugen keines dieser
