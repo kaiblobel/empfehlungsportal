@@ -1,16 +1,31 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.274 Beta** · Der Überblick zeigt die echten DVAG-Darstellungen, live seit 16.08.2026.
+Offizielle Live-Version: **v1.275 Beta** · Der Überblick zeigt die echten DVAG-Darstellungen, live seit 16.08.2026.
 
-## v1.274 Beta - Phase 254 · Der Überblick zeigt die echten DVAG-Darstellungen
-**2026-08-16**
+## v1.275 Beta - Phase 255 · Der Überblick zeigt die echten DVAG-Darstellungen
+**2026-08-16 · live veröffentlicht**
 
 **Hinter der Kachel „Ganz allgemein" stehen jetzt die echten Darstellungen aus der Beratung.** Die Formel zum finanziellen Glück, die Vermögensaufbaupyramide und das Zwei-Konten-Modell, so wie sie im Termin auch auf dem Bildschirm stehen. Vorher war das Zwei-Konten-Modell eine selbst gezeichnete Ersatzgrafik, die zwar sauber aussah, aber nichts mit dem zu tun hatte, was der Kunde später zu sehen bekommt.
 
 Der Überblick hat damit sechs Schritte statt fünf: finanzielles Glück lässt sich planen (mit dem Rechner), die Formel dahinter, die Reihenfolge, die zwei Konten, verstehen statt vertrauen müssen, und was sich 2027 ändert.
 
 Das Zwei-Konten-Modell läuft über die ganze Breite, weil es quer ist und von seinen Beschriftungen lebt. In der schmalen Bildspalte wäre nichts davon zu lesen gewesen. Beide neuen Aufnahmen zeigen den Musterkunden der Software; am Zwei-Konten-Bild steht deshalb dabei, dass die Beträge Beispielwerte sind.
+
+---
+
+## v1.274 Beta - Phase 254 · Zeichnung auf dem Wartungshinweis
+**2026-08-16 · live veröffentlicht**
+
+Der Wartungshinweis hatte oben nur ein kleines Uhrsymbol und las sich dadurch wie eine Fehlermeldung. Jetzt steht dort eine Zeichnung: das Portal selbst als Entwurf auf Millimeterpapier. Kopfleiste, Menüspalte und zwei Kacheln stehen schon, die dritte ist noch eine gestrichelte Kontur. Das sagt „hier wird gerade gebaut", ohne Warnschild.
+
+Bewusst gezeichnet statt fotografiert. Ein Stockfoto oder ein erzeugtes Motiv wäre in diesem Editorial-Look ein Fremdkörper und riecht nach Baukasten. Die Zeichnung liegt als SVG direkt in `js/wartung.js`: sie skaliert scharf auf jedem Gerät, kostet keine zweite Anfrage und steht auch dann, wenn sonst nichts mehr lädt.
+
+Farben aus der Palette: Ink für die Konstruktion, Champagne für Akzent und Maßlinie, Burnt-Orange für die eine Kachel, an der noch gearbeitet wird. Am Handy geprüft.
+
+Unten steht jetzt der Absender: das Team-Wachsbleiche-Logo mit „Regionaldirektion Kai Blobel & Team" und „Deutsche Vermögensberatung". Für den kleinen Abdruck liegt eine eigene Fassung bereit (`team-wachsbleiche-marke-96.webp`, 3,9 KB statt 308 KB des Originals) — sonst lädt ein Hinweisfenster ein Drittel Megabyte für ein 48-Pixel-Zeichen.
+
+Der Absender steht bewusst fest und wird nicht aus dem angemeldeten Berater gezogen: Das Portal betreibt die Regionaldirektion, der Hinweis kommt von ihr, nicht vom jeweiligen Partner.
 
 ---
 

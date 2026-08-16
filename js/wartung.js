@@ -75,9 +75,9 @@
       'overflow-y:auto;-webkit-font-smoothing:antialiased}',
       '#' + SCHIRM_ID + ' .w-card{background:#fff;border:1px solid #E8E5E0;border-radius:14px;',
       'box-shadow:0 1px 2px rgba(20,18,12,.04),0 4px 14px rgba(20,18,12,.04);',
-      'max-width:460px;width:100%;padding:38px 34px 30px;text-align:center}',
-      '#' + SCHIRM_ID + ' .w-mark{width:44px;height:44px;margin:0 auto 22px;border-radius:50%;',
-      'background:rgba(201,185,138,.13);display:flex;align-items:center;justify-content:center}',
+      'max-width:460px;width:100%;padding:34px 34px 30px;text-align:center}',
+      '#' + SCHIRM_ID + ' .w-bild{display:block;width:100%;max-width:288px;height:auto;',
+      'margin:0 auto 26px}',
       '#' + SCHIRM_ID + ' .w-eyebrow{font-size:11px;font-weight:700;letter-spacing:.18em;',
       'text-transform:uppercase;color:#C9B98A;margin:0 0 10px}',
       '#' + SCHIRM_ID + ' h1{font-size:22px;font-weight:700;letter-spacing:-.02em;margin:0 0 12px;line-height:1.25}',
@@ -91,6 +91,12 @@
       'font-size:13px;line-height:1.55;color:#8C8680}',
       '#' + SCHIRM_ID + ' .w-fuss a{color:#8B7355;font-weight:600;text-decoration:none}',
       '#' + SCHIRM_ID + ' .w-fuss a:hover{text-decoration:underline}',
+      // Absender: das Portal gehört der Regionaldirektion, nicht der Seite.
+      '#' + SCHIRM_ID + ' .w-absender{margin:22px 0 0;display:flex;align-items:center;',
+      'justify-content:center;gap:11px;text-align:left}',
+      '#' + SCHIRM_ID + ' .w-absender img{width:48px;height:48px;border-radius:50%;flex:0 0 auto}',
+      '#' + SCHIRM_ID + ' .w-absender-text{font-size:12px;line-height:1.45;color:#8C8680}',
+      '#' + SCHIRM_ID + ' .w-absender-text b{display:block;font-weight:600;color:#1A1A1A;font-size:13px}',
       'body.wartung-offen{overflow:hidden}',
       /* Band für Admins: das Portal ist zu, du siehst es trotzdem. */
       '#' + BAND_ID + '{position:fixed;top:0;left:0;right:0;z-index:2147482000;',
@@ -113,6 +119,60 @@
     return 'Seit ' + d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' }) + '. ' + uhr + ' Uhr.';
   }
 
+  /**
+   * Die Zeichnung über dem Text: das Portal selbst als Entwurf auf
+   * Millimeterpapier. Kopfleiste, Menüspalte und zwei Kacheln stehen schon,
+   * die dritte ist noch eine gestrichelte Kontur. Das sagt „hier wird gerade
+   * gebaut", ohne Warnschild und ohne Foto.
+   *
+   * Bewusst gezeichnet statt fotografiert: skaliert scharf auf jedem Gerät,
+   * kostet keine zweite Anfrage und bleibt im Editorial-Look des Portals.
+   */
+  function zeichnung() {
+    var ink = 'stroke="#1A1A1A" stroke-opacity=".42" fill="none"';
+    return '' +
+      '<svg class="w-bild" viewBox="0 0 288 156" role="img" ' +
+        'aria-label="Skizze des Portals: zwei Bereiche stehen, einer ist noch im Bau">' +
+        '<defs>' +
+          '<pattern id="wartungRaster" width="18" height="18" patternUnits="userSpaceOnUse">' +
+            '<path d="M18 0H0v18" fill="none" stroke="#E8E5E0" stroke-width=".6"/>' +
+          '</pattern>' +
+        '</defs>' +
+
+        // Millimeterpapier
+        '<rect x="0" y="0" width="288" height="140" fill="url(#wartungRaster)" opacity=".7"/>' +
+
+        // Der Rahmen der Seite
+        '<rect x="24" y="14" width="240" height="112" rx="5" fill="#FFFFFF" ' +
+          'stroke="#1A1A1A" stroke-opacity=".5" stroke-width="1.2"/>' +
+
+        // Kopfleiste mit Punkt und Namenszeile
+        '<path d="M24 34h240" ' + ink + ' stroke-width="1"/>' +
+        '<circle cx="38" cy="24" r="3.4" fill="#C9B98A" fill-opacity=".55"/>' +
+        '<path d="M48 24h34" ' + ink + ' stroke-width="1.6" stroke-linecap="round"/>' +
+
+        // Menüspalte, drei Einträge
+        '<path d="M68 34v92" ' + ink + ' stroke-width="1"/>' +
+        '<path d="M34 46h22M34 58h26M34 70h18" ' + ink + ' stroke-width="1.4" stroke-linecap="round"/>' +
+
+        // Zwei Kacheln, die schon stehen
+        '<rect x="80" y="44" width="82" height="34" rx="3" fill="#C9B98A" fill-opacity=".1" ' +
+          'stroke="#C9B98A" stroke-width="1"/>' +
+        '<path d="M90 56h30M90 66h44" stroke="#C9B98A" stroke-opacity=".8" fill="none" ' +
+          'stroke-width="1.4" stroke-linecap="round"/>' +
+        '<rect x="172" y="44" width="80" height="34" rx="3" ' + ink + ' stroke-width="1"/>' +
+        '<path d="M182 56h28M182 66h40" ' + ink + ' stroke-width="1.4" stroke-linecap="round"/>' +
+
+        // Die dritte ist noch Kontur: hier wird gerade gearbeitet
+        '<rect x="80" y="88" width="172" height="28" rx="3" fill="none" ' +
+          'stroke="#B5651D" stroke-opacity=".55" stroke-width="1.2" stroke-dasharray="5 5"/>' +
+
+        // Maßlinie darunter, wie auf einer Bauzeichnung
+        '<path d="M24 140v8M264 140v8M24 144h240" stroke="#C9B98A" fill="none" ' +
+          'stroke-width="1" stroke-linecap="round"/>' +
+      '</svg>';
+  }
+
   function zeigeSchirm(d) {
     stile();
     var alt = document.getElementById(SCHIRM_ID);
@@ -126,12 +186,7 @@
     var card = document.createElement('div');
     card.className = 'w-card';
 
-    var mark = document.createElement('div');
-    mark.className = 'w-mark';
-    mark.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B7355" ' +
-      'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-      '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
-    card.appendChild(mark);
+    card.insertAdjacentHTML('beforeend', zeichnung());
 
     var eyebrow = document.createElement('div');
     eyebrow.className = 'w-eyebrow';
@@ -179,6 +234,26 @@
       fuss.appendChild(sp2);
     }
     card.appendChild(fuss);
+
+    // Absender. Bewusst fest und nicht aus dem eingeloggten Berater gezogen:
+    // das Portal betreibt die Regionaldirektion, der Hinweis kommt von ihr.
+    var abs = document.createElement('div');
+    abs.className = 'w-absender';
+    var logo = document.createElement('img');
+    logo.src = '/assets/images/team-wachsbleiche-marke-96.webp';
+    logo.width = 48;
+    logo.height = 48;
+    logo.alt = 'Team Wachsbleiche';
+    logo.loading = 'lazy';
+    abs.appendChild(logo);
+    var absText = document.createElement('div');
+    absText.className = 'w-absender-text';
+    var absName = document.createElement('b');
+    absName.textContent = 'Regionaldirektion Kai Blobel & Team';
+    absText.appendChild(absName);
+    absText.appendChild(document.createTextNode('Deutsche Vermögensberatung'));
+    abs.appendChild(absText);
+    card.appendChild(abs);
 
     wrap.appendChild(card);
     (document.body || document.documentElement).appendChild(wrap);
