@@ -103,7 +103,16 @@
       'background:#B5651D;color:#fff;padding:7px 16px;text-align:center;',
       "font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-size:13px;font-weight:600}",
       '#' + BAND_ID + ' a{color:#fff;text-decoration:underline;margin-left:8px;font-weight:600}',
-      'body.wartung-band{padding-top:32px}'
+      'body.wartung-band{padding-top:32px}',
+      /* Vorschau: Marine statt Orange, damit man sie nie mit dem echten
+         Zustand verwechselt. Die Karte darunter bleibt unverändert. */
+      '#' + SCHIRM_ID + ' .w-vorschauband{position:fixed;top:0;left:0;right:0;',
+      'background:#2E5266;color:#fff;padding:9px 16px;display:flex;align-items:center;',
+      'justify-content:center;gap:14px;font-size:13px;font-weight:600;flex-wrap:wrap}',
+      '#' + SCHIRM_ID + ' .w-vorschauband button{background:rgba(255,255,255,.18);border:0;',
+      'color:#fff;font-family:inherit;font-size:12px;font-weight:600;padding:5px 13px;',
+      'border-radius:6px;cursor:pointer}',
+      '#' + SCHIRM_ID + ' .w-vorschauband button:hover{background:rgba(255,255,255,.3)}'
     ].join('');
     document.head.appendChild(s);
   }
@@ -173,7 +182,14 @@
       '</svg>';
   }
 
-  function zeigeSchirm(d) {
+  /**
+   * @param d         Titel, Text und Startzeitpunkt für die Karte
+   * @param vorschau  true = Kai schaut sich an, was seine Partner sehen.
+   *                  Die Karte bleibt dabei absichtlich unverändert, der
+   *                  Hinweis kommt als Band darüber. Sonst zeigt die Vorschau
+   *                  etwas anderes als das Original und taugt nicht zum Prüfen.
+   */
+  function zeigeSchirm(d, vorschau) {
     stile();
     var alt = document.getElementById(SCHIRM_ID);
     if (alt) alt.remove();
@@ -182,6 +198,18 @@
     wrap.id = SCHIRM_ID;
     wrap.setAttribute('role', 'alertdialog');
     wrap.setAttribute('aria-live', 'polite');
+
+    if (vorschau) {
+      var vb = document.createElement('div');
+      vb.className = 'w-vorschauband';
+      vb.appendChild(document.createTextNode('Vorschau. Genau so sehen deine Partner das Portal.'));
+      var zu = document.createElement('button');
+      zu.type = 'button';
+      zu.textContent = 'Vorschau schließen';
+      zu.addEventListener('click', entferneSchirm);
+      vb.appendChild(zu);
+      wrap.appendChild(vb);
+    }
 
     var card = document.createElement('div');
     card.className = 'w-card';
@@ -212,8 +240,10 @@
     var btn = document.createElement('button');
     btn.className = 'w-btn';
     btn.type = 'button';
+    // Beschriftung bleibt gleich, damit die Vorschau ehrlich ist. In der
+    // Vorschau lädt er nur nicht neu, sondern beendet sie.
     btn.textContent = 'Nochmal nachsehen';
-    btn.addEventListener('click', function () { window.location.reload(); });
+    btn.addEventListener('click', vorschau ? entferneSchirm : function () { window.location.reload(); });
     card.appendChild(btn);
 
     var fuss = document.createElement('div');
@@ -335,6 +365,37 @@
       }
     }, 300);
   }
+
+  /* ---------- Vorschau für Admins ---------- */
+
+  /**
+   * Zeigt den Hinweis einmalig an, ohne den Schalter anzufassen. Gedacht für
+   * die Einstellungen: „so sehen es meine Partner gerade".
+   *
+   *   window.wartungVorschau({ titel: '…', text: '…', seit: '…' })
+   *
+   * Ohne Angaben wird der echte Stand aus der Datenbank geholt.
+   */
+  window.wartungVorschau = function (d) {
+    if (d && (d.titel || d.text)) { zeigeSchirm(d, true); return Promise.resolve(d); }
+    return fetch(url, { headers: { apikey: key, Accept: 'application/json' }, cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (rows) {
+        var stand = (rows && rows[0]) || {};
+        zeigeSchirm(stand, true);
+        return stand;
+      })
+      .catch(function () { zeigeSchirm({}, true); });
+  };
+
+  window.wartungVorschauSchliessen = entferneSchirm;
+
+  // Die Einstellungsseite bindet diese Datei nur wegen der Vorschau ein. Dort
+  // darf der Schirm NIE von selbst aufgehen: es ist die einzige Seite, auf der
+  // man den Schalter wieder ausmachen kann. Deshalb der Marker im Script-Tag:
+  //   <script src="../js/wartung.js?v=3" data-nur-vorschau></script>
+  var eigenesTag = document.currentScript;
+  if (eigenesTag && eigenesTag.hasAttribute('data-nur-vorschau')) return;
 
   if (document.body) start();
   else document.addEventListener('DOMContentLoaded', start);

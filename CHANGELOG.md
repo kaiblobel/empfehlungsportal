@@ -1,16 +1,31 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.282 Beta** · Autofoto ausgetauscht, live seit 16.08.2026.
+Offizielle Live-Version: **v1.283 Beta** · Autofoto ausgetauscht, live seit 16.08.2026.
 
-## v1.282 Beta - Phase 262 · Autofoto ausgetauscht
-**2026-08-16**
+## v1.283 Beta - Phase 263 · Autofoto ausgetauscht
+**2026-08-16 · live veröffentlicht**
 
 **Das Bild zum Auto-Meilenstein ist ausgetauscht.** Kai hat ein eigenes Motiv bereitgestellt, einen vollelektrischen Kombi. Es ersetzt das bisherige Unsplash-Foto.
 
 Zugeschnitten auf das Fahrzeug, das Seitenverhältnis liegt bei 1,5 und damit zwischen den beiden Kartenbreiten der Reise. Der erste Zuschnitt war zu breit: In der 183 Pixel schmalen Karte blieb davon nur ein Streifen Lack übrig, in dem kein Auto mehr zu erkennen war.
 
 Zur Herkunft steht ein offener Punkt in `assets/images/programm/BILDQUELLEN.md`.
+
+---
+
+## v1.282 Beta - Phase 262 · Vorschau auf den Wartungshinweis
+**2026-08-16**
+
+Der Wartungsschalter ließ sich bisher nur blind bedienen. Wer wissen wollte, was die Partner gerade sehen, musste sich abmelden oder einen zweiten Browser aufmachen. In den Einstellungen steht deshalb jetzt neben „Text speichern" der Knopf **„Vorschau ansehen"**.
+
+Die Vorschau zeigt den Hinweis genau so, wie er draußen steht, mit einem Marine-Band darüber: „Vorschau. Genau so sehen deine Partner das Portal." Die Karte selbst bleibt dabei unverändert. Eine Vorschau, die anders aussieht als das Original, taugt nicht zum Prüfen.
+
+Sie nimmt den Text aus den Eingabefeldern, nicht aus der Datenbank. Damit lässt sich eine neue Formulierung anschauen, bevor sie gespeichert wird. Raus geht es über das Band oder über den Knopf in der Karte; der lädt in der Vorschau nicht neu, sondern beendet sie.
+
+Am Schalter ändert die Vorschau nichts. Sie lässt sich also auch dann öffnen, wenn das Portal gerade offen ist.
+
+**Technisch:** `js/wartung.js` stellt `window.wartungVorschau()` bereit und versteht am Script-Tag den Marker `data-nur-vorschau`. Damit bindet die Einstellungsseite dieselbe Datei ein, ohne dass der Schirm dort von selbst aufgeht — sie ist die einzige Seite, auf der man den Schalter wieder ausmachen kann, und muss offen bleiben.
 
 ---
 
