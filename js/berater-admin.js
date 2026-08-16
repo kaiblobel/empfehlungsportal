@@ -233,6 +233,47 @@ function renderCard(b, _index, alle) {
 
         <section class="berater-section">
           <header class="berater-section-head">
+            <div><h3>Bilder für die Präsentation</h3><p>Ohne eigene Bilder greift das Profilbild. Nie das Büro eines anderen Beraters.</p></div>
+          </header>
+          <div class="berater-fields">
+            <div class="wide">
+              <label>Bürofoto</label>
+              <div class="berater-bild-zeile">
+                <img class="berater-bild-vorschau" data-bild-vorschau="buero_foto_url" src="${escapeAttr(b.buero_foto_url || '')}" alt="" ${b.buero_foto_url ? '' : 'hidden'} />
+                <input type="hidden" data-f="buero_foto_url" value="${escapeAttr(b.buero_foto_url || '')}" />
+                <label class="cms-upload-btn">
+                  <span class="cms-upload-label">${b.buero_foto_url ? 'Bild ersetzen' : 'Bild hochladen'}</span>
+                  <input type="file" accept="image/*" data-upload="${b.id}" data-upload-ziel="buero_foto_url" hidden />
+                </label>
+                <button type="button" class="berater-photo-remove" data-bild-weg="buero_foto_url" ${b.buero_foto_url ? '' : 'hidden'}>Entfernen</button>
+              </div>
+              <span class="berater-field-hint">Hochformat aus dem eigenen Büro. Steht im Einstieg der Präsentation. Leer: das Profilbild rückt nach.</span>
+            </div>
+
+            <div class="wide">
+              <label>Teamfoto</label>
+              <div class="berater-bild-zeile">
+                <img class="berater-bild-vorschau" data-bild-vorschau="team_foto_url" src="${escapeAttr(b.team_foto_url || '')}" alt="" ${b.team_foto_url ? '' : 'hidden'} />
+                <input type="hidden" data-f="team_foto_url" value="${escapeAttr(b.team_foto_url || '')}" />
+                <label class="cms-upload-btn">
+                  <span class="cms-upload-label">${b.team_foto_url ? 'Bild ersetzen' : 'Bild hochladen'}</span>
+                  <input type="file" accept="image/*" data-upload="${b.id}" data-upload-ziel="team_foto_url" hidden />
+                </label>
+                <button type="button" class="berater-photo-remove" data-bild-weg="team_foto_url" ${b.team_foto_url ? '' : 'hidden'}>Entfernen</button>
+              </div>
+              <span class="berater-field-hint">Team oder Räume, quer. Steht beim Thema „Berufliche Perspektive". Leer: die Karte bleibt ohne Bild.</span>
+            </div>
+
+            <div class="wide">
+              <label>Bildunterschrift zum Bürofoto</label>
+              <input data-f="buero_bildzeile" value="${escapeAttr(b.buero_bildzeile || '')}" placeholder="z. B. Büro Cottbus. Hier sitzen wir, wenn wir reden." />
+              <span class="berater-field-hint">Leer lassen, dann erscheint keine Zeile.</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="berater-section">
+          <header class="berater-section-head">
             <div><h3>Zugang</h3><p>Login verwalten, ohne technische Kontodaten offenzulegen.</p></div>
           </header>
           <div class="berater-pw">
@@ -390,19 +431,47 @@ function attachHandlers(list) {
         toast('Upload fehlgeschlagen: ' + (error.message || 'unbekannt'), 4000);
         return;
       }
-      card.querySelector('[data-f="foto_url"]').value = url;
-      const prev = card.querySelector('[data-preview]');
-      const placeholder = card.querySelector('[data-preview-placeholder]');
-      const removeBtn = card.querySelector('[data-photo-remove]');
-      if (prev) { prev.src = url; prev.hidden = false; }
-      if (placeholder) placeholder.hidden = true;
-      if (removeBtn) removeBtn.hidden = false;
+      // Welches Bild gemeint ist, sagt der Knopf selbst. Ohne Angabe bleibt es
+      // beim Profilbild, damit der urspruengliche Weg unveraendert funktioniert.
+      const ziel = inp.dataset.uploadZiel || 'foto_url';
+      const feld = card.querySelector(`[data-f="${ziel}"]`);
+      if (feld) feld.value = url;
+
+      if (ziel === 'foto_url') {
+        const prev = card.querySelector('[data-preview]');
+        const placeholder = card.querySelector('[data-preview-placeholder]');
+        const removeBtn = card.querySelector('[data-photo-remove]');
+        if (prev) { prev.src = url; prev.hidden = false; }
+        if (placeholder) placeholder.hidden = true;
+        if (removeBtn) removeBtn.hidden = false;
+      } else {
+        const prev = card.querySelector(`[data-bild-vorschau="${ziel}"]`);
+        const weg = card.querySelector(`[data-bild-weg="${ziel}"]`);
+        if (prev) { prev.src = url; prev.hidden = false; }
+        if (weg) weg.hidden = false;
+      }
+
       labelEl.textContent = 'Bild ersetzen';
-      toast('Foto hochgeladen — jetzt noch „Speichern" klicken.', 3500);
+      toast('Bild hochgeladen — jetzt noch „Speichern" klicken.', 3500);
     });
   });
 
-  document.querySelectorAll('[data-photo-remove]').forEach(btn => {
+  document.querySelectorAll('[data-bild-weg]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const ziel = btn.dataset.bildWeg;
+      const card = btn.closest('.berater-card');
+      const feld = card.querySelector(`[data-f="${ziel}"]`);
+      const prev = card.querySelector(`[data-bild-vorschau="${ziel}"]`);
+      const label = btn.closest('.berater-bild-zeile')?.querySelector('.cms-upload-label');
+      if (feld) feld.value = '';
+      if (prev) { prev.hidden = true; prev.removeAttribute('src'); }
+      if (label) label.textContent = 'Bild hochladen';
+      btn.hidden = true;
+      toast('Bild wird beim Speichern aus dem Profil entfernt.', 3500);
+    });
+  });
+
+  document.querySelectorAll('[data-photo-remove]:not([data-bild-weg])').forEach(btn => {
     btn.addEventListener('click', () => {
       if (!confirm('Profilbild aus dem Beraterprofil entfernen? Die Datei bleibt im Speicher erhalten.')) return;
       const card = btn.closest('.berater-card');

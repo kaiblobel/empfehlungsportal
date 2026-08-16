@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#eef2f3">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Vorschau · Empfehlungsbereich im App-Look</title>
+  <link rel="stylesheet" href="/css/empfehler-mobile.css?v=5">
+  <style>
+    /* Nur in dieser Vorschau: Umschalter für Ansicht und Farbe */
+    .vorschau-leiste {
+      position: sticky; top: 0; z-index: 60;
+      display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
+      padding: 10px 12px; background: #12242a; color: #fff;
+    }
+    .vorschau-leiste button {
+      padding: 8px 13px; border: 1px solid rgba(255,255,255,.28); border-radius: 999px;
+      background: transparent; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer;
+    }
+    .vorschau-leiste button.on { border-color: #c8aa22; background: #c8aa22; color: #221c00; }
+    .vorschau-leiste span { width: 100%; text-align: center; font-size: 10.5px; color: rgba(255,255,255,.6); letter-spacing: .06em; text-transform: uppercase; }
+    .vorschau-teil { display: none; }
+    .vorschau-teil.an { display: block; }
+    .vorschau-teil .overlay { position: relative; inset: auto; display: flex; padding: 20px 0; background: rgba(7,27,31,.12); }
+    .vorschau-teil .sheet { height: auto; max-height: none; border-radius: 24px; }
+    .vorschau-teil .step-content { overflow: visible; }
+  </style>
+</head>
+<body data-page="empfehler">
+  <div class="vorschau-leiste">
+    <span>Vorschau mit Beispieldaten, kommt nicht mit live</span>
+    <button type="button" class="on" data-teil="start">Startseite</button>
+    <button type="button" data-teil="funnel">Empfehlung anlegen</button>
+    <button type="button" data-teil="leer">Erster Besuch</button>
+  </div>
+
+  <div class="vorschau-teil an" data-teil="start">
+    <div class="phone-shell" id="top">
+      <header class="topbar">
+        <img class="advisor-photo" src="/assets/images/kai-portrait.jpg" alt="">
+        <div class="top-copy">
+          <strong>Hallo Anna</strong>
+          <span>Persönlich begleitet von Kai</span>
+        </div>
+        <button class="icon-button" type="button" aria-label="Neuigkeiten öffnen">
+          <span class="bell" aria-hidden="true"></span><span class="unread"></span>
+        </button>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div class="eyebrow">Heute jemandem helfen</div>
+          <h1>Wem möchtest du gerade etwas Gutes tun?</h1>
+          <p>Vier kurze Schritte. Dein persönlicher Empfehlungslink ist sofort bereit.</p>
+          <button class="primary" type="button"><span class="plus-ring">+</span>Jetzt empfehlen</button>
+          <button class="draft-button visible" type="button">Angefangene Empfehlung an Thomas fortsetzen</button>
+          <div class="hero-proof">
+            <span class="proof-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span>Deine Empfehlungen bleiben für dich sichtbar.</span>
+          </div>
+        </section>
+
+        <section class="howto">
+          <div class="howto-head">
+            <strong>So läuft es ab</strong>
+            <span>zuletzt hier: 12. Juni</span>
+          </div>
+          <div class="howto-steps">
+            <div class="howto-step"><span class="howto-num">1</span><div><strong>Person eintragen</strong><span>Vorname und Handynummer genügen.</span></div></div>
+            <div class="howto-step"><span class="howto-num">2</span><div><strong>Thema wählen</strong><span>Worum geht es gerade? Zum Beispiel Baufinanzierung.</span></div></div>
+            <div class="howto-step"><span class="howto-num">3</span><div><strong>Nachricht anpassen</strong><span>Der Text steht fertig da, du kannst ihn in deine Worte bringen.</span></div></div>
+            <div class="howto-step"><span class="howto-num">4</span><div><strong>Über WhatsApp senden</strong><span>Du siehst die Nachricht vorher und schickst sie selbst ab.</span></div></div>
+          </div>
+          <p class="howto-note">Kai meldet sich erst, wenn die Person deinen Link selbst geöffnet hat. Du gibst niemanden ungefragt weiter.</p>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><div><div class="eyebrow">Deine Wirkung</div><h2>Auf einen Blick</h2></div></div>
+          <div class="metric-grid">
+            <div class="metric"><strong>7</strong><span>Menschen empfohlen</span><small>insgesamt</small></div>
+            <div class="metric"><strong>5</strong><span>Link geöffnet</span><small>Interesse da</small></div>
+            <div class="metric"><strong>2</strong><span>Kunde geworden</span><small>danke dafür</small></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-head">
+            <div><div class="eyebrow">Seit deinem letzten Besuch</div><h2>Was sich verändert hat</h2></div>
+            <button class="text-button" type="button">Gelesen</button>
+          </div>
+          <div class="activity-list">
+            <article class="activity-card">
+              <span class="activity-icon marine">✓</span>
+              <div class="activity-copy"><strong>Martin hat deinen Link geöffnet</strong><span>Kai kann sich jetzt bei ihm melden.</span></div>
+              <span class="time">vorgestern</span>
+            </article>
+            <article class="activity-card">
+              <span class="activity-icon">★</span>
+              <div class="activity-copy"><strong>Sabine ist Kundin geworden</strong><span>Dein Dankeschön wurde freigegeben.</span></div>
+              <span class="time">7. Aug</span>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-head">
+            <div><div class="eyebrow">Dein Dankeschön</div><h2>Du bist auf dem Weg</h2></div>
+            <button class="text-button" type="button">Ziel ändern</button>
+          </div>
+          <div class="reward-card">
+            <div class="reward-top">
+              <span class="reward-mark">🎧</span>
+              <div class="reward-copy"><strong>Kopfhörer</strong><span>noch eine erfolgreiche Empfehlung</span></div>
+            </div>
+            <div class="progress"><i style="width:66%"></i></div>
+            <div class="progress-meta"><span>2 von 3</span><span>66 Prozent</span></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-head">
+            <div><div class="eyebrow">Deine Empfehlungen</div><h2>Du siehst, was passiert</h2></div>
+            <button class="text-button" type="button">Aktualisieren</button>
+          </div>
+          <div class="recommendation-list">
+            <article class="recommendation-card">
+              <div class="rec-top">
+                <span class="avatar">MA</span>
+                <div class="rec-name"><strong>Martin</strong><span>Baufinanzierung · 12. August</span></div>
+                <span class="pill marine">Link geöffnet</span>
+              </div>
+              <div class="timeline"><span class="done">versendet</span><span class="done">geöffnet</span><span>Kunde</span></div>
+              <div class="rec-actions">
+                <button class="rec-action" type="button">Nachricht erneut senden</button>
+                <button class="rec-action primary-small" type="button">Details</button>
+              </div>
+            </article>
+            <article class="recommendation-card">
+              <div class="rec-top">
+                <span class="avatar sage">SA</span>
+                <div class="rec-name"><strong>Sabine</strong><span>Altersvorsorge · 2. August</span></div>
+                <span class="pill sage">Kundin</span>
+              </div>
+              <div class="timeline"><span class="done">versendet</span><span class="done">geöffnet</span><span class="done">Kunde</span></div>
+            </article>
+            <article class="recommendation-card">
+              <div class="rec-top">
+                <span class="avatar terra">TH</span>
+                <div class="rec-name"><strong>Thomas</strong><span>Noch nicht gesendet</span></div>
+                <span class="pill terra">Entwurf</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="settings">
+          <details open>
+            <summary>Persönliche Nachricht und Benachrichtigungen</summary>
+            <div class="settings-body">
+              <div class="setting-row">
+                <label>Deine Standardnachricht</label>
+                <textarea>Kai hat uns beim Hauskauf richtig geholfen. Sprich ruhig mal mit ihm.</textarea>
+                <div class="setting-meta"><span>78/240</span><button type="button">Nachricht speichern</button></div>
+              </div>
+              <div class="setting-row">
+                <label>Wie oft möchtest du hier erinnert werden?</label>
+                <div class="choice-row">
+                  <button type="button" class="choice-chip active">Sofort</button>
+                  <button type="button" class="choice-chip">Täglich</button>
+                  <button type="button" class="choice-chip">Wöchentlich</button>
+                  <button type="button" class="choice-chip">Aus</button>
+                </div>
+                <p class="setting-note">Die Auswahl gilt auf diesem Gerät. Wichtige Änderungen erscheinen immer im Verlauf.</p>
+              </div>
+            </div>
+          </details>
+        </section>
+
+        <footer class="footer">
+          <strong>Kai Blobel &amp; Team</strong><br>
+          Finanzierungsspezialist · persönlich für dich da
+        </footer>
+      </main>
+    </div>
+
+    <nav class="bottom-nav" aria-label="Hauptnavigation">
+      <button class="nav-button active" type="button"><span class="nav-icon home" aria-hidden="true"></span><span>Start</span></button>
+      <button class="nav-button nav-main" type="button"><span class="nav-plus">+</span><span>Empfehlen</span></button>
+      <button class="nav-button" type="button"><span class="nav-icon list" aria-hidden="true"></span><span>Verlauf</span></button>
+    </nav>
+  </div>
+
+  <div class="vorschau-teil" data-teil="funnel">
+    <div class="overlay open">
+      <section class="sheet">
+        <header class="sheet-head">
+          <div class="sheet-top">
+            <button class="close" type="button" aria-label="Schließen">×</button>
+            <div class="sheet-title"><strong>Neue Empfehlung</strong><span>Auf diesem Gerät automatisch gespeichert</span></div>
+            <span class="step-number">2 von 4</span>
+          </div>
+          <div class="step-progress" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i><i></i></div>
+        </header>
+        <div class="step-content">
+          <section class="step active">
+            <h2>Worum geht es?</h2>
+            <p>Wähle das Thema, das am besten zur aktuellen Situation passt.</p>
+            <div class="topic-grid">
+              <button class="topic-card active tone-marine" type="button"><span class="topic-symbol">BAU</span><strong>Baufinanzierung</strong><span>Hauskauf, Neubau, Anschluss</span></button>
+              <button class="topic-card" type="button"><span class="topic-symbol">VOR</span><strong>Altersvorsorge</strong><span>Rente, Förderung, Depot</span></button>
+              <button class="topic-card tone-sage" type="button"><span class="topic-symbol">ABS</span><strong>Absicherung</strong><span>Einkommen, Familie, Sachwerte</span></button>
+              <button class="topic-card tone-terra" type="button"><span class="topic-symbol">KID</span><strong>Für Kinder</strong><span>Früh anfangen zahlt sich aus</span></button>
+            </div>
+          </section>
+
+          <section class="step active" style="margin-top:26px">
+            <h2>Alles bereit</h2>
+            <p>Prüfe kurz, ob sich die Nachricht wirklich nach dir anhört.</p>
+            <div class="preview-card">
+              <div class="preview-title"><span class="avatar">MA</span><div><strong>Martin</strong><span>Baufinanzierung</span></div></div>
+              <div class="message-bubble">Hallo Martin, du hattest ja erzählt, dass ihr über ein Haus nachdenkt. Kai hat uns dabei richtig geholfen, ganz ohne Druck. Schau mal rein:
+                <a class="message-link" href="#">empfehlung.kaiblobel.de/anna</a>
+              </div>
+            </div>
+            <div class="honesty"><b>i</b><span>Erst nach deiner Bestätigung steht im Verlauf „versendet". Sobald der Link geöffnet wird, aktualisiert sich der Status automatisch.</span></div>
+          </section>
+        </div>
+        <footer class="sheet-actions">
+          <button class="primary" type="button">Weiter</button>
+          <button class="secondary" type="button">Für später speichern</button>
+        </footer>
+      </section>
+    </div>
+  </div>
+
+  <div class="vorschau-teil" data-teil="leer">
+    <div class="phone-shell">
+      <header class="topbar">
+        <img class="advisor-photo" src="/assets/images/kai-portrait.jpg" alt="">
+        <div class="top-copy">
+          <strong>Hallo Anna</strong>
+          <span>Persönlich begleitet von Kai</span>
+        </div>
+        <button class="icon-button" type="button" aria-label="Neuigkeiten öffnen"><span class="bell" aria-hidden="true"></span></button>
+      </header>
+      <main>
+        <section class="hero">
+          <div class="eyebrow">Heute jemandem helfen</div>
+          <h1>Wem möchtest du gerade etwas Gutes tun?</h1>
+          <p>Vier kurze Schritte. Dein persönlicher Empfehlungslink ist sofort bereit.</p>
+          <button class="primary" type="button"><span class="plus-ring">+</span>Jetzt empfehlen</button>
+          <div class="hero-proof">
+            <span class="proof-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span>Deine Empfehlungen bleiben für dich sichtbar.</span>
+          </div>
+        </section>
+        <section class="howto">
+          <div class="howto-head"><strong>So läuft es ab</strong></div>
+          <div class="howto-steps">
+            <div class="howto-step"><span class="howto-num">1</span><div><strong>Person eintragen</strong><span>Vorname und Handynummer genügen.</span></div></div>
+            <div class="howto-step"><span class="howto-num">2</span><div><strong>Thema wählen</strong><span>Worum geht es gerade? Zum Beispiel Baufinanzierung.</span></div></div>
+            <div class="howto-step"><span class="howto-num">3</span><div><strong>Nachricht anpassen</strong><span>Der Text steht fertig da, du kannst ihn in deine Worte bringen.</span></div></div>
+            <div class="howto-step"><span class="howto-num">4</span><div><strong>Über WhatsApp senden</strong><span>Du siehst die Nachricht vorher und schickst sie selbst ab.</span></div></div>
+          </div>
+          <p class="howto-note">Kai meldet sich erst, wenn die Person deinen Link selbst geöffnet hat. Du gibst niemanden ungefragt weiter.</p>
+        </section>
+        <section class="section">
+          <div class="section-head"><div><div class="eyebrow">Deine Wirkung</div><h2>Auf einen Blick</h2></div></div>
+          <div class="metric-grid">
+            <div class="metric"><strong>0</strong><span>Menschen empfohlen</span><small>insgesamt</small></div>
+            <div class="metric"><strong>0</strong><span>Link geöffnet</span><small>Interesse da</small></div>
+            <div class="metric"><strong>0</strong><span>Kunde geworden</span><small>danke dafür</small></div>
+          </div>
+        </section>
+        <section class="section">
+          <div class="section-head"><div><div class="eyebrow">Deine Empfehlungen</div><h2>Du siehst, was passiert</h2></div></div>
+          <div class="recommendation-list">
+            <div class="empty-card">Hier erscheint deine erste Empfehlung, sobald du eine Nachricht verschickt hast.</div>
+          </div>
+        </section>
+        <footer class="footer"><strong>Kai Blobel &amp; Team</strong><br>Finanzierungsspezialist · persönlich für dich da</footer>
+      </main>
+    </div>
+    <nav class="bottom-nav" aria-label="Hauptnavigation">
+      <button class="nav-button active" type="button"><span class="nav-icon home" aria-hidden="true"></span><span>Start</span></button>
+      <button class="nav-button nav-main" type="button"><span class="nav-plus">+</span><span>Empfehlen</span></button>
+      <button class="nav-button" type="button"><span class="nav-icon list" aria-hidden="true"></span><span>Verlauf</span></button>
+    </nav>
+  </div>
+
+  <script>
+    document.querySelectorAll('.vorschau-leiste button').forEach((knopf) => {
+      knopf.addEventListener('click', () => {
+        document.querySelectorAll('.vorschau-leiste button').forEach((b) => b.classList.remove('on'));
+        knopf.classList.add('on');
+        document.querySelectorAll('.vorschau-teil').forEach((teil) => {
+          teil.classList.toggle('an', teil.dataset.teil === knopf.dataset.teil);
+        });
+        window.scrollTo({ top: 0 });
+      });
+    });
+  </script>
+</body>
+</html>

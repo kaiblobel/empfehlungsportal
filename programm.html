@@ -14,7 +14,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
-  <link rel="stylesheet" href="css/praesentation.css?v=1" />
+  <link rel="stylesheet" href="css/praesentation.css?v=2" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="programm">
@@ -60,6 +60,17 @@
             <button class="nps-btn" type="button" data-score="9" role="radio" aria-checked="false">9</button>
             <button class="nps-btn" type="button" data-score="10" role="radio" aria-checked="false">10</button>
           </div>
+          <!-- Auf dem Handy sind zehn Knöpfe nebeneinander zu klein zum sicheren
+               Treffen. Dort steht stattdessen ein Schieberegler, der dieselbe
+               Antwort auslöst. Auf dem Rechner bleiben die Knöpfe, weil man dort
+               mit einem Klick genau die Zahl trifft, die man meint. -->
+          <div class="nps-regler" id="npsRegler">
+            <output class="nps-regler-wert" id="npsReglerWert" for="npsReglerInput">–</output>
+            <input class="nps-regler-bahn" id="npsReglerInput" type="range"
+                   min="1" max="10" step="1" value="8"
+                   aria-label="Zufriedenheit von 1 bis 10" />
+          </div>
+
           <div class="nps-scale-labels">
             <span>Da fehlt noch etwas</span>
             <span>Jederzeit wieder</span>
@@ -288,10 +299,10 @@
   <!-- ===== 7 · Die Tür ===== -->
   <section class="section tuer">
     <div class="inner">
-      <h2>Du verkaufst nichts. Du öffnest nur eine Tür.</h2>
+      <h2>Du empfiehlst niemanden weiter. Du stellst zwei Menschen einander vor.</h2>
       <p>
-        Wenn du an einen Menschen denkst, dem ein Gespräch mit mir helfen könnte, dann stell uns
-        einfach einander vor. Mehr musst du nicht tun.
+        Wenn dir jemand einfällt, dem ein Gespräch mit mir helfen könnte, reicht ein Hinweis.
+        Alles andere übernehme ich.
       </p>
       <div class="tuer-fakten">
         <div>
@@ -759,6 +770,6 @@
   </div>
 
   <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
-  <script type="module" src="js/programm.js?v=52"></script>
+  <script type="module" src="js/programm.js?v=53"></script>
 </body>
 </html>

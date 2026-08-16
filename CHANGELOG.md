@@ -1,7 +1,21 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.271 Beta** · Präsentation neu erzählt, live seit 16.08.2026.
+Offizielle Live-Version: **v1.272 Beta** · Eigene Bilder pflegen und Skala als Schieberegler, live seit 16.08.2026.
+
+## v1.272 Beta - Phase 252 · Eigene Bilder pflegen, Skala als Schieberegler
+**2026-08-16 · live veröffentlicht**
+
+**Bürofoto und Teamfoto lassen sich jetzt selbst pflegen.** In der Berater-Verwaltung gibt es dafür einen eigenen Abschnitt mit Vorschau, Hochladen und Entfernen, dazu ein Feld für die Bildunterschrift. Bisher standen die Felder zwar in der Datenbank, konnten aber nur direkt dort gesetzt werden. Wer nichts hinterlegt, bekommt weiterhin sein eigenes Profilbild, nie das Büro eines anderen.
+
+**Die Promoter-Vorschau in der Präsentation lief live in einen Fehler.** Sie zeigte auf eine Datei im Ordner `mockups/`, und der wird bewusst nicht mit ausgeliefert, damit Entwürfe nicht öffentlich sind. Lokal funktionierte sie deshalb, live nicht. Die Vorschau liegt jetzt als `promoter-vorschau.html` an einem Ort, der ausgeliefert wird.
+
+**Der Abschnitt vor dem Ablauf heißt jetzt „Du empfiehlst niemanden weiter. Du stellst zwei Menschen einander vor."** Vorher stand dort „Du verkaufst nichts. Du öffnest nur eine Tür." Der Satz nahm dieselbe Sorge, brachte aber das Wort Verkaufen erst ins Spiel. Die neue Fassung beschreibt, was tatsächlich passiert.
+
+**Auf dem Handy ist die Zufriedenheitsfrage ein Schieberegler.** Zehn Knöpfe nebeneinander sind auf einem Telefon zu klein zum sicheren Treffen. Der Regler zeigt die gewählte Zahl groß daneben; die Antwort erscheint erst beim Loslassen, damit einem beim Ziehen nicht die Seite wegscrollt. Auf dem Rechner bleiben die zehn Knöpfe, dort trifft man mit einem Klick genau die Zahl, die man meint. Beide Wege laufen über dieselbe Logik.
+
+---
+
 
 ## v1.271 Beta - Phase 251 · Präsentation neu erzählt
 **2026-08-16 · live veröffentlicht**

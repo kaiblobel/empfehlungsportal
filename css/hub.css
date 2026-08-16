@@ -2311,6 +2311,38 @@ body[data-page="vorlagen-cms"] {
   background: transparent;
   color: var(--text-secondary, #6B6660);
 }
+/* Bilder für die Präsentation (Phase 252): Vorschau, Hochladen und Entfernen
+   in einer Zeile, damit die drei Felder nicht die Karte auseinanderziehen. */
+.berater-bild-zeile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+.berater-bild-vorschau {
+  width: 96px;
+  height: 60px;
+  border-radius: 8px;
+  border: 1px solid var(--hairline, #E8E5E0);
+  object-fit: cover;
+  background: #F4F2EE;
+}
+.berater-bild-vorschau[hidden] { display: none; }
+.berater-bild-zeile .cms-upload-btn {
+  margin: 0;
+  min-height: 39px;
+  padding: 8px 14px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--hairline, #E8E5E0);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 12.5px;
+  font-weight: 680;
+  cursor: pointer;
+}
+
 .berater-photo-note {
   margin: 6px 0 0;
   color: var(--ink-soft, #8C8680);

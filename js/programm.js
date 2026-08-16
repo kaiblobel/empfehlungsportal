@@ -499,40 +499,61 @@ if (presenterLength && openedFromHub) presenterLength.hidden = false;
     return 'high';
   }
 
-  scale.querySelectorAll('.nps-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const score = Number(btn.dataset.score);
-      // Visuell: alle deaktivieren, geklickte markieren
-      scale.querySelectorAll('.nps-btn').forEach(b => {
-        b.classList.remove('selected');
-        b.setAttribute('aria-checked', 'false');
-      });
-      btn.classList.add('selected');
-      btn.setAttribute('aria-checked', 'true');
+  const regler = document.getElementById('npsReglerInput');
+  const reglerWert = document.getElementById('npsReglerWert');
 
-      hideAllResponses();
-      const band = bandFor(score);
-      const card = responses[band];
-      if (card) {
-        section?.classList.add('has-nps-response');
-        card.hidden = false;
-        requestAnimationFrame(() => card.classList.add('show'));
-        // Zur Antwort scrollen, damit sie im Gespräch sofort im Blick ist
+  // Eine Auswahl, zwei Bedienwege. Knoepfe und Schieberegler laufen ueber
+  // dieselbe Funktion, damit die Antwort nicht davon abhaengt, womit gewaehlt
+  // wurde, und beide immer denselben Stand zeigen.
+  function waehle(score, { scrollen = true } = {}) {
+    scale.querySelectorAll('.nps-btn').forEach(b => {
+      const gewaehlt = Number(b.dataset.score) === score;
+      b.classList.toggle('selected', gewaehlt);
+      b.setAttribute('aria-checked', String(gewaehlt));
+    });
+
+    if (regler) {
+      regler.value = String(score);
+      regler.setAttribute('aria-valuetext', `${score} von 10`);
+    }
+    if (reglerWert) reglerWert.textContent = String(score);
+
+    hideAllResponses();
+    const card = responses[bandFor(score)];
+    if (card) {
+      section?.classList.add('has-nps-response');
+      card.hidden = false;
+      requestAnimationFrame(() => card.classList.add('show'));
+      // Zur Antwort scrollen, damit sie im Gespräch sofort im Blick ist
+      if (scrollen) {
         setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'center' }), 160);
       }
+    }
 
-      // Score lokal merken für Re-Render bei Reload
-      try { sessionStorage.setItem('nps_score', String(score)); } catch (_) {}
-    });
+    try { sessionStorage.setItem('nps_score', String(score)); } catch (_) {}
+  }
+
+  scale.querySelectorAll('.nps-btn').forEach(btn => {
+    btn.addEventListener('click', () => waehle(Number(btn.dataset.score)));
   });
 
-  // Wenn der User schon mal geantwortet hat (gleiche Session), Antwort vorausgewählt
+  if (regler) {
+    // Waehrend des Ziehens nur die Zahl mitfuehren. Wuerde bei jedem Schritt
+    // die Antwort erscheinen und die Seite dorthin scrollen, rutscht einem der
+    // Regler unter dem Finger weg.
+    regler.addEventListener('input', () => {
+      const score = Number(regler.value);
+      if (reglerWert) reglerWert.textContent = String(score);
+      regler.setAttribute('aria-valuetext', `${score} von 10`);
+    });
+    regler.addEventListener('change', () => waehle(Number(regler.value)));
+  }
+
+  // Wenn in derselben Sitzung schon geantwortet wurde, den Stand wiederherstellen.
+  // Ohne Scrollen: die Seite soll beim Laden oben stehen bleiben.
   try {
     const prev = Number(sessionStorage.getItem('nps_score'));
-    if (prev >= 1 && prev <= 10) {
-      const btn = scale.querySelector(`.nps-btn[data-score="${prev}"]`);
-      if (btn) btn.click();
-    }
+    if (prev >= 1 && prev <= 10) waehle(prev, { scrollen: false });
   } catch (_) {}
 })();
 
@@ -921,7 +942,9 @@ function reicheBeraterAnFolgeseitenWeiter(b) {
   const schliessen = document.getElementById('vorschauSchliessen');
   if (!overlay || !rahmen || !oeffnen || !schliessen) return;
 
-  const VORSCHAU_URL = '/mockups/empfehler-app-vorschau.html';
+  // Nicht auf mockups/ zeigen: Der Ordner wird bewusst nicht mit ausgeliefert
+  // (.vercelignore, Phase 166), die Vorschau lief live in einen 404.
+  const VORSCHAU_URL = '/promoter-vorschau.html';
 
   // Die Vorschauseite hat oben eine eigene Umschaltleiste für Ansicht und
   // Farbe. Im Kundengespräch verwirrt die nur.
