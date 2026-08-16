@@ -10,3 +10,7 @@ Thumbs.db
 # Arbeitsordner fuer Sicherungen und Zwischenstaende — gehoert nicht ins Repo
 tmp/
 .codex-tmp/
+
+# Zweite Arbeitskopien (git worktree). Sie enthalten eine vollstaendige Kopie
+# des Projekts und wuerden beim Sichern als eingebettetes Repo mitgehen.
+.worktrees/

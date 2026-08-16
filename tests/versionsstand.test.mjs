@@ -72,7 +72,10 @@ const wurzel = new URL('..', import.meta.url);
 
 async function sammleHtml(ordner, gesammelt = []) {
   for (const eintrag of await verzeichnis(ordner, { withFileTypes: true })) {
-    if (['.git', 'node_modules', 'assets', 'mockups'].includes(eintrag.name)) continue;
+    // .worktrees enthaelt vollstaendige zweite Arbeitskopien des Projekts.
+    // Ohne diese Zeile vergleicht der Test die Fassungen dieser Kopie mit
+    // denen des Hauptordners und meldet Unterschiede, die keine sind.
+    if (['.git', '.worktrees', 'node_modules', 'assets', 'mockups'].includes(eintrag.name)) continue;
     const pfad = new URL(`${eintrag.name}${eintrag.isDirectory() ? '/' : ''}`, ordner);
     if (eintrag.isDirectory()) await sammleHtml(pfad, gesammelt);
     else if (eintrag.name.endsWith('.html')) gesammelt.push(pfad);
