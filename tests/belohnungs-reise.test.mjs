@@ -10,16 +10,17 @@ import {
  * Bewusst KEINE Live-Daten: der Test läuft ohne Netz und ohne Datenbank.
  * ------------------------------------------------------------------------- */
 const MEILENSTEINE = {
-  2:  { titel: 'Restaurantbesuch deiner Wahl', wert_label: '150 €',   bild_url: '/assets/images/programm/restaurant.jpg' },
-  5:  { titel: 'Weber-Grill oder Apple Watch', wert_label: '449 €',   bild_url: '/assets/images/programm/applewatch.jpg' },
-  7:  { titel: 'Goldbarren im Wert von 500 €', wert_label: '500 €',   bild_url: '/assets/images/programm/goldbarren.jpg' },
-  10: { titel: 'iPad Air',                     wert_label: '699 €',   bild_url: '/assets/images/programm/ipad.jpg' },
-  15: { titel: 'Mallorca-Urlaub',              wert_label: '2.000 €', bild_url: '/assets/images/programm/mallorca.jpg' },
+  2:  { titel: 'Restaurantbesuch deiner Wahl', wert_label: '150 €',    bild_url: '/assets/images/programm/restaurant.jpg' },
+  5:  { titel: 'Apple-Produkt deiner Wahl',    wert_label: '500 €',    bild_url: '/assets/images/programm/applewatch.jpg' },
+  7:  { titel: 'Goldbarren',                   wert_label: '500 €',    bild_url: '/assets/images/programm/goldbarren.jpg' },
+  10: { titel: 'Apple-Produkt deiner Wahl',    wert_label: '1.000 €',  bild_url: '/assets/images/programm/ipad.jpg' },
+  15: { titel: 'Mallorca-Urlaub',              wert_label: '2.000 €',  bild_url: '/assets/images/programm/mallorca.jpg' },
+  20: { titel: 'Ein Auto deiner Wahl',         wert_label: '12.000 €', bild_url: '/assets/images/programm/auto.jpg' },
 };
 
 function fixture() {
   const rows = [];
-  for (let stufe = 1; stufe <= 15; stufe++) {
+  for (let stufe = 1; stufe <= 20; stufe++) {
     const m = MEILENSTEINE[stufe];
     rows.push(m
       ? { stufe, ...m, highlight: true,  kategorien: ['sache'] }
@@ -30,20 +31,21 @@ function fixture() {
 
 /* --- Aufbau der Reise ---------------------------------------------------- */
 const reise = baueReise(fixture());
-assert.equal(reise.stationen.length, 15, '15 Stationen');
-assert.equal(reise.stationen.filter(s => s.art === 'geld').length, 10, '10 Geldstufen');
-assert.equal(reise.stationen.filter(s => s.art === 'meilenstein').length, 5, '5 Bild-Meilensteine');
-assert.deepEqual(reise.stationen.map(s => s.stufe), [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], 'in Reihenfolge');
+assert.equal(reise.stationen.length, 20, '20 Stationen');
+assert.equal(reise.stationen.filter(s => s.art === 'geld').length, 14, '14 Geldstufen');
+assert.equal(reise.stationen.filter(s => s.art === 'meilenstein').length, 6, '6 Bild-Meilensteine');
+assert.deepEqual(reise.stationen.map(s => s.stufe),
+  [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20], 'in Reihenfolge');
 assert.deepEqual(reise.fehlt, [], 'keine Lücken');
 assert.deepEqual(
   reise.stationen.filter(s => s.art === 'meilenstein').map(s => s.stufe),
-  [2, 5, 7, 10, 15],
+  [2, 5, 7, 10, 15, 20],
   'Meilensteine an den richtigen Stufen'
 );
 
 /* --- Gesamtwert ---------------------------------------------------------- */
-// 10 × 100 € + 150 + 449 + 500 + 699 + 2.000 = 4.798 €
-assert.equal(gesamtwert(fixture()), 4798, 'Gesamtwert exakt 4.798 €');
+// 14 × 100 € + 150 + 500 + 500 + 1.000 + 2.000 + 12.000 = 17.550 €
+assert.equal(gesamtwert(fixture()), 17550, 'Gesamtwert exakt 17.550 €');
 assert.equal(wertAusLabel('2.000 €'), 2000, 'deutscher Tausenderpunkt');
 assert.equal(wertAusLabel('1.234,50 €'), 1234.5, 'Komma als Dezimaltrenner');
 assert.equal(wertAusLabel(null), 0, 'fehlender Wert zählt 0');
@@ -52,16 +54,16 @@ assert.equal(wertAusLabel('auf Anfrage'), 0, 'unlesbarer Wert zählt 0');
 /* --- Es wird nichts erfunden --------------------------------------------- */
 const mitLuecke = fixture().filter(s => ![4, 6].includes(s.stufe));
 const reiseLuecke = baueReise(mitLuecke);
-assert.equal(reiseLuecke.stationen.length, 13, 'fehlende Stufen werden nicht ergänzt');
+assert.equal(reiseLuecke.stationen.length, 18, 'fehlende Stufen werden nicht ergänzt');
 assert.deepEqual(reiseLuecke.fehlt, [4, 6], 'Lücken werden gemeldet');
 assert.ok(!reiseLuecke.stationen.some(s => s.stufe === 4), 'Stufe 4 wird nicht erfunden');
-assert.equal(gesamtwert(mitLuecke), 4598, 'Gesamtwert rechnet nur mit echten Stufen');
+assert.equal(gesamtwert(mitLuecke), 17350, 'Gesamtwert rechnet nur mit echten Stufen');
 
 /* --- Dubletten ----------------------------------------------------------- */
 const doppelt = [...fixture(), { stufe: 5, titel: 'Klon', wert_label: '999 €', highlight: true }];
-assert.equal(normalisiereStufen(doppelt).length, 15, 'Dublette fliegt raus');
+assert.equal(normalisiereStufen(doppelt).length, 20, 'Dublette fliegt raus');
 assert.equal(normalisiereStufen(doppelt).find(s => s.stufe === 5).titel,
-  'Weber-Grill oder Apple Watch', 'erster Treffer gewinnt');
+  'Apple-Produkt deiner Wahl', 'erster Treffer gewinnt');
 
 /* --- Ungültige Zeilen ---------------------------------------------------- */
 assert.deepEqual(normalisiereStufen(null), [], 'null ergibt leere Reise');
@@ -73,25 +75,26 @@ assert.deepEqual(verdienteStufen(rows, 0),  [], '0 Kunden → keine Prämie');
 assert.deepEqual(verdienteStufen(rows, 1),  [1], '1 Kunde → genau Stufe 1');
 assert.deepEqual(verdienteStufen(rows, 4),  [1, 2, 3, 4], '4 Kunden → Stufen 1 bis 4');
 assert.deepEqual(verdienteStufen(rows, 14), [1,2,3,4,5,6,7,8,9,10,11,12,13,14], '14 Kunden → 1 bis 14');
-assert.deepEqual(verdienteStufen(rows, 15), [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], '15 Kunden → alle');
-assert.deepEqual(verdienteStufen(rows, 99), verdienteStufen(rows, 15), 'mehr Kunden als Stufen ändert nichts');
+assert.deepEqual(verdienteStufen(rows, 20),
+  [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20], '20 Kunden → alle');
+assert.deepEqual(verdienteStufen(rows, 99), verdienteStufen(rows, 20), 'mehr Kunden als Stufen ändert nichts');
 // Gegenprobe zum alten Zustand: ohne die acht Zeilen entsteht bei 4 Kunden
 // eben KEINE vierte Prämie — genau der Widerspruch, den die Migration löst.
 assert.deepEqual(verdienteStufen(mitLuecke, 4), [1, 2, 3], 'fehlende Zeile → keine Prämie');
 
 /* --- Wunschziele --------------------------------------------------------- */
-assert.deepEqual(meilensteine(rows).map(s => s.stufe), [2, 5, 7, 10, 15], 'nur Meilensteine als Ziel');
+assert.deepEqual(meilensteine(rows).map(s => s.stufe), [2, 5, 7, 10, 15, 20], 'nur Meilensteine als Ziel');
 assert.equal(istMeilenstein({ highlight: true }), true);
 assert.equal(istMeilenstein({ highlight: false, titel: 'Mallorca-Urlaub' }), false,
   'der Titel entscheidet nicht mehr');
 
 /* --- Markup --------------------------------------------------------------- */
 const html = reiseHtml(reise);
-assert.equal((html.match(/<li /g) || []).length, 15, '15 Listeneinträge');
-assert.equal((html.match(/reise-meilenstein/g) || []).length, 5, '5 Bildkarten');
+assert.equal((html.match(/<li /g) || []).length, 20, '20 Listeneinträge');
+assert.equal((html.match(/reise-meilenstein/g) || []).length, 6, '6 Bildkarten');
 assert.equal((html.match(/reise-finale/g) || []).length, 1, 'genau ein Finale');
-assert.ok(/stufe-15[^"]*reise-finale/.test(html), 'das Finale ist Stufe 15');
-assert.ok(html.indexOf('data-stufe="1"') < html.indexOf('data-stufe="15"'), 'Reihenfolge im Markup');
+assert.ok(/stufe-20[^"]*reise-finale/.test(html), 'das Finale ist Stufe 20');
+assert.ok(html.indexOf('data-stufe="1"') < html.indexOf('data-stufe="20"'), 'Reihenfolge im Markup');
 assert.ok(!/reise-finale/.test(reiseHtml(baueReise([{ stufe: 1, titel: 'Bonus', wert_label: '100 €', highlight: false }]))),
   'ohne Meilenstein kein Finale');
 assert.match(reiseHtml({ stationen: [] }), /reise-leer/, 'leere Reise fällt ruhig zurück');
@@ -108,8 +111,8 @@ assert.ok(!/src="a\.jpg" onload=/.test(boeseHtml), 'Bild-Adresse bricht das Attr
 assert.ok(boeseHtml.includes('&amp;'), 'kaufmännisches Und wird escaped');
 
 /* --- Zusammenfassung für den Präsentations-Modus -------------------------- */
-assert.match(geldSummary(reise), /^Dazu 10 Geldstufen à 100 € auf dem Weg dorthin/, 'Satz statt zehn Zeilen');
-assert.match(geldSummary(reise), /13 und 14\.$/, 'letzte Stufe mit "und" verbunden');
+assert.match(geldSummary(reise), /^Dazu 14 Geldstufen à 100 € auf dem Weg dorthin/, 'Satz statt vierzehn Zeilen');
+assert.match(geldSummary(reise), /18 und 19\.$/, 'letzte Stufe mit "und" verbunden');
 assert.equal(geldSummary({ stationen: [] }), '', 'ohne Geldstufen kein Satz');
 
 /* --- Kleinigkeiten -------------------------------------------------------- */

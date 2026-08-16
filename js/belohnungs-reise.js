@@ -13,7 +13,11 @@
  */
 
 export const STUFE_MIN = 1;
-export const STUFE_MAX = 15;
+// Bis Phase 259 endete die Reise bei 15. Seit dem Auto-Meilenstein geht sie
+// bis 20; die Zwischenstufen 16 bis 19 sind echte 100-€-Zeilen, keine
+// abgeleiteten. Wer die Zahl ändert, muss auch die Stufen in der Datenbank
+// anlegen, sonst meldet fehlendeStufen() zu Recht Lücken.
+export const STUFE_MAX = 20;
 
 /**
  * Ist die Stufe ein Bild-Meilenstein (statt einer ruhigen Geldzeile)?

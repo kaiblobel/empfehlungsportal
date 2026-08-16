@@ -248,7 +248,7 @@ function renderActivities() {
 /**
  * Wunschziele sind nur die Meilensteine (highlight). Die kleinen Geldstufen
  * verdient man automatisch nebenbei — als bildstarkes Ziel taugen sie nicht,
- * und seit alle 15 Stufen echte Zeilen sind, wären es sonst 15 Einträge.
+ * und seit alle 20 Stufen echte Zeilen sind, wären es sonst 20 Einträge.
  */
 function zielStufen() {
   const nurHighlights = stufen.filter(s => s.highlight);

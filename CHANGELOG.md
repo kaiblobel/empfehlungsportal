@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.279 Beta** · Altbestand der alten Präsentation entfernt, live seit 16.08.2026.
+Offizielle Live-Version: **v1.280 Beta** · Ein Auto deiner Wahl bei 20 Empfehlungen, live seit 16.08.2026.
+
+## v1.280 Beta - Phase 260 · Ein Auto deiner Wahl bei 20 Empfehlungen
+**2026-08-16**
+
+**Die Reise geht bis 20, und am Ende steht ein Auto.** Bei 20 gewonnenen Kunden: ein Auto deiner Wahl, die Kosten übernehmen wir für bis zu 24 Monate. Wert 12.000 €, damit ist es das neue Finale und löst Mallorca als letzte Stufe ab.
+
+Die Zwischenstufen 16 bis 19 sind echte 100-€-Zeilen in der Datenbank, keine abgeleiteten. Das ist die alte Lehre aus Phase 127: Was die Oberfläche aus Lücken erfindet, kommt bei der Prämien-Synchronisation nie an. Wer 17 Kunden gewinnt, bekommt jetzt auch die Prämie für Stufe 17.
+
+Der Gesamtwert steigt damit von 5.150 auf **17.550 €**. Er wird aus den echten Wertfeldern gerechnet, der feste Rückfallwert im HTML ist mitgezogen.
+
+**Zum Bild:** Ein alltägliches Fahrzeug, bewusst kein Sportwagen, denn die Stufe sagt „ein Auto deiner Wahl" und nicht ein bestimmtes Modell. Der Zuschnitt endet vor der Front: Im vollständigen Foto ist das Kennzeichen des fremden Fahrzeugs lesbar. Zwei Versuche, es zu retuschieren, blieben als Kasten im Bild sichtbar; ein anderer Ausschnitt war die ehrlichere Lösung.
+
+---
 
 ## v1.279 Beta - Phase 259 · Altbestand der alten Präsentation entfernt
 **2026-08-16**

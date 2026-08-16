@@ -682,7 +682,7 @@ function reicheBeraterAnFolgeseitenWeiter(b) {
 // Ruhe wirkt hier wertiger als Bewegung.
 
 // === Belohnungs-Reise (Phase 127) ===========================================
-// Eine einzige senkrechte Reise von Stufe 1 bis 15, gerendert aus den echten
+// Eine einzige senkrechte Reise von Stufe 1 bis 20, gerendert aus den echten
 // Zeilen in belohnungs_stufen. Bewusst OHNE abgeleitete Zwischenstufen: die
 // alte Fassung hat aus den Lücken 100-€-Boni erfunden, die
 // sync_praemien_for_empfehler() später nie als Prämie angelegt hat.
