@@ -1,7 +1,32 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.287 Beta** · Ein eigenes Zeichen für Homebildschirm und Tab, live seit 16.08.2026.
+Offizielle Live-Version: **v1.288 Beta** · Der Beraterbereich verliert den Cremeton, live seit 16.08.2026.
+
+## v1.288 Beta - Phase 268 · Der Beraterbereich verliert den Cremeton
+**2026-08-16**
+
+**Der Champagner-Creme ist raus, und zwar an allen Stellen gleichzeitig.** Das Portal trug im eingeloggten Bereich eine eigene Farbwelt: warmes Creme als Fläche, Champagner als Akzent, dazu vier Pastelltöne für Status (Sage, Terracotta, Burnt Orange, Marine). Der Kundenpfad war längst auf Ink, Gold und Petrol umgestellt, der Arbeitsplatz dahinter nicht.
+
+**Neu: `css/dna.css`.** Neun Grundwerte, und jede Farbe des Beraterbereichs zeigt darauf. Die Datei wird als letztes Stylesheet geladen und überschreibt die alten Werte. Fehlt sie auf einer Seite, greift dort weiter die alte Palette aus `style.css`: die Seite ist dann creme, aber nie kaputt. So ließ sich der Umbau schrittweise ausrollen.
+
+**610 Farbwerte standen fest im Code**, verteilt über sechs Stylesheets, und wurden auf Namen umgestellt: 476 in der ersten Runde über eine feste Zuordnungstabelle, 175 in einer zweiten für die Einzelfälle, dazu 51 weiße Flächen. Der Grund für den Aufwand: Ein reiner Variablentausch hätte den Hub fleckig gemacht, weil 38 Trennlinien, zehn Akzente und sechs Flächen ihre Farbe selbst mitbrachten.
+
+**Aus vier Statusfarben werden zwei.** Petrol trägt alles Positive und wird dunkler, je weiter jemand im Funnel steht; Gold heißt „will etwas von dir". Die Ereignisse im Aktivitätenstrom tragen ihre Bedeutung jetzt in der Farbe und ihre Identität im Symbol, statt sieben eigene Farben zu haben.
+
+**Der weiche Schlagschatten unter jeder Karte ist eine Haarlinie geworden**, gesetzt als innerer Schatten. Dadurch verschiebt sich kein Layout, obwohl an 48 Stellen die Kartenwirkung wechselt.
+
+**Überschriften und Zahlen stehen jetzt in Outfit** statt in Inter, und leichter als vorher (500 statt 800). Die Schrift liegt seit der Präsentation lokal im Projekt, es kommt nichts von Google dazu.
+
+**Zwei Fallstricke, die dabei auftraten:**
+- In `css/hub.css` koppeln Selektoren wie `.h-activity-row[style*="#1A5C29"]` an Farben, die `js/hub.js` inline ins style-Attribut schreibt. Wird nur eine der beiden Seiten geändert, greift die Tönung stillschweigend nicht mehr, ohne Fehlermeldung. Beide Stellen tragen jetzt einen Hinweis aufeinander.
+- Die Hover-Töne der WhatsApp-Knöpfe (`#1AAB54`, `#1EBE5A`) gehören zur fremden Marke und bleiben unangetastet, ebenso `#25D366`.
+
+**Die vier Linien im Verlaufsdiagramm sind auf Unterscheidbarkeit geprüft** worden, auch bei Rot-Grün-Schwäche. Vier Abstufungen desselben Petrol wären durchgefallen, die Linien lagen zu dicht beieinander. Jetzt tragen sie Petrol hell, Petrol, Gold und Ink.
+
+Nicht umgestellt sind `austragen.html` (gehört zum Kundenpfad) und der `mockups`-Ordner. Ein Dunkelmodus ist damit vorbereitet, aber bewusst noch nicht eingeschaltet: Er braucht nur einen zweiten Wertesatz in `dna.css`, keine Änderung an den anderen Dateien.
+
+---
 
 ## v1.287 Beta - Phase 267 · Ein eigenes Zeichen für Homebildschirm und Tab
 **2026-08-16**

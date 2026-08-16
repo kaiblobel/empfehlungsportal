@@ -1,0 +1,209 @@
+/* ============================================================
+   dna.css · Die Farben und Schriften des Beraterbereichs
+
+   Ab hier steht jede Farbe an genau EINER Stelle. Die Dateien
+   style.css, dashboard.css, hub.css, analysen.css und
+   potenziale.css schreiben keine Farbwerte mehr selbst, sie
+   zeigen alle hierher.
+
+   Wird als LETZTES Stylesheet geladen, nach style.css,
+   dashboard.css und hub.css. Fehlt die Datei auf einer Seite,
+   greifen dort weiter die alten Werte aus style.css. Die Seite
+   ist dann creme, aber nie kaputt.
+
+   Ein Dunkelmodus braucht später nur einen zweiten Block mit
+   denselben Namen, keine Änderung an den anderen Dateien.
+
+   Angelegt 16.08.2026 · Phase 268
+   ============================================================ */
+
+/* Outfit für Überschriften und Zahlen. Liegt lokal im Projekt,
+   es wird nichts von Google nachgeladen (DSGVO). */
+@font-face{
+  font-family:'Outfit';
+  font-style:normal;
+  font-weight:300 700;
+  font-display:swap;
+  src:url('/assets/fonts/outfit-latin.woff2') format('woff2');
+}
+
+:root{
+  /* ---- Die neun Werte ---- */
+  --dna-ink:        #13191D;   /* Überschriften, Text, dunkle Flächen */
+  --dna-text:       #39434A;   /* gelesener Fließtext */
+  --dna-muted:      #6A747C;   /* Nebentext, Beschriftungen */
+  --dna-faint:      #9AA3AB;   /* Zeitangaben, Randnotizen */
+  --dna-paper:      #FBFCFC;   /* Grundfläche der Seite */
+  --dna-paper-2:    #F1F4F5;   /* abgesetzte Bänder und Felder */
+  --dna-card:       #FFFFFF;   /* Karten stehen heller als der Grund */
+  --dna-line:       #E3E7E9;   /* Haarlinie */
+  --dna-line-strong:#D5DBDE;   /* betonte Trennung */
+
+  /* ---- Akzent und zweite Farbe ---- */
+  --dna-gold:       #C8AA22;   /* Akzent, sparsam */
+  --dna-gold-dark:  #8F7809;   /* Text auf hellem Gold, Hover */
+  --dna-gold-tint:  #F9F6E9;   /* Goldfläche, sehr hell */
+  --dna-gold-tint-2:#F4EED2;
+  --dna-petrol:     #0B4650;   /* alles Positive, Fortschritt, Kunde */
+  --dna-petrol-deep:#07333B;
+  --dna-petrol-mid: #2E6E7A;   /* Zwischenstufe, z. B. Empfehlung unterwegs */
+  --dna-petrol-light:#5E939E;  /* frühe Stufe, z. B. Link geklickt */
+  --dna-petrol-tint:#E4EEF0;
+  --dna-red:        #9D2235;   /* nur Fehler */
+  --dna-red-tint:   #F5E9EB;
+
+  /* ---- WhatsApp bleibt WhatsApp ---- */
+  --dna-whatsapp:   #25D366;
+
+  /* ============================================================
+     Die alten Namen zeigen jetzt hierher. Alles, was schon
+     var(--ink) oder var(--accent) benutzt, wechselt damit mit,
+     ohne dass eine einzige Regel angefasst werden muss.
+     ============================================================ */
+
+  --bg:              var(--dna-paper);
+  --surface:         var(--dna-card);
+  --surface-2:       var(--dna-paper-2);
+  --surface-soft:    var(--dna-paper-2);
+  --ink:             var(--dna-ink);
+  --ink-muted:       var(--dna-muted);
+  --ink-soft:        var(--dna-faint);
+  --hairline:        var(--dna-line);
+  --hairline-strong: var(--dna-line-strong);
+
+  --accent:       var(--dna-gold);
+  --accent-hover: var(--dna-gold-dark);
+  --accent-bg:    var(--dna-gold-tint);
+  --accent-soft:  rgba(200,170,34,0.14);
+
+  /* Aus vier Statusfarben werden zwei: Petrol trägt alles
+     Positive, Gold die Aufmerksamkeit. */
+  --sage:         var(--dna-petrol);
+  --sage-dark:    var(--dna-petrol-deep);
+  --sage-soft:    rgba(11,70,80,0.10);
+  --terracotta:   var(--dna-gold-dark);
+  --burnt-orange: var(--dna-gold-dark);
+  --burnt-soft:   rgba(200,170,34,0.14);
+  --marine:       var(--dna-petrol);
+
+  --ok:     var(--dna-petrol);
+  --warn:   var(--dna-gold-dark);
+  --err:    var(--dna-red);
+  --ok-bg:   rgba(11,70,80,0.10);
+  --warn-bg: rgba(200,170,34,0.14);
+  --err-bg:  rgba(157,34,53,0.10);
+
+  /* ---- Schatten ----
+     Der weiche Schlagschatten unter jeder Karte war der stärkste
+     Baukasten-Eindruck. Ersetzt durch eine Haarlinie, gesetzt als
+     innerer Schatten: so braucht sie keinen Platz und kein
+     Layout verschiebt sich. */
+  --shadow-card:       inset 0 0 0 1px var(--dna-line);
+  --shadow-card-hover: inset 0 0 0 1px var(--dna-line-strong);
+
+  /* ---- Schrift ---- */
+  --font-head: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* ---- Radien ----
+     Große runde Ecken sind ein Baukasten-Merkmal. Karten 12,
+     kleine Elemente 10, Pillen bleiben nur auf Knöpfen. */
+  --radius-lg:     12px;
+  --radius-card:   12px;
+  --radius-md:     10px;
+  --radius-sm:      6px;
+  --radius-button:  8px;
+}
+
+/* ============================================================
+   Schrift: Outfit trägt Überschriften und Zahlen, Inter bleibt
+   für alles Gelesene. Die großen Grade stehen leichter (500/600
+   statt 800), das ist der größte Teil des ruhigeren Eindrucks.
+   ============================================================ */
+h1, h2, h3,
+.h-greet,
+.h-hero,
+.h-kpi-value,
+.h-stair-num,
+.changelog-h1,
+.team-hero,
+.team-podium-person,
+.team-podium-place,
+.page-title,
+.card-title{
+  font-family: var(--font-head);
+  letter-spacing: -0.025em;
+}
+
+.h-greet,
+.h-hero,
+.team-hero,
+.changelog-h1{ font-weight: 600; }
+
+.h-kpi-value,
+.h-stair-num{
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Zahlen, die untereinander stehen, sollen auch untereinander
+   fluchten. */
+.h-kpi-value,
+.h-stair-num,
+.h-mom-score,
+td[data-zahl],
+.zahl{ font-variant-numeric: tabular-nums; }
+
+/* ============================================================
+   Die Schreibschrift in der Seitenleiste. "Segoe Script" gibt es
+   nur auf Windows; auf Mac und iPhone fiel sie auf eine beliebige
+   Ersatzschrift zurück und sah dort völlig anders aus.
+   ============================================================ */
+.nav-brand-signature{
+  font-family: var(--font-sans);
+  color: var(--dna-muted);
+  letter-spacing: 0.01em;
+}
+
+/* Die runde Blase am Markenpunkt der Leiste: der Leuchtring war
+   der letzte Rest Champagner-Glanz. */
+.nav-brand-mark{ box-shadow: none; }
+
+/* ============================================================
+   Gold als Fläche ist wieder Creme. Das ist der Punkt, an dem der
+   reine Farbtausch nicht reicht: Wo vorher Champagner lag, liegt
+   sonst Gold, und eine hellgelbe Fläche liest sich genauso warm
+   wie vorher. Gold bleibt deshalb Linie, Schrift und Punkt, aber
+   nie Untergrund.
+   ============================================================ */
+
+/* Der aktive Punkt in der Seitenleiste: neutrale Fläche, der
+   goldene Strich links markiert weiter, wo man steht. */
+.nav-item.active{
+  background: var(--surface-2);
+  color: var(--ink);
+}
+.nav-item.active .nav-item-icon{ color: var(--dna-petrol); }
+
+/* Die Symbolkacheln an den Kennzahlen. Petrol statt Gold, sonst
+   sitzen vier warme Flächen nebeneinander im wichtigsten Block
+   der Seite. Gilt nur, wo die Seite nicht selbst einen Ton setzt. */
+.h-kpi{ --kpi-color: var(--dna-petrol); }
+
+/* Der aktive Zeitraum-Knopf war goldgefüllt mit weißer Schrift.
+   Das liest sich schlecht (heller Text auf hellem Gold) und macht
+   Gold wieder zur Fläche. Ink füllt, wie überall sonst. */
+.h-chip.active{
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+}
+
+/* Im Beraterbereich läuft keine Serifenschrift. Die Überschrift
+   über dem Verlaufsdiagramm war als einzige in Fraunces stehen
+   geblieben, ein Rest aus der Zeit vor dem Dashboard. */
+.h-chart-title{
+  font-family: var(--font-head);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}

@@ -13,7 +13,7 @@
  * trägt — die darf nie veraltet sein.
  */
 
-const CACHE_VERSION = 'v247-2026-08-16-phase267';
+const CACHE_VERSION = 'v248-2026-08-16-phase268';
 const SHELL_CACHE = `shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `assets-${CACHE_VERSION}`;
 
@@ -24,13 +24,14 @@ const SHELL_URLS = [
   '/dashboard/potenziale.html',
   '/dashboard/kidz-elternabend.html',
   '/thema.html',
-  '/css/style.css?v=33',
-  '/css/dashboard.css?v=52',
-  '/css/hub.css?v=58',
-  '/css/analysen.css?v=2',
-  '/css/promoter-dashboard.css?v=2',
-  '/css/potenziale.css?v=10',
-  '/css/empfehlung-detail.css?v=1',
+  '/css/style.css?v=34',
+  '/css/dashboard.css?v=53',
+  '/css/hub.css?v=59',
+  '/css/dna.css?v=3',
+  '/css/analysen.css?v=3',
+  '/css/promoter-dashboard.css?v=3',
+  '/css/potenziale.css?v=11',
+  '/css/empfehlung-detail.css?v=2',
   '/css/kidz-gewinnspiel-admin.css?v=6',
   '/css/kidz-elternabend-admin.css?v=1',
   '/css/themen-vorschau.css?v=12',
@@ -38,7 +39,7 @@ const SHELL_URLS = [
   '/js/icons.js',
   '/js/context-menu.js',
   '/js/cmdk.js',
-  '/js/hub.js?v=49',
+  '/js/hub.js?v=50',
   '/js/team.js?v=3',
   '/js/analysen.js?v=3',
   '/js/potenziale.js?v=10',

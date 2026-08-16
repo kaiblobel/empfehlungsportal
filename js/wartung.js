@@ -69,45 +69,45 @@
     var s = document.createElement('style');
     s.id = 'wartungStil';
     s.textContent = [
-      '#' + SCHIRM_ID + '{position:fixed;inset:0;z-index:2147483000;background:#FAFAFA;',
+      '#' + SCHIRM_ID + '{position:fixed;inset:0;z-index:2147483000;background:#FBFCFC;',
       'display:flex;align-items:center;justify-content:center;padding:24px;',
-      "font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:#1A1A1A;",
+      "font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:#13191D;",
       'overflow-y:auto;-webkit-font-smoothing:antialiased}',
-      '#' + SCHIRM_ID + ' .w-card{background:#fff;border:1px solid #E8E5E0;border-radius:14px;',
+      '#' + SCHIRM_ID + ' .w-card{background:#fff;border:1px solid #E3E7E9;border-radius:14px;',
       'box-shadow:0 1px 2px rgba(20,18,12,.04),0 4px 14px rgba(20,18,12,.04);',
       'max-width:460px;width:100%;padding:34px 34px 30px;text-align:center}',
       '#' + SCHIRM_ID + ' .w-bild{display:block;width:100%;max-width:288px;height:auto;',
       'margin:0 auto 26px}',
       '#' + SCHIRM_ID + ' .w-eyebrow{font-size:11px;font-weight:700;letter-spacing:.18em;',
-      'text-transform:uppercase;color:#C9B98A;margin:0 0 10px}',
+      'text-transform:uppercase;color:#C8AA22;margin:0 0 10px}',
       '#' + SCHIRM_ID + ' h1{font-size:22px;font-weight:700;letter-spacing:-.02em;margin:0 0 12px;line-height:1.25}',
-      '#' + SCHIRM_ID + ' p{font-size:15px;line-height:1.6;color:#6B6660;margin:0 0 20px}',
-      '#' + SCHIRM_ID + ' .w-seit{font-size:13px;color:#8C8680;margin:0 0 22px}',
-      '#' + SCHIRM_ID + ' .w-btn{display:inline-block;border:1px solid #D4CFC6;background:#fff;',
-      'color:#1A1A1A;border-radius:9px;padding:10px 22px;font-size:14px;font-weight:600;',
+      '#' + SCHIRM_ID + ' p{font-size:15px;line-height:1.6;color:#6A747C;margin:0 0 20px}',
+      '#' + SCHIRM_ID + ' .w-seit{font-size:13px;color:#9AA3AB;margin:0 0 22px}',
+      '#' + SCHIRM_ID + ' .w-btn{display:inline-block;border:1px solid #D5DBDE;background:#fff;',
+      'color:#13191D;border-radius:9px;padding:10px 22px;font-size:14px;font-weight:600;',
       "font-family:inherit;cursor:pointer;transition:background .15s ease,border-color .15s ease}",
-      '#' + SCHIRM_ID + ' .w-btn:hover{background:#F7F5F1;border-color:#C9B98A}',
-      '#' + SCHIRM_ID + ' .w-fuss{margin:26px 0 0;padding-top:18px;border-top:1px solid #E8E5E0;',
-      'font-size:13px;line-height:1.55;color:#8C8680}',
-      '#' + SCHIRM_ID + ' .w-fuss a{color:#8B7355;font-weight:600;text-decoration:none}',
+      '#' + SCHIRM_ID + ' .w-btn:hover{background:#F1F4F5;border-color:#C8AA22}',
+      '#' + SCHIRM_ID + ' .w-fuss{margin:26px 0 0;padding-top:18px;border-top:1px solid #E3E7E9;',
+      'font-size:13px;line-height:1.55;color:#9AA3AB}',
+      '#' + SCHIRM_ID + ' .w-fuss a{color:#8F7809;font-weight:600;text-decoration:none}',
       '#' + SCHIRM_ID + ' .w-fuss a:hover{text-decoration:underline}',
       // Absender: das Portal gehört der Regionaldirektion, nicht der Seite.
       '#' + SCHIRM_ID + ' .w-absender{margin:22px 0 0;display:flex;align-items:center;',
       'justify-content:center;gap:11px;text-align:left}',
       '#' + SCHIRM_ID + ' .w-absender img{width:48px;height:48px;border-radius:50%;flex:0 0 auto}',
-      '#' + SCHIRM_ID + ' .w-absender-text{font-size:12px;line-height:1.45;color:#8C8680}',
-      '#' + SCHIRM_ID + ' .w-absender-text b{display:block;font-weight:600;color:#1A1A1A;font-size:13px}',
+      '#' + SCHIRM_ID + ' .w-absender-text{font-size:12px;line-height:1.45;color:#9AA3AB}',
+      '#' + SCHIRM_ID + ' .w-absender-text b{display:block;font-weight:600;color:#13191D;font-size:13px}',
       'body.wartung-offen{overflow:hidden}',
       /* Band für Admins: das Portal ist zu, du siehst es trotzdem. */
       '#' + BAND_ID + '{position:fixed;top:0;left:0;right:0;z-index:2147482000;',
-      'background:#B5651D;color:#fff;padding:7px 16px;text-align:center;',
+      'background:#8F7809;color:#fff;padding:7px 16px;text-align:center;',
       "font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-size:13px;font-weight:600}",
       '#' + BAND_ID + ' a{color:#fff;text-decoration:underline;margin-left:8px;font-weight:600}',
       'body.wartung-band{padding-top:32px}',
       /* Vorschau: Marine statt Orange, damit man sie nie mit dem echten
          Zustand verwechselt. Die Karte darunter bleibt unverändert. */
       '#' + SCHIRM_ID + ' .w-vorschauband{position:fixed;top:0;left:0;right:0;',
-      'background:#2E5266;color:#fff;padding:9px 16px;display:flex;align-items:center;',
+      'background:#0B4650;color:#fff;padding:9px 16px;display:flex;align-items:center;',
       'justify-content:center;gap:14px;font-size:13px;font-weight:600;flex-wrap:wrap}',
       '#' + SCHIRM_ID + ' .w-vorschauband button{background:rgba(255,255,255,.18);border:0;',
       'color:#fff;font-family:inherit;font-size:12px;font-weight:600;padding:5px 13px;',
@@ -138,13 +138,13 @@
    * kostet keine zweite Anfrage und bleibt im Editorial-Look des Portals.
    */
   function zeichnung() {
-    var ink = 'stroke="#1A1A1A" stroke-opacity=".42" fill="none"';
+    var ink = 'stroke="#13191D" stroke-opacity=".42" fill="none"';
     return '' +
       '<svg class="w-bild" viewBox="0 0 288 156" role="img" ' +
         'aria-label="Skizze des Portals: zwei Bereiche stehen, einer ist noch im Bau">' +
         '<defs>' +
           '<pattern id="wartungRaster" width="18" height="18" patternUnits="userSpaceOnUse">' +
-            '<path d="M18 0H0v18" fill="none" stroke="#E8E5E0" stroke-width=".6"/>' +
+            '<path d="M18 0H0v18" fill="none" stroke="#E3E7E9" stroke-width=".6"/>' +
           '</pattern>' +
         '</defs>' +
 
@@ -153,11 +153,11 @@
 
         // Der Rahmen der Seite
         '<rect x="24" y="14" width="240" height="112" rx="5" fill="#FFFFFF" ' +
-          'stroke="#1A1A1A" stroke-opacity=".5" stroke-width="1.2"/>' +
+          'stroke="#13191D" stroke-opacity=".5" stroke-width="1.2"/>' +
 
         // Kopfleiste mit Punkt und Namenszeile
         '<path d="M24 34h240" ' + ink + ' stroke-width="1"/>' +
-        '<circle cx="38" cy="24" r="3.4" fill="#C9B98A" fill-opacity=".55"/>' +
+        '<circle cx="38" cy="24" r="3.4" fill="#C8AA22" fill-opacity=".55"/>' +
         '<path d="M48 24h34" ' + ink + ' stroke-width="1.6" stroke-linecap="round"/>' +
 
         // Menüspalte, drei Einträge
@@ -165,19 +165,19 @@
         '<path d="M34 46h22M34 58h26M34 70h18" ' + ink + ' stroke-width="1.4" stroke-linecap="round"/>' +
 
         // Zwei Kacheln, die schon stehen
-        '<rect x="80" y="44" width="82" height="34" rx="3" fill="#C9B98A" fill-opacity=".1" ' +
-          'stroke="#C9B98A" stroke-width="1"/>' +
-        '<path d="M90 56h30M90 66h44" stroke="#C9B98A" stroke-opacity=".8" fill="none" ' +
+        '<rect x="80" y="44" width="82" height="34" rx="3" fill="#C8AA22" fill-opacity=".1" ' +
+          'stroke="#C8AA22" stroke-width="1"/>' +
+        '<path d="M90 56h30M90 66h44" stroke="#C8AA22" stroke-opacity=".8" fill="none" ' +
           'stroke-width="1.4" stroke-linecap="round"/>' +
         '<rect x="172" y="44" width="80" height="34" rx="3" ' + ink + ' stroke-width="1"/>' +
         '<path d="M182 56h28M182 66h40" ' + ink + ' stroke-width="1.4" stroke-linecap="round"/>' +
 
         // Die dritte ist noch Kontur: hier wird gerade gearbeitet
         '<rect x="80" y="88" width="172" height="28" rx="3" fill="none" ' +
-          'stroke="#B5651D" stroke-opacity=".55" stroke-width="1.2" stroke-dasharray="5 5"/>' +
+          'stroke="#8F7809" stroke-opacity=".55" stroke-width="1.2" stroke-dasharray="5 5"/>' +
 
         // Maßlinie darunter, wie auf einer Bauzeichnung
-        '<path d="M24 140v8M264 140v8M24 144h240" stroke="#C9B98A" fill="none" ' +
+        '<path d="M24 140v8M264 140v8M24 144h240" stroke="#C8AA22" fill="none" ' +
           'stroke-width="1" stroke-linecap="round"/>' +
       '</svg>';
   }
