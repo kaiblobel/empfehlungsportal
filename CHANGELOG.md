@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.269 Beta** · KIDZ heißt auch in der Präsentation KIDZ, live seit 16.08.2026.
+Offizielle Live-Version: **v1.270 Beta** · Wartungsschalter für den Partnerbereich, live seit 16.08.2026.
+
+## v1.270 Beta - Phase 250 · Wartungsschalter für den Partnerbereich
+**2026-08-16 · live veröffentlicht**
+
+Solange am Portal gebaut wird, sollen die Partner nicht in eine halbfertige Baustelle laufen. Dafür gibt es jetzt einen Schalter in den Einstellungen, sichtbar nur für Admins. Ist er an, legt sich über Hub, Dashboard, Analysen, Teamübersicht, Prämien, Vorlagen, Potenzialbuch und Beraterkonten ein Hinweisschirm. Überschrift und Text lassen sich dort ändern, ohne dass etwas veröffentlicht werden muss.
+
+Der Stand steht in der neuen Tabelle `portal_wartung`, einer einzigen Zeile. Lesen darf sie jeder, umlegen nur ein Admin. Das prüft die Datenbank selbst über `is_current_berater_admin()`, nicht der Browser. Offene Seiten ziehen innerhalb einer Minute nach.
+
+Wer Admin ist, arbeitet weiter und sieht oben ein oranges Band, das an den laufenden Wartungsmodus erinnert und direkt zum Ausschalten führt. Zwei Seiten bleiben bewusst offen: die Anmeldung und die Einstellungen. Sonst sperrt man sich mit dem eigenen Schalter aus.
+
+Nicht betroffen sind die Kundenseiten. Empfehlungslinks, Programmseite, Promoterbereich, KIDZ und die Baufinanzierung laufen weiter, damit nichts ins Leere läuft, was schon draußen ist.
+
+Der Schirm ist eine Ansage, kein Türschloss. Wer ihn im Browser wegräumt, sieht trotzdem nur das, was die RLS ohnehin erlaubt.
+
+---
 
 ## v1.269 Beta - Phase 249 · KIDZ heißt auch in der Präsentation KIDZ
 **2026-08-16 · live veröffentlicht**
