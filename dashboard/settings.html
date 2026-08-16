@@ -9,6 +9,10 @@
   <link rel="stylesheet" href="../css/style.css?v=33" />
   <link rel="stylesheet" href="../css/dashboard.css?v=52" />
   <script src="../js/config.js"></script>
+  <!-- Nur wegen der Vorschau. `data-nur-vorschau` verhindert, dass der Schirm
+       hier von selbst aufgeht: das ist die einzige Seite, auf der man den
+       Schalter wieder ausmachen kann. -->
+  <script src="../js/wartung.js?v=3" data-nur-vorschau></script>
   <style>
     /* Wartungsschalter (Phase 250) · nur hier gebraucht, deshalb nicht im Design-System */
     .w-schalter { display: flex; align-items: center; gap: 12px; cursor: pointer; }
@@ -201,6 +205,7 @@
             <span class="settings-key">&nbsp;</span>
             <span class="settings-val">
               <button id="wartungSpeichern" class="btn-logout" style="padding:8px 16px;font-size:13px;">Text speichern</button>
+              <button id="wartungVorschau" class="btn-logout" style="padding:8px 16px;font-size:13px;margin-left:8px;">Vorschau ansehen</button>
               <span id="wartungMsg"></span>
             </span>
           </div>
@@ -269,11 +274,32 @@
     const wTitel    = document.getElementById('wartungTitel');
     const wText     = document.getElementById('wartungText');
     const wBtn      = document.getElementById('wartungSpeichern');
+    const wVorschau = document.getElementById('wartungVorschau');
     const wMsg      = document.getElementById('wartungMsg');
+
+    // Vorschau: zeigt den Hinweis so, wie die Partner ihn gerade sehen, ohne
+    // am Schalter zu drehen. Nimmt den Text aus den Feldern, damit man auch
+    // eine noch nicht gespeicherte Formulierung vorher anschauen kann.
+    wVorschau?.addEventListener('click', () => {
+      if (typeof window.wartungVorschau !== 'function') {
+        wSetMsg('Vorschau ist gerade nicht verfügbar.', false);
+        return;
+      }
+      window.wartungVorschau({
+        titel: wTitel.value.trim() || 'Wir bauen gerade am Portal',
+        text: wText.value.trim() || 'Am Empfehlungsportal wird gerade gearbeitet. Melde dich später noch einmal an.',
+        seit: wSchalter.checked ? (wSeit || new Date().toISOString()) : new Date().toISOString(),
+      });
+    });
 
     function wSetMsg(t, ok) { wMsg.textContent = t; wMsg.style.color = ok ? '#1F6B30' : '#C24747'; }
 
+    // Startzeitpunkt des laufenden Wartungsmodus, damit die Vorschau dieselbe
+    // Zeile „Seit heute …" zeigt wie das Original.
+    let wSeit = null;
+
     function wZeigeLage(aktiv, seit) {
+      wSeit = aktiv ? seit : null;
       wSchalter.checked = !!aktiv;
       wLage.classList.toggle('an', !!aktiv);
       if (!aktiv) { wLage.textContent = 'Aus. Deine Partner arbeiten normal.'; return; }

@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.281 Beta** · Sechs Meilensteine ohne Waise in der zweiten Reihe, live seit 16.08.2026.
+Offizielle Live-Version: **v1.282 Beta** · Vorschau auf den Wartungshinweis, live seit 16.08.2026.
+
+## v1.282 Beta - Phase 262 · Vorschau auf den Wartungshinweis
+**2026-08-16**
+
+Der Wartungsschalter ließ sich bisher nur blind bedienen. Wer wissen wollte, was die Partner gerade sehen, musste sich abmelden oder einen zweiten Browser aufmachen. In den Einstellungen steht deshalb jetzt neben „Text speichern" der Knopf **„Vorschau ansehen"**.
+
+Die Vorschau zeigt den Hinweis genau so, wie er draußen steht, mit einem Marine-Band darüber: „Vorschau. Genau so sehen deine Partner das Portal." Die Karte selbst bleibt dabei unverändert. Eine Vorschau, die anders aussieht als das Original, taugt nicht zum Prüfen.
+
+Sie nimmt den Text aus den Eingabefeldern, nicht aus der Datenbank. Damit lässt sich eine neue Formulierung anschauen, bevor sie gespeichert wird. Raus geht es über das Band oder über den Knopf in der Karte; der lädt in der Vorschau nicht neu, sondern beendet sie.
+
+Am Schalter ändert die Vorschau nichts. Sie lässt sich also auch dann öffnen, wenn das Portal gerade offen ist.
+
+**Technisch:** `js/wartung.js` stellt `window.wartungVorschau()` bereit und versteht am Script-Tag den Marker `data-nur-vorschau`. Damit bindet die Einstellungsseite dieselbe Datei ein, ohne dass der Schirm dort von selbst aufgeht — sie ist die einzige Seite, auf der man den Schalter wieder ausmachen kann, und muss offen bleiben.
+
+---
 
 ## v1.281 Beta - Phase 261 · Sechs Meilensteine ohne Waise in der zweiten Reihe
 **2026-08-16**
