@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.285 Beta** · Das Wertfeld der Geldstufen neu gesetzt, live seit 16.08.2026.
+Offizielle Live-Version: **v1.286 Beta** · Regleranzeige und Bildauflösung nachgezogen, live seit 16.08.2026.
+
+## v1.286 Beta - Phase 266 · Regleranzeige und Bildauflösung nachgezogen
+**2026-08-16**
+
+Aus einer Durchsicht der ganzen Seite auf Handy und Rechner, zwei echte Funde:
+
+**Der Schieberegler stand auf 8, die Anzeige daneben zeigte einen Strich.** Auf dem Handy sah das aus wie ein Fehler: Der Knopf saß sichtbar bei 8, die Bahn war bis dahin gefüllt, und daneben stand „–". Jetzt nennt die Zahl von Anfang an die Position des Reglers. Gewählt ist damit noch nichts, das passiert weiterhin erst beim Loslassen.
+
+**Das Zwei-Konten-Modell war zu klein gespeichert.** Es lag mit 1.100 Pixeln Breite im Projekt, wurde auf einem Handy mit dreifacher Pixeldichte aber auf 1.760 Gerätepixel gestreckt und damit weich. Jetzt liegt es in der vollen Auflösung des Originals (1.548 Pixel), bei gleicher Dateigröße.
+
+Ohne Befund geblieben: kein waagerechter Überlauf auf 390 und 1440 Pixeln, nichts ragt aus dem Fenster, alle 26 Bilder laden, und die geführte Handy-Navigation läuft sauber durch alle elf Abschnitte. Die Formel-Grafik und der Haushaltsplan bleiben leicht unter der idealen Auflösung; beide sind Bildschirmaufnahmen und in der Vorlage nicht größer vorhanden.
+
+---
 
 ## v1.285 Beta - Phase 265 · Das Wertfeld der Geldstufen neu gesetzt
 **2026-08-16**

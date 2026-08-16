@@ -538,6 +538,14 @@ if (presenterLength && openedFromHub) presenterLength.hidden = false;
   });
 
   if (regler) {
+    // Der Regler steht sichtbar auf seinem Startwert, die Anzeige zeigte aber
+    // einen Strich. Das las sich wie ein Fehler: Knopf bei 8, daneben "–".
+    // Jetzt sagt die Zahl von Anfang an, wo der Regler steht. Gewaehlt ist
+    // damit noch nichts — das passiert erst beim Loslassen (change).
+    const start = Number(regler.value);
+    if (reglerWert) reglerWert.textContent = String(start);
+    regler.setAttribute('aria-valuetext', `${start} von 10`);
+
     // Waehrend des Ziehens nur die Zahl mitfuehren. Wuerde bei jedem Schritt
     // die Antwort erscheinen und die Seite dorthin scrollen, rutscht einem der
     // Regler unter dem Finger weg.
