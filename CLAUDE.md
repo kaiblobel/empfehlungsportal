@@ -1,7 +1,7 @@
 <!-- odysseus-passport
 purpose: Empfehlungsportal für DVAG-Berater - Vanilla JS + eigene Supabase; Funnel Klick zu Interesse zu Kunde, privates Potenzialbuch mit Kontakt-Coach, echte Kennzahlen, Champions, Prämien; Cockpit-Brücke
-status: live mit anbieterfreier KIDZ-Konzeptseite, drei dauerhaft sichtbaren mobilen Auswahlkarten und sicherem Gerätewechsel für bestehende Empfehler per 15 Minuten gültigem Einmal-Link
-release: Die drei KIDZ-Grundlagen sind auf dem Smartphone direkt auswählbar; der aktive Zustand und weitere anklickbare Karten sind eindeutig markiert
+status: live mit anbieterfreier KIDZ-Konzeptseite, drei dauerhaft sichtbaren mobilen Auswahlkarten, sicherem Gerätewechsel für bestehende Empfehler per 15 Minuten gültigem Einmal-Link und einem Admin-Wartungsschalter, der den Partnerbereich schließt ohne die Kundenseiten anzufassen
+release: Wartungsschalter in den Einstellungen; Partner sehen einen Hinweisschirm, Empfehlungslinks und Kundenseiten laufen weiter
 live_url: https://empfehlungsportal.vercel.app; Baufinanzierung unter https://finanzierung.kaiblobel.de; KIDZ oeffentlich unter https://kidz.teamwachsbleiche.de
 tags: portal, supabase, empfehlung, promoter, potenzialbuch, kontakt-coach, spracheingabe, mobile-first, live, baufinanzierung, kfw, bookings, power-automate
 -->
@@ -102,6 +102,16 @@ Customer-facing Pages folgen **NICHT** dem Editorial-OS Hub-Pattern, sondern eig
 - RPC `kpi_trend_daily(days_back)` — Daily-Series für Chart
 - Realtime Channel `hub-stream` auf `empfehlungen` Table (INSERT + relevant UPDATEs)
 - Edge Functions: `notify-interesse v7`, `notify-stufe v2` (mit X-Internal-Token Header-Auth)
+- `portal_wartung` — einzeiliger Wartungsschalter (Phase 250). Lesen: alle. Umlegen: nur Admin (`is_current_berater_admin()`). Gelesen von `js/wartung.js`, umgelegt in `dashboard/settings.html`.
+
+## Wartungsschalter (Phase 250)
+
+Steht `portal_wartung.aktiv` auf true, legt `js/wartung.js` einen Hinweisschirm über den Beraterbereich. Admins sehen stattdessen ein oranges Band und arbeiten weiter.
+
+- **Eingebunden in** (16 Seiten): `hub.html`, `team.html`, `berater.html`, `praemien.html`, `vorlagen.html`, `programm-verwalten.html`, `changelog.html` und `dashboard/{overview,empfehlungen,empfehler,detail,neu,potenziale,promoter,kidz-elternabend,kidz-gewinnspiel}.html`
+- **Bewusst NICHT eingebunden**: `dashboard/index.html` (Login) und `dashboard/settings.html` (dort sitzt der Schalter) — sonst sperrt man sich selbst aus. Dazu `dashboard/welcome.html` und sämtliche Customer-Pages.
+- **Neue Beraterseite gebaut?** Dann `<script src="js/wartung.js?v=1"></script>` direkt nach `config.js` mitnehmen.
+- Der Schirm ist eine Ansage, kein Zugriffsschutz. Die eigentliche Absicherung bleibt die RLS.
 
 ---
 

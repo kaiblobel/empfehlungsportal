@@ -825,15 +825,15 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
       action: 'Vorschau ansehen'
     },
     kinder: {
-      title: 'Für deine Kinder',
-      kicker: 'Früh die richtigen Weichen stellen',
-      question: 'Wie kann aus einem kleinen Anfang später etwas Großes werden?',
-      text: 'Die gemeinsame Themenseite verbindet das Thema mit einer ersten Einordnung und dem passenden nächsten Schritt.',
+      title: 'KIDZ für Kinder',
+      kicker: 'Kinderleicht in die Zukunft',
+      question: 'Was wünschst du dir für die Zukunft deines Kindes?',
+      text: 'Führt direkt ins KIDZ-Elternkonzept: drei Grundlagen, die Rechnung zum frühen Start und der Weg zum Elternabend.',
       icon: 'Heart',
-      url: '/thema.html?vorlage=kinder&von=Thomas&an=Max',
-      address: 'Vorsorge für Max und seine Familie',
+      url: '/kidz-empfehlung.html?von=Thomas&an=Max',
+      address: 'KIDZ für Max und seine Familie',
       tone: 'champagne',
-      status: 'Gemeinsame Themenseite',
+      status: 'KIDZ-Elternkonzept',
       action: 'Vorschau ansehen'
     },
     banking: {

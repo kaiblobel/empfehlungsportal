@@ -9,6 +9,31 @@
   <link rel="stylesheet" href="../css/style.css?v=33" />
   <link rel="stylesheet" href="../css/dashboard.css?v=52" />
   <script src="../js/config.js"></script>
+  <style>
+    /* Wartungsschalter (Phase 250) · nur hier gebraucht, deshalb nicht im Design-System */
+    .w-schalter { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+    .w-schalter input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .w-bahn {
+      width: 46px; height: 26px; border-radius: 13px; background: #D4CFC6;
+      position: relative; flex: 0 0 auto; transition: background .18s ease;
+    }
+    .w-knopf {
+      position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%;
+      background: #fff; box-shadow: 0 1px 3px rgba(20,18,12,.25); transition: transform .18s ease;
+    }
+    .w-schalter input:checked + .w-bahn { background: #B5651D; }
+    .w-schalter input:checked + .w-bahn .w-knopf { transform: translateX(20px); }
+    .w-schalter input:focus-visible + .w-bahn { outline: 2px solid #C9B98A; outline-offset: 2px; }
+    .w-lage { font-size: 14px; font-weight: 600; color: #1A1A1A; }
+    .w-lage.an { color: #B5651D; }
+    .w-feld {
+      padding: 8px 11px; border: 1px solid var(--hairline, #E8E5E0); border-radius: 8px;
+      font-size: 14px; font-family: inherit; width: 100%; max-width: 380px; color: #1A1A1A;
+    }
+    .w-feld:focus { outline: none; border-color: #C9B98A; }
+    textarea.w-feld { min-height: 96px; line-height: 1.5; resize: vertical; }
+    #wartungMsg { margin-left: 10px; font-size: 13px; }
+  </style>
 </head>
 <body class="has-app-nav">
 
@@ -117,9 +142,9 @@
             <span class="settings-tile-title">Berufliche Perspektive</span>
             <span class="settings-tile-sub">Neue Möglichkeiten</span>
           </a>
-          <a class="settings-tile" href="../thema.html?vorlage=kinder" target="_blank">
-            <span class="settings-tile-title">Für deine Kinder</span>
-            <span class="settings-tile-sub">Früh vorsorgen</span>
+          <a class="settings-tile" href="../kidz-empfehlung.html" target="_blank">
+            <span class="settings-tile-title">KIDZ für Kinder</span>
+            <span class="settings-tile-sub">Elternkonzept mit Einleitung</span>
           </a>
           <a class="settings-tile" href="../kidz/konzept" target="_blank">
             <span class="settings-tile-title">KIDZ für Eltern</span>
@@ -143,6 +168,42 @@
           <div class="settings-row"><span class="settings-key">Vercel</span><span class="settings-val" id="statusVercel">…</span></div>
           <div class="settings-row"><span class="settings-key">Supabase</span><span class="settings-val" id="statusSupabase">…</span></div>
           <div class="settings-row"><span class="settings-key">Telegram Bot</span><span class="settings-val muted">Unbekannt</span></div>
+        </div>
+      </section>
+
+      <section class="settings-admin-only" id="wartung" hidden>
+        <h2 class="settings-section-title">Admin · Portal für Partner schließen</h2>
+        <p class="settings-section-sub">
+          Solange der Schalter an ist, sehen deine Partner statt des Portals einen Wartungshinweis.
+          Du selbst arbeitest normal weiter. Nicht betroffen: Empfehlungslinks, die Kundenseiten,
+          der Promoterbereich, KIDZ und die Baufinanzierung. Die laufen unabhängig davon.
+        </p>
+        <div class="settings-card">
+          <div class="settings-row">
+            <span class="settings-key">Schalter</span>
+            <span class="settings-val">
+              <label class="w-schalter">
+                <input type="checkbox" id="wartungAn" />
+                <span class="w-bahn"><span class="w-knopf"></span></span>
+                <span class="w-lage" id="wartungLage">Wird geladen…</span>
+              </label>
+            </span>
+          </div>
+          <div class="settings-row">
+            <span class="settings-key">Überschrift</span>
+            <span class="settings-val"><input class="w-feld" id="wartungTitel" type="text" maxlength="80" /></span>
+          </div>
+          <div class="settings-row">
+            <span class="settings-key">Text</span>
+            <span class="settings-val"><textarea class="w-feld" id="wartungText" rows="3" maxlength="400"></textarea></span>
+          </div>
+          <div class="settings-row">
+            <span class="settings-key">&nbsp;</span>
+            <span class="settings-val">
+              <button id="wartungSpeichern" class="btn-logout" style="padding:8px 16px;font-size:13px;">Text speichern</button>
+              <span id="wartungMsg"></span>
+            </span>
+          </div>
         </div>
       </section>
 
@@ -182,14 +243,120 @@
   <script type="module">
     import { requireAuth, logout, applyBeraterHeader } from '../js/dashboard.js';
     import { showInstallPrompt, canInstall, pushPermissionState, subscribeToPush, unsubscribeFromPush } from '../js/pwa.js';
-    import { updateMyPassword } from '../js/supabase.js';
+    import { supabase, updateMyPassword } from '../js/supabase.js';
 
     // Die "Admin · …"-Abschnitte zeigen interne Werkzeuge (Repository, Hosting,
-    // Datenbank-Editor, Bot). Die gehen Kolleginnen und Kollegen nichts an und
-    // erscheinen deshalb nur, wenn der eingeloggte Berater Admin ist.
+    // Datenbank-Editor, Bot) und den Wartungsschalter. Die gehen Kolleginnen und
+    // Kollegen nichts an und erscheinen deshalb nur, wenn der eingeloggte Berater
+    // Admin ist. Die RLS lässt das Umlegen ohnehin nur für Admins zu.
     applyBeraterHeader().then((b) => {
       if (!b?.ist_admin) return;
       document.querySelectorAll('.settings-admin-only').forEach((el) => { el.hidden = false; });
+      wartungLaden();
+      // Aus dem Warnband kommt man mit #wartung direkt hierher. Der Abschnitt war
+      // beim Seitenaufruf noch versteckt, deshalb wird der Sprung nachgeholt.
+      if (location.hash === '#wartung') {
+        document.getElementById('wartung')?.scrollIntoView({ block: 'start' });
+      }
+    });
+
+    /* ---------- Wartungsschalter · Phase 250 ---------- */
+    // Genau eine Zeile in `portal_wartung`. Steht sie auf aktiv, legt js/wartung.js
+    // im Beraterbereich einen Hinweisschirm über die Seite. Kundenseiten bleiben offen.
+
+    const wSchalter = document.getElementById('wartungAn');
+    const wLage     = document.getElementById('wartungLage');
+    const wTitel    = document.getElementById('wartungTitel');
+    const wText     = document.getElementById('wartungText');
+    const wBtn      = document.getElementById('wartungSpeichern');
+    const wMsg      = document.getElementById('wartungMsg');
+
+    function wSetMsg(t, ok) { wMsg.textContent = t; wMsg.style.color = ok ? '#1F6B30' : '#C24747'; }
+
+    function wZeigeLage(aktiv, seit) {
+      wSchalter.checked = !!aktiv;
+      wLage.classList.toggle('an', !!aktiv);
+      if (!aktiv) { wLage.textContent = 'Aus. Deine Partner arbeiten normal.'; return; }
+      let seitTxt = '';
+      const d = seit ? new Date(seit) : null;
+      if (d && !isNaN(d.getTime())) {
+        seitTxt = ' seit ' + d.toLocaleString('de-DE', {
+          day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'
+        }) + ' Uhr';
+      }
+      wLage.textContent = 'An' + seitTxt + '. Partner sehen den Hinweis.';
+    }
+
+    // Der Schirm merkt sich den letzten Stand im Browser, damit er beim nächsten
+    // Aufruf sofort steht. Beim Umlegen wird der Merker gleich mitgezogen.
+    function wMerker(d) {
+      try {
+        localStorage.setItem('portal_wartung_v1', JSON.stringify({
+          aktiv: !!d.aktiv, titel: d.titel, text: d.text, seit: d.seit, ts: Date.now()
+        }));
+      } catch (_) {}
+    }
+
+    async function wartungLaden() {
+      if (!supabase || !wSchalter) return;
+      const { data, error } = await supabase
+        .from('portal_wartung').select('aktiv, titel, text, seit').eq('id', true).maybeSingle();
+      if (error || !data) { wLage.textContent = 'Stand gerade nicht abrufbar.'; return; }
+      wTitel.value = data.titel || '';
+      wText.value  = data.text || '';
+      wZeigeLage(data.aktiv, data.seit);
+      wMerker(data);
+    }
+
+    async function wSchreiben(felder) {
+      const { data, error } = await supabase
+        .from('portal_wartung')
+        .update({
+          ...felder,
+          geaendert_von: window.CURRENT_BERATER?.id || null,
+          geaendert_am: new Date().toISOString(),
+        })
+        .eq('id', true)
+        .select('aktiv, titel, text, seit')
+        .maybeSingle();
+      if (error) throw error;
+      // Ohne Admin-Rechte filtert die RLS die Zeile weg: kein Fehler, aber auch
+      // keine Antwort. Das darf nicht als Erfolg durchgehen.
+      if (!data) throw new Error('Dafür fehlen dir die Rechte.');
+      wZeigeLage(data.aktiv, data.seit);
+      wMerker(data);
+      return data;
+    }
+
+    wSchalter?.addEventListener('change', async () => {
+      const willAn = wSchalter.checked;
+      wSchalter.disabled = true; wSetMsg('', true);
+      try {
+        await wSchreiben({ aktiv: willAn, seit: willAn ? new Date().toISOString() : null });
+        wSetMsg(willAn ? 'Portal ist für die Partner jetzt zu ✓' : 'Portal ist wieder offen ✓', true);
+      } catch (err) {
+        console.warn('[wartung] umlegen fehlgeschlagen', err);
+        wSchalter.checked = !willAn;
+        wSetMsg('Hat nicht geklappt: ' + (err?.message || 'bitte nochmal versuchen'), false);
+      } finally {
+        wSchalter.disabled = false;
+      }
+    });
+
+    wBtn?.addEventListener('click', async () => {
+      wBtn.disabled = true; wSetMsg('', true);
+      try {
+        await wSchreiben({
+          titel: wTitel.value.trim() || 'Wir bauen gerade am Portal',
+          text: wText.value.trim() || 'Am Empfehlungsportal wird gerade gearbeitet. Melde dich später noch einmal an.',
+        });
+        wSetMsg('Gespeichert ✓', true);
+      } catch (err) {
+        console.warn('[wartung] Text speichern fehlgeschlagen', err);
+        wSetMsg('Hat nicht geklappt: ' + (err?.message || 'bitte nochmal versuchen'), false);
+      } finally {
+        wBtn.disabled = false;
+      }
     });
     document.getElementById('logoutBtn').addEventListener('click', logout);
 

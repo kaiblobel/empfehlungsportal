@@ -69,11 +69,12 @@ function renderCard(v) {
   // Die Vorschau muss die Seite zeigen, auf der eine echte Empfehlung landet.
   // Vorher oeffnete sie fuer jedes Thema die allgemeine Empfaengerseite; man sah
   // also nie das, was der Empfohlene wirklich zu sehen bekommt.
-  const vorschau = v.slug === 'baufi'
-    ? 'baufi.html?vorlage=baufi'
-    : v.slug === 'allgemein'
-      ? 'empfaenger.html?vorlage=allgemein'
-      : `thema.html?vorlage=${encodeURIComponent(v.slug)}`;
+  const sonderwege = {
+    baufi: 'baufi.html?vorlage=baufi',
+    allgemein: 'empfaenger.html?vorlage=allgemein',
+    kinder: 'kidz-empfehlung.html',
+  };
+  const vorschau = sonderwege[v.slug] || `thema.html?vorlage=${encodeURIComponent(v.slug)}`;
   return `
     <details class="cms-card" data-slug="${v.slug}">
       <summary>
