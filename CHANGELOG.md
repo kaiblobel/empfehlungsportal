@@ -1,7 +1,21 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.290 Beta** · Leads aus den Funnels landen im Portal, live seit 16.08.2026.
+Offizielle Live-Version: **v1.291 Beta** · Man sieht, woher ein Kontakt kommt, live seit 16.08.2026.
+
+## v1.291 Beta - Phase 271 · Man sieht, woher ein Kontakt kommt
+**2026-08-16**
+
+**Empfehlungen und Funnel-Leads stehen in derselben Liste, aber man verwechselt sie nicht mehr.** Jede Zeile trägt ihre Herkunft: bei einer Empfehlung den Promoter, bei einem Lead die Funnel-Seite, farbig abgesetzt. Bewusst **kein eigener Menüpunkt je Funnel**: Es ist dieselbe Arbeit mit derselben Maske, und bei fünf Funnels hätte das Menü fünf Einträge mehr. Das Sommerfest ist etwas anderes, das bleibt getrennt, weil es ein eigener Vorgang mit eigenen Feldern ist.
+
+**Eine zweite Reiterzeile** neben dem vorhandenen „Meine / Mein Team": *Alle · Empfehlungen · Funnels*. Steht sie auf Funnels, klappt darunter die Auswahl des einzelnen auf, mit Zähler. Beide Zeilen erscheinen erst, wenn wirklich Leads da sind, sonst wäre es eine Auswahl ohne Auswahl. Die Liste der Funnels baut sich aus dem Bestand: kein Reiter für einen, der nichts geliefert hat.
+
+**Auf dem Überblick ein Block „Woher deine Leads kommen"** mit Zahlen je Quelle im gewählten Zeitraum. Er beantwortet die Frage, welcher Funnel etwas bringt, und die lässt sich heute gar nicht stellen. Auch er bleibt weg, solange nichts aus einem Funnel gekommen ist.
+
+**Dabei gefunden:** In der Team-Ansicht fehlte die Herkunft. `team_empfehlungen` ist eine eigene Datenbank-Funktion mit fester Spaltenliste, und die kannte die beiden neuen Spalten aus Phase 270 nicht. Jeder Funnel-Lead stand dort als „Promoter: nicht angegeben". Zwei Spalten ergänzt (`schema-phase271-herkunft.sql`), Rechte wie in Phase 198 belassen. **Merke:** Wer der Tabelle `empfehlungen` eine Spalte hinzufügt, muss prüfen, ob eine der `team_*`-Funktionen sie mitliefern muss; sie geben Spalten einzeln zurück, nicht `*`.
+
+---
+
 
 ## v1.290 Beta - Phase 270 · Leads aus den Funnels landen im Portal
 **2026-08-16**
