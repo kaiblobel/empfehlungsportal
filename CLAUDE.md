@@ -1,9 +1,9 @@
 <!-- odysseus-passport
 purpose: Empfehlungsportal für DVAG-Berater - Vanilla JS + eigene Supabase; Funnel Klick zu Interesse zu Kunde, privates Potenzialbuch mit Kontakt-Coach, echte Kennzahlen, Champions, Prämien; Cockpit-Brücke
-status: live mit anbieterfreier KIDZ-Konzeptseite, drei dauerhaft sichtbaren mobilen Auswahlkarten, sicherem Gerätewechsel für bestehende Empfehler per 15 Minuten gültigem Einmal-Link und einem Admin-Wartungsschalter, der den Partnerbereich schließt ohne die Kundenseiten anzufassen
-release: Wartungsschalter in den Einstellungen; Partner sehen einen Hinweisschirm, Empfehlungslinks und Kundenseiten laufen weiter
+status: live mit neu erzählter Präsentation (elf Abschnitte, Themenauswahl als Weiche im Gespräch), eigenen Bildern je Berater, anbieterfreier KIDZ-Konzeptseite, sicherem Gerätewechsel per Einmal-Link und einem Admin-Wartungsschalter, der den Partnerbereich schließt ohne die Kundenseiten anzufassen
+release: Die Präsentation fragt zuerst nach der Zufriedenheit und lässt dann das Thema wählen; je Thema öffnet sich der Rechner, die fertige Seite oder ein Gesprächsimpuls
 live_url: https://empfehlungsportal.vercel.app; Baufinanzierung unter https://finanzierung.kaiblobel.de; KIDZ oeffentlich unter https://kidz.teamwachsbleiche.de
-tags: portal, supabase, empfehlung, promoter, potenzialbuch, kontakt-coach, spracheingabe, mobile-first, live, baufinanzierung, kfw, bookings, power-automate
+tags: portal, supabase, empfehlung, promoter, potenzialbuch, kontakt-coach, spracheingabe, mobile-first, live, baufinanzierung, kfw, bookings, power-automate, praesentation, multi-tenant
 -->
 
 # Empfehlungsportal — Projekt-Kontext für Claude
