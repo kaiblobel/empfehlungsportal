@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.288 Beta** · Der Beraterbereich verliert den Cremeton, live seit 16.08.2026.
+Offizielle Live-Version: **v1.289 Beta** · Was auf dich wartet, steht oben, live seit 16.08.2026.
+
+## v1.289 Beta - Phase 269 · Was auf dich wartet, steht oben
+**2026-08-16**
+
+**Die offenen Kontakte stehen jetzt ganz oben,** direkt unter der Begrüßung. Vorher standen sie unter Kennzahlen, Team und Zeitraum, also drei Blöcke tiefer, obwohl die Begrüßung selbst schon auf sie hinweist („2 Kontakte warten auf deine Aufmerksamkeit"). Kennzahlen und Verlauf sind Rückblick, sie dürfen darunter stehen. Wartet niemand, steht dort weiterhin die ruhige Meldung, dass alles unter Kontrolle ist.
+
+**Jede Kennzahl bekommt ihren Verlauf.** „55 Klicks, plus 52" sagt nicht, ob es gerade anzieht oder abflacht. Eine feine Linie über den gewählten Zeitraum zeigt die Richtung, ohne eine einzige Zahl mehr, mit einem Punkt auf dem heutigen Stand. Sie nutzt dieselben Zeilen, die das große Diagramm ohnehin lädt, es kommt keine Abfrage dazu. Unter vier Tagen Daten und bei durchgehend gleichem Wert bleibt sie weg, sonst wäre sie Dekoration statt Aussage. Am Handy ist sie ausgeblendet, dort ist die Kachel zu flach.
+
+**Der Funnel-Block läuft in einer Farbe von hell nach dunkel** statt in Schwarz mit einem goldenen Ausreißer am Ende. Es ist dieselbe Menge Menschen, die auf dem Weg weniger wird, und keine vier Kategorien; die Verjüngung liest sich so auf einen Blick.
+
+**Dabei aufgefallen:** Die Treppe „Vom Klick zum Kunden" und der Funnel-Block darunter zeigen dieselben vier Zahlen, einmal als Text mit Conversion-Angaben, einmal als Balken. Ein erster Versuch, auch der Treppe Balken zu geben, machte die Doppelung nur deutlicher und wurde wieder zurückgebaut. Einer der beiden Blöcke könnte weg, das ist eine inhaltliche Entscheidung und steht als offener Punkt.
+
+---
 
 ## v1.288 Beta - Phase 268 · Der Beraterbereich verliert den Cremeton
 **2026-08-16**
