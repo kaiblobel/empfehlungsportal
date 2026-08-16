@@ -58,15 +58,18 @@
             <figcaption>
               <strong data-bb="name">Kai Blobel</strong>
               <span>Ihr persönlicher Ansprechpartner</span>
-              <span class="intro-person-facts">
+              <!-- Familienstand und Berufsjahre gehören zu Kai. Bei jedem
+                   anderen Berater fallen sie weg (data-default-berater-only),
+                   sonst behauptet die Seite etwas über die falsche Person. -->
+              <span class="intro-person-facts" data-default-berater-only>
                 <b>Zweifacher Vater</b>
                 <b>Über 20 Jahre Erfahrung</b>
               </span>
             </figcaption>
-            <button class="intro-person-toggle" type="button" data-flip>Mehr über mich</button>
+            <button class="intro-person-toggle" type="button" data-flip data-default-berater-only>Mehr über mich</button>
           </figure>
 
-          <div class="intro-person intro-person-back">
+          <div class="intro-person intro-person-back" data-default-berater-only>
             <img class="intro-person-family" src="/assets/images/kidz-konzept/kai-familie.jpg" alt="Kai Blobel mit seinen beiden Söhnen" width="1000" height="1315" loading="lazy">
             <button class="intro-person-toggle" type="button" data-flip>Zurück</button>
             <div class="intro-person-back-copy">
@@ -138,12 +141,12 @@
   <footer class="intro-footer">
     <span><span data-bb="name">Kai Blobel</span> &amp; Team · Deutsche Vermögensberatung</span>
     <nav aria-label="Rechtliche Hinweise">
-      <a href="https://www.dvag.de/kai.blobel/impressum.html" target="_blank" rel="noopener noreferrer">Impressum</a>
-      <a href="https://www.dvag.de/kai.blobel/datenschutz.html" target="_blank" rel="noopener noreferrer">Datenschutz</a>
+      <a data-bb="impressum" href="https://www.dvag.de/kai.blobel/impressum.html" target="_blank" rel="noopener noreferrer">Impressum</a>
+      <a data-bb="datenschutz" href="https://www.dvag.de/kai.blobel/datenschutz.html" target="_blank" rel="noopener noreferrer">Datenschutz</a>
     </nav>
   </footer>
 
   <script src="/js/referral-tracking.js?v=3"></script>
-  <script type="module" src="/js/kidz-empfehlung-intro.js?v=2"></script>
+  <script type="module" src="/js/kidz-empfehlung-intro.js?v=3"></script>
 </body>
 </html>

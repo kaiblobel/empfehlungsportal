@@ -5,8 +5,8 @@
  * dahinter steht. Erst danach geht es auf das Konzept selbst. Das Muster ist
  * dasselbe wie beim Finanzierungskompass.
  */
-import { getEmpfehlungByToken, getBeraterPublicById } from './supabase.js';
-import { applyBeraterBrand } from './berater-brand.js';
+import { supabase, getEmpfehlungByToken, getBeraterPublicById, getBeraterPublicBySlug } from './supabase.js';
+import { applyBeraterBrand, merkeBerater, gemerkterBerater } from './berater-brand.js';
 
 const params = new URLSearchParams(window.location.search);
 const token = params.get('token')
@@ -15,6 +15,21 @@ const token = params.get('token')
 
 const ERLAUBTE_QUELLEN = new Set(['elternabend-qr', 'kidz-station', 'berater-einladung', 'sommerfest-danke', 'facebook', 'instagram', 'whatsapp', 'direkt']);
 const SICHERER_SLUG = /^[a-z0-9-]+$/;
+
+/** ?berater=slug aus der Adresse, wenn er unverdächtig aussieht. */
+function slugAusAdresse() {
+  const roh = String(params.get('berater') || '').trim().toLowerCase();
+  return (roh && roh.length <= 80 && SICHERER_SLUG.test(roh)) ? roh : '';
+}
+
+const slugParam = slugAusAdresse();
+
+// Gemerktes Branding aus einem früheren Aufruf steht sofort da. Ohne das
+// blitzt beim Laden das Standard-Portrait auf, bis der echte Berater aus dem
+// Netz kommt — der Empfohlene sähe kurz ein fremdes Gesicht.
+const brandKey = slugParam || (token ? `tok_${token}` : 'me');
+const sofortBerater = gemerkterBerater(brandKey);
+if (sofortBerater) applyBeraterBrand(sofortBerater);
 
 function initialen(name) {
   return String(name || '')
@@ -73,15 +88,34 @@ async function starte() {
     }
   }
 
-  let beraterSlug = '';
+  // Wer hier steht, hängt vom Weg ab, auf dem die Seite geöffnet wurde:
+  //   1. echte Empfehlung (Token)   → der Berater hinter der Empfehlung
+  //   2. Vorschau/QR (?berater=…)   → der Berater aus der Adresse
+  //   3. aus dem eigenen Dashboard  → der eingeloggte Berater
+  // Ohne diese drei Wege blieb das statische Kai-Portrait aus dem HTML stehen,
+  // und in der Präsentation sah jeder Partner das Gesicht von Kai.
+  let berater = null;
   if (empfehlung?.berater_id) {
+    try { berater = (await getBeraterPublicById(empfehlung.berater_id))?.data || null; } catch (_) { berater = null; }
+  } else if (slugParam) {
+    try { berater = (await getBeraterPublicBySlug(slugParam))?.data || null; } catch (_) { berater = null; }
+  }
+
+  if (!berater) {
     try {
-      const berater = (await getBeraterPublicById(empfehlung.berater_id))?.data;
-      if (berater) {
-        applyBeraterBrand(berater);
-        beraterSlug = berater.slug || '';
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        const m = await import('./dashboard.js');
+        berater = await m.getCurrentBerater();
       }
     } catch (_) { /* Standardangaben bleiben stehen */ }
+  }
+
+  let beraterSlug = '';
+  if (berater) {
+    applyBeraterBrand(berater);
+    merkeBerater(brandKey, berater);
+    beraterSlug = berater.slug || '';
   }
 
   ergaenzeWege(beraterSlug);

@@ -1,7 +1,21 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.291 Beta** · Man sieht, woher ein Kontakt kommt, live seit 16.08.2026.
+Offizielle Live-Version: **v1.292 Beta** · Auf der KIDZ-Empfehlung steht der richtige Berater, live seit 16.08.2026.
+
+## v1.292 Beta - Phase 272 · Auf der KIDZ-Empfehlung steht der richtige Berater
+**2026-08-16**
+
+**Josephine hat sich angemeldet, die Präsentation geöffnet, die KIDZ-Kachel angetippt, und im Rahmen sah sie Kais Gesicht.** Die Einleitungsseite, die der Empfohlene bekommt, kannte nur einen Weg zum Berater: das Empfehlungs-Token. In der Vorschau gibt es keins, also blieb das statische Portrait aus dem HTML stehen. Dasselbe galt für jeden QR-Weg ohne Token.
+
+**Die Seite kennt jetzt drei Wege**, in dieser Reihenfolge: den Berater hinter der Empfehlung (Token), den Berater aus der Adresse (`?berater=slug`, den die Präsentation ohnehin anhängt), und den eingeloggten Berater. Dasselbe Muster fährt der Finanzierungskompass seit Phase 248. Wer kein eigenes Foto hinterlegt hat, bekommt seine Initialen, nie ein fremdes Gesicht. Der gefundene Berater wird gemerkt, damit beim zweiten Aufruf nichts mehr aufblitzt.
+
+**Dabei gefunden:** Auf der Rückseite der Drehkarte lagen Kais Familienfoto und zwei Sätze über ihn, fest im HTML. Die hätte auch eine echte Empfehlung mit Token gezeigt, weil sie kein Branding-Merkmal trugen. Rückseite, Umschaltknopf und die Zeile „Zweifacher Vater · Über 20 Jahre Erfahrung" hängen jetzt an `data-default-berater-only` und verschwinden bei jedem anderen Berater. Impressum und Datenschutz im Fuß folgen ebenfalls dem Berater.
+
+**Merke:** Ein `data-bb`-Merkmal im HTML nützt nichts, solange die Seite keinen Berater auflöst. Wer eine neue Kundenseite baut, muss beide Hälften mitnehmen, und die Auflösung braucht mehr als den Token-Weg, sobald die Seite auch in der Präsentation gezeigt wird.
+
+---
+
 
 ## v1.291 Beta - Phase 271 · Man sieht, woher ein Kontakt kommt
 **2026-08-16**
