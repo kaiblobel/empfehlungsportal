@@ -830,7 +830,7 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
       question: 'Wie kann aus einem kleinen Anfang später etwas Großes werden?',
       text: 'Die gemeinsame Themenseite verbindet das Thema mit einer ersten Einordnung und dem passenden nächsten Schritt.',
       icon: 'Heart',
-      url: '/thema.html?vorlage=kinder&von=Thomas&an=Max',
+      url: '/kidz-empfehlung.html?von=Thomas&an=Max',
       address: 'Vorsorge für Max und seine Familie',
       tone: 'champagne',
       status: 'Gemeinsame Themenseite',

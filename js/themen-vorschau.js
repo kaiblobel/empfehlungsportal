@@ -14,6 +14,15 @@ if (legacyTopicParams.get('vorlage') === 'baufi') {
   window.location.replace(`${canonicalBaufi.pathname}${canonicalBaufi.search}${window.location.hash}`);
 }
 
+// Beim Thema Kinder ist die KIDZ-Strecke der einzige Weg: erst die kurze
+// Einleitung, dann das Konzept. Wer noch auf der alten Themenadresse landet,
+// wird mitsamt Empfehlungskontext dorthin weitergefuehrt.
+if (legacyTopicParams.get('vorlage') === 'kinder') {
+  const canonicalKidz = new URL('/kidz-empfehlung.html', window.location.origin);
+  legacyTopicParams.forEach((value, key) => canonicalKidz.searchParams.append(key, value));
+  window.location.replace(`${canonicalKidz.pathname}${canonicalKidz.search}${window.location.hash}`);
+}
+
 const TOPICS = {
   investment: {
     number: '01',

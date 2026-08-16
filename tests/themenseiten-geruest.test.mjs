@@ -23,7 +23,9 @@ for (const slug of themes) {
   const expectedPage = sonderziele[slug] || '/thema.html';
   assert.match(share, new RegExp(`${slug}: '${expectedPage.replace('.', '\\.')}'`), `${slug} fehlt im Router`);
   assert.match(program, new RegExp(`\\b${slug}:\\s*\\{`), `${slug} fehlt in der Präsentationsvorschau`);
-  const expectedPreview = slug === 'baufi' ? `baufi.html?vorlage=${slug}` : `thema.html?vorlage=${slug}`;
+  // Baufi und Kinder haben eigene Strecken; ihre Vorschau zeigt dorthin.
+  const vorschauSonderwege = { baufi: 'baufi.html?vorlage=baufi', kinder: 'kidz-empfehlung.html' };
+  const expectedPreview = vorschauSonderwege[slug] || `thema.html?vorlage=${slug}`;
   assert.ok(settings.includes(expectedPreview), `${slug} fehlt in den Schnellvorschauen`);
 }
 
@@ -71,6 +73,7 @@ assert.match(baufi, /situation-alt-link/, 'Der zurückgenommene Zusatzweg zur Op
 assert.ok(!baufi.includes('Was beschäftigt dich?'), 'Die alte generische Kompassfrage ist noch sichtbar');
 assert.match(program, /url:\s*'\/baufi\.html\?vorlage=baufi&modus=referral/, 'Die Portalvorschau nutzt nicht die zentrale Baufi-Seite');
 assert.match(js, /window\.location\.replace\(`\$\{canonicalBaufi\.pathname\}/, 'Alte Baufi-Themenadressen werden nicht auf den zentralen Weg weitergeführt');
+assert.match(js, /window\.location\.replace\(`\$\{canonicalKidz\.pathname\}/, 'Alte Kinder-Themenadressen werden nicht auf die KIDZ-Strecke weitergeführt');
 
 assert.ok(js.includes('getEmpfehlungByToken'));
 assert.ok(js.includes('markInteressiert'));

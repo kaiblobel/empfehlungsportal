@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.267 Beta** · Anschrift und Rufnummer in der Fußzeile, live seit 15.08.2026.
+Offizielle Live-Version: **v1.268 Beta** · Ein Weg für das Thema Kinder, live seit 16.08.2026.
+
+## v1.268 Beta - Phase 248 · Ein Weg für das Thema Kinder
+**2026-08-16 · live veröffentlicht**
+
+Beim Thema Kinder gab es zwei Ziele nebeneinander: Eine echte Empfehlung führte auf die KIDZ-Einleitung, die Vorschau in der Themenverwaltung, die Präsentation und die Schnellvorschau im Beraterbereich dagegen weiter auf die alte Themenseite. Wer geprüft hat, sah also etwas anderes als der Empfohlene.
+
+Jetzt führt jeder dieser Wege auf dieselbe Strecke: erst die kurze KIDZ-Einleitung, dann das Konzept. Die alte Adresse `thema.html?vorlage=kinder` leitet mitsamt Empfehlungskontext dorthin weiter, so wie es beim Finanzierungskompass schon gelöst war. Ein Test bewacht das.
+
+---
 
 ## v1.267 Beta - Phase 247 · Anschrift und Rufnummer in der Fußzeile
 **2026-08-15 · live veröffentlicht**
