@@ -507,11 +507,14 @@ function teamAgo(ts) {
 function renderFunnel(f) {
   const wrap = document.getElementById('hFunnel');
   if (!wrap) return;
+  // Eine Farbe, vier Helligkeiten: der Weg verjuengt sich, es sind
+  // nicht vier verschiedene Dinge. Der letzte Ton ist der dunkelste,
+  // dort steht das Ergebnis.
   const stages = [
-    { label: 'Gesendet',  count: f.gesendet,     base: f.gesendet },
-    { label: 'Geöffnet',  count: f.geoeffnet,    base: f.gesendet },
-    { label: 'Interesse', count: f.interessiert, base: f.geoeffnet },
-    { label: 'Kunde',     count: f.kunden,       base: f.interessiert, gold: true },
+    { label: 'Gesendet',  count: f.gesendet,     base: f.gesendet,      ton: '#9CC0C7' },
+    { label: 'Geöffnet',  count: f.geoeffnet,    base: f.gesendet,      ton: '#5E939E' },
+    { label: 'Interesse', count: f.interessiert, base: f.geoeffnet,     ton: '#2E6E7A' },
+    { label: 'Kunde',     count: f.kunden,       base: f.interessiert,  ton: '#0B4650', gold: true },
   ];
   const max = Math.max(1, f.gesendet);
   wrap.innerHTML = stages.map((s, i) => {
@@ -520,7 +523,7 @@ function renderFunnel(f) {
     return `
       <div class="h-funnel-row${s.gold ? ' gold' : ''}">
         <div class="h-funnel-label">${s.label}</div>
-        <div class="h-funnel-track"><div class="h-funnel-bar" style="width:${w}%"></div></div>
+        <div class="h-funnel-track"><div class="h-funnel-bar" style="width:${w}%;--stufe-ton:${s.ton}"></div></div>
         <div class="h-funnel-count">${s.count}</div>
         <div class="h-funnel-pct">${pct}</div>
       </div>`;
@@ -610,7 +613,57 @@ async function loadTrend(daysBack) {
   } catch { return []; }
 }
 
+/* ---------- Verlaufslinie je Kennzahl (Phase 269) ----------
+   "55 Klicks, plus 52" sagt nicht, ob es gerade anzieht oder abflacht.
+   Die Linie zeigt die Richtung, ohne eine einzige Zahl mehr. Sie nutzt
+   dieselben Zeilen, die das große Diagramm ohnehin lädt, es kommt keine
+   Abfrage dazu. */
+const SPARK_FELDER = {
+  kpiEmpfehler: 'aktive_empfehler',
+  kpiKlicks:    'link_klicks',
+  kpiGesamt:    'empfehlungen_gesamt',
+  kpiKunden:    'kunden',
+};
+
+function renderSparklines(rows) {
+  // Unter vier Tagen ist eine Linie keine Aussage, sondern Dekoration.
+  if (!rows || rows.length < 4) return;
+
+  Object.entries(SPARK_FELDER).forEach(([id, feld]) => {
+    const wert = document.getElementById(id);
+    const kachel = wert && wert.closest('.h-kpi');
+    if (!kachel || kachel.querySelector('.h-spark')) return;
+
+    const werte = rows.map(r => Number(r[feld]) || 0);
+    const max = Math.max(...werte);
+    const min = Math.min(...werte);
+    // Eine waagerechte Linie bei lauter gleichen Werten: dann lieber nichts.
+    if (max === min) return;
+
+    const B = 100, H = 26, rand = 3;
+    const punkte = werte.map((v, i) => {
+      const x = werte.length === 1 ? B : (i / (werte.length - 1)) * B;
+      const y = H - rand - ((v - min) / (max - min)) * (H - rand * 2);
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    });
+    const [ex, ey] = punkte[punkte.length - 1].split(',');
+
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'h-spark');
+    svg.setAttribute('viewBox', `0 0 ${B} ${H}`);
+    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.innerHTML =
+      `<polyline points="${punkte.join(' ')}"></polyline>` +
+      `<circle cx="${ex}" cy="${ey}" r="2.4"></circle>`;
+
+    (kachel.querySelector('.h-kpi-body') || kachel).appendChild(svg);
+  });
+}
+
 function renderTrendChart(rows) {
+  renderSparklines(rows);
+
   const canvas = document.getElementById('hTrendChart');
   if (!canvas || !window.Chart) return;
   if (!rows.length) return;

@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="css/style.css?v=34" />
   <link rel="stylesheet" href="css/dashboard.css?v=53" />
   <link rel="stylesheet" href="css/hub.css?v=59" />
-  <link rel="stylesheet" href="css/dna.css?v=3" />
+  <link rel="stylesheet" href="css/dna.css?v=6" />
   <script src="js/config.js"></script>
   <script src="js/wartung.js?v=4"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js" defer></script>
@@ -53,6 +53,18 @@
         <span class="h-pill live">System aktiv</span>
         <span class="h-pill" id="hPillActivity">— Aktivitäten heute</span>
         <span class="h-pill">30-Tage-Modus</span>
+      </div>
+    </section>
+
+    <!-- Was auf dich wartet, steht oben. Kennzahlen und Verlauf sind
+         Rückblick, die dürfen darunter stehen: hier steht das Einzige,
+         was heute etwas von dir will. -->
+    <section>
+      <div class="h-label" id="hHotLabel">Warten auf dich</div>
+      <p class="h-section-sub" id="hHotSub">…</p>
+      <div class="h-hotleads" id="hHotLeads">
+        <div class="skel-card"><span class="skel skel-line w40"></span><span class="skel skel-line"></span><span class="skel skel-line w60"></span></div>
+        <div class="skel-card"><span class="skel skel-line w40"></span><span class="skel skel-line"></span><span class="skel skel-line w60"></span></div>
       </div>
     </section>
 
@@ -115,16 +127,6 @@
       </div>
       <div class="h-team-presence" id="hTeamPresence"></div>
       <div class="h-timeline" id="hTeamFeed"></div>
-    </section>
-
-    <!-- Hot Leads / Warten auf dich -->
-    <section>
-      <div class="h-label" id="hHotLabel">Warten auf dich</div>
-      <p class="h-section-sub" id="hHotSub">…</p>
-      <div class="h-hotleads" id="hHotLeads">
-        <div class="skel-card"><span class="skel skel-line w40"></span><span class="skel skel-line"></span><span class="skel skel-line w60"></span></div>
-        <div class="skel-card"><span class="skel skel-line w40"></span><span class="skel skel-line"></span><span class="skel skel-line w60"></span></div>
-      </div>
     </section>
 
     <!-- Zeitraum-Filter -->
@@ -209,6 +211,6 @@
   <div class="h-toast" id="hToast"></div>
 
   <script type="module" src="js/nav.js?v=62"></script>
-  <script type="module" src="js/hub.js?v=50"></script>
+  <script type="module" src="js/hub.js?v=52"></script>
 </body>
 </html>
