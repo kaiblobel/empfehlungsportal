@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.281 Beta** · Sechs Meilensteine ohne Waise in der zweiten Reihe, live seit 16.08.2026.
+Offizielle Live-Version: **v1.282 Beta** · Autofoto ausgetauscht, live seit 16.08.2026.
+
+## v1.282 Beta - Phase 262 · Autofoto ausgetauscht
+**2026-08-16**
+
+**Das Bild zum Auto-Meilenstein ist ausgetauscht.** Kai hat ein eigenes Motiv bereitgestellt, einen vollelektrischen Kombi. Es ersetzt das bisherige Unsplash-Foto.
+
+Zugeschnitten auf das Fahrzeug, das Seitenverhältnis liegt bei 1,5 und damit zwischen den beiden Kartenbreiten der Reise. Der erste Zuschnitt war zu breit: In der 183 Pixel schmalen Karte blieb davon nur ein Streifen Lack übrig, in dem kein Auto mehr zu erkennen war.
+
+Zur Herkunft steht ein offener Punkt in `assets/images/programm/BILDQUELLEN.md`.
+
+---
 
 ## v1.281 Beta - Phase 261 · Sechs Meilensteine ohne Waise in der zweiten Reihe
 **2026-08-16**
