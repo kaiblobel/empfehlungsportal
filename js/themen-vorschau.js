@@ -1,4 +1,5 @@
 import {
+  supabase,
   getBeraterPublicById,
   getBeraterPublicBySlug,
   getEmpfehlungByToken,
@@ -414,7 +415,15 @@ const token = params.get('token') || document.querySelector('meta[name="referral
 const requestedTopic = params.get('thema') || params.get('vorlage');
 let currentTopic = TOPICS[requestedTopic] ? requestedTopic : 'investment';
 let currentMode = token || params.get('modus') === 'referral' || params.get('einstieg') === 'empfehlung' ? 'referral' : 'public';
-let currentAdvisor = params.get('berater') || 'kai-blobel';
+// Der Slug aus der Adresse und der Standard sind zwei verschiedene Dinge.
+// Vorher war beides dieselbe Variable, damit war „kein Slug angegeben" nicht
+// mehr von „Kai ist gemeint" zu unterscheiden — und der eingeloggte Berater
+// kam nie zum Zug.
+// Ausdrücklich gewählt heißt: steht in der Adresse oder wurde im Umschalter
+// der internen Vorschau ausgewählt. Ist nichts gewählt, kommt der eingeloggte
+// Berater zum Zug und erst danach der Standard.
+let expliziterSlug = params.get('berater') || '';
+let currentAdvisor = expliziterSlug || 'kai-blobel';
 let advisorData = null;
 let recommendationData = null;
 let interestMarked = false;
@@ -514,7 +523,25 @@ function applyAdvisor(advisor) {
 async function loadAdvisor() {
   let data = null;
   if (recommendationData?.berater_id) data = (await getBeraterPublicById(recommendationData.berater_id)).data;
-  if (!data && currentAdvisor) data = (await getBeraterPublicBySlug(currentAdvisor)).data;
+  if (!data && expliziterSlug) data = (await getBeraterPublicBySlug(expliziterSlug)).data;
+
+  // Dritter Weg: der eingeloggte Berater. Die Vorschau-Kacheln in den
+  // Einstellungen öffnen die Themenseite ohne ?berater=…; ohne diesen Weg sah
+  // dort jeder Partner die Angaben des Standard-Beraters (Kai).
+  if (!data) {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        const m = await import('./dashboard.js');
+        data = await m.getCurrentBerater();
+      }
+    } catch (_) { /* Standardangaben bleiben stehen */ }
+  }
+
+  // Erst als letztes der Standard-Berater: ein anonymer Direktaufruf ohne
+  // Token, ohne Slug und ohne Anmeldung gehört zu Kais Seite.
+  if (!data) data = (await getBeraterPublicBySlug(currentAdvisor)).data;
+
   applyAdvisor(data);
 }
 
@@ -860,6 +887,7 @@ topicSelect?.addEventListener('change', () => {
 
 advisorSelect?.addEventListener('change', async () => {
   currentAdvisor = advisorSelect.value;
+  expliziterSlug = advisorSelect.value;
   await loadAdvisor();
   render();
 });

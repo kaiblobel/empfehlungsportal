@@ -358,14 +358,24 @@ async function applyBeraterSlugToLinks(root) {
     revealAdminItems(root, !!b.ist_admin);
     await zeigeZaehler(root);
     if (!b.slug) return;
+
+    const haengeSlugAn = (a) => {
+      const u = new URL(a.getAttribute('href'), window.location.origin);
+      if (u.searchParams.has('berater')) return;
+      u.searchParams.set('berater', b.slug);
+      a.setAttribute('href', u.pathname + u.search + u.hash);
+    };
+
     root.querySelectorAll('a[href*="programm.html"], a[href*="empfehlen.html"]').forEach((a) => {
       const u = new URL(a.getAttribute('href'), window.location.origin);
-      const isFunnel = u.pathname.endsWith('/programm.html') || u.pathname.endsWith('/empfehlen.html');
-      if (isFunnel && !u.searchParams.has('berater')) {
-        u.searchParams.set('berater', b.slug);
-        a.setAttribute('href', u.pathname + u.search + u.hash);
-      }
+      if (u.pathname.endsWith('/programm.html') || u.pathname.endsWith('/empfehlen.html')) haengeSlugAn(a);
     });
+
+    // Ausgezeichnete Links auf der Seite selbst, nicht nur in der Navigation:
+    // die Vorschau-Kacheln in den Einstellungen zeigen auf Kundenseiten und
+    // öffneten sie ohne Slug. Wer den Link dann weitergibt, verschickt eine
+    // Seite ohne Absender.
+    document.querySelectorAll('a[data-berater-link]').forEach(haengeSlugAn);
   } catch (e) {
     console.warn('[nav] berater-slug patch failed', e);
   }

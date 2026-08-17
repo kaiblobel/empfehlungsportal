@@ -1,7 +1,25 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.294 Beta** · Das Portal als App auf dem Rechner, live seit 17.08.2026.
+Offizielle Live-Version: **v1.295 Beta** · Der richtige Berater auf allen Themenseiten, live seit 17.08.2026.
+
+## v1.295 Beta - Phase 275 · Der richtige Berater auf allen Themenseiten
+
+**2026-08-17**
+
+**Nach dem Fund auf der KIDZ-Seite (Phase 272) alle Kundenseiten durchgesehen. Dieselbe Lücke lag noch an einer zweiten Stelle:** `js/themen-vorschau.js` trägt sieben Themenseiten (Förderungen, Selbständige, Investment, Absicherung, Karriere, Banking, Energie) und kannte zwei Wege zum Berater, den Empfehlungs-Token und `?berater=slug`. Ohne beides stand fest `kai-blobel`. Genau so öffnen die Vorschau-Kacheln in den Einstellungen die Seiten, nämlich ohne Slug. Jeder Partner sah dort Kais Namen, Kais Termin-Link und Kais Impressum.
+
+**Ursache war eine Variable für zwei Bedeutungen.** `currentAdvisor` hielt gleichzeitig „welcher Slug steht in der Adresse" und „welcher gilt als Standard". Damit ließ sich „nichts angegeben" nicht mehr von „Kai ist gemeint" unterscheiden, und der dritte Weg konnte gar nicht greifen. Getrennt in `expliziterSlug` (Adresse oder Umschalter der internen Vorschau) und den Standard. Reihenfolge jetzt wie überall: Empfehlung, ausdrückliche Wahl, eingeloggter Berater, zuletzt der Standard-Berater für den anonymen Direktaufruf.
+
+**Die elf Vorschau-Kacheln tragen den Slug jetzt selbst.** `js/nav.js` hängte ihn bisher nur an Links in der Seitenleiste. Neu ist das Merkmal `data-berater-link`: damit ausgezeichnete Links auf der Seite bekommen ihn auch. Das zählt, sobald jemand so einen Link kopiert und weitergibt, denn dann gibt es keine Anmeldung mehr, aus der sich der Absender ableiten ließe.
+
+**Geprüft und in Ordnung:** Empfängerseite, Empfehlungsformular, Finanzierungskompass, Präsentation, Dankeseite und der Promoterbereich lösen den Berater sauber auf.
+
+**Offen und bewusst nicht angefasst:** Die KIDZ-Folgeseiten (Konzept, Elternabend, Gewinnspiel, Sommerfest) tragen kein Berater-Branding, sondern die Team-Marke mit Kais Anschrift, Telefonnummer und Mailadresse im Fuß. Sie nutzen `?berater=` nur zur Zuordnung des Leads. Das ist eine Inhaltsfrage, keine Panne, und gehört entschieden statt nebenbei umgebaut.
+
+---
+
+
 
 ## v1.294 Beta - Phase 274 · Das Portal als App auf dem Rechner
 **2026-08-17**
