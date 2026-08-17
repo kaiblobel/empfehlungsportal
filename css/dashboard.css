@@ -982,6 +982,7 @@ body.nav-collapsed .nav-badge {
 .nav-sub-bald {
   cursor: default;
   opacity: 0.62;
+  gap: 6px;
 }
 .nav-sub-bald:hover { color: var(--ink-soft); background: transparent; }
 .nav-sub-marke {
@@ -998,6 +999,11 @@ body.nav-collapsed .nav-badge {
   color: var(--ink-soft);
   background: var(--surface-2);
 }
+/* Anmerkung zur schmalen Leiste (200 Pixel, zwischen 1024 und 1280):
+   Dort braucht „KIDZ-Konzept" samt Marke 124 Pixel, Platz sind 117. Der
+   Punkt steht deshalb zweizeilig — so wie „Sommerfest-Gewinnspiel"
+   daneben. Erzwungene Einzeiligkeit (nowrap) liefe über den Rand hinaus,
+   deshalb bewusst nicht. */
 
 /* --- Mobile Bottom-Nav: in Phase 37 entfernt, in Phase 165 bewusst
    zurückgeholt (Styles am Dateiende). Die alte !important-Sperre stand

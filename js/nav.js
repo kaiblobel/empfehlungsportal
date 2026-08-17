@@ -45,7 +45,9 @@ export const NAV_ITEMS = [
       // hin, weil sie noch nicht fertig ist. Die Seite selbst und ihre Adresse
       // (kidz.teamwachsbleiche.de/konzept) bleiben unangetastet und erreichbar.
       // Zum Freischalten reicht es, diese eine Zeile wieder zu entfernen.
-      { label: 'Das KIDZ-Programm', href: '/kidz/konzept', kunde: true, bald: true },
+      // Heißt seit Phase 285 „KIDZ-Konzept" statt „Das KIDZ-Programm": kürzer,
+      // deckt sich mit der Adresse und bricht in der Leiste nicht mehr um.
+      { label: 'KIDZ-Konzept', href: '/kidz/konzept', kunde: true, bald: true },
       { label: 'Sommerfest-Gewinnspiel', href: path('dashboard/kidz-gewinnspiel.html') },
       { label: 'Elternabend', href: path('dashboard/kidz-elternabend.html') },
     ] },

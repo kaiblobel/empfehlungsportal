@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.304 Beta** · Das KIDZ-Programm ist im Menü angekündigt, aber noch zu, live seit 17.08.2026.
+Offizielle Live-Version: **v1.305 Beta** · Der Menüpunkt heißt KIDZ-Konzept, live seit 17.08.2026.
+
+## v1.305 Beta - Phase 285 · Der Menüpunkt heißt KIDZ-Konzept
+
+**2026-08-17**
+
+**„Das KIDZ-Programm" brach in der Seitenleiste auf zwei Zeilen um**, seit die Marke „bald" daneben steht. Kais Vorschlag: Die Seite heißt in der Adresse `/kidz/konzept`, also soll sie auch im Menü so heißen. Der Punkt trägt jetzt **KIDZ-Konzept** und passt wieder in eine Zeile. Erst stand kurz nur „Konzept" darin (unter dem Reiter KIDZ wäre der Zusatz doppelt), Kai wollte den vollen Namen: Im ausgeklappten Menü auf dem Handy und in der Suche steht der Punkt ohne den Reiter darüber, dort trägt er sich selbst besser.
+
+**Der Wächter `tests/kidz-programm-im-menue.test.mjs` ist mit umgeschrieben.** Er bewachte bisher „der Zugang ist erreichbar" und hätte die Sperre aus Phase 284 nie bemerkt. Jetzt hält er die neue Wahrheit fest: Der Punkt steht da, trägt keine Adresse, hat die Marke „bald", und die Vorschau-Kachel in den Einstellungen verlinkt ebenfalls nicht mehr. Beim Freischalten muss er zurück auf „offen".
+
+**Nicht umbenannt: die Vorschau-Kachel in den Einstellungen.** Sie heißt weiter „KIDZ für Eltern", weil sie dort direkt neben „KIDZ für Kinder" steht und genau diese beiden Wörter die Unterscheidung tragen.
+
+**Cache-Marke `js/nav.js` auf `v=66`** in allen 18 Stellen samt Service Worker.
 
 ## v1.304 Beta - Phase 284 · Das KIDZ-Programm ist im Menü angekündigt, aber noch zu
 
