@@ -62,9 +62,24 @@ img { display: block; max-width: 100%; }
 .desktop-nav a:hover::after, .desktop-nav a:focus-visible::after { transform: scaleX(1); }
 .header-cta { justify-self: end; min-height: 44px; padding: 0 18px; color: #fff; border: 0; border-radius: 999px; background: var(--blue); font-size: 14px; font-weight: 800; cursor: pointer; }
 
-.hero { position: relative; display: grid; grid-template-columns: minmax(0, 0.94fr) minmax(460px, 1.06fr); min-height: calc(100vh - var(--header)); overflow: hidden; background: linear-gradient(135deg, #fff 0 52%, var(--blue-pale) 52% 100%); }
+/* Die Textspalte wird nicht mehr in Bruchteilen geraten, sondern aus dem
+   gerechnet, was der Text wirklich braucht: der Rand bis zur Inhaltsmitte,
+   die Textbreite, der Abstand zum Bild. Vorher war sie 0.94fr breit, waehrend
+   der Text mit eigenem Rand plus festen 610px daneben lag. Auf breiten
+   Schirmen war die Summe groesser als die Spalte, und weil der Text
+   z-index 2 hat, lagen die letzten Woerter jeder Zeile im Bild (ab 1366px
+   sichtbar, bei 1920px 37px tief). */
+.hero { position: relative; display: grid;
+  --hero-rand: max(24px, calc((100vw - var(--max)) / 2));
+  --hero-text: 610px;
+  --hero-luft: 48px;
+  grid-template-columns: minmax(0, calc(var(--hero-rand) + var(--hero-text) + var(--hero-luft))) minmax(460px, 1fr);
+  min-height: calc(100vh - var(--header)); overflow: hidden; background: linear-gradient(135deg, #fff 0 52%, var(--blue-pale) 52% 100%); }
 .hero::before { content: ""; position: absolute; width: 420px; height: 420px; left: -240px; bottom: -200px; border: 1px solid rgba(74, 139, 168, 0.2); border-radius: 50%; box-shadow: 0 0 0 58px rgba(184, 212, 227, 0.11), 0 0 0 116px rgba(184, 212, 227, 0.07); }
-.hero-copy { position: relative; z-index: 2; align-self: center; width: min(610px, calc(100% - 40px)); margin-left: max(24px, calc((100vw - var(--max)) / 2)); padding: 70px 48px 96px 0; }
+/* Zweite Sicherung: Reicht der Platz nicht (schmale Fenster, in denen das Bild
+   seine 460px behaelt), schrumpft der Text mit, statt hinauszulaufen. Der Rand
+   steckt in der Rechnung, sonst zaehlt er doppelt. */
+.hero-copy { position: relative; z-index: 2; align-self: center; width: min(var(--hero-text), calc(100% - var(--hero-rand) - 40px)); margin-left: var(--hero-rand); padding: 70px var(--hero-luft) 96px 0; }
 .eyebrow { margin: 0 0 16px; color: var(--gold-deep); font-size: 12px; font-weight: 900; letter-spacing: 0.13em; text-transform: uppercase; }
 .hero h1 { max-width: 590px; margin: 0; color: var(--blue-deep); font-size: clamp(48px, 5vw, 76px); line-height: 0.98; letter-spacing: -0.055em; }
 .hero-lede { max-width: 570px; margin: 28px 0 0; color: var(--muted); font-size: clamp(18px, 1.65vw, 22px); line-height: 1.55; }
