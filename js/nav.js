@@ -36,6 +36,11 @@ export const NAV_ITEMS = [
   { id: 'potenziale',  label: 'Potenzialbuch', icon: 'NotebookPen',     href: path('dashboard/potenziale.html'),      bottom: false },
   { id: 'kidz',        label: 'KIDZ',           icon: 'Sparkles',     href: path('dashboard/kidz-gewinnspiel.html'), bottom: false,
     subs: [
+      // Die Elternseite stand bisher nur in den Einstellungen und war von außen
+      // gar nicht zu finden: kidz.teamwachsbleiche.de führt aufs Sommerfest,
+      // und von dort verlinkt nichts aufs Konzept. Hier steht sie da, wo die
+      // Partner ohnehin arbeiten.
+      { label: 'Das KIDZ-Programm', href: '/kidz/konzept', kunde: true },
       { label: 'Sommerfest-Gewinnspiel', href: path('dashboard/kidz-gewinnspiel.html') },
       { label: 'Elternabend', href: path('dashboard/kidz-elternabend.html') },
     ] },
@@ -108,8 +113,12 @@ function sidebarItem(item) {
   }
 
   // Item mit Unterpunkten: Chevron als eigener Button neben dem Link (nicht IM <a>).
+  // `kunde: true` heißt: der Unterpunkt führt auf eine Seite, die der Partner
+  // weitergibt. Die öffnet in einem eigenen Tab (das Portal bleibt stehen) und
+  // bekommt über data-berater-link seinen Absender angehängt, damit Anmeldungen
+  // beim richtigen Partner landen.
   const subs = `<div class="nav-subs"><div class="nav-subs-inner">${item.subs.map(s => `
-    <a class="nav-sub" href="${s.href}">
+    <a class="nav-sub" href="${s.href}"${s.kunde ? ' target="_blank" rel="noopener" data-berater-link' : ''}>
       ${s.icon ? `<span class="nav-sub-icon">${icon(s.icon, { size: 14 })}</span>` : ''}
       <span>${s.label}</span>
     </a>`).join('')}</div></div>`;
