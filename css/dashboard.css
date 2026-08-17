@@ -976,6 +976,28 @@ body.nav-collapsed .nav-badge {
   width: 14px;
   color: var(--ink-soft);
 }
+/* Gesperrter Unterpunkt: steht da, ist aber kein Link (siehe `bald` in
+   js/nav.js). Kein Hover-Wechsel, kein Zeigefinger — sonst sieht es aus
+   wie ein Link, der nicht funktioniert. */
+.nav-sub-bald {
+  cursor: default;
+  opacity: 0.62;
+}
+.nav-sub-bald:hover { color: var(--ink-soft); background: transparent; }
+.nav-sub-marke {
+  margin-left: auto;
+  flex: 0 0 auto;
+  padding: 0 5px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: 999px;
+  font-size: 8.5px;
+  line-height: 15px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  background: var(--surface-2);
+}
 
 /* --- Mobile Bottom-Nav: in Phase 37 entfernt, in Phase 165 bewusst
    zurückgeholt (Styles am Dateiende). Die alte !important-Sperre stand
@@ -1192,8 +1214,12 @@ body.nav-drawer-open { overflow: hidden; }
   border-color: var(--accent);
   transform: translateY(-1px);
 }
-.settings-tile-title { font-size: 14px; font-weight: 600; }
+.settings-tile-title { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
 .settings-tile-sub { font-size: 12px; color: var(--ink-muted); }
+/* Noch gesperrte Vorschau: sichtbar, aber kein Link (siehe Kommentar im
+   Markup). Kein Anheben beim Überfahren, sonst wirkt sie anklickbar. */
+.settings-tile-bald { cursor: default; opacity: 0.62; }
+.settings-tile-bald:hover { border-color: var(--hairline); transform: none; }
 
 .settings-links {
   display: flex;

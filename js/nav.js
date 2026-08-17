@@ -40,7 +40,12 @@ export const NAV_ITEMS = [
       // gar nicht zu finden: kidz.teamwachsbleiche.de führt aufs Sommerfest,
       // und von dort verlinkt nichts aufs Konzept. Hier steht sie da, wo die
       // Partner ohnehin arbeiten.
-      { label: 'Das KIDZ-Programm', href: '/kidz/konzept', kunde: true },
+      // `bald: true` sperrt den Weg über das Menü, ohne den Punkt zu verstecken:
+      // Die Partner sehen, dass die Elternseite kommt, kommen aber noch nicht
+      // hin, weil sie noch nicht fertig ist. Die Seite selbst und ihre Adresse
+      // (kidz.teamwachsbleiche.de/konzept) bleiben unangetastet und erreichbar.
+      // Zum Freischalten reicht es, diese eine Zeile wieder zu entfernen.
+      { label: 'Das KIDZ-Programm', href: '/kidz/konzept', kunde: true, bald: true },
       { label: 'Sommerfest-Gewinnspiel', href: path('dashboard/kidz-gewinnspiel.html') },
       { label: 'Elternabend', href: path('dashboard/kidz-elternabend.html') },
     ] },
@@ -117,7 +122,16 @@ function sidebarItem(item) {
   // weitergibt. Die öffnet in einem eigenen Tab (das Portal bleibt stehen) und
   // bekommt über data-berater-link seinen Absender angehängt, damit Anmeldungen
   // beim richtigen Partner landen.
-  const subs = `<div class="nav-subs"><div class="nav-subs-inner">${item.subs.map(s => `
+  // `bald: true` wird bewusst als <span> ohne href gerendert, nicht als
+  // ausgegrauter Link: ein <a href> bliebe über Mittelklick, Kontextmenü und
+  // Tastatur erreichbar, und der Slug-Anhänger data-berater-link hätte dort
+  // nichts zu suchen.
+  const subs = `<div class="nav-subs"><div class="nav-subs-inner">${item.subs.map(s => s.bald ? `
+    <span class="nav-sub nav-sub-bald" aria-disabled="true" title="Die Seite ist in Arbeit und noch nicht freigegeben.">
+      ${s.icon ? `<span class="nav-sub-icon">${icon(s.icon, { size: 14 })}</span>` : ''}
+      <span>${s.label}</span>
+      <span class="nav-sub-marke">bald</span>
+    </span>` : `
     <a class="nav-sub" href="${s.href}"${s.kunde ? ' target="_blank" rel="noopener" data-berater-link' : ''}>
       ${s.icon ? `<span class="nav-sub-icon">${icon(s.icon, { size: 14 })}</span>` : ''}
       <span>${s.label}</span>

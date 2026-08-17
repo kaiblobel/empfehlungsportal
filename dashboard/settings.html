@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
   <meta name="robots" content="noindex,nofollow" />
   <link rel="stylesheet" href="../css/style.css?v=34" />
-  <link rel="stylesheet" href="../css/dashboard.css?v=53" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=54" />
   <link rel="stylesheet" href="../css/dna.css?v=11" />
   <script src="../js/config.js"></script>
   <!-- Nur wegen der Vorschau. `data-nur-vorschau` verhindert, dass der Schirm
@@ -46,7 +46,7 @@
 <body class="has-app-nav">
 
   <div id="appNav"></div>
-  <script type="module" src="../js/nav.js?v=64"></script>
+  <script type="module" src="../js/nav.js?v=65"></script>
 
   <div class="app-shell">
     <header class="app-header">
@@ -154,10 +154,15 @@
             <span class="settings-tile-title">KIDZ für Kinder</span>
             <span class="settings-tile-sub">Elternkonzept mit Einleitung</span>
           </a>
-          <a class="settings-tile" data-berater-link href="../kidz/konzept" target="_blank">
-            <span class="settings-tile-title">KIDZ für Eltern</span>
+          <!-- Gesperrt wie der Menüpunkt: die Elternseite ist noch nicht
+               freigegeben. Bewusst kein <a>, sonst führt Mittelklick oder
+               Kontextmenü doch hin. Zum Freischalten wieder zu einem <a> mit
+               href="../kidz/konzept" target="_blank" machen. -->
+          <span class="settings-tile settings-tile-bald" aria-disabled="true"
+                title="Die Seite ist in Arbeit und noch nicht freigegeben.">
+            <span class="settings-tile-title">KIDZ für Eltern <span class="nav-sub-marke">bald</span></span>
             <span class="settings-tile-sub">Elternkonzept, Elternabend</span>
-          </a>
+          </span>
           <a class="settings-tile" data-berater-link href="../thema.html?vorlage=banking" target="_blank">
             <span class="settings-tile-title">Banking &amp; Kredit</span>
             <span class="settings-tile-sub">Konten, Rücklagen, Finanzierung</span>

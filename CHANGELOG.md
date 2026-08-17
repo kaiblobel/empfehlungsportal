@@ -1,7 +1,21 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.303 Beta** · Der Namenszug tritt einen Schritt zurück, live seit 17.08.2026.
+Offizielle Live-Version: **v1.304 Beta** · Das KIDZ-Programm ist im Menü angekündigt, aber noch zu, live seit 17.08.2026.
+
+## v1.304 Beta - Phase 284 · Das KIDZ-Programm ist im Menü angekündigt, aber noch zu
+
+**2026-08-17**
+
+**Die Elternseite steht seit Phase 277 im Menü, ist aber noch nicht fertig.** Kais Ansage: Der Punkt soll bleiben, damit die Partner sehen, dass da etwas kommt, sie sollen aber noch nicht hin. Die Seite selbst und ihre Adresse (`kidz.teamwachsbleiche.de/konzept`) bleiben unangetastet und von außen erreichbar; gesperrt ist nur der Weg über das Portal.
+
+**Der Menüpunkt wird jetzt als `<span>` gerendert, nicht als ausgegrauter Link.** Ein `<a href>` bliebe über Mittelklick, Kontextmenü und Tastatur erreichbar; ausgegraut heißt dann nur „sieht gesperrt aus". Dahinter steht ein neues Merkmal in `js/nav.js`: `bald: true` an einem Unterpunkt. Es nimmt der Zeile Adresse und Slug-Anhänger und hängt eine kleine Marke „bald" an. Freischalten heißt später: diese eine Zeile wieder entfernen.
+
+**Dieselbe Sperre in den Einstellungen.** Die Vorschau-Kachel „KIDZ für Eltern" führte auf dieselbe Seite; ohne sie wäre die Sperre im Menü wirkungslos gewesen. Auch dort steht die Kachel weiter da, gedimmt, mit derselben Marke und ohne Hover-Anhebung.
+
+**Nicht angefasst: die Kundenwege.** `kidz-empfehlung.html` und die Themenseite „KIDZ für Kinder" verlinken weiter auf das Konzept. Das sind Seiten, die der Kunde in der Hand hat, keine Portal-Navigation.
+
+**Cache-Marken:** `js/nav.js` auf `v=65` (18 Stellen), `css/dashboard.css` auf `v=54` (19 Stellen), beide auch in der Vorab-Liste des Service Workers.
 
 ## v1.303 Beta - Phase 283 · Der Namenszug tritt einen Schritt zurück
 
