@@ -1,7 +1,15 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.293 Beta** · Ein neuer Funnel ist eine Zeile, live seit 16.08.2026.
+Offizielle Live-Version: **v1.294 Beta** · Neues Portrait von Josephine, live seit 17.08.2026.
+
+## v1.294 Beta - Phase 274 · Neues Portrait von Josephine
+
+**2026-08-17**
+
+**Josephines Foto war auf jeder Seite zu nah dran.** Die Datei war so eng auf das Gesicht beschnitten, dass ihr Kopf im runden Rahmen und in jeder Kachel größer wirkte als bei allen anderen. Auf der Kundenseite und im Karrierecheck fiel es zuerst auf, im Portal steckte dieselbe Datei im Speicher der Berater-Fotos.
+
+**Jetzt liegt ein einheitliches Bild im Projekt** unter `assets/images/josephine-buerger-portrait.jpg`, Kopf und Schultern vor dem Wandbild im Büro. Ihr Eintrag zeigt auf diese Datei, so wie bei Kai, Sandro und Sven auch, statt auf eine hochgeladene Datei im Speicher.
 
 ## v1.293 Beta - Phase 273 · Ein neuer Funnel ist eine Zeile
 
