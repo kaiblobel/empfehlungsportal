@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.297 Beta** · Das KIDZ-Programm steht im Portal, live seit 17.08.2026.
+Offizielle Live-Version: **v1.298 Beta** · Der KIDZ-Text bleibt neben dem Bild, live seit 17.08.2026.
+
+## v1.298 Beta - Phase 278 · Der KIDZ-Text bleibt neben dem Bild
+
+**2026-08-17**
+
+**Auf der KIDZ-Elternseite standen die letzten Wörter jeder Zeile in der Bildcollage.** „KIDZ hilft Ihnen, drei wichtige Grundlagen früh zu verstehen und in Ruhe zu ordnen" lief rechts in die Fotos hinein. Am Handy war nichts zu sehen, dort stehen Text und Bild untereinander. Auf dem Rechner fing es bei 1366 Pixel Fensterbreite an und wurde immer schlimmer: bei 1920 Pixeln lag der Text 37 Pixel tief im Bild.
+
+**Zwei Maße, die nichts voneinander wussten.** Die Textspalte war `0.94fr` breit. Der Text darin hatte aber seinen eigenen Rand bis zur Inhaltsmitte, `(100vw - 1180px) / 2`, und zusätzlich feste 610 Pixel Breite. Auf breiten Schirmen wächst der Rand, die Textbreite bleibt, und die Summe passt irgendwann nicht mehr in die Spalte. Weil der Text `z-index: 2` trägt, lief er nicht unter das Bild, sondern darüber.
+
+**Jetzt wird die Spalte gerechnet statt geraten:** Rand plus Textbreite plus Abstand zum Bild, alle drei als Variablen an `.hero`. Dieselben Variablen benutzt der Text, und er zieht den Rand von seiner Breite wieder ab. Damit kann er auch dann nicht hinauslaufen, wenn der Platz eng wird und das Bild seine Mindestbreite behält.
+
+**Nachgemessen über fünfzehn Fensterbreiten** von 1920 bis 390 Pixel: überall Luft zwischen Text und Bild, vorher an vier Breiten Überlappung. Ein Test hält die Rechnung fest, damit niemand versehentlich zum alten Muster zurückgeht.
+
+---
+
 
 ## v1.297 Beta - Phase 277 · Das KIDZ-Programm steht im Portal
 
