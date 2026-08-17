@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.296 Beta** · Die Marktübersicht öffnet sich wieder, live seit 17.08.2026.
+Offizielle Live-Version: **v1.297 Beta** · Das KIDZ-Programm steht im Portal, live seit 17.08.2026.
+
+## v1.297 Beta - Phase 277 · Das KIDZ-Programm steht im Portal
+
+**2026-08-17**
+
+**Die KIDZ-Elternseite war praktisch unauffindbar.** `kidz.teamwachsbleiche.de` leitet auf das Sommerfest, und von dort verlinkt keine der öffentlichen KIDZ-Seiten auf das Konzept: Das Menü oben rechts kennt nur Sommerfest, Gewinne und Anmeldung. Wer das Programm sehen wollte, musste die Adresse kennen, einen Empfehlungslink haben oder die Vorschau-Kachel in den Einstellungen finden. Die Seite selbst war die ganze Zeit in Ordnung und ist als einzige der KIDZ-Seiten für Suchmaschinen freigegeben.
+
+**Der Zugang sitzt jetzt dort, wo die Partner ohnehin arbeiten:** im KIDZ-Reiter der Seitenleiste, als erster Unterpunkt „Das KIDZ-Programm", vor Sommerfest-Gewinnspiel und Elternabend. Bewusst nicht auf der Sommerfest-Seite, denn die läuft gerade als Kampagne bis zum 6. September, und alle Partner nutzen das Portal.
+
+**Neu in `js/nav.js`: `kunde: true` an einem Unterpunkt.** Damit öffnet er in einem eigenen Tab (das Portal bleibt stehen, wo der Partner gerade war) und trägt `data-berater-link`, bekommt also den Absender angehängt. Ohne den landet eine Anmeldung über diesen Link beim Standard-Berater statt beim Partner, der ihn weitergegeben hat. Der Anhänger dafür kam mit Phase 275.
+
+**Nicht angefasst:** die Wegführung auf den öffentlichen KIDZ-Seiten selbst. Ob das Sommerfest die Startseite bleibt und ob das Konzept ins öffentliche KIDZ-Menü gehört, ist eine Frage der laufenden Kampagne und keine Panne.
+
+---
+
 
 ## v1.296 Beta - Phase 276 · Die Marktübersicht öffnet sich wieder
 
