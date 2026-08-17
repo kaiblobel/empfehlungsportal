@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.302 Beta** · Der Namenszug in der Seitenleiste ist wieder Schreibschrift, live seit 17.08.2026.
+Offizielle Live-Version: **v1.303 Beta** · Der Namenszug tritt einen Schritt zurück, live seit 17.08.2026.
+
+## v1.303 Beta - Phase 283 · Der Namenszug tritt einen Schritt zurück
+
+**2026-08-17**
+
+**Kais Befund nach einem Tag mit der neuen Schrift:** „etwas zu groß und zu breit". Gemessen stimmte das auch: Bei 15 Pixeln war „Kai Blobel & Team" **159 Pixel breit, „Empfehlungsportal" nur 149**. Die Unterschrift war also breiter als der Titel und zog den Blick zuerst auf sich, obwohl sie ergänzen soll.
+
+**Zwölf Prozent kleiner, sonst nichts angefasst.** 15 → 13,2 Pixel in der 240er Leiste, 13,5 → 11,9 in der 200er. Schrift, Goldton, linke Kante, Zeilenabstand und die Versalienzeile darüber bleiben unverändert. Ergebnis: Namenszug 139 Pixel, Titel weiter 149. Die Rangfolge stimmt jetzt auch in der Breite.
+
+**Vorher/nachher wurde nebeneinander gezeigt**, samt Messung der tatsächlichen Textbreite. Gemessen wird dabei über einen Range: Die `span` sind Blöcke und damit immer so breit wie die Spalte, `getBoundingClientRect` auf dem Element hätte für beide Fassungen dieselbe Zahl geliefert.
+
+**Cache-Marke der `dna.css` auf `v=11`** in allen 20 Stellen. Zweite Änderung an derselben Datei am selben Tag, dieselbe Pflicht.
 
 ## v1.302 Beta - Phase 282 · Der Namenszug in der Seitenleiste ist wieder Schreibschrift
 
