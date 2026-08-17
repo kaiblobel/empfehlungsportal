@@ -70,11 +70,30 @@ img { display: block; max-width: 100%; }
    Spalte ist zu schmal, der Textblock war zu breit; gedeckelt wird deshalb
    unten in .hero-copy. */
 .hero { position: relative; display: grid;
-  --hero-rand: max(24px, calc((100vw - var(--max)) / 2));
+  /* Der Rand folgt dem zentrierten Inhaltsraster, wird aber bei 360px gedeckelt. Ungedeckelt
+     waechst er auf breiten Schirmen ueber 600px; dieser Platz liegt in der Textspalte brach und
+     fehlt der Collage. Der Deckel greift erst ab etwa 1900px Fensterbreite, darunter aendert
+     sich nichts. */
+  --hero-rand: clamp(24px, calc((100vw - var(--max)) / 2), 360px);
   --hero-text: 610px;
   --hero-luft: 48px;
-  grid-template-columns: minmax(0, 0.94fr) minmax(460px, 1.06fr);
-  min-height: calc(100vh - var(--header)); overflow: hidden; background: linear-gradient(135deg, #fff 0 52%, var(--blue-pale) 52% 100%); }
+  /* Die Textspalte behaelt ihren bisherigen Anteil von 47 Prozent, bekommt aber einen Deckel:
+     mehr als Rand, Text und Luft braucht sie nie. Wichtig ist die Richtung. Die Textspalte kann
+     dadurch nur schmaler werden, die Bildspalte also nur breiter. Nach Phase 278 ist das die
+     Bedingung: eine schrumpfende Bildspalte zeigt weniger vom Bild. */
+  grid-template-columns:
+    minmax(0, min(47%, calc(var(--hero-rand) + var(--hero-text) + var(--hero-luft))))
+    minmax(460px, 1fr);
+  /* Beide Spalten nur so hoch wie ihr Inhalt, mittig in der Hero-Flaeche. Vorher streckte das
+     Raster die Bildspalte auf die volle Hoehe: Sie war dann hoeher als die Collage, und der
+     Zitatkasten, der sich an ihrem unteren Rand ausrichtet, schwebte unter dem Bild in der
+     leeren Flaeche. So ist die Bildspalte genau die Collage, und der Kasten sitzt wieder auf ihr. */
+  align-items: center;
+  /* Die Hoehe folgt dem Fenster, aber nur bis 860px. Auf einem 1420 Pixel hohen Schirm waere der
+     Hero sonst 1338 hoch, Text und Collage brauchen davon 768: der Rest stand als leere Flaeche
+     darum. Mit dem Deckel bleibt der bildschirmfuellende Eindruck auf ueblichen Schirmen und der
+     Hero wird auf sehr hohen nicht zur Leerfahrt. */
+  min-height: min(calc(100vh - var(--header)), 860px); overflow: hidden; background: linear-gradient(135deg, #fff 0 52%, var(--blue-pale) 52% 100%); }
 .hero::before { content: ""; position: absolute; width: 420px; height: 420px; left: -240px; bottom: -200px; border: 1px solid rgba(74, 139, 168, 0.2); border-radius: 50%; box-shadow: 0 0 0 58px rgba(184, 212, 227, 0.11), 0 0 0 116px rgba(184, 212, 227, 0.07); }
 /* Hier sitzt die eigentliche Reparatur: Der Textblock bekommt nur so viel
    Breite, wie in seiner Spalte uebrig ist, nachdem der eigene Rand abgezogen
@@ -102,9 +121,16 @@ img { display: block; max-width: 100%; }
 .button-glass { color: #fff; border-color: rgba(255, 255, 255, 0.5); background: rgba(255, 255, 255, 0.1); }
 .trust-list { display: flex; flex-wrap: wrap; gap: 14px 22px; margin: 28px 0 0; padding: 0; color: var(--muted); font-size: 13px; font-weight: 700; list-style: none; }
 .trust-list span { display: inline-grid; place-items: center; width: 20px; height: 20px; margin-right: 5px; color: #fff; background: var(--green); border-radius: 50%; font-size: 11px; }
-.hero-media { position: relative; min-height: 620px; overflow: hidden; }
+/* Die Mindesthoehe von 620px galt fuer die formatfuellende Fassung. Jetzt bestimmt die Collage
+   selbst die Hoehe der Spalte, sonst entstuende unter ihr wieder leerer Raum. Einspaltig auf
+   kleinen Schirmen gilt weiter eine Mindesthoehe, siehe unten. */
+.hero-media { position: relative; overflow: hidden; display: grid; align-content: center; }
 .hero-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(234, 244, 248, 0.5), transparent 20%), linear-gradient(0deg, rgba(24, 63, 86, 0.25), transparent 42%); pointer-events: none; }
-.hero-media > img { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.94) contrast(1.02); }
+/* Die Collage ist 1890 zu 1063, also deutlich breiter als ihre Spalte hoch ist. Mit cover auf
+   voller Hoehe fehlten bei grossen Fenstern bis zu 40 Prozent der Breite, und zwar mitten in den
+   Bildkacheln. Sie liegt jetzt vollstaendig in der Spalte und wird senkrecht mittig gesetzt; den
+   Raum darueber und darunter fuellt der Verlauf des Hero. */
+.hero-media > img { width: 100%; height: auto; max-height: 100%; aspect-ratio: 1890 / 1063; object-fit: contain; filter: saturate(0.94) contrast(1.02); }
 .hero-question { position: absolute; z-index: 2; right: 8%; bottom: 15%; display: grid; gap: 2px; width: min(360px, 70%); padding: 20px 24px; color: #fff; border-left: 4px solid var(--yellow); background: rgba(24, 63, 86, 0.86); box-shadow: var(--shadow); }
 .hero-question span { font-size: 14px; }
 .hero-question strong { font-size: 24px; }
@@ -356,6 +382,16 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
   .site-header { grid-template-columns: 1fr auto; }
   .desktop-nav { display: none; }
   .hero { grid-template-columns: 1fr; min-height: auto; background: #fff; }
+  /* Einspaltig liegt die Collage ueber dem Text und hat die ganze Breite. Hier fuellt sie ihre
+     Flaeche wieder ganz aus: vollstaendig gezeigt wuerde sie in den 480 bis 580px hohen Streifen
+     nur etwa 220px hoch stehen, der Rest bliebe leer. Auf dem Handy sieht man die einzelnen
+     Kacheln ohnehin kaum, ein gefuellter Ausschnitt wirkt dort besser. */
+  /* align-content: stretch ist hier wichtig. Der Hero setzt seine Spalten mittig, wodurch das
+     Bild nur seine natuerliche Hoehe bekaeme (bei 375px Breite gerade 211px) und der Streifen
+     halb leer blieb. Gestreckt reicht die Zeile ueber die volle Mindesthoehe, und erst dadurch
+     hat height: 100% am Bild einen Bezug. */
+  .hero-media { align-content: stretch; }
+  .hero-media > img { width: 100%; height: 100%; max-height: none; aspect-ratio: auto; object-fit: cover; }
   .hero-copy { width: auto; margin: 0; padding: 72px 24px 54px; }
   .hero-media { min-height: 580px; }
   .scroll-cue { display: none; }
@@ -1035,31 +1071,48 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
    Alle Einzelheiten stehen auf der Sommerfestseite. */
 .fest-streifen {
   display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
-  width: min(var(--max), calc(100% - 48px)); margin: 0 auto; padding: 16px 22px;
+  /* Der Streifen sass mit margin: 0 auto direkt unter dem blauen Band und wirkte angeklebt.
+     Er braucht Luft nach oben, damit er als eigener Hinweis lesbar ist, und etwas nach unten,
+     bis der naechste Abschnitt mit seinen 110px Innenabstand beginnt. */
+  width: min(var(--max), calc(100% - 48px)); margin: 52px auto 12px; padding: 18px 24px;
   border: 1px solid var(--line); border-left: 5px solid var(--yellow); border-radius: 16px;
   background: var(--paper); box-shadow: 0 12px 30px rgba(24, 63, 86, .08);
 }
-.fest-streifen { align-items: center; }
-.fest-flyer { flex: 0 0 auto; width: 74px; border-radius: 10px; overflow: hidden; line-height: 0; box-shadow: 0 6px 16px rgba(24, 63, 86, .18); }
+.fest-flyer { flex: 0 0 auto; width: 92px; border-radius: 10px; overflow: hidden; line-height: 0; box-shadow: 0 6px 16px rgba(24, 63, 86, .18); }
 .fest-flyer img { width: 100%; height: auto; }
 .fest-copy { flex: 1 1 320px; min-width: 0; }
 .fest-kicker { margin: 0 0 4px; color: var(--gold-deep); font-size: 11px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
 .fest-streifen strong { display: block; font-size: 17px; font-weight: 800; }
-.fest-streifen .summer-facts { display: flex; flex-wrap: wrap; gap: 6px 20px; margin: 8px 0 0; }
-.fest-streifen .summer-facts div { display: flex; gap: 6px; align-items: baseline; }
+.fest-streifen .summer-facts { display: flex; flex-wrap: wrap; gap: 4px 22px; margin: 10px 0 0; }
+/* Ohne das Zurücksetzen behalten die vier Angaben die Kachel-Optik der grossen Fassung
+   (Rahmen, Fuellung, 16px Radius). Im schmalen Streifen ist dafuer kein Platz: Sie brachen in
+   drei ungleiche Reihen und liessen den ganzen Block unruhig wirken. Hier sind sie eine ruhige
+   Aufzaehlung, so wie display: flex mit Grundlinien-Ausrichtung es ohnehin vorsah. */
+.fest-streifen .summer-facts div { display: flex; gap: 6px; align-items: baseline;
+  padding: 0; border: 0; border-radius: 0; background: none; }
 .fest-streifen .summer-facts dt { margin: 0; color: var(--muted); font-size: 12.5px; font-weight: 700; }
 .fest-streifen .summer-facts dd { margin: 0; font-size: 13.5px; font-weight: 650; }
-.fest-wege { display: flex; flex: 0 0 auto; gap: 8px; flex-wrap: wrap; }
+/* Die Obergrenze ist noetig, weil die Gruppe ihre Breite sonst als Summe aller Kinder in einer
+   Zeile rechnet, den umbrechenden Hinweis eingeschlossen: 597px statt der 290, die die beiden
+   Knoepfe brauchen. */
+.fest-wege { display: flex; flex: 0 0 auto; gap: 8px; flex-wrap: wrap; max-width: 310px; }
 .fest-weg-haupt, .fest-weg { padding: 11px 18px; border-radius: 999px; font-size: 14px; font-weight: 750; text-decoration: none; }
 .fest-weg-haupt { background: var(--blue-deep); color: #fff; }
 .fest-weg-haupt:hover { background: var(--blue); }
 .fest-weg { border: 1px solid var(--line); color: var(--blue-deep); }
 .fest-weg:hover { border-color: var(--blue); }
-.fest-hinweis { width: 100%; margin: 8px 0 0; color: var(--muted); font-size: 12.5px; line-height: 1.45; }
+/* Der Hinweis stand in einer Zeile und machte damit die ganze Knopfgruppe 609px breit, obwohl die
+   beiden Knoepfe nur 290 brauchen. Die Angaben links blieben dadurch auf 385px gedraengt und
+   brachen in drei ungleiche Zeilen. Mit der Begrenzung bestimmen die Knoepfe die Gruppenbreite,
+   der Hinweis darf darunter umbrechen. */
+.fest-hinweis { width: 100%; max-width: 300px; margin: 8px 0 0; color: var(--muted); font-size: 12.5px; line-height: 1.45; }
 @media (max-width: 760px) {
-  .fest-streifen { width: calc(100% - 28px); padding: 14px 16px; gap: 14px; }
-  .fest-flyer { width: 58px; }
-  .fest-wege { width: 100%; }
+  .fest-streifen { width: calc(100% - 28px); margin: 34px auto 12px; padding: 14px 16px; gap: 14px; }
+  .fest-flyer { width: 72px; }
+  /* Die Obergrenze aus der breiten Fassung muss hier wieder weg, sonst bleiben die Knoepfe auf
+     310px stehen, statt die Zeile auszufuellen. */
+  .fest-wege { width: 100%; max-width: none; }
+  .fest-hinweis { max-width: none; }
   .fest-weg-haupt, .fest-weg { flex: 1; text-align: center; }
 }
 

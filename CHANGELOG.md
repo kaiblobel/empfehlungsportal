@@ -1,7 +1,43 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.299 Beta** · Das KIDZ-Bild bleibt, wie es war, live seit 17.08.2026.
+Offizielle Live-Version: **v1.300 Beta** · KIDZ-Collage ganz sichtbar, Termin nicht mehr angeklebt, live seit 17.08.2026.
+
+## v1.300 Beta - Phase 280 · KIDZ-Collage ganz sichtbar, Termin nicht mehr angeklebt
+
+**2026-08-17**
+
+**Dritte Runde an derselben Stelle, diesmal am Kern.** Phase 278 hatte die Textspalte verbreitert und damit die Bildspalte verkleinert, Phase 279 nahm das zurück. Kai hat danach den eigentlichen Punkt benannt: Von der Collage fehlt ein großer Teil, obwohl zwischen Text und Bild noch Luft ist.
+
+**Gemessen statt geschätzt.** Bei 2400 Pixeln Fensterbreite ist die Bildspalte 1272 Pixel breit und 1338 hoch. Die Collage ist 1890 zu 1063, also 16 zu 9. Mit `object-fit: cover` auf voller Höhe müsste sie 2378 Pixel breit dargestellt werden, sichtbar sind 1272: **es fehlten 47 Prozent der Bildbreite,** und zwar mitten in den Kacheln. Zwischen Text und Bild lagen dabei nur 88 Pixel Luft. Mehr Breite allein kann das also nicht lösen, das war der Denkfehler in Phase 278.
+
+**Zwei Änderungen, die zusammen wirken.** Der Rand bis zur Inhaltsmitte bekommt einen Deckel bei 360 Pixeln; ungedeckelt wächst er auf breiten Schirmen über 600 Pixel und liegt dort in der Textspalte brach. Und die Textspalte behält ihren Anteil von 47 Prozent, nimmt aber nie mehr als Rand, Text und Luft brauchen. Wichtig ist die Richtung: Die Textspalte kann dadurch nur schmaler werden, die Bildspalte also nur breiter. Bei 2400 Pixeln sind das 1381 statt 1272, bei 1600 bleibt alles wie es war.
+
+**Die Collage wird nicht mehr beschnitten,** sondern vollständig gezeigt (`contain`) und senkrecht mittig gesetzt, das Seitenverhältnis steht im CSS. Alle 15 Kacheln sind ganz zu sehen. Der Preis ist Rand über und unter dem Bild, den der Verlauf des Hero trägt: Ein 16-zu-9-Bild in einer fast quadratischen Spalte lässt sich nicht gleichzeitig vollständig zeigen und randlos füllen.
+
+**Der Zitatkasten saß plötzlich unter dem Bild.** Er richtet sich am unteren Rand der Bildspalte aus, und die war durch das Raster auf die volle Hero-Höhe gestreckt, also höher als die Collage. „Gemeinsam entscheiden." schwebte damit in der leeren Fläche darunter. Behoben mit `align-items: center` am Hero: Beide Spalten sind jetzt nur so hoch wie ihr Inhalt und sitzen mittig, die Bildspalte ist also genau die Collage.
+
+**Die Hero-Höhe ist bei 860 Pixeln gedeckelt.** Auf einem 1420 Pixel hohen Schirm war der Hero 1338 hoch, Text und Collage brauchen davon 768. Der Rest stand als leere Fläche darum herum, was nach dem Umbau deutlich sichtbar wurde. Auf üblichen Schirmen bleibt der bildschirmfüllende Eindruck.
+
+**Einspaltig bleibt es formatfüllend.** Auf dem Handy liegt die Collage in einem Streifen von 480 Pixeln Höhe. Vollständig gezeigt stünde sie dort nur 211 Pixel hoch, mehr als die Hälfte bliebe leer. Dort ist ein gefüllter Ausschnitt besser, die einzelnen Kacheln erkennt man ohnehin kaum. Dafür braucht der Streifen ausdrücklich `align-content: stretch`, sonst erbt er die mittige Ausrichtung des Hero, das Bild bekommt nur seine natürliche Höhe und `height: 100%` hat keinen Bezug mehr.
+
+**Nebenbei korrigiert:** Im Markup stand die Collage mit `width="1024" height="768"`, tatsächlich ist sie 1890 zu 1063. Die falsche Angabe reserviert beim Laden den falschen Platz.
+
+### Der Sommerfest-Termin wirkte angeklebt
+
+Kais Wort dafür: „rangeklatscht". Drei Ursachen, alle im CSS:
+
+**Kein Abstand.** Der Streifen stand mit `margin: 0 auto` unmittelbar unter dem blauen Band. Jetzt sind es 52 Pixel darüber und 12 darunter, auf schmalen Schirmen 34.
+
+**Die vier Angaben behielten die Kachel-Optik der großen Fassung** (Rahmen, Füllung, 16 Pixel Radius), obwohl die Streifen-Regel sie als kompakte Aufzählung mit Grundlinien-Ausrichtung vorsah. Im schmalen Streifen war dafür kein Platz: Sie brachen in drei ungleiche Reihen und machten den ganzen Block unruhig. Padding, Rahmen und Hintergrund werden dort jetzt zurückgesetzt.
+
+**Der Hinweis blähte die Knopfgruppe auf.** „Ihr könnt auch ohne Anmeldung einfach vorbeikommen." stand in einer Zeile, und weil eine Flex-Gruppe ihre Breite als Summe aller Kinder in einer Zeile rechnet, war die Gruppe 609 Pixel breit statt der 290, die die beiden Knöpfe brauchen. Den Angaben links blieben dadurch nur 385 Pixel. Mit einer Obergrenze von 310 Pixeln bekommt die Textspalte 684, und die Angaben stehen in zwei statt drei Zeilen. Auf schmalen Schirmen wird die Grenze wieder aufgehoben, dort sollen die Knöpfe die Zeile füllen.
+
+Dazu ist der Flyer von 74 auf 92 Pixel gewachsen, auf dem Handy von 58 auf 72.
+
+**Merke:** Bei `object-fit: cover` entscheidet nicht die Breite, wie viel man sieht, sondern das Verhältnis von Fläche zu Bild. Wer mehr sehen will, muss entweder das Verhältnis angleichen oder auf das randlose Füllen verzichten. Der Test dazu prüft jetzt die Richtung (Textspalte gedeckelt) statt eines festen Wertes.
+
+---
 
 ## v1.299 Beta - Phase 279 · Das KIDZ-Bild bleibt, wie es war
 
