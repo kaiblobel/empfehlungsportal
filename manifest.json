@@ -1,11 +1,11 @@
 {
+  "id": "/hub.html",
   "name": "Empfehlungsportal · Kai Blobel & Team",
   "short_name": "Empfehlungsportal",
   "description": "Premium-Empfehlungssystem für Kai Blobel, Team Wachsbleiche.",
   "start_url": "/hub.html",
   "scope": "/",
   "display": "standalone",
-  "orientation": "portrait",
   "background_color": "#13191D",
   "theme_color": "#13191D",
   "lang": "de-DE",
@@ -13,6 +13,9 @@
     "business",
     "productivity"
   ],
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
   "icons": [
     {
       "src": "/assets/icons/icon.svg",
@@ -42,18 +45,23 @@
   "shortcuts": [
     {
       "name": "Neue Empfehlung",
-      "url": "/empfehlen.html",
-      "description": "Empfehlung anlegen und sofort teilen"
+      "url": "/dashboard/neu.html",
+      "description": "Eine Empfehlung selbst erfassen"
     },
     {
-      "name": "Anrufwünsche",
+      "name": "Warten auf dich",
       "url": "/dashboard/empfehlungen.html?status=anrufwunsch",
       "description": "Offene Anrufwünsche bearbeiten"
     },
     {
-      "name": "Themen-Seiten",
-      "url": "/vorlagen.html",
-      "description": "Vorlagen bearbeiten"
+      "name": "Promoter",
+      "url": "/dashboard/empfehler.html",
+      "description": "Wer für dich empfiehlt"
+    },
+    {
+      "name": "Präsentation",
+      "url": "/programm.html",
+      "description": "Die Kundenshow für den Termin"
     }
   ]
 }

@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.294 Beta** · Neues Portrait von Josephine, live seit 17.08.2026.
+Offizielle Live-Version: **v1.294 Beta** · Das Portal als App auf dem Rechner, live seit 17.08.2026.
+
+## v1.294 Beta - Phase 274 · Das Portal als App auf dem Rechner
+**2026-08-17**
+
+**Das Portal lässt sich jetzt auch am Rechner als eigene App einrichten,** mit eigenem Fenster, eigenem Symbol im Startmenü und ohne Adressleiste. Die Zutaten dafür lagen seit Phase 21 alle da (Manifest, Service Worker, Zeichen in allen Größen), es fehlten drei Kleinigkeiten, die nur am Rechner auffallen.
+
+**Die feste Ausrichtung `portrait` ist raus.** Am Handy war sie harmlos, am Rechner schränkt sie das Fenster ein. **`launch_handler` steht auf `focus-existing`:** Wer die App ein zweites Mal startet, bekommt das vorhandene Fenster nach vorn statt eines weiteren. Dazu eine feste `id`, damit ein späterer Wechsel der Startseite nicht als zweite App gilt.
+
+**Ein Fehler in der Sprungliste ist dabei aufgefallen:** „Neue Empfehlung" zeigte auf `/empfehlen.html`. Das ist die Seite, auf der ein **Promoter** eine Empfehlung ausspricht, nicht die, auf der ein **Berater** eine erfasst. Wer den Eintrag benutzte, landete im Kundenpfad. Jetzt zeigt er auf `dashboard/neu.html`. Die Liste hat außerdem zwei Einträge mehr: Promoter und Präsentation.
+
+**Ein Test hält das fest** (`app-installierbar.test.mjs`): Er prüft die Installierbarkeit, ob die Zeichen wirklich liegen, wo das Manifest sie sucht, und dass kein Eintrag der Sprungliste auf eine Kundenseite zeigt. Die Präsentation ist die bewusste Ausnahme, sie ruft der Berater im Termin selbst auf.
+
+---
 
 ## v1.294 Beta - Phase 274 · Neues Portrait von Josephine
 
