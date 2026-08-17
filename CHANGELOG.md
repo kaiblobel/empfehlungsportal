@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.298 Beta** · Der KIDZ-Text bleibt neben dem Bild, live seit 17.08.2026.
+Offizielle Live-Version: **v1.299 Beta** · Das KIDZ-Bild bleibt, wie es war, live seit 17.08.2026.
+
+## v1.299 Beta - Phase 279 · Das KIDZ-Bild bleibt, wie es war
+
+**2026-08-17**
+
+**Nachbesserung zu Phase 278.** Dort wurde die Textspalte verbreitert, damit der Text nicht mehr in die Bildcollage läuft. Der Preis war zu hoch: Die Bildspalte schrumpfte um gut 130 Pixel, das Bild stand weiter rechts und zeigte weniger. Es füllt seine Spalte mit `object-fit: cover`, eine schmalere Spalte schneidet also mehr weg. Kai hat es sofort gesehen.
+
+**Die Aufteilung ist zurück auf 0.94 zu 1.06.** Nicht die Spalte war zu schmal, der Textblock war zu breit: Er trug seinen Rand bis zur Inhaltsmitte als `margin` und zusätzlich feste 610 Pixel Breite. Gedeckelt wird deshalb der Block, nicht die Spalte verschoben.
+
+**Die Überschrift rechnet jetzt in `cqw` statt `vw`,** also nach ihrem eigenen Block statt nach dem Fenster. Ohne das war sie ausgerechnet dort am größten (76px), wo der Block am wenigsten Platz hatte, weil der Rand bis zur Inhaltsmitte mitwächst: Auf einem 2400er Schirm brach „Was wünschen" mitten auseinander. Mit der Kopplung bleiben es über alle Breiten von 992 bis 2560 Pixeln vier Zeilen, die Schrift wandert zwischen 48 und 62 Pixeln, und zwischen Text und Bild stehen überall 88 Pixel Luft.
+
+**Merke:** Ein Textblock, der seinen Rand aus `(100vw - --max) / 2` bezieht, wächst gegenläufig zu seinem Platz. Schriftgrößen in `vw` verstärken das, `cqw` fängt es ab.
+
+---
+
 
 ## v1.298 Beta - Phase 278 · Der KIDZ-Text bleibt neben dem Bild
 
