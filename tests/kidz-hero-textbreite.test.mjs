@@ -30,8 +30,11 @@ const block = (auswahl) => {
 const hero = block('.hero');
 assert.match(hero, /--hero-rand:\s*max\(24px,\s*calc\(\(100vw - var\(--max\)\) \/ 2\)\)/,
   'Der Rand bis zur Inhaltsmitte gehört in eine eigene Variable, damit ihn beide Regeln meinen.');
-assert.match(hero, /grid-template-columns:\s*minmax\(0,\s*calc\(var\(--hero-rand\) \+ var\(--hero-text\) \+ var\(--hero-luft\)\)\)/,
-  'Die Textspalte muss aus Rand, Textbreite und Abstand gerechnet werden, nicht in Bruchteilen.');
+// Die Spaltenaufteilung bestimmt, wie viel von der Bildcollage zu sehen ist
+// (object-fit: cover schneidet den Rest weg). Sie bleibt, wie sie war.
+assert.match(hero, /grid-template-columns:\s*minmax\(0,\s*0\.94fr\)\s*minmax\(460px,\s*1\.06fr\)/,
+  'Die Bildspalte darf nicht schrumpfen, sonst steht das Bild weiter rechts und zeigt weniger. '
+  + 'Der Textblock wird gedeckelt, nicht die Spalte verschoben.');
 
 /* --- 2) Der Text zieht den Rand von seiner Breite ab --- */
 
@@ -45,5 +48,14 @@ assert.match(copy, /margin-left:\s*var\(--hero-rand\)/,
 
 assert.doesNotMatch(copy, /width:\s*min\(610px,\s*calc\(100% - 40px\)\)/,
   'Das ist genau die Kombination, die den Text ins Bild geschoben hat.');
+
+/* --- 4) Die Überschrift richtet sich nach ihrem Block, nicht nach dem Fenster --- */
+
+const h1 = block('.hero h1');
+assert.match(h1, /font-size:\s*clamp\(48px,\s*13\.5cqw,\s*76px\)/,
+  'Die Überschrift muss in cqw rechnen. Mit vw wird sie auf breiten Schirmen am größten, '
+  + 'wo der Textblock am wenigsten Platz hat, und "Was wünschen" bricht auseinander.');
+assert.match(copy, /container-type:\s*inline-size/,
+  '.hero-copy muss ein Größen-Container sein, sonst hat cqw keinen Bezug.');
 
 console.log('kidz-hero-textbreite: OK');
