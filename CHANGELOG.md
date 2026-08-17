@@ -1,7 +1,23 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.295 Beta** · Der richtige Berater auf allen Themenseiten, live seit 17.08.2026.
+Offizielle Live-Version: **v1.296 Beta** · Die Marktübersicht öffnet sich wieder, live seit 17.08.2026.
+
+## v1.296 Beta - Phase 276 · Die Marktübersicht öffnet sich wieder
+
+**2026-08-17**
+
+**„Was alles dazugehört" in der Präsentation tat nichts.** Der Knopf unter den sechs Themenfeldern öffnet die Marktübersicht, also den Kreis mit den zehn Feldern und Kais Foto in der Mitte. Ein Klick, und es passierte nichts Sichtbares.
+
+**Zwei Namen für dieselbe Sache.** Das Skript blendete die Fläche mit der Klasse `is-open` ein, sichtbar macht ein Overlay im Stylesheet aber `offen`. Beim Klick verschwand deshalb nur das `hidden`-Merkmal: Die Fläche lag ab da über der ganzen Seite, blieb aber durchsichtig. Für den Betrachter passierte nichts, tatsächlich lag eine unsichtbare Scheibe über allem, bis Escape gedrückt wurde. Die beiden anderen Overlays der Präsentation (Themenvorschau und Promoter-Vorschau) nutzen seit jeher `offen`, nur die Marktübersicht scherte aus.
+
+**Ein Test hält die Kopplung fest** (`praesentation-marktuebersicht.test.mjs`). Er prüft nicht den einen Knopf, sondern die Regel dahinter: Jede Klasse, mit der `js/programm.js` ein Overlay einblendet, muss in `css/praesentation.css` auch etwas sichtbar machen. Dazu, dass jedes Overlay geschlossen wirklich weg ist und nicht als durchsichtige Scheibe liegen bleibt, und dass alle zehn Felder ihre Überschrift und ihre zwei Detailpunkte tragen.
+
+**Dazu ein Netz im Stylesheet, damit das nie wieder die ganze Seite lahmlegt:** Solange ein Overlay nicht eingeblendet ist, nimmt es auch keine Klicks mehr an (`pointer-events:none`, erst mit `.offen` wieder `auto`). Der Namensfehler allein hätte dann nur bedeutet, dass sich die Übersicht nicht öffnet, statt dass die Präsentation stehenbleibt. Gilt für alle drei Overlays, und der Test bewacht es.
+
+**Live geprüft:** Öffnen, ein Feld antippen, Detailspalte rechts, Schließen. Alles sauber, keine Fehlermeldung in der Konsole. Nachgestellt wurde der Fehler vorher am Rechner und am Handy gegen die veröffentlichte Fassung, dreimal von drei.
+
+---
 
 ## v1.295 Beta - Phase 275 · Der richtige Berater auf allen Themenseiten
 

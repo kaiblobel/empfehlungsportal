@@ -317,16 +317,20 @@ h1, h2, h3{letter-spacing:-0.021em;}
    Die zehn Felder sitzen exakt auf einem Kreis: zehnmal 36 Grad,
    gleicher Radius. In der Mitte steht das Gesicht, um das es geht.
    ============================================================ */
+/* Sicherheitsnetz: Solange ein Overlay nicht eingeblendet ist, nimmt es auch
+   keine Klicks an. Ohne diese Zeilen genuegt EIN falscher Klassenname im
+   Skript, und eine durchsichtige Vollbildflaeche legt die ganze Seite lahm
+   (Phase 276). Mit ihnen bleibt die Seite in so einem Fall bedienbar. */
 .markt-overlay{
   position:fixed; inset:0; z-index:90;
   display:flex; align-items:center; justify-content:center;
   padding:26px 20px;
   overflow-y:auto;
   background:var(--paper);
-  opacity:0; transition:opacity .22s ease;
+  opacity:0; pointer-events:none; transition:opacity .22s ease;
 }
 .markt-overlay[hidden]{display:none;}
-.markt-overlay.offen{opacity:1;}
+.markt-overlay.offen{opacity:1; pointer-events:auto;}
 .markt-schliessen{
   position:fixed; top:20px; right:24px; z-index:2;
   width:40px; height:40px;
@@ -901,10 +905,10 @@ h1, h2, h3{letter-spacing:-0.021em;}
   display:flex; align-items:flex-start; justify-content:center;
   padding:24px 20px; overflow-y:auto;
   background:var(--paper);
-  opacity:0; transition:opacity .2s ease;
+  opacity:0; pointer-events:none; transition:opacity .2s ease;
 }
 .thema-overlay[hidden]{display:none;}
-.thema-overlay.offen{opacity:1;}
+.thema-overlay.offen{opacity:1; pointer-events:auto;}
 .thema-schliessen{
   position:fixed; top:20px; right:24px; z-index:2;
   width:40px; height:40px;
@@ -1207,10 +1211,10 @@ h1, h2, h3{letter-spacing:-0.021em;}
   display:flex; align-items:center; justify-content:center;
   padding:28px 20px;
   background:rgba(10,13,16,.96);
-  opacity:0; transition:opacity .22s ease;
+  opacity:0; pointer-events:none; transition:opacity .22s ease;
 }
 .vorschau-overlay[hidden]{display:none;}
-.vorschau-overlay.offen{opacity:1;}
+.vorschau-overlay.offen{opacity:1; pointer-events:auto;}
 .vorschau-schliessen{
   position:absolute; top:18px; right:20px;
   width:38px; height:38px;

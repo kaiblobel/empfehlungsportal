@@ -443,13 +443,13 @@ if (presenterLength && openedFromHub) presenterLength.hidden = false;
     overlay.setAttribute('aria-hidden', 'false');
     document.body.classList.add('market-overview-open');
     requestAnimationFrame(() => {
-      overlay.classList.add('is-open');
+      overlay.classList.add('offen');
       closeBtn.focus({ preventScroll: true });
     });
   }
 
   function closeOverview() {
-    overlay.classList.remove('is-open');
+    overlay.classList.remove('offen');
     overlay.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('market-overview-open');
     hideTimer = window.setTimeout(() => {
@@ -463,7 +463,7 @@ if (presenterLength && openedFromHub) presenterLength.hidden = false;
   nodes.forEach(node => node.addEventListener('click', () => showDetails(node)));
 
   document.addEventListener('keydown', event => {
-    if (!overlay.classList.contains('is-open')) return;
+    if (!overlay.classList.contains('offen')) return;
     event.stopImmediatePropagation();
     if (event.key === 'Escape') {
       event.preventDefault();
