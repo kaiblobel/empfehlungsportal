@@ -13,35 +13,51 @@
   <meta property="og:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/dashboard.css" />
-  <link rel="stylesheet" href="../css/dna.css?v=9" />
+  <link rel="stylesheet" href="../css/dna.css?v=10" />
   <script src="../js/config.js"></script>
 </head>
 <body>
 
   <main class="dashboard-login">
-    <section class="login-card">
-      <img class="login-photo" id="loginPhoto" alt="Berater" />
-      <h1>Empfehlungsportal</h1>
-      <p class="subtle">Dein persönlicher Überblick</p>
+    <div class="login-wrap">
+      <section class="login-card login-marke">
+        <div class="login-crest">
+          <img class="crest-mark" src="../assets/images/team-wachsbleiche-marke-96.webp" width="96" height="96"
+               alt="Team Wachsbleiche · Regionaldirektion Kai Blobel &amp; Team" />
+        </div>
 
-      <form id="loginForm" novalidate>
-        <input id="email" type="email" autocomplete="email" placeholder="E-Mail" required />
-        <input id="password" type="password" autocomplete="current-password" placeholder="Passwort" required />
-        <div class="login-error" id="loginError"></div>
-        <button type="submit" class="btn btn-primary">Anmelden</button>
-      </form>
-    </section>
+        <div class="login-head">
+          <h1>Empfehlungsportal</h1>
+          <p class="login-rd">Regionaldirektion Kai&nbsp;Blobel &amp; Team</p>
+          <span class="login-goldrule" aria-hidden="true"></span>
+        </div>
+
+        <form id="loginForm" novalidate>
+          <input id="email" type="email" autocomplete="email" placeholder="E-Mail" required />
+          <input id="password" type="password" autocomplete="current-password" placeholder="Passwort" required />
+          <div class="login-error" id="loginError"></div>
+          <button type="submit" class="btn btn-primary">Anmelden</button>
+        </form>
+      </section>
+      <p class="login-foot">Dein persönlicher Überblick</p>
+
+      <footer class="login-legal">
+        <p>An der Wachsbleiche 1a · 03046 Cottbus</p>
+        <p>
+          <a href="https://www.dvag.de/kai.blobel/impressum.html" target="_blank" rel="noopener">Impressum</a>
+          <span aria-hidden="true">·</span>
+          <a href="https://www.dvag.de/kai.blobel/datenschutz.html" target="_blank" rel="noopener">Datenschutz</a>
+        </p>
+      </footer>
+    </div>
   </main>
 
   <script type="module">
-    import { login, redirectIfAuthed, gemerktesBranding } from '../js/dashboard.js';
+    import { login, redirectIfAuthed } from '../js/dashboard.js';
 
-    // Foto des zuletzt angemeldeten Beraters. Wer sich hier noch nie angemeldet
-    // hat, sieht kein Foto — nicht das des Haupt-Beraters.
-    const loginPhoto = document.getElementById('loginPhoto');
-    const gemerkt = gemerktesBranding();
-    if (gemerkt.foto) { loginPhoto.src = gemerkt.foto; loginPhoto.alt = gemerkt.name || 'Berater'; }
-    else loginPhoto.remove();
+    // Auf der Anmeldeseite steht bewusst nur die Marke der Regionaldirektion.
+    // Das gemerkte Berater-Foto erscheint erst nach dem Anmelden im Kopf der
+    // Seiten dahinter, hier hätte es je nach Gerät ein anderes Bild gezeigt.
 
     redirectIfAuthed();
 

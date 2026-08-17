@@ -1,7 +1,45 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.300 Beta** · KIDZ-Collage ganz sichtbar, Termin nicht mehr angeklebt, live seit 17.08.2026.
+Offizielle Live-Version: **v1.302 Beta** · Der Namenszug in der Seitenleiste ist wieder Schreibschrift, live seit 17.08.2026.
+
+## v1.302 Beta - Phase 282 · Der Namenszug in der Seitenleiste ist wieder Schreibschrift
+
+**2026-08-17**
+
+**Kai hat gemerkt, dass etwas fehlt.** Oben links stand „Kai Blobel & Team" einmal wie mit dem Füller geschrieben. Seit Phase 268 lief die Zeile in der normalen Schrift, und der Unterschied ist genau der zwischen Werkzeug und Marke.
+
+**Der alte Weg war nicht zu retten, der Grund für die Abschaltung stimmte.** Im CSS stand `Segoe Script`, eine Schrift, die es nur unter Windows gibt. Auf Kais Rechner sah das nach Füller aus, auf dem iPhone nach irgendetwas anderem. Eine Marke, die je nach Gerät anders aussieht, ist keine.
+
+**Jetzt liegt die Schrift als Datei im Projekt.** Petit Formal Script, 28 Kilobyte, `assets/fonts/petit-formal-script-latin.woff2`, eingebunden in `dna.css` neben Outfit. Sie wird nicht von Google nachgeladen, aus demselben Datenschutzgrund wie bei den anderen Schriften des Portals. Lizenz liegt daneben: SIL Open Font License, `assets/fonts/LICENSE-petit-formal-script.txt`.
+
+**Aufgeteilt statt einfach kursiv.** „Regionaldirektion" steht klein in gesperrten Versalien, darunter „Kai Blobel & Team" in der Schreibschrift, in dunklem Gold. Eine ganze Zeile in Schreibschrift wird schnell zur Hochzeitseinladung; ein einzelner Namenszug wirkt wie eine Unterschrift.
+
+**Vier Schriften standen zur Wahl** und wurden nebeneinander im Kopf der Leiste gezeigt: Petit Formal Script, Italianno, Mrs Saint Delafield, Style Script. Entschieden für Petit Formal, weil sie bei 13 bis 15 Pixeln noch lesbar bleibt. Die Federschriften sind schöner, aber in dieser Größe Gekrakel.
+
+**Zwei Größen für zwei Leistenbreiten:** 13,5 Pixel bei der 200er Leiste zwischen 1024 und 1280, 15 Pixel bei der 240er darüber und im ausgeklappten Menü auf dem Handy. Beides geprüft, der Namenszug bleibt einzeilig.
+
+**Die Cache-Marke der `dna.css` steht jetzt auf `v=10`,** in allen 20 Dateien einschließlich der Vorab-Liste im Service Worker. Ohne das hätte ein Teil der Nutzer die alte Datei aus dem Zwischenspeicher behalten und von der Schrift nichts gesehen.
+
+**Die Anmeldeseite bleibt, wie sie ist.** Dort steht die Regionaldirektion weiter in Versalien; die Schreibschrift gehört in die Leiste.
+
+## v1.301 Beta - Phase 281 · Die Marke der Regionaldirektion steht auf dem Login
+
+**2026-08-17**
+
+**Die Anmeldeseite war die einzige Seite ohne Absender.** Weiße Karte, Titel, zwei Felder, fertig. Wer den Link zum ersten Mal öffnet, sah nicht, wessen Portal das ist. Kais Satz dazu: „können wir das chicker machen mit meinem Logo".
+
+**Das Emblem sitzt jetzt auf der Kartenkante.** Das runde Zeichen von Team Wachsbleiche steht mit weißem Rand halb über der Oberkante, darunter der Titel, die Zeile „Regionaldirektion Kai Blobel & Team" in gesperrten Versalien und ein kurzer Strich in Champagne. „Dein persönlicher Überblick" ist unter die Karte gerutscht, damit der Kopf nicht dreistöckig wird.
+
+**Das Berater-Portrait ist von der Anmeldeseite verschwunden.** Bisher zeigte sie das Foto des zuletzt angemeldeten Beraters, auf einem geteilten Gerät also mal dieses, mal jenes. Kais Entscheidung: hier steht nur die Marke. Das eigene Foto erscheint weiterhin nach dem Anmelden im Kopf der Seiten dahinter. Damit entfällt auch der Sonderfall aus Phase 128, das Portrait erst gar nicht zu zeigen, wenn noch keines gemerkt ist.
+
+**Unter der Karte steht jetzt der Absender.** Geschäftsadresse „An der Wachsbleiche 1a · 03046 Cottbus", darunter Impressum und Datenschutz, verlinkt auf dieselben DVAG-Seiten wie im Fuß der Kundenseiten. Pflicht ist das hier nicht, die Anmeldeseite steht auf `noindex` und ist ein internes Werkzeug; es geht um den seriösen Eindruck. Einschränkung, die bestehen bleibt: Der DVAG-Datenschutztext beschreibt nicht, was das Portal selbst tut, also Supabase, gemerkte Anmeldung im Browser, Push-Nachrichten. Für den Beraterbereich vertretbar, für die Kundenseiten wäre eine eigene Erklärung der saubere Weg.
+
+**Vier Auswahlrunden statt Direkteinbau.** Erst drei Grundentwürfe (Monogramm-Siegel, geteiltes Panel, editorial-minimal), dann drei Feinfassungen des gewählten Wegs mit dem echten Logo. Das Emblem lag längst im Portal, es wurde bisher nur vom Wartungsschirm benutzt: `assets/images/team-wachsbleiche-marke-96.webp`, 3,9 Kilobyte, keine neue Datei nötig.
+
+**Die Stile hängen an einer eigenen Klasse.** `dashboard/welcome.html` nutzt dieselbe `.login-card`. Damit dort nichts verrutscht, greifen alle neuen Regeln nur über `.login-marke`, das ausschließlich auf der Anmeldeseite steht.
+
+**Geprüft:** Rechner (1100 Pixel) und Handy (390 Pixel), jeweils mit und ohne gemerktes Foto.
 
 ## v1.300 Beta - Phase 280 · KIDZ-Collage ganz sichtbar, Termin nicht mehr angeklebt
 
