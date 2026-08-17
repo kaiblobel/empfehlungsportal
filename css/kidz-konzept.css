@@ -1071,31 +1071,48 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
    Alle Einzelheiten stehen auf der Sommerfestseite. */
 .fest-streifen {
   display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
-  width: min(var(--max), calc(100% - 48px)); margin: 0 auto; padding: 16px 22px;
+  /* Der Streifen sass mit margin: 0 auto direkt unter dem blauen Band und wirkte angeklebt.
+     Er braucht Luft nach oben, damit er als eigener Hinweis lesbar ist, und etwas nach unten,
+     bis der naechste Abschnitt mit seinen 110px Innenabstand beginnt. */
+  width: min(var(--max), calc(100% - 48px)); margin: 52px auto 12px; padding: 18px 24px;
   border: 1px solid var(--line); border-left: 5px solid var(--yellow); border-radius: 16px;
   background: var(--paper); box-shadow: 0 12px 30px rgba(24, 63, 86, .08);
 }
-.fest-streifen { align-items: center; }
-.fest-flyer { flex: 0 0 auto; width: 74px; border-radius: 10px; overflow: hidden; line-height: 0; box-shadow: 0 6px 16px rgba(24, 63, 86, .18); }
+.fest-flyer { flex: 0 0 auto; width: 92px; border-radius: 10px; overflow: hidden; line-height: 0; box-shadow: 0 6px 16px rgba(24, 63, 86, .18); }
 .fest-flyer img { width: 100%; height: auto; }
 .fest-copy { flex: 1 1 320px; min-width: 0; }
 .fest-kicker { margin: 0 0 4px; color: var(--gold-deep); font-size: 11px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
 .fest-streifen strong { display: block; font-size: 17px; font-weight: 800; }
-.fest-streifen .summer-facts { display: flex; flex-wrap: wrap; gap: 6px 20px; margin: 8px 0 0; }
-.fest-streifen .summer-facts div { display: flex; gap: 6px; align-items: baseline; }
+.fest-streifen .summer-facts { display: flex; flex-wrap: wrap; gap: 4px 22px; margin: 10px 0 0; }
+/* Ohne das Zurücksetzen behalten die vier Angaben die Kachel-Optik der grossen Fassung
+   (Rahmen, Fuellung, 16px Radius). Im schmalen Streifen ist dafuer kein Platz: Sie brachen in
+   drei ungleiche Reihen und liessen den ganzen Block unruhig wirken. Hier sind sie eine ruhige
+   Aufzaehlung, so wie display: flex mit Grundlinien-Ausrichtung es ohnehin vorsah. */
+.fest-streifen .summer-facts div { display: flex; gap: 6px; align-items: baseline;
+  padding: 0; border: 0; border-radius: 0; background: none; }
 .fest-streifen .summer-facts dt { margin: 0; color: var(--muted); font-size: 12.5px; font-weight: 700; }
 .fest-streifen .summer-facts dd { margin: 0; font-size: 13.5px; font-weight: 650; }
-.fest-wege { display: flex; flex: 0 0 auto; gap: 8px; flex-wrap: wrap; }
+/* Die Obergrenze ist noetig, weil die Gruppe ihre Breite sonst als Summe aller Kinder in einer
+   Zeile rechnet, den umbrechenden Hinweis eingeschlossen: 597px statt der 290, die die beiden
+   Knoepfe brauchen. */
+.fest-wege { display: flex; flex: 0 0 auto; gap: 8px; flex-wrap: wrap; max-width: 310px; }
 .fest-weg-haupt, .fest-weg { padding: 11px 18px; border-radius: 999px; font-size: 14px; font-weight: 750; text-decoration: none; }
 .fest-weg-haupt { background: var(--blue-deep); color: #fff; }
 .fest-weg-haupt:hover { background: var(--blue); }
 .fest-weg { border: 1px solid var(--line); color: var(--blue-deep); }
 .fest-weg:hover { border-color: var(--blue); }
-.fest-hinweis { width: 100%; margin: 8px 0 0; color: var(--muted); font-size: 12.5px; line-height: 1.45; }
+/* Der Hinweis stand in einer Zeile und machte damit die ganze Knopfgruppe 609px breit, obwohl die
+   beiden Knoepfe nur 290 brauchen. Die Angaben links blieben dadurch auf 385px gedraengt und
+   brachen in drei ungleiche Zeilen. Mit der Begrenzung bestimmen die Knoepfe die Gruppenbreite,
+   der Hinweis darf darunter umbrechen. */
+.fest-hinweis { width: 100%; max-width: 300px; margin: 8px 0 0; color: var(--muted); font-size: 12.5px; line-height: 1.45; }
 @media (max-width: 760px) {
-  .fest-streifen { width: calc(100% - 28px); padding: 14px 16px; gap: 14px; }
-  .fest-flyer { width: 58px; }
-  .fest-wege { width: 100%; }
+  .fest-streifen { width: calc(100% - 28px); margin: 34px auto 12px; padding: 14px 16px; gap: 14px; }
+  .fest-flyer { width: 72px; }
+  /* Die Obergrenze aus der breiten Fassung muss hier wieder weg, sonst bleiben die Knoepfe auf
+     310px stehen, statt die Zeile auszufuellen. */
+  .fest-wege { width: 100%; max-width: none; }
+  .fest-hinweis { max-width: none; }
   .fest-weg-haupt, .fest-weg { flex: 1; text-align: center; }
 }
 

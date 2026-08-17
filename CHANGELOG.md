@@ -1,9 +1,9 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.300 Beta** · Die KIDZ-Collage ganz sichtbar, live seit 17.08.2026.
+Offizielle Live-Version: **v1.300 Beta** · KIDZ-Collage ganz sichtbar, Termin nicht mehr angeklebt, live seit 17.08.2026.
 
-## v1.300 Beta - Phase 280 · Die KIDZ-Collage ganz sichtbar
+## v1.300 Beta - Phase 280 · KIDZ-Collage ganz sichtbar, Termin nicht mehr angeklebt
 
 **2026-08-17**
 
@@ -22,6 +22,18 @@ Offizielle Live-Version: **v1.300 Beta** · Die KIDZ-Collage ganz sichtbar, live
 **Einspaltig bleibt es formatfüllend.** Auf dem Handy liegt die Collage in einem Streifen von 480 Pixeln Höhe. Vollständig gezeigt stünde sie dort nur 211 Pixel hoch, mehr als die Hälfte bliebe leer. Dort ist ein gefüllter Ausschnitt besser, die einzelnen Kacheln erkennt man ohnehin kaum. Dafür braucht der Streifen ausdrücklich `align-content: stretch`, sonst erbt er die mittige Ausrichtung des Hero, das Bild bekommt nur seine natürliche Höhe und `height: 100%` hat keinen Bezug mehr.
 
 **Nebenbei korrigiert:** Im Markup stand die Collage mit `width="1024" height="768"`, tatsächlich ist sie 1890 zu 1063. Die falsche Angabe reserviert beim Laden den falschen Platz.
+
+### Der Sommerfest-Termin wirkte angeklebt
+
+Kais Wort dafür: „rangeklatscht". Drei Ursachen, alle im CSS:
+
+**Kein Abstand.** Der Streifen stand mit `margin: 0 auto` unmittelbar unter dem blauen Band. Jetzt sind es 52 Pixel darüber und 12 darunter, auf schmalen Schirmen 34.
+
+**Die vier Angaben behielten die Kachel-Optik der großen Fassung** (Rahmen, Füllung, 16 Pixel Radius), obwohl die Streifen-Regel sie als kompakte Aufzählung mit Grundlinien-Ausrichtung vorsah. Im schmalen Streifen war dafür kein Platz: Sie brachen in drei ungleiche Reihen und machten den ganzen Block unruhig. Padding, Rahmen und Hintergrund werden dort jetzt zurückgesetzt.
+
+**Der Hinweis blähte die Knopfgruppe auf.** „Ihr könnt auch ohne Anmeldung einfach vorbeikommen." stand in einer Zeile, und weil eine Flex-Gruppe ihre Breite als Summe aller Kinder in einer Zeile rechnet, war die Gruppe 609 Pixel breit statt der 290, die die beiden Knöpfe brauchen. Den Angaben links blieben dadurch nur 385 Pixel. Mit einer Obergrenze von 310 Pixeln bekommt die Textspalte 684, und die Angaben stehen in zwei statt drei Zeilen. Auf schmalen Schirmen wird die Grenze wieder aufgehoben, dort sollen die Knöpfe die Zeile füllen.
+
+Dazu ist der Flyer von 74 auf 92 Pixel gewachsen, auf dem Handy von 58 auf 72.
 
 **Merke:** Bei `object-fit: cover` entscheidet nicht die Breite, wie viel man sieht, sondern das Verhältnis von Fläche zu Bild. Wer mehr sehen will, muss entweder das Verhältnis angleichen oder auf das randlose Füllen verzichten. Der Test dazu prüft jetzt die Richtung (Textspalte gedeckelt) statt eines festen Wertes.
 
