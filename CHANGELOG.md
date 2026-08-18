@@ -1,7 +1,21 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.307 Beta** · Die Marktübersicht ist ein Rad mit Stichworten und Plus, live seit 18.08.2026.
+Offizielle Live-Version: **v1.308 Beta** · Das Zitat steht ruhig, live seit 18.08.2026.
+
+## v1.308 Beta - Phase 288 · Das Zitat steht ruhig
+
+**2026-08-18**
+
+**Kais Befund zum Zitat „Deine ehrliche Antwort ist mir wichtiger als eine perfekte Zahl.":** zu unruhig, „sieht aus als ob ich durch die Lupe schaue".
+
+**Die Ursache steckt in der Schrift selbst.** Fraunces ist eine Schrift mit Achsen, und zwei davon machen bei großen Graden Ärger. Die Achse `opsz` schaltet die Optik um, sobald die Schrift groß gesetzt wird: sehr dünne Haarstriche neben dicken Grundstrichen, was bei 40 Pixeln flimmert. Weil `font-optical-sizing` standardmäßig auf `auto` steht, tat der Browser das von selbst. Die zweite Achse heißt `WONK` und stellt einzelne Buchstaben absichtlich schief, am deutlichsten das f in „perfekte".
+
+**Fünf Fassungen standen im Browser nebeneinander** (heutige Optik, Lese-Optik 14, Optik 24, Lese-Optik mit mehr Gewicht, und das Zitat ganz in Outfit). Entschieden für die **Lese-Optik bei unverändertem Gewicht**: gleichmäßige Strichstärken, die Serif bleibt als Akzent erhalten. In Outfit wäre das Zitat zu einer weiteren Überschrift geworden.
+
+**Mitgezogen sind die beiden anderen groß gesetzten Serif-Stellen:** der Gesprächsimpuls im Themen-Overlay (bis 36 Pixel) und die Bildunterschriften im Abschnitt „Empfehlen gehört zum Alltag" (19 Pixel). **Nicht angefasst sind die kleinen Kicker** zwischen 12 und 15 Pixeln; dort trifft die automatische Optik ohnehin die Lese-Optik, und genau die ist da richtig.
+
+**Cache-Marke der `praesentation.css` auf `?v=14`.**
 
 ## v1.307 Beta - Phase 287 · Die Marktübersicht ist ein Rad mit Stichworten und Plus
 

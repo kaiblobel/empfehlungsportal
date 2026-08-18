@@ -59,6 +59,20 @@ body{
 h1, h2, h3{letter-spacing:-0.021em;}
 .zitat blockquote{letter-spacing:-0.01em;}
 
+/* Fraunces ist eine Schrift mit Achsen, und zwei davon machen bei großen
+   Graden Ärger. „opsz" schaltet die Optik um, sobald die Schrift groß gesetzt
+   wird: sehr dünne Haarstriche neben dicken Grundstrichen. Bei 40 Pixeln
+   flimmert das, Kais Wort dafür war „als ob ich durch die Lupe schaue".
+   „WONK" stellt außerdem einzelne Buchstaben schief, am deutlichsten das f.
+   Alle groß gesetzten Serif-Stellen tragen deshalb fest die Lese-Optik und
+   beide Sonderachsen auf null. Die kleinen Kicker (12 bis 15 Pixel) behalten
+   die automatische Optik, dort ist sie richtig. */
+.zitat blockquote,
+.thema-impuls blockquote{
+  font-optical-sizing:none;
+  font-variation-settings:'opsz' 14, 'SOFT' 0, 'WONK' 0;
+}
+
 /* ============================================================
    1 · Einstieg. Die Frage steht am Anfang, nicht der Claim.
    Hero und NPS-Abschnitt sind zusammengelegt: vorher zwei H1
@@ -541,6 +555,11 @@ h1, h2, h3{letter-spacing:-0.021em;}
   color:#fff;
   font-family:var(--serif); font-weight:400;
   font-size:19px; line-height:1.25;
+  /* Dieselbe Lese-Optik wie beim Zitat, siehe oben. Sie steht hier in der
+     bestehenden Regel und nicht in einer zweiten: ein Waechter greift
+     `.alltag-satz` ueber die erste Regel ab und pruefte sonst ins Leere. */
+  font-optical-sizing:none;
+  font-variation-settings:'opsz' 14, 'SOFT' 0, 'WONK' 0;
   filter:saturate(.82) contrast(1.04);
 }
 .alltag-satz::after{
