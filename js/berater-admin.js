@@ -226,6 +226,7 @@ function renderCard(b, _index, alle) {
           </header>
           <div class="berater-fields">
             <div class="wide"><label>Terminbuchung</label><input data-f="bookings_url" value="${escapeAttr(b.bookings_url || '')}" placeholder="https://outlook.office.com/book/…" /></div>
+            <div class="wide"><label>Anschrift</label><input data-f="adresse" value="${escapeAttr(b.adresse || '')}" placeholder="An der Wachsbleiche 1a · 03046 Cottbus" /></div>
             <div><label>Impressum</label><input data-f="impressum_url" value="${escapeAttr(b.impressum_url || '')}" placeholder="https://www.dvag.de/vorname.nachname/impressum.html" /></div>
             <div><label>Datenschutz</label><input data-f="datenschutz_url" value="${escapeAttr(b.datenschutz_url || '')}" placeholder="https://www.dvag.de/vorname.nachname/datenschutz.html" /></div>
           </div>

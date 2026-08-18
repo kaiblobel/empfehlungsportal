@@ -1,7 +1,43 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.309 Beta** · Die KIDZ-Elternseite fährt als Zug, live seit 18.08.2026.
+Offizielle Live-Version: **v1.311 Beta** · Jeder Berater bringt seine eigene Anschrift mit, live seit 18.08.2026.
+
+## v1.311 Beta - Phase 291 · Jeder Berater bringt seine eigene Anschrift mit
+**2026-08-18**
+
+**Die Anschrift stand bisher fest im HTML.** „An der Wachsbleiche 1a · 03046 Cottbus", auf jeder Kundenseite, auch auf der eines Partners aus einer anderen Stadt. Bei einem Foto wäre das ein Schönheitsfehler, bei einer Anschrift ist es eine falsche Absenderangabe.
+
+**Neu ist deshalb ein Feld `adresse` am Berater** (`schema-phase291-berater-adresse.sql`), pflegbar in den Beraterkonten unter „Öffentliche Angaben". Bleibt es leer, verschwindet die Zeile. Es fällt bewusst **nicht** auf eine andere Anschrift zurück: lieber keine Angabe als eine fremde.
+
+**Beim Branding-Haken ist das der Unterschied zu den Bildfeldern.** Die prüfen mit `'feld' in b`, ob der Datensatz die Spalte überhaupt kennt, und lassen sonst den HTML-Wert stehen. Für die Anschrift wäre genau das falsch, weil der HTML-Wert die eines anderen ist. `data-bb="adresse"` blendet deshalb immer aus, wenn kein Wert da ist.
+
+**Zwei Wächter kamen dazu**, beide gegen Fehler, die still bleiben:
+
+`tests/berater-lesefunktionen.test.mjs` sucht sich die jüngste Migration, die `get_berater_public` definiert, und prüft: beide Lesefunktionen geben dieselben Spalten heraus, beide tragen `security definer` und `set search_path`, und nach dem Neuanlegen stehen die Ausführungsrechte für anonyme Besucher wieder da. Fehlt eine dieser Zeilen, bleibt die Seite technisch heil und zeigt trotzdem auf jeder Partnerseite wieder den Standard-Berater. Gegengeprobt mit beiden Fehlerfällen.
+
+`tests/berater-verwaltung-felder.test.mjs` (aus Phase 290) deckt die Anschrift automatisch mit ab, weil sie ein neues Formularfeld ist.
+
+**Der Zwischenspeicher im Browser steigt auf `bb_berater_v3_`.** Ein alter Eintrag kennt die Spalte nicht; ohne den Wechsel sähe ein Berater, der seine Anschrift gerade gepflegt hat, sie beim nächsten Aufruf immer noch nicht. Der Preis ist ein einmaliges Aufblitzen der Standardangaben pro Besucher.
+
+**Reihenfolge beim Ausführen:** erst das SQL-Skript, dann als anonymer Besucher gegenprüfen (`select * from public.get_berater_public('kai-blobel')` muss eine Spalte `adresse` liefern), dann die Anschriften pflegen, und erst danach eine Kundenseite die Zeile anzeigen lassen. Andersherum bleibt sie überall leer und niemand merkt, dass nur die Pflege fehlt.
+
+---
+
+## v1.310 Beta - Phase 290 · Die Berater-Verwaltung löscht keine Bilder mehr
+**2026-08-18**
+
+**Wer in der Berater-Verwaltung eine Telefonnummer korrigierte, löschte dabei das Bürofoto.** Und das Teamfoto und die Bildzeile gleich mit, ohne Warnung und ohne dass es jemandem auffiel. Die drei Felder aus Phase 251 waren damit in der Praxis nie stabil.
+
+**Die Ursache liegt im Zusammenspiel zweier Stellen, die einzeln richtig aussehen.** `listBerater()` in `js/supabase.js` liest eine feste Spaltenliste, und die drei Bildfelder standen nicht darin. In `js/berater-admin.js` werden sie trotzdem als Formularfelder gezeichnet, mit `b.buero_foto_url || ''` als Wert — bei einem Datensatz ohne die Spalte also immer leer. Beim Speichern sammelt der Knopf **alle** Felder mit `data-f` ein und schreibt leere als `null` zurück. Drei Felder, die nie geladen wurden, werden so bei jedem Speichern überschrieben.
+
+Aufgefallen ist das bei der Vorbereitung eines Adressfelds für den Berater. Die Anschrift wäre in dieselbe Falle gelaufen: einmal gepflegt, beim nächsten Speichern wieder weg.
+
+**Behoben ist es mit den drei Spaltennamen in der Leseliste.** Dazu ein Wächter, `tests/berater-verwaltung-felder.test.mjs`: Er sammelt alle `data-f`-Felder aus der Verwaltung und prüft, dass jedes davon in der `.select()`-Liste von `listBerater` steht. Gegengeprobt, indem der Fix rückgängig gemacht wurde — der Wächter nennt dann genau die drei fehlenden Felder beim Namen.
+
+Die Bilder, die bereits verloren gingen, kommen dadurch nicht zurück. Wer Bürofoto, Teamfoto oder Bildzeile gepflegt hatte, sollte einmal nachsehen, ob sie noch da sind.
+
+---
 
 ## v1.309 Beta - Phase 289 · Die KIDZ-Elternseite fährt als Zug
 
