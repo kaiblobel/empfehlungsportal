@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mock · Marktübersicht größer und sichtbar anklickbar</title>
+<style>
+@font-face{font-family:'Outfit';font-style:normal;font-weight:400 700;font-display:swap;src:url('/assets/fonts/outfit-latin.woff2') format('woff2');}
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:100 900;font-display:swap;src:url('/assets/fonts/fraunces-latin.woff2') format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 700;font-display:swap;src:url('/assets/fonts/inter-latin.woff2') format('woff2');}
+:root{
+  --head:'Outfit',system-ui,sans-serif; --serif:'Fraunces',Georgia,serif;
+  --sans:'Inter',-apple-system,'Segoe UI',sans-serif;
+  --ink:#13191D; --text:#39434A; --muted:#6A747C; --faint:#9AA3AB;
+  --gold:#C8AA22; --paper:#FBFCFC; --paper-2:#F1F4F5; --card:#FFFFFF;
+  --line:#E3E7E9; --line-soft:#EDF0F1; --r-lg:16px; --r:12px;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--text); font-family:var(--sans);
+  font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;}
+h1,h2,h3{letter-spacing:-0.021em;}
+.mock-band{background:var(--ink); color:#fff; padding:22px 0;}
+.mock-band .inner{max-width:1180px; margin:0 auto; padding:0 28px;}
+.mock-band strong{display:block; font-family:var(--head); font-weight:600; font-size:20px;}
+.mock-band span{font-size:13.5px; color:#AEB6BC;}
+
+.markt-kopf{text-align:center; margin:0 auto 30px; max-width:760px;}
+.markt-kopf h2{margin:0 0 8px; font-family:var(--head); font-weight:600;
+  font-size:clamp(26px,3.4vw,40px); line-height:1.15; color:var(--ink);}
+.markt-kopf p{margin:0; color:var(--muted); font-size:14.5px;}
+.buehne{max-width:1180px; margin:0 auto; padding:46px 28px 70px;}
+.markt-fuss{margin:34px 0 0; text-align:center; font-size:14px; color:var(--muted);}
+
+/* ====== A: Rad wie in der DVAG-Uebersicht, alles sichtbar ====== */
+.rad{position:relative; width:100%; max-width:960px; margin:0 auto; aspect-ratio:1/0.82;}
+.rad-speichen{position:absolute; inset:0; width:100%; height:100%; overflow:visible;}
+.rad-speichen line{stroke:var(--line); stroke-width:.16;}
+.rad-speichen path{fill:none; stroke:var(--gold); stroke-width:.28; opacity:.8;}
+.rad-mitte{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:180px; text-align:center;}
+.rad-mitte img{display:block; width:120px; height:120px; margin:0 auto 12px;
+  border-radius:50%; object-fit:cover; border:2px solid var(--gold);}
+.rad-mitte strong{display:block; font-family:var(--head); font-weight:600; font-size:16.5px; color:var(--ink);}
+.rad-mitte small{display:block; margin-top:1px; font-size:12.5px; color:var(--faint);}
+.rad-stelle{position:absolute; left:var(--sx); top:var(--sy);
+  display:flex; align-items:center; gap:12px; width:198px;}
+/* Die Innenkante sitzt auf dem Kreispunkt, der Block waechst nach aussen.
+   Zentriert man ihn auf dem Punkt, stossen die Bloecke oben und unten
+   zusammen, weil sie dort beide Richtung Mitte ragen. */
+.rad-stelle[data-seite="rechts"]{transform:translate(0,-50%);}
+.rad-stelle[data-seite="links"]{transform:translate(-100%,-50%);
+  flex-direction:row-reverse; text-align:right;}
+.rad-symbol{flex:0 0 auto; width:48px; height:48px; display:grid; place-items:center;
+  border-radius:50%; background:var(--card); border:1px solid var(--line); color:var(--gold);}
+.rad-symbol svg{width:24px; height:24px;}
+.rad-text strong{display:block; font-family:var(--head); font-weight:600; font-size:15px;
+  color:var(--ink); line-height:1.2; margin-bottom:4px;}
+.rad-text ul{margin:0; padding:0; list-style:none;}
+.rad-text li{font-size:12.5px; line-height:1.42; color:var(--muted);}
+.rad-text li::before{content:"\00b7 "; color:var(--gold);}
+
+/* ====== B: Grosses Rad, Tiefe klappt unten auf ====== */
+.tiefe{position:relative; width:100%; max-width:1040px; margin:0 auto; aspect-ratio:1/0.74;}
+.tiefe-ring{position:absolute; inset:0; width:100%; height:100%;}
+.tiefe-ring ellipse{fill:none; stroke:var(--line); stroke-width:.2; vector-effect:non-scaling-stroke;}
+.tiefe-mitte{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:180px; text-align:center;}
+.tiefe-mitte img{display:block; width:116px; height:116px; margin:0 auto 11px;
+  border-radius:50%; object-fit:cover; border:1px solid var(--line);}
+.tiefe-mitte strong{display:block; font-family:var(--head); font-weight:600; font-size:15.5px; color:var(--ink);}
+.tiefe-mitte small{display:block; font-size:12px; color:var(--faint);}
+.tiefe-feld{position:absolute; left:var(--sx); top:var(--sy); transform:translate(-50%,-50%);
+  display:flex; align-items:center; gap:10px; width:206px; padding:11px 13px;
+  border:1px solid var(--line); border-radius:999px; background:var(--card);
+  cursor:pointer; text-align:left; font:inherit;
+  transition:border-color .16s ease, box-shadow .16s ease;}
+.tiefe-symbol{flex:0 0 auto; width:26px; height:26px; display:grid; place-items:center; color:var(--gold);}
+.tiefe-symbol svg{width:21px; height:21px;}
+.tiefe-titel{flex:1 1 auto; font-size:13px; font-weight:600; color:var(--ink); line-height:1.2;}
+/* Das Plus ist das sichtbare Versprechen: hier steckt mehr dahinter. */
+.tiefe-plus{flex:0 0 auto; width:21px; height:21px; display:grid; place-items:center;
+  border-radius:50%; background:var(--paper-2); color:var(--muted); font:600 14px/1 var(--sans);}
+.tiefe-feld:hover{border-color:var(--ink);}
+.tiefe-feld:hover .tiefe-plus{background:var(--gold); color:#fff;}
+.tiefe-feld[aria-pressed="true"]{border-color:var(--gold); box-shadow:0 0 0 3px rgba(200,170,34,.16);}
+.tiefe-feld[aria-pressed="true"] .tiefe-plus{background:var(--ink); color:#fff;}
+.tiefe-band{max-width:1040px; margin:34px auto 0; padding:24px 26px; min-height:140px;
+  border:1px solid var(--line); border-left:2px solid var(--gold);
+  border-radius:0 var(--r-lg) var(--r-lg) 0; background:var(--card);}
+.tiefe-band-kicker{display:block; font-family:var(--serif); font-size:13px; color:var(--faint); margin-bottom:6px;}
+.tiefe-band h3{margin:0 0 13px; font-family:var(--head); font-weight:600; font-size:23px; color:var(--ink);}
+.tiefe-band ul{margin:0; padding:0; list-style:none; display:grid; gap:10px;}
+.tiefe-band li{position:relative; padding-left:16px; font-size:14.5px; color:var(--muted);}
+.tiefe-band li::before{content:""; position:absolute; left:0; top:11px; width:8px; height:1px; background:var(--gold);}
+.tiefe-zaehler{display:block; margin-top:16px; font-size:12.5px; color:var(--faint);}
+
+@media (max-width:900px){
+  .rad, .tiefe{max-width:none; aspect-ratio:auto;}
+  .rad-speichen, .tiefe-ring{display:none;}
+  .rad-mitte, .tiefe-mitte{position:static; transform:none; width:auto; margin:0 auto 26px;}
+  .rad-stelle, .tiefe-feld{position:static; width:100%; margin-bottom:13px;}
+  .rad-stelle[data-seite="rechts"], .rad-stelle[data-seite="links"],
+  .tiefe-feld{transform:none;}
+  .rad-stelle[data-seite="links"]{flex-direction:row; text-align:left;}
+}
+</style>
+</head>
+<body>
+
+<div class="mock-band"><div class="inner">
+  <strong>A · Rad wie in der DVAG-Übersicht</strong>
+  <span>Symbol auf dem Kreis, Stichworte gleich daneben, Pfeile vom Zentrum nach außen. Alles auf einen Blick, nichts muss angeklickt werden.</span>
+</div></div>
+
+<div class="buehne">
+  <div class="markt-kopf">
+    <h2>Ein Ansprechpartner. Das ganze Bild.</h2>
+    <p>Zehn Felder, ein Ansprechpartner. Zusammenhänge statt Einzelverträge.</p>
+  </div>
+
+  <div class="rad" id="radA">
+    <svg class="rad-speichen" viewBox="0 0 100 100" aria-hidden="true"></svg>
+        <div class="rad-stelle" data-i="0">
+          <span class="rad-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span>
+          <div class="rad-text">
+            <strong>Energie & Versorgung</strong>
+            <ul><li>Strom und Gas prüfen</li><li>Kosten senken</li></ul>
+          </div>
+        </div>
+        <div class="rad-stelle" data-i="1">
+          <span class="rad-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></span>
+          <div class="rad-text">
+            <strong>Gesundheit</strong>
+            <ul><li>Vorsorge und Zähne</li><li>Pflegefall mitdenken</li></ul>
+          </div>
+        </div>
+        <div class="rad-stelle" data-i="2">
+          <span class="rad-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg></span>
+          <div class="rad-text">
+            <strong>Liquidität & Banking</strong>
+            <ul><li>Konto und Karte</li><li>Reserven planen</li></ul>
+          </div>
+        </div>
+        <div class="rad-stelle" data-i="3">
+          <span class="rad-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>
+          <div class="rad-text">
+            <strong>Immobilien</strong>
+            <ul><li>Weg ins Eigenheim</li><li>Modernisierung</li></ul>
+          </div>
+        </div>
+        <div class="rad-stelle" data-i="4">
+          <span class="rad-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg></span>
+          <div class="rad-text">
+            <strong>Vermögensaufbau</strong>
+            <ul><li>Sparen und anlegen</li><li>Ziele festlegen</li></ul>
+          </div>
+        </div>
+        <div class="rad-stelle" data-i="5">
+          <span class="rad-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg></span>
+          <div class="rad-text">
+            <strong>Finanzierung</strong>
+            <ul><li>Vorhaben finanzieren</li><li>Umschuldung prüfen</li></ul>
+          </div>
+        </div>
+        <div class="rad-stelle" data-i="6">
+          <span class="rad-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" x2="5" y1="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></span>
+          <div class="rad-text">
+            <strong>Steueroptimierung</strong>
+            <ul><li>Steuervorteile prüfen</li><li>Sauber abstimmen</li></ul>
+          </div>
+        </div>
+        <div class="rad-stelle" data-i="7">
+          <span class="rad-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>
+          <div class="rad-text">
+            <strong>Staatliche Förderung</strong>
+            <ul><li>Zulagen und Zuschüsse</li><li>Nichts liegen lassen</li></ul>
+          </div>
+        </div>
+        <div class="rad-stelle" data-i="8">
+          <span class="rad-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg></span>
+          <div class="rad-text">
+            <strong>Arbeitgeberlösungen</strong>
+            <ul><li>Betriebliche Vorsorge</li><li>Arbeitgebercheck</li></ul>
+          </div>
+        </div>
+        <div class="rad-stelle" data-i="9">
+          <span class="rad-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9L18.4 5.6C18.1 4.6 17.2 4 16.2 4H7.8c-1 0-1.9.6-2.2 1.6L3.5 11.1C2.7 11.3 2 12.1 2 13v3c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></span>
+          <div class="rad-text">
+            <strong>Mobilität & KFZ</strong>
+            <ul><li>KFZ-Versicherung</li><li>Schutz und Kosten</li></ul>
+          </div>
+        </div>
+    <div class="rad-mitte">
+      <img src="/assets/images/kai-portrait.jpg" alt="Kai Blobel">
+      <strong>Kai Blobel</strong>
+      <small>Ein Ansprechpartner</small>
+    </div>
+  </div>
+
+  <p class="markt-fuss">Ein Ansprechpartner, der die Zusammenhänge im Blick behält.</p>
+</div>
+
+
+<div class="mock-band"><div class="inner">
+  <strong>B · Großes Rad, Tiefe klappt unten auf</strong>
+  <span>Das Rad wird größer, weil der Text nicht mehr daneben steht sondern darunter. Jedes Feld trägt ein Plus, damit man sieht: hier steckt mehr dahinter.</span>
+</div></div>
+
+<div class="buehne">
+  <div class="markt-kopf">
+    <h2>Ein Ansprechpartner. Das ganze Bild.</h2>
+    <p>Zehn Felder. Tippe an, was dich gerade betrifft.</p>
+  </div>
+
+  <div class="tiefe" id="radB">
+    <svg class="tiefe-ring" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><ellipse cx="50" cy="50" rx="35" ry="46"/></svg>
+        <button class="tiefe-feld" type="button" data-i="0" aria-pressed="false"
+                data-titel="Energie & Versorgung" data-p1="Kosten dauerhaft im Blick behalten" data-p2="Anbieter und Versorgung passend strukturieren">
+          <span class="tiefe-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span>
+          <span class="tiefe-titel">Energie & Versorgung</span>
+          <span class="tiefe-plus" aria-hidden="true">+</span>
+        </button>
+        <button class="tiefe-feld" type="button" data-i="1" aria-pressed="false"
+                data-titel="Gesundheit" data-p1="Gesundheit langfristig absichern" data-p2="Vorsorge und Notfallplanung mitdenken">
+          <span class="tiefe-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></span>
+          <span class="tiefe-titel">Gesundheit</span>
+          <span class="tiefe-plus" aria-hidden="true">+</span>
+        </button>
+        <button class="tiefe-feld" type="button" data-i="2" aria-pressed="false"
+                data-titel="Liquidität & Banking" data-p1="Finanzen übersichtlich ordnen" data-p2="Liquidität und Reserven sinnvoll planen">
+          <span class="tiefe-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg></span>
+          <span class="tiefe-titel">Liquidität & Banking</span>
+          <span class="tiefe-plus" aria-hidden="true">+</span>
+        </button>
+        <button class="tiefe-feld" type="button" data-i="3" aria-pressed="false"
+                data-titel="Immobilien" data-p1="Den Weg ins Eigenheim planen" data-p2="Finanzierung und Modernisierung zusammendenken">
+          <span class="tiefe-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>
+          <span class="tiefe-titel">Immobilien</span>
+          <span class="tiefe-plus" aria-hidden="true">+</span>
+        </button>
+        <button class="tiefe-feld" type="button" data-i="4" aria-pressed="false"
+                data-titel="Vermögensaufbau" data-p1="Ziele und Zeithorizonte festlegen" data-p2="Vermögen Schritt für Schritt aufbauen">
+          <span class="tiefe-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg></span>
+          <span class="tiefe-titel">Vermögensaufbau</span>
+          <span class="tiefe-plus" aria-hidden="true">+</span>
+        </button>
+        <button class="tiefe-feld" type="button" data-i="5" aria-pressed="false"
+                data-titel="Finanzierung" data-p1="Vorhaben solide finanzieren" data-p2="Bestehende Verbindlichkeiten im Blick behalten">
+          <span class="tiefe-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg></span>
+          <span class="tiefe-titel">Finanzierung</span>
+          <span class="tiefe-plus" aria-hidden="true">+</span>
+        </button>
+        <button class="tiefe-feld" type="button" data-i="6" aria-pressed="false"
+                data-titel="Steueroptimierung" data-p1="Mögliche Steuervorteile prüfen" data-p2="Entscheidungen sauber aufeinander abstimmen">
+          <span class="tiefe-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" x2="5" y1="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></span>
+          <span class="tiefe-titel">Steueroptimierung</span>
+          <span class="tiefe-plus" aria-hidden="true">+</span>
+        </button>
+        <button class="tiefe-feld" type="button" data-i="7" aria-pressed="false"
+                data-titel="Staatliche Förderung" data-p1="Fördermöglichkeiten prüfen" data-p2="Staatliche Vorteile sinnvoll einbeziehen">
+          <span class="tiefe-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>
+          <span class="tiefe-titel">Staatliche Förderung</span>
+          <span class="tiefe-plus" aria-hidden="true">+</span>
+        </button>
+        <button class="tiefe-feld" type="button" data-i="8" aria-pressed="false"
+                data-titel="Arbeitgeberlösungen" data-p1="Betriebliche Möglichkeiten nutzen" data-p2="Mitarbeiterbindung und Absicherung verbinden">
+          <span class="tiefe-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg></span>
+          <span class="tiefe-titel">Arbeitgeberlösungen</span>
+          <span class="tiefe-plus" aria-hidden="true">+</span>
+        </button>
+        <button class="tiefe-feld" type="button" data-i="9" aria-pressed="false"
+                data-titel="Mobilität & KFZ" data-p1="Fahrzeuge passend absichern" data-p2="Kosten und Schutz gemeinsam betrachten">
+          <span class="tiefe-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9L18.4 5.6C18.1 4.6 17.2 4 16.2 4H7.8c-1 0-1.9.6-2.2 1.6L3.5 11.1C2.7 11.3 2 12.1 2 13v3c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></span>
+          <span class="tiefe-titel">Mobilität & KFZ</span>
+          <span class="tiefe-plus" aria-hidden="true">+</span>
+        </button>
+    <div class="tiefe-mitte">
+      <img src="/assets/images/kai-portrait.jpg" alt="Kai Blobel">
+      <strong>Kai Blobel</strong>
+      <small>Ein Ansprechpartner</small>
+    </div>
+  </div>
+
+  <div class="tiefe-band" id="bandB" aria-live="polite">
+    <span class="tiefe-band-kicker">Deine Ziele</span>
+    <h3>Ganzheitlich gedacht.</h3>
+    <ul><li>Tippe oben ein Feld an, dann steht hier, was dazugehört.</li></ul>
+    <span class="tiefe-zaehler" id="zaehlerB">0 von 10 angesehen</span>
+  </div>
+</div>
+
+<script>
+/* Winkel und Radius werden gerechnet, nicht getippt: sonst steht das Rad
+   schief, wie es hier vor Phase 276 schon einmal der Fall war. */
+function verteile(wurzel, auswahl, radius, mitSpeichen, streckung) {
+  var felder = Array.prototype.slice.call(wurzel.querySelectorAll(auswahl));
+  var n = felder.length;
+  var speichen = wurzel.querySelector('.rad-speichen');
+  var stauch = streckung || 1.45;
+  felder.forEach(function (el, i) {
+    var bog = (90 - 180 / n - i * (360 / n)) * Math.PI / 180;
+    var cos = Math.cos(bog), sin = Math.sin(bog);
+    el.style.setProperty('--sx', (50 + radius * cos).toFixed(3) + '%');
+    el.style.setProperty('--sy', (50 - radius * sin * stauch).toFixed(3) + '%');
+    el.dataset.seite = cos < 0 ? 'links' : 'rechts';
+    if (mitSpeichen && speichen) {
+      var von = 13, bis = radius - 9;
+      var x1 = 50 + von * cos, y1 = 50 - von * sin * stauch;
+      var x2 = 50 + bis * cos, y2 = 50 - bis * sin * stauch;
+      var s = 1.7;
+      var ax = x2 - s * Math.cos(bog - 0.45), ay = y2 + s * Math.sin(bog - 0.45) * stauch;
+      var bx = x2 - s * Math.cos(bog + 0.45), by = y2 + s * Math.sin(bog + 0.45) * stauch;
+      speichen.insertAdjacentHTML('beforeend',
+        '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '"/>' +
+        '<path d="M ' + ax + ' ' + ay + ' L ' + x2 + ' ' + y2 + ' L ' + bx + ' ' + by + '"/>');
+    }
+  });
+}
+verteile(document.getElementById('radA'), '.rad-stelle', 28, true, 1.45);
+verteile(document.getElementById('radB'), '.tiefe-feld', 35, false, 1.31);
+
+/* Fassung B: der Text steht unter dem Rad, dazu ein Zaehler, damit sichtbar
+   wird wie viel noch dahinter liegt. */
+var gesehen = {}, anzahl = 0;
+var band = document.getElementById('bandB');
+Array.prototype.forEach.call(document.querySelectorAll('.tiefe-feld'), function (f) {
+  f.addEventListener('click', function () {
+    Array.prototype.forEach.call(document.querySelectorAll('.tiefe-feld'), function (a) {
+      a.setAttribute('aria-pressed', String(a === f));
+    });
+    if (!gesehen[f.dataset.i]) { gesehen[f.dataset.i] = 1; anzahl++; }
+    band.querySelector('.tiefe-band-kicker').textContent = 'Im Blick behalten';
+    band.querySelector('h3').textContent = f.dataset.titel;
+    band.querySelector('ul').innerHTML =
+      '<li>' + f.dataset.p1 + '</li><li>' + f.dataset.p2 + '</li>';
+    document.getElementById('zaehlerB').textContent = anzahl + ' von 10 angesehen';
+  });
+});
+</script>
+</body>
+</html>

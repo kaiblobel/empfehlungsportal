@@ -1,7 +1,32 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.306 Beta** · Der Abschnitt „Ein Ansprechpartner" ist eine Lebensachse, live seit 18.08.2026.
+Offizielle Live-Version: **v1.307 Beta** · Die Marktübersicht ist ein Rad mit Stichworten und Plus, live seit 18.08.2026.
+
+## v1.307 Beta - Phase 287 · Die Marktübersicht ist ein Rad mit Stichworten und Plus
+
+**2026-08-18**
+
+**Kai wollte drei Dinge an der Übersicht hinter „Was alles dazugehört":** sie soll auf dem Rechner größer sein, man soll sehen, dass die Felder etwas enthalten, und sie soll näher an die DVAG-Marktübersicht rücken, die er als Vorlage geschickt hat.
+
+**Größer war zuerst eine Frage von drei Deckeln.** Das Overlay war auf 1000 Pixel begrenzt, das Rad auf 520, und rechts stand eine 290 Pixel breite Textspalte, die dem Rad die halbe Breite nahm. Der Text steht jetzt **unter** dem Rad, damit wächst das Rad auf 960 Pixel, das Overlay auf 1240.
+
+**Das Rad trägt jetzt Symbole und Stichworte, wie in der Vorlage.** Je Feld ein Goldsymbol auf dem Kreis, daneben der Titel und zwei kurze Stichworte, dazu Goldpfeile vom Zentrum nach außen. In der Mitte steht weiter das Gesicht, um das es geht, nicht das Wort „Markt". Nebenbei ist damit ein toter Zweig weg: das Skript setzte seit dem Bau Symbole über `data-market-icon` in die Felder, dieses Merkmal stand aber in keinem einzigen Feld. Die Symbole waren also vorgesehen und nie eingesetzt.
+
+**Das Plus am Symbol ist die Antwort auf „man sieht nicht, dass da was ist".** Es sitzt am Symbolkreis, wird beim Überfahren gold und beim geöffneten Feld zum Minus, weil der senkrechte Strich verschwindet. Beim Antippen klappt im Band unter dem Rad der ausführliche Text auf, dieselben Sätze wie vorher. Nochmal antippen schließt wieder: das Plus ist ein Schalter, keine Einbahnstraße. Bei den Feldern der linken Radseite sitzt das Plus links am Symbol, sonst stünde es zwischen Symbol und Text statt nach außen zu zeigen.
+
+**Am Rad stehen kurze Stichworte, nicht die langen Sätze.** Die DVAG-Vorlage funktioniert nur deshalb, weil dort „KFZ-Versicherung" und „Kosten einsparen" steht. Die bisherigen Detailsätze („Anbieter und Versorgung passend strukturieren") sprengen den Kreis: bei 198 Pixel Blockbreite ragen sie in den Nachbarn und aus der Fläche, zweimal messbar erlebt. Deshalb tragen die Felder jetzt zwanzig kurze Stichworte, und die langen Sätze wandern ins Band. Änderbar sind sie im HTML, nicht in der Datenbank, wie vorher auch.
+
+**Geometrie, die beim Bauen dreimal nachjustiert wurde:**
+- **Kein Feld darf genau oben oder unten sitzen.** Dort braucht der Textblock beidseitig Platz und stößt an die Nachbarn. Das Rad ist deshalb um ein halbes Segment gedreht (18 Grad), damit stehen fünf Felder links und fünf rechts, alle einheitlich als Zeile.
+- **Der Block hängt an seiner Innenkante, nicht an seiner Mitte.** Zentriert auf dem Kreispunkt wachsen die Blöcke oben und unten beide Richtung Mitte und überlappen sich. So wächst jeder nach außen.
+- **Die Verteilung sitzt auf einer Ellipse, nicht auf einem Kreis** (Streckung 1,45). Zehn Textblöcke brauchen senkrecht mehr Abstand als waagerecht. Geprüft ist das messend: kein Block überlappt einen anderen, keiner die Mitte, keiner ragt aus der Fläche.
+
+**Auf dem Handy wird aus dem Rad eine Liste.** Ein Kreis mit zehn Textblöcken ist dort nicht lesbar, und die Speichen zeigen ins Leere.
+
+**Der Wächter `tests/praesentation-marktuebersicht.test.mjs` ist mitgewandert.** Er hielt fest, dass die Felder Knöpfe mit Detailtexten sind, und hätte den Umbau nicht bemerkt. Jetzt prüft er zusätzlich, dass alle zehn Felder das Plus tragen, dass daraus im geöffneten Zustand ein Minus wird, dass das Rad auf 960 Pixeln steht und dass die alte Detailspalte nicht zurückkommt.
+
+**Cache-Marken:** `css/praesentation.css` auf `?v=13`, `js/programm.js` auf `?v=61`. Die zweite hatte ich zuerst vergessen, und das Ergebnis war lehrreich: Die Felder lagen alle auf einem Punkt und keine Speiche wurde gezeichnet, weil der Browser das alte Skript aus dem Zwischenspeicher lieferte, während das neue HTML schon da war. Wer eine dieser Dateien anfasst, muss ihre Marke hochzählen.
 
 ## v1.306 Beta - Phase 286 · Der Abschnitt „Ein Ansprechpartner" ist eine Lebensachse
 

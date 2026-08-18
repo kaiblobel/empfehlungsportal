@@ -365,7 +365,7 @@ h1, h2, h3{letter-spacing:-0.021em;}
   background:var(--card); color:var(--ink);
   font-size:20px; line-height:1; cursor:pointer;
 }
-.markt-inner{width:100%; max-width:1000px; margin:auto; padding:20px 0;}
+.markt-inner{width:100%; max-width:1240px; margin:auto; padding:20px 0;}
 .markt-kopf{text-align:center; margin-bottom:22px;}
 .markt-kopf h2{
   margin:0 0 8px;
@@ -374,86 +374,145 @@ h1, h2, h3{letter-spacing:-0.021em;}
 }
 .markt-kopf p{margin:0; color:var(--muted); font-size:14.5px;}
 
-.markt-buehne{display:grid; grid-template-columns:minmax(0,1fr) 290px; gap:44px; align-items:center;}
-
-.markt-karte{
+/* Das Rad. Höhe und Radius sind aufeinander abgestimmt: zehn Felder mit Text
+   brauchen senkrecht mehr Abstand als waagerecht, sonst stoßen die Blöcke oben
+   und unten zusammen. Deshalb sitzt die Verteilung auf einer Ellipse
+   (Streckung 1.45 im Skript), nicht auf einem Kreis. */
+.markt-rad{
   position:relative;
-  width:100%; max-width:520px;
-  aspect-ratio:1;
-  margin:0 auto;
+  width:100%; max-width:960px; margin:0 auto;
+  aspect-ratio:1/0.82;
 }
-.markt-ring{position:absolute; inset:0; width:100%; height:100%;}
-.markt-ring circle{fill:none; stroke:var(--line); stroke-width:.25;}
-
-.markt-knoten{
-  position:absolute;
-  left:var(--x); top:var(--y);
-  transform:translate(-50%,-50%);
-  width:max-content; max-width:150px;
-  padding:9px 14px;
-  border:1px solid var(--line); border-radius:999px;
-  background:var(--card); color:var(--muted);
-  font:600 12.5px/1.25 var(--sans);
-  text-align:center; cursor:pointer;
-  text-wrap:balance;
-  transition:border-color .16s ease, color .16s ease, background .16s ease;
-}
-.markt-knoten:hover{border-color:var(--ink); color:var(--ink);}
-.markt-knoten.aktiv,
-.markt-knoten.is-active{border-color:var(--gold); background:var(--ink); color:#fff;}
+.markt-speichen{position:absolute; inset:0; width:100%; height:100%; overflow:visible;}
+.markt-speichen line{stroke:var(--line); stroke-width:.16;}
+.markt-speichen path{fill:none; stroke:var(--gold); stroke-width:.28; opacity:.8;}
 
 .markt-mitte{
-  position:absolute; left:50%; top:50%;
-  transform:translate(-50%,-50%);
-  width:150px; text-align:center;
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:180px; text-align:center;
 }
 .markt-mitte img{
-  display:block; width:96px; height:96px;
-  margin:0 auto 10px;
+  display:block; width:120px; height:120px; margin:0 auto 12px;
   border-radius:50%; object-fit:cover;
-  border:1px solid var(--line);
+  border:2px solid var(--gold);
 }
-.markt-mitte strong{display:block; font-size:14px; color:var(--ink);}
-.markt-mitte small{display:block; margin-top:2px; font-size:12px; color:var(--faint);}
+.markt-mitte strong{display:block; font-family:var(--head); font-weight:600; font-size:16.5px; color:var(--ink);}
+.markt-mitte small{display:block; margin-top:1px; font-size:12.5px; color:var(--faint);}
 
-.markt-detail{
-  padding:24px;
+.markt-stelle{
+  position:absolute; left:var(--sx); top:var(--sy);
+  display:flex; align-items:center; gap:12px; width:198px;
+  padding:0; border:0; background:none;
+  font:inherit; text-align:left; cursor:pointer;
+}
+/* Die Innenkante sitzt auf dem Kreispunkt, der Block wächst nach außen.
+   Zentriert man ihn auf dem Punkt, stoßen die Blöcke oben und unten
+   zusammen, weil sie dort beide Richtung Mitte ragen. */
+.markt-stelle[data-seite="rechts"]{transform:translate(0,-50%);}
+.markt-stelle[data-seite="links"]{
+  transform:translate(-100%,-50%);
+  flex-direction:row-reverse; text-align:right;
+}
+.markt-symbol{
+  position:relative;
+  flex:0 0 auto; width:48px; height:48px;
+  display:grid; place-items:center;
+  border-radius:50%; background:var(--card); border:1px solid var(--line);
+  color:var(--gold);
+  transition:border-color .16s ease, background .16s ease;
+}
+.markt-symbol svg{width:24px; height:24px;}
+/* Das Plus ist das sichtbare Versprechen: hinter dem Feld liegt mehr. Es sitzt
+   am Symbol und wird aus zwei Strichen gezeichnet, damit es beim geöffneten
+   Feld zum Minus werden kann, ohne den Text zu tauschen. */
+.markt-plus{
+  position:absolute; right:-3px; bottom:-3px;
+  /* Bei den Feldern der linken Radseite steht das Plus auf der anderen Seite,
+     sonst sitzt es zwischen Symbol und Text statt nach außen zu zeigen. */
+  width:18px; height:18px; border-radius:50%;
+  background:var(--paper-2); border:1px solid var(--line);
+  transition:background .16s ease, border-color .16s ease;
+}
+.markt-plus::before, .markt-plus::after{
+  content:''; position:absolute; left:50%; top:50%;
+  background:var(--muted);
+  transition:background .16s ease, opacity .16s ease;
+}
+.markt-plus::before{width:8px; height:1.5px; transform:translate(-50%,-50%);}
+.markt-plus::after{width:1.5px; height:8px; transform:translate(-50%,-50%);}
+.markt-stelle[data-seite="links"] .markt-plus{right:auto; left:-3px;}
+.markt-stelle:hover .markt-symbol{border-color:var(--ink);}
+.markt-stelle:hover .markt-plus{background:var(--gold); border-color:var(--gold);}
+.markt-stelle:hover .markt-plus::before,
+.markt-stelle:hover .markt-plus::after{background:#fff;}
+.markt-stelle[aria-pressed="true"] .markt-symbol{
+  border-color:var(--gold); background:#FCFAEE;
+}
+.markt-stelle[aria-pressed="true"] .markt-plus{background:var(--ink); border-color:var(--ink);}
+.markt-stelle[aria-pressed="true"] .markt-plus::before,
+.markt-stelle[aria-pressed="true"] .markt-plus::after{background:#fff;}
+/* Offenes Feld: aus dem Plus wird ein Minus, der senkrechte Strich fällt weg. */
+.markt-stelle[aria-pressed="true"] .markt-plus::after{opacity:0;}
+
+.markt-stelle-text{display:block;}
+.markt-stelle-text strong{
+  display:block; margin-bottom:4px;
+  font-family:var(--head); font-weight:600; font-size:15px; line-height:1.2;
+  color:var(--ink);
+}
+.markt-kurz{display:block; font-size:12.5px; line-height:1.42; color:var(--muted);}
+.markt-kurz::before{content:"\00b7 "; color:var(--gold);}
+
+/* Der ausführliche Text steht unter dem Rad, nicht daneben: daneben nahm er
+   dem Rad die halbe Breite. */
+.markt-tiefe{
+  max-width:860px; margin:8px auto 0; padding:22px 26px; min-height:132px;
   border:1px solid var(--line); border-left:2px solid var(--gold);
   border-radius:0 var(--r-lg) var(--r-lg) 0;
   background:var(--card);
-  min-height:210px;
 }
-.markt-detail-kicker{
+.markt-tiefe-kicker{
   display:block; margin-bottom:8px;
   font-family:var(--serif); font-size:13.5px; font-weight:400; color:var(--faint);
 }
-.markt-detail h3{
+.markt-tiefe h3{
   margin:0 0 12px;
   font-family:var(--head); font-weight:600; font-size:24px; line-height:1.2; color:var(--ink);
 }
-.markt-detail p{margin:0; font-size:14px; color:var(--muted);}
-.markt-detail ul{margin:0; padding:0; list-style:none;}
-.markt-detail ul[hidden]{display:none;}
-.markt-detail li{
+.markt-tiefe p{margin:0; font-size:14px; color:var(--muted);}
+.markt-tiefe ul{margin:0; padding:0; list-style:none;}
+.markt-tiefe ul[hidden]{display:none;}
+.markt-tiefe li{
   position:relative;
   padding:9px 0 9px 16px;
   border-bottom:1px solid var(--line-soft);
   font-size:14px; color:var(--muted);
 }
-.markt-detail li:last-child{border-bottom:0;}
-.markt-detail li::before{
+.markt-tiefe li:last-child{border-bottom:0;}
+.markt-tiefe li::before{
   content:''; position:absolute; left:0; top:18px;
   width:7px; height:1px; background:var(--gold);
 }
 .markt-fuss{margin:26px 0 0; text-align:center; font-size:14px; color:var(--muted);}
 
 @media (max-width:900px){
-  .markt-buehne{grid-template-columns:1fr; gap:26px;}
-  .markt-karte{max-width:380px;}
-  .markt-knoten{max-width:104px; padding:7px 10px; font-size:11px;}
-  .markt-mitte{width:120px;}
-  .markt-mitte img{width:74px; height:74px;}
-  .markt-detail{min-height:0;}
+  /* Auf dem Handy wird aus dem Rad eine Liste. Ein Kreis mit zehn Textblöcken
+     ist dort nicht lesbar, und die Speichen zeigen ins Leere. */
+  /* Spalte statt Rad. Die Mitte steht im HTML NACH den Feldern, damit sie im
+     Rad in der Mitte liegen kann; hier muss sie deshalb vorgezogen werden,
+     sonst steht das Portrait unter der Liste. */
+  .markt-rad{max-width:none; aspect-ratio:auto; padding-top:4px;
+    display:flex; flex-direction:column;}
+  .markt-speichen{display:none;}
+  .markt-mitte{order:-1; position:static; transform:none; width:auto; margin:0 auto 26px;}
+  .markt-mitte img{width:96px; height:96px;}
+  .markt-stelle{position:static; width:100%; margin-bottom:14px;}
+  .markt-stelle[data-seite="rechts"], .markt-stelle[data-seite="links"]{transform:none;}
+  /* In der Liste stehen alle Felder gleich, also sitzt auch das Plus überall
+     an derselben Stelle. */
+  .markt-stelle[data-seite="links"]{flex-direction:row; text-align:left;}
+  .markt-stelle[data-seite="links"] .markt-plus{left:auto; right:-3px;}
+  .markt-tiefe{margin-top:20px;}
 }
 
 /* ============================================================

@@ -17,7 +17,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://empfehlungsportal.vercel.app/assets/images/og-cover.png" />
 
-  <link rel="stylesheet" href="css/praesentation.css?v=12" />
+  <link rel="stylesheet" href="css/praesentation.css?v=13" />
   <script src="js/config.js"></script>
 </head>
 <body data-page="programm">
@@ -898,42 +898,123 @@
     <div class="markt-inner">
       <div class="markt-kopf">
         <h2 id="marketOverlayTitle">Ein Ansprechpartner. Das ganze Bild.</h2>
-        <p>Tippe auf ein Feld, wenn du genauer hinschauen möchtest.</p>
+        <p>Zehn Felder, ein Ansprechpartner. Tippe eines an, wenn du genauer hinschauen möchtest.</p>
       </div>
 
-      <div class="markt-buehne">
-        <div class="markt-karte" id="marketMap">
-          <svg class="markt-ring" viewBox="0 0 100 100" aria-hidden="true">
-            <circle cx="50" cy="50" r="36"/>
-          </svg>
-          <!-- Die Felder stehen hier, ihre Position rechnet das Skript: zehnmal
-               36 Grad auf gleichem Radius. Vorher waren die Werte von Hand
-               eingetippt, dadurch schwankten die Winkel zwischen 31 und 45 Grad
-               und die Karte stand sichtbar schief. -->
-          <button class="market-node markt-knoten" type="button" aria-pressed="false" data-title="Energie &amp; Versorgung" data-details="Kosten dauerhaft im Blick behalten|Anbieter und Versorgung passend strukturieren">Energie &amp; Versorgung</button>
-          <button class="market-node markt-knoten" type="button" aria-pressed="false" data-title="Gesundheit" data-details="Gesundheit langfristig absichern|Vorsorge und Notfallplanung mitdenken">Gesundheit</button>
-          <button class="market-node markt-knoten" type="button" aria-pressed="false" data-title="Liquidität &amp; Banking" data-details="Finanzen übersichtlich ordnen|Liquidität und Reserven sinnvoll planen">Liquidität &amp; Banking</button>
-          <button class="market-node markt-knoten" type="button" aria-pressed="false" data-title="Immobilien" data-details="Den Weg ins Eigenheim planen|Finanzierung und Modernisierung zusammendenken">Immobilien</button>
-          <button class="market-node markt-knoten" type="button" aria-pressed="false" data-title="Vermögensaufbau" data-details="Ziele und Zeithorizonte festlegen|Vermögen Schritt für Schritt aufbauen">Vermögensaufbau</button>
-          <button class="market-node markt-knoten" type="button" aria-pressed="false" data-title="Finanzierung" data-details="Vorhaben solide finanzieren|Bestehende Verbindlichkeiten im Blick behalten">Finanzierung</button>
-          <button class="market-node markt-knoten" type="button" aria-pressed="false" data-title="Steueroptimierung" data-details="Mögliche Steuervorteile prüfen|Entscheidungen sauber aufeinander abstimmen">Steueroptimierung</button>
-          <button class="market-node markt-knoten" type="button" aria-pressed="false" data-title="Staatliche Förderung" data-details="Fördermöglichkeiten prüfen|Staatliche Vorteile sinnvoll einbeziehen">Staatliche Förderung</button>
-          <button class="market-node markt-knoten" type="button" aria-pressed="false" data-title="Arbeitgeberlösungen" data-details="Betriebliche Möglichkeiten nutzen|Mitarbeiterbindung und Absicherung verbinden">Arbeitgeberlösungen</button>
-          <button class="market-node markt-knoten" type="button" aria-pressed="false" data-title="Mobilität &amp; KFZ" data-details="Fahrzeuge passend absichern|Kosten und Schutz gemeinsam betrachten">Mobilität &amp; KFZ</button>
+      <!-- Das Rad, nachempfunden der DVAG-Marktübersicht: Symbol auf dem
+           Kreis, Stichworte gleich daneben, Pfeile vom Zentrum nach außen.
+           In der Mitte steht das Gesicht, um das es geht, nicht das Wort
+           „Markt". Am Symbol sitzt ein Plus, damit sichtbar ist, dass hinter
+           jedem Feld noch etwas liegt; angetippt klappt der ausführliche Text
+           im Band unter dem Rad auf. Bis Phase 286 lag dieser Text in einer
+           Spalte rechts, die dem Rad die halbe Breite nahm, und nichts zeigte,
+           dass die Felder Knöpfe sind.
+           ============================================================ -->
+      <div class="markt-rad" id="marketMap">
+        <svg class="markt-speichen" viewBox="0 0 100 100" aria-hidden="true"></svg>
+        <button class="market-node markt-stelle" type="button" aria-pressed="false"
+                data-title="Energie &amp; Versorgung" data-details="Kosten dauerhaft im Blick behalten|Anbieter und Versorgung passend strukturieren">
+          <span class="markt-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg><i class="markt-plus" aria-hidden="true"></i></span>
+          <span class="markt-stelle-text">
+            <strong>Energie &amp; Versorgung</strong>
+            <span class="markt-kurz">Strom und Gas prüfen</span>
+            <span class="markt-kurz">Kosten senken</span>
+          </span>
+        </button>
+        <button class="market-node markt-stelle" type="button" aria-pressed="false"
+                data-title="Gesundheit" data-details="Gesundheit langfristig absichern|Vorsorge und Notfallplanung mitdenken">
+          <span class="markt-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg><i class="markt-plus" aria-hidden="true"></i></span>
+          <span class="markt-stelle-text">
+            <strong>Gesundheit</strong>
+            <span class="markt-kurz">Vorsorge und Zähne</span>
+            <span class="markt-kurz">Pflegefall mitdenken</span>
+          </span>
+        </button>
+        <button class="market-node markt-stelle" type="button" aria-pressed="false"
+                data-title="Liquidität &amp; Banking" data-details="Finanzen übersichtlich ordnen|Liquidität und Reserven sinnvoll planen">
+          <span class="markt-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg><i class="markt-plus" aria-hidden="true"></i></span>
+          <span class="markt-stelle-text">
+            <strong>Liquidität &amp; Banking</strong>
+            <span class="markt-kurz">Konto und Karte</span>
+            <span class="markt-kurz">Reserven planen</span>
+          </span>
+        </button>
+        <button class="market-node markt-stelle" type="button" aria-pressed="false"
+                data-title="Immobilien" data-details="Den Weg ins Eigenheim planen|Finanzierung und Modernisierung zusammendenken">
+          <span class="markt-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><i class="markt-plus" aria-hidden="true"></i></span>
+          <span class="markt-stelle-text">
+            <strong>Immobilien</strong>
+            <span class="markt-kurz">Weg ins Eigenheim</span>
+            <span class="markt-kurz">Modernisierung</span>
+          </span>
+        </button>
+        <button class="market-node markt-stelle" type="button" aria-pressed="false"
+                data-title="Vermögensaufbau" data-details="Ziele und Zeithorizonte festlegen|Vermögen Schritt für Schritt aufbauen">
+          <span class="markt-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg><i class="markt-plus" aria-hidden="true"></i></span>
+          <span class="markt-stelle-text">
+            <strong>Vermögensaufbau</strong>
+            <span class="markt-kurz">Sparen und anlegen</span>
+            <span class="markt-kurz">Ziele festlegen</span>
+          </span>
+        </button>
+        <button class="market-node markt-stelle" type="button" aria-pressed="false"
+                data-title="Finanzierung" data-details="Vorhaben solide finanzieren|Bestehende Verbindlichkeiten im Blick behalten">
+          <span class="markt-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg><i class="markt-plus" aria-hidden="true"></i></span>
+          <span class="markt-stelle-text">
+            <strong>Finanzierung</strong>
+            <span class="markt-kurz">Vorhaben finanzieren</span>
+            <span class="markt-kurz">Umschuldung prüfen</span>
+          </span>
+        </button>
+        <button class="market-node markt-stelle" type="button" aria-pressed="false"
+                data-title="Steueroptimierung" data-details="Mögliche Steuervorteile prüfen|Entscheidungen sauber aufeinander abstimmen">
+          <span class="markt-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" x2="5" y1="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg><i class="markt-plus" aria-hidden="true"></i></span>
+          <span class="markt-stelle-text">
+            <strong>Steueroptimierung</strong>
+            <span class="markt-kurz">Steuervorteile prüfen</span>
+            <span class="markt-kurz">Sauber abstimmen</span>
+          </span>
+        </button>
+        <button class="market-node markt-stelle" type="button" aria-pressed="false"
+                data-title="Staatliche Förderung" data-details="Fördermöglichkeiten prüfen|Staatliche Vorteile sinnvoll einbeziehen">
+          <span class="markt-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg><i class="markt-plus" aria-hidden="true"></i></span>
+          <span class="markt-stelle-text">
+            <strong>Staatliche Förderung</strong>
+            <span class="markt-kurz">Zulagen und Zuschüsse</span>
+            <span class="markt-kurz">Nichts liegen lassen</span>
+          </span>
+        </button>
+        <button class="market-node markt-stelle" type="button" aria-pressed="false"
+                data-title="Arbeitgeberlösungen" data-details="Betriebliche Möglichkeiten nutzen|Mitarbeiterbindung und Absicherung verbinden">
+          <span class="markt-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg><i class="markt-plus" aria-hidden="true"></i></span>
+          <span class="markt-stelle-text">
+            <strong>Arbeitgeberlösungen</strong>
+            <span class="markt-kurz">Betriebliche Vorsorge</span>
+            <span class="markt-kurz">Arbeitgebercheck</span>
+          </span>
+        </button>
+        <button class="market-node markt-stelle" type="button" aria-pressed="false"
+                data-title="Mobilität &amp; KFZ" data-details="Fahrzeuge passend absichern|Kosten und Schutz gemeinsam betrachten">
+          <span class="markt-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9L18.4 5.6C18.1 4.6 17.2 4 16.2 4H7.8c-1 0-1.9.6-2.2 1.6L3.5 11.1C2.7 11.3 2 12.1 2 13v3c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg><i class="markt-plus" aria-hidden="true"></i></span>
+          <span class="markt-stelle-text">
+            <strong>Mobilität &amp; KFZ</strong>
+            <span class="markt-kurz">KFZ-Versicherung</span>
+            <span class="markt-kurz">Schutz und Kosten</span>
+          </span>
+        </button>
 
-          <div class="markt-mitte">
-            <img data-bb="foto" src="/assets/images/kai-portrait.jpg" alt="Kai Blobel">
-            <strong data-bb="name">Kai Blobel</strong>
-            <small>Ein Ansprechpartner</small>
-          </div>
+        <div class="markt-mitte">
+          <img data-bb="foto" src="/assets/images/kai-portrait.jpg" alt="Kai Blobel">
+          <strong data-bb="name">Kai Blobel</strong>
+          <small>Ein Ansprechpartner</small>
         </div>
+      </div>
 
-        <div class="markt-detail" aria-live="polite">
-          <span class="markt-detail-kicker" id="marketDetailKicker">Deine Ziele</span>
-          <h3 id="marketDetailTitle">Ganzheitlich gedacht.</h3>
-          <p id="marketDetailHint">Wähle ein Themenfeld aus, dann siehst du, was dazugehört.</p>
-          <ul id="marketDetailList" hidden></ul>
-        </div>
+      <div class="markt-tiefe" id="marketDetail" aria-live="polite">
+        <span class="markt-tiefe-kicker" id="marketDetailKicker">Deine Ziele</span>
+        <h3 id="marketDetailTitle">Ganzheitlich gedacht.</h3>
+        <p id="marketDetailHint">Tippe ein Feld an, dann steht hier ausführlich, was dazugehört.</p>
+        <ul id="marketDetailList" hidden></ul>
       </div>
 
       <p class="markt-fuss">Ein Ansprechpartner, der die Zusammenhänge im Blick behält.</p>
@@ -960,6 +1041,6 @@
   </div>
 
   <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
-  <script type="module" src="js/programm.js?v=60"></script>
+  <script type="module" src="js/programm.js?v=61"></script>
 </body>
 </html>

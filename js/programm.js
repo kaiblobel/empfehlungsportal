@@ -373,57 +373,74 @@ if (presenterLength && openedFromHub) presenterLength.hidden = false;
   });
 })();
 
-// === Interaktive Marktübersicht im Teamwork-Abschnitt ===
+// === Marktübersicht im Teamwork-Abschnitt ===
+// Seit Phase 287 zeigt sie alles offen: Symbol, Titel und zwei kurze Stichworte
+// je Feld, dazu Pfeile vom Zentrum nach außen. Am Symbol sitzt ein Plus; wer es
+// antippt, bekommt den ausführlichen Text im Band unter dem Rad. Vorher lag der
+// Text in einer Spalte rechts, die dem Rad die halbe Breite nahm.
 (function initMarketOverview() {
   const openBtn = document.getElementById('marketOpen');
   const overlay = document.getElementById('marketOverlay');
   const closeBtn = document.getElementById('marketClose');
   if (!openBtn || !overlay || !closeBtn) return;
 
-  const nodes = Array.from(overlay.querySelectorAll('.market-node'));
+  const rad = document.getElementById('marketMap');
+  const stellen = Array.from(overlay.querySelectorAll('.markt-stelle'));
+  const speichen = rad ? rad.querySelector('.markt-speichen') : null;
   const kicker = document.getElementById('marketDetailKicker');
   const title = document.getElementById('marketDetailTitle');
   const hint = document.getElementById('marketDetailHint');
   const list = document.getElementById('marketDetailList');
   let hideTimer = null;
 
-  nodes.forEach(node => {
-    const iconName = node.dataset.marketIcon;
-    const iconEl = node.querySelector('.market-node-icon');
-    if (iconEl && ICONS[iconName]) iconEl.innerHTML = lucideIcon(iconName, { size: 24 });
-  });
+  // Winkel und Radius werden gerechnet, nicht getippt: von Hand eingetippte
+  // Koordinaten schwankten früher zwischen 31 und 45 Grad, die Karte stand
+  // sichtbar schief. Das halbe Segment Drehung (180/n) sorgt dafür, dass kein
+  // Feld genau oben oder unten sitzt; dort hätte der Block keinen Platz.
+  // Die Streckung macht aus dem Kreis eine Ellipse, weil zehn Textblöcke
+  // senkrecht mehr Abstand brauchen als waagerecht.
+  const RADIUS = 28;
+  const STRECKUNG = 1.45;
 
-  // Die Felder exakt auf dem Kreis verteilen: 360 durch ihre Anzahl, alle mit
-  // demselben Radius. Vorher standen die Koordinaten von Hand im HTML, dadurch
-  // schwankten die Winkel zwischen 31 und 45 Grad. Gerechnet stimmt es auch,
-  // wenn irgendwann ein elftes Thema dazukommt.
-  const RADIUS = 36; // Prozent, derselbe Wert wie der Ring im SVG
-  nodes.forEach((node, i) => {
-    const winkel = (90 - i * (360 / nodes.length)) * Math.PI / 180;
-    node.style.setProperty('--x', `${(50 + RADIUS * Math.cos(winkel)).toFixed(3)}%`);
-    node.style.setProperty('--y', `${(50 - RADIUS * Math.sin(winkel)).toFixed(3)}%`);
-  });
+  (function verteile() {
+    if (!stellen.length) return;
+    const n = stellen.length;
+    stellen.forEach((el, i) => {
+      const bog = (90 - 180 / n - i * (360 / n)) * Math.PI / 180;
+      const cos = Math.cos(bog), sin = Math.sin(bog);
+      el.style.setProperty('--sx', (50 + RADIUS * cos).toFixed(3) + '%');
+      el.style.setProperty('--sy', (50 - RADIUS * sin * STRECKUNG).toFixed(3) + '%');
+      el.dataset.seite = cos < 0 ? 'links' : 'rechts';
+
+      if (!speichen) return;
+      const von = 13, bis = RADIUS - 9, spitze = 1.7;
+      const x1 = 50 + von * cos, y1 = 50 - von * sin * STRECKUNG;
+      const x2 = 50 + bis * cos, y2 = 50 - bis * sin * STRECKUNG;
+      const ax = x2 - spitze * Math.cos(bog - 0.45);
+      const ay = y2 + spitze * Math.sin(bog - 0.45) * STRECKUNG;
+      const bx = x2 - spitze * Math.cos(bog + 0.45);
+      const by = y2 + spitze * Math.sin(bog + 0.45) * STRECKUNG;
+      speichen.insertAdjacentHTML('beforeend',
+        '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '"/>' +
+        '<path d="M ' + ax + ' ' + ay + ' L ' + x2 + ' ' + y2 + ' L ' + bx + ' ' + by + '"/>');
+    });
+  })();
 
   function resetDetails() {
-    nodes.forEach(node => {
-      node.classList.remove('is-active');
-      node.setAttribute('aria-pressed', 'false');
-    });
+    stellen.forEach(el => el.setAttribute('aria-pressed', 'false'));
     kicker.textContent = 'Deine Ziele';
     title.textContent = 'Ganzheitlich gedacht.';
-    hint.textContent = 'Wähle ein Themenfeld aus.';
     hint.hidden = false;
     list.hidden = true;
     list.replaceChildren();
   }
 
   function showDetails(node) {
-    nodes.forEach(item => {
-      const isActive = item === node;
-      item.classList.toggle('is-active', isActive);
-      item.setAttribute('aria-pressed', String(isActive));
-    });
+    // Nochmal auf dasselbe Feld tippen schließt es wieder: das Plus ist dann
+    // Schalter und nicht Einbahnstraße.
+    if (node.getAttribute('aria-pressed') === 'true') { resetDetails(); return; }
 
+    stellen.forEach(el => el.setAttribute('aria-pressed', String(el === node)));
     kicker.textContent = 'Im Blick behalten';
     title.textContent = node.dataset.title || '';
     hint.hidden = true;
@@ -460,7 +477,7 @@ if (presenterLength && openedFromHub) presenterLength.hidden = false;
 
   openBtn.addEventListener('click', openOverview);
   closeBtn.addEventListener('click', closeOverview);
-  nodes.forEach(node => node.addEventListener('click', () => showDetails(node)));
+  stellen.forEach(node => node.addEventListener('click', () => showDetails(node)));
 
   document.addEventListener('keydown', event => {
     if (!overlay.classList.contains('offen')) return;

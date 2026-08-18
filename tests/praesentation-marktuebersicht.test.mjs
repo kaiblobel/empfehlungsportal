@@ -51,13 +51,29 @@ for (const name of [...css.matchAll(/\.([a-z-]+-overlay)\s*\{/g)].map(m => m[1])
     `.${name}.offen muss die Klicks wieder annehmen`);
 }
 
-// --- Die zehn Felder rechnet das Skript auf den Kreis, ihre Texte stehen im
-// HTML. Ohne data-details bliebe die rechte Spalte beim Antippen leer. ---
-const knoten = [...html.matchAll(/class="market-node markt-knoten"[^>]*>/g)].map(m => m[0]);
+// --- Die zehn Felder rechnet das Skript auf die Ellipse, ihre Texte stehen im
+// HTML. Am Rad stehen zwei kurze Stichworte, in data-details der ausführliche
+// Text, der beim Antippen im Band unter dem Rad aufklappt. Ohne data-details
+// bliebe das Band leer. ---
+const knoten = [...html.matchAll(/class="market-node markt-stelle"[\s\S]*?>/g)].map(m => m[0]);
 assert.equal(knoten.length, 10, 'zehn Themenfelder');
 for (const k of knoten) {
   assert.match(k, /data-title="[^"]+"/, 'jedes Feld braucht eine Überschrift');
   assert.match(k, /data-details="[^"|]+\|[^"]+"/, 'jedes Feld braucht zwei Punkte im Detail');
 }
+
+// --- Das Plus am Symbol ist das sichtbare Versprechen, dass hinter dem Feld
+// etwas liegt. Ohne es sieht niemand, dass die Felder Knöpfe sind: genau das
+// war der Anlass für den Umbau in Phase 287. ---
+assert.equal((html.match(/class="markt-plus"/g) || []).length, 10,
+  'jedes der zehn Felder braucht das Plus am Symbol');
+assert.match(css, /\.markt-stelle\[aria-pressed="true"\] \.markt-plus::after\{[^}]*opacity:0/,
+  'beim geöffneten Feld muss aus dem Plus ein Minus werden');
+
+// --- Das Rad darf nicht wieder in einer halben Spalte landen. ---
+assert.match(css, /\.markt-rad\{[^}]*max-width:960px/,
+  'das Rad steht auf 960 Pixeln, vorher waren es 520 neben einer Textspalte');
+assert.doesNotMatch(css, /\.markt-detail\{/,
+  'die alte Detailspalte rechts ist ersetzt durch .markt-tiefe unter dem Rad');
 
 console.log('praesentation-marktuebersicht: alles in Ordnung');
