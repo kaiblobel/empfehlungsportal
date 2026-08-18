@@ -58,7 +58,10 @@ export async function getCurrentBerater() {
   if (!user) return null;
   const { data, error } = await supabase
     .from('berater')
-    .select('id, name, rolle, foto_url, slug, bookings_url, whatsapp, telefon, email, impressum_url, datenschutz_url, ist_admin, buero_foto_url, team_foto_url, buero_bildzeile')
+    // Muss dieselben Felder liefern wie get_berater_public. Dies ist der dritte
+    // Weg zum Berater (eingeloggte Vorschau); fehlt hier ein Feld, sieht der
+    // Berater seine eigene Seite anders als seine Kunden sie sehen.
+    .select('id, name, rolle, foto_url, slug, bookings_url, whatsapp, telefon, email, impressum_url, datenschutz_url, ist_admin, buero_foto_url, team_foto_url, buero_bildzeile, adresse')
     .eq('auth_user_id', user.id)
     .maybeSingle();
   if (error) {

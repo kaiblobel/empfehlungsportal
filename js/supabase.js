@@ -541,7 +541,7 @@ export async function listBerater() {
       // wird als leeres Feld gezeichnet und beim nächsten Speichern auf null
       // gesetzt. Genau so gingen die drei Bildfelder aus Phase 251 verloren:
       // Wer nur die Telefonnummer korrigierte, löschte dabei das Bürofoto.
-      .select('id, name, slug, email, rolle, telefon, foto_url, whatsapp, bookings_url, impressum_url, datenschutz_url, buero_foto_url, team_foto_url, buero_bildzeile, ist_aktiv, created_at, auth_user_id, fuehrungskraft_id, ist_test')
+      .select('id, name, slug, email, rolle, telefon, foto_url, whatsapp, bookings_url, impressum_url, datenschutz_url, buero_foto_url, team_foto_url, buero_bildzeile, adresse, ist_aktiv, created_at, auth_user_id, fuehrungskraft_id, ist_test')
       .order('created_at', { ascending: true });
     if (error) throw error;
     return { data: data || [], error: null };
