@@ -1,7 +1,27 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.305 Beta** · Der Menüpunkt heißt KIDZ-Konzept, live seit 17.08.2026.
+Offizielle Live-Version: **v1.306 Beta** · Der Abschnitt „Ein Ansprechpartner" ist eine Lebensachse, live seit 18.08.2026.
+
+## v1.306 Beta - Phase 286 · Der Abschnitt „Ein Ansprechpartner" ist eine Lebensachse
+
+**2026-08-18**
+
+**Kais Befund beim Durchgang durch die Präsentation: „sieht alles so gleich aus".** Gemeint war der Abschnitt „Ein Ansprechpartner für alles, was mit Geld zu tun hat.". Dort standen sechs Felder als 3x2-Raster, alle gleich groß, gleich schwer, gleich gebaut: goldenes Strichsymbol, fette Zeile, graue Zeile. Nichts sagte, wo man hinschauen soll. Dazu kommt, dass die Seite solche Raster ohnehin reichlich hat (sechs Alltagsbilder, vier Themenkarten, drei Handys, sechs Meilensteine), das siebte fiel deshalb nur noch als Gleichförmigkeit auf.
+
+**Aus dem Raster ist eine durchlaufende Linie mit sechs Stationen geworden.** Über jeder Station steht ein Lebensmoment, darunter das Fachgebiet: erster Job, erste eigene Wohnung, Familie, eigenes Zuhause, es bleibt was übrig, wenn es drauf ankommt. Am Ende der Achse steht kein siebtes Thema, sondern was alle sechs verbindet: „Und immer derselbe Ansprechpartner. Kein neuer Anfang, kein neues Erklären, keine zweite Akte."
+
+**Damit zeigt der Abschnitt den Satz, der ohnehin darüber steht** („Wenn sich dein Leben verändert, fängst du nicht jedes Mal bei null an") statt ihn nur zu behaupten. Und er dreht die Perspektive: die Reihe liest sich als Biografie des Kunden, nicht als Sortiment des Beraters. Vor allem ist es ein Gesprächswerkzeug. Im Termin fährt der Berater die Achse ab und fragt „wo stehst du gerade?", was bei einer Kachelwand nicht geht.
+
+**Drei Varianten standen zur Wahl** und wurden Kai als Mock nebeneinander gezeigt (`mockups/anker-aufwertung-v1.html`, mit dem alten Stand als erste Zeile zum Vergleich): diese Lebensachse, ein Blickanker (das Versprechen als große dunkle Karte mit den Zahlen 1 / 6 / 0, die Felder daneben als Register) und ein Register mit großen Ziffern. Der Blickanker war kurz gebaut und wurde wieder ausgebaut, nachdem Kai die Achse gesehen hatte. Das Versprechen „Du erzählst deine Geschichte nur einmal" bleibt deshalb der kleine Kasten oben rechts.
+
+**Zwei Dinge, die beim Bauen auffielen:**
+- **Die Titel sind unterschiedlich lang, und ohne Mindesthöhe startet jeder Untertitel auf einer anderen Linie.** Die Reihe zerfällt dann optisch. Der Titel hat jetzt zwei Zeilen Mindesthöhe, damit stehen alle Untertitel auf einer Grundlinie. Zusätzlich gekürzt: „Bauen, Kaufen, Finanzieren" zu „Bauen und Finanzieren" (eine dreiteilige Aufzählung bricht in einer 150 Pixel schmalen Spalte hässlich um) und der Untertitel darunter auf „Kauf, Neubau oder Anschluss", dieselbe Sprache wie auf der Themenkarte.
+- **Lebensmoment und Untertitel sind beide ein `span`.** Auf dem Handy lagen sie deshalb übereinander, weil `.achse-stop span` beide traf und in dieselbe Rasterzeile schickte. Der Untertitel trägt jetzt die eigene Klasse `.achse-satz`. Bei zwei gleichartigen Elementen im selben Baustein reicht der Elementname als Selektor nicht.
+
+**Umbruchpunkte:** Unter 980 Pixeln behält die Achse ihre Reihe, die Stationen rücken nur enger zusammen. Unter 900 kippt sie senkrecht, und das Symbol steht dann **neben** dem Text statt darüber; übereinander wären aus sechs Stationen drei Bildschirme zum Scrollen geworden. Die Linie läuft dabei durch die Punkte und endet weich, bevor der Abschlusssatz beginnt.
+
+**Cache-Marke der `praesentation.css` auf `?v=12`.** Die Datei wird nur von `programm.html` geladen, deshalb blieb es bei einer Stelle.
 
 ## v1.305 Beta - Phase 285 · Der Menüpunkt heißt KIDZ-Konzept
 

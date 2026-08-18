@@ -260,8 +260,10 @@ h1, h2, h3{letter-spacing:-0.021em;}
 }
 
 /* ============================================================
-   4 · Ein Ansprechpartner. Die Felder stehen in Spalten wie ein
-   Register, getrennt durch Haarlinien. Keine Karten, keine Schatten.
+   4 · Ein Ansprechpartner. Seit Phase 286 trägt das Versprechen den
+   Abschnitt als dunkle Karte, die sechs Felder stehen daneben als
+   ruhiges Register. Vorher standen sie als 3x2-Raster da, alle gleich
+   groß: nichts hielt den Blick. Ein Anker, sechs Belege.
    ============================================================ */
 .anker{padding:80px 0 0;}
 .anker-kopf{
@@ -284,28 +286,53 @@ h1, h2, h3{letter-spacing:-0.021em;}
   font-size:15px; color:var(--ink); font-weight:600;
   white-space:nowrap;
 }
-.anker-felder{
-  display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
-  border-top:1px solid var(--line);
+
+/* Die Lebensachse. Eine durchlaufende Linie mit sechs Stationen, statt
+   sechs gleich großer Kästen: der Satz „fängst du nicht jedes Mal bei null
+   an" wird damit gezeigt und nicht behauptet. Über jeder Station steht der
+   Lebensmoment, darunter das Fachgebiet. */
+.achse{margin-top:12px;}
+.achse-bahn{
+  position:relative;
+  display:grid; grid-template-columns:repeat(6,minmax(0,1fr));
+  padding-top:64px;
 }
-.anker-feld{
-  padding:22px 26px 24px 0;
-  border-right:1px solid var(--line-soft);
-  border-bottom:1px solid var(--line-soft);
+/* Die Linie läuft an beiden Enden weich aus, sonst sieht sie wie ein
+   abgeschnittenes Diagramm aus. Sie sitzt auf halber Höhe der Punkte. */
+.achse-bahn::before{
+  content:""; position:absolute; left:0; right:0; top:86px; height:1px;
+  background:linear-gradient(90deg,transparent 0,var(--line) 6%,var(--line) 94%,transparent 100%);
 }
-.anker-feld:nth-child(3n){border-right:0; padding-right:0;}
-.anker-feld:nth-child(n+4){padding-top:22px; padding-bottom:0; border-bottom:0;}
-.anker-feld svg{
-  display:block; width:22px; height:22px;
-  margin-bottom:13px;
-  color:var(--gold);
-  stroke-width:1.5;
+.achse-stop{position:relative; padding-right:16px;}
+.achse-phase{
+  position:absolute; top:-52px; left:0;
+  font-family:var(--serif); font-size:12.5px; font-weight:500;
+  letter-spacing:0.02em; color:var(--faint);
 }
-.anker-feld strong{
-  display:block; margin-bottom:5px;
-  font-size:15.5px; font-weight:600; color:var(--ink);
+.achse-punkt{
+  position:relative; z-index:1;
+  width:44px; height:44px; margin-bottom:20px;
+  display:grid; place-items:center;
+  border-radius:50%; background:var(--card); border:1px solid var(--line);
 }
-.anker-feld span{display:block; font-size:13.5px; line-height:1.45; color:var(--muted);}
+.achse-punkt svg{width:20px; height:20px; color:var(--gold); stroke-width:1.5;}
+/* Zwei Zeilen Mindesthöhe: die Titel sind unterschiedlich lang, ohne das
+   startet jeder Untertitel auf einer anderen Linie und die Reihe zerfällt. */
+.achse-stop strong{
+  display:block; min-height:2.5em; margin-bottom:6px;
+  font-family:var(--head); font-weight:600; font-size:16px; line-height:1.25;
+  color:var(--ink);
+}
+.achse-satz{display:block; font-size:13px; line-height:1.45; color:var(--muted);}
+/* Am Ende der Achse steht kein siebtes Thema, sondern das, was alle sechs
+   verbindet. */
+.achse-ende{
+  grid-column:1 / -1; margin-top:40px; padding-top:22px;
+  border-top:1px solid var(--line-soft);
+  display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;
+}
+.achse-ende b{font-family:var(--head); font-weight:600; font-size:19px; color:var(--ink);}
+.achse-ende em{font-style:normal; font-size:14.5px; color:var(--muted);}
 .anker-mehr{
   margin-top:22px; padding:0 0 2px; border:0; background:none;
   font:600 13.5px/1 var(--sans); color:var(--ink);
@@ -1285,11 +1312,10 @@ h1, h2, h3{letter-spacing:-0.021em;}
   .alltag-zwei{grid-template-columns:1fr; gap:12px;}
   .anker-kopf{grid-template-columns:1fr; gap:22px; align-items:start;}
   .anker-versprechen{white-space:normal;}
-  .anker-felder{grid-template-columns:repeat(2,minmax(0,1fr));}
-  .anker-feld:nth-child(2n){border-right:0; padding-right:0;}
-  .anker-feld:nth-child(2n+1){border-right:1px solid var(--line-soft); padding-right:26px;}
-  .anker-feld:nth-child(n+4){padding-bottom:24px; border-bottom:1px solid var(--line-soft);}
-  .anker-feld:nth-child(n+5){padding-bottom:0; border-bottom:0;}
+  /* Sechs Spalten wären hier 140 Pixel breit. Die Achse behält die Reihe,
+     die Stationen rücken nur enger zusammen. */
+  .achse-stop{padding-right:12px;}
+  .achse-stop strong{font-size:15px;}
   .tuer-fakten{grid-template-columns:1fr; gap:0;}
   .tuer-fakten div{padding:16px 0; border-bottom:1px solid rgba(255,255,255,.1);}
   .schritte{grid-template-columns:1fr; gap:44px;}
@@ -1312,6 +1338,27 @@ h1, h2, h3{letter-spacing:-0.021em;}
   .themen-fertig{grid-template-columns:1fr;}
   .wrap{padding:0 20px;}
   .skala button{width:40px; height:40px;}
+}
+
+/* Auf dem Handy kippt die Achse senkrecht. Das Symbol steht dabei NEBEN
+   dem Text, nicht darüber: übereinander wären aus sechs Stationen drei
+   Bildschirme zum Scrollen geworden. Die Linie läuft durch die Punkte und
+   endet weich, bevor der Abschlusssatz beginnt. */
+@media (max-width:900px){
+  .achse-bahn{grid-template-columns:1fr; gap:24px; padding-top:0;}
+  .achse-bahn::before{
+    left:21px; right:auto; top:8px; bottom:0; width:1px; height:auto;
+    background:linear-gradient(180deg,var(--line) 0,var(--line) 74%,transparent 100%);
+  }
+  .achse-stop{
+    display:grid; grid-template-columns:44px minmax(0,1fr);
+    column-gap:18px; padding:0;
+  }
+  .achse-punkt{grid-column:1; grid-row:1 / span 3; margin-bottom:0;}
+  .achse-phase{position:static; grid-column:2; grid-row:1; margin-bottom:2px;}
+  .achse-stop strong{grid-column:2; grid-row:2; min-height:0; font-size:16px;}
+  .achse-satz{grid-column:2; grid-row:3;}
+  .achse-ende{margin-top:32px;}
 }
 
 /* ============================================================
