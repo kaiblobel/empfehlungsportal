@@ -1,7 +1,32 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.308 Beta** · Das Zitat steht ruhig, live seit 18.08.2026.
+Offizielle Live-Version: **v1.309 Beta** · Die KIDZ-Elternseite fährt als Zug, live seit 18.08.2026.
+
+## v1.309 Beta - Phase 289 · Die KIDZ-Elternseite fährt als Zug
+
+**2026-08-18**
+
+**Die Elternseite `kidz-konzept.html` ist von sieben Kapiteln auf vierzehn Abschnitte umgebaut.** Kern ist der **KIDZ-Zug**: die Vermögensaufbau-Lok und sieben Waggons von „Gesundheit früh sichern" bis „Sicher im Kinderalltag", jeder antippbar mit eigenem Detailblock, am Handy als Wischband. Neu sind außerdem die ausführliche 55-Euro-Rechnung und ein Abschnitt, der **§ 12 SGB V** im Wortlaut zeigt, in den Eltern den Namen ihres Kindes einsetzen können.
+
+**Diese Arbeit entstand am 17.08.2026 in einer anderen Sitzung** und lag seither ungespeichert im Arbeitsverzeichnis, ohne einen einzigen Speicherpunkt. Sie ist zuerst unverändert festgehalten worden (Commit „KIDZ-Elternseite: die neue Erzählung mit dem KIDZ-Zug"), bevor etwas daran geändert wurde. So bleibt nachvollziehbar, was von dort kam und was danach korrigiert wurde.
+
+**In der Beispielrechnung stimmte eine Zahl nicht.** Der Hinweis nennt 7,3 Prozent Wertentwicklung, monatlich vorschüssig. Nachgerechnet passte davon nur der Wert „ohne frühen Start"; der Startwert nach 18 Jahren entsprach 7,70 Prozent statt 7,3, und weil die ganze Kette darauf aufbaut, standen am Ende rund 32.000 Euro zu viel. Alle vier Werte sind jetzt konsistent mit den angegebenen 7,3 Prozent:
+
+| | vorher | jetzt |
+|---|---|---|
+| nach 18 Jahren | 25.008 € | **24.000 €** |
+| bis zum 67. Lebensjahr | 1.077.120 € | **1.045.154 €** |
+| ohne frühen Start | 287.391 € | **287.274 €** |
+| Vorsprung | 789.729 € | **757.880 €** |
+
+Die Aussage bleibt dieselbe, die Zahlen tragen jetzt. Der Hinweistext darunter blieb unverändert, er nannte die Annahmen von Anfang an sauber („dient der Veranschaulichung, ist keine Zusage, Kosten, Steuern und Inflation nicht berücksichtigt").
+
+**Der letzte Waggon heißt bewusst nicht „Unfallschutz".** Er erzählt aus Elternsicht, was ein Kind nach einem Unfall für Genesung und Alltag braucht. Von Arbeitskraft ist bei Kindern nirgends die Rede, stattdessen davon, welche Möglichkeiten der heutige Gesundheitszustand für später offenhält.
+
+**Die Cache-Marke der `kidz-konzept.css` stand nur halb.** Die neue Fassung war auf `?v=24` gezählt, `kidz-empfehlung.html` lud aber weiter `?v=23`; zwei Seiten, dieselbe Datei, verschiedene Stände. Genau das meldete `versionsstand.test.mjs` seit gestern. Beide stehen jetzt auf `?v=24`, und damit laufen erstmals seit Tagen **alle 84 Wächter grün**.
+
+**Die Menüsperre im Portal bleibt.** Kais Entscheidung: Der Punkt „KIDZ-Konzept" in der Seitenleiste trägt weiter die Marke „bald" und führt nirgendwo hin, ebenso die Vorschau-Kachel in den Einstellungen. Die öffentliche Adresse `kidz.teamwachsbleiche.de/konzept` zeigt die neue Seite, die Partner sollen sie aber noch nicht über das Portal ansteuern.
 
 ## v1.308 Beta - Phase 288 · Das Zitat steht ruhig
 
