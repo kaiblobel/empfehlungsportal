@@ -1,5 +1,12 @@
 -- Phase 291 · Jeder Berater bringt seine eigene Anschrift mit
 --
+-- AUSGEFÜHRT am 18.08.2026 auf kkseqhmfubzfyloffkwe.
+-- Danach als anonymer Besucher gegengeprüft: beide Funktionen liefern die
+-- Spalte, security definer und search_path stehen, die Ausführungsrechte für
+-- anon, authenticated und service_role sind wieder gesetzt. Die Beraterauswahl
+-- der KIDZ-Anmeldeseiten (list_kidz_berater_public) liefert unverändert ihre
+-- Einträge. Kais Anschrift ist eingetragen, die der Partner stehen aus.
+--
 -- Auf den Kundenseiten steht die Anschrift bisher fest im HTML:
 -- „An der Wachsbleiche 1a · 03046 Cottbus". Auf der Seite eines Partners aus
 -- einer anderen Stadt ist das eine falsche Absenderangabe, und zwar nicht als

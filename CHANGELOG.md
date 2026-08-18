@@ -45,6 +45,8 @@ Noch offen: Die Seite ist im Menü nicht verlinkt, und `empfaenger.html` bleibt 
 
 **Reihenfolge beim Ausführen:** erst das SQL-Skript, dann als anonymer Besucher gegenprüfen (`select * from public.get_berater_public('kai-blobel')` muss eine Spalte `adresse` liefern), dann die Anschriften pflegen, und erst danach eine Kundenseite die Zeile anzeigen lassen. Andersherum bleibt sie überall leer und niemand merkt, dass nur die Pflege fehlt.
 
+**Ausgeführt am 18.08.2026.** Gegengeprüft wurde in der Rolle `anon`, nicht als Angemeldeter: Als Admin sieht die Sache auch dann gut aus, wenn die Rechte fehlen. Beide Funktionen liefern die neue Spalte, `security definer` und `search_path` stehen, die Rechte für `anon`, `authenticated` und `service_role` sind wieder gesetzt. Zusätzlich geprüft: `list_kidz_berater_public` hinter der Beraterauswahl der Anmeldeseiten liefert unverändert ihre Einträge, und `promoter-start.html` lädt ohne Fehlermeldung — die Seite ist der schnellste Anzeiger für ein Rechteproblem, weil sie als einzige sichtbar meckert. Kais Anschrift ist eingetragen; die der sechs Partner stehen aus, ihre Zeile bleibt so lange leer.
+
 ---
 
 ## v1.310 Beta - Phase 290 · Die Berater-Verwaltung löscht keine Bilder mehr
