@@ -36,9 +36,21 @@ const ERLAUBTE_QUELLEN = new Set([
   'whatsapp', 'facebook', 'instagram', 'berater-einladung',
 ]);
 
-/** ?berater=slug aus der Adresse, wenn er unverdächtig aussieht. */
+/**
+ * Der Berater aus der Adresse, wenn er unverdächtig aussieht.
+ *
+ * Zwei Formen, beide müssen gelesen werden:
+ *   /ueberblick.html?berater=slug   → steht in der Abfrage
+ *   /ueberblick/slug                → steht im Pfad
+ *
+ * Die kurze Form leitet Vercel serverseitig um. Die Adresszeile im Browser
+ * behält dabei den Pfad, in der Abfrage steht also nichts. Wer nur dort
+ * nachsieht, findet den Berater nie und zeigt still den Standard-Berater.
+ * Dasselbe Muster wie in js/baufi.js und js/promoter-start.js.
+ */
 function slugAusAdresse() {
-  const roh = String(params.get('berater') || '').trim().toLowerCase();
+  const ausPfad = window.location.pathname.match(/^\/ueberblick\/([a-z0-9-]+)\/?$/i);
+  const roh = String(params.get('berater') || (ausPfad ? ausPfad[1] : '')).trim().toLowerCase();
   return (roh && roh.length <= 80 && SICHERER_SLUG.test(roh)) ? roh : '';
 }
 
@@ -84,7 +96,8 @@ function setzeKopfbild(b) {
 function ergaenzeWege(beraterSlug) {
   const quelleRoh = String(params.get('quelle') || '').trim().toLowerCase();
   const quelle = ERLAUBTE_QUELLEN.has(quelleRoh) ? quelleRoh : 'direkt';
-  const berater = String(beraterSlug || params.get('berater') || '').trim().toLowerCase();
+  // slugParam statt params.get: der Berater kann auch im Pfad stehen.
+  const berater = String(beraterSlug || slugParam || '').trim().toLowerCase();
 
   document.querySelectorAll('#ubFinanzcheck, #ubAustragen').forEach((link) => {
     const roh = link.getAttribute('href');

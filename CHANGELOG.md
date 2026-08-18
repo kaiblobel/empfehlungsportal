@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.312 Beta** · Das ganze Bild als eigene Seite, live seit 18.08.2026.
+Offizielle Live-Version: **v1.313 Beta** · Die Kurzadresse mit Berater greift, live seit 18.08.2026.
+
+## v1.313 Beta - Phase 293 · Die Kurzadresse mit Berater greift
+**2026-08-18**
+
+**`/ueberblick/sven-augustin` zeigte Kai.** Der Rewrite in `vercel.json` steht richtig, aber er greift **serverseitig**: Vercel liefert `/ueberblick.html?berater=sven-augustin` aus, die Adresszeile im Browser behält jedoch den Pfad. In `window.location.search` steht damit nichts, und `js/ueberblick.js` sah nur dort nach.
+
+Der Fehler war live nicht zu übersehen und lokal nicht zu finden: `python -m http.server` kennt die Rewrites nicht, dort gibt es die kurze Form gar nicht. Aufgefallen ist es beim Gegencheck nach dem Veröffentlichen.
+
+**`js/ueberblick.js` liest jetzt beide Formen**, wie `js/baufi.js` es für `/baufinanzierung/:berater` und `js/promoter-start.js` für `/p/:berater/:quelle` längst tun. Auch die Weitergabe an die Folgelinks nimmt den Slug aus dem Pfad, sonst verlöre der Finanzcheck den Absender.
+
+**Der Wächter prüft das mit**, gegengeprobt durch Entfernen der Zeile.
+
+Zur Einordnung: Die Seite war rund zwanzig Minuten mit diesem Fehler live, verlinkt war sie in dieser Zeit nirgends.
+
+---
 
 ## v1.312 Beta - Phase 292 · Das ganze Bild als eigene Seite
 **2026-08-18**

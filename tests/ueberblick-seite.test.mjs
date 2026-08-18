@@ -114,6 +114,14 @@ assert.match(logik, /meta\[name="referral-token"\]/,
 assert.match(logik, /SICHERER_SLUG\.test/,
   'js/ueberblick.js prüft den Berater-Slug aus der Adresse nicht.');
 
+// Die Kurzadresse /ueberblick/slug leitet Vercel serverseitig um. Die
+// Adresszeile behält dabei den Pfad, in der Abfrage steht nichts. Wer nur dort
+// nachsieht, zeigt bei jedem Partner still den Standard-Berater.
+assert.match(logik, /pathname\.match\(\/\^\\\/ueberblick\\\//,
+  'js/ueberblick.js liest den Berater nicht aus dem Pfad. Dann funktioniert '
+    + '/ueberblick/slug nicht, obwohl der Rewrite in vercel.json steht. '
+    + 'Muster wie in js/baufi.js und js/promoter-start.js.');
+
 for (const haken of ['name', 'foto', 'rolle', 'adresse', 'booking', 'finanzcheck', 'impressum', 'datenschutz']) {
   assert.match(seite, new RegExp(`data-bb="${haken}"`),
     `ueberblick.html: der Branding-Haken data-bb="${haken}" fehlt. `
