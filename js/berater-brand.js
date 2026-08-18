@@ -12,6 +12,8 @@
  *   data-bb="name"      → textContent = name
  *   data-bb="vorname"   → textContent = erster Namensteil
  *   data-bb="rolle"     → textContent = rolle
+ *   data-bb="adresse"   → textContent = adresse; ohne Eintrag wird das Element
+ *                         (oder sein [data-bb-optional]-Träger) versteckt
  *   data-bb="initialen" → textContent = Initialen aus name (z. B. „SW")
  *   data-bb="booking"   → <a>.href = bookings_url
  *   data-bb="whatsapp"  → <a>.href = https://wa.me/<whatsapp>
@@ -36,7 +38,8 @@
 // Sonst liegt im Browser ein alter Stand ohne die neuen Bilder, und die Seite
 // setzt daraus das Portrait, obwohl längst ein Bürofoto hinterlegt ist. Ein
 // neuer Schlüssel lässt den alten Eintrag einfach links liegen.
-const BRAND_CACHE_PREFIX = 'bb_berater_v2_';
+// v3 seit Phase 291 (Anschrift am Berater).
+const BRAND_CACHE_PREFIX = 'bb_berater_v3_';
 
 export function merkeBerater(key, b) {
   if (!key || !b) return;
@@ -126,6 +129,22 @@ export function applyBeraterBrand(b) {
       case 'rolle':
         if (b.rolle) el.textContent = b.rolle;
         break;
+      case 'adresse': {
+        // Anders als bei den Bildfeldern gibt es hier bewusst KEINE
+        // 'feld' in b-Prüfung. Ein alter Zwischenspeicher oder ein Leseweg
+        // ohne die Spalte würde sonst die Anschrift aus dem HTML stehen
+        // lassen — und das ist die eines anderen Beraters. Bei einem Foto
+        // wäre das ein Schönheitsfehler, bei einer Anschrift eine falsche
+        // Absenderangabe. Ohne Wert verschwindet die Zeile lieber ganz.
+        const traeger = el.closest('[data-bb-optional]') || el;
+        if (b.adresse) {
+          el.textContent = b.adresse;
+          traeger.hidden = false;
+        } else {
+          traeger.hidden = true;
+        }
+        break;
+      }
       case 'initialen':
         if (b.name) {
           el.textContent = b.name.trim().split(/\s+/).map((s) => s[0] || '').join('').slice(0, 2).toUpperCase();

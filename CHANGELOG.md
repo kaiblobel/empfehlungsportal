@@ -1,7 +1,28 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.310 Beta** · Die Berater-Verwaltung löscht keine Bilder mehr, live seit 18.08.2026.
+Offizielle Live-Version: **v1.311 Beta** · Jeder Berater bringt seine eigene Anschrift mit, live seit 18.08.2026.
+
+## v1.311 Beta - Phase 291 · Jeder Berater bringt seine eigene Anschrift mit
+**2026-08-18**
+
+**Die Anschrift stand bisher fest im HTML.** „An der Wachsbleiche 1a · 03046 Cottbus", auf jeder Kundenseite, auch auf der eines Partners aus einer anderen Stadt. Bei einem Foto wäre das ein Schönheitsfehler, bei einer Anschrift ist es eine falsche Absenderangabe.
+
+**Neu ist deshalb ein Feld `adresse` am Berater** (`schema-phase291-berater-adresse.sql`), pflegbar in den Beraterkonten unter „Öffentliche Angaben". Bleibt es leer, verschwindet die Zeile. Es fällt bewusst **nicht** auf eine andere Anschrift zurück: lieber keine Angabe als eine fremde.
+
+**Beim Branding-Haken ist das der Unterschied zu den Bildfeldern.** Die prüfen mit `'feld' in b`, ob der Datensatz die Spalte überhaupt kennt, und lassen sonst den HTML-Wert stehen. Für die Anschrift wäre genau das falsch, weil der HTML-Wert die eines anderen ist. `data-bb="adresse"` blendet deshalb immer aus, wenn kein Wert da ist.
+
+**Zwei Wächter kamen dazu**, beide gegen Fehler, die still bleiben:
+
+`tests/berater-lesefunktionen.test.mjs` sucht sich die jüngste Migration, die `get_berater_public` definiert, und prüft: beide Lesefunktionen geben dieselben Spalten heraus, beide tragen `security definer` und `set search_path`, und nach dem Neuanlegen stehen die Ausführungsrechte für anonyme Besucher wieder da. Fehlt eine dieser Zeilen, bleibt die Seite technisch heil und zeigt trotzdem auf jeder Partnerseite wieder den Standard-Berater. Gegengeprobt mit beiden Fehlerfällen.
+
+`tests/berater-verwaltung-felder.test.mjs` (aus Phase 290) deckt die Anschrift automatisch mit ab, weil sie ein neues Formularfeld ist.
+
+**Der Zwischenspeicher im Browser steigt auf `bb_berater_v3_`.** Ein alter Eintrag kennt die Spalte nicht; ohne den Wechsel sähe ein Berater, der seine Anschrift gerade gepflegt hat, sie beim nächsten Aufruf immer noch nicht. Der Preis ist ein einmaliges Aufblitzen der Standardangaben pro Besucher.
+
+**Reihenfolge beim Ausführen:** erst das SQL-Skript, dann als anonymer Besucher gegenprüfen (`select * from public.get_berater_public('kai-blobel')` muss eine Spalte `adresse` liefern), dann die Anschriften pflegen, und erst danach eine Kundenseite die Zeile anzeigen lassen. Andersherum bleibt sie überall leer und niemand merkt, dass nur die Pflege fehlt.
+
+---
 
 ## v1.310 Beta - Phase 290 · Die Berater-Verwaltung löscht keine Bilder mehr
 **2026-08-18**
