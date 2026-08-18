@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.309 Beta** · Die KIDZ-Elternseite fährt als Zug, live seit 18.08.2026.
+Offizielle Live-Version: **v1.310 Beta** · Die Berater-Verwaltung löscht keine Bilder mehr, live seit 18.08.2026.
+
+## v1.310 Beta - Phase 290 · Die Berater-Verwaltung löscht keine Bilder mehr
+**2026-08-18**
+
+**Wer in der Berater-Verwaltung eine Telefonnummer korrigierte, löschte dabei das Bürofoto.** Und das Teamfoto und die Bildzeile gleich mit, ohne Warnung und ohne dass es jemandem auffiel. Die drei Felder aus Phase 251 waren damit in der Praxis nie stabil.
+
+**Die Ursache liegt im Zusammenspiel zweier Stellen, die einzeln richtig aussehen.** `listBerater()` in `js/supabase.js` liest eine feste Spaltenliste, und die drei Bildfelder standen nicht darin. In `js/berater-admin.js` werden sie trotzdem als Formularfelder gezeichnet, mit `b.buero_foto_url || ''` als Wert — bei einem Datensatz ohne die Spalte also immer leer. Beim Speichern sammelt der Knopf **alle** Felder mit `data-f` ein und schreibt leere als `null` zurück. Drei Felder, die nie geladen wurden, werden so bei jedem Speichern überschrieben.
+
+Aufgefallen ist das bei der Vorbereitung eines Adressfelds für den Berater. Die Anschrift wäre in dieselbe Falle gelaufen: einmal gepflegt, beim nächsten Speichern wieder weg.
+
+**Behoben ist es mit den drei Spaltennamen in der Leseliste.** Dazu ein Wächter, `tests/berater-verwaltung-felder.test.mjs`: Er sammelt alle `data-f`-Felder aus der Verwaltung und prüft, dass jedes davon in der `.select()`-Liste von `listBerater` steht. Gegengeprobt, indem der Fix rückgängig gemacht wurde — der Wächter nennt dann genau die drei fehlenden Felder beim Namen.
+
+Die Bilder, die bereits verloren gingen, kommen dadurch nicht zurück. Wer Bürofoto, Teamfoto oder Bildzeile gepflegt hatte, sollte einmal nachsehen, ob sie noch da sind.
+
+---
 
 ## v1.309 Beta - Phase 289 · Die KIDZ-Elternseite fährt als Zug
 
