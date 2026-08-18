@@ -17,7 +17,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <title>KIDZ | Kinderleicht in die Zukunft</title>
   <link rel="icon" type="image/png" href="/assets/images/kidz-logo-konzept.png">
-  <link rel="stylesheet" href="/css/kidz-konzept.css?v=23">
+  <link rel="stylesheet" href="/css/kidz-konzept.css?v=24">
   <!-- Wird für den Namen im Empfehlungsband gebraucht, wie auf Gewinnspiel- und
        Elternabendseite. Ohne diese Angaben bleibt das Band beim neutralen Text. -->
   <script src="/js/config.js"></script>
@@ -39,8 +39,8 @@
     <nav class="desktop-nav" aria-label="Seitennavigation">
       <a class="nav-event" href="#sommerfest">Sommerfest</a>
       <a href="#idee">Die Idee</a>
-      <a href="#saeulen">Grundlagen</a>
-      <a href="#vermoegensaufbau">Vermögensaufbau</a>
+      <a href="#saeulen">Der Einstieg</a>
+      <a href="#zug">KIDZ-Zug</a>
       <a href="#luecke">§ 12</a>
       <a href="#elternabend">Elternabend</a>
     </nav>
@@ -57,9 +57,10 @@
     <p class="mobile-menu-title">KIDZ-Menü</p>
     <p class="mobile-menu-label">Die drei Grundlagen</p>
     <a href="#saeulen" data-pillar-link="kompetenz"><span>01</span>Finanzielle Kompetenz</a>
-    <a href="#saeulen" data-pillar-link="gesundheit"><span>02</span>Gesundheit</a>
+    <a href="#saeulen" data-pillar-link="gesundheit"><span>02</span>Gesundheitszustand früh sichern</a>
     <a href="#saeulen" data-pillar-link="absicherung"><span>03</span>Finanzielle Absicherung</a>
     <p class="mobile-menu-label">Mehr auf dieser Seite</p>
+    <a href="#zug">Der KIDZ-Zug</a>
     <a href="#vermoegensaufbau">Vermögensaufbau</a>
     <a href="#luecke">§ 12: Was die Kasse zahlt</a>
     <a href="#moeglichkeiten">Möglichkeiten</a>
@@ -146,9 +147,9 @@
 
     <section class="section pillars-section" id="saeulen" aria-labelledby="pillars-title">
       <div class="section-heading">
-        <p class="eyebrow">Drei Grundlagen, ein Blick nach vorn</p>
-        <h2 id="pillars-title">KIDZ betrachtet mehr als nur das Sparen.</h2>
-        <p>Wählen Sie eine Grundlage aus. Die Seite zeigt, welche Fragen Eltern dazu mitnehmen können.</p>
+        <p class="eyebrow">Der Einstieg ins KIDZ-Konzept</p>
+        <h2 id="pillars-title">Finanzielle Kompetenz leitet ein.</h2>
+        <p>Erst verstehen Kinder Geld, Wünsche und Entscheidungen. Danach schauen Eltern früh auf den Gesundheitszustand. Dann fährt der KIDZ-Zug los.</p>
       </div>
 
       <div class="pillar-stack">
@@ -161,7 +162,7 @@
           </button>
           <button class="pillar-tab" id="tab-gesundheit" type="button" role="tab" aria-selected="false" aria-controls="pillar-panel" data-pillar="gesundheit">
             <span class="pillar-icon pillar-icon-orange" aria-hidden="true">+</span>
-            <span><strong>Gesundheit</strong><small>Chancen und Vorsorge verstehen</small></span>
+            <span><strong>Gesundheitszustand früh sichern</strong><small>Möglichkeiten bewahren</small></span>
             <span class="pillar-tab-state" aria-hidden="true"><span class="pillar-tab-check">✓ Ausgewählt</span><span class="pillar-tab-arrow">→</span></span>
           </button>
           <button class="pillar-tab" id="tab-absicherung" type="button" role="tab" aria-selected="false" aria-controls="pillar-panel" data-pillar="absicherung">
@@ -193,6 +194,56 @@
         <img src="/assets/images/kidz-konzept/kidz-drei-saeulen.png" alt="Originales KIDZ-Dreisäulenmodell mit Gesundheit, finanzieller Absicherung und finanzieller Kompetenz" width="1000" height="1000" loading="lazy">
         <div><span>Aus den KIDZ-Originalunterlagen</span><strong>Das Dreisäulenmodell bleibt der inhaltliche Kern.</strong><p>Auf dieser Seite lernen Sie jede Grundlage Schritt für Schritt kennen.</p></div>
       </div>
+    </section>
+
+    <section class="section train-section" id="zug" aria-labelledby="train-title">
+      <div class="section-heading">
+        <p class="eyebrow">Dann fährt der KIDZ-Zug los</p>
+        <h2 id="train-title">Acht Bausteine, ein gemeinsamer Weg.</h2>
+        <p>Die Vermögensaufbau-Lok beginnt. Dahinter folgen Gesundheit und die weiteren Themen für den Kinderalltag. Tippen Sie auf Lok oder Waggon.</p>
+      </div>
+
+      <p class="train-swipe-hint" aria-hidden="true"><span>Mit dem Finger durch den Zug</span><b>→</b></p>
+      <div class="train-viewport" tabindex="0" aria-label="KIDZ-Zug, seitlich wischbar">
+        <div class="train-track" role="tablist" aria-label="Die acht KIDZ-Bausteine">
+          <button class="train-car train-loco is-active" type="button" role="tab" aria-selected="true" aria-controls="train-detail" data-car="vermoegen">
+            <span class="train-number">01</span><span class="loco-shape" aria-hidden="true"><i></i><i></i><b></b></span><strong>Vermögensaufbau</strong><small>Früher anfangen</small>
+          </button>
+          <button class="train-car" type="button" role="tab" aria-selected="false" aria-controls="train-detail" data-car="gesundheit">
+            <span class="train-number">02</span><span class="wagon-shape wagon-shape-health" aria-hidden="true"><i></i><i></i><b>+</b></span><strong>Gesundheit früh sichern</strong><small>Möglichkeiten bewahren</small>
+          </button>
+          <button class="train-car" type="button" role="tab" aria-selected="false" aria-controls="train-detail" data-car="schule">
+            <span class="train-number">03</span><span class="wagon-shape" aria-hidden="true"><i></i><i></i></span><strong>Schulunfähigkeit</strong><small>Wenn Schule nicht möglich ist</small>
+          </button>
+          <button class="train-car" type="button" role="tab" aria-selected="false" aria-controls="train-detail" data-car="versorgung">
+            <span class="train-number">04</span><span class="wagon-shape" aria-hidden="true"><i></i><i></i></span><strong>Versorgerschutz</strong><small>Im Ernstfall getragen</small>
+          </button>
+          <button class="train-car" type="button" role="tab" aria-selected="false" aria-controls="train-detail" data-car="ambulant">
+            <span class="train-number">05</span><span class="wagon-shape" aria-hidden="true"><i></i><i></i></span><strong>Ambulante Versorgung</strong><small>Mehr Wege zur Gesundheit</small>
+          </button>
+          <button class="train-car" type="button" role="tab" aria-selected="false" aria-controls="train-detail" data-car="stationaer">
+            <span class="train-number">06</span><span class="wagon-shape" aria-hidden="true"><i></i><i></i></span><strong>Stationäre Versorgung</strong><small>Im Krankenhaus begleitet</small>
+          </button>
+          <button class="train-car" type="button" role="tab" aria-selected="false" aria-controls="train-detail" data-car="zaehne">
+            <span class="train-number">07</span><span class="wagon-shape" aria-hidden="true"><i></i><i></i></span><strong>Zähne und Sehhilfe</strong><small>Gut versorgt</small>
+          </button>
+          <button class="train-car" type="button" role="tab" aria-selected="false" aria-controls="train-detail" data-car="alltag">
+            <span class="train-number">08</span><span class="wagon-shape" aria-hidden="true"><i></i><i></i></span><strong>Sicher im Kinderalltag</strong><small>Wenn beim Entdecken etwas passiert</small>
+          </button>
+        </div>
+      </div>
+
+      <article class="train-detail" id="train-detail" role="tabpanel" aria-live="polite">
+        <div class="train-detail-index" aria-hidden="true">01</div>
+        <div class="train-detail-copy">
+          <p class="train-detail-label">Vermögensaufbau</p>
+          <h3>Was kann Zeit für Ihr Kind möglich machen?</h3>
+          <p>Ein kleiner Betrag bekommt eine große Wirkung, wenn er früh beginnt. Eltern legen den Grundstein, später kann das Kind selbst weiterbauen.</p>
+          <ul><li>Früh starten statt später aufholen</li><li>Geld im Familienalltag verständlich machen</li></ul>
+          <a class="train-detail-link" href="#vermoegensaufbau">Die Beispielrechnung ansehen <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="train-detail-question"><span>Die Frage dahinter</span><strong>Wie viel Freiheit kann ein früher Start später schenken?</strong></div>
+      </article>
     </section>
 
     <section class="section wealth-section" id="vermoegensaufbau" aria-labelledby="wealth-title">
@@ -233,7 +284,7 @@
           </ol>
 
           <div class="wealth-result">
-            <span>Der Vorsprung, den Eltern verschaffen können</span>
+            <span>Der Vorsprung, den Eltern ihrem Kind verschaffen können</span>
             <strong>789.729 Euro</strong>
             <p>So groß ist der Unterschied allein dadurch, dass in den ersten 18 Jahren schon etwas gelaufen ist.</p>
           </div>
@@ -291,65 +342,38 @@
       </div>
     </section>
 
-    <section class="section possibilities-section" id="moeglichkeiten" aria-labelledby="possibilities-title">
-      <div class="section-heading">
-        <p class="eyebrow">Was KIDZ konkret vertiefen kann</p>
-        <h2 id="possibilities-title">Fünf Möglichkeiten für die Zukunft Ihres Kindes.</h2>
-        <p>Welche davon für Ihre Familie wichtig sind, hängt von Ihrer Lebensphase, Ihren Wünschen und den bestehenden Lösungen ab.</p>
+    <section class="section health-future-section" id="gesundheit-frueh" aria-labelledby="health-future-title">
+      <div class="health-future-intro">
+        <p class="eyebrow">Möglichkeiten für später</p>
+        <h2 id="health-future-title">Heute Gesundheit. Morgen Wahlmöglichkeiten.</h2>
+        <p>Bei einem Kind geht es nicht um einen Beruf oder um Einkommen. Es geht um seine Gesundheit und um die Frage, welche Möglichkeiten später noch offenstehen.</p>
+      </div>
+      <div class="health-future-grid">
+        <article><span>01</span><h3>Gesundheit verändert sich</h3><p>Diagnosen, Behandlungen oder Beschwerden können später beeinflussen, welche Wege noch möglich sind. Deshalb lohnt sich der Blick, solange nicht bereits etwas entschieden werden muss.</p></article>
+        <article class="is-highlighted"><span>02</span><h3>Die U4 als früher Orientierungspunkt</h3><p>Bei bestimmten Wegen kann ein Einstieg bereits rund um die U4 möglich sein. Ob das im Einzelfall passt und welche Voraussetzungen gelten, wird immer fachlich geprüft.</p></article>
+        <article><span>03</span><h3>Eltern entscheiden in Ruhe</h3><p>KIDZ stellt keine Tarife in den Mittelpunkt. Zuerst geht es um Ihr Kind, Ihre Wünsche und darum, welche Türen Sie möglichst offenhalten möchten.</p></article>
+      </div>
+      <p class="health-future-bridge"><strong>Was „Gesundheit früh sichern“ hier bedeutet:</strong> Die Gesundheit selbst lässt sich nicht einfrieren. Gemeint ist, dass bei bestimmten Wegen der heutige Gesundheitszustand als Ausgangspunkt für spätere Optionen dienen kann.</p>
+    </section>
+
+    <section class="section possibilities-section vip-section" id="moeglichkeiten" aria-labelledby="possibilities-title">
+      <div class="vip-head" id="vip-ticket">
+        <div><p class="eyebrow">Gesundheit</p><h2 id="possibilities-title">Ein echtes VIP-Ticket in puncto Gesundheit.</h2><p>Mehr Möglichkeiten für Ihr Kind, bevor Gesundheit plötzlich zum entscheidenden Thema wird.</p></div>
+        <img src="/assets/images/kidz-konzept/kidz-vip-ticket-neutral.png" alt="VIP-Ticket als Zeichen für gesundheitliche Wahlmöglichkeiten" width="1402" height="1122" loading="lazy">
       </div>
 
-      <div class="possibilities-grid">
-        <article class="possibility-card possibility-health">
-          <div class="possibility-card-copy">
-            <span>Gesundheit</span>
-            <h3>Ein echtes VIP-Ticket in puncto Gesundheit!</h3>
-            <p>Mehr Möglichkeiten durch den FitBonus+ Junior.</p>
-          </div>
-          <img src="/assets/images/kidz-konzept/kidz-vip-ticket-neutral.png" alt="Neutrales VIP-Ticket auf Basis der KIDZ-Unterlagen" width="1402" height="1122" loading="lazy">
+      <div class="vip-grid">
+        <article class="vip-card">
+          <img src="/assets/images/kidz-konzept/kidz-gesundheit.jpg" alt="Eine Familie nutzt gemeinsam eine ärztliche Videosprechstunde" width="2000" height="1333" loading="lazy">
+          <div><p class="eyebrow">Gesundheitszustand</p><h3>Früh hinschauen, bevor Möglichkeiten enger werden.</h3><p>Der heutige Gesundheitszustand kann später eine wichtige Rolle spielen. KIDZ macht diesen Zeitpunkt verständlich, ohne daraus ein Verkaufsgespräch zu machen.</p></div>
         </article>
-
-        <article class="possibility-card possibility-dental">
-          <img src="/assets/images/kidz-konzept/kidz-zahnleistungen-original.jpg" alt="Jugendliche mit Zahnspange aus den KIDZ-Unterlagen" width="839" height="1026" loading="lazy">
-          <div class="possibility-card-copy">
-            <span>Zahnleistungen</span>
-            <h3>Bis zu 100 % Kostenerstattung für Kieferorthopädie und weitere umfangreiche Zahnleistungen.</h3>
-          </div>
-        </article>
-
-        <article class="possibility-card possibility-workforce">
-          <img src="/assets/images/kidz-konzept/kidz-arbeitskraft-original.png" alt="KIDZ-Waggon zur Absicherung der Arbeitskraft" width="296" height="303" loading="lazy">
-          <div class="possibility-card-copy">
-            <span>Arbeitskraft</span>
-            <h3>Sichern Sie den wertvollsten Besitz.</h3>
-            <p>Schon heute die künftige Arbeitskraft Ihres Kindes finanziell absichern.</p>
-          </div>
-        </article>
-
-        <article class="possibility-card possibility-support">
-          <div class="possibility-symbol" aria-hidden="true">%</div>
-          <div class="possibility-card-copy">
-            <span>Förderung</span>
-            <h3>Möglichkeiten nutzen.</h3>
-            <p>Möglichkeit der Nutzung von attraktiven, staatlichen Förderungen.</p>
-          </div>
-        </article>
-
-        <article class="possibility-card possibility-invest">
-          <div class="possibility-invest-copy">
-            <span>Vermögensaufbau</span>
-            <h3>Früh anfangen zahlt sich aus.</h3>
-            <p>In die Zukunft Ihres Kindes investieren.</p>
-          </div>
-          <figure>
-            <img src="/assets/images/kidz-konzept/kidz-frueh-anfangen-v2.png" alt="Vollständige KIDZ-Beispielrechnung zum frühen Vermögensaufbau" width="1488" height="1190" loading="lazy">
-            <figcaption>Originaldarstellung aus der KIDZ-Produktbroschüre</figcaption>
-          </figure>
+        <article class="vip-card">
+          <img src="/assets/images/kidz-konzept/kidz-zahnleistungen-original.jpg" alt="Ein Mädchen mit Brille zeigt eine transparente Zahnschiene" width="839" height="1026" loading="lazy">
+          <div><p class="eyebrow">Zähne und Sehhilfe</p><h3>Mehr entscheiden können, wenn Standard nicht das Beste ist.</h3><p>Bei Zähnen, Sehhilfen und Behandlungen geht es um die Frage, welche Wahl Ihre Familie später selbst treffen möchte.</p></div>
         </article>
       </div>
 
-      <div class="possibilities-note">
-        <p><strong>Wichtig:</strong> Dies sind Leistungsbeispiele aus den bereitgestellten KIDZ-Unterlagen. Erstattungen, Förderungen, Voraussetzungen und Verfügbarkeit richten sich nach den jeweils aktuellen Bedingungen und der persönlichen Situation.</p>
-      </div>
+      <p class="vip-note"><strong>VIP heißt bei KIDZ nicht Luxus.</strong> Es bedeutet, als Familie mehr Möglichkeiten zu haben, wenn Gesundheit wichtig wird.</p>
     </section>
 
     <section class="section story-gallery" id="kidz-momente" aria-labelledby="story-gallery-title">
@@ -581,7 +605,7 @@
   </dialog>
 
   <div class="mock-toast" id="mockToast" role="status" aria-live="polite"></div>
-  <script src="/js/kidz-konzept.js?v=7"></script>
+  <script src="/js/kidz-konzept.js?v=8"></script>
   <script src="/js/referral-tracking.js?v=3"></script>
   <script type="module" src="/js/kidz-empfehlung.js?v=1"></script>
 </body>

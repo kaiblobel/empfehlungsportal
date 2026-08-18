@@ -17,14 +17,14 @@
     },
     gesundheit: {
       number: '02',
-      kicker: 'Gesundheit',
-      heading: 'Gesundheit schafft Chancen, wenn wichtige Fragen früh gestellt werden.',
-      text: 'KIDZ macht Eltern auf Vorsorge und langfristige Entscheidungen aufmerksam. Es geht um Orientierung und den Blick auf mögliche Lücken, nicht um medizinische Beratung.',
+      kicker: 'Gesundheitszustand früh sichern',
+      heading: 'Heute Gesundheit. Morgen Wahlmöglichkeiten.',
+      text: 'Der heutige Gesundheitszustand kann für spätere Möglichkeiten wichtig sein. Die U4 ist dabei ein früher Orientierungspunkt. Welche Wege im Einzelfall bestehen, wird immer fachlich geprüft.',
       image: '/assets/images/kidz-konzept/kidz-gesundheit.jpg',
       alt: 'Familie nutzt gemeinsam eine Videosprechstunde',
       questions: [
-        'Welche Vorsorge gehört zu welcher Lebensphase?',
-        'Wo endet die gesetzliche Grundversorgung?',
+        'Welche Möglichkeiten können schon früh geprüft werden?',
+        'Was kann sich durch spätere Diagnosen verändern?',
         'Welche Entscheidungen brauchen eine persönliche Prüfung?'
       ]
     },
@@ -357,6 +357,55 @@
       if (closest !== activeStory) updateStory(closest);
     });
   }, { passive: true });
+
+  const trainData = {
+    vermoegen: { number: '01', label: 'Vermögensaufbau', title: 'Was kann Zeit für Ihr Kind möglich machen?', text: 'Ein kleiner Betrag bekommt eine große Wirkung, wenn er früh beginnt. Eltern legen den Grundstein, später kann das Kind selbst weiterbauen.', bullets: ['Früh starten statt später aufholen', 'Geld im Familienalltag verständlich machen'], question: 'Wie viel Freiheit kann ein früher Start später schenken?', link: 'Die Beispielrechnung ansehen', target: '#vermoegensaufbau' },
+    gesundheit: { number: '02', label: 'Gesundheit früh sichern', title: 'Welche Möglichkeiten kann der heutige Gesundheitszustand bewahren?', text: 'Bei Kindern sprechen wir nicht über einen Beruf. Wir sprechen darüber, dass sich Gesundheit verändern kann und spätere Möglichkeiten davon abhängen können.', bullets: ['Die U4 als frühen Orientierungspunkt kennen', 'Spätere Wahlmöglichkeiten im Blick behalten'], question: 'Welche Türen sollen für Ihr Kind auch später noch offenstehen?', link: 'Das VIP-Ticket verstehen', target: '#vip-ticket' },
+    schule: { number: '03', label: 'Schulunfähigkeit', title: 'Was passiert, wenn Schule für längere Zeit nicht möglich ist?', text: 'Krankheit oder Pflegebedürftigkeit können den vertrauten Bildungsweg unterbrechen. Dann geht es darum, dem Kind Zeit und der Familie Stabilität zu geben.', bullets: ['Längere Ausfälle mitdenken', 'Entwicklung und Betreuung absichern'], question: 'Wie soll Ihr Kind aufgefangen werden, wenn der normale Weg pausiert?', link: 'Gesundheit früh betrachten', target: '#gesundheit-frueh' },
+    versorgung: { number: '04', label: 'Versorgerschutz', title: 'Wie bleibt Ihre Familie handlungsfähig, wenn plötzlich vieles anders ist?', text: 'Eine schwere Erkrankung oder dauerhafte Einschränkung betrifft nie nur das Kind. Zeit, Betreuung und Umbauten können auch Eltern finanziell fordern.', bullets: ['Die Familie als Ganzes betrachten', 'Langfristige Unterstützung früh einordnen'], question: 'Was würde Ihrer Familie helfen, wenn Betreuung plötzlich Vorrang hat?', link: 'Gesundheit früh betrachten', target: '#gesundheit-frueh' },
+    ambulant: { number: '05', label: 'Ambulante Versorgung', title: 'Welche Wege zur Gesundheit sollen Ihrem Kind offenstehen?', text: 'Manchmal wünschen Eltern mehr als die vorgesehene Grundversorgung, etwa bei Vorsorge, alternativen Behandlungen oder einer schnellen ärztlichen Einschätzung.', bullets: ['Vorsorge und zusätzliche Wege verstehen', 'Schnelle Hilfe im Familienalltag mitdenken'], question: 'Wie frei möchten Sie bei der Behandlung Ihres Kindes entscheiden können?', link: 'Das Kassenprinzip verstehen', target: '#luecke' },
+    stationaer: { number: '06', label: 'Stationäre Versorgung', title: 'Welche Wahl soll Ihre Familie im Krankenhaus haben?', text: 'Im Ernstfall zählt nicht nur, dass behandelt wird. Klinik, ärztliche Betreuung und die Nähe eines Elternteils können für Familien einen spürbaren Unterschied machen.', bullets: ['Freie Klinikwahl verständlich prüfen', 'Begleitung und Unterbringung mitdenken'], question: 'Wer soll entscheiden, was in einem schweren Moment für Ihr Kind das Beste ist?', link: 'Das Krankenhausbeispiel ansehen', target: '#luecke' },
+    zaehne: { number: '07', label: 'Zähne und Sehhilfe', title: 'Was ist ausreichend, und was wünschen Sie sich darüber hinaus?', text: 'Krankenkassen sichern eine notwendige Grundversorgung. KIDZ zeigt verständlich, an welchen Stellen Familien eigene Wahlmöglichkeiten wichtig werden können.', bullets: ['Kieferorthopädie früh einordnen', 'Sehhilfen und zusätzliche Wege verstehen'], question: 'Welche Behandlung soll Ihr Kind bekommen können, wenn Standard nicht Ihr Maßstab ist?', link: 'Das Kassenprinzip verstehen', target: '#luecke' },
+    alltag: { number: '08', label: 'Sicher im Kinderalltag', title: 'Was hilft Ihrer Familie, wenn beim Entdecken etwas passiert?', text: 'Kinder spielen, klettern und probieren sich aus. Wenn dabei ein Unfall passiert, geht es darum, was Ihr Kind für Genesung, Entwicklung und einen möglichst normalen Alltag braucht.', bullets: ['Hilfe, Betreuung und Alltag gemeinsam betrachten', 'Mögliche Folgen für die Entwicklung einordnen'], question: 'Was braucht Ihr Kind, damit nach einem Unfall möglichst viel Alltag zurückkehrt?', link: 'Gesundheit als Ganzes ansehen', target: '#gesundheit-frueh' }
+  };
+  const trainButtons = Array.from(document.querySelectorAll('[data-car]'));
+  const trainDetail = document.getElementById('train-detail');
+
+  function setTrainCar(key) {
+    const item = trainData[key];
+    if (!item || !trainDetail) return;
+    trainButtons.forEach((button) => {
+      const active = button.dataset.car === key;
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-selected', String(active));
+      button.setAttribute('tabindex', active ? '0' : '-1');
+    });
+    trainDetail.querySelector('.train-detail-index').textContent = item.number;
+    trainDetail.querySelector('.train-detail-label').textContent = item.label;
+    trainDetail.querySelector('h3').textContent = item.title;
+    trainDetail.querySelector('.train-detail-copy > p:not(.train-detail-label)').textContent = item.text;
+    trainDetail.querySelector('ul').innerHTML = item.bullets.map((bullet) => `<li>${bullet}</li>`).join('');
+    trainDetail.querySelector('.train-detail-question strong').textContent = item.question;
+    trainDetail.querySelector('.train-detail-link').firstChild.textContent = `${item.link} `;
+    trainDetail.querySelector('.train-detail-link').href = item.target;
+  }
+
+  trainButtons.forEach((button, index) => {
+    button.addEventListener('click', () => {
+      setTrainCar(button.dataset.car);
+      button.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    });
+    button.addEventListener('keydown', (event) => {
+      if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+      event.preventDefault();
+      const direction = event.key === 'ArrowRight' ? 1 : -1;
+      const next = trainButtons[(index + direction + trainButtons.length) % trainButtons.length];
+      next.focus();
+      next.click();
+    });
+  });
+  setTrainCar('vermoegen');
+
   document.querySelectorAll('[data-mock-link]').forEach((link) => {
     link.addEventListener('click', (event) => {
       event.preventDefault();

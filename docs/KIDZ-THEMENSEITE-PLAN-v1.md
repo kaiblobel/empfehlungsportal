@@ -4,6 +4,8 @@ Stand: 15.08.2026
 
 Status: von Kai zur Veröffentlichung freigegeben, öffentliche Adresse `https://kidz.teamwachsbleiche.de/kidz/konzept`
 
+Umbau-Stand 17.08.2026: Die neue Erzählung mit KIDZ-Zug ist auf dem Zweig `konrad/kidz-zug-mockup-mobile-first` lokal vorbereitet und geprüft. Sie ist noch nicht veröffentlicht.
+
 ## Ziel der Seite
 
 Die Seite holt Eltern nicht über Produkte ab, sondern über ihre Wünsche und Fragen. Nach dem Besuch sollen sie verstehen, wofür KIDZ steht, was sie an einem Elternabend erwartet und welchen freiwilligen nächsten Schritt sie wählen können.
@@ -24,11 +26,14 @@ Kinder werden weder angesprochen noch als Kontakte oder Profile erfasst.
 
 1. Emotionaler Einstieg über die Zukunftswünsche der Eltern
 2. KIDZ in einem Satz und als ruhiges Orientierungskonzept erklären
-3. Die drei Grundlagen interaktiv verständlich machen
-4. Fünf konkrete Möglichkeiten aus den KIDZ-Unterlagen einordnen
-5. Ablauf und Charakter des Elternabends zeigen
-6. Echte KIDZ-Bildwelt und Herkunft transparent einordnen
-7. Drei freiwillige nächste Schritte anbieten
+3. Mit finanzieller Kompetenz einleiten und den frühen Blick auf den Gesundheitszustand erklären
+4. Acht Themen als bedienbaren KIDZ-Zug verständlich machen
+5. Vermögensaufbau mit der ausführlichen 55-Euro-Rechnung zeigen
+6. Den gesetzlichen Rahmen mit dem Namen des eigenen Kindes greifbar machen
+7. Gesundheit als Möglichkeit für spätere Wahlfreiheit einordnen
+8. Ablauf und Charakter des Elternabends zeigen
+9. Echte KIDZ-Bildwelt und Herkunft transparent einordnen
+10. Drei freiwillige nächste Schritte anbieten
 
 ## Inhalte
 
@@ -47,18 +52,39 @@ Kinder werden weder angesprochen noch als Kontakte oder Profile erfasst.
 ### Drei Grundlagen
 
 - finanzielle Kompetenz
-- Gesundheit
+- Gesundheitszustand früh betrachten
 - finanzielle Absicherung
 
-Jede Grundlage beantwortet typische Elternfragen. Danach zeigt ein klar abgegrenzter Abschnitt fünf konkrete Leistungsbeispiele aus den KIDZ-Unterlagen. Erstattungen, Förderungen und Verfügbarkeit werden nicht als pauschale Zusage dargestellt, sondern mit einem sichtbaren Aktualitäts- und Bedingungshinweis verbunden.
+Finanzielle Kompetenz eröffnet den Weg. Danach folgt die Frage, welche Möglichkeiten der heutige Gesundheitszustand für später bewahren kann. Erst dann fährt der KIDZ-Zug los.
 
-### Konkrete Möglichkeiten
+### KIDZ-Zug
 
-- VIP-Ticket in puncto Gesundheit und FitBonus+ Junior
-- Kieferorthopädie und weitere Zahnleistungen
-- künftige Arbeitskraft des Kindes finanziell absichern
-- mögliche staatliche Förderungen nutzen
-- früh mit dem Vermögensaufbau beginnen
+Die Vermögensaufbau-Lok fährt nach links. Dahinter folgen acht bedienbare Bausteine:
+
+1. Vermögensaufbau
+2. Gesundheit früh sichern
+3. Schulunfähigkeit
+4. Versorgerschutz
+5. Ambulante Versorgung
+6. Stationäre Versorgung
+7. Zähne und Sehhilfe
+8. Sicher im Kinderalltag
+
+Der letzte Waggon heißt bewusst nicht „Unfallschutz“. Der Inhalt wird aus Sicht der Eltern erzählt: Was braucht das Kind nach einem Unfall für Genesung, Entwicklung und einen möglichst normalen Alltag?
+
+Die Seite spricht bei Kindern nicht von Arbeitskraft. Sie erklärt, dass sich Gesundheit verändern kann und dass der heutige Gesundheitszustand bei bestimmten Wegen für spätere Optionen wichtig sein kann. Die U4 wird als früher Orientierungspunkt genannt. Eine persönliche und fachliche Prüfung bleibt immer erforderlich.
+
+### Vermögensaufbau und gesetzlicher Rahmen
+
+- ausführliche Beispielrechnung mit 55 Euro im Monat
+- Vergleich zwischen frühem Beginn und Start mit 18 Jahren
+- sichtbarer Hinweis auf Annahmen und Grenzen der Beispielrechnung
+- § 12 SGB V mit einsetzbarem Kindernamen
+- Krankenhausbeispiel als verständliche Folge des gesetzlichen Wirtschaftlichkeitsgebots
+
+### VIP-Ticket Gesundheit
+
+Das VIP-Ticket steht für Wahlmöglichkeiten und nicht für ein bestimmtes Produkt. Gesundheit, Zähne und Sehhilfe werden in Elternsprache eingeordnet. Gesellschaftsnamen, Tarifnamen und pauschale Leistungsversprechen stehen nicht im Mittelpunkt.
 
 ### Elternabend
 
@@ -79,8 +105,8 @@ Diese Wege bleiben getrennt. In der lokalen Vorschau werden sie ohne Datenübert
 Verwendet werden ausgewählte Motive aus `Praesentation__KIDZ_V04.pptx` und `Broschuere__A4_KIDZ_Produktbausteine.pdf`:
 
 - originale goldene KIDZ-Lok als Wegmotiv
-- neutralisierte VIP-Ticket-Variante ohne Gesellschaftsname, Zahnmotiv und Arbeitskraft-Waggon für konkrete Leistungsbeispiele
-- vollständige Originalgrafik „Früh anfangen zahlt sich aus“ mit Beispielrechnung
+- neutralisierte VIP-Ticket-Variante ohne Gesellschaftsname und Zahnmotiv für gesundheitliche Wahlmöglichkeiten
+- Familienbild der 55-Euro-Rechnung als emotionaler Einstieg in den Vermögensaufbau
 - KIDZ-Familiencollage für den Einstieg
 - Pusteblume als Zukunfts- und Wunschmotiv
 - offizielles Dreisäulenmodell
@@ -95,7 +121,7 @@ Im unteren Seitenteil führt eine bedienbare Bilderstrecke durch sechs unbeschri
 
 ## Fachliche Grenzen
 
-Kai hat Aufbau, Bildauswahl und Veröffentlichung am 15.08.2026 freigegeben. Produktangaben, Leistungsdarstellungen und Anbieterzuordnungen müssen bei späteren Änderungen erneut fachlich geprüft werden. Alte Tarifwerte, Quellen aus 2019 oder 2020 sowie bestehende Sponsorlisten und Werbeeinwilligungen werden nicht übernommen.
+Kai hat den bisherigen Aufbau, die Bildauswahl und Veröffentlichung am 15.08.2026 freigegeben. Der Umbau vom 17.08.2026 ist nur lokal vorbereitet. Produktangaben, Leistungsdarstellungen und Anbieterzuordnungen müssen bei späteren Änderungen erneut fachlich geprüft werden. Alte Tarifwerte, Quellen aus 2019 oder 2020 sowie bestehende Sponsorlisten und Werbeeinwilligungen werden nicht übernommen.
 
 ## Gestaltung
 
