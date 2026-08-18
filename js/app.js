@@ -505,6 +505,19 @@ if (page === 'empfaenger') {
   const optoutFooter = document.getElementById('austragenFooter');
   if (optoutFooter && token) optoutFooter.href = `austragen.html?token=${token}`;
 
+  // Weg zum ausfuehrlichen Ueberblick. Token und Berater muessen mit, sonst
+  // steht dort der Standard-Berater und der Anrufwunsch haengt an nichts.
+  const ueberblickLink = document.getElementById('eUeberblick');
+  if (ueberblickLink) {
+    const ziel = new URL(ueberblickLink.getAttribute('href'), window.location.origin);
+    if (token) ziel.searchParams.set('token', token);
+    const slug = String(params.get('berater') || '').trim().toLowerCase();
+    if (slug && slug.length <= 80 && /^[a-z0-9-]+$/.test(slug)) {
+      ziel.searchParams.set('berater', slug);
+    }
+    ueberblickLink.href = `${ziel.pathname}${ziel.search}`;
+  }
+
   // IntersectionObserver
   const io = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {

@@ -1,7 +1,30 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.311 Beta** · Jeder Berater bringt seine eigene Anschrift mit, live seit 18.08.2026.
+Offizielle Live-Version: **v1.312 Beta** · Das ganze Bild als eigene Seite, live seit 18.08.2026.
+
+## v1.312 Beta - Phase 292 · Das ganze Bild als eigene Seite
+**2026-08-18**
+
+**Die erste Themenkachel der Präsentation heißt „Ganz allgemein" und öffnete bisher nur einen Block innerhalb der Präsentation.** Der Text dort ist knapp gehalten, weil Kai im Termin dazu spricht. Was fehlte, war die Fassung, die der Empfohlene **allein** liest. Bei KIDZ gibt es die längst, hier endete es beim Einstieg.
+
+**Neu ist `ueberblick.html`, erreichbar unter `/ueberblick` und `/ueberblick/:berater`.** Der Aufbau folgt dem Inhalt aus `#themaUeberblick`, nur ausgeschrieben: der dunkle Reform-Block mit Zeitleiste und den drei Eckpunkten zum Aufklappen, danach die sechs Schritte mit den vier DVAG-Darstellungen, dann wer sich meldet, drei Wege und ein FAQ.
+
+**`empfaenger.html` bleibt unangetastet.** Sie ist weiter der Einstieg mit den sechs Kapiteln und dem Finanzcheck; in Kapitel 4 steht jetzt ein dritter, ruhigerer Weg: „Lieber erst das ganze Bild ansehen". Token und Berater werden an den Link gehängt, sonst hinge der Anrufwunsch drüben an nichts.
+
+**Drei Dinge, die die Präsentation so nicht hat.** Bei Schritt 02 rechnet ein Feld die Formel in Euro um, sobald man sein Netto einträgt; das läuft ausschließlich im Browser, und genau das steht auch darunter. Bei Schritt 04 sind die drei Stufen der Pyramide antippbar, jede mit einem Satz, warum sie dort liegt. Und am Ende stehen drei Wege statt einem: Anrufzeit, die sieben Fragen, Terminwahl.
+
+**Über den Wegen steht der ehrliche Satz** „Wenn du nichts auswählst, meldet sich [Vorname] wie besprochen bei dir." Der Austragen-Weg darunter erscheint nur mit Empfehlungs-Token, weil `austragen.html` ihn braucht; ohne Token steht dort der Hinweis auf eine kurze Mail. Eine Zeile, die ein Abbestellen verspricht und nichts tut, wäre schlimmer als keine. Aus demselben Grund bestätigt der Anrufwunsch ohne Token **nicht** still, sondern sagt, dass der Link unvollständig ist.
+
+**Mandantenfähig von Anfang an.** Die drei Wege zum Berater wie überall (Empfehlung, `?berater=`, angemeldete Sitzung). Oben links steht das Porträt; wer keins hinterlegt hat, bekommt die Team-Marke statt eines Initialen-Kürzels. Berufsjahre und die Google-Rezension gehören Kai und fallen bei Partnern weg — damit der Abschnitt dann nicht leer wirkt, stehen darüber drei Versprechen, die für jeden gelten. Die Anschrift kommt aus dem Feld aus Phase 291 und verschwindet, solange keine gepflegt ist.
+
+**In der Präsentation führt ein Knopf unter den sechs Teilen auf die echte Seite**, mit dem Berater-Kürzel. Die Adresse wird erst beim Klick gebaut: Der Berater der Vorschau kommt aus dem Netz und steht beim Aufbau der Seite noch nicht fest.
+
+**Der Wächter `tests/ueberblick-seite.test.mjs`** hält fest, was still kaputtgehen kann: die drei Daten der Reform und die Quelle, genau sechs Teile mit dem Aktuell-Block davor, die zwei Hinweise auf Beispielzahlen unter den Software-Aufnahmen, alle Branding-Haken, die drei Wege zum Berater, der Token-Schutz beim Anrufwunsch und die Verdrahtung in `vercel.json`, `api/share.js` und den Einstellungen. Alle 65 Wächter grün.
+
+Noch offen: Die Seite ist im Menü nicht verlinkt, und `empfaenger.html` bleibt die Vorlage „allgemein". Wer `ueberblick` direkt als Vorlage verschicken will, kann das über den neuen Eintrag in `api/share.js`.
+
+---
 
 ## v1.311 Beta - Phase 291 · Jeder Berater bringt seine eigene Anschrift mit
 **2026-08-18**
@@ -21,6 +44,8 @@ Offizielle Live-Version: **v1.311 Beta** · Jeder Berater bringt seine eigene An
 **Der Zwischenspeicher im Browser steigt auf `bb_berater_v3_`.** Ein alter Eintrag kennt die Spalte nicht; ohne den Wechsel sähe ein Berater, der seine Anschrift gerade gepflegt hat, sie beim nächsten Aufruf immer noch nicht. Der Preis ist ein einmaliges Aufblitzen der Standardangaben pro Besucher.
 
 **Reihenfolge beim Ausführen:** erst das SQL-Skript, dann als anonymer Besucher gegenprüfen (`select * from public.get_berater_public('kai-blobel')` muss eine Spalte `adresse` liefern), dann die Anschriften pflegen, und erst danach eine Kundenseite die Zeile anzeigen lassen. Andersherum bleibt sie überall leer und niemand merkt, dass nur die Pflege fehlt.
+
+**Ausgeführt am 18.08.2026.** Gegengeprüft wurde in der Rolle `anon`, nicht als Angemeldeter: Als Admin sieht die Sache auch dann gut aus, wenn die Rechte fehlen. Beide Funktionen liefern die neue Spalte, `security definer` und `search_path` stehen, die Rechte für `anon`, `authenticated` und `service_role` sind wieder gesetzt. Zusätzlich geprüft: `list_kidz_berater_public` hinter der Beraterauswahl der Anmeldeseiten liefert unverändert ihre Einträge, und `promoter-start.html` lädt ohne Fehlermeldung — die Seite ist der schnellste Anzeiger für ein Rechteproblem, weil sie als einzige sichtbar meckert. Kais Anschrift ist eingetragen; die der sechs Partner stehen aus, ihre Zeile bleibt so lange leer.
 
 ---
 
