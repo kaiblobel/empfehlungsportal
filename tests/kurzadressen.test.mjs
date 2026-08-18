@@ -21,7 +21,7 @@ for (const source of generators) {
   assert.ok(source.includes('/empfehlung/'), 'Ein Linkgenerator verwendet die neue Kurzadresse nicht');
 }
 
-for (const source of [read('js/app.js'), read('js/baufi.js'), read('js/themen-vorschau.js'), read('js/referral-tracking.js')]) {
+for (const source of [read('js/app.js'), read('js/baufi.js'), read('js/themen-vorschau.js'), read('js/ueberblick.js'), read('js/referral-tracking.js')]) {
   assert.ok(source.includes('meta[name="referral-token"]'), 'Eine Empfängerseite liest den Token der Kurzadresse nicht');
 }
 

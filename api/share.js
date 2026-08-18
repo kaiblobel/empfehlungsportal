@@ -81,6 +81,10 @@ module.exports = async function handler(req, res) {
     kinder: '/kidz-empfehlung.html',
     banking: '/thema.html',
     energie: '/thema.html',
+    // Der ausfuehrliche Ueberblick. „allgemein" bleibt die Einstiegsstrecke
+    // (empfaenger.html), von der aus hierher verlinkt wird; ueber diesen
+    // Eintrag laesst sich die Seite auch direkt als Vorlage verschicken.
+    ueberblick: '/ueberblick.html',
   };
   const pagePath = pageByTemplate[template] || '/empfaenger.html';
 

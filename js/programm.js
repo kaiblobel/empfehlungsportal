@@ -957,6 +957,17 @@ function reicheBeraterAnFolgeseitenWeiter(b) {
     themaAuf({ ...allgemein, typ: 'rechner', zeile: 'Was für die empfohlene Person drin sein könnte.' });
   });
 
+  // Der Sprung auf die ausführliche Seite. Der Berater muss mit, sonst zeigt
+  // sie den Standard-Berater statt dem, dessen Präsentation gerade läuft.
+  //
+  // Die Adresse wird erst beim Klick gebaut: vorschauBerater kommt aus dem
+  // Netz und steht beim Aufbau der Seite noch nicht fest. Fest gesetzt wäre
+  // der Slug in der Hälfte der Fälle nicht dabei.
+  document.getElementById('ueberblickSeite')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.open(mitBerater(e.currentTarget.getAttribute('href')), '_blank', 'noopener');
+  });
+
   document.getElementById('themaSchliessen')?.addEventListener('click', themaZu);
   document.addEventListener('keydown', (e) => {
     if (overlay.hidden) return;

@@ -20,6 +20,7 @@ const SEITEN = [
   ['js/baufi.js', 'Finanzierungskompass'],
   ['js/kidz-empfehlung-intro.js', 'KIDZ-Empfehlung'],
   ['js/themen-vorschau.js', 'Themenseiten'],
+  ['js/ueberblick.js', 'Überblicksseite'],
 ];
 
 for (const [datei, was] of SEITEN) {

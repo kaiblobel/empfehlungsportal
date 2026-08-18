@@ -2002,3 +2002,6 @@ body:has(.mobile-guide:not([hidden])) .sticky-cta{display:none;}
   body.mobile-guided .einstieg-foto img{ max-height: 34svh; }
   body.mobile-guided .nps-scale{ grid-template-columns: repeat(5, 1fr); }
 }
+
+/* Der Sprung auf die ausführliche Seite, unter den sechs Teilen. */
+.ueberblick-seite-zeile{margin:22px 0 0; text-align:center;}
