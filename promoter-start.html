@@ -17,8 +17,8 @@
 <body>
   <header class="ps-header">
     <a class="ps-brand" href="/programm.html" aria-label="Zur Präsentation">
-      <span class="ps-mark" id="psInitials" aria-hidden="true">KB</span>
-      <span><strong>Empfehlungsportal</strong><small id="psAdvisorName">Kai Blobel &amp; Team</small></span>
+      <span class="ps-mark" data-bb="initialen" aria-hidden="true">KB</span>
+      <span><strong>Empfehlungsportal</strong><small><span data-bb="name">Kai Blobel</span> &amp; Team</small></span>
     </a>
     <a class="ps-existing" id="psExistingLink" href="#vorhandener-bereich">Mein vorhandener Bereich</a>
   </header>
@@ -63,7 +63,7 @@
 
         <label class="ps-consent" for="psConsent">
           <input id="psConsent" name="consent" type="checkbox" required>
-          <span>Ich möchte am Empfehlungsprogramm teilnehmen und habe den <a id="psPrivacy" href="#" target="_blank" rel="noopener">Datenschutzhinweis</a> gelesen.</span>
+          <span>Ich möchte am Empfehlungsprogramm teilnehmen und habe den <a data-bb="datenschutz" href="#" target="_blank" rel="noopener">Datenschutzhinweis</a> gelesen.</span>
         </label>
 
         <div class="ps-captcha" id="psCaptcha" aria-label="Bot-Schutz"></div>
@@ -98,8 +98,8 @@
   </dialog>
 
   <footer class="ps-footer">
-    <span><strong id="psFooterName">Kai Blobel &amp; Team</strong><br>Deutsche Vermögensberatung</span>
-    <span><a id="psImprint" href="#" target="_blank" rel="noopener">Impressum</a><a id="psFooterPrivacy" href="#" target="_blank" rel="noopener">Datenschutz</a></span>
+    <span><strong><span data-bb="name">Kai Blobel</span> &amp; Team</strong><br>Deutsche Vermögensberatung</span>
+    <span><a data-bb="impressum" href="#" target="_blank" rel="noopener">Impressum</a><a data-bb="datenschutz" href="#" target="_blank" rel="noopener">Datenschutz</a></span>
   </footer>
 
   <script type="module" src="/js/promoter-start.js?v=3"></script>

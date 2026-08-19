@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.324 Beta** · Die Vorschau zeigt den Berater, der sie öffnet, live seit 19.08.2026.
+Offizielle Live-Version: **v1.325 Beta** · Ein Weg weniger, Namen einzusetzen, live seit 19.08.2026.
+
+## v1.325 Beta - Phase 309 · Ein Weg weniger, Namen einzusetzen
+**2026-08-19**
+
+**Der Empfehlungs-Einstieg setzte seine Angaben von Hand.** `js/promoter-start.js` schrieb Name, Initialen und Rechtslinks einzeln über eigene Element-Kennungen. Das funktionierte, war aber ein dritter Mechanismus neben `data-bb` für den Berater und `data-bo` fürs Büro. Wer an einem davon etwas änderte, musste an die beiden anderen denken. Jetzt übernimmt das dieselbe Funktion wie überall sonst, und der Handbetrieb samt einer nur noch dafür gebrauchten Hilfsfunktion ist weg.
+
+Geprüft mit zwei Beratern: Sven bekommt Name, Initialen „SA" und seine eigenen Rechtslinks. Max Kudlek hat kein Impressum hinterlegt, der Link bleibt ausgeblendet statt auf eine fremde Seite zu zeigen, und sein Datenschutzhinweis kommt aus dem Büroprofil. Genau das Verhalten wie vorher, nur an einer Stelle geregelt.
+
+**Nebenbei eine Rollenbezeichnung entfernt.** Im Empfehlungsbereich stand unter dem Namen fest „Finanzierungsspezialist". Das trifft auf niemanden im Team zu: Die gepflegten Rollen sind Regionaldirektionsleiter, Agenturleiterin, Regionalgeschäftsstelle und Vermögensberater. Auf die gepflegte Rolle umzustellen half nicht, „Sven Augustin & Team / Regionalgeschäftsstelle" liest sich schief, denn das ist eine Organisationseinheit und keine Bezeichnung für einen Menschen. Jetzt steht dort nur noch „persönlich für dich da", und das war ohnehin die Aussage, um die es ging.
+
+Wichtig dabei: Die Zeile stand nicht nur in der Vorschau, sondern wortgleich auf der echten Seite, auf der Promoter landen. Beide sind geändert, sonst zeigte das Gespräch etwas anderes als die Wirklichkeit danach. Auf der Baufinanzierungs-Seite bleibt die Bezeichnung stehen: Dort ist die Seite thematisch die Finanzierung, und wer sie teilt, tritt in dem Moment als Ansprechpartner für dieses Thema auf.
+
+---
 
 ## v1.324 Beta - Phase 308 · Die Vorschau zeigt den Berater, der sie öffnet
 **2026-08-19**

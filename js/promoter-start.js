@@ -1,4 +1,5 @@
 import { getBeraterPublicBySlug } from '/js/supabase.js';
+import { applyBeraterBrand, versteckeKontaktwege } from '/js/berater-brand.js';
 
 const ALLOWED_SOURCES = new Set(['praesentation', 'aufsteller', 'direkt', 'portal']);
 const LOCAL_TURNSTILE_SITE_KEY = '1x00000000000000000000AA';
@@ -38,10 +39,6 @@ function readContext() {
 
 const context = readContext();
 
-function initials(name) {
-  return String(name || '?').trim().split(/\s+/).map((part) => part[0] || '').join('').slice(0, 2).toUpperCase() || '?';
-}
-
 function showError(message) {
   errorBox.textContent = message;
   errorBox.hidden = false;
@@ -52,26 +49,23 @@ function clearError() {
   errorBox.hidden = true;
 }
 
-function setLegalLink(element, href) {
-  if (href) {
-    element.href = href;
-    element.hidden = false;
-  } else {
-    element.hidden = true;
-  }
-}
-
+/**
+ * Phase 309 · Name, Initialen und Rechtslinks laufen jetzt über data-bb.
+ *
+ * Vorher setzte diese Datei jedes Feld einzeln über eigene IDs. Das war ein
+ * dritter Mechanismus neben data-bb (Berater) und data-bo (Büro), und wer an
+ * einer der drei etwas änderte, musste an die beiden anderen denken.
+ * applyBeraterBrand kann alles davon, inklusive Ausblenden fehlender Links.
+ *
+ * Das „& Team" steht als eigener Text im Markup neben dem eingesetzten Namen,
+ * sonst verschwände es, sobald jemand seinen Namen ändert.
+ */
 function applyAdvisor(data) {
   advisor = data;
-  const displayName = data.name || 'Dein Beraterteam';
-  document.getElementById('psAdvisorName').textContent = `${displayName} & Team`;
-  document.getElementById('psFooterName').textContent = `${displayName} & Team`;
-  document.getElementById('psInitials').textContent = initials(displayName);
-  document.title = `Jemanden weiterempfehlen | ${displayName}`;
-
-  setLegalLink(document.getElementById('psPrivacy'), data.datenschutz_url);
-  setLegalLink(document.getElementById('psFooterPrivacy'), data.datenschutz_url);
-  setLegalLink(document.getElementById('psImprint'), data.impressum_url);
+  applyBeraterBrand(data);
+  // Der Seitentitel trennt mit einem senkrechten Strich, applyBeraterBrand
+  // ersetzt nur hinter einem Mittelpunkt. Deshalb hier von Hand.
+  document.title = `Jemanden weiterempfehlen | ${data.name || 'Dein Beraterteam'}`;
 }
 
 function restoreExistingAccess() {
