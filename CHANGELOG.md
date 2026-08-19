@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.321 Beta** · Rufnummern, die wirklich wählen, live seit 19.08.2026.
+Offizielle Live-Version: **v1.322 Beta** · Namen kleben nicht mehr in Knöpfen, live seit 19.08.2026.
+
+## v1.322 Beta - Phase 306 · Namen kleben nicht mehr in Knöpfen
+**2026-08-19**
+
+**Kais Befund:** Auf der Themenseite stand „MitSvenbesprechen" statt „Mit Sven besprechen".
+
+**Im Quelltext stand alles richtig.** Dort steht `Mit <span data-bb="vorname">Kai</span> besprechen`, und auch die übliche Prüfung im Browser liefert brav den Text mit Leerzeichen. Nur sah der Kunde etwas anderes. Deshalb wurde nicht der Text geprüft, sondern die Breite des Knopfes gegen zwei Referenzen gemessen, einmal mit und einmal ohne Leerzeichen. Ergebnis: 161 Pixel, also die Variante ohne.
+
+**Der Grund steckt im Layout.** Knöpfe sind hier `inline-flex`. Damit wird jeder Textknoten im Knopf zu einem eigenständigen Element, und Leerzeichen an deren Rändern verwirft der Browser. Solange in einem Knopf nur ein Textblock steht, fällt das nie auf. Sobald ein Name hineingesetzt wird, klebt alles zusammen. Betroffen war jeder der sieben Berater, auch Kai selbst.
+
+**Gegen dieses Problem gab es schon ein Pflaster**, einen Rand um genau ein Element auf der Empfängerseite. Es wirkte dort und hat die beiden anderen Stellen trotzdem nicht verhindert. Deshalb jetzt die Konstruktion statt der Sonderregel: Der ganze Knopfinhalt kommt in ein Element, dann fließt der Text darin ganz normal. Das Pflaster ist damit weg, ohne Ersatz.
+
+**Ein Wächter hält das fest.** Er schlägt an, sobald in einem Knopf ein eingesetzter Wert direkt neben nacktem Text steht, mit Datei, Zeile und dem Hinweis auf die Ursache. Zur Gegenprobe wurde der Fehler testweise zurückgebaut; der Wächter wurde rot und meldete die richtige Stelle.
+
+---
 
 ## v1.321 Beta - Phase 305 · Rufnummern, die wirklich wählen
 **2026-08-19**
