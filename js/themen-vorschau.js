@@ -5,6 +5,7 @@ import {
   getEmpfehlungByToken,
   markInteressiert,
 } from './supabase.js';
+import { zeigeBueroStattBerater } from './buero-brand.js';
 
 // Die ausgebaute Finanzierungskompass-Seite ist der einzige Baufi-Kundenweg.
 // Alte Themenadressen bleiben nutzbar und behalten ihren Empfehlungskontext.
@@ -536,6 +537,21 @@ async function loadAdvisor() {
         data = await m.getCurrentBerater();
       }
     } catch (_) { /* Standardangaben bleiben stehen */ }
+  }
+
+  // Stand jemand in der Adresse und ließ sich nicht auflösen (Tippfehler,
+  // gelöschter Zugang, inaktiv), tritt die Regionaldirektion an seine Stelle:
+  // Terminknopf weg, Porträt weg, Name aus dem Büroprofil. Ohne diesen Zweig
+  // liefe es unten in den Standard-Berater, und der Besucher bekäme
+  // stillschweigend eine andere Person zu sehen als die, zu der er wollte
+  // (Phase 310).
+  if (!data && (expliziterSlug || token)) {
+    const bezeichnung = await zeigeBueroStattBerater();
+    // Teile der Seite werden später neu aufgebaut (etwa die Überschrift
+    // „… begleitet Sie weiter") und greifen dabei auf advisorData zurück.
+    // Ohne diesen Eintrag stünde dort wieder der Standard-Berater.
+    if (bezeichnung) advisorData = { name: bezeichnung };
+    return;
   }
 
   // Erst als letztes der Standard-Berater: ein anonymer Direktaufruf ohne

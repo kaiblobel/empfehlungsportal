@@ -7,6 +7,7 @@
  */
 import { supabase, getEmpfehlungByToken, getBeraterPublicById, getBeraterPublicBySlug } from './supabase.js';
 import { applyBeraterBrand, merkeBerater, gemerkterBerater } from './berater-brand.js';
+import { zeigeBueroStattBerater } from './buero-brand.js';
 
 const params = new URLSearchParams(window.location.search);
 const token = params.get('token')
@@ -116,6 +117,11 @@ async function starte() {
     applyBeraterBrand(berater);
     merkeBerater(brandKey, berater);
     beraterSlug = berater.slug || '';
+  } else if (slugParam || token) {
+    // Es stand jemand in der Adresse, nur ließ er sich nicht auflösen. Dann
+    // darf nicht das Porträt und der Name aus dem HTML stehen bleiben: Die
+    // Regionaldirektion tritt an seine Stelle (Phase 310).
+    await zeigeBueroStattBerater();
   }
 
   ergaenzeWege(beraterSlug);

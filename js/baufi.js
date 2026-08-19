@@ -6,6 +6,7 @@ import {
   supabase,
 } from './supabase.js';
 import { applyBeraterBrand, merkeBerater, gemerkterBerater } from './berater-brand.js';
+import { zeigeBueroStattBerater } from './buero-brand.js';
 
 const root = document.getElementById('finance-v4');
 const params = new URLSearchParams(window.location.search);
@@ -247,9 +248,19 @@ if (sofortBerater) {
     } catch (_) {}
   }
 
-  // Kein Berater auflösbar → Standard-Berater (ENV) als letzter Fallback,
-  // damit die Portraits nicht leer bleiben.
   if (!advisor) {
+    // Stand jemand in der Adresse und ließ sich nicht auflösen (Tippfehler,
+    // gelöschter Zugang, inaktiv), tritt die Regionaldirektion an seine Stelle:
+    // Porträt weg, Name aus dem Büroprofil. Hier stand früher das Gegenteil,
+    // nämlich ein ausdrücklicher Rückfall auf ENV_BERATER_FOTO, „damit die
+    // Portraits nicht leer bleiben" — der Besucher sah dann das Gesicht einer
+    // Person, die er nie gemeint hat (Phase 310).
+    if (advisorSlug || token) {
+      await zeigeBueroStattBerater();
+      return;
+    }
+    // Ohne Kürzel und ohne Token ist es die Seite der Regionaldirektion, dann
+    // sind die Vorgaben im HTML richtig.
     if (!sofortBerater) {
       document.querySelectorAll('[data-bb="foto"]').forEach((el) => {
         el.src = window.ENV_BERATER_FOTO || '';

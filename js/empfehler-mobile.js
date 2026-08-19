@@ -12,6 +12,7 @@ import {
 } from './supabase.js';
 import { parseDbDate } from './date-utils.js';
 import { applyBeraterBrand, merkeBerater, gemerkterBerater } from './berater-brand.js';
+import { zeigeBueroStattBerater } from './buero-brand.js';
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -151,6 +152,12 @@ async function init() {
     applyBeraterBrand(beraterRes.data);
     merkeBerater(`code_${code}`, beraterRes.data);
     beraterName = (beraterRes.data.name || 'Kai').split(' ')[0];
+  } else if (empfehler.berater_id) {
+    // Der Promoter gehört zu einem Berater, dessen Datensatz sich nicht laden
+    // ließ (gelöscht oder inaktiv gesetzt). Dann tritt die Regionaldirektion an
+    // seine Stelle, statt Name und Porträt aus dem HTML stehen zu lassen
+    // (Phase 310).
+    await zeigeBueroStattBerater();
   }
   vorlagen = templateData.length ? templateData : [{ slug: 'allgemein', titel: 'Allgemein' }];
 

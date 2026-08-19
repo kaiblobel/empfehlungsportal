@@ -1,7 +1,24 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.325 Beta** · Ein Weg weniger, Namen einzusetzen, live seit 19.08.2026.
+Offizielle Live-Version: **v1.326 Beta** · Unbekannter Berater, niemand Fremdes, live seit 19.08.2026.
+
+## v1.326 Beta - Phase 310 · Unbekannter Berater, niemand Fremdes
+**2026-08-19**
+
+**Der Fall:** Jemand ruft eine Kundenseite mit einem Kürzel in der Adresse auf, und das Kürzel lässt sich nicht auflösen. Tippfehler, gelöschter Zugang, inaktiv gesetzt. In den Seiten stehen Name, Porträt und Kontaktwege der Regionaldirektion als Vorgabe, damit sie ohne Netz nicht leer aussehen. Ohne Gegenmaßnahme bleibt genau das stehen: Der Besucher wollte zu Sven und sieht Kai.
+
+Phase 300 hatte das für die Kontaktwege gelöst, aber nur auf zwei Seiten. Jetzt gilt es überall, und es umfasst auch Porträt, Name und Rolle.
+
+**Beim Bauen kam heraus, dass der Plan so nicht gepasst hätte.** Vier der sechs Seiten haben gar keine Kontaktwege; ein Aufruf zum Ausblenden hätte dort nichts getan und nur nach Absicherung ausgesehen. Das eigentliche Problem war ein anderes: In `js/baufi.js` stand ausdrücklich ein Rückfall auf Kais Porträt, kommentiert mit „damit die Portraits nicht leer bleiben". Wer `baufi.html?berater=tippfehler` aufrief, sah also Kais Gesicht.
+
+**Die Regel jetzt:** Stand jemand in der Adresse und ließ sich nicht auflösen, tritt die Regionaldirektion an seine Stelle. Porträt weg, Kontaktwege weg, Rolle weg, Name aus dem Büroprofil. Stand niemand in der Adresse, bleibt alles wie es ist, denn dann ist es die Seite der Regionaldirektion. Eine gemeinsame Funktion für alle fünf betroffenen Dateien, damit die Regel an einer Stelle steht.
+
+**Eine Stelle brauchte mehr:** `js/themen-vorschau.js` baut Teile der Seite später neu auf, samt eigenem Rückfall auf den Standard-Berater. Die Überschrift „… begleitet Sie weiter" trug deshalb weiter Kais Namen, obwohl daneben schon die Regionaldirektion stand. Die Funktion gibt die Bezeichnung jetzt zurück, und die Seite verwendet sie beim Neuaufbau.
+
+Ein Wächter hält fest, dass jede Datei, die einen Berater auflöst, den Fehlschlag behandelt, und dass der alte Porträt-Rückfall nicht zurückkommt.
+
+---
 
 ## v1.325 Beta - Phase 309 · Ein Weg weniger, Namen einzusetzen
 **2026-08-19**

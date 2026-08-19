@@ -29,7 +29,7 @@
  * als eine, die einen Tag alt ist.
  */
 import { getBueroPublic } from './supabase.js';
-import { rufnummer } from './berater-brand.js';
+import { rufnummer, versteckeKontaktwege } from './berater-brand.js';
 
 // Wie beim Berater: der zuletzt bekannte Stand steht sofort, damit die Fußzeile
 // beim Laden nicht sichtbar umspringt.
@@ -105,5 +105,56 @@ export async function ladeBueroBrand() {
   return data;
 }
 
-// Selbststartend: die Seiten binden das Modul nur ein, mehr nicht.
-ladeBueroBrand();
+// Selbststartend, aber nur wo es etwas zu füllen gibt: Seiten, die das Modul
+// bloß für zeigeBueroStattBerater() importieren, sollen keine überflüssige
+// Abfrage auslösen.
+if (document.querySelector('[data-bo]')) ladeBueroBrand();
+
+/**
+ * Phase 310 · Unbekannter Berater: die Regionaldirektion tritt an seine Stelle.
+ *
+ * Wurde ein Kürzel oder ein Empfehlungs-Token mitgegeben und ließ sich daraus
+ * kein Berater auflösen (Tippfehler, gelöschter Zugang, inaktiv gesetzt), dann
+ * wollte der Besucher ausdrücklich zu jemandem. Was er NICHT bekommen darf,
+ * ist stillschweigend eine andere Person: In den Seiten stehen Name und
+ * Porträt der Regionaldirektion als Vorgabe, und die blieben sonst einfach
+ * stehen. Auf baufi.html war das sogar ausdrücklich so gebaut („damit die
+ * Portraits nicht leer bleiben").
+ *
+ * Phase 300 hat das für Kontaktwege gelöst. Diese Funktion zieht die übrigen
+ * personenbezogenen Angaben nach:
+ *   Kontaktwege  → weg (versteckeKontaktwege)
+ *   Porträt      → weg, ein fremdes Gesicht ist schlimmer als keins
+ *   Name         → Bezeichnung des Büros
+ *   Vorname      → „dein Ansprechpartner", damit Sätze wie
+ *                  „… empfiehlt dir <Vorname> persönlich" lesbar bleiben
+ *   Rolle        → weg, sie gehört zu einer Person
+ *
+ * Ohne Kürzel in der Adresse wird sie NICHT aufgerufen: Dann ist es die Seite
+ * der Regionaldirektion, und die Vorgaben sind richtig.
+ */
+export async function zeigeBueroStattBerater() {
+  versteckeKontaktwege();
+
+  document.querySelectorAll('[data-bb="foto"]').forEach((el) => {
+    el.removeAttribute('src');
+    el.style.display = 'none';
+  });
+  document.querySelectorAll('[data-bb="rolle"], [data-bb="initialen"]').forEach((el) => {
+    el.style.display = 'none';
+  });
+
+  const { data } = await getBueroPublic();
+  const bezeichnung = data?.bezeichnung;
+  if (bezeichnung) {
+    document.querySelectorAll('[data-bb="name"]').forEach((el) => { el.textContent = bezeichnung; });
+  }
+  document.querySelectorAll('[data-bb="vorname"]').forEach((el) => {
+    el.textContent = 'dein Ansprechpartner';
+  });
+
+  // Die Bezeichnung zurückgeben, damit Aufrufer sie weiterverwenden können.
+  // themen-vorschau.js baut Teile der Seite später neu auf und hätte sonst
+  // wieder seinen eigenen Rückfall auf den Standard-Berater.
+  return bezeichnung || null;
+}

@@ -1,5 +1,6 @@
 import { getBeraterPublicBySlug } from '/js/supabase.js';
-import { applyBeraterBrand, versteckeKontaktwege } from '/js/berater-brand.js';
+import { applyBeraterBrand } from '/js/berater-brand.js';
+import { zeigeBueroStattBerater } from '/js/buero-brand.js';
 
 const ALLOWED_SOURCES = new Set(['praesentation', 'aufsteller', 'direkt', 'portal']);
 const LOCAL_TURNSTILE_SITE_KEY = '1x00000000000000000000AA';
@@ -218,6 +219,10 @@ async function loadAdvisor() {
   const { data, error } = await getBeraterPublicBySlug(context.slug);
   if (error || !data) {
     showError('Dieser Berater-Link ist nicht mehr aktiv. Bitte wende dich direkt an deinen Berater.');
+    // Zur Fehlermeldung gehört, dass darüber nicht weiter der Name des
+    // Standard-Beraters steht. Sonst liest der Besucher „Link nicht aktiv" und
+    // sieht daneben jemanden, den er nie gemeint hat (Phase 310).
+    await zeigeBueroStattBerater();
     return;
   }
   applyAdvisor(data);
