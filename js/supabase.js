@@ -276,6 +276,25 @@ export async function getBeraterPublicById(id) {
   }
 }
 
+/**
+ * Phase 305 · Die öffentlichen Büroangaben für Fußzeilen.
+ *
+ * Läuft über eine Funktion und nicht über die Tabelle: public.buero ist für
+ * anonyme Besucher gesperrt und soll das bleiben. Herausgegeben wird nur, was
+ * ohnehin in jeder Fußzeile steht.
+ */
+export async function getBueroPublic() {
+  if (!supabase) return { data: null, error: null };
+  try {
+    const { data, error } = await supabase.rpc('get_buero_public');
+    if (error) throw error;
+    return { data: data?.[0] || null, error: null };
+  } catch (err) {
+    console.error('[getBueroPublic]', err);
+    return { data: null, error: err };
+  }
+}
+
 export async function getEmpfehlerByCode(code) {
   if (!supabase) return { data: null, error: null };
   try {

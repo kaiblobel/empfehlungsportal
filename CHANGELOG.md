@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.320 Beta** · Das Büro trägt, was allen gehört, live seit 19.08.2026.
+Offizielle Live-Version: **v1.321 Beta** · Rufnummern, die wirklich wählen, live seit 19.08.2026.
+
+## v1.321 Beta - Phase 305 · Rufnummern, die wirklich wählen
+**2026-08-19**
+
+**Beim Nachsehen eines Kleinkrams kam ein echter Fehler heraus.** Kai hatte gemeldet, der Hinweis am WhatsApp-Feld sei zu streng formuliert. Beim Nachrechnen der Umwandlung für alle sieben Berater zeigte sich: Aus einer national geschriebenen Nummer wurde eine falsche. Die alte Zeile strich die führende Null und setzte ein Plus davor, aus `016095698537` wurde `tel:+16095698537`. Das ist Nordamerika. **Claudius Tusche und David Stamm hatten damit einen Anrufen-Knopf, der irgendwo klingelte, nur nicht bei ihnen**, David zusätzlich einen WhatsApp-Knopf mit ungültiger Nummer.
+
+Jetzt gibt es eine gemeinsame Umwandlung, die alle Schreibweisen versteht: mit Plus, ohne Plus, mit `0049`, mit führender Null. Sie liefert zwei Formen, die technische zum Wählen und eine lesbare zum Anzeigen.
+
+**Die Anzeige war ein eigener Punkt.** In der Fußzeile stand `+491738355258` als Klumpen. Jetzt steht dort `+49 173 8355258`. Mobilfunk-Kennzahlen sind in Deutschland immer dreistellig, die Trennung ist also eindeutig. Bei Festnetz geht das nicht: Ortsvorwahlen sind zwei- bis fünfstellig, von 030 in Berlin bis 02151 in Krefeld, und aus der Nummer allein nicht ableitbar. Deshalb wird dort nicht geraten. Wer die Nummer mit Leerzeichen einträgt, gibt die Gliederung selbst vor, und genau die wird übernommen: aus `0355 49497303` wird `+49 355 49497303`. Ein Wächter rechnet elf Schreibweisen durch, Link und Anzeige getrennt.
+
+**Die KIDZ-Fußzeilen kommen aus dem Büroprofil.** Anschrift, Bezeichnung, Rufnummer und E-Mail standen auf vier Seiten fest im HTML, viermal dieselbe Angabe. Jetzt liest sie das neue Modul `js/buero-brand.js` über `get_buero_public()` aus der Datenbank. Die Seiten bleiben bewusst beraterunabhängig: Bei Gewinnspiel und Sommerfest ist es die Veranstalterangabe, und Veranstalter ist die Regionaldirektion. Bei der Konzeptseite ist es die Kontaktangabe des Büros. Antwortet die Datenbank nicht, bleibt der Text stehen, der im HTML steht; eine Fußzeile ohne Anschrift wäre schlimmer als eine, die einen Tag alt ist.
+
+**Kleinigkeit am Rande:** Wer kein Büro- oder Teamfoto hinterlegt hatte, sah in den Einstellungen ein kaputtes Bildsymbol. Ein leeres `src` lässt den Browser die Seite selbst als Bild laden; jetzt wird das Attribut entfernt statt geleert.
+
+---
 
 ## v1.320 Beta - Phase 304 · Das Büro trägt, was allen gehört
 **2026-08-19**

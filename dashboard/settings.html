@@ -101,13 +101,16 @@
           </div>
           <div class="settings-row">
             <span class="settings-key">Telefon</span>
-            <span class="settings-val"><input class="profil-feld" data-p="telefon" placeholder="+49 151 1234567" /></span>
+            <span class="settings-val">
+              <input class="profil-feld" data-p="telefon" placeholder="0355 49497303" />
+              <span class="profil-hinweis">Schreibweise ist egal, mit oder ohne Vorwahl-Null, mit oder ohne Leerzeichen. Wer Leerzeichen setzt, bestimmt damit die Gliederung auf der Kundenseite.</span>
+            </span>
           </div>
           <div class="settings-row">
             <span class="settings-key">WhatsApp</span>
             <span class="settings-val">
-              <input class="profil-feld" data-p="whatsapp" placeholder="491511234567" />
-              <span class="profil-hinweis">Ohne Plus und ohne Leerzeichen. Leer lassen, dann erscheint kein WhatsApp-Knopf.</span>
+              <input class="profil-feld" data-p="whatsapp" placeholder="0151 1234567" />
+              <span class="profil-hinweis">Schreibweise ist egal. Leer lassen, dann erscheint kein WhatsApp-Knopf.</span>
             </span>
           </div>
           <div class="settings-row">
@@ -648,7 +651,11 @@
         const el = document.getElementById(id);
         const wert = profFeld(feld)?.value || '';
         if (!el) continue;
-        el.src = wert;
+        // Kein leeres src setzen: Der Browser lädt darauf die Seite selbst als
+        // Bild und zeigt sein Kaputt-Symbol. Das hidden daneben verhindert nur
+        // die Anzeige, nicht den Ladeversuch.
+        if (wert) el.src = wert;
+        else el.removeAttribute('src');
         el.hidden = !wert;
       }
     }

@@ -65,11 +65,80 @@ export function initialsAvatar(name) {
   return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
 }
 
+/**
+ * Phase 305 · Rufnummern richtig lesen — egal wie sie eingetragen wurden.
+ *
+ * Vorher stand hier: führende Null weg, Plus davor. Bei einer Nummer mit
+ * Ländervorwahl ging das gut. Bei einer national geschriebenen Nummer wurde
+ * daraus eine falsche: aus `016095698537` machte die alte Zeile
+ * `+16095698537`, und das ist Nordamerika. Zwei Berater hatten damit einen
+ * Anrufen-Knopf, der irgendwo klingelte, nur nicht bei ihnen.
+ *
+ * Rückgabe sind immer beide Formen:
+ *   e164    für tel: und wa.me  → +4916095698537
+ *   anzeige für den sichtbaren Text → +49 160 95698537
+ *
+ * Für die Anzeige gilt in dieser Reihenfolge:
+ *   1. Stand im gespeicherten Wert schon ein Leerzeichen, hat ein Mensch die
+ *      Trennung vorgegeben. Sie wird übernommen, nur die Null wird zur
+ *      Ländervorwahl. `0355 49497303` bleibt so gegliedert.
+ *   2. Klumpen mit Mobilkennzahl (15/16/17): drei Ziffern abtrennen. Die
+ *      Kennzahlen sind in Deutschland immer dreistellig, das ist eindeutig.
+ *   3. Klumpen mit Festnetz: nur die Ländervorwahl absetzen. Ortsvorwahlen
+ *      sind zwei- bis fünfstellig (030 Berlin, 0355 Cottbus, 02151 Krefeld)
+ *      und aus der Nummer allein NICHT ableitbar. Hier wird nicht geraten.
+ */
+export function rufnummer(roh) {
+  const text = String(roh ?? '').trim();
+  if (!text) return { e164: '', anzeige: '' };
+
+  const hatTrennung = /[\s/.-]/.test(text.replace(/^\+/, ''));
+  const ziffern = text.replace(/\D/g, '');
+  if (!ziffern) return { e164: '', anzeige: '' };
+
+  // Auf reine Inlandsziffern bringen (ohne Länder- und ohne führende Null).
+  let rest;
+  if (text.startsWith('+49')) rest = ziffern.slice(2);
+  else if (ziffern.startsWith('0049')) rest = ziffern.slice(4);
+  else if (ziffern.startsWith('49') && ziffern.length >= 11) rest = ziffern.slice(2);
+  else if (ziffern.startsWith('0')) rest = ziffern.replace(/^0+/, '');
+  else if (text.startsWith('+')) {
+    // Ausland: unangetastet lassen, nur säubern.
+    return { e164: '+' + ziffern, anzeige: '+' + ziffern };
+  } else rest = ziffern;
+
+  // Zu kurz für eine echte Nummer: lieber gar keinen Knopf als einen falschen.
+  if (rest.length < 6) return { e164: '', anzeige: '' };
+
+  const e164 = '+49' + rest;
+
+  // 1) Vom Menschen vorgegebene Gliederung übernehmen.
+  if (hatTrennung) {
+    const teile = text
+      .replace(/^\+49\s*/, '')
+      .replace(/^0049\s*/, '')
+      .replace(/^0/, '')
+      .split(/[\s/.-]+/)
+      .map((s) => s.replace(/\D/g, ''))
+      .filter(Boolean);
+    if (teile.length > 1) return { e164, anzeige: '+49 ' + teile.join(' ') };
+  }
+
+  // 2) Mobil: Kennzahl ist dreistellig.
+  if (/^1[567]/.test(rest)) {
+    return { e164, anzeige: `+49 ${rest.slice(0, 3)} ${rest.slice(3)}` };
+  }
+
+  // 3) Festnetz ohne Gliederung: nur die Ländervorwahl absetzen.
+  return { e164, anzeige: `+49 ${rest}` };
+}
+
 export function applyBeraterBrand(b) {
   if (!b) return;
-  const waNum = (b.whatsapp || '').replace(/[^\d]/g, '');
-  const telRaw = (b.telefon || '').replace(/[^\d+]/g, '');
-  const telNum = telRaw ? (telRaw.startsWith('+') ? telRaw : '+' + telRaw.replace(/^0+/, '')) : '';
+  const wa = rufnummer(b.whatsapp);
+  const waNum = wa.e164.replace(/^\+/, '');
+  const tel = rufnummer(b.telefon);
+  const telNum = tel.e164;
   const vorname = (b.name || '').trim().split(/\s+/)[0] || '';
   const envId = (typeof window !== 'undefined') ? window.ENV_BERATER_ID : null;
   const isDefaultBerater = envId ? b.id === envId : b.slug === 'kai-blobel';
@@ -172,7 +241,9 @@ export function applyBeraterBrand(b) {
         else el.style.display = 'none';
         break;
       case 'tel-text':   // Link + angezeigte Nummer (z. B. Footer)
-        if (telNum) { el.href = `tel:${telNum}`; el.textContent = b.telefon; }
+        // Angezeigt wird die gegliederte Form, gewählt die technische. Vorher
+        // stand hier der rohe Wert, also „+491738355258" als Klumpen.
+        if (telNum) { el.href = `tel:${telNum}`; el.textContent = tel.anzeige; }
         else el.style.display = 'none';
         break;
       case 'email':
