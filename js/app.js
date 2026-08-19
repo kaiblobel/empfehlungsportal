@@ -535,6 +535,12 @@ if (page === 'empfaenger') {
     }, { threshold: 0.05 }).observe(hero);
   }
 
+  // Steht hier ein anderer als der Standard-Berater? Dann darf applyVorlage
+  // den Finanzcheck-Knopf nicht mehr anfassen: applyBeraterBrand hat ihn
+  // vorher entweder auf dessen eigenen Buchungslink gesetzt oder ausgeblendet,
+  // und die Vorlage würde ihn zurück auf Kais Finanzcheck biegen.
+  let fremderBerater = false;
+
   // Empfehlung und passende Themen-Vorlage laden
   (async () => {
     let empData = null;
@@ -569,6 +575,9 @@ if (page === 'empfaenger') {
     if (berater) {
       applyBeraterBrand(berater);
       merkeBerater(brandKey, berater);
+      fremderBerater = window.ENV_BERATER_ID
+        ? berater.id !== window.ENV_BERATER_ID
+        : berater.slug !== 'kai-blobel';
     } else if (!sofort) {
       [foto, bioFoto].forEach((el) => {
         if (!el) return;
@@ -594,7 +603,10 @@ if (page === 'empfaenger') {
     const cta = document.getElementById('eFinanzCta');
     if (cta) {
       if (v.cta_text)      cta.textContent = v.cta_text;
-      if (v.quickcheck_url) {
+      // Bei einem fremden Berater hat applyBeraterBrand über diesen Knopf schon
+      // entschieden. Die Vorlage trägt Kais Finanzcheck und würde ihn sonst
+      // zurückbiegen: Der Empfohlene eines Partners landete in Kais Strecke.
+      if (v.quickcheck_url && !fremderBerater) {
         const current = new URL(cta.href, location.href);
         const target = new URL(v.quickcheck_url, location.href);
         ['from', 'schwerpunkt', 'v'].forEach(key => {

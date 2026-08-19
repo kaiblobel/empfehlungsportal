@@ -1,7 +1,28 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.315 Beta** · Die Teamübersicht zeigt das ganze Büro, live seit 19.08.2026.
+Offizielle Live-Version: **v1.316 Beta** · Der Empfehlungslink lädt wieder seine Skripte, live seit 19.08.2026.
+
+## v1.316 Beta - Phase 296 · Der Empfehlungslink lädt wieder seine Skripte
+**2026-08-19**
+
+**Kais Befund:** Max hatte die Empfängerseite „allgemein" weiterempfohlen, und darauf stand überall Kais Name. Bei KIDZ passte alles.
+
+**Der Grund war banal und die Wirkung groß.** In `empfaenger.html` standen zwei Skripte mit **relativem** Pfad: `src="js/config.js"` und `src="js/app.js"`. Der Empfehlungslink ist aber eine Kurzadresse, `/empfehlung/<token>`. Vercel liefert darunter die Seite aus, die Adresszeile im Browser behält jedoch den Pfad. Aus `js/config.js` wurde damit `/empfehlung/js/config.js`, und das gibt es nicht.
+
+Über den Empfehlungslink fehlten der Seite also **die Zugangsdaten zur Datenbank und ihr komplettes Skript**. Ohne Datenbank kein Berater, ohne Berater blieb stehen, was im HTML steht: Kai. Der Empfehlungsgeber hieß „Jemand aus deinem Umfeld", und der Anrufwunsch war wirkungslos, für alle, auch für Kai.
+
+**Warum das so lange unbemerkt blieb:** Beim Standard-Berater sieht die Seite ohne Skript völlig richtig aus. Sichtbar wird der Fehler erst, wenn ein Partner empfiehlt. `js/referral-tracking.js` stand mit führendem Schrägstrich da und lud, deshalb wurden Öffnungen sogar weiter gezählt.
+
+Betroffen war **nur** `empfaenger.html`. `baufi.html`, `thema.html` und `kidz-empfehlung.html` verweisen absolut, deshalb funktionierte KIDZ.
+
+**Zweiter Fund an derselben Stelle:** `applyVorlage()` setzt den Finanzcheck-Knopf auf die `quickcheck_url` der Vorlage, und das lief **nach** `applyBeraterBrand()`. Bei einem Partner mit eigenem Buchungslink hätte die Vorlage ihn also zurück auf Kais Finanzcheck gebogen; der Empfohlene eines Partners wäre in Kais Strecke gelandet. Der Knopf bleibt jetzt unangetastet, sobald ein anderer als der Standard-Berater aufgelöst wurde.
+
+**Der Wächter `tests/kurzadresse-pfade.test.mjs`** liest aus `api/share.js`, welche Seiten unter einer Kurzadresse ausgeliefert werden (aktuell fünf), und verlangt für jede: kein relativer Verweis, und `/js/config.js` absolut eingebunden. Platzhalter, die ein Skript zur Laufzeit zusammensetzt, werden ausgenommen. Gegengeprobt.
+
+**Nicht behoben, weil außerhalb des Portals:** Der Finanzcheck-Knopf führt auf `finanzcheck.kaiblobel.de`, und **sämtliche Adressen unter `kaiblobel.de` liefern derzeit das Standard-Zertifikat des Servers** (`*.kasserver.com`) statt eines eigenen. Der Browser warnt deshalb vor einer unsicheren Verbindung. Betroffen sind auch die Hauptdomain, karrierecheck, depotcheck, restschuldcheck und kb-hub; `teamwachsbleiche.de` ist sauber. Das ist im All-Inkl-Verwaltungsbereich zu beheben (SSL je Domain), nicht im Code.
+
+---
 
 ## v1.315 Beta - Phase 295 · Die Teamübersicht zeigt das ganze Büro
 **2026-08-19**
