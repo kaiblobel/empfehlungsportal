@@ -1737,7 +1737,16 @@ h1, h2, h3{letter-spacing:-0.021em;}
   border:1px solid var(--line); border-radius:var(--r);
   background:var(--card);
 }
-.reise-karte img{display:block; width:100%; height:150px; object-fit:cover;}
+.reise-karte img{
+  /* Vorher: feste 150px Hoehe mit cover. Das schnitt jedes Motiv an, beim
+     Auto war nur die halbe Karosserie zu sehen. Jetzt richtet sich die Hoehe
+     nach dem Bild (Querformate fuellen die Breite randlos und sind komplett
+     zu sehen); nur sehr hohe Motive werden bei 190px eingepasst statt
+     beschnitten. Der weiche Hintergrund traegt die Raender dabei. */
+  display:block; width:100%; height:auto; max-height:190px;
+  object-fit:contain; object-position:center;
+  background:var(--paper-2);
+}
 .reise-karte-ohne-bild{background:var(--paper-2);}
 .reise-badge{
   display:inline-block; margin:16px 18px 0;
