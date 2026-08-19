@@ -64,6 +64,22 @@ export function vergissBerater() {
 /**
  * Lädt den zum eingeloggten Auth-User gehörenden Berater-Datensatz (gecacht).
  * Quelle für Foto/Name/Rolle im Dashboard-Header statt der globalen ENV_*.
+ *
+ * Seit Phase 304 werden zwei Sichten zusammengeführt, und das aus einem
+ * handfesten Grund: Kundenseiten holen ihre Angaben über get_berater_public,
+ * und diese Funktion erbt fehlende Felder vom Büro. Wer hier nur die rohe
+ * Tabellenzeile läse, bekäme in der eigenen Vorschau eine leere Anschrift zu
+ * sehen, während Kunden längst die Büroanschrift lesen. Genau davor warnte
+ * der Kommentar an dieser Stelle schon vorher.
+ *
+ * Rückgabe:
+ *   b          die Werte, die Kunden sehen (mit Vererbung)
+ *   b.eigen    die rohen eigenen Werte aus der Tabelle — für die
+ *              Selbstpflege-Maske, die unterscheiden muss, was wirklich dem
+ *              Berater gehört und was nur geerbt ist
+ *   b.quelle   je geerbtem Feld 'berater' oder 'buero'
+ *   b.ist_admin, b.slug   kommen weiter aus der Tabelle, die liefert
+ *              get_berater_public nicht bzw. nicht als Rechtefrage
  */
 export async function getCurrentBerater() {
   if (_currentBerater) return _currentBerater;
@@ -72,9 +88,9 @@ export async function getCurrentBerater() {
   if (!user) return null;
   const { data, error } = await supabase
     .from('berater')
-    // Muss dieselben Felder liefern wie get_berater_public. Dies ist der dritte
-    // Weg zum Berater (eingeloggte Vorschau); fehlt hier ein Feld, sieht der
-    // Berater seine eigene Seite anders als seine Kunden sie sehen.
+    // Die rohen eigenen Werte. Muss jedes Feld enthalten, das die
+    // Selbstpflege-Maske schreibt, sonst zeigt sie ein leeres Feld an, wo ein
+    // eigener Wert steht.
     .select('id, name, rolle, foto_url, slug, bookings_url, whatsapp, telefon, email, impressum_url, datenschutz_url, ist_admin, buero_foto_url, team_foto_url, buero_bildzeile, adresse')
     .eq('auth_user_id', user.id)
     .maybeSingle();
@@ -82,7 +98,40 @@ export async function getCurrentBerater() {
     console.error('[getCurrentBerater]', error);
     return null;
   }
-  _currentBerater = data || null;
+  if (!data) {
+    _currentBerater = null;
+    window.CURRENT_BERATER = null;
+    return null;
+  }
+
+  // Dieselbe Sicht wie die Kundenseiten. Schlägt sie fehl, ist die rohe Zeile
+  // der Rückfall: lieber eine Vorschau ohne geerbte Werte als gar kein
+  // Dashboard.
+  let oeffentlich = null;
+  try {
+    const { data: pub } = await supabase.rpc('get_berater_public_by_id', { p_id: data.id });
+    oeffentlich = pub?.[0] || null;
+  } catch (err) {
+    console.warn('[getCurrentBerater] öffentliche Sicht nicht ladbar', err);
+  }
+
+  const quelle = {};
+  if (oeffentlich) {
+    for (const [feld, wert] of Object.entries(oeffentlich)) {
+      if (feld.endsWith('_quelle')) quelle[feld.slice(0, -7)] = wert;
+    }
+  }
+
+  _currentBerater = {
+    ...data,
+    ...(oeffentlich || {}),
+    // Aus der Tabelle, nicht aus der öffentlichen Sicht: dort steht das Recht
+    // nicht drin, und der Slug ist die Grundlage für Links und Bildnamen.
+    ist_admin: data.ist_admin,
+    slug: data.slug,
+    eigen: data,
+    quelle,
+  };
   window.CURRENT_BERATER = _currentBerater;
   return _currentBerater;
 }

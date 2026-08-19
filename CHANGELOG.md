@@ -1,7 +1,26 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.319 Beta** · Jeder Berater pflegt sein Profil selbst, live seit 19.08.2026.
+Offizielle Live-Version: **v1.320 Beta** · Das Büro trägt, was allen gehört, live seit 19.08.2026.
+
+## v1.320 Beta - Phase 304 · Das Büro trägt, was allen gehört
+**2026-08-19**
+
+**Der Anlass war eine Zeile, die siebenmal dastand.** Alle sieben Berater hatten wörtlich dieselbe Anschrift „An der Wachsbleiche 1a · 03046 Cottbus" einzeln in ihrem Datensatz. Ein Büroumzug wären sieben Änderungen gewesen, und wer eine vergisst, hat eine falsche Adresse auf einer Kundenseite stehen.
+
+**Neu ist ein Büroprofil** (Phase 303): die Tabelle `buero` mit Bezeichnung, Wortmarke, Anschrift, Bürorufnummer, Terminlink, Rechtslinks und Emblem. Alle Berater hängen daran. Gepflegt wird sie nur von Admins, nach außen ist sie nicht lesbar.
+
+**Kundenseiten erben von dort, was beim Berater fehlt.** Ein eigener Wert schlägt den Bürowert immer, nur eine Lücke wird gefüllt. Sechs Felder machen mit: Anschrift, Datenschutz-Link, Terminlink, Bürofoto, Teamfoto und Bildzeile. Für Max Kudlek und David Stamm heißt das: Ihre Seiten haben jetzt einen Datenschutz-Link und einen Terminknopf, wo vorher nichts war.
+
+**Drei Angaben sind ausdrücklich ausgenommen, und das bleibt auch so.** Telefonnummer und WhatsApp sind persönliche Anschlüsse; ein Kunde auf der Seite von Berater X darf nicht bei Berater Y klingeln. Genau deshalb ist in Phase 298 schon der Spalten-Standardwert geflogen. Und das Impressum nennt eine bestimmte Person mit Anschrift, Rufnummer und drei personengebundenen Registernummern nach §34d, §34f und §34i GewO. Auf einer fremden Kundenseite wäre das schlicht falsch. Ein fehlendes Impressum fällt auf und wird nachgetragen, ein falsches fällt niemandem auf. Der Datenschutz-Link wird dagegen vererbt: verantwortliche Stelle ist die DVAG in Frankfurt, im Dokument steht kein Beratername.
+
+**In den eigenen Einstellungen sieht man jetzt, was geerbt ist.** Unter einem leeren Feld steht grau „Kommt vom Büro: …". Wichtig dabei: Im Eingabefeld selbst steht der geerbte Wert **nicht**. Stünde er dort, würde er beim nächsten Speichern als eigener Wert festgeschrieben, und ein Büroumzug ginge an diesem Berater vorbei. Die Maske füllt deshalb aus den rohen eigenen Werten, die Kundensicht kommt getrennt dazu.
+
+Damit ein Berater in der Vorschau seiner eigenen Seite dasselbe sieht wie seine Kunden, führt `getCurrentBerater` jetzt beide Sichten zusammen. Der Merker im Browser steht auf `bb_berater_v4_`, sonst hätten Wiederkehrer weiter den alten Stand ohne geerbte Angaben gesehen.
+
+**Zum Schluss die sieben doppelten Anschriften geleert**, aber nur dort, wo der Text wörtlich mit dem Büro übereinstimmte. Für Kunden ändert sich dadurch nichts, die Anschrift kommt nur noch aus einer Quelle statt aus sieben.
+
+---
 
 ## v1.319 Beta - Phase 302 · Jeder Berater pflegt sein Profil selbst
 **2026-08-19**

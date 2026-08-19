@@ -131,7 +131,37 @@ assert.match(settings, /profBtn\.disabled = false/,
 assert.match(settings, /if \(!vollstaendig\)[\s\S]{0,200}return;/,
   'Es fehlt der Abbruch bei unvollständig geladenem Profil.');
 
-/* --- 7) Der gemerkte Berater wird nach dem Speichern verworfen --- */
+/* --- 7) Die Maske füllt aus den EIGENEN Werten, nicht aus der Kundensicht --- */
+
+// Seit Phase 304 erbt die Kundensicht fehlende Angaben vom Büro. Stünde ein
+// geerbter Wert im Eingabefeld, würde er beim nächsten Speichern als eigener
+// festgeschrieben — die Vererbung wäre für diesen Berater tot und ein Umzug
+// des Büros ginge an ihm vorbei.
+assert.match(
+  settings,
+  /const eigen = b\.eigen \|\| b;/,
+  'dashboard/settings.html füllt das Formular nicht aus b.eigen. Damit landen '
+    + 'geerbte Bürowerte in den Feldern und werden beim Speichern zu eigenen.',
+);
+assert.match(
+  settings,
+  /el\.value = eigen\[f\] \?\? '';/,
+  'Die Felder werden nicht aus den rohen eigenen Werten befüllt.',
+);
+assert.match(
+  dashboardJs,
+  /eigen: data,/,
+  'js/dashboard.js reicht die rohen Tabellenwerte nicht als b.eigen weiter. '
+    + 'Ohne die kann die Maske eigenen und geerbten Wert nicht unterscheiden.',
+);
+assert.match(
+  dashboardJs,
+  /get_berater_public_by_id/,
+  'getCurrentBerater holt die Kundensicht nicht. Dann sieht ein Berater in '
+    + 'seiner eigenen Vorschau andere Angaben als seine Kunden.',
+);
+
+/* --- 8) Der gemerkte Berater wird nach dem Speichern verworfen --- */
 
 assert.match(dashboardJs, /export function vergissBerater/,
   'js/dashboard.js exportiert kein vergissBerater(). Ohne das steht nach dem '

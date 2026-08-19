@@ -39,7 +39,10 @@
 // setzt daraus das Portrait, obwohl längst ein Bürofoto hinterlegt ist. Ein
 // neuer Schlüssel lässt den alten Eintrag einfach links liegen.
 // v3 seit Phase 291 (Anschrift am Berater).
-const BRAND_CACHE_PREFIX = 'bb_berater_v3_';
+// v4 seit Phase 304: Der Datensatz erbt jetzt fehlende Angaben vom Büro und
+// bringt je geerbtem Feld ein Herkunftskennzeichen mit. Ein Wiederkehrer mit
+// altem Eintrag sähe sonst weiter die leeren Felder von vorher.
+const BRAND_CACHE_PREFIX = 'bb_berater_v4_';
 
 export function merkeBerater(key, b) {
   if (!key || !b) return;

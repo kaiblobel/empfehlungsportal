@@ -672,6 +672,13 @@
         }
       }
 
+      // WICHTIG (Phase 304): Die Felder werden aus b.eigen befüllt, also aus
+      // den rohen eigenen Werten — NICHT aus der Kundensicht. Stünde ein
+      // geerbter Bürowert im Eingabefeld, würde er beim nächsten Speichern als
+      // eigener Wert festgeschrieben, und die Vererbung wäre für diesen
+      // Berater tot. Ein Umzug des Büros ginge dann an ihm vorbei.
+      const eigen = b.eigen || b;
+
       // Erst wenn JEDES der zwölf Felder wirklich gesetzt wurde, darf gespeichert
       // werden. Fehlt eines im geladenen Datensatz — etwa weil der Leseweg die
       // Spalte nicht mitliefert — würde ein Speichern es stillschweigend leeren.
@@ -679,10 +686,11 @@
       for (const f of PROFIL_FELDER) {
         const el = profFeld(f);
         if (!el) { vollstaendig = false; continue; }
-        if (!(f in b)) { vollstaendig = false; continue; }
-        el.value = b[f] ?? '';
+        if (!(f in eigen)) { vollstaendig = false; continue; }
+        el.value = eigen[f] ?? '';
       }
 
+      profHerkunftZeigen(b);
       profVorschauBilder();
 
       if (!vollstaendig) {
@@ -690,6 +698,46 @@
         return;
       }
       profBtn.disabled = false;
+    }
+
+    /**
+     * Was steht auf der Kundenseite, obwohl das eigene Feld leer ist?
+     *
+     * Die Datenbankfunktion liefert je geerbtem Feld ein Herkunftskennzeichen.
+     * Steht dort 'buero', kommt der angezeigte Wert aus dem Büroprofil. Der
+     * Berater soll das sehen, sonst wundert er sich über eine Anschrift auf
+     * seiner Kundenseite, die er nirgends eingetragen hat.
+     */
+    function profHerkunftZeigen(b) {
+      const beschriftung = {
+        adresse: 'Anschrift',
+        datenschutz_url: 'Datenschutz-Link',
+        bookings_url: 'Terminlink',
+        buero_foto_url: 'Bürofoto',
+        team_foto_url: 'Teamfoto',
+        buero_bildzeile: 'Bildzeile',
+      };
+
+      for (const feld of Object.keys(beschriftung)) {
+        const el = profFeld(feld);
+        if (!el) continue;
+
+        // Der Hinweis hängt am selben Kasten wie das Feld und wird jedes Mal
+        // neu gebaut, damit nach dem Speichern nichts Altes stehen bleibt.
+        const kasten = el.closest('.settings-val') || el.parentElement;
+        kasten?.querySelector('.profil-herkunft')?.remove();
+
+        const geerbt = b.quelle?.[feld] === 'buero' && b[feld];
+        if (!geerbt) continue;
+
+        const zeile = document.createElement('span');
+        zeile.className = 'profil-hinweis profil-herkunft';
+        const wert = feld.endsWith('_url') && String(b[feld]).length > 60
+          ? String(b[feld]).slice(0, 57) + '…'
+          : b[feld];
+        zeile.textContent = `Kommt vom Büro: ${wert}. Eigenen Wert eintragen, um das zu überschreiben.`;
+        kasten?.appendChild(zeile);
+      }
     }
 
     // Upload: schreibt nur ins versteckte Feld. Wirksam wird das Bild erst mit
@@ -746,7 +794,10 @@
         // stünde dort bis zum nächsten Tab-Neustart das alte Foto.
         vergissBerater();
         await applyBeraterHeader();
-        profVorschauBilder();
+        // Neu laden statt nur neu zeichnen: Wer gerade einen eigenen Wert
+        // eingetragen hat, wo vorher der Bürowert galt, muss den Hinweis
+        // „Kommt vom Büro" sofort loswerden — und umgekehrt.
+        await profilLaden();
         profSetMsg('Gespeichert ✓', true);
       } catch (err) {
         console.warn('[profil] Speichern fehlgeschlagen', err);
