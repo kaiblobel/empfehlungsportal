@@ -406,9 +406,41 @@ async function applyBeraterSlugToLinks(root) {
   }
 }
 
+/**
+ * Anwesenheit melden — von jeder Seite des Beraterbereichs aus.
+ *
+ * Vorher stand das nur in js/hub.js. „Online" hieß damit faktisch „hat den
+ * Überblick offen": Wer bei den Empfehlungen, im Potenzialbuch oder in der
+ * Präsentation arbeitete, verschwand aus der Anzeige, obwohl er die ganze
+ * Zeit im Portal war.
+ *
+ * Die Navigation wird auf jeder dieser Seiten aufgebaut, deshalb hängt es
+ * hier. Der Takt von einer Minute ist derselbe wie bisher auf dem Überblick.
+ * Ein Fehler bleibt folgenlos: Eine nicht gemeldete Anwesenheit ist ärgerlich,
+ * eine Seite, die deshalb nicht lädt, wäre schlimmer.
+ */
+function meldeAnwesenheit() {
+  let laeuft = false;
+  const melden = async () => {
+    if (laeuft || document.hidden) return;
+    laeuft = true;
+    try {
+      const m = await import('./supabase.js');
+      await m.touchPresence();
+    } catch (_) { /* ohne Anmeldung oder ohne Netz: nichts zu tun */ }
+    laeuft = false;
+  };
+  melden();
+  setInterval(melden, 60000);
+  // Nach dem Zurückwechseln zum Fenster sofort melden, nicht erst zum
+  // nächsten Takt. Sonst steht jemand nach einer Pause bis zu eine Minute
+  // lang auf offline, obwohl er längst wieder da ist.
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) melden(); });
+}
+
 // Auto-init if a #appNav exists on DOMContentLoaded
 if (typeof document !== 'undefined') {
-  const init = () => { renderNav(); initCmdK(); mountContextMenu(); };
+  const init = () => { renderNav(); initCmdK(); mountContextMenu(); meldeAnwesenheit(); };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 }

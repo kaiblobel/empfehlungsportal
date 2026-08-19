@@ -1,7 +1,32 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.313 Beta** · Die Kurzadresse mit Berater greift, live seit 18.08.2026.
+Offizielle Live-Version: **v1.314 Beta** · Die Online-Anzeige zeigt wieder das ganze Team, live seit 19.08.2026.
+
+## v1.314 Beta - Phase 294 · Die Online-Anzeige zeigt wieder das ganze Team
+**2026-08-19**
+
+**Kais Befund:** „Bis gestern hat jeder Berater jeden gesehen ob er online ist, jetzt sieht er nur noch sich selber." Und: Josie und Max seien online, obwohl die Anzeige das nicht hergab.
+
+Dahinter steckten **zwei voneinander unabhängige Fehler**, die beide still bleiben, weil ja etwas dasteht.
+
+**Erstens: Die Liste war zu eng.** `team_presence()` filterte über `team_sichtbare_berater()`, und die geht rekursiv nach **unten**: jeder sieht sich und die Leute unter sich. Für eine Agenturleiterin ohne eigene Mannschaft heißt das eine Liste mit genau einem Namen, dem eigenen. Betroffen waren Josephine, Max und David; Sven sah drei, Claudius und Sandro je zwei, Kai als Admin alle sieben.
+
+Die Filterzeile stand **nur in der Datenbank und in keiner Datei** des Projekts. Deshalb ließ sich auch nicht mehr feststellen, wann sie gesetzt wurde, und beim nächsten Einspielen der Migrationen wäre sie spurlos verschwunden.
+
+Neu grenzt `team_wurzel()` das Team über die **gemeinsame Spitze** ab: alle, die unter derselben Regionaldirektion hängen, sehen einander. Bei einer zweiten Direktion im selben Portal bleiben die Teams damit von selbst getrennt. Die Rekursion nach oben ist auf zwanzig Stufen begrenzt, sonst liefe sie bei einem versehentlichen Kreis in der Hierarchie endlos und legte jede Seite lahm, die die Präsenz lädt.
+
+**`team_sichtbare_berater()` bleibt unangetastet.** Sie steuert die Sicht auf **Kennzahlen**, und dort ist die enge Regel richtig: Ein Agenturleiter hat die Zahlen der ganzen Direktion nichts anzugehen. Wer gerade angemeldet ist, ist dagegen keine schützenswerte Zahl, sondern eine Arbeitsinformation.
+
+**Zweitens: Gemessen wurde die falsche Sache.** Die Anwesenheit meldete ausschließlich `js/hub.js`. „Online" hieß damit faktisch „hat den Überblick offen". Wer bei den Empfehlungen, im Potenzialbuch oder in der Präsentation arbeitete, verschwand aus der Anzeige, obwohl er die ganze Zeit im Portal war. Genau das war bei Josie zu sehen: Zwischen zwei Abfragen im Abstand von sechs Minuten sprang ihr Zeitstempel von „vor zwei Tagen" auf „gerade eben", weil sie zwischendurch den Überblick geöffnet hatte.
+
+Gemeldet wird jetzt aus `js/nav.js`, also von **jeder Seite des Beraterbereichs**, im selben Minutentakt wie vorher und zusätzlich sofort beim Zurückwechseln zum Fenster. Bei verstecktem Fenster wird nicht gemeldet. Ein Fehler dabei bleibt folgenlos: Eine nicht gemeldete Anwesenheit ist ärgerlich, eine Seite, die deshalb nicht lädt, wäre schlimmer.
+
+**Die Spanne steht auf fünf Minuten statt drei.** Bei Minutentakt und Pause im Hintergrund lagen drei Minuten so dicht am Takt, dass die Anzeige beim Fensterwechsel flackerte.
+
+**Der Wächter `tests/praesenz.test.mjs`** hält beides fest: dass die Meldung in `js/nav.js` steht und nicht in einer einzelnen Seite, dass sie einen Takt und einen Fehlerfang hat, dass die Anzeige-Spanne zum Takt passt, und dass `team_presence` nicht wieder über `team_sichtbare_berater` filtert. Beide Rückfälle gegengeprobt.
+
+---
 
 ## v1.313 Beta - Phase 293 · Die Kurzadresse mit Berater greift
 **2026-08-18**

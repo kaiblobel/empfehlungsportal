@@ -70,10 +70,13 @@ let currentRange = parseInt(sessionStorage.getItem(RANGE_KEY) || '30', 10);
   // Realtime Hub-Stream (Phase 29) — Timeline live aktualisieren
   startHubStream();
 
-  // Team-Momentum (Phase 82): Präsenz-Heartbeat + Team-Feed
+  // Team-Momentum (Phase 82): Team-Feed.
+  // Die Anwesenheit meldet seit Phase 294 js/nav.js von jeder Seite aus, nicht
+  // mehr nur von hier. Der Aufruf bleibt trotzdem stehen: Er sorgt dafür, dass
+  // die eigene Zeile schon beim ersten Zeichnen der Liste aktuell ist.
   await touchPresence();
   loadTeamMomentum();
-  setInterval(async () => { await touchPresence(); loadTeamMomentum(); }, 60000);
+  setInterval(loadTeamMomentum, 60000);
 })();
 
 /* ---------- Header Clock ---------- */
@@ -455,7 +458,10 @@ function renderTeamPresence(rows) {
   const now = Date.now();
   wrap.innerHTML = (rows || []).map(r => {
     const last = r.last_seen ? parseDbDate(r.last_seen).getTime() : 0;
-    const online = last && (now - last) < 3 * 60 * 1000;
+    // Fünf Minuten, nicht drei. Gemeldet wird im Minutentakt, und bei
+    // verstecktem Fenster gar nicht. Drei Minuten lagen so dicht am Takt,
+    // dass die Anzeige beim Fensterwechsel flackerte.
+    const online = last && (now - last) < 5 * 60 * 1000;
     const initial = (r.berater_name || '?').trim().split(/\s+/).map(s => s[0] || '').join('').slice(0, 2).toUpperCase();
     const av = r.berater_foto
       ? `<img src="${escapeHtml(r.berater_foto)}" alt="" onerror="this.style.display='none'"/>`
