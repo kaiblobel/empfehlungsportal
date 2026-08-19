@@ -116,13 +116,15 @@
             beschreibung: 'Such dir dein Auto aus. Wir übernehmen die Leasingrate für bis zu 24 Monate.',
             bild_url: '../assets/images/programm/auto.jpg',
             info_titel: 'Wie das mit dem Auto läuft',
-            info_text: 'Du suchst dir dein Fahrzeug aus, geleast über die MAHAG Leasing, Laufzeit bis zu 24 Monate.
+            // Mehrzeilig, deshalb Backticks. Mit einfachen Anführungszeichen war
+            // die ganze Seite seit Phase 297 ein Syntaxfehler und blieb leer.
+            info_text: `Du suchst dir dein Fahrzeug aus, geleast über die MAHAG Leasing, Laufzeit bis zu 24 Monate.
 
 **Was wir übernehmen:** die komplette monatliche Leasingrate, 24 Monate lang. Das Wartungspaket ist in aller Regel in der Rate enthalten.
 
 **Was du selbst trägst:** Versicherung, Kfz-Steuer, Sprit oder Strom und alles über der Kilometergrenze.
 
-**Nach 24 Monaten** geht der Wagen ganz normal an die Leasinggesellschaft zurück.' },
+**Nach 24 Monaten** geht der Wagen ganz normal an die Leasinggesellschaft zurück.` },
     };
 
     function fixture({ ohneBilder = false } = {}) {

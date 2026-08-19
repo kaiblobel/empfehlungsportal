@@ -6,10 +6,10 @@
 # Datenbank-Schema und Migrationen
 *.sql
 
-# Tests, interne Doku, Entwuerfe, Nachweisbilder
+# Tests, interne Doku, Werkzeuge, Nachweisbilder
 tests/
 docs/
-mockups/
+tools/
 
 # Interne Projekt- und Prozessdateien
 AGENTS.md

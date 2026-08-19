@@ -27,12 +27,12 @@ for (const datei of PFLICHT) {
 }
 
 /* --- 2) Kein apple-touch-icon zeigt auf ein SVG ------------------------- */
-// Geprüft wird, was ausgeliefert wird. `docs/`, `mockups/` und `tests/` stehen
+// Geprüft wird, was ausgeliefert wird. `docs/`, `tools/` und `tests/` stehen
 // in .vercelignore, `tmp/` in .gitignore: Entwürfe und Sicherungen brauchen
 // kein Zeichen für den Homebildschirm.
 async function alleSeiten(ordner = '', gesammelt = []) {
   for (const e of await readdir(new URL(ordner, wurzel), { withFileTypes: true })) {
-    if (['.git', '.worktrees', 'node_modules', 'assets', 'mockups', 'tests', 'docs', 'tmp']
+    if (['.git', '.worktrees', 'node_modules', 'assets', 'tools', 'tests', 'docs', 'tmp']
       .includes(e.name)) continue;
     const pfad = `${ordner}${e.name}${e.isDirectory() ? '/' : ''}`;
     if (e.isDirectory()) await alleSeiten(pfad, gesammelt);

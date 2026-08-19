@@ -1008,8 +1008,9 @@ function reicheBeraterAnFolgeseitenWeiter(b) {
   const schliessen = document.getElementById('vorschauSchliessen');
   if (!overlay || !rahmen || !oeffnen || !schliessen) return;
 
-  // Nicht auf mockups/ zeigen: Der Ordner wird bewusst nicht mit ausgeliefert
-  // (.vercelignore, Phase 166), die Vorschau lief live in einen 404.
+  // Nicht auf einen Entwurf zeigen: Was in .vercelignore steht, wird nicht mit
+  // ausgeliefert (Phase 166), die Vorschau lief live in einen 404. Der frühere
+  // Entwurfsordner mockups/ ist seit Phase 301 ganz weg.
   const VORSCHAU_URL = '/promoter-vorschau.html';
 
   // Die Vorschauseite hat oben eine eigene Umschaltleiste für Ansicht und

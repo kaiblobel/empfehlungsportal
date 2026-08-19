@@ -105,7 +105,7 @@ export function meilensteine(rows) {
 
 /* ---------------------------------------------------------------------------
  * Markup. Bewusst hier und nicht in programm.js: So rendert die Prüfseite
- * (mockups/benefits-pruefung.html) exakt dasselbe wie die echte Seite und
+ * (tools/benefits-pruefung.html) exakt dasselbe wie die echte Seite und
  * kann nicht auseinanderlaufen. Reine Zeichenketten, kein DOM-Zugriff.
  * ------------------------------------------------------------------------- */
 function escapeHtml(s) {
