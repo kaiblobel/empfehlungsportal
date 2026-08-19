@@ -1,0 +1,42 @@
+-- =====================================================================
+-- Phase 298 · Der WhatsApp-Standardwert an der Beratertabelle fällt weg
+--
+-- Befund: public.berater.whatsapp trug den Spalten-Standardwert
+--   '4915154776159'::text
+-- Das ist Kais Mobilnummer. Jeder neu angelegte Berater, bei dem beim
+-- Anlegen kein WhatsApp-Feld mitkam, bekam sie stillschweigend eingetragen —
+-- und get_berater_public gibt whatsapp an die Kundenseiten aus. Ein Kunde
+-- hätte also beim WhatsApp-Knopf eines fremden Beraters bei Kai geklingelt.
+--
+-- Betroffene Zeilen (vor dem Einspielen geprüft): genau eine, nämlich Kai
+-- selbst — dort ist der Wert richtig. Die übrigen sechs Berater tragen eine
+-- eigene Nummer oder NULL. Es wird deshalb KEINE Datenzeile angefasst,
+-- nur der Standardwert der Spalte entfernt.
+--
+-- Keine Signatur-, Client- oder Datenänderung — nur Spalten-Metadaten.
+-- Idempotent (drop default ist wiederholbar).
+-- =====================================================================
+
+alter table public.berater alter column whatsapp drop default;
+
+-- ---------------------------------------------------------------------
+-- KONTROLLE nach dem Einspielen (muss NULL liefern):
+--
+--   select column_default
+--     from information_schema.columns
+--    where table_schema = 'public'
+--      and table_name   = 'berater'
+--      and column_name  = 'whatsapp';
+--
+-- Und Kais Nummer muss unverändert stehen (eine Zeile, '4915154776159'):
+--
+--   select name, whatsapp from public.berater where whatsapp is not null;
+-- ---------------------------------------------------------------------
+
+-- ---------------------------------------------------------------------
+-- ROLLBACK (nur falls doch jemand den Standardwert vermisst — sofort und
+-- ohne Datenrisiko, es sind reine Metadaten):
+--
+--   alter table public.berater
+--     alter column whatsapp set default '4915154776159'::text;
+-- ---------------------------------------------------------------------

@@ -16,6 +16,9 @@ import {
 import { supabase } from './supabase.js';
 import { requireAuth, logout, applyBeraterHeader, getCurrentBerater } from './dashboard.js';
 
+/** Form einer UUID, für die Cockpit-Kennung (Phase 299). */
+const UUID_MUSTER = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 /** Starkes, gut lesbares Passwort (ohne verwechselbare Zeichen O/0/l/1/I). */
 function generatePassword(len = 12) {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
@@ -302,6 +305,15 @@ function renderCard(b, _index, alle) {
               <div><label>URL-Kennung</label><input data-f="slug" value="${escapeAttr(b.slug || '')}" pattern="[a-z0-9-]+" placeholder="max-kudlek" /><span class="berater-field-hint">Wird für persönliche Links und Bilddateien benötigt.</span></div>
               <div><label>Interne Benutzer-ID</label><div class="berater-tech-value">${escapeHtml(b.auth_user_id || 'Noch nicht verknüpft')}</div></div>
               <div class="wide">
+                <label>Cockpit-Kennung</label>
+                <input data-f="cockpit_advisor_id" value="${escapeAttr(b.cockpit_advisor_id || '')}" placeholder="z. B. a047ae87-9b17-46cf-801c-57b6cb814689" />
+                <span class="berater-field-hint">
+                  Die advisors.id derselben Person im Berater-Cockpit. Nötig, weil dort eine
+                  andere E-Mail am Login hängen kann als hier. Leer lassen, wenn es kein
+                  Cockpit-Konto gibt. Kundenseiten sehen diese Kennung nie.
+                </span>
+              </div>
+              <div class="wide">
                 <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
                   <input type="checkbox" data-f="ist_test" ${b.ist_test ? 'checked' : ''} style="width:auto;margin:0" />
                   Testkonto
@@ -396,6 +408,14 @@ function attachHandlers(list) {
         let v = (f.value || '').trim();
         data[k] = v || null;
       });
+
+      // Die Cockpit-Kennung ist eine UUID. Ein Tippfehler käme sonst als
+      // rohe Postgres-Meldung ("invalid input syntax for type uuid") zurück,
+      // und das ganze Speichern liefe ins Leere — auch für alle anderen Felder.
+      if (data.cockpit_advisor_id && !UUID_MUSTER.test(data.cockpit_advisor_id)) {
+        toast('Die Cockpit-Kennung sieht nicht wie eine gültige ID aus. Nichts gespeichert.');
+        return;
+      }
 
       btn.disabled = true;
       btn.textContent = 'Speichere…';
