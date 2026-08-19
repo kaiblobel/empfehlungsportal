@@ -784,6 +784,49 @@ export async function updateMyPassword(newPassword) {
   return { error };
 }
 
+/* ---------- Phase 302 · Selbstpflege des eigenen Profils ---------- */
+/**
+ * Schreibt die zwölf selbst pflegbaren Felder des EIGENEN Profils.
+ *
+ * Läuft bewusst über die Datenbankfunktion `berater_self_update` und nicht
+ * über `.from('berater').update(...)`: Ein normaler Berater hat auf der
+ * Tabelle gar kein Schreibrecht, und die Feldliste steht damit an einer
+ * Stelle in der Datenbank statt verstreut im Browser-Code. Wessen Zeile
+ * geschrieben wird, entscheidet die Funktion selbst über auth.uid() — hier
+ * gibt es keine ID zu übergeben und damit auch keine zu fälschen.
+ *
+ * Slug, E-Mail, Rechte-Kennzeichen und die Cockpit-Kennung fehlen absichtlich.
+ * Die Funktion kennt dafür keinen Parameter, die bleiben beim Admin.
+ *
+ * Erwartet ein Objekt mit genau diesen Schlüsseln. Fehlt einer, wird das Feld
+ * geleert — deshalb schickt die Oberfläche immer alle zwölf und gibt den
+ * Speichern-Knopf erst frei, wenn sie alle geladen hat.
+ */
+export async function updateMeinProfil(f) {
+  if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
+  try {
+    const { error } = await supabase.rpc('berater_self_update', {
+      p_name: f.name ?? '',
+      p_rolle: f.rolle ?? '',
+      p_telefon: f.telefon ?? '',
+      p_whatsapp: f.whatsapp ?? '',
+      p_bookings_url: f.bookings_url ?? '',
+      p_adresse: f.adresse ?? '',
+      p_impressum_url: f.impressum_url ?? '',
+      p_datenschutz_url: f.datenschutz_url ?? '',
+      p_foto_url: f.foto_url ?? '',
+      p_buero_foto_url: f.buero_foto_url ?? '',
+      p_team_foto_url: f.team_foto_url ?? '',
+      p_buero_bildzeile: f.buero_bildzeile ?? '',
+    });
+    if (error) throw error;
+    return { error: null };
+  } catch (err) {
+    console.error('[updateMeinProfil]', err);
+    return { error: err };
+  }
+}
+
 // Admin legt ein Berater-Login an oder setzt dessen Passwort. Beides läuft
 // serverseitig über die offizielle Auth Admin API und ist admin-gated.
 export async function createBeraterLogin(beraterId, password) {

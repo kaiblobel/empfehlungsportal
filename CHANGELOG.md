@@ -1,7 +1,26 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.318 Beta** · Kein fremder Anschluss, wenn der Berater unbekannt ist, live seit 19.08.2026.
+Offizielle Live-Version: **v1.319 Beta** · Jeder Berater pflegt sein Profil selbst, live seit 19.08.2026.
+
+## v1.319 Beta - Phase 302 · Jeder Berater pflegt sein Profil selbst
+**2026-08-19**
+
+**Kais Frage:** Kann jeder Berater sein Beraterkonto sehen und seine Daten selbst eintragen? Bisher nicht. Foto, Telefonnummer, Anschrift und Terminlink lagen ausschließlich in der Beraterverwaltung, und die sieht nur der Admin. Jede geänderte Handynummer lief über Kai.
+
+**In den Einstellungen steht jetzt „Mein Profil".** Zwölf Felder: Profilbild, Name, Rolle, Telefon, WhatsApp, Terminlink, Anschrift, Impressum, Datenschutz, dazu aufklappbar Bürofoto, Teamfoto und Bildzeile. Was dort geändert wird, steht nach dem Speichern sofort auf den eigenen Kundenseiten. Der Kopf der Seite zieht Foto und Namen direkt nach, ohne Neuladen.
+
+**Freigegeben wird das nicht über ein Schreibrecht auf der Tabelle.** Zeilenschutz in Postgres wirkt auf ganze Zeilen, nicht auf einzelne Spalten: Wer die eigene Zeile ändern darf, darf dann auch `ist_admin` auf wahr setzen oder den Slug eines Kollegen übernehmen. Stattdessen gibt es genau eine Datenbankfunktion mit fester Feldliste, `berater_self_update`. Welche Zeile geschrieben wird, entscheidet sie selbst über den angemeldeten Nutzer — es gibt keine ID zu übergeben und damit auch keine zu fälschen.
+
+Nicht dabei und weiterhin Sache der Verwaltung: Kürzel, E-Mail, Adminrecht, Testkennzeichen, Aktivschalter, Führungskraft und die Cockpit-Kennung. Für diese Felder kennt die Funktion keinen Parameter.
+
+**Der Speichern-Knopf startet gesperrt.** Er wird erst frei, wenn alle zwölf Felder nachweislich geladen sind. Grund ist derselbe Fallstrick, der in Phase 251 drei Bildfelder gekostet hat: Die Funktion schreibt immer alle zwölf, ein noch leeres Feld würde beim Speichern den echten Wert löschen. Lädt das Profil nicht, bleibt der Knopf zu und sagt das auch.
+
+**Bilder dürfen nur aus dem Portal kommen**, also aus dem eigenen Bilderfach oder aus `/assets/`. Beide Formen sind im Bestand: vier Berater haben einen Pfad, drei eine hochgeladene Datei. Eine fremde Adresse wird abgewiesen, sonst könnte jemand über die Konsole ein beliebiges Fremdbild auf seine Kundenseite holen.
+
+**Geprüft mit einem eigens angelegten Testkonto ohne Adminrecht**, nicht mit Kais Zugang, weil dort die Adminregeln greifen und der falsche Fall getestet würde. Das Konto wurde nach dem Test restlos entfernt. Ergebnis: Speichern über die Maske funktioniert, Kürzel und Adminrecht bleiben unangetastet, nicht angefasste Felder behalten ihren Wert, ein Änderungsversuch an einer fremden Zeile trifft null Zeilen, ein ungültiger Terminlink und ein Fremdbild werden mit verständlichem Text abgewiesen, die Verwaltungsseite leitet weiterhin weg. Die KIDZ-Beraterliste zeigt vorher wie nachher neun Einträge.
+
+---
 
 ## v1.318 Beta - Phase 300 · Kein fremder Anschluss, wenn der Berater unbekannt ist
 **2026-08-19**

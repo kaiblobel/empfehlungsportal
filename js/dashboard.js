@@ -48,6 +48,20 @@ export async function logout() {
 let _currentBerater = null;
 
 /**
+ * Wirft den gemerkten Berater weg, damit der nächste Aufruf neu lädt.
+ *
+ * Nötig seit Phase 302: Wer sein Profil in den Einstellungen ändert, hätte
+ * sonst bis zum nächsten Tab-Neustart sein altes Foto und seinen alten Namen
+ * im Kopf der Seite stehen. Der Merker im localStorage wird von
+ * applyBeraterHeader ohnehin neu geschrieben, sobald die frischen Daten da
+ * sind — deshalb reicht es, hier den Modul-Merker zu leeren.
+ */
+export function vergissBerater() {
+  _currentBerater = null;
+  window.CURRENT_BERATER = null;
+}
+
+/**
  * Lädt den zum eingeloggten Auth-User gehörenden Berater-Datensatz (gecacht).
  * Quelle für Foto/Name/Rolle im Dashboard-Header statt der globalen ENV_*.
  */

@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
   <meta name="robots" content="noindex,nofollow" />
   <link rel="stylesheet" href="../css/style.css?v=34" />
-  <link rel="stylesheet" href="../css/dashboard.css?v=54" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=55" />
   <link rel="stylesheet" href="../css/dna.css?v=11" />
   <script src="../js/config.js"></script>
   <!-- Nur wegen der Vorschau. `data-nur-vorschau` verhindert, dass der Schirm
@@ -66,12 +66,145 @@
     <main class="app-content">
 
       <section>
-        <h2 class="settings-section-title">Profil</h2>
+        <h2 class="settings-section-title">Mein Profil</h2>
+        <p class="settings-section-sub">
+          Diese Angaben stehen auf deinen Kundenseiten: im Kopf, am Kontaktknopf und im Fußbereich.
+          Was du hier änderst, ist nach dem Speichern sofort draußen sichtbar.
+        </p>
         <div class="settings-card">
-          <div class="settings-row"><span class="settings-key">Name</span><span class="settings-val" id="profName">—</span></div>
+
+          <div class="settings-row">
+            <span class="settings-key">Profilbild</span>
+            <span class="settings-val">
+              <span class="profil-foto-zeile">
+                <img id="profFotoVorschau" class="profil-foto-vorschau" alt="" width="64" height="64" />
+                <span class="profil-foto-knoepfe">
+                  <label class="profil-datei-knopf">
+                    Bild wählen
+                    <input type="file" id="profFotoDatei" accept="image/*" data-upload-ziel="foto_url" hidden />
+                  </label>
+                  <button type="button" class="profil-loesch-knopf" data-loeschen="foto_url">Entfernen</button>
+                </span>
+              </span>
+              <input type="hidden" data-p="foto_url" />
+              <span class="profil-hinweis" id="profFotoStatus">Am besten quadratisch, mindestens 400 × 400 Pixel.</span>
+            </span>
+          </div>
+
+          <div class="settings-row">
+            <span class="settings-key">Name</span>
+            <span class="settings-val"><input class="profil-feld" data-p="name" placeholder="Vor- und Nachname" /></span>
+          </div>
+          <div class="settings-row">
+            <span class="settings-key">Rolle</span>
+            <span class="settings-val"><input class="profil-feld" data-p="rolle" placeholder="z. B. Vermögensberater" /></span>
+          </div>
+          <div class="settings-row">
+            <span class="settings-key">Telefon</span>
+            <span class="settings-val"><input class="profil-feld" data-p="telefon" placeholder="+49 151 1234567" /></span>
+          </div>
+          <div class="settings-row">
+            <span class="settings-key">WhatsApp</span>
+            <span class="settings-val">
+              <input class="profil-feld" data-p="whatsapp" placeholder="491511234567" />
+              <span class="profil-hinweis">Ohne Plus und ohne Leerzeichen. Leer lassen, dann erscheint kein WhatsApp-Knopf.</span>
+            </span>
+          </div>
+          <div class="settings-row">
+            <span class="settings-key">Terminlink</span>
+            <span class="settings-val">
+              <input class="profil-feld" data-p="bookings_url" placeholder="https://…" />
+              <span class="profil-hinweis">Deine Buchungsseite. Muss mit https:// beginnen.</span>
+            </span>
+          </div>
+          <div class="settings-row">
+            <span class="settings-key">Anschrift</span>
+            <span class="settings-val"><input class="profil-feld" data-p="adresse" placeholder="Straße 1 · 03046 Cottbus" /></span>
+          </div>
+          <div class="settings-row">
+            <span class="settings-key">Impressum</span>
+            <span class="settings-val"><input class="profil-feld" data-p="impressum_url" placeholder="https://www.dvag.de/…/impressum.html" /></span>
+          </div>
+          <div class="settings-row">
+            <span class="settings-key">Datenschutz</span>
+            <span class="settings-val"><input class="profil-feld" data-p="datenschutz_url" placeholder="https://www.dvag.de/…/datenschutz.html" /></span>
+          </div>
+
+          <div class="settings-row">
+            <span class="settings-key">Bilder</span>
+            <span class="settings-val">
+              <details class="profil-klapp">
+                <summary>Bilder für die Präsentation</summary>
+                <div class="profil-klapp-inhalt">
+
+                  <div class="profil-bild-block">
+                    <span class="profil-bild-titel">Bürofoto</span>
+                    <span class="profil-foto-zeile">
+                      <img id="profBueroVorschau" class="profil-foto-vorschau breit" alt="" hidden />
+                      <span class="profil-foto-knoepfe">
+                        <label class="profil-datei-knopf">
+                          Bild wählen
+                          <input type="file" id="profBueroDatei" accept="image/*" data-upload-ziel="buero_foto_url" hidden />
+                        </label>
+                        <button type="button" class="profil-loesch-knopf" data-loeschen="buero_foto_url">Entfernen</button>
+                      </span>
+                    </span>
+                    <input type="hidden" data-p="buero_foto_url" />
+                    <span class="profil-hinweis">Ohne Bürofoto zeigt die Seite dein Porträt, nie das Büro eines anderen.</span>
+                  </div>
+
+                  <div class="profil-bild-block">
+                    <span class="profil-bild-titel">Teamfoto</span>
+                    <span class="profil-foto-zeile">
+                      <img id="profTeamVorschau" class="profil-foto-vorschau breit" alt="" hidden />
+                      <span class="profil-foto-knoepfe">
+                        <label class="profil-datei-knopf">
+                          Bild wählen
+                          <input type="file" id="profTeamDatei" accept="image/*" data-upload-ziel="team_foto_url" hidden />
+                        </label>
+                        <button type="button" class="profil-loesch-knopf" data-loeschen="team_foto_url">Entfernen</button>
+                      </span>
+                    </span>
+                    <input type="hidden" data-p="team_foto_url" />
+                    <span class="profil-hinweis">Ohne Teamfoto bleibt der Abschnitt auf der Seite einfach weg.</span>
+                  </div>
+
+                  <div class="profil-bild-block">
+                    <span class="profil-bild-titel">Bildzeile</span>
+                    <input class="profil-feld" data-p="buero_bildzeile" placeholder="z. B. Büro Cottbus. Hier sitzen wir, wenn wir reden." />
+                    <span class="profil-hinweis">Leer lassen, dann erscheint keine Zeile.</span>
+                  </div>
+
+                </div>
+              </details>
+            </span>
+          </div>
+
+          <div class="settings-row">
+            <span class="settings-key">&nbsp;</span>
+            <span class="settings-val">
+              <button id="profSaveBtn" class="btn-logout" style="padding:8px 16px;font-size:13px;" disabled>Profil speichern</button>
+              <span id="profMsg" style="margin-left:10px;font-size:13px;"></span>
+            </span>
+          </div>
+
+        </div>
+      </section>
+
+      <section>
+        <h2 class="settings-section-title">Zugang</h2>
+        <p class="settings-section-sub">
+          Diese Angaben verwaltet die Regionaldirektion. Wenn hier etwas nicht stimmt, melde dich kurz.
+        </p>
+        <div class="settings-card">
           <div class="settings-row"><span class="settings-key">E-Mail</span><span class="settings-val" id="profEmail">—</span></div>
+          <div class="settings-row"><span class="settings-key">Kürzel</span><span class="settings-val mono" id="profSlug">—</span></div>
           <div class="settings-row"><span class="settings-key">Berater-ID</span><span class="settings-val mono" id="profUuid">—</span></div>
           <div class="settings-row"><span class="settings-key">Session</span><span class="settings-val" id="profExpiry">—</span></div>
+          <div class="settings-row">
+            <span class="settings-key">Deine Seite</span>
+            <span class="settings-val"><a id="profVorschauLink" href="#" target="_blank" rel="noopener">So sehen Kunden dich</a></span>
+          </div>
         </div>
       </section>
 
@@ -259,9 +392,10 @@
   </div>
 
   <script type="module">
-    import { requireAuth, logout, applyBeraterHeader } from '../js/dashboard.js';
+    import { requireAuth, logout, applyBeraterHeader, getCurrentBerater, vergissBerater } from '../js/dashboard.js';
     import { showInstallPrompt, canInstall, pushPermissionState, subscribeToPush, unsubscribeFromPush } from '../js/pwa.js';
-    import { supabase, updateMyPassword } from '../js/supabase.js';
+    import { supabase, updateMyPassword, updateMeinProfil, uploadBeraterFoto } from '../js/supabase.js';
+    import { initialsAvatar } from '../js/berater-brand.js';
 
     // Die "Admin · …"-Abschnitte zeigen interne Werkzeuge (Repository, Hosting,
     // Datenbank-Editor, Bot) und den Wartungsschalter. Die gehen Kolleginnen und
@@ -471,15 +605,157 @@
       const session = await requireAuth();
       if (!session) return;
 
-      document.getElementById('profName').textContent = window.CURRENT_BERATER?.name || window.ENV_BERATER_NAME || '—';
       document.getElementById('profEmail').textContent = session.user?.email || '—';
       document.getElementById('profUuid').textContent = session.user?.id || '—';
       document.getElementById('profExpiry').textContent = session.expires_at
         ? `gültig bis ${new Date(session.expires_at * 1000).toLocaleString('de-DE')}`
         : '—';
 
+      profilLaden();
       pingStatus();
     })();
+
+    /* ---------- Phase 302 · Mein Profil ---------- */
+
+    // Genau die zwölf Felder, die berater_self_update kennt. Die Reihenfolge
+    // ist egal, die Vollständigkeit nicht: Die Datenbankfunktion schreibt
+    // ALLE zwölf. Was hier fehlt, wird beim Speichern geleert — deshalb
+    // bleibt der Knopf gesperrt, bis jedes Feld nachweislich befüllt wurde.
+    const PROFIL_FELDER = [
+      'name', 'rolle', 'telefon', 'whatsapp', 'bookings_url', 'adresse',
+      'impressum_url', 'datenschutz_url', 'foto_url',
+      'buero_foto_url', 'team_foto_url', 'buero_bildzeile',
+    ];
+
+    const profBtn = document.getElementById('profSaveBtn');
+    const profMsg = document.getElementById('profMsg');
+    const profFeld = (name) => document.querySelector(`[data-p="${name}"]`);
+    const profSetMsg = (t, ok) => {
+      profMsg.textContent = t;
+      profMsg.style.color = ok ? '#1F6B30' : '#C24747';
+    };
+
+    // Der eigene Slug wird nicht gepflegt, aber gebraucht: für den Vorschaulink
+    // und als Namensteil beim Bild-Upload.
+    let profSlug = '';
+
+    function profVorschauBilder() {
+      const foto = profFeld('foto_url')?.value || '';
+      const bild = document.getElementById('profFotoVorschau');
+      if (bild) bild.src = foto || initialsAvatar(profFeld('name')?.value || 'Berater');
+
+      for (const [feld, id] of [['buero_foto_url', 'profBueroVorschau'], ['team_foto_url', 'profTeamVorschau']]) {
+        const el = document.getElementById(id);
+        const wert = profFeld(feld)?.value || '';
+        if (!el) continue;
+        el.src = wert;
+        el.hidden = !wert;
+      }
+    }
+
+    async function profilLaden() {
+      const b = await getCurrentBerater();
+      if (!b) {
+        profSetMsg('Profil konnte nicht geladen werden, bitte Seite neu laden.', false);
+        return; // Knopf bleibt gesperrt
+      }
+
+      profSlug = b.slug || '';
+      document.getElementById('profSlug').textContent = profSlug || '—';
+      const link = document.getElementById('profVorschauLink');
+      if (link) {
+        if (profSlug) {
+          link.href = `../programm.html?berater=${encodeURIComponent(profSlug)}`;
+        } else {
+          link.removeAttribute('href');
+          link.textContent = 'Noch kein Kürzel vergeben';
+        }
+      }
+
+      // Erst wenn JEDES der zwölf Felder wirklich gesetzt wurde, darf gespeichert
+      // werden. Fehlt eines im geladenen Datensatz — etwa weil der Leseweg die
+      // Spalte nicht mitliefert — würde ein Speichern es stillschweigend leeren.
+      let vollstaendig = true;
+      for (const f of PROFIL_FELDER) {
+        const el = profFeld(f);
+        if (!el) { vollstaendig = false; continue; }
+        if (!(f in b)) { vollstaendig = false; continue; }
+        el.value = b[f] ?? '';
+      }
+
+      profVorschauBilder();
+
+      if (!vollstaendig) {
+        profSetMsg('Profil unvollständig geladen, Speichern gesperrt. Bitte melden.', false);
+        return;
+      }
+      profBtn.disabled = false;
+    }
+
+    // Upload: schreibt nur ins versteckte Feld. Wirksam wird das Bild erst mit
+    // „Profil speichern" — genauso wie in der Beraterverwaltung.
+    document.querySelectorAll('[data-upload-ziel]').forEach((inp) => {
+      inp.addEventListener('change', async () => {
+        const datei = inp.files && inp.files[0];
+        if (!datei) return;
+        const ziel = inp.dataset.uploadZiel;
+        const status = document.getElementById('profFotoStatus');
+        const vorher = status?.textContent;
+        if (status) status.textContent = 'Bild wird hochgeladen…';
+        try {
+          const { url, error } = await uploadBeraterFoto(datei, profSlug || 'berater');
+          if (error || !url) throw error || new Error('Kein Ergebnis');
+          profFeld(ziel).value = url;
+          profVorschauBilder();
+          profSetMsg('Bild hochgeladen. Zum Übernehmen noch speichern.', true);
+        } catch (err) {
+          console.warn('[profil] Upload fehlgeschlagen', err);
+          profSetMsg('Bild konnte nicht hochgeladen werden: ' + (err?.message || 'unbekannt'), false);
+        } finally {
+          if (status) status.textContent = vorher;
+          inp.value = '';
+        }
+      });
+    });
+
+    document.querySelectorAll('[data-loeschen]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        profFeld(btn.dataset.loeschen).value = '';
+        profVorschauBilder();
+        profSetMsg('Entfernt. Zum Übernehmen noch speichern.', true);
+      });
+    });
+
+    profBtn.addEventListener('click', async () => {
+      const werte = {};
+      for (const f of PROFIL_FELDER) werte[f] = profFeld(f)?.value ?? '';
+
+      if (!werte.name.trim()) {
+        profSetMsg('Ohne Namen geht es nicht, er steht auf jeder Kundenseite.', false);
+        profFeld('name').focus();
+        return;
+      }
+
+      profBtn.disabled = true;
+      profBtn.textContent = 'Speichere…';
+      profSetMsg('', true);
+      try {
+        const { error } = await updateMeinProfil(werte);
+        if (error) throw error;
+        // Der Kopf der Seite hängt am gemerkten Datensatz. Ohne das Vergessen
+        // stünde dort bis zum nächsten Tab-Neustart das alte Foto.
+        vergissBerater();
+        await applyBeraterHeader();
+        profVorschauBilder();
+        profSetMsg('Gespeichert ✓', true);
+      } catch (err) {
+        console.warn('[profil] Speichern fehlgeschlagen', err);
+        profSetMsg('Fehler: ' + (err?.message || 'bitte erneut versuchen'), false);
+      } finally {
+        profBtn.disabled = false;
+        profBtn.textContent = 'Profil speichern';
+      }
+    });
 
     async function pingStatus() {
       const check = async (url) => {
