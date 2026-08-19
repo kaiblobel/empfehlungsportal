@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.322 Beta** · Namen kleben nicht mehr in Knöpfen, live seit 19.08.2026.
+Offizielle Live-Version: **v1.323 Beta** · Ein Wächter gegen fest verdrahtete Kontaktdaten, live seit 19.08.2026.
+
+## v1.323 Beta - Phase 307 · Ein Wächter gegen fest verdrahtete Kontaktdaten
+**2026-08-19**
+
+**Warum das nötig war:** Dieselbe Anschrift stand über Jahre mehrfach fest in den Seiten. Ein Büroumzug wäre keine Änderung an einem Datensatz gewesen, sondern eine Suche durch dreizehn Dateien, und wer eine übersieht, hat eine falsche Adresse auf einer Kundenseite stehen. Genau so kam eine erfundene Rufnummer live (03556 1234567, eine Vorwahl, die es nicht gibt), und genau so standen vier KIDZ-Seiten mit viermal derselben Anschrift da.
+
+**Die Regel:** Eine Anschrift, Rufnummer oder E-Mail darf im Markup stehen, wenn sie an einem `data-bb`- oder `data-bo`-Element hängt. Dann ist sie eine Vorgabe, die zur Laufzeit aus der Datenbank überschrieben wird, und die Seite sieht auch ohne Netz vollständig aus. Nackt im Fließtext ist sie ein künftiger Fehler.
+
+**Ohne Ausnahmen wäre der Wächter nutzlos gewesen.** Von den ersten Fundstellen waren die meisten Fehlalarme: Platzhalter in Eingabefeldern, Beispieladressen wie „anna@beispiel.de", eine CDN-Paketversion und eine Outlook-Buchungsadresse, deren @ mitten in einer Web-Adresse steht. Die nimmt der Test jetzt sauber aus, erkannt am Attribut und nicht am Wert, damit sich niemand durch eine erfundene Nummer an der falschen Stelle vorbeimogelt. Erfundene Werte in Vorschaukarten tragen ab jetzt `data-muster`.
+
+**Übrig blieben zwei echte Fälle.** Die Anmeldeseite holt ihre Anschrift jetzt aus dem Büroprofil. Und die Anschrift in den Teilnahmebedingungen des Gewinnspiels bleibt bewusst fest: Ein Rechtstext wird als Ganzes formuliert, käme die Veranstalteranschrift zur Laufzeit aus der Datenbank, hätte die Bedingung eine Lücke, sobald ein Feld leer ist oder die Abfrage scheitert. Das steht als begründete Ausnahme im Test, kein stiller Filter, samt dem Hinweis, dass diese eine Stelle bei einem Umzug von Hand nachgezogen werden muss.
+
+---
 
 ## v1.322 Beta - Phase 306 · Namen kleben nicht mehr in Knöpfen
 **2026-08-19**
