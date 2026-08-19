@@ -14,28 +14,29 @@ Das Motiv zeigt eine allgemein gehaltene mallorquinische Bucht. Es steht nicht f
 ## `auto.jpg`
 
 - Zweck: Bildmeilenstein Stufe 20, „Ein Auto deiner Wahl"
-- Stand: 16.08.2026
-- Herkunft: Motiv des Autohauses **MAHAG, München** — dort bezieht Kai das
-  Fahrzeug, das hinter dieser Stufe steht. Als Bildschirmaufnahme der
-  Händlerseite übernommen.
-- Format: JPEG, 1.206 mal 804 Pixel
-- SHA-256: `42D942876210981F609509ADA9E374A77720BF916781AE390C1E063F8FC33DB6`
+- Stand: 19.08.2026
+- Motiv: VW Tayron R-Line in Weiss, komplettes Fahrzeug in Dreiviertelansicht
+- Herkunft: Volkswagen Newsroom, Pressebild `DB2024AU01585` aus dem Album zur
+  Weltpremiere des Tayron, https://www.volkswagen-newsroom.com/en/the-new-tayron-world-premiere-18702
+- Format: JPEG, 1.200 mal 800 Pixel, 3:2
+- SHA-256: `92CAAD24518CEE226A87F3503BA8B3AEA84CBDBAD19C9C787BB7EFB73459FBF8`
 - Nutzung: lokal ausliefern, nicht durch einen externen Hotlink ersetzen
 
-Zugeschnitten auf das Fahrzeug: Werbezeile, Schaltfläche und die Marken-Kacheln
-der Händlerseite sind draußen. Das Seitenverhältnis liegt bei 1,5 und damit
-zwischen den beiden Kartenbreiten der Reise (183 und 280 Pixel bei 150 Pixel
-Höhe), damit in beiden Fällen ein erkennbarer Teil des Fahrzeugs stehen bleibt
-und nicht nur ein Streifen Lack.
+Kai hat das Fahrzeug ausgewaehlt: hinter der Stufe steht ein VW Tayron.
+Zugeschnitten auf 3:2, damit es in beiden Kartenbreiten der Reise randlos und
+ohne Anschnitt sitzt. Das Fahrzeug steht vollstaendig im Bild.
 
-**Zur Einordnung:** Das Motiv gehört dem Händler beziehungsweise dem Hersteller.
-Die Verwendung ist betrieblich begründet, weil das Fahrzeug der Stufe von dort
-kommt; eine schriftliche Freigabe von MAHAG liegt nicht vor. Falls das Motiv
-einmal ersetzt werden soll, ist eine eigene Aufnahme des Fahrzeugs der sauberste
-Weg.
+**Zur Einordnung:** Bilder aus dem Volkswagen Newsroom sind fuer die
+redaktionelle Berichterstattung freigegeben. Das Empfehlungsportal ist eine
+Vertriebsseite, damit liegt die Nutzung ausserhalb der klaren Freigabe. Eine
+eigene Aufnahme des Fahrzeugs waere der saubere Weg, sobald eine vorliegt.
 
 ### Vorher an dieser Stelle
 
-Bis 16.08.2026 stand hier ein Unsplash-Motiv (Foto-ID
-`photo-1541899481282-d53bffe3c35d`, VW Polo). Es ist ersetzt, aber in der
-Git-Historie erhalten.
+Bis 19.08.2026 stand hier eine Bildschirmaufnahme der Haendlerseite von **MAHAG,
+Muenchen** (angeschnittene Seitenansicht). Der Anschnitt steckte schon in der
+Datei: In der Karte waren nur Tueren und Raeder zu sehen, unabhaengig vom CSS.
+Ersetzt, in der Git-Historie erhalten.
+
+Davor, bis 16.08.2026: Unsplash-Motiv `photo-1541899481282-d53bffe3c35d`
+(blauer VW Polo).
