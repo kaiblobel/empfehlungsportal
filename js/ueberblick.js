@@ -13,7 +13,7 @@
  * Das Muster ist dasselbe wie bei js/kidz-empfehlung-intro.js.
  */
 
-import { applyBeraterBrand, merkeBerater, gemerkterBerater } from './berater-brand.js';
+import { applyBeraterBrand, merkeBerater, gemerkterBerater, versteckeKontaktwege } from './berater-brand.js';
 import {
   supabase,
   getEmpfehlungByToken,
@@ -365,6 +365,15 @@ async function starte() {
     setzeKopfbild(berater);
     merkeBerater(brandKey, berater);
     beraterSlug = berater.slug || '';
+  } else if (slugParam || token) {
+    // Phase 300 · Es stand jemand in der Adresse, nur ließ er sich nicht
+    // auflösen: Tippfehler im Slug, gelöschter Zugang, inaktiv gesetzt, oder
+    // ein Empfehlungs-Token ohne gültigen Berater dahinter. Im HTML stehen
+    // Telefonnummer, WhatsApp und E-Mail des Standard-Beraters als Vorgabe —
+    // die bleiben hier NICHT stehen, sonst landet der Anruf bei jemandem, den
+    // der Besucher nie gemeint hat. Ohne Slug und ohne Token ist die Vorgabe
+    // dagegen richtig: dann ist es die Seite der Regionaldirektion.
+    versteckeKontaktwege();
   }
 
   ergaenzeWege(beraterSlug);

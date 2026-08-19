@@ -1,7 +1,24 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.317 Beta** · Das Auto-Finale zeigt den Wagen und erklärt sich selbst, live seit 19.08.2026.
+Offizielle Live-Version: **v1.318 Beta** · Kein fremder Anschluss, wenn der Berater unbekannt ist, live seit 19.08.2026.
+
+## v1.318 Beta - Phase 300 · Kein fremder Anschluss, wenn der Berater unbekannt ist
+**2026-08-19**
+
+**Kais Frage war eine ganz andere:** ob jeder Berater sein Profil selbst pflegen kann. Beim Nachsehen fielen drei Dinge auf, die vorher weg mussten.
+
+**Die Spalte `berater.whatsapp` trug Kais Mobilnummer als Standardwert** (Phase 298). Jeder neu angelegte Berater ohne eigene Nummer bekam sie stillschweigend eingetragen, und die Kundenseiten geben WhatsApp aus. Ein Kunde hätte beim WhatsApp-Knopf eines fremden Beraters bei Kai geklingelt. Standardwert entfernt, keine Datenzeile angefasst: den Wert trug nur Kai selbst, dort ist er richtig.
+
+**Die Zuordnung zum Berater-Cockpit hängt jetzt am Berater** (Phase 299). Neue Spalte `cockpit_advisor_id`, eindeutig wo gesetzt, pflegbar nur für Admins unter „Technische Angaben". Vorher lag diese Zuordnung als handgepflegtes JSON in der Cockpit-Datenbank und kannte zwei von sieben Beratern; die übrigen fünf liefen über eine E-Mail-Erkennung, die ins Leere griff. Kundenseiten sehen die Kennung nie.
+
+**Und der eigentliche Fund: ein unbekannter Berater ließ fremde Kontaktwege stehen.** In `programm.html` und `ueberblick.html` stehen Telefonnummer, WhatsApp und E-Mail des Standard-Beraters fest im HTML. Das ist Absicht, solange niemand in der Adresse steht: dann ist es die Seite der Regionaldirektion. Stand aber ein Slug oder ein Empfehlungs-Token drin und ließ er sich nicht auflösen — Tippfehler, gelöschter Zugang, inaktiv gesetzt — blieben die Vorgaben stehen. Der Kunde tippt auf der Seite von Sven auf WhatsApp und schreibt Kai.
+
+Beim Promoter-Einstieg galt die richtige Regel längst: ein gesetzter, aber ungültiger Slug fällt nie still auf den Standard-Berater zurück. Die Kontaktwege ziehen jetzt nach. Foto, Name, Bürobild und Anschrift bleiben dagegen stehen, die führen niemanden an einen falschen Anschluss.
+
+**Nebenbei zwei Zahlen geradegerückt.** Auf der Überblicksseite stand als Telefon-Vorgabe eine erfundene Nummer (`03556 1234567`, eine Vorwahl, die es nicht gibt); jetzt steht dort die Bürorufnummer. Und `js/config.js` und `sw.js` waren beim letzten Veröffentlichen auf Phase 296 stehen geblieben, während Changelog und Version schon auf 297 standen — der Versionstest war dadurch rot.
+
+---
 
 ## v1.317 Beta - Phase 297 · Das Auto-Finale zeigt den Wagen und erklärt sich selbst
 **2026-08-19**

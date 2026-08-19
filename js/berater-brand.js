@@ -205,3 +205,31 @@ export function applyBeraterBrand(b) {
     document.title = document.title.replace(/·[^·]*$/, `· ${b.name}`);
   }
 }
+
+/**
+ * Phase 300 · Ein ausdrücklich genannter, aber unbekannter Berater darf keine
+ * fremden Kontaktwege stehen lassen.
+ *
+ * Im HTML stehen Telefonnummer, WhatsApp und E-Mail des Standard-Beraters als
+ * Vorgabe. Das ist Absicht: Wer die Seite ohne Berater in der Adresse öffnet,
+ * sieht die Regionaldirektion, und die betreibt das Portal. Stand aber ein
+ * Slug oder ein Empfehlungs-Token in der Adresse und ließ sich der Berater
+ * nicht auflösen (Tippfehler, gelöschter Zugang, inaktiv gesetzt), dann wollte
+ * der Besucher ausdrücklich zu jemand anderem. Dann bleiben die Vorgaben
+ * stehen und ein Kunde ruft bei einer Person an, die er nie gemeint hat.
+ *
+ * Dieselbe Regel gilt beim Promoter-Einstieg schon (js/programm.js,
+ * setPromoterEntry): ein gesetzter, aber ungültiger Slug fällt nie still auf
+ * den Standard-Berater zurück. Diese Funktion zieht die Kontaktwege nach.
+ *
+ * Bewusst NICHT betroffen: Foto, Name, Bürobild, Anschrift. Die dürfen als
+ * Vorgabe stehen bleiben, sie führen niemanden an einen falschen Anschluss.
+ */
+export function versteckeKontaktwege() {
+  const wege = ['whatsapp', 'tel', 'tel-text', 'email', 'email-text', 'booking'];
+  wege.forEach((weg) => {
+    document.querySelectorAll(`[data-bb="${weg}"]`).forEach((el) => {
+      el.style.display = 'none';
+    });
+  });
+}

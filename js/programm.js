@@ -1,6 +1,6 @@
 import { getBelohnungsStufenPublic, getVorlagenPublic, getBeraterPublicBySlug, supabase } from './supabase.js';
 import { icon as lucideIcon, ICONS } from './icons.js';
-import { applyBeraterBrand, merkeBerater, gemerkterBerater } from './berater-brand.js';
+import { applyBeraterBrand, merkeBerater, gemerkterBerater, versteckeKontaktwege } from './berater-brand.js';
 import { baueReise, meilensteinHtml, geldBlockHtml } from './belohnungs-reise.js';
 
 // Multi-Tenant: Berater-Einstieg via ?berater=slug (z. B. ?berater=sven-augustin).
@@ -669,6 +669,13 @@ beraterPromise.then((data) => {
     // Portrait. Das war richtig, solange an dieser Stelle das Portrait hing.
     // Seit dort das Bürofoto steht, hat der Rückfall es beim Laden sichtbar
     // überschrieben: erst der Tresen, dann wieder das Porträt.
+    //
+    // Bei den Kontaktwegen gilt das Gegenteil, Phase 300: Stand ein Slug in
+    // der Adresse und ließ er sich nicht auflösen, wollte der Besucher
+    // ausdrücklich zu jemand anderem. Dann darf hier nicht die Nummer des
+    // Standard-Beraters stehen bleiben, sonst ruft ein Kunde bei einer Person
+    // an, die er nie gemeint hat. Ohne Slug bleibt alles wie es ist.
+    if (beraterSlug) versteckeKontaktwege();
     setPromoterEntry(null);
     return;
   }
