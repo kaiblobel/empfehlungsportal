@@ -70,6 +70,14 @@ function stufeCard(s) {
           <div><label>&nbsp;</label><label class="pv-check"><input type="checkbox" data-f-check="highlight" ${s.highlight ? 'checked' : ''}/> Premium-Stufe (highlight)</label></div>
         </div>
         <div><label>Kategorien</label><div class="pv-check-row">${katChecks}</div></div>
+        <div class="cms-row-2">
+          <div><label>Info-Knopf: Überschrift</label><input data-f="info_titel" value="${escapeAttr(s.info_titel || '')}" placeholder="z. B. Wie das mit dem Auto laeuft" /></div>
+          <div><label>&nbsp;</label><span class="cms-hint">Leerer Info-Text = kein Knopf an der Karte.</span></div>
+        </div>
+        <div>
+          <label>Info-Knopf: Text (Leerzeile trennt Absätze, **fett** wird fett)</label>
+          <textarea data-f="info_text" rows="8">${escapeHtml(s.info_text || '')}</textarea>
+        </div>
         <div class="cms-actions">
           <button class="cms-save" type="button" data-save-stufe="${s.stufe}">Speichern</button>
           <button class="cms-delete" type="button" data-del-stufe="${s.stufe}">Löschen</button>
@@ -91,6 +99,8 @@ function collectStufe(card) {
     icon: (g('icon').value || '').trim() || null,
     highlight: card.querySelector('[data-f-check="highlight"]').checked,
     kategorien: kats.length ? kats : null,
+    info_titel: (g('info_titel').value || '').trim() || null,
+    info_text: (g('info_text').value || '').trim() || null,
   };
 }
 

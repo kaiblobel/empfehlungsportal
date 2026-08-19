@@ -134,6 +134,53 @@ export function geldZeileHtml(station) {
     </li>`;
 }
 
+/**
+ * Der Erklärtext hinter dem i-Knopf, aus `info_text` der Stufe.
+ *
+ * Warum aus der Datenbank und nicht fest im Code: Was hinter einer Belohnung
+ * steckt, ist Sache des jeweiligen Beraters — beim Auto etwa Leasing über 24
+ * Monate mit klaren Grenzen. Stünde der Text im Code, gälte Kais Regelung für
+ * jeden anderen Berater gleich mit.
+ *
+ * Formatierung bewusst winzig: Leerzeile trennt Absätze, **fett** wird fett.
+ * Escaped wird vorher, deshalb kann aus dem Text kein Markup entstehen.
+ */
+export function infoAbsaetzeHtml(text) {
+  const roh = String(text ?? '').trim();
+  if (!roh) return '';
+  return roh
+    .split(/\n\s*\n/)
+    .map(block => escapeHtml(block.trim()).replace(/\n/g, ' '))
+    .filter(Boolean)
+    .map(block => `<p>${block.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')}</p>`)
+    .join('');
+}
+
+/**
+ * Der Info-Knopf selbst. Als <details> gebaut und nicht als Modal: Er
+ * funktioniert damit ohne eine Zeile JavaScript, auch auf der Prüfseite, und
+ * die Tastaturbedienung bringt der Browser schon mit.
+ */
+export function infoHtml(station) {
+  const d = station.daten;
+  if (!d.info_text) return '';
+  const titel = d.info_titel || 'Wie das läuft';
+  // Auf dem Knopf steht bewusst nur ein kurzes Wort: In der Sechs-Spalten-
+  // Ansicht ist eine Karte gut 180 Pixel breit, eine ganze Überschrift bräche
+  // dort über drei Zeilen um. Die Überschrift steht deshalb im Kasten.
+  return `
+        <details class="reise-info">
+          <summary aria-label="${escapeHtml(titel)}">
+            <span class="reise-info-zeichen" aria-hidden="true">i</span>
+            <span class="reise-info-wort">Details</span>
+          </summary>
+          <div class="reise-info-panel">
+            <h5>${escapeHtml(titel)}</h5>
+            ${infoAbsaetzeHtml(d.info_text)}
+          </div>
+        </details>`;
+}
+
 export function meilensteinHtml(station, istFinale = false) {
   const d = station.daten;
   // Fehlt das Bild oder lädt es nicht, bekommt die Karte einen ruhigen
@@ -154,6 +201,7 @@ export function meilensteinHtml(station, istFinale = false) {
           <h4>${escapeHtml(d.titel || '')}</h4>
           ${d.wert_label ? `<strong>${escapeHtml(d.wert_label)}</strong>` : ''}
           ${d.beschreibung ? `<p>${escapeHtml(d.beschreibung)}</p>` : ''}
+          ${infoHtml(station)}
         </div>
       </article>
     </li>`;

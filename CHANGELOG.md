@@ -1,7 +1,24 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.316 Beta** · Der Empfehlungslink lädt wieder seine Skripte, live seit 19.08.2026.
+Offizielle Live-Version: **v1.317 Beta** · Das Auto-Finale zeigt den Wagen und erklärt sich selbst, live seit 19.08.2026.
+
+## v1.317 Beta - Phase 297 · Das Auto-Finale zeigt den Wagen und erklärt sich selbst
+**2026-08-19**
+
+**Kais Befund:** Auf der Finale-Karte war vom Auto nur die halbe Karosserie zu sehen.
+
+**Erster Verdacht war das CSS, der eigentliche Grund lag in der Datei.** Die Bildfläche stand auf feste 150 Pixel Höhe mit `object-fit:cover`, schnitt also jedes Motiv an. Nach der Umstellung war klar: Das Motiv selbst war schon beschnitten. `auto.jpg` war eine Bildschirmaufnahme einer Händlerseite, bei der Front und Heck beim Zuschneiden weggefallen waren. Kein CSS der Welt holt Pixel zurück, die nicht in der Datei stehen.
+
+Neues Motiv ist der **VW Tayron R-Line in Weiß**, das Fahrzeug, das tatsächlich hinter der Stufe steht (Pressebild `DB2024AU01585` aus dem Volkswagen Newsroom), zugeschnitten auf 3:2. Die Bildfläche der Karte steht jetzt fest auf demselben Verhältnis, damit sitzt das Bild in jeder Kartenbreite randlos und ohne Anschnitt. `BILDQUELLEN.md` hält fest, dass Newsroom-Bilder für redaktionelle Nutzung freigegeben sind und eine eigene Aufnahme der saubere Weg wäre.
+
+**Der Wert steht jetzt in Klammern.** Aus „12.000 €" wurde „(im Wert von 12.000 €)". Die Zahl ist eine Einordnung dessen, was das Fahrzeug am Markt kostet, keine Summe, die ausgezahlt wird. In der Gesamtsumme des Programms zählt sie weiter mit, weil die Anzeige die Zahl aus dem Text liest und Klammern dabei ignoriert.
+
+**Neu: ein Info-Knopf an der Karte.** Bei einer Prämie dieser Größe reicht eine Zeile nicht. Hinter dem kleinen „i" steht jetzt, wie es wirklich läuft: Leasing über die MAHAG, bis zu 24 Monate, komplette Rate übernommen, Wartungspaket in der Regel enthalten, Versicherung und Sprit trägt der Gewinner, Rückgabe nach 24 Monaten, keine Barauszahlung, dazu ein Wort zur Steuerpflicht beim Empfänger.
+
+Technisch hängt der Text an zwei neuen Spalten der Tabelle `belohnungs_stufen` (`info_titel`, `info_text`) und nicht im Code. Was hinter einer Belohnung steckt, ist Sache des jeweiligen Beraters; Kais Leasing-Regelung darf nicht für jeden anderen mitgelten. Ohne Text erscheint kein Knopf, und die Programm-Verwaltung hat jetzt beide Felder. Gebaut als `<details>`, also ohne eine Zeile JavaScript und mit Tastaturbedienung ab Werk.
+
+---
 
 ## v1.316 Beta - Phase 296 · Der Empfehlungslink lädt wieder seine Skripte
 **2026-08-19**

@@ -110,6 +110,30 @@ assert.ok(!boeseHtml.includes('<img onerror'), 'Beschreibung wird escaped');
 assert.ok(!/src="a\.jpg" onload=/.test(boeseHtml), 'Bild-Adresse bricht das Attribut nicht auf');
 assert.ok(boeseHtml.includes('&amp;'), 'kaufmännisches Und wird escaped');
 
+/* --- Info-Knopf ----------------------------------------------------------- */
+// Ohne info_text bleibt die Karte, wie sie war: kein Knopf, kein Kasten.
+assert.ok(!/reise-info/.test(html), 'ohne Info-Text kein Knopf');
+
+const mitInfo = baueReise([{
+  stufe: 1, highlight: true, titel: 'Ein Auto deiner Wahl', wert_label: '(im Wert von 12.000 €)',
+  info_titel: 'Wie das mit dem Auto läuft',
+  info_text: '**Was wir übernehmen:** die komplette Rate.\n\nNach 24 Monaten geht der Wagen zurück.',
+}]);
+const infoHtmlOut = reiseHtml(mitInfo);
+assert.match(infoHtmlOut, /<details class="reise-info">/, 'Knopf erscheint, sobald ein Text da ist');
+assert.equal((infoHtmlOut.match(/<p>/g) || []).length, 2, 'Leerzeile trennt in zwei Absätze');
+assert.match(infoHtmlOut, /<strong>Was wir übernehmen:<\/strong>/, 'Sternchen werden zu fett');
+assert.match(infoHtmlOut, /Wie das mit dem Auto läuft/, 'eigene Überschrift wird genutzt');
+assert.match(reiseHtml(baueReise([{ stufe: 1, highlight: true, titel: 'X', info_text: 'Nur Text' }])),
+  /Wie das läuft/, 'ohne eigene Überschrift die Standard-Überschrift');
+
+// Auch der Info-Text kommt aus der Datenbank und darf kein Markup einschleusen.
+const infoBoese = reiseHtml(baueReise([{
+  stufe: 1, highlight: true, titel: 'X', info_text: '<img onerror=x> **<script>alert(1)</script>**',
+}]));
+assert.ok(!infoBoese.includes('<img onerror'), 'Info-Text wird escaped');
+assert.ok(!infoBoese.includes('<script>'), 'kein Skript aus dem Info-Text');
+
 /* --- Zusammenfassung für den Präsentations-Modus -------------------------- */
 assert.match(geldSummary(reise), /^Dazu 14 Geldstufen à 100 € auf dem Weg dorthin/, 'Satz statt vierzehn Zeilen');
 assert.match(geldSummary(reise), /18 und 19\.$/, 'letzte Stufe mit "und" verbunden');

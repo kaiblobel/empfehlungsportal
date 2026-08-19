@@ -1764,6 +1764,42 @@ h1, h2, h3{letter-spacing:-0.021em;}
 .reise-karte-copy p{margin:8px 0 0; font-size:13.5px; color:var(--muted);}
 .reise-finale .reise-karte{border-color:var(--gold);}
 
+/* Info-Knopf an einer Karte (Stufen mit info_text, aktuell das Auto-Finale).
+   Als <details> gebaut: kein JavaScript, Tastatur und Vorlesehilfen koennen
+   das von Haus aus. Zu ist er eine ruhige Zeile, offen ein kleiner Kasten. */
+.reise-info{margin:12px 0 0;}
+.reise-info summary{
+  display:inline-flex; align-items:center; gap:7px;
+  padding:5px 11px 5px 6px;
+  border:1px solid var(--line); border-radius:999px;
+  background:var(--paper);
+  font-size:12.5px; color:var(--muted);
+  cursor:pointer; list-style:none;
+  transition:border-color .15s ease, color .15s ease;
+}
+.reise-info summary::-webkit-details-marker{display:none;}
+.reise-info summary:hover{border-color:var(--gold); color:var(--ink);}
+.reise-info summary:focus-visible{outline:2px solid var(--gold); outline-offset:2px;}
+.reise-info-zeichen{
+  display:grid; place-items:center;
+  width:18px; height:18px; border-radius:50%;
+  border:1px solid currentColor;
+  font-family:var(--serif); font-size:11.5px; font-style:italic; line-height:1;
+}
+.reise-info[open] summary{border-color:var(--gold); color:var(--ink);}
+.reise-info-panel{
+  margin-top:10px; padding:13px 15px;
+  border:1px solid var(--line-soft); border-radius:var(--r);
+  background:var(--paper-2);
+}
+.reise-info-panel h5{
+  margin:0 0 9px;
+  font-family:var(--head); font-weight:600; font-size:14.5px; color:var(--ink);
+}
+.reise-info-panel p{margin:0 0 9px; font-size:13px; line-height:1.6; color:var(--muted);}
+.reise-info-panel p:last-child{margin-bottom:0;}
+.reise-info-panel strong{color:var(--ink); font-weight:600;}
+
 /* Die Meilensteine stehen nebeneinander, sobald Platz ist.
    Feste Spaltenzahl statt auto-fit: Bei sechs Karten legte auto-fit je nach
    Fensterbreite fünf in die erste Reihe und ließ die sechste allein darunter
