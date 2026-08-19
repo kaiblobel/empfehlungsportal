@@ -120,7 +120,8 @@ const mitInfo = baueReise([{
   info_text: '**Was wir übernehmen:** die komplette Rate.\n\nNach 24 Monaten geht der Wagen zurück.',
 }]);
 const infoHtmlOut = reiseHtml(mitInfo);
-assert.match(infoHtmlOut, /<details class="reise-info">/, 'Knopf erscheint, sobald ein Text da ist');
+assert.match(infoHtmlOut, /class="reise-info-btn" popovertarget="reise-info-1"/, 'Knopf erscheint, sobald ein Text da ist');
+assert.match(infoHtmlOut, /<div class="reise-info-panel" id="reise-info-1" popover>/, 'der Kasten liegt als Popover ueber der Seite');
 assert.equal((infoHtmlOut.match(/<p>/g) || []).length, 2, 'Leerzeile trennt in zwei Absätze');
 assert.match(infoHtmlOut, /<strong>Was wir übernehmen:<\/strong>/, 'Sternchen werden zu fett');
 assert.match(infoHtmlOut, /Wie das mit dem Auto läuft/, 'eigene Überschrift wird genutzt');

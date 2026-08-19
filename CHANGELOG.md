@@ -16,7 +16,9 @@ Neues Motiv ist der **VW Tayron R-Line in Weiß**, das Fahrzeug, das tatsächlic
 
 **Neu: ein Info-Knopf an der Karte.** Bei einer Prämie dieser Größe reicht eine Zeile nicht. Hinter dem kleinen „i" steht jetzt, wie es wirklich läuft: Leasing über die MAHAG, bis zu 24 Monate, komplette Rate übernommen, Wartungspaket in der Regel enthalten, Versicherung und Sprit trägt der Gewinner, Rückgabe nach 24 Monaten, keine Barauszahlung, dazu ein Wort zur Steuerpflicht beim Empfänger.
 
-Technisch hängt der Text an zwei neuen Spalten der Tabelle `belohnungs_stufen` (`info_titel`, `info_text`) und nicht im Code. Was hinter einer Belohnung steckt, ist Sache des jeweiligen Beraters; Kais Leasing-Regelung darf nicht für jeden anderen mitgelten. Ohne Text erscheint kein Knopf, und die Programm-Verwaltung hat jetzt beide Felder. Gebaut als `<details>`, also ohne eine Zeile JavaScript und mit Tastaturbedienung ab Werk.
+Technisch hängt der Text an zwei neuen Spalten der Tabelle `belohnungs_stufen` (`info_titel`, `info_text`) und nicht im Code. Was hinter einer Belohnung steckt, ist Sache des jeweiligen Beraters; Kais Leasing-Regelung darf nicht für jeden anderen mitgelten. Ohne Text erscheint kein Knopf, und die Programm-Verwaltung hat jetzt beide Felder.
+
+**Der Kasten liegt über der Seite, nicht in der Karte.** Erster Anlauf war ein `<details>`, das direkt in der Karte aufklappte. In der Sechs-Spalten-Ansicht ist eine Karte aber nur gut 180 Pixel breit: Der Text lief über zwei Bildschirmhöhen und war in dieser Rinne nicht lesbar. Jetzt ist es ein Popover mit eigener Textbreite. Öffnen, Escape, Klick daneben und die Tastaturführung übernimmt der Browser, es kommt also weiterhin keine Zeile JavaScript dazu. Browser ohne Popover-Unterstützung bekommen über `@supports` den festen Kasten unter der Karte, damit der Inhalt nie unerreichbar wird.
 
 ---
 

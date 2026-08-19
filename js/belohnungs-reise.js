@@ -157,28 +157,36 @@ export function infoAbsaetzeHtml(text) {
 }
 
 /**
- * Der Info-Knopf selbst. Als <details> gebaut und nicht als Modal: Er
- * funktioniert damit ohne eine Zeile JavaScript, auch auf der Prüfseite, und
- * die Tastaturbedienung bringt der Browser schon mit.
+ * Der Info-Knopf und der Kasten dahinter.
+ *
+ * Erster Anlauf war ein <details>, das direkt in der Karte aufklappte. In der
+ * Sechs-Spalten-Ansicht ist eine Karte aber nur gut 180 Pixel breit: Der Text
+ * lief über zwei Bildschirmhöhen und war in dieser Rinne nicht lesbar. Der
+ * Kasten liegt jetzt als Popover über der Seite, mit eigener Textbreite,
+ * unabhängig davon, wie schmal die Karte gerade ist.
+ *
+ * Popover statt eigenem Modal: Der Browser übernimmt Öffnen, Schließen mit
+ * Escape, Klick daneben und die Tastaturführung. Kein JavaScript nötig, also
+ * gilt es auch auf der Prüfseite. Browser ohne Popover-Unterstützung bekommen
+ * über @supports den alten Weg, den Kasten fest unter der Karte.
+ *
+ * Auf dem Knopf steht nur ein kurzes Wort, die Überschrift steht im Kasten.
  */
 export function infoHtml(station) {
   const d = station.daten;
   if (!d.info_text) return '';
   const titel = d.info_titel || 'Wie das läuft';
-  // Auf dem Knopf steht bewusst nur ein kurzes Wort: In der Sechs-Spalten-
-  // Ansicht ist eine Karte gut 180 Pixel breit, eine ganze Überschrift bräche
-  // dort über drei Zeilen um. Die Überschrift steht deshalb im Kasten.
+  const id = `reise-info-${station.stufe}`;
   return `
-        <details class="reise-info">
-          <summary aria-label="${escapeHtml(titel)}">
-            <span class="reise-info-zeichen" aria-hidden="true">i</span>
-            <span class="reise-info-wort">Details</span>
-          </summary>
-          <div class="reise-info-panel">
-            <h5>${escapeHtml(titel)}</h5>
-            ${infoAbsaetzeHtml(d.info_text)}
-          </div>
-        </details>`;
+        <button type="button" class="reise-info-btn" popovertarget="${id}" aria-label="${escapeHtml(titel)}">
+          <span class="reise-info-zeichen" aria-hidden="true">i</span>
+          <span>Details</span>
+        </button>
+        <div class="reise-info-panel" id="${id}" popover>
+          <h5>${escapeHtml(titel)}</h5>
+          ${infoAbsaetzeHtml(d.info_text)}
+          <button type="button" class="reise-info-zu" popovertarget="${id}" popovertargetaction="hide">Verstanden</button>
+        </div>`;
 }
 
 export function meilensteinHtml(station, istFinale = false) {
