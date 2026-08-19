@@ -1011,7 +1011,13 @@ function reicheBeraterAnFolgeseitenWeiter(b) {
   // Nicht auf einen Entwurf zeigen: Was in .vercelignore steht, wird nicht mit
   // ausgeliefert (Phase 166), die Vorschau lief live in einen 404. Der frühere
   // Entwurfsordner mockups/ ist seit Phase 301 ganz weg.
+  // Der Slug reist mit: Die Vorschau zeigt sonst den Standard-Berater, und ein
+  // Berater praesentiert seinem Kunden einen fremden Namen (Phase 308).
   const VORSCHAU_URL = '/promoter-vorschau.html';
+  function vorschauAdresse() {
+    const slug = window.__beraterPublic?.slug || beraterSlug || '';
+    return slug ? `${VORSCHAU_URL}?berater=${encodeURIComponent(slug)}` : VORSCHAU_URL;
+  }
 
   // Die Vorschauseite hat oben eine eigene Umschaltleiste für Ansicht und
   // Farbe. Im Kundengespräch verwirrt die nur.
@@ -1029,7 +1035,7 @@ function reicheBeraterAnFolgeseitenWeiter(b) {
 
   function auf() {
     rahmen.addEventListener('load', rahmenAufraeumen, { once: true });
-    rahmen.src = VORSCHAU_URL;
+    rahmen.src = vorschauAdresse();
     overlay.hidden = false;
     document.body.classList.add('thema-offen');
     requestAnimationFrame(() => overlay.classList.add('offen'));

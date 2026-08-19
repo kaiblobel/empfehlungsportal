@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.323 Beta** · Ein Wächter gegen fest verdrahtete Kontaktdaten, live seit 19.08.2026.
+Offizielle Live-Version: **v1.324 Beta** · Die Vorschau zeigt den Berater, der sie öffnet, live seit 19.08.2026.
+
+## v1.324 Beta - Phase 308 · Die Vorschau zeigt den Berater, der sie öffnet
+**2026-08-19**
+
+**Ein Fund aus der Fußzeilen-Bestandsaufnahme.** `promoter-vorschau.html` ist kein Entwurf: Die Seite wird aus der Präsentation heraus als Fenster geöffnet und zeigt dem Kunden, wie sein Empfehlungsbereich später aussieht. An zwei Stellen stand dort fest „Kai Blobel & Team". **Sven zeigte seinem Kunden also Kais Namen.**
+
+Die Seite hatte bisher weder Zugang zur Datenbank noch eine eigene Logik, sie war eine reine Attrappe. Jetzt reist der Berater als Kürzel in der Adresse mit, und ein schlankes Modul setzt den Namen an beiden Stellen. Kommt kein Kürzel an, bleibt die Regionaldirektion stehen, so wie überall sonst.
+
+Das „& Team" steht bewusst als eigener Text daneben und nicht im eingesetzten Wert: Sonst verschwände es, sobald ein Berater seinen Namen ändert.
+
+---
 
 ## v1.323 Beta - Phase 307 · Ein Wächter gegen fest verdrahtete Kontaktdaten
 **2026-08-19**
