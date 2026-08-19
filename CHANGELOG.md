@@ -1,7 +1,35 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.314 Beta** · Die Online-Anzeige zeigt wieder das ganze Team, live seit 19.08.2026.
+Offizielle Live-Version: **v1.315 Beta** · Die Teamübersicht zeigt das ganze Büro, live seit 19.08.2026.
+
+## v1.315 Beta - Phase 295 · Die Teamübersicht zeigt das ganze Büro
+**2026-08-19**
+
+**Kais Anliegen:** „Da sollte auch jeder Berater von allen Beratern im Büro die Aktivitäten sehen, deswegen haben wir ja die Teamübersicht gemacht, damit das anspornt."
+
+Dasselbe Bild wie bei der Präsenz einen Schritt vorher: Josephine, Max und David sahen in der Teamübersicht genau eine Zeile, die eigene. Sven sah drei, Claudius und Sandro je zwei, Kai als Admin alle sieben. Eine Übersicht mit einem einzigen Namen spornt niemanden an.
+
+**Der naheliegende Weg wäre falsch gewesen.** Alle betroffenen Abfragen hängen an `mein_team()`, eine Umstellung dort hätte mit einem Handgriff alles geöffnet. Nur hängen daran auch:
+
+| Funktion | Inhalt |
+|---|---|
+| `team_empfehlungen` | Kundennamen |
+| `team_kidz` | Name, E-Mail, Telefon von Teilnehmern |
+| `team_promoter` | Name, E-Mail, Telefon von Promotern |
+| `team_praemien` | Promoternamen |
+
+Jeder Berater hätte damit die Kundendaten aller Kollegen gesehen. **`mein_team()` bleibt deshalb unverändert eng.**
+
+**Umgestellt sind genau drei Funktionen**, alle drei ohne Personendaten: `team_activity_secure` (wer hat wann eine Empfehlung, einen Promoter oder einen Kunden gewonnen), `team_metrics` (aktive Promoter, Klicks, Empfehlungen, Kunden je Berater) und `team_bestand` (Zählungen je Berater; die Prämien stehen dort als **Anzahl**, nicht als Betrag).
+
+Die Trennlinie liegt damit zwischen **Leistungszahl** und **Personendatum**: Wer wie viele Empfehlungen geschrieben hat, darf das Team anspornen. Wie die Kunden dahinter heißen, geht nur den zuständigen Berater etwas an.
+
+Alle drei nutzen `team_wurzel()` aus Phase 294, es gilt also dieselbe Regel wie bei der Präsenz: alle mit derselben Spitze. Die bestehenden Prüfungen auf Anmeldung, aktives Beraterkonto und erlaubten Zeitraum blieben Zeile für Zeile erhalten.
+
+**Der Wächter `tests/praesenz.test.mjs` bewacht jetzt auch diese Grenze:** Er verlangt, dass die drei Zahl-Funktionen über die gemeinsame Spitze abgrenzen, und schlägt an, sobald eine Migration `mein_team()` neu definiert. Gegengeprobt mit genau diesem Fall.
+
+---
 
 ## v1.314 Beta - Phase 294 · Die Online-Anzeige zeigt wieder das ganze Team
 **2026-08-19**

@@ -95,4 +95,41 @@ assert.match(migration.inhalt, /tiefe < \d+/,
 assert.match(migration.inhalt, /grant execute on function public\.team_presence\(\)\s+to authenticated/,
   `${migration.name}: die Ausführungsrechte für team_presence fehlen.`);
 
-console.log(`praesenz: OK (${migration.name}, Anzeige ab ${spanne[1]} Minuten offline)`);
+/* --- 4) Die Teamübersicht: Zahlen weit, Personendaten eng --- */
+
+let team = null;
+let teamPhase = -1;
+for (const name of dateien) {
+  const inhalt = await readFile(new URL(name, wurzel), 'utf8');
+  if (!inhalt.includes('function public.team_metrics')) continue;
+  const phase = Number(name.match(/^schema-phase(\d+)/)[1]);
+  if (phase > teamPhase) { teamPhase = phase; team = { name, inhalt }; }
+}
+
+assert.ok(team, 'Keine Migration gefunden, die team_metrics definiert.');
+
+// Diese drei zeigen Zahlen und Aktivitäten. Sie sollen das ganze Büro
+// anspornen, also sehen alle mit derselben Spitze dieselben Zahlen.
+for (const funktion of ['team_activity_secure', 'team_metrics', 'team_bestand']) {
+  const ab = team.inhalt.indexOf(`function public.${funktion}`);
+  assert.ok(ab > -1, `${team.name}: ${funktion} fehlt.`);
+  const koerper = team.inhalt.slice(ab, team.inhalt.indexOf('$function$;', ab));
+  assert.match(koerper, /team_wurzel/,
+    `${team.name}: ${funktion} grenzt nicht über die gemeinsame Spitze ab. `
+      + 'Dann sieht in der Teamübersicht wieder jeder nur sich und seine '
+      + 'Untergebenen, und wer niemanden unter sich hat, sieht eine einzige Zeile.');
+}
+
+// Und das hier ist die Grenze, die nicht verrutschen darf: mein_team() bleibt
+// eng. Daran hängen team_empfehlungen (Kundennamen), team_kidz und
+// team_promoter (Name, E-Mail, Telefon) sowie team_praemien. Wer wie viele
+// Empfehlungen geschrieben hat, darf das Team anspornen. Wie die Kunden
+// dahinter heißen, geht nur den zuständigen Berater etwas an.
+assert.doesNotMatch(team.inhalt, /function public\.mein_team/,
+  `${team.name} definiert mein_team() neu. An dieser Funktion hängen die `
+    + 'Abfragen mit Kundennamen, E-Mail-Adressen und Telefonnummern. Wird sie '
+    + 'auf das ganze Team geöffnet, sieht jeder Berater die Kundendaten aller '
+    + 'anderen. Die Teamübersicht kommt ohne diese Änderung aus.');
+
+console.log(`praesenz: OK (${migration.name}, Anzeige ab ${spanne[1]} Minuten offline; `
+  + `${team.name}: Zahlen weit, Personendaten eng)`);
