@@ -603,6 +603,10 @@ if (sofortBerater) applyBeraterBrand(sofortBerater);
 // Multi-Tenant: Welcher Berater wird gebrandet?
 // 1. ?berater=slug in der URL (öffentlicher Funnel-Link für Kunden)
 // 2. sonst: eingeloggter Berater (Dashboard-Preview seiner eigenen Seite)
+// Ob jemand angemeldet ist, entscheidet mit darüber, was beim Scheitern
+// passieren darf (Phase 313). Deshalb wird es hier festgehalten.
+let warAngemeldet = false;
+
 async function resolveBerater() {
   if (beraterSlug) {
     const { data } = await getBeraterPublicBySlug(beraterSlug);
@@ -613,6 +617,7 @@ async function resolveBerater() {
   try {
     const { data: { session } } = await supabase.auth.getSession();
     if (session) {
+      warAngemeldet = true;
       const m = await import('./dashboard.js');
       return await m.getCurrentBerater();
     }
@@ -639,12 +644,23 @@ function setPromoterEntry(data) {
 
   // Ein ausdrücklich gesetzter, aber ungültiger Berater-Slug darf nie still
   // auf Kai zurückfallen. Ohne Slug bleibt die normale Kai-Präsentation aktiv.
-  const slug = data?.slug || (beraterSlug ? '' : 'kai-blobel');
+  //
+  // Phase 313: Wer ANGEMELDET ist, ist nie „der allgemeine Besucher". Scheitert
+  // seine Auflösung, darf ihm nicht der Einstieg eines anderen untergeschoben
+  // werden. Genau das ist passiert: Ein Berater ohne eigenen QR-Code bekam Kais
+  // Code angezeigt, ein Promoter scannte ihn, und die Anmeldung landete bei Kai.
+  const slug = data?.slug || ((beraterSlug || warAngemeldet) ? '' : 'kai-blobel');
   if (!slug) {
+    qr.removeAttribute('src');
     qr.hidden = true;
     link.removeAttribute('href');
     link.setAttribute('aria-disabled', 'true');
-    link.textContent = 'Berater-Link nicht verfügbar';
+    // Der Text sagt, was zu tun ist. „Nicht verfügbar" allein lässt einen
+    // Berater ratlos zurück, und die naheliegende Reaktion wäre, irgendeinen
+    // anderen QR-Code zu nehmen — genau das soll nicht passieren.
+    link.textContent = warAngemeldet
+      ? 'Dein Einstieg konnte nicht geladen werden. Bitte Seite neu laden.'
+      : 'Berater-Link nicht verfügbar';
     return;
   }
 
@@ -656,6 +672,12 @@ function setPromoterEntry(data) {
   } else {
     // Für neu angelegte Berater bleibt der direkte Einstieg nutzbar. Der
     // druckbare QR-Code wird zusammen mit den Berater-Unterlagen erzeugt.
+    //
+    // Die Quelle wird dabei ENTFERNT, nicht nur versteckt: Im HTML steht Kais
+    // Code als Vorgabe, und der bliebe sonst im Bild eines fremden Beraters
+    // stehen — geladen, im Quelltext sichtbar, und sofort da, falls das
+    // Verstecken einmal nicht greift (Phase 313).
+    qr.removeAttribute('src');
     qr.hidden = true;
   }
 }

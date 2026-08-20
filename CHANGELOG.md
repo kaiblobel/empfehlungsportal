@@ -1,7 +1,24 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.328 Beta** · Einladungen kommen vom richtigen Berater, live seit 20.08.2026.
+Offizielle Live-Version: **v1.329 Beta** · Kein fremder QR-Code mehr, live seit 20.08.2026.
+
+## v1.329 Beta - Phase 313 · Kein fremder QR-Code mehr
+**2026-08-20**
+
+**Kais Befund:** David Stamm legte sich einen Promoter an, und der landete bei Kai. David sagte, er habe den QR-Code aus seiner Präsentation benutzt.
+
+**Für David existiert aber gar kein QR-Code.** Er bekam Kais angezeigt. Der Einstieg fiel auf `kai-blobel` zurück, sobald der Berater nicht aufgelöst werden konnte, und weil für Kai eine QR-Datei da ist, erschien dessen Code. David hat nichts falsch gemacht.
+
+**Die Regel jetzt:** Wer angemeldet ist, ist nie „der allgemeine Besucher". Scheitert seine Auflösung, gibt es keinen Einstieg und keinen Code, sondern den Hinweis, die Seite neu zu laden. Ohne Anmeldung und ohne Kürzel bleibt es dabei, dass die Präsentation der Regionaldirektion gehört.
+
+**Beim Prüfen kam noch etwas heraus:** Der QR-Code war zwar ausgeblendet, aber Kais Datei stand weiter im Bild — geladen und im Quelltext sichtbar, weil sie als Vorgabe im HTML steht. Verstecken allein reicht nicht, die Quelle wird jetzt entfernt.
+
+Der neue Wächter hält drei Dinge fest: dass der Rückfall nicht zurückkommt, dass die Liste der QR-Kürzel zu den tatsächlich vorhandenen Dateien passt, und dass jede Datei eine lesbare QR-Matrix enthält.
+
+Nebenbei geprüft: Alle zehn bestehenden QR-Codes zeigen auf den richtigen Berater. Nachgewiesen, indem ihre Modul-Matrix aus dem Bild zurückgerechnet und mit neu erzeugten verglichen wurde.
+
+---
 
 ## v1.328 Beta - Phase 312 · Einladungen kommen vom richtigen Berater
 **2026-08-20**
