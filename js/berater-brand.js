@@ -19,8 +19,8 @@
  *   data-bb="whatsapp"  → <a>.href = https://wa.me/<whatsapp>
  *   data-bb="tel"       → <a>.href = tel:+<telefon>  (+ textContent, wenn vorhanden)
  *   data-bb="email"     → <a>.href = mailto:<email>  (+ textContent, wenn vorhanden)
- *   data-bb="finanzcheck" → Standard-Berater behält den HTML-Link (Kais Finanzcheck),
- *                           andere Berater → eigener Buchungslink (sonst ausgeblendet)
+ *   data-bb="finanzcheck" → <a>.href bekommt ?b=<slug> angehängt, damit der
+ *                           Finanzcheck weiß, wessen Lead er verschickt
  *   data-bb="title"     → document.title-Suffix „· <name>" wird ersetzt
  *
  * Felder, die im Berater-Datensatz leer sind, werden NICHT überschrieben — so
@@ -263,11 +263,23 @@ export function applyBeraterBrand(b) {
         else el.style.display = 'none';
         break;
       case 'finanzcheck': {
-        // Der Finanzcheck-Link gehört dem Standard-Berater (ENV_BERATER_ID = Kai).
-        // Für andere Berater → eigener Buchungslink; fehlt der, Button ausblenden.
-        if (!isDefaultBerater) {
-          if (b.bookings_url) el.href = b.bookings_url;
-          else el.style.display = 'none';
+        // Phase 311 · Der Finanzcheck gehört allen, nicht nur dem Standard-Berater.
+        //
+        // Hier stand vorher: Für andere Berater wird der Link auf ihren
+        // Buchungskalender umgebogen. Der Knopf sagt aber „Zeig mir, was bei mir
+        // drin ist" und öffnete dann einen Terminkalender — bei sechs von sieben
+        // Beratern, und bei vieren war es sogar Kais Kalender.
+        //
+        // Seit v1.62 der Kundenseite kennt der Finanzcheck alle sieben Kürzel
+        // (fc-advisors.php). Es reicht also, das eigene Kürzel anzuhängen: Der
+        // Check läuft für alle gleich, und der Lead geht an den richtigen Berater.
+        // Ohne Kürzel bliebe es beim Standard-Berater, deshalb wird es immer gesetzt.
+        if (b.slug) {
+          try {
+            const ziel = new URL(el.href, window.location.origin);
+            ziel.searchParams.set('b', b.slug);
+            el.href = ziel.toString();
+          } catch (_) { /* kaputte Adresse im HTML: lieber unverändert lassen */ }
         }
         break;
       }

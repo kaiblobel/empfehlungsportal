@@ -204,9 +204,18 @@ if (page === 'empfehlen') {
   let beraterName = window.ENV_BERATER_NAME || 'Kai Blobel';
   let beraterVorname = beraterName.split(' ')[0];
   const brandKey = params.get('berater') || 'me';
+  // Das Kürzel des Beraters, für applyVorlage weiter unten: Die Vorlage baut
+  // den Finanzcheck-Knopf neu auf und würde das Kürzel sonst wegwerfen.
+  // Welcher Ablauf zuerst fertig ist, hängt am Netz — deshalb wird es an
+  // beiden Stellen gesetzt und hier zentral gehalten (Phase 311).
+  let aktuellerBeraterSlug = '';
+
   const sofortBerater = gemerkterBerater(brandKey);
   if (sofortBerater) {
     applyBeraterBrand(sofortBerater);
+    // Auch der gemerkte Stand liefert schon das Kürzel. Ohne diese Zeile
+    // stünde applyVorlage kurz darauf ohne da (Phase 311).
+    if (sofortBerater.slug) aktuellerBeraterSlug = sofortBerater.slug;
     if (sofortBerater.name) {
       beraterName = sofortBerater.name;
       beraterVorname = beraterName.split(' ')[0];
@@ -293,6 +302,10 @@ if (page === 'empfehlen') {
   if (berater) {
     applyBeraterBrand(berater);
     merkeBerater(brandKey, berater);
+    // Für applyVorlage: Die Vorlage baut den Finanzcheck-Knopf neu auf und
+    // liefe sonst dem Branding hinterher. Welcher von beiden zuerst fertig ist,
+    // hängt am Netz, deshalb wird das Kürzel hier gemerkt (Phase 311).
+    aktuellerBeraterSlug = berater.slug || '';
     if (berater.name) {
       beraterName = berater.name;
       beraterVorname = berater.name.split(' ')[0];
@@ -609,10 +622,17 @@ if (page === 'empfaenger') {
       if (v.quickcheck_url && !fremderBerater) {
         const current = new URL(cta.href, location.href);
         const target = new URL(v.quickcheck_url, location.href);
-        ['from', 'schwerpunkt', 'v'].forEach(key => {
+        // 'b' mit übernehmen, falls es schon in der Adresse steht: Das Branding
+        // kann vor ODER nach dieser Stelle fertig werden, je nach Netz.
+        ['from', 'schwerpunkt', 'v', 'b'].forEach(key => {
           const value = current.searchParams.get(key);
           if (value && !target.searchParams.has(key)) target.searchParams.set(key, value);
         });
+        // Das Berater-Kürzel bringt den Lead im Finanzcheck zum richtigen
+        // Berater (Phase 311). Es wird hier direkt gesetzt und nicht aus der
+        // vorherigen Adresse übernommen: Ob das Branding vorher fertig war,
+        // hängt am Netz, und dann fehlte es ausgerechnet beim Standard-Berater.
+        if (aktuellerBeraterSlug) target.searchParams.set('b', aktuellerBeraterSlug);
         cta.href = target.toString();
       }
     }

@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.326 Beta** · Unbekannter Berater, niemand Fremdes, live seit 19.08.2026.
+Offizielle Live-Version: **v1.327 Beta** · Der Finanzcheck gehört allen, live seit 20.08.2026.
+
+## v1.327 Beta - Phase 311 · Der Finanzcheck gehört allen
+**2026-08-20**
+
+**Der Knopf hielt nicht, was er versprach.** „Zeig mir, was bei mir drin ist" führte bei sechs von sieben Beratern nicht zum Finanzcheck, sondern zu einem Terminkalender — bei vieren sogar zu Kais. So war es gebaut: Der Finanzcheck kannte nur zwei Kürzel, deshalb bog das Portal den Link für alle anderen auf deren Buchungsseite um.
+
+Seit v1.62 der Kundenseite kennt der Finanzcheck alle sieben Kürzel und schickt den Lead an den jeweiligen Berater. Das Portal hängt jetzt nur noch `?b=<slug>` an, die Umbiegerei ist raus. Damit führt der Knopf für alle zum selben Check, und die Auswertung landet beim richtigen Berater.
+
+**Ein Rest bleibt offen, mit kleiner Wirkung:** Beim Standard-Berater fehlt der Parameter noch, weil die Themen-Vorlage den Knopf später neu aufbaut und ihn dabei wegwirft. Das trifft nur ihn, weil dieser Zweig ausschließlich für ihn läuft. Folgenlos, solange der Standard ohnehin Kai ist: Ohne Kürzel greift genau dieser Standard. Notiert für den nächsten Durchgang.
+
+---
 
 ## v1.326 Beta - Phase 310 · Unbekannter Berater, niemand Fremdes
 **2026-08-19**
