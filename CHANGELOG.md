@@ -1,7 +1,26 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.327 Beta** · Der Finanzcheck gehört allen, live seit 20.08.2026.
+Offizielle Live-Version: **v1.328 Beta** · Einladungen kommen vom richtigen Berater, live seit 20.08.2026.
+
+## v1.328 Beta - Phase 312 · Einladungen kommen vom richtigen Berater
+**2026-08-20**
+
+**Kais Befund:** David legte einen Promoter an, verschickte die Einladung, und darunter stand „Viele Grüße Kai".
+
+Der erste Verdacht war eine vertauschte Anrede. Der Text war aber richtig herum: Die Anrede nimmt den Namen des Promoters, der Gruß den des Beraters. Falsch war nur, woher der Beratername kam:
+
+```js
+const beraterName = window.ENV_BERATER_NAME || '';
+```
+
+`ENV_BERATER_NAME` ist der Standard-Berater des Portals, also fest „Kai Blobel". **Alle sechs anderen Berater verschickten ihre Einladungen damit in Kais Namen** — an echte Kunden, mit einem Link, der auf sie selbst zeigt. Überall sonst im Projekt gilt: erst der angemeldete Berater, dann der Standardwert als Rückfall. Nur an dieser einen Stelle fehlte der erste Teil.
+
+Dass „Hallo David" darüberstand, war übrigens korrekt: David hatte sich selbst als Testpromoter angelegt und Kais Nummer eingetragen. Die Anrede nannte also den Promoter, wie sie soll.
+
+Ein Wächter hält jetzt fest, dass Anrede und Absender aus verschiedenen Quellen kommen und der Standardwert nur der Rückfall ist.
+
+---
 
 ## v1.327 Beta - Phase 311 · Der Finanzcheck gehört allen
 **2026-08-20**

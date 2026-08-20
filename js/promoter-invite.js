@@ -117,7 +117,11 @@ export function openPromoterInvite({ name, code, telefon, email, neu = false }) 
   if (!code) return;
   const modal = ensureModal();
   const link = promoterInviteLink(code, { neu });
-  const beraterName = window.ENV_BERATER_NAME || '';
+  // Der Absender ist der ANGEMELDETE Berater, nicht der Standard-Berater aus
+  // der Konfiguration. Hier stand nur ENV_BERATER_NAME, also fest „Kai Blobel":
+  // Jeder Berater verschickte seine Einladungen mit „Viele Grüße Kai".
+  // Dasselbe Muster wie in js/hub.js: erst der eingeloggte, dann der Rückfall.
+  const beraterName = window.CURRENT_BERATER?.name || window.ENV_BERATER_NAME || '';
   const text = inviteMessage({ name, link, beraterName });
 
   modal.querySelector('#piTitle').textContent = neu
