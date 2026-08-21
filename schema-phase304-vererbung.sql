@@ -158,7 +158,7 @@ commit;
 --   → Datenschutz kommt vom Büro, Impressum bleibt leer,
 --     Telefon und WhatsApp bleiben die eigenen.
 --
---   select count(*) from public.list_kidz_berater_public();   -- 9
+--   select count(*) from public.list_kidz_berater_public();   -- 10
 -- ---------------------------------------------------------------------
 
 -- ---------------------------------------------------------------------

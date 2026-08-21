@@ -80,7 +80,7 @@ const MUSTER_MARKIERUNG = /data-muster/;
  */
 const AUSNAHMEN = [
   {
-    stelle: 'kidz-gewinnspiel.html:207',
+    stelle: 'kidz-gewinnspiel.html:208',
     art: 'Anschrift',
     grund:
       'Teilnahmebedingungen sind ein Rechtstext, der als Ganzes formuliert wird. '

@@ -130,7 +130,7 @@ update public.berater b
 --   select count(*) from public.berater where buero_id is null; -- 0
 --
 -- Und die Zählprobe, die sich NICHT ändern darf:
---   select count(*) from public.list_kidz_berater_public();     -- 9
+--   select count(*) from public.list_kidz_berater_public();     -- 10
 --   select count(*) from public.get_berater_public('kai-blobel'); -- 1, 15 Spalten
 -- ---------------------------------------------------------------------
 

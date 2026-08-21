@@ -113,7 +113,7 @@ assert.match(html, /id="keaForm"/);
 assert.match(html, /id="keaAdvisor"/);
 assert.match(html, /promoter-anja-scholz">Anja Scholz/);
 assert.match(html, /promoter-sandra-roehrens">Sandra Röhrens/);
-assert.doesNotMatch(html, /Anika|bibrach/i);
+assert.match(html, /promoter-anika-bibrach">Anika Biebrach/);
 assert.match(html, /promoter-david-stamm">David Stamm/);
 assert.match(html, /Keine Angaben zu Kindern\. Kein Kauf\. Keine automatische Werbeeinwilligung\./);
 assert.match(html, /keine Gewinnspielteilnahme, keine Kundenanfrage und keine Einwilligung in allgemeine Werbung/);

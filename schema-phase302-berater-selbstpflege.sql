@@ -172,7 +172,7 @@ comment on function public.berater_self_update(
 --   → muss {search_path=public} enthalten.
 --
 -- Und die Zählprobe, die nach jedem Speichern gleich bleiben muss:
---   select count(*) from public.list_kidz_berater_public();   -- 9
+--   select count(*) from public.list_kidz_berater_public();   -- 10
 -- ---------------------------------------------------------------------
 
 -- ---------------------------------------------------------------------

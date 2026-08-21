@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.329 Beta** · Kein fremder QR-Code mehr, live seit 20.08.2026.
+Offizielle Live-Version: **v1.330 Beta** · Anika Biebrach wieder in der KIDZ-Auswahl, live seit 21.08.2026.
+
+## v1.330 Beta - Phase 314 · Anika Biebrach wieder in der KIDZ-Auswahl
+**2026-08-21**
+
+**Kais Frage:** Kann bei der Sommerfest-Anmeldung noch jemand in die Auswahl, ohne dass etwas kaputtgeht?
+
+**Ja.** Die Liste kommt zur Laufzeit aus der Datenbank, nirgends steht eine feste Anzahl. Beim Nachsehen kam heraus: Anika Biebrach ist gar nicht neu. Sie steht seit Phase 186 in der Tabelle und wurde in Phase 200 nur stillgelegt, nicht gelöscht — genau für diesen Fall.
+
+**Deshalb kein neuer Eintrag, sondern ihr alter zurück.** Der Schlüssel bleibt derselbe, ihr alter Einladungslink und ihr QR-Code gelten sofort wieder, ihre Zuordnung zu Sven Augustin bleibt bestehen. Sie erscheint wieder beim Sommerfest-Gewinnspiel und beim Elternabend, in der Auswahl vor Anja Scholz.
+
+Die Migration rät nicht, sondern bricht ab: Zeigt der Eintrag auf einen anderen Berater als Sven Augustin, passiert nichts. Sonst würden ihre Anmeldungen still im fremden Dashboard landen, denn die Sichtbarkeit hängt allein an dieser einen Zuordnung.
+
+Zwei Merkposten, die dabei auffielen und bewusst offen bleiben: Promoter haben keinen im Dashboard erzeugten Einladungslink, der muss von Hand gebaut werden. Und der Aufrufzähler zählt Promoter-Links gar nicht, weil er nur Berater auflöst — Anmeldungen zählt er korrekt, nur Seitenaufrufe nicht.
+
+---
 
 ## v1.329 Beta - Phase 313 · Kein fremder QR-Code mehr
 **2026-08-20**
