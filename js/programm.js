@@ -629,7 +629,14 @@ async function resolveBerater() {
 // (Vorlagen/Belohnungen) sind dagegen GETEILT — global geladen, nur Admin pflegt sie.
 const beraterPromise = resolveBerater();
 
+// Wer hier steht, bekommt seinen QR-Code in der Präsentation angezeigt.
+// Die Liste MUSS zu den Dateien in assets/qr/ passen: Ein Kürzel ohne Datei
+// zeigt ein kaputtes Bild, eine Datei ohne Kürzel wird nie angezeigt. Beides
+// prüft tests/promoter-einstieg.test.mjs. Neue Codes erzeugt
+// tools/qr-erzeugen.py, das erinnert am Ende auch an diese Liste.
 const qrSlugs = new Set([
+  'claudius-tusche',
+  'david-stamm',
   'josephine-buerger',
   'kai-blobel',
   'max-kudlek',

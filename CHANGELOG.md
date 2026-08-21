@@ -1,22 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.330 Beta** · Jeder Name genau einmal in der KIDZ-Auswahl, live seit 21.08.2026.
+Offizielle Live-Version: **v1.331 Beta** · QR-Codes für Claudius Tusche und David Stamm, live seit 21.08.2026.
 
-## v1.330 Beta - Phase 314 · Jeder Name genau einmal in der KIDZ-Auswahl
+## v1.331 Beta - Phase 315 · QR-Codes für Claudius Tusche und David Stamm
 **2026-08-21**
 
-**Kais Frage:** Kann bei der Sommerfest-Anmeldung noch jemand in die Auswahl, ohne dass etwas kaputtgeht?
+Nachtrag zu Phase 313. Dort kam heraus, dass David den QR-Code von Kai angezeigt bekam, weil für ihn keine eigene Datei existierte. Der falsche Code ist seither weg, aber ein eigener fehlte immer noch. Claudius Tusche stand vor demselben Problem.
 
-**Ja, aber beim Nachsehen fiel auf, dass die Liste schon vorher nicht stimmte.** In der Datenbank standen nur zwei Promoter, Anja Scholz und Sandra Röhrens. Anika Biebrach fehlte dort ganz. Ihre Anlage in Phase 186 war an einen bereits vorhandenen Empfehler-Datensatz gebunden, den es für sie nie gab, und lief still ins Leere.
+**Beide haben jetzt ihren eigenen Code**, je einer für die Präsentation im Gespräch und einer für den Aufsteller. Erzeugt hat sie `tools/qr-erzeugen.py`, das die fertige Datei anschließend zurückrechnet und mit der erwarteten Adresse vergleicht. Ein Code, der auf den falschen Berater zeigt, fällt damit beim Erzeugen auf und nicht beim Kunden.
 
-**David Stamm stand dagegen zweimal zur Wahl**, einmal als Berater aus der Datenbank und einmal als Promoter aus dem Markup. Die Seite mischt die Promoter aus dem HTML dazu, wenn die Datenbank sie nicht liefert. Er ist seit dem 12.08. selbst Berater, mit eigenen Empfehlern und eigener Anmeldung. Wer den falschen der beiden Einträge erwischt hätte, wäre einem anderen Berater zugeordnet worden.
-
-**Jetzt steht jeder Name genau einmal drin.** Anika Biebrach ist angelegt und Sven Augustin zugeordnet, David Stamm nur noch als Berater. Und die Notfallliste im Markup führt nicht mehr ihr Eigenleben, sondern spiegelt genau den Stand der Datenbank: sieben Berater, drei Promoter, in derselben Reihenfolge. Genau dieses Auseinanderlaufen war die Ursache.
-
-Die Migration nimmt nichts an, sondern prüft nach: Fehlt Anika danach oder hängt sie am falschen Berater, bricht sie ab. Gelöscht wird nur, was nachweislich nirgends verwendet wird.
-
-Zwei Merkposten, die dabei auffielen und bewusst offen bleiben: Promoter haben keinen im Dashboard erzeugten Einladungslink, der muss von Hand gebaut werden. Und der Aufrufzähler zählt Promoter-Links gar nicht, weil er nur Berater auflöst. Anmeldungen zählt er korrekt, nur Seitenaufrufe nicht.
+**Ein Wächter hat dabei selbst nachgegeben:** Er zählte die QR-Dateien und verlangte genau zehn. Diese Zahl sicherte nichts, sie brach nur bei jedem neuen Berater. Jetzt prüft er, dass zu jedem Kürzel beide Varianten da sind. Ob ein Code auf den richtigen Berater zeigt, prüft weiterhin `tests/promoter-einstieg.test.mjs`, indem es die Bildmatrix zurückrechnet.
 
 ---
 

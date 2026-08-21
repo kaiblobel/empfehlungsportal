@@ -147,8 +147,23 @@ assert.match(migration, /revoke execute on function public\.create_empfehler[\s\
 assert.match(migration, /grant execute on function public\.register_empfehler_public[\s\S]*to anon/);
 assert.doesNotMatch(migration, /b3cbf981-ea3e-4e6d-a993-2fe158ca0d48/);
 
+// Zu jedem Berater gehören BEIDE Varianten: eine für die Präsentation im
+// Gespräch, eine für den Aufsteller. Hier stand vorher eine feste Zahl (10),
+// die bei jedem neuen Berater brach, ohne inhaltlich etwas zu sichern —
+// beim Nachziehen für Claudius und David fiel sie prompt um. Geprüft wird
+// jetzt die Vollständigkeit je Kürzel. Ob die Codes auf den richtigen
+// Berater zeigen, prüft tests/promoter-einstieg.test.mjs.
 const qrFiles = (await readdir(new URL('../assets/qr/', import.meta.url)))
   .filter((name) => /^promoter-.+-(praesentation|aufsteller)\.svg$/.test(name));
-assert.equal(qrFiles.length, 10);
+assert.ok(qrFiles.length >= 10, `Nur ${qrFiles.length} QR-Dateien gefunden.`);
+const jeKuerzel = new Map();
+for (const name of qrFiles) {
+  const [, kuerzel, art] = name.match(/^promoter-(.+)-(praesentation|aufsteller)\.svg$/);
+  jeKuerzel.set(kuerzel, (jeKuerzel.get(kuerzel) || new Set()).add(art));
+}
+for (const [kuerzel, arten] of jeKuerzel) {
+  assert.equal(arten.size, 2,
+    `Für ${kuerzel} fehlt eine QR-Variante (vorhanden: ${[...arten].join(', ')}).`);
+}
 
 console.log('promoter-self-registration: OK');
