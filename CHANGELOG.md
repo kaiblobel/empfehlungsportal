@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.331 Beta** · QR-Codes für Claudius Tusche und David Stamm, live seit 21.08.2026.
+Offizielle Live-Version: **v1.332 Beta** · Entwicklung ansehen springt zur Person, live seit 21.08.2026.
+
+## v1.332 Beta - Phase 316 · Entwicklung ansehen springt zur Person
+**2026-08-21**
+
+Ein Klick auf eine Person in der Teamübersicht schien wirkungslos. Er war es nicht: Die Entwicklung wechselte sofort, sie steht nur unter der Personenliste. Bei sieben Karten lag ihr Kopf gemessen 1806 Pixel tief, in einem 876 Pixel hohen Fenster. Man sah also den richtigen Inhalt an einer Stelle, die niemand im Bild hatte.
+
+Das Teamranking darüber sprang seit jeher zur Entwicklung hin, die Personenkarten nicht. Diese Ungleichheit war der eigentliche Fehler. **Beide Wege nutzen jetzt dieselbe Stelle im Code**, statt jeder seine eigene Zeile zu haben.
+
+Angesprungen wird der Anfang, nicht die Mitte. Auf dem Handy ist der Block höher als der Bildschirm, zentriert schob es den Namen oben heraus (gemessen -83 Pixel). Mit `scroll-margin-top` bleibt oben etwas Luft, der Name steht jetzt auf Rechner und Handy sauber unter dem Rand.
+
+Geprüft wurde im Browser mit sieben Beispielpersonen, in Rechner- und Handygröße, für Kartenklick und Ranking-Klick. Der neue Wächter `tests/team-entwicklung-sichtbar.test.mjs` prüft nicht, dass irgendwo gesprungen wird, sondern dass jede Stelle, die eine Person auswählt, danach auch hinspringt. Entfernt man den Sprung, schlägt er an.
 
 ## v1.331 Beta - Phase 315 · QR-Codes für Claudius Tusche und David Stamm
 **2026-08-21**

@@ -169,7 +169,7 @@ function renderRanking() {
       renderMembers();
       renderDetail();
       hydrateIcons();
-      document.getElementById('teamDetail')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      zeigeEntwicklung();
     });
   });
 }
@@ -198,8 +198,22 @@ function renderMembers() {
       renderMembers();
       renderDetail();
       hydrateIcons();
+      zeigeEntwicklung();
     });
   });
+}
+
+/**
+ * Die Entwicklung einer Person steht UNTER der Personenliste, bei sieben
+ * Karten gut zwei Bildschirmhoehen tiefer. Ohne Hinspringen wechselt zwar der
+ * Inhalt, im Bild passiert aber nichts, und der Knopf "Entwicklung ansehen"
+ * wirkt kaputt. Genau das war der Fehler in Phase 316.
+ *
+ * 'start' statt 'center': Der Block ist auf dem Handy hoeher als der
+ * Bildschirm, zentriert schiebt es den Namen oben aus dem Bild.
+ */
+function zeigeEntwicklung() {
+  document.getElementById('teamDetail')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function renderDetail() {

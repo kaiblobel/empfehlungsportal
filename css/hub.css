@@ -3323,6 +3323,9 @@ body[data-page="vorlagen-cms"] {
 
 .team-detail {
   margin-top: 28px;
+  /* Beim Anspringen aus Liste oder Ranking bleibt oben etwas Luft, sonst
+     klebt der Name am Bildschirmrand. */
+  scroll-margin-top: 16px;
   padding: 24px;
   border: 1px solid var(--hairline, var(--hairline));
   border-radius: 14px;
