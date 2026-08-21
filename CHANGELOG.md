@@ -1,20 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.330 Beta** · Anika Biebrach wieder in der KIDZ-Auswahl, live seit 21.08.2026.
+Offizielle Live-Version: **v1.330 Beta** · Jeder Name genau einmal in der KIDZ-Auswahl, live seit 21.08.2026.
 
-## v1.330 Beta - Phase 314 · Anika Biebrach wieder in der KIDZ-Auswahl
+## v1.330 Beta - Phase 314 · Jeder Name genau einmal in der KIDZ-Auswahl
 **2026-08-21**
 
 **Kais Frage:** Kann bei der Sommerfest-Anmeldung noch jemand in die Auswahl, ohne dass etwas kaputtgeht?
 
-**Ja.** Die Liste kommt zur Laufzeit aus der Datenbank, nirgends steht eine feste Anzahl. Beim Nachsehen kam heraus: Anika Biebrach ist gar nicht neu. Sie steht seit Phase 186 in der Tabelle und wurde in Phase 200 nur stillgelegt, nicht gelöscht — genau für diesen Fall.
+**Ja, aber beim Nachsehen fiel auf, dass die Liste schon vorher nicht stimmte.** In der Datenbank standen nur zwei Promoter, Anja Scholz und Sandra Röhrens. Anika Biebrach fehlte dort ganz. Ihre Anlage in Phase 186 war an einen bereits vorhandenen Empfehler-Datensatz gebunden, den es für sie nie gab, und lief still ins Leere.
 
-**Deshalb kein neuer Eintrag, sondern ihr alter zurück.** Der Schlüssel bleibt derselbe, ihr alter Einladungslink und ihr QR-Code gelten sofort wieder, ihre Zuordnung zu Sven Augustin bleibt bestehen. Sie erscheint wieder beim Sommerfest-Gewinnspiel und beim Elternabend, in der Auswahl vor Anja Scholz.
+**David Stamm stand dagegen zweimal zur Wahl**, einmal als Berater aus der Datenbank und einmal als Promoter aus dem Markup. Die Seite mischt die Promoter aus dem HTML dazu, wenn die Datenbank sie nicht liefert. Er ist seit dem 12.08. selbst Berater, mit eigenen Empfehlern und eigener Anmeldung. Wer den falschen der beiden Einträge erwischt hätte, wäre einem anderen Berater zugeordnet worden.
 
-Die Migration rät nicht, sondern bricht ab: Zeigt der Eintrag auf einen anderen Berater als Sven Augustin, passiert nichts. Sonst würden ihre Anmeldungen still im fremden Dashboard landen, denn die Sichtbarkeit hängt allein an dieser einen Zuordnung.
+**Jetzt steht jeder Name genau einmal drin.** Anika Biebrach ist angelegt und Sven Augustin zugeordnet, David Stamm nur noch als Berater. Und die Notfallliste im Markup führt nicht mehr ihr Eigenleben, sondern spiegelt genau den Stand der Datenbank: sieben Berater, drei Promoter, in derselben Reihenfolge. Genau dieses Auseinanderlaufen war die Ursache.
 
-Zwei Merkposten, die dabei auffielen und bewusst offen bleiben: Promoter haben keinen im Dashboard erzeugten Einladungslink, der muss von Hand gebaut werden. Und der Aufrufzähler zählt Promoter-Links gar nicht, weil er nur Berater auflöst — Anmeldungen zählt er korrekt, nur Seitenaufrufe nicht.
+Die Migration nimmt nichts an, sondern prüft nach: Fehlt Anika danach oder hängt sie am falschen Berater, bricht sie ab. Gelöscht wird nur, was nachweislich nirgends verwendet wird.
+
+Zwei Merkposten, die dabei auffielen und bewusst offen bleiben: Promoter haben keinen im Dashboard erzeugten Einladungslink, der muss von Hand gebaut werden. Und der Aufrufzähler zählt Promoter-Links gar nicht, weil er nur Berater auflöst. Anmeldungen zählt er korrekt, nur Seitenaufrufe nicht.
 
 ---
 

@@ -149,7 +149,7 @@ const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, bon
   read('schema-phase186.sql'),
   read('schema-phase190.sql'),
   read('schema-phase191.sql'),
-  read('schema-phase314-kidz-anika-reaktivierung.sql'),
+  read('schema-phase314-kidz-auswahl-echt.sql'),
   read('assets/images/kidz-logo-konzept.png'),
   read('vercel.json'),
 ]);
@@ -169,7 +169,11 @@ assert.match(html, /sandro-wernicke/);
 assert.match(html, /promoter-anja-scholz">Anja Scholz/);
 assert.match(html, /promoter-sandra-roehrens">Sandra Röhrens/);
 assert.match(html, /promoter-anika-bibrach">Anika Biebrach/);
-assert.match(html, /promoter-david-stamm">David Stamm/);
+// David Stamm ist seit dem 12.08.2026 selbst Berater und gehoert genau einmal in die
+// Auswahl. Eine zusaetzliche promoter-Zeile wuerde ihn doppeln und seine Anmeldungen
+// einem anderen Berater zuordnen.
+assert.match(html, /"david-stamm">David Stamm/);
+assert.doesNotMatch(html, /promoter-david-stamm/);
 assert.match(html, /assets\/images\/kidz-logo-konzept\.png/);
 assert.match(html, /id="kidzPublicMenu"/);
 assert.match(html, /Flyer &amp; Gewinne/);
@@ -352,18 +356,20 @@ assert.match(parentEveningMigration, /key = 'promoter-anika-bibrach'/);
 assert.match(parentEveningMigration, /lower\(slug\) = 'sven-augustin'/);
 assert.doesNotMatch(parentEveningMigration, /set key =/);
 
-// Phase 314: Anika Biebrach kommt zurueck. Der Schluessel bleibt derselbe, damit ihr
-// alter Einladungslink weiter gilt und bereits erfasste Anmeldungen zugeordnet bleiben.
-assert.match(comebackMigration, /update public\.kidz_gewinnspiel_einladende[\s\S]*ist_aktiv = true[\s\S]*where key = 'promoter-anika-bibrach'/);
-assert.match(comebackMigration, /set name = 'Anika Biebrach'/);
-// Die Sichtbarkeit haengt allein an berater_id: Ein falscher Wert wuerde ihre Anmeldungen
-// still im fremden Dashboard ablegen, deshalb bricht die Migration ab statt zu raten.
-assert.match(comebackMigration, /lower\(slug\) = 'sven-augustin'/);
-assert.match(comebackMigration, /raise exception 'KIDZ promoter promoter-anika-bibrach points to the wrong advisor'/);
-// Kein neuer Schluessel und keine Neuanlage.
-assert.doesNotMatch(comebackMigration, /insert into public\.kidz_gewinnspiel_einladende/);
-assert.doesNotMatch(comebackMigration, /gen_random_uuid/);
-// Zugangscodes gehoeren nicht ins Repository.
-assert.doesNotMatch(comebackMigration, /code\s*=\s*'[a-z0-9-]{8,}'/i);
+// Phase 314: Anika Biebrach und David Stamm standen in den Auswahllisten, aber nicht
+// in der Datenbank. Wer sie waehlte, bekam invalid_advisor und war nicht angemeldet.
+assert.match(comebackMigration, /'promoter-anika-bibrach', 'Anika Biebrach'[\s\S]*where slug = 'sven-augustin'/);
+assert.match(comebackMigration, /delete from public\.kidz_gewinnspiel_einladende[\s\S]*where key = 'promoter-david-stamm'/);
+assert.match(comebackMigration, /raise exception 'promoter-david-stamm is still present'/);
+assert.match(comebackMigration, /ist_aktiv = true/);
+// Zweimal anwenden darf nichts doppeln und nichts kaputtmachen.
+assert.match(comebackMigration, /on conflict \(key\) do update/);
+assert.match(comebackMigration, /not exists \(\s*select 1 from public\.empfehler/);
+// Die Sichtbarkeit haengt allein an berater_id: Ein falscher Wert wuerde die
+// Anmeldungen still im fremden Dashboard ablegen. Deshalb wird geprueft, nicht geraten.
+assert.match(comebackMigration, /raise exception 'promoter-anika-bibrach is missing or assigned to the wrong advisor/);
+// Zugangscodes gehoeren nicht ins Repository, sie werden erzeugt.
+assert.match(comebackMigration, /gen_random_uuid\(\)/);
+assert.doesNotMatch(comebackMigration, /'(?:anika-biebrach|david-stamm)-[a-z0-9]{10,}'/);
 
 console.log('kidz-gewinnspiel: OK');

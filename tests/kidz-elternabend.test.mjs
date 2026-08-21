@@ -114,7 +114,11 @@ assert.match(html, /id="keaAdvisor"/);
 assert.match(html, /promoter-anja-scholz">Anja Scholz/);
 assert.match(html, /promoter-sandra-roehrens">Sandra Röhrens/);
 assert.match(html, /promoter-anika-bibrach">Anika Biebrach/);
-assert.match(html, /promoter-david-stamm">David Stamm/);
+// David Stamm ist seit dem 12.08.2026 selbst Berater und gehoert genau einmal in die
+// Auswahl. Eine zusaetzliche promoter-Zeile wuerde ihn doppeln und seine Anmeldungen
+// einem anderen Berater zuordnen.
+assert.match(html, /"david-stamm">David Stamm/);
+assert.doesNotMatch(html, /promoter-david-stamm/);
 assert.match(html, /Keine Angaben zu Kindern\. Kein Kauf\. Keine automatische Werbeeinwilligung\./);
 assert.match(html, /keine Gewinnspielteilnahme, keine Kundenanfrage und keine Einwilligung in allgemeine Werbung/);
 assert.match(html, /property="og:image:width" content="1200"/);
