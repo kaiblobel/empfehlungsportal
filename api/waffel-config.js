@@ -80,7 +80,7 @@ module.exports = async function handler(req, res) {
     let istAdmin = false;
     try {
       const zeile = await mitZeitgrenze(
-        `${portalUrl}/rest/v1/berater?select=ist_admin&user_id=eq.${encodeURIComponent(userId)}&limit=1`,
+        `${portalUrl}/rest/v1/berater?select=ist_admin&auth_user_id=eq.${encodeURIComponent(userId)}&limit=1`,
         { headers: { apikey: anonKey, authorization: `Bearer ${token}` } },
       );
       if (zeile.ok) {

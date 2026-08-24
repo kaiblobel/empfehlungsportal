@@ -7,6 +7,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 
 const nav = readFileSync('js/nav.js', 'utf8');
+const icons = readFileSync('js/icons.js', 'utf8');
 const proxy = readFileSync('api/waffel-config.js', 'utf8');
 
 // Die oeffentlichen Seitentypen, auf denen NIE ein Waffelmenue stehen darf.
@@ -20,8 +21,16 @@ const OEFFENTLICH = [
 
 test('der Waffelknopf lebt in js/nav.js (und damit nur auf internen Seiten)', () => {
   assert.ok(nav.includes('nav-waffel'), 'Knopf fehlt in nav.js');
+  assert.ok(nav.includes('nav-waffel-mobile'), 'Sofort sichtbarer Handyknopf fehlt');
   assert.ok(nav.includes('waffel-overlay'), 'Overlay fehlt in nav.js');
   assert.ok(nav.includes('initWaffel'), 'initWaffel fehlt im init()');
+});
+
+test('die Navigation startet erst nach der Definition aller Waffel-Bausteine', () => {
+  const definition = nav.indexOf('const WAFFEL_VERWALTUNG_URL');
+  const start = nav.lastIndexOf('const init = () => { renderNav(); initWaffel();');
+  assert.ok(definition >= 0 && start > definition,
+    'Ein Sofortstart vor den Waffel-const-Werten wuerde die ganze Navigation stoppen');
 });
 
 test('keine oeffentliche Seite traegt die Waffel-Kennung oder laedt nav.js', () => {
@@ -47,8 +56,29 @@ test('Login und Passwort-Setzen bleiben ohne Navigation und ohne Waffel', () => 
 test('fail-closed: leerer Bestand blendet den Knopf fuer normale Berater aus', () => {
   assert.ok(nav.includes('eintraege.length === 0 && !istAdmin'),
     'Ohne Freigaben und ohne Admin-Rolle verschwindet der Knopf');
+  assert.ok(nav.includes('.nav-waffel[hidden]{display:none!important}'),
+    'Die eigene CSS-Regel darf das hidden-Attribut nicht ueberstimmen');
   assert.ok(!nav.includes('NAV_ITEMS.map(waffelEintragHtml)'),
     'Das Waffelmenue faellt NIE auf die Portal-Navigation zurueck');
+});
+
+test('kein alter Browser-Zwischenstand ueberlebt eine geaenderte Admin-Freigabe', () => {
+  assert.ok(!nav.includes('WAFFEL_CACHE_KEY'), 'Waffelmenue darf keinen localStorage-Rueckfall nutzen');
+  assert.ok(!nav.includes('leseWaffelCache'), 'Kein alter Menuebestand wird vorab angezeigt');
+  assert.ok(nav.includes("cache: 'no-store'"), 'Die kleine Freigabe wird frisch geladen');
+});
+
+test('die synthetische Vorschau ist ausschliesslich auf dem eigenen Rechner erreichbar', () => {
+  assert.ok(nav.includes("['127.0.0.1', 'localhost'].includes(window.location.hostname)"));
+  assert.ok(nav.includes("params.get('waffel-vorschau')"));
+  assert.ok(nav.includes('if (vorschau)'));
+});
+
+test('Katalogtexte und Zieladressen werden vor innerHTML maskiert', () => {
+  assert.ok(nav.includes('function waffelHtmlSicher'), 'HTML-Maskierung fehlt');
+  assert.ok(nav.includes('waffelHtmlSicher(e.url)'), 'Zieladresse wird nicht maskiert');
+  assert.ok(nav.includes('waffelHtmlSicher(e.name)'), 'Anwendungsname wird nicht maskiert');
+  assert.ok(nav.includes('waffelHtmlSicher(e.zweck)'), 'Anwendungszweck wird nicht maskiert');
 });
 
 test('der Admin-Einstieg fuehrt zur zentralen Verwaltung in KAI.', () => {
@@ -63,6 +93,20 @@ test('der Proxy prueft Herkunft und Token, bevor er weiterreicht', () => {
   const kaiAufruf = proxy.indexOf('/api/waffel/empfehlungsportal');
   assert.ok(herkunft > 0 && kaiAufruf > herkunft,
     'Die KAI.-Route wird erst NACH den Pruefungen angesprochen');
+});
+
+test('die Admin-Rolle wird ueber die echte Auth-Verknuepfung des Beraters gelesen', () => {
+  assert.ok(proxy.includes('auth_user_id=eq.'), 'Admin-Suche muss auth_user_id verwenden');
+  assert.ok(!proxy.includes('&user_id=eq.'), 'Die veraltete Spalte user_id darf nicht verwendet werden');
+});
+
+test('jedes erlaubte KAI.-Katalogsymbol ist im Portal vorhanden', () => {
+  const block = nav.match(/const WAFFEL_ICONS = new Set\(\[([\s\S]*?)\]\);/);
+  assert.ok(block, 'Liste der erlaubten Symbole fehlt');
+  const namen = [...block[1].matchAll(/'([^']+)'/g)].map((treffer) => treffer[1]);
+  for (const name of namen) {
+    assert.ok(icons.includes(`  ${name}:`), `Symbol ${name} fehlt in js/icons.js`);
+  }
 });
 
 test('das Tor-Wort bleibt auf dem Server und faellt fail-closed aus', () => {
