@@ -161,12 +161,14 @@ export function renderNav(opts = {}) {
     sidebar.innerHTML = `
       <aside class="nav-sidebar">
         <div class="nav-brand" aria-label="Empfehlungsportal, Regionaldirektion Kai Blobel und Team">
-          <button class="nav-waffel" type="button" aria-label="Anwendungen" aria-expanded="false" hidden>${icon('LayoutGrid', { size: 17 })}</button>
           <span class="nav-brand-mark"></span>
           <span class="nav-brand-copy">
             <span class="nav-brand-name">Empfehlungsportal</span>
             <span class="nav-brand-signature"><span>Regionaldirektion</span><span>Kai Blobel &amp; Team</span></span>
           </span>
+        </div>
+        <div class="nav-waffel-slot">
+          <button class="nav-waffel" type="button" aria-label="Anwendungen" aria-expanded="false" hidden>${icon('LayoutGrid', { size: 17 })}</button>
         </div>
         <nav class="nav-list">${NAV_ITEMS.map(sidebarItem).join('')}</nav>
         ${appVer ? `<a class="nav-version" href="/changelog.html" title="${window.APP_PHASE || ''}">${appVer}</a>` : ''}
@@ -180,7 +182,8 @@ export function renderNav(opts = {}) {
       <div class="nav-drawer" hidden>
         <div class="nav-drawer-panel">
           <button class="nav-drawer-close" type="button" aria-label="Menü schließen">${icon('X', { size: 22 })}</button>
-          <div class="nav-brand" aria-label="Empfehlungsportal, Regionaldirektion Kai Blobel und Team"><button class="nav-waffel" type="button" aria-label="Anwendungen" aria-expanded="false" hidden>${icon('LayoutGrid', { size: 17 })}</button><span class="nav-brand-mark"></span><span class="nav-brand-copy"><span class="nav-brand-name">Empfehlungsportal</span><span class="nav-brand-signature"><span>Regionaldirektion</span><span>Kai Blobel &amp; Team</span></span></span></div>
+          <div class="nav-brand" aria-label="Empfehlungsportal, Regionaldirektion Kai Blobel und Team"><span class="nav-brand-mark"></span><span class="nav-brand-copy"><span class="nav-brand-name">Empfehlungsportal</span><span class="nav-brand-signature"><span>Regionaldirektion</span><span>Kai Blobel &amp; Team</span></span></span></div>
+          <div class="nav-waffel-slot nav-waffel-slot-drawer"><button class="nav-waffel" type="button" aria-label="Anwendungen" aria-expanded="false" hidden>${icon('LayoutGrid', { size: 17 })}</button></div>
           <nav class="nav-list">${NAV_ITEMS.map(sidebarItem).join('')}</nav>
           <button class="nav-drawer-logout" type="button" id="navDrawerLogout">${icon('LogOut', { size: 16 })}<span>Abmelden</span></button>
         </div>
@@ -442,7 +445,7 @@ function meldeAnwesenheit() {
 }
 
 /* ------------------------------ Waffelmenue ------------------------------
-   Der Anwendungswechsler oben links. Inhalt kommt fertig von Kais zentraler
+   Der Anwendungswechsler steht getrennt vom Markenblock. Inhalt kommt fertig von Kais zentraler
    Freigabematrix in KAI. (ueber den Gleichursprungs-Proxy /api/waffel-config,
    der den Portal-Token prueft; das Tor-Wort zur KAI.-Route bleibt auf dem
    Server). Fail-closed: leerer Bestand oder Ladefehler heisst leeres Menue,
@@ -495,9 +498,11 @@ function waffelMarkup() {
         .nav-waffel{display:grid;place-items:center;width:30px;height:30px;flex:0 0 auto;border:1px solid var(--dna-line,#E3E7E9);border-radius:8px;background:transparent;color:var(--dna-ink-soft,#6A747C);cursor:pointer}
         .nav-waffel[hidden]{display:none!important}
         .nav-waffel:hover,.nav-waffel[aria-expanded="true"]{border-color:#1677B8;color:#1677B8}
-        .nav-waffel-mobile{position:fixed;top:12px;left:12px;z-index:110;background:#fff;box-shadow:0 4px 14px rgba(19,25,29,.10)}
+        .nav-waffel-slot{display:flex;justify-content:flex-end;padding:0 8px;margin-top:-18px;margin-bottom:-18px}
+        .nav-waffel-slot-drawer{position:absolute;top:66px;right:18px;margin:0;padding:0}
+        .nav-waffel-mobile{position:fixed;top:19px;right:64px;z-index:110;background:#fff;box-shadow:0 4px 14px rgba(19,25,29,.10)}
         @media (min-width:1024px){.nav-waffel-mobile{display:none!important}}
-        body.nav-collapsed .nav-waffel{margin:0 auto}
+        body.nav-collapsed .nav-waffel-slot{justify-content:center;padding:0}
       </style>
       <div class="waffel-overlay" hidden>
         <div class="waffel-panel" role="dialog" aria-modal="true" aria-label="Anwendungen">
