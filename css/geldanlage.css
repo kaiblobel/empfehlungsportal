@@ -1,0 +1,468 @@
+/* ============================================================
+   Geldanlage-Landingpage · Trust-Luxury-DNA
+   Konsistent zu empfaenger.css (Phase 9)
+   ============================================================ */
+
+:root {
+  --g-ivory:          #FAF8F5;
+  --g-warm-white:     #FFFCF7;
+  --g-anthracite:     #1C1C1E;
+  --g-deep-black:     #0A0A0B;
+  --g-muted:          #6E6E73;
+  --g-hairline:       rgba(28,28,30,0.08);
+  --g-champagne:      #C9B98A;
+  --g-champagne-soft: rgba(201,185,138,0.15);
+  --g-sage:           #7A8B6F;
+  --g-sage-soft:      rgba(122,139,111,0.12);
+  --g-marine:         #2E5266;
+  --g-shadow:         0 24px 60px -20px rgba(28,28,30,0.12);
+  --g-font-display:   -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --g-font-text:      -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body[data-page="geldanlage"] {
+  background: var(--g-ivory);
+  color: var(--g-anthracite);
+  font-family: var(--g-font-text);
+  font-weight: 400;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+body[data-page="geldanlage"] * { box-sizing: border-box; }
+
+/* ---------- Typografie ---------- */
+.g-eyebrow {
+  font-family: var(--g-font-text);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--g-champagne);
+  margin: 0 0 24px;
+}
+.g-h1 {
+  font-family: var(--g-font-display);
+  font-weight: 300;
+  font-size: clamp(40px, 9vw, 88px);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  color: var(--g-deep-black);
+  margin: 0;
+}
+.g-h2 {
+  font-family: var(--g-font-display);
+  font-weight: 300;
+  font-size: clamp(30px, 6.5vw, 52px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--g-deep-black);
+  margin: 0;
+}
+.g-lede {
+  font-family: var(--g-font-display);
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(18px, 3.5vw, 23px);
+  line-height: 1.45;
+  color: var(--g-muted);
+  margin: 0;
+}
+.g-body {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--g-muted);
+  margin: 0;
+  max-width: 600px;
+}
+
+/* ---------- Layout ---------- */
+.g-section {
+  padding: 96px 24px;
+}
+.g-section.alt {
+  background: var(--g-warm-white);
+}
+.g-section.dark {
+  background: var(--g-deep-black);
+  color: #fff;
+}
+.g-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.g-inner.wide { max-width: 960px; }
+
+/* ---------- Reveal ---------- */
+.g-reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.g-reveal.visible { opacity: 1; transform: none; }
+.g-reveal.d1 { transition-delay: 0.1s; }
+.g-reveal.d2 { transition-delay: 0.2s; }
+.g-reveal.d3 { transition-delay: 0.35s; }
+
+/* ---------- Hero ---------- */
+.g-hero {
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+.g-hero-portrait {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--g-champagne-soft);
+  margin-bottom: 4px;
+}
+.g-hero-name {
+  font-size: 13px;
+  color: var(--g-muted);
+  letter-spacing: 0.04em;
+}
+.g-hero-name strong {
+  color: var(--g-anthracite);
+  font-weight: 500;
+}
+.g-cta-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* ---------- Buttons ---------- */
+.g-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--g-font-text);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  padding: 14px 28px;
+  border-radius: 100px;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: background .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+.g-btn-primary {
+  background: var(--g-anthracite);
+  color: #fff;
+  box-shadow: 0 4px 18px rgba(28,28,30,0.18);
+}
+.g-btn-primary:hover {
+  background: var(--g-deep-black);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(28,28,30,0.22);
+}
+.g-btn-secondary {
+  background: transparent;
+  color: var(--g-muted);
+  border: 1.5px solid var(--g-hairline);
+}
+.g-btn-secondary:hover {
+  border-color: var(--g-champagne);
+  color: var(--g-anthracite);
+}
+
+/* ---------- Chart ---------- */
+.g-chart-wrap {
+  background: var(--g-warm-white);
+  border: 1px solid var(--g-hairline);
+  border-radius: 20px;
+  padding: 40px 32px 32px;
+  box-shadow: var(--g-shadow);
+}
+.g-chart-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.g-chart-legend {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.g-chart-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--g-muted);
+}
+.g-chart-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.g-chart-legend-dot.rendite    { background: #C4915A; }
+.g-chart-legend-dot.ausgewogen { background: var(--g-champagne); }
+.g-chart-legend-dot.sicher     { background: #85B4C4; }
+.g-chart-legend-dot.sparkonto  { background: #C0BEB8; }
+.g-chart-ev-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 24px;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--g-hairline);
+}
+@media (min-width: 640px) {
+  .g-chart-ev-grid { grid-template-columns: 1fr 1fr 1fr 1fr; }
+}
+.g-chart-ev-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ev-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: block;
+  margin-bottom: 2px;
+}
+.ev-dot.rendite    { background: #C4915A; }
+.ev-dot.ausgewogen { background: var(--g-champagne); }
+.ev-dot.sicher     { background: #85B4C4; }
+.ev-dot.sparkonto  { background: #C0BEB8; }
+.ev-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--g-muted);
+}
+.ev-amount {
+  font-family: var(--g-font-display);
+  font-size: clamp(18px, 3.5vw, 28px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--g-deep-black);
+}
+.ev-amount.ev-rendite    { color: #C4915A; }
+.ev-amount.ev-ausgewogen { color: var(--g-champagne); }
+.ev-amount.ev-muted      { color: var(--g-muted); }
+.g-chart-note {
+  margin-top: 16px;
+  font-size: 11px;
+  color: var(--g-muted);
+  opacity: 0.7;
+}
+
+/* ---------- Pillars ---------- */
+.g-pillars {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-top: 8px;
+}
+.g-pillar {
+  background: var(--g-warm-white);
+  border: 1px solid var(--g-hairline);
+  border-radius: 16px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.g-pillar-num {
+  font-family: var(--g-font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--g-champagne);
+}
+.g-pillar h3 {
+  font-family: var(--g-font-display);
+  font-size: clamp(20px, 4vw, 26px);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  color: var(--g-deep-black);
+  margin: 0;
+  line-height: 1.2;
+}
+.g-pillar p {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--g-muted);
+  margin: 0;
+}
+
+/* ---------- Selbst-Anlegen-Sektion ---------- */
+.g-quote {
+  border-left: 3px solid var(--g-champagne);
+  padding: 20px 24px;
+  background: var(--g-champagne-soft);
+  border-radius: 0 12px 12px 0;
+  font-family: var(--g-font-display);
+  font-size: clamp(18px, 3.5vw, 22px);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--g-anthracite);
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* ---------- Kontakt / CTA ---------- */
+.g-contact-card {
+  background: var(--g-warm-white);
+  border: 1px solid var(--g-hairline);
+  border-radius: 20px;
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+  box-shadow: var(--g-shadow);
+}
+.g-contact-portrait {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--g-champagne-soft);
+}
+.g-contact-name {
+  font-family: var(--g-font-display);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--g-deep-black);
+  letter-spacing: -0.01em;
+}
+.g-contact-role {
+  font-size: 13px;
+  color: var(--g-muted);
+  margin-top: -12px;
+}
+.g-optout {
+  font-size: 13px;
+  color: var(--g-muted);
+  margin-top: 8px;
+}
+.g-optout a, .g-optout label {
+  color: var(--g-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* ---------- Footer ---------- */
+.g-footer {
+  padding: 40px 24px;
+  text-align: center;
+  font-size: 13px;
+  color: rgba(255,255,255,0.45);
+}
+.g-footer a { color: rgba(255,255,255,0.45); text-decoration: none; }
+
+/* ---------- Sticky CTA ---------- */
+.g-sticky {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--g-deep-black);
+  padding: 16px 24px;
+  display: flex;
+  justify-content: center;
+  z-index: 100;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+.g-sticky.visible { transform: translateY(0); }
+.g-sticky a {
+  color: #fff;
+  font-family: var(--g-font-text);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Mobile ---------- */
+@media (min-width: 640px) {
+  .g-pillars { grid-template-columns: 1fr 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .g-section { padding: 72px 20px; }
+  .g-contact-card { padding: 36px 24px; }
+  .g-chart-wrap { padding: 28px 20px 24px; }
+  .g-chart-ev-grid { gap: 14px 16px; }
+}
+
+/* ---------- Anleger-Typ Karten ---------- */
+.g-type-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 640px) {
+  .g-type-cards { grid-template-columns: 1fr 1fr 1fr; }
+}
+.g-type-card {
+  background: var(--g-warm-white);
+  border: 1.5px solid var(--g-hairline);
+  border-radius: 16px;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.g-type-card:hover {
+  border-color: var(--g-champagne);
+  transform: translateY(-2px);
+  box-shadow: var(--g-shadow);
+}
+.g-type-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: block;
+}
+.g-type-dot.sicher     { background: #85B4C4; }
+.g-type-dot.ausgewogen { background: var(--g-champagne); }
+.g-type-dot.rendite    { background: #C4915A; }
+.g-type-card h3 {
+  font-family: var(--g-font-display);
+  font-size: clamp(18px, 3.5vw, 22px);
+  font-weight: 300;
+  color: var(--g-deep-black);
+  margin: 0;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.g-type-card p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--g-muted);
+  margin: 0;
+  flex: 1;
+}
+.g-type-result {
+  font-family: var(--g-font-display);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--g-champagne);
+  letter-spacing: -0.01em;
+  margin-top: 4px;
+}
