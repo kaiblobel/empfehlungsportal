@@ -34,13 +34,13 @@ assert.doesNotMatch(tag, /autoplay/);
 assert.match(tag, /controls/);
 assert.match(tag, /preload="none"/);
 assert.match(tag, /playsinline/);
-assert.match(tag, /poster="\/assets\/video\/formel-finanzielles-glueck-poster\.jpg"/);
-assert.match(html, /<source src="\/assets\/video\/formel-finanzielles-glueck\.mp4" type="video\/mp4"/);
+assert.match(tag, /poster="\/assets\/video\/formel-finanzielles-glueck-erstgespraech-v3-poster\.jpg"/);
+assert.match(html, /<source src="\/assets\/video\/formel-finanzielles-glueck-erstgespraech-v3\.mp4" type="video\/mp4"/);
 assert.match(html, /hier herunterladen/);
 
 // --- Die Dateien liegen da und bleiben handytauglich ---
-const video = await stat(new URL('../assets/video/formel-finanzielles-glueck.mp4', import.meta.url));
-const poster = await stat(new URL('../assets/video/formel-finanzielles-glueck-poster.jpg', import.meta.url));
+const video = await stat(new URL('../assets/video/formel-finanzielles-glueck-erstgespraech-v3.mp4', import.meta.url));
+const poster = await stat(new URL('../assets/video/formel-finanzielles-glueck-erstgespraech-v3-poster.jpg', import.meta.url));
 assert.ok(video.size > 0 && video.size < 10 * 1024 * 1024,
   `Video zu gross fuers Handy: ${(video.size / 1024 / 1024).toFixed(1)} MB`);
 assert.ok(poster.size > 0 && poster.size < 400 * 1024);
