@@ -1,7 +1,18 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.332 Beta** · Entwicklung ansehen springt zur Person, live seit 21.08.2026.
+Offizielle Live-Version: **v1.333 Beta** · Themenseite zeigt wieder den ursprünglichen Film, live seit 31.08.2026.
+
+## v1.333 Beta - Phase 317 · Themenseite zeigt wieder den ursprünglichen Film
+**2026-08-31**
+
+Auf der allgemeinen Themenseite lief seit dem 29.08. eine 25 Sekunden kurze Probefassung des Erstgesprächsfilms. Sie war als Test gedacht und ist versehentlich mit veröffentlicht worden. Kapitel 2 spielt jetzt wieder den ursprünglichen Film über die Formel zum finanziellen Glück, mit dem alten Vorschaubild, dem Text „Anderthalb Minuten“ und der Laufzeitangabe 1:37.
+
+Die drei Probedateien sind aus dem Projekt entfernt, nicht nur abgehängt. Der Wächter `tests/ki-kennzeichnung.test.mjs` duldet keine Videodatei, die von keiner Seite eingebunden wird: Eine verwaiste Datei bliebe über ihre Adresse abrufbar, ohne dass der Pflichthinweis zur KI daneben steht.
+
+Der Promoterfilm in der Präsentation bleibt unangetastet, dort läuft weiter die neue 60-Sekunden-Fassung.
+
+---
 
 ## v1.332 Beta - Phase 316 · Entwicklung ansehen springt zur Person
 **2026-08-21**
