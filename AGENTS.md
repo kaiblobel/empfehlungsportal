@@ -112,6 +112,37 @@ Customer-facing Pages folgen **NICHT** dem Editorial-OS Hub-Pattern, sondern eig
 
 ---
 
+## Filme auf Kundenseiten — Freigabe durch Kai, ohne Ausnahme
+
+Am 29.08.2026 ging eine 25 Sekunden lange Probefassung des Erstgespraechsfilms auf die
+Themenseite und war sofort live, weil jeder Push auf `main` bei Vercel veroeffentlicht wird.
+Kai hat sie nie gesehen. Gemerkt hat es niemand, bis er zwei Tage spaeter selbst auf die
+Seite ging.
+
+**Regel:** Ein Film auf einer Kundenseite (`programm.html`, `empfaenger.html`, `baufi.html`)
+laeuft erst, wenn Kai ihn angesehen und freigegeben hat. Das gilt auch fuer eine neue Fassung
+desselben Films und auch fuer die zweite `<source>`-Zeile, die nur als Rueckfall gedacht ist.
+
+**Ablauf:**
+1. Neuen Film nach `assets/video/` legen. Seite **nicht** anfassen.
+2. Kai fragen, ihn ansehen lassen.
+3. Erst nach seinem Ja: Eintrag in `assets/video/FREIGABEN.json` unter `freigegeben`
+   (mit Pruefsumme aus `sha256sum`), dann die Seite umstellen.
+
+**Kein Agent traegt sich dort selbst ein.** Wer den Eintrag ohne Kais Ja setzt, umgeht keine
+Technik, sondern faelscht eine Freigabe.
+
+**Zwei Waechter halten das:**
+- `tests/video-freigabe.test.mjs` — eingebundener Film ohne Eintrag oder mit abweichender
+  Pruefsumme macht den Test rot.
+- `.githooks/pre-push` — bricht das Hochladen ab, sobald ein Film oder eine Seite mit Film
+  betroffen ist und einer der Waechter rot steht.
+
+Eingeschaltet mit `git config core.hooksPath .githooks` (gilt pro Arbeitskopie, eine frisch
+geklonte braucht die Zeile erneut).
+
+---
+
 ## Workflow-Regeln (Memory)
 
 - **Sprache**: Antworten immer auf Deutsch

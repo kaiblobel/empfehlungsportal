@@ -1,7 +1,24 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.333 Beta** · Themenseite zeigt wieder den ursprünglichen Film, live seit 31.08.2026.
+Offizielle Live-Version: **v1.334 Beta** · Kein Film ohne Kais Freigabe, live seit 31.08.2026.
+
+## v1.334 Beta - Phase 318 · Kein Film ohne Kais Freigabe
+**2026-08-31**
+
+Am 29.08. ging eine Probefassung des Erstgesprächsfilms auf die Themenseite, ohne dass Kai sie gesehen hatte. Jeder Push auf `main` veröffentlicht bei Vercel sofort, also war sie damit live. Auffallen konnte es niemandem: Es gab keine Stelle, an der steht, welcher Film laufen darf.
+
+Die gibt es jetzt. `assets/video/FREIGABEN.json` führt jeden freigegebenen Film mit Prüfsumme, Laufzeit, Datum und dem Namen dessen, der ihn freigegeben hat. Die Prüfsumme hängt am Inhalt, nicht am Dateinamen: Eine andere Fassung unter demselben Namen ist eine neue Fassung und fällt auf.
+
+Zwei Wächter halten die Liste. `tests/video-freigabe.test.mjs` wird rot, sobald eine Seite einen Film einbindet, der nicht freigegeben ist. Gezählt wird auch die zweite `<source>`-Zeile, die nur als Rückfall gedacht ist: Sie spielt vor denselben Kundenaugen. `.githooks/pre-push` bricht das Hochladen ab, sobald ein Film oder eine Seite mit Film betroffen ist und einer der Wächter rot steht. Eingeschaltet mit `git config core.hooksPath .githooks`.
+
+Zur Probe rückwärts angewendet: Der 25-Sekunden-Film hätte den Push nicht überstanden. Der bestehende Wächter für die KI-Kennzeichnung hätte ihn durchgelassen, denn gekennzeichnet war er. Er war nur nicht gewollt. Kennzeichnung und Freigabe sind zwei verschiedene Fragen.
+
+Der Promoterfilm der Präsentation stand seit dem 29.08. in einer neuen Fassung live, ebenfalls ungefragt. Kai hat sie am 31.08. angesehen und freigegeben, sie bleibt.
+
+Die Regel steht zusätzlich in `AGENTS.md` und `CLAUDE.md`, damit sie jeder Agent liest, bevor er einen Film anfasst: Film ablegen, Kai fragen, erst nach seinem Ja die Seite umstellen. Kein Agent trägt sich selbst in die Freigabeliste ein.
+
+---
 
 ## v1.333 Beta - Phase 317 · Themenseite zeigt wieder den ursprünglichen Film
 **2026-08-31**
