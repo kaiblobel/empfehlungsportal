@@ -246,7 +246,7 @@ const TOPICS = {
     ],
     options: [
       ['verstehen', 'Ich möchte KIDZ erst einmal verstehen', 'Die drei Grundlagen werden in Ruhe erklärt, ohne Termin und ohne Verpflichtung.'],
-      ['elternabend', 'Ich möchte zu einem Elternabend', 'Dort wird das Konzept gemeinsam vorgestellt, mit Zeit für Fragen.'],
+      ['elternabend', 'Ich möchte zu KIDZ for Future', 'Dort wird das Konzept gemeinsam vorgestellt, mit Zeit für Fragen.'],
       ['familie', 'Ich möchte es für meine Familie einordnen', 'Im persönlichen Gespräch wird geklärt, was zur eigenen Situation passt.']
     ],
     scopes: [
@@ -257,7 +257,7 @@ const TOPICS = {
     ],
     tools: [
       ['KIDZ für Eltern', 'Das Elternkonzept in Ruhe ansehen', 'Die drei Grundlagen, konkrete Möglichkeiten und häufige Fragen, verständlich auf einer Seite.', '/kidz/konzept'],
-      ['Elternabend', 'Unverbindlich vormerken lassen', 'Das Konzept wird in kleiner Runde vorgestellt. Eine Vormerkung ist keine Anmeldung zu etwas anderem.', '/kidz/elternabend'],
+      ['KIDZ for Future', 'Unverbindlich vormerken lassen', 'Das Konzept wird in kleiner Runde vorgestellt. Eine Vormerkung ist keine Anmeldung zu etwas anderem.', '/kidz/elternabend'],
       ['Familiengespräch', 'Den Plan für Ihr Kind gemeinsam aufsetzen', 'Ziele und Möglichkeiten werden in Ruhe und ohne Abschlussdruck sortiert.', '#termin']
     ]
   },

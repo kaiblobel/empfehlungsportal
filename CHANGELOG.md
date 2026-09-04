@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.334 Beta** · Kein Film ohne Kais Freigabe, live seit 31.08.2026.
+Offizielle Live-Version: **v1.335 Beta** · Der Elternabend heißt KIDZ for Future, live seit 05.09.2026.
+
+## v1.335 Beta - Phase 320 · Der Elternabend heißt KIDZ for Future
+**2026-09-05**
+
+Der KIDZ-Elternabend heißt ab sofort **KIDZ for Future**. Umbenannt wurde überall dort, wo der Name gelesen wird: auf der Vormerkungsseite `/kidz/elternabend`, im freiwilligen Häkchen der Gewinnspiel-Anmeldung samt Datenschutzabsatz, auf der Elternkonzeptseite mit ihren Schaltflächen, Fragen und dem Vormerk-Dialog, auf der Empfehlungsseite, in der Themenvorschau sowie im Beraterbereich (Menüeintrag, Kopfzeile, Kennzahl, Filter, Nacherfassung, Spaltenkopf im CSV und Name der Exportdatei).
+
+Nicht angefasst wurde alles, woran Daten oder gedrucktes Material hängen: die Adresse `/kidz/elternabend` samt QR-Codes, die Dateinamen, die Tabelle `kidz_elternabend_anmeldungen`, die Spalte `elternabend_interesse`, der Formularname `parentEvening`, die Herkunft `elternabend-qr` und der Bereichsschlüssel `kidz_elternabend`. Ein Name auf der Seite lässt sich ändern, eine Adresse auf einem gedruckten QR-Code nicht.
+
+Zwei Stellen brauchten mehr als ein Wort. Im Gewinnspielformular steht der neue Name ohne Zusammenhang, weil dort sonst nirgends von dem Abend die Rede ist. Deshalb heißt es dort "zum nächsten KIDZ for Future, dem Abend für Eltern". Und auf der Konzeptseite bezog sich der Folgesatz grammatisch auf "der Elternabend"; er lautet jetzt "Der Abend bringt Eltern in entspannter Runde zusammen".
+
+Die Zeitfenster bleiben, wie sie waren: Die Schätzung des Ballumfangs und das Häkchen öffnen weiterhin erst am 6. September.
+
 
 ## v1.334 Beta - Phase 318 · Kein Film ohne Kais Freigabe
 **2026-08-31**

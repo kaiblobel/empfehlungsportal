@@ -123,7 +123,7 @@ function render() {
       <div>
         ${entry.source === ONSITE_SOURCE ? '<span class="kg-admin-badge kg-admin-badge-onsite">Vor Ort · Papier</span>' : ''}
         <button class="kg-admin-manage" type="button" data-guess-participant="${escapeHtml(entry.id)}">${hasGuess ? `Schätzung: ${escapeHtml(String(entry.schaetzung_cm))} cm` : 'Schätzung eintragen'}</button>
-        <span class="kg-admin-badge ${entry.elternabend_interesse ? '' : 'kg-admin-badge-none'}">Elternabend: ${entry.elternabend_interesse ? 'Interesse' : 'Nein'}</span>
+        <span class="kg-admin-badge ${entry.elternabend_interesse ? '' : 'kg-admin-badge-none'}">KIDZ for Future: ${entry.elternabend_interesse ? 'Interesse' : 'Nein'}</span>
         ${currentAdvisor?.ist_admin ? `<button class="kg-admin-manage" type="button" data-manage-participant="${escapeHtml(entry.id)}">Teilnahme verwalten</button>` : ''}
       </div>
     </article>
@@ -158,7 +158,7 @@ function csvCell(value) {
 }
 
 function exportCsv() {
-  const header = ['Teilnahmebestätigung', 'Erfassungsweg', 'Personen', 'Schätzung in cm', 'Name', 'E-Mail', 'Mobilnummer', 'Vermögensberater', 'Eingeladen von', 'Quelle', 'Elternabend-Interesse', 'Teilnahmebedingungen', 'Angemeldet am'];
+  const header = ['Teilnahmebestätigung', 'Erfassungsweg', 'Personen', 'Schätzung in cm', 'Name', 'E-Mail', 'Mobilnummer', 'Vermögensberater', 'Eingeladen von', 'Quelle', 'KIDZ for Future', 'Teilnahmebedingungen', 'Angemeldet am'];
   const rows = entries.map((entry) => [
     entry.reference,
     entry.source === ONSITE_SOURCE ? 'Vor Ort (Papier)' : 'Online',

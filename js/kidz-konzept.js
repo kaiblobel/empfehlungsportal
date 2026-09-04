@@ -45,8 +45,8 @@
 
   const pathData = {
     elternabend: {
-      title: 'Elternabend vormerken',
-      intro: 'Sie möchten beim nächsten passenden Elternabend gern dabei sein. Termin und Ort bestätigen Sie später in Ruhe.',
+      title: 'KIDZ for Future vormerken',
+      intro: 'Sie möchten beim nächsten passenden Termin von KIDZ for Future gern dabei sein. Termin und Ort bestätigen Sie später in Ruhe.',
       number: '01',
       choice: 'Teilnahme vormerken',
       detail: 'Noch keine feste Zusage und ohne Beratungspflicht',
@@ -60,7 +60,7 @@
       choice: 'Einmalig informieren lassen',
       detail: 'Keine Vormerkung und keine weitere Kontaktfolge',
       contactTitle: 'So kurz erhalten Sie die Termininfo.',
-      consent: 'Ich möchte einmalig Datum und Ort des nächsten KIDZ-Elternabends erhalten.'
+      consent: 'Ich möchte einmalig Datum und Ort des nächsten KIDZ for Future erhalten.'
     },
     gespraech: {
       title: 'Persönlich sprechen',
@@ -137,7 +137,7 @@
       return `${target.pathname}${target.search}#anmeldung`;
     }
     const messages = {
-      termininfo: 'Hallo Kai, ich möchte gern einmalig über den nächsten KIDZ-Elternabend informiert werden.',
+      termininfo: 'Hallo Kai, ich möchte gern einmalig über den nächsten Termin von KIDZ for Future informiert werden.',
       gespraech: 'Hallo Kai, ich möchte das KIDZ-Konzept gern persönlich für meine Familie einordnen.',
     };
     return `https://wa.me/4915154776159?text=${encodeURIComponent(messages[path] || messages.gespraech)}`;

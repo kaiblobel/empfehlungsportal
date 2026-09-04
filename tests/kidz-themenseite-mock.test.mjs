@@ -36,7 +36,7 @@ assert.match(html, /id="contactConsent" type="checkbox" required/);
 assert.doesNotMatch(html, /id="contactConsent"[^>]*\bchecked\b/);
 assert.match(html, /Nur Termininfo erhalten/);
 assert.match(html, /ohne sich schon für eine Teilnahme vorzumerken/);
-assert.match(html, /Wer führt den Elternabend durch\?/);
+assert.match(html, /Wer führt KIDZ for Future durch\?/);
 assert.doesNotMatch(html, /Für dieses Muster wurden keine künstlich erzeugten Ersatzbilder verwendet/);
 assert.match(html, /kidz-logo-original\.png/);
 assert.match(html, /kidz-lok-vermoegensaufbau-original\.png/);

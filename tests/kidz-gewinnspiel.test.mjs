@@ -159,7 +159,7 @@ const organizerLogoStat = await stat(new URL('../assets/images/team-wachsbleiche
 
 assert.match(html, /id="kgConsent"/);
 assert.match(html, /id="kgParentEvening"/);
-// Das Elternabend-Haekchen ist bis zum Veranstaltungstag ausgeblendet.
+// Das Haekchen fuer KIDZ for Future ist bis zum Veranstaltungstag ausgeblendet.
 assert.match(html, /id="kgParentEveningRow" hidden/);
 // Derselbe Hinweis bleibt bis dahin ebenfalls verborgen. Auswahl und Erklärung
 // dürfen nie unabhängig voneinander sichtbar sein.
@@ -274,7 +274,7 @@ assert.match(adminJs, /delete_kidz_gewinnspiel_participation/);
 assert.match(adminJs, /\['test', 'duplicate', 'erasure_request'\]/);
 assert.match(navJs, /label: 'KIDZ'/);
 assert.match(navJs, /Sommerfest-Gewinnspiel/);
-assert.match(navJs, /Elternabend/);
+assert.match(navJs, /KIDZ for Future/);
 assert.match(vercel, /\/kidz\/gewinnspiel/);
 assert.match(vercel, /kidz\.teamwachsbleiche\.de/);
 assert.match(vercel, /kidz\.kaiblobel\.de/);
