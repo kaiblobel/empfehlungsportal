@@ -8,7 +8,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 
 const nav = readFileSync('js/nav.js', 'utf8');
 const icons = readFileSync('js/icons.js', 'utf8');
-const proxy = readFileSync('api/waffel-config.js', 'utf8');
+const proxy = readFileSync('api/bruecke.js', 'utf8');
 
 // Die oeffentlichen Seitentypen, auf denen NIE ein Waffelmenue stehen darf.
 const OEFFENTLICH = [

@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.339 Beta** · Der Anwendungswechsler im Portal, Stand 05.09.2026.
+Offizielle Live-Version: **v1.340 Beta** · Zwei Brücken, eine Funktion, live seit 05.09.2026.
+
+## v1.340 Beta - Phase 325 · Zwei Brücken, eine Funktion
+**2026-09-05**
+
+Die Veröffentlichung von Phase 324 ist gescheitert, und der Grund stand nirgends: Der Bau lief sauber durch ("Build Completed"), und beim Ausliefern stand nur "Error", ohne eine Zeile Begründung.
+
+Die Ursache ist eine Kontingentgrenze. Das Vercel-Konto läuft auf dem kostenlosen Tarif, der **zwölf Serverless-Funktionen** je Veröffentlichung erlaubt. Das Portal hatte genau zwölf. Der Waffel-Vermittler war die dreizehnte. Dieselbe Wand hatte übrigens schon alle Vorschau-Veröffentlichungen der letzten zwölf Tage rot gemacht, ohne dass es jemandem aufgefallen wäre.
+
+Der Waffel-Vermittler und der Potenzialbuch-Anschluss wohnen jetzt zusammen in `api/bruecke.js`. Das passt inhaltlich: beides sind Gleichursprungs-Vermittler, die einen Portal-Token prüfen und dann mit einem Geheimnis nach außen gehen, das den Browser nie erreicht. Macht zwölf Funktionen, und die Veröffentlichung geht durch.
+
+**Die alten Adressen bleiben.** `/api/cockpit-potenzial` und `/api/waffel-config` zeigen über zwei Umleitungen auf die neue Datei. Das ist Absicht, kein Schönheitsfehler: Das Portal ist eine PWA, und in den Browsern der Berater liegen ältere Fassungen der Skripte im Zwischenspeicher. Würde eine alte Adresse verschwinden, fände genau deren Potenzialbuch nichts mehr. Am Verhalten nach außen ändert sich nichts, an den Prüfungen der beiden Brücken auch nicht.
+
+Vier neue Wächter, damit diese Wand nicht wieder blind getroffen wird: die Zahl der Funktionen, beide Umleitungen samt ihrer Reihenfolge vor der Auffangregel, die Zuordnung Adresse zu Brücke, und dass ein Aufruf ohne erkennbaren Dienst abgewiesen und nicht erraten wird. Jeder einmal zurückgedreht und rot geworden.
 
 ## v1.339 Beta - Phase 324 · Der Anwendungswechsler im Portal
 **2026-09-05**

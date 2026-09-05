@@ -26,6 +26,8 @@
     }
   ],
   "rewrites": [
+    { "source": "/api/cockpit-potenzial", "destination": "/api/bruecke?dienst=potenzialbuch" },
+    { "source": "/api/waffel-config", "destination": "/api/bruecke?dienst=waffel" },
     { "source": "/baufinanzierung", "destination": "/baufi.html" },
     { "source": "/baufinanzierung/:berater", "destination": "/baufi.html?berater=:berater" },
     { "source": "/empfehlung/:token", "destination": "/api/share?token=:token" },

@@ -1,6 +1,8 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const handler = require('../api/cockpit-potenzial.js');
+const bruecke = require('../api/bruecke.js');
+const handler = bruecke.potenzialbuch;
+handler._test = bruecke._test;
 
 function responseRecorder() {
   return {
