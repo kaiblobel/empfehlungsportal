@@ -3,11 +3,11 @@ body[data-page="potenziale"] { background:var(--bg-primary,var(--bg)); color:var
 .potential-hero-actions { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:9px; }
 .potential-main { max-width:1380px; gap:0; padding-top:38px; padding-bottom:88px; }
 .potential-hero { display:flex; align-items:flex-end; justify-content:space-between; gap:28px; margin-bottom:22px; }
-.potential-hero h1 { margin:8px 0 0; font-size:clamp(32px,3.4vw,46px); font-weight:800; line-height:1.04; letter-spacing:-.045em; }
+.potential-hero h1 { margin:8px 0 0; font-size:clamp(32px,3.4vw,46px); font-weight:700; line-height:1.04; letter-spacing:-.045em; }
 .potential-hero p { max-width:720px; margin:12px 0 0; color:var(--ink-muted,var(--ink-muted)); font-size:14px; line-height:1.6; }
 .potential-primary,.potential-copy,.potential-secondary { min-height:44px; border-radius:10px; font:700 12px/1 Inter,sans-serif; cursor:pointer; transition:transform .16s ease,box-shadow .16s ease,background .16s ease,border-color .16s ease; }
 .potential-primary { padding:0 18px; border:1px solid var(--ink); background:var(--ink); color:#fff; box-shadow:0 4px 12px rgba(28,26,22,.12); }
-.potential-primary[data-icon="plus"]::before { content:'+'; margin-right:7px; font-size:17px; font-weight:500; vertical-align:-1px; }
+.potential-primary[data-icon="plus"]::before { content:'+'; margin-right:7px; font-size:17px; font-weight:400; vertical-align:-1px; }
 .potential-primary:hover:not(:disabled) { transform:translateY(-1px); box-shadow:0 7px 18px rgba(28,26,22,.16); }
 .potential-primary:disabled { opacity:.42; cursor:not-allowed; }
 .potential-secondary { padding:0 16px; border:1px solid var(--hairline,var(--hairline)); background:var(--surface); color:var(--ink,var(--ink)); }
@@ -16,7 +16,7 @@ body[data-page="potenziale"] { background:var(--bg-primary,var(--bg)); color:var
 .potential-copy:hover { background:rgba(11,70,80,.13); }
 
 .potential-boundary { display:flex; align-items:flex-start; gap:11px; margin-bottom:22px; padding:12px 14px; border:1px solid rgba(11,70,80,.20); border-radius:11px; background:rgba(11,70,80,.07); color:var(--ink-muted); }
-.potential-boundary > span { display:grid; place-items:center; flex:0 0 22px; height:22px; border-radius:50%; background:rgba(11,70,80,.16); font-size:11px; font-weight:800; }
+.potential-boundary > span { display:grid; place-items:center; flex:0 0 22px; height:22px; border-radius:50%; background:rgba(11,70,80,.16); font-size:11px; font-weight:700; }
 .potential-boundary p { margin:1px 0 0; font-size:11.5px; line-height:1.5; }
 .potential-boundary strong { color:var(--ink-muted); }
 
@@ -24,25 +24,25 @@ body[data-page="potenziale"] { background:var(--bg-primary,var(--bg)); color:var
 .potential-kpi { position:relative; min-width:0; min-height:128px; padding:19px 20px; }
 .potential-kpi + .potential-kpi { border-left:1px solid var(--hairline,var(--hairline)); }
 .potential-kpi-dot { display:block; width:9px; height:9px; border-radius:50%; background:var(--potential-tone); box-shadow:0 0 0 5px color-mix(in srgb,var(--potential-tone) 12%,white); }
-.potential-kpi strong { display:block; margin-top:18px; font-size:31px; font-weight:800; line-height:1; letter-spacing:-.04em; font-variant-numeric:tabular-nums; }
-.potential-kpi > span:last-of-type { display:block; margin-top:7px; color:var(--ink-muted,var(--ink-muted)); font-size:12px; font-weight:650; }
+.potential-kpi strong { display:block; margin-top:18px; font-size:31px; font-weight:700; line-height:1; letter-spacing:-.04em; font-variant-numeric:tabular-nums; }
+.potential-kpi > span:last-of-type { display:block; margin-top:7px; color:var(--ink-muted,var(--ink-muted)); font-size:12px; font-weight:400; }
 .potential-kpi small { display:block; overflow:hidden; margin-top:5px; color:var(--ink-soft,var(--ink-soft)); font-size:9.5px; text-overflow:ellipsis; white-space:nowrap; }
 
 .potential-workspace { min-width:0; }
 .potential-toolbar { display:flex; align-items:flex-end; justify-content:space-between; gap:22px; margin-bottom:12px; }
-.potential-toolbar h2 { margin:7px 0 0; font-size:19px; font-weight:750; letter-spacing:-.022em; }
+.potential-toolbar h2 { margin:7px 0 0; font-size:19px; font-weight:700; letter-spacing:-.022em; }
 .potential-controls { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:end; gap:16px; min-width:0; margin-bottom:16px; padding:12px; border:1px solid var(--hairline,var(--hairline)); border-radius:12px; background:var(--surface); }
 .potential-control-tools { display:flex; align-items:flex-end; gap:8px; width:556px; max-width:100%; min-width:0; }
 .potential-search { display:flex; align-items:center; flex:1; width:auto; min-height:42px; padding:0 12px; border:1px solid var(--hairline,var(--hairline)); border-radius:10px; background:var(--surface); color:var(--ink-soft,var(--ink-soft)); box-shadow:0 1px 3px rgba(19,25,29,.03); }
 .potential-search:focus-within { border-color:var(--accent); box-shadow:0 0 0 3px rgba(200,170,34,.14); }
 .potential-search > span { flex:0 0 auto; margin-right:8px; font-size:19px; line-height:1; }
-.potential-search input { width:100%; min-width:0; border:0; outline:0; background:transparent; color:var(--ink,var(--ink)); font:500 12px/1.4 Inter,sans-serif; }
+.potential-search input { width:100%; min-width:0; border:0; outline:0; background:transparent; color:var(--ink,var(--ink)); font:400 12px/1.4 Inter,sans-serif; }
 .potential-search input::placeholder { color:var(--ink-soft,var(--ink-soft)); }
 .potential-strength-filter { min-width:0; }
-.potential-filter-heading { margin-bottom:7px; color:var(--ink-soft,var(--ink-soft)); font-size:8.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+.potential-filter-heading { margin-bottom:7px; color:var(--ink-soft,var(--ink-soft)); font-size:8.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
 .potential-strength-buttons { display:flex; gap:6px; max-width:100%; overflow-x:auto; padding:1px 1px 3px; scrollbar-width:none; }
 .potential-strength-buttons::-webkit-scrollbar { display:none; }
-.potential-strength-buttons button { --strength-bg:var(--surface-2); --strength-fg:var(--ink-muted); display:inline-flex; align-items:center; gap:6px; flex:0 0 auto; min-height:38px; padding:0 11px; border:1px solid var(--hairline,var(--hairline)); border-radius:9px; background:var(--surface); color:var(--ink-muted,var(--ink-muted)); font:750 9.5px/1 Inter,sans-serif; cursor:pointer; }
+.potential-strength-buttons button { --strength-bg:var(--surface-2); --strength-fg:var(--ink-muted); display:inline-flex; align-items:center; gap:6px; flex:0 0 auto; min-height:38px; padding:0 11px; border:1px solid var(--hairline,var(--hairline)); border-radius:9px; background:var(--surface); color:var(--ink-muted,var(--ink-muted)); font:700 9.5px/1 Inter,sans-serif; cursor:pointer; }
 .potential-strength-buttons button > span:first-child { display:grid; place-items:center; width:20px; height:20px; border-radius:7px; background:var(--strength-bg); color:var(--strength-fg); }
 .potential-strength-buttons button svg { width:13px; height:13px; }
 .potential-strength-buttons button[data-strength-filter="kalt"] { --strength-bg:rgba(11,70,80,.10); --strength-fg:var(--marine); }
@@ -68,7 +68,7 @@ body[data-page="potenziale"] { background:var(--bg-primary,var(--bg)); color:var
 .potential-more-filters .potential-circle-filter-body { width:min(620px,calc(100vw - 40px)); }
 .potential-process-filter { margin-bottom:14px; padding-bottom:11px; border-bottom:1px solid var(--surface-2); }
 .potential-circle-options { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:7px; }
-.potential-circle-options label { display:flex; align-items:center; gap:7px; min-height:36px; padding:7px 9px; border:1px solid var(--surface-2); border-radius:8px; color:var(--ink-muted,var(--ink-muted)); font-size:9px; font-weight:650; cursor:pointer; }
+.potential-circle-options label { display:flex; align-items:center; gap:7px; min-height:36px; padding:7px 9px; border:1px solid var(--surface-2); border-radius:8px; color:var(--ink-muted,var(--ink-muted)); font-size:9px; font-weight:400; cursor:pointer; }
 .potential-circle-options label:has(input:checked) { border-color:rgba(200,170,34,.72); background:rgba(200,170,34,.11); color:var(--accent-hover); }
 .potential-circle-options input { accent-color:var(--accent-hover); }
 .potential-filter-reset { min-height:34px; margin-top:11px; padding:0 11px; border:1px solid var(--hairline,var(--hairline)); border-radius:8px; background:var(--surface); color:var(--ink-muted,var(--ink-muted)); font:700 9px/1 Inter,sans-serif; cursor:pointer; }
@@ -85,11 +85,11 @@ body[data-page="potenziale"] { background:var(--bg-primary,var(--bg)); color:var
 .potential-card:hover { transform:translateY(-2px); border-color:var(--hairline-strong,var(--hairline)); box-shadow:var(--shadow-card-hover,0 12px 28px rgba(19,25,29,.07)); }
 .potential-card.overdue { border-color:rgba(200,170,34,.26); }
 .potential-card-head { display:grid; grid-template-columns:42px minmax(0,1fr) auto; align-items:center; gap:11px; }
-.potential-avatar { display:grid; place-items:center; width:42px; height:42px; border-radius:12px; background:var(--avatar-bg,var(--accent-bg)); color:var(--avatar-fg,var(--accent-hover)); font-size:12px; font-weight:800; letter-spacing:.02em; }
+.potential-avatar { display:grid; place-items:center; width:42px; height:42px; border-radius:12px; background:var(--avatar-bg,var(--accent-bg)); color:var(--avatar-fg,var(--accent-hover)); font-size:12px; font-weight:700; letter-spacing:.02em; }
 .potential-person { min-width:0; }
-.potential-person h3 { overflow:hidden; margin:0; font-size:14px; font-weight:750; letter-spacing:-.015em; text-overflow:ellipsis; white-space:nowrap; }
+.potential-person h3 { overflow:hidden; margin:0; font-size:14px; font-weight:700; letter-spacing:-.015em; text-overflow:ellipsis; white-space:nowrap; }
 .potential-person p { overflow:hidden; margin:5px 0 0; color:var(--ink-soft,var(--ink-soft)); font-size:9.5px; text-overflow:ellipsis; white-space:nowrap; }
-.potential-status { padding:6px 8px; border-radius:999px; background:var(--status-bg,var(--surface-2)); color:var(--status-fg,var(--ink-muted)); font-size:8.5px; font-weight:750; white-space:nowrap; }
+.potential-status { padding:6px 8px; border-radius:999px; background:var(--status-bg,var(--surface-2)); color:var(--status-fg,var(--ink-muted)); font-size:8.5px; font-weight:700; white-space:nowrap; }
 .potential-status[data-status="angesprochen"] { --status-bg:rgba(200,170,34,.16); --status-fg:var(--accent-hover); }
 .potential-status[data-status="im_gespraech"] { --status-bg:rgba(11,70,80,.13); --status-fg:var(--ink-muted); }
 .potential-status[data-status="termin"] { --status-bg:rgba(200,170,34,.13); --status-fg:var(--accent-hover); }
@@ -98,7 +98,7 @@ body[data-page="potenziale"] { background:var(--bg-primary,var(--bg)); color:var
 .potential-strength-line { display:flex; align-items:center; gap:9px; min-width:0; margin-top:14px; }
 .potential-strength-badge { --strength-bg:var(--surface-2); --strength-fg:var(--ink-muted); display:inline-flex; align-items:center; gap:6px; flex:0 0 auto; min-height:29px; padding:0 9px; border:1px solid color-mix(in srgb,var(--strength-fg) 18%,white); border-radius:9px; background:var(--strength-bg); color:var(--strength-fg); }
 .potential-strength-badge svg { width:14px; height:14px; }
-.potential-strength-badge strong { font-size:9px; font-weight:800; }
+.potential-strength-badge strong { font-size:9px; font-weight:700; }
 .potential-strength-badge[data-strength="kalt"] { --strength-bg:rgba(11,70,80,.09); --strength-fg:var(--marine); }
 .potential-strength-badge[data-strength="lauwarm"] { --strength-bg:rgba(200,170,34,.17); --strength-fg:var(--accent-hover); }
 .potential-strength-badge[data-strength="warm"] { --strength-bg:rgba(200,170,34,.13); --strength-fg:var(--accent-hover); }
@@ -113,7 +113,7 @@ body[data-page="potenziale"] { background:var(--bg-primary,var(--bg)); color:var
 .potential-next strong { color:var(--ink-muted,var(--ink-muted)); font-weight:700; }
 .potential-next.due,.potential-next.overdue { color:var(--accent-hover); }
 .potential-next.overdue strong { color:var(--accent-hover); }
-.potential-next-button { display:inline-flex; align-items:center; gap:7px; min-height:30px; padding:0 10px; border:1px solid rgba(200,170,34,.48); border-radius:8px; background:rgba(200,170,34,.10); color:var(--accent-hover); font:750 9.5px/1 Inter,sans-serif; cursor:pointer; }
+.potential-next-button { display:inline-flex; align-items:center; gap:7px; min-height:30px; padding:0 10px; border:1px solid rgba(200,170,34,.48); border-radius:8px; background:rgba(200,170,34,.10); color:var(--accent-hover); font:700 9.5px/1 Inter,sans-serif; cursor:pointer; }
 .potential-next-button:hover { border-color:var(--accent); background:rgba(200,170,34,.16); }
 .potential-actions { display:flex; align-items:center; gap:7px; margin-top:10px; }
 .potential-actions button,.potential-actions a { display:inline-flex; align-items:center; justify-content:center; min-height:36px; padding:0 11px; border:1px solid var(--hairline,var(--hairline)); border-radius:9px; background:var(--surface); color:var(--ink,var(--ink)); font:700 9.5px/1 Inter,sans-serif; text-decoration:none; cursor:pointer; }
@@ -121,11 +121,11 @@ body[data-page="potenziale"] { background:var(--bg-primary,var(--bg)); color:var
 .potential-actions .potential-transfer { flex:0 0 auto; border-color:var(--hairline,var(--hairline)); background:var(--surface); color:var(--marine); }
 .potential-actions .potential-transfer.cockpit-locked { gap:7px; border-color:var(--hairline); background:var(--surface-2); color:var(--ink-muted); box-shadow:none; cursor:not-allowed; opacity:1; }
 .potential-actions .potential-transfer.cockpit-locked:hover { transform:none; border-color:var(--hairline); background:var(--surface-2); box-shadow:none; }
-.potential-transfer.cockpit-locked em { padding:2px 6px; border:1px solid var(--hairline-strong); border-radius:999px; background:var(--surface-2); color:var(--ink-muted); font-size:8px; font-style:normal; font-weight:750; letter-spacing:.04em; text-transform:uppercase; white-space:nowrap; }
+.potential-transfer.cockpit-locked em { padding:2px 6px; border:1px solid var(--hairline-strong); border-radius:999px; background:var(--surface-2); color:var(--ink-muted); font-size:8px; font-style:normal; font-weight:700; letter-spacing:.04em; text-transform:uppercase; white-space:nowrap; }
 .potential-actions .potential-more { width:36px; padding:0; font-size:16px; }
 .potential-card-menu { position:absolute; right:17px; bottom:58px; z-index:3; display:grid; min-width:164px; overflow:hidden; border:1px solid var(--hairline,var(--hairline)); border-radius:10px; background:var(--surface); box-shadow:0 14px 32px rgba(23,21,18,.14); }
 .potential-card-menu[hidden] { display:none; }
-.potential-card-menu button { min-height:38px; padding:0 12px; border:0; border-bottom:1px solid var(--surface-2); background:var(--surface); color:var(--ink,var(--ink)); font:600 10px/1 Inter,sans-serif; text-align:left; cursor:pointer; }
+.potential-card-menu button { min-height:38px; padding:0 12px; border:0; border-bottom:1px solid var(--surface-2); background:var(--surface); color:var(--ink,var(--ink)); font:400 10px/1 Inter,sans-serif; text-align:left; cursor:pointer; }
 .potential-card-menu button:last-child { border-bottom:0; }
 .potential-card-menu button:hover { background:var(--surface-soft,var(--surface-soft)); }
 .potential-card-menu button.cockpit-menu-locked { color:var(--ink-soft); background:var(--surface-soft); cursor:not-allowed; }
@@ -143,7 +143,7 @@ body[data-page="potenziale"] { background:var(--bg-primary,var(--bg)); color:var
 .potential-modal-backdrop { position:absolute; inset:0; background:rgba(25,23,20,.38); }
 .potential-dialog { position:relative; z-index:1; width:min(680px,100%); max-height:min(860px,calc(100vh - 44px)); overflow-y:auto; padding:25px; border:1px solid rgba(255,255,255,.68); border-radius:16px; background:var(--surface); box-shadow:0 28px 70px rgba(24,21,17,.24); }
 .potential-dialog-close { position:absolute; top:15px; right:15px; display:grid; place-items:center; width:36px; height:36px; border:1px solid var(--hairline,var(--hairline)); border-radius:10px; background:var(--surface); color:var(--ink-muted,var(--ink-muted)); font-size:22px; cursor:pointer; }
-.potential-dialog h2 { margin:8px 42px 0 0; font-size:23px; font-weight:780; letter-spacing:-.03em; }
+.potential-dialog h2 { margin:8px 42px 0 0; font-size:23px; font-weight:700; letter-spacing:-.03em; }
 .potential-dialog-intro { margin:8px 38px 20px 0; color:var(--ink-muted,var(--ink-muted)); font-size:11px; line-height:1.55; }
 .potential-review-note { display:flex; align-items:flex-start; gap:9px; margin:0 0 16px; padding:11px 12px; border:1px solid rgba(200,170,34,.38); border-radius:10px; background:rgba(200,170,34,.10); color:var(--accent-hover); font-size:9.5px; line-height:1.45; }
 .potential-review-note[hidden] { display:none; }
@@ -151,15 +151,15 @@ body[data-page="potenziale"] { background:var(--bg-primary,var(--bg)); color:var
 .potential-form-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; }
 .potential-field { display:grid; gap:7px; min-width:0; }
 .potential-field-wide { grid-column:1/-1; }
-.potential-field > span { color:var(--ink-muted,var(--ink-muted)); font-size:9.5px; font-weight:750; }
-.potential-field > span small,.potential-choice-field legend small { color:var(--ink-soft,var(--ink-soft)); font-size:8px; font-weight:600; }
-.potential-field input,.potential-field select,.potential-field textarea { width:100%; min-height:43px; padding:10px 11px; border:1px solid var(--hairline,var(--hairline)); border-radius:9px; outline:0; background:var(--surface); color:var(--ink,var(--ink)); font:500 11px/1.4 Inter,sans-serif; }
+.potential-field > span { color:var(--ink-muted,var(--ink-muted)); font-size:9.5px; font-weight:700; }
+.potential-field > span small,.potential-choice-field legend small { color:var(--ink-soft,var(--ink-soft)); font-size:8px; font-weight:400; }
+.potential-field input,.potential-field select,.potential-field textarea { width:100%; min-height:43px; padding:10px 11px; border:1px solid var(--hairline,var(--hairline)); border-radius:9px; outline:0; background:var(--surface); color:var(--ink,var(--ink)); font:400 11px/1.4 Inter,sans-serif; }
 .potential-field textarea { min-height:92px; resize:vertical; }
 .potential-field input:focus,.potential-field select:focus,.potential-field textarea:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(200,170,34,.14); }
 .potential-field.invalid input { border-color:rgba(200,170,34,.55); box-shadow:0 0 0 3px rgba(200,170,34,.08); }
 .potential-field-error { min-height:0; color:var(--accent-hover); font-size:8.5px; }
 .potential-choice-field { margin:0; padding:0; border:0; }
-.potential-choice-field legend { margin-bottom:8px; color:var(--ink-muted,var(--ink-muted)); font-size:9.5px; font-weight:750; }
+.potential-choice-field legend { margin-bottom:8px; color:var(--ink-muted,var(--ink-muted)); font-size:9.5px; font-weight:700; }
 .potential-choice-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; }
 .potential-choice-grid label { position:relative; cursor:pointer; }
 .potential-choice-grid input { position:absolute; opacity:0; pointer-events:none; }
@@ -176,14 +176,14 @@ body[data-page="potenziale"] { background:var(--bg-primary,var(--bg)); color:var
 .potential-strength-preview > span:last-child > strong { font-size:9.5px; }
 .potential-strength-preview small { color:var(--ink-soft,var(--ink-soft)); font-size:8.5px; line-height:1.45; }
 .potential-profile { margin:4px 0 0; padding:16px; border:1px solid rgba(200,170,34,.32); border-radius:12px; background:var(--bg); }
-.potential-profile legend { padding:0 6px; font-size:11px; font-weight:800; }
-.potential-profile legend small { color:var(--ink-soft,var(--ink-soft)); font-size:8.5px; font-weight:600; }
+.potential-profile legend { padding:0 6px; font-size:11px; font-weight:700; }
+.potential-profile legend small { color:var(--ink-soft,var(--ink-soft)); font-size:8.5px; font-weight:400; }
 .potential-profile > p { margin:0 0 14px; color:var(--ink-muted,var(--ink-muted)); font-size:9.5px; line-height:1.5; }
 .potential-assumption-field textarea { border-color:rgba(200,170,34,.28); background:rgba(200,170,34,.04); }
 .potential-duplicate { margin-top:15px; padding:13px 14px; border:1px solid rgba(200,170,34,.24); border-radius:10px; background:rgba(200,170,34,.07); }
 .potential-duplicate strong { font-size:11px; }
 .potential-duplicate p { margin:5px 0 9px; color:var(--ink-muted,var(--ink-muted)); font-size:9.5px; line-height:1.45; }
-.potential-duplicate label { display:flex; align-items:center; gap:8px; font-size:9.5px; font-weight:650; cursor:pointer; }
+.potential-duplicate label { display:flex; align-items:center; gap:8px; font-size:9.5px; font-weight:400; cursor:pointer; }
 .potential-form-error { margin-top:14px; }
 .potential-dialog-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:20px; }
 body.potential-modal-open { overflow:hidden; }
@@ -201,21 +201,21 @@ body.potential-modal-open { overflow:hidden; }
 .potential-transfer-choice { display:grid; grid-template-columns:34px minmax(0,1fr) auto; gap:10px; align-items:center; width:100%; min-height:62px; padding:10px; border:1px solid var(--hairline,var(--hairline)); border-radius:11px; background:var(--surface); color:var(--ink,var(--ink)); text-align:left; cursor:pointer; }
 .potential-transfer-choice:hover { border-color:var(--accent); background:var(--surface-2); }
 .potential-transfer-choice:disabled { opacity:.55; cursor:wait; }
-.potential-transfer-choice-icon { display:grid; place-items:center; width:34px; height:34px; border-radius:9px; background:var(--accent-bg); color:var(--accent-hover); font-size:15px; font-weight:800; }
+.potential-transfer-choice-icon { display:grid; place-items:center; width:34px; height:34px; border-radius:9px; background:var(--accent-bg); color:var(--accent-hover); font-size:15px; font-weight:700; }
 .potential-transfer-choice strong { display:block; font-size:11px; }
 .potential-transfer-choice small { display:block; margin-top:3px; color:var(--ink-muted,var(--ink-muted)); font-size:9.5px; line-height:1.4; }
-.potential-transfer-choice em { padding:4px 7px; border-radius:99px; background:var(--surface-2); color:var(--ink-muted); font-size:8px; font-style:normal; font-weight:800; white-space:nowrap; }
+.potential-transfer-choice em { padding:4px 7px; border-radius:99px; background:var(--surface-2); color:var(--ink-muted); font-size:8px; font-style:normal; font-weight:700; white-space:nowrap; }
 .potential-transfer-choice.new { grid-template-columns:34px minmax(0,1fr); }
 .potential-transfer-note { margin:2px 0 0; color:var(--ink-muted,var(--ink-muted)); font-size:9.5px; line-height:1.5; }
 .potential-transfer-success { margin-top:16px; padding:18px; border-radius:12px; background:var(--surface-2); text-align:center; }
-.potential-transfer-success-icon { display:grid; place-items:center; width:42px; height:42px; margin:0 auto 9px; border-radius:50%; background:var(--sage); color:#fff; font-size:20px; font-weight:800; }
+.potential-transfer-success-icon { display:grid; place-items:center; width:42px; height:42px; margin:0 auto 9px; border-radius:50%; background:var(--sage); color:#fff; font-size:20px; font-weight:700; }
 .potential-transfer-success h3 { margin:0; font-size:16px; }
 .potential-transfer-success p { margin:7px auto 14px; max-width:460px; color:var(--ink-muted,var(--ink-muted)); font-size:10.5px; line-height:1.5; }
 .potential-card.cockpit-linked { border-color:rgba(11,70,80,.38); }
 .potential-card.deep-linked { animation:potential-highlight 2.6s ease-out; }
 @keyframes potential-highlight { 0%,28% { box-shadow:0 0 0 4px rgba(200,170,34,.35),var(--shadow-card); } 100% { box-shadow:var(--shadow-card); } }
 .potential-transfer-actions { flex-wrap:wrap; }
-.potential-toast { position:fixed; right:22px; bottom:22px; z-index:1700; max-width:min(380px,calc(100vw - 32px)); padding:12px 15px; border:1px solid rgba(11,70,80,.22); border-radius:10px; background:var(--ink); color:#fff; box-shadow:0 14px 34px rgba(20,18,16,.18); font-size:10.5px; font-weight:650; }
+.potential-toast { position:fixed; right:22px; bottom:22px; z-index:1700; max-width:min(380px,calc(100vw - 32px)); padding:12px 15px; border:1px solid rgba(11,70,80,.22); border-radius:10px; background:var(--ink); color:#fff; box-shadow:0 14px 34px rgba(20,18,16,.18); font-size:10.5px; font-weight:400; }
 .potential-coach-dialog { width:min(780px,100%); }
 .potential-voice-controls { display:flex; align-items:center; gap:12px; margin:4px 0 14px; }
 .potential-voice-controls > span { color:var(--ink-soft,var(--ink-soft)); font-size:9.5px; }
@@ -227,9 +227,9 @@ body.potential-modal-open { overflow:hidden; }
 .potential-compass-summary { margin-bottom:12px; padding:11px 13px; border-radius:10px; background:var(--surface-soft); color:var(--ink-muted,var(--ink-muted)); font-size:10px; line-height:1.5; }
 .potential-compass-card { margin-top:10px; padding:14px; border:1px solid var(--hairline,var(--hairline)); border-radius:11px; background:var(--surface); }
 .potential-compass-card.assumption { border-color:rgba(200,170,34,.26); background:rgba(200,170,34,.05); }
-.potential-compass-card > span { display:block; margin-bottom:7px; color:var(--accent-hover); font-size:8.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+.potential-compass-card > span { display:block; margin-bottom:7px; color:var(--accent-hover); font-size:8.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
 .potential-compass-card blockquote,.potential-compass-card p { margin:0; color:var(--ink,var(--ink)); font-size:11.5px; line-height:1.65; }
-.potential-compass-card blockquote { font-size:13px; font-weight:650; }
+.potential-compass-card blockquote { font-size:13px; font-weight:400; }
 .potential-compass-card ul { margin:0; padding-left:18px; color:var(--ink-muted,var(--ink-muted)); font-size:10.5px; line-height:1.65; }
 .potential-compass-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
 .potential-coach-actions { flex-wrap:wrap; }
@@ -278,7 +278,7 @@ body.potential-modal-open { overflow:hidden; }
   .potential-kpi::after { display:block; margin-top:6px; color:var(--ink-muted,var(--ink-muted)); content:attr(data-mobile-label); font:700 8.5px/1.15 Inter,sans-serif; }
   .potential-toolbar h2 { font-size:17px; }
   .potential-controls { padding:10px; }
-  .potential-strength-scroll-hint { display:block; margin-top:3px; color:var(--ink-soft,var(--ink-soft)); font:600 8.5px/1.3 Inter,sans-serif; text-align:right; }
+  .potential-strength-scroll-hint { display:block; margin-top:3px; color:var(--ink-soft,var(--ink-soft)); font:400 8.5px/1.3 Inter,sans-serif; text-align:right; }
   .potential-control-tools { align-items:stretch; flex-direction:column; }
   .potential-card { min-height:0; padding:15px; }
   .potential-card-head { grid-template-columns:40px minmax(0,1fr); }

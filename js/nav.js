@@ -500,7 +500,7 @@ function waffelMarkup() {
         .waffel-overlay{position:fixed;inset:0;z-index:120;background:rgba(19,25,29,.35)}
         .waffel-panel{position:absolute;top:12px;left:12px;display:flex;flex-direction:column;width:min(440px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:hidden;background:var(--dna-card,#fff);color:var(--dna-ink,#13191D);border:1px solid var(--dna-line,#E3E7E9);border-radius:12px;box-shadow:0 18px 44px rgba(19,25,29,.18);font-family:Inter,system-ui,sans-serif}
         .waffel-kopf{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:16px 16px 12px}
-        .waffel-kopf strong{display:block;font-size:14px;font-weight:600}
+        .waffel-kopf strong{display:block;font-size:14px;font-weight:400}
         .waffel-kopf p{margin:2px 0 0;font-size:12px;color:var(--dna-muted,#6A747C)}
         .waffel-schliessen{display:grid;place-items:center;width:32px;height:32px;border:0;border-radius:8px;background:transparent;color:var(--dna-muted,#6A747C);cursor:pointer}
         .waffel-schliessen:hover{background:var(--dna-paper-2,#F1F4F5);color:var(--dna-ink,#13191D)}
@@ -518,9 +518,9 @@ function waffelMarkup() {
         /* Symbol frei in Markengold, ohne Kachel darunter. Der Name steht
            daneben, die Farbe muss also nichts transportieren. */
         .waffel-zeichen{flex:0 0 auto;width:32px;height:32px;color:var(--dna-gold,#C8AA22)}
-        .waffel-eintrag-name{display:block;font-size:14px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .waffel-eintrag-name{display:block;font-size:14px;font-weight:400;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
         .waffel-eintrag-zweck{display:block;font-size:12px;color:var(--dna-muted,#6A747C);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-        .waffel-aktuell{flex:0 0 auto;padding:2px 8px;border:1px solid var(--dna-petrol,#0B4650);border-radius:6px;color:var(--dna-petrol,#0B4650);font-size:11px;font-weight:600}
+        .waffel-aktuell{flex:0 0 auto;padding:2px 8px;border:1px solid var(--dna-petrol,#0B4650);border-radius:6px;color:var(--dna-petrol,#0B4650);font-size:11px;font-weight:400}
         .waffel-leer{padding:32px 16px;text-align:center;font-size:14px;color:var(--dna-muted,#6A747C)}
         .waffel-fuss{border-top:1px solid var(--dna-line,#E3E7E9);padding:16px}
         .waffel-fuss a{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--dna-line,#E3E7E9);border-radius:10px;color:var(--dna-petrol,#0B4650);text-decoration:none}

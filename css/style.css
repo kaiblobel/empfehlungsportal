@@ -287,7 +287,7 @@ img { max-width: 100%; display: block; }
   border-radius: var(--radius-button);
   padding: 14px 22px;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 400;
   font-family: inherit;
   cursor: pointer;
   border: 1px solid transparent;
@@ -348,7 +348,7 @@ img { max-width: 100%; display: block; }
   border-radius: var(--radius-button);
   padding: 10px 16px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--text-primary);
   cursor: pointer;
   font-family: inherit;
@@ -397,7 +397,7 @@ img { max-width: 100%; display: block; }
 .field-card label {
   font-size: 13px;
   color: var(--text-secondary);
-  font-weight: 600;
+  font-weight: 400;
 }
 .field-card input {
   font-size: 17px;
@@ -420,7 +420,7 @@ img { max-width: 100%; display: block; }
 }
 .message-preview-label {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -520,7 +520,7 @@ img { max-width: 100%; display: block; }
 }
 .vorlage-kachel .titel {
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--text-primary);
   line-height: 1.25;
 }
@@ -612,7 +612,7 @@ body[data-page="index"] .slide-inner {
 body[data-page="index"] .ed-eyebrow {
   font-family: 'Inter', sans-serif;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--ed-champagne);
@@ -624,7 +624,7 @@ body[data-page="index"] .ed-eyebrow {
 
 body[data-page="index"] .ed-headline {
   font-family: 'Fraunces', 'Georgia', serif;
-  font-weight: 500;
+  font-weight: 400;
   font-size: clamp(28px, 5.5vw, 44px);
   line-height: 1.13;
   letter-spacing: -0.015em;
@@ -870,7 +870,7 @@ body[data-page="index"] .ed-btn {
   text-align: center;
   font-family: 'Inter', sans-serif;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 400;
   padding: 18px 24px;
   border-radius: 4px;
   transition: background 200ms var(--ed-ease), color 200ms var(--ed-ease), border-color 200ms var(--ed-ease);
@@ -902,7 +902,7 @@ body[data-page="index"] .nav-bar {
 body[data-page="index"] .nav-btn {
   border-color: var(--ed-champagne);
   color: var(--ed-ink);
-  font-weight: 500;
+  font-weight: 400;
   font-size: 13px;
   letter-spacing: 0.04em;
   min-height: 44px;
@@ -1108,7 +1108,7 @@ body[data-page="index"] .nav-counter {
 .cmdk-item-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .cmdk-item-label {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--ink, var(--ink));
   white-space: nowrap;
   overflow: hidden;
@@ -1123,7 +1123,7 @@ body[data-page="index"] .nav-counter {
 }
 .cmdk-item-kind {
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--ink-soft, var(--ink-soft));
