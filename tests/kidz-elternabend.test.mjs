@@ -107,7 +107,7 @@ const qrPngStat = await stat(new URL('../assets/qr/kidz-elternabend.png', import
 const qrSvgStat = await stat(new URL('../assets/qr/kidz-elternabend.svg', import.meta.url));
 const ogImageStat = await stat(new URL('../assets/images/kidz-vorschau-elternabend.jpg', import.meta.url));
 
-assert.match(html, /Exklusiver KIDZ-Elternabend/);
+assert.match(html, /KIDZ for Future/);
 assert.match(html, /Der persönliche Eltern-Workshop für Familien/);
 assert.match(html, /id="keaForm"/);
 assert.match(html, /id="keaAdvisor"/);
@@ -134,7 +134,7 @@ assert.match(publicJs, /elternabend-qr/);
 assert.match(publicJs, /beraterSlug/);
 assert.match(publicJs, /captchaToken/);
 
-assert.match(adminHtml, /Linas Elternabend-Strecke/);
+assert.match(adminHtml, /Linas Strecke KIDZ for Future/);
 assert.match(adminHtml, /alle Vormerkungen sofort und getrennt vom Sommerfest-Gewinnspiel/);
 assert.match(adminHtml, /Alle Berater und Promoter/);
 assert.match(adminHtml, /assets\/qr\/kidz-elternabend\.svg/);
@@ -143,7 +143,7 @@ assert.match(adminJs, /postgres_changes/);
 assert.match(adminJs, /appendParticipantFilterGroup\('Vermögensberater'/);
 assert.match(adminJs, /appendParticipantFilterGroup\('Promoter'/);
 assert.match(adminJs, /currentAdvisor\?\.ist_admin/);
-assert.match(adminJs, /KIDZ Elternabend Vormerkungen/);
+assert.match(adminJs, /KIDZ for Future Vormerkungen/);
 
 assert.match(navJs, /label: 'KIDZ'/);
 assert.match(navJs, /dashboard\/kidz-elternabend\.html/);

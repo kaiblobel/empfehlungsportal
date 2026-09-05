@@ -32,13 +32,13 @@ assert.match(tag, /playsinline/, 'iPhone soll nicht in den Vollbildmodus springe
 // --- Nichts wird geladen, bevor Kai auf Play drückt; Vorschaubild steht sofort ---
 assert.match(tag, /preload="none"/);
 assert.match(tag, /poster="\/assets\/video\/empfehlungsportal-story-poster\.jpg"/);
-assert.match(html, /<source src="\/assets\/video\/empfehlungsportal-story\.mp4" type="video\/mp4"/);
+assert.match(html, /<source src="\/assets\/video\/empfehlungsportal-story-v3\.mp4" type="video\/mp4"/);
 
 // --- Rückfalltext, wenn der Browser nicht abspielen kann ---
 assert.match(html, /hier herunterladen/);
 
 // --- Die Dateien liegen wirklich da und sind fürs Web tauglich ---
-const video = await stat(new URL('../assets/video/empfehlungsportal-story.mp4', import.meta.url));
+const video = await stat(new URL('../assets/video/empfehlungsportal-story-v3.mp4', import.meta.url));
 const poster = await stat(new URL('../assets/video/empfehlungsportal-story-poster.jpg', import.meta.url));
 assert.ok(video.size > 0 && video.size < 8 * 1024 * 1024,
   `Video muss klein genug fuers Handy bleiben (ist ${(video.size / 1024 / 1024).toFixed(1)} MB)`);

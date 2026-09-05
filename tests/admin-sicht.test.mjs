@@ -112,7 +112,7 @@ assert.match(dashboardCss, /\.admin-sicht-hinweis\s*\{/, 'Für den Hinweis fehlt
 for (const [name, html, js] of [
   ['Prämien', praemienHtml, praemienJs],
   ['Gewinnspiel', kidzGewinnHtml, kidzGewinnJs],
-  ['Elternabend', kidzElternHtml, kidzElternJs],
+  ['KIDZ for Future', kidzElternHtml, kidzElternJs],
 ]) {
   assert.match(html, /id="adminSichtHinweis"[^>]*hidden/,
     `${name}: Der Hinweis ist nicht versteckt und stünde auch bei normalen Beratern.`);

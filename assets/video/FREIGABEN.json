@@ -1,0 +1,59 @@
+{
+  "_hinweis": [
+    "Diese Liste entscheidet, welcher Film auf einer Kundenseite laufen darf.",
+    "Ein Video, das hier nicht steht, macht den Waechter tests/video-freigabe.test.mjs",
+    "rot und wird von der Push-Sperre .githooks/pre-push abgewiesen.",
+    "",
+    "Eintragen darf hier ausschliesslich Kai, nach eigenem Ansehen des Films.",
+    "Kein Agent traegt sich selbst ein. Wer einen neuen Film gebaut hat, legt ihn",
+    "in assets/video/ ab, laesst ihn liegen und fragt Kai. Erst wenn Kai ihn",
+    "gesehen und freigegeben hat, kommt der Eintrag hierher und die Seite wird",
+    "umgestellt. Das ist ein Vorgang, nicht zwei.",
+    "",
+    "Die Pruefsumme haengt am Inhalt, nicht am Namen. Wer eine andere Fassung",
+    "unter demselben Dateinamen ablegt, faellt auf. Neue Pruefsumme so bilden:",
+    "  sha256sum assets/video/<datei>.mp4",
+    "",
+    "Anlass: Am 29.08.2026 ging eine 25 Sekunden lange Probefassung des",
+    "Erstgespraechsfilms auf die Themenseite und war live, ohne dass Kai sie je",
+    "gesehen hatte. Aufgefallen ist es zwei Tage spaeter beim Ansehen der Seite."
+  ],
+
+  "freigegeben": [
+    {
+      "datei": "formel-finanzielles-glueck.mp4",
+      "sha256": "f99ec749c281a8f80951b69739da5a3153e76cc9c149d856bafeb411db038f33",
+      "laenge": "1:37",
+      "laeuft_auf": "empfaenger.html · Kapitel 2 der Themenstrecke",
+      "freigegeben_von": "Kai",
+      "freigegeben_am": "2026-08-08"
+    },
+    {
+      "datei": "empfehlungsportal-story-v3.mp4",
+      "sha256": "eb56e3dacda60780c7c0cf7df8c846501fd0aab9c835c4534aa829dc6681f0e8",
+      "laenge": "1:00",
+      "laeuft_auf": "programm.html · Abschlussfilm der Praesentation",
+      "freigegeben_von": "Kai",
+      "freigegeben_am": "2026-08-31",
+      "anmerkung": "Neue Beratungsszene ab 0:39, Schlusskarte ab 0:53. Aus dem Video-Studio, war seit 29.08. ungefragt live; Kai hat sie am 31.08. nachtraeglich freigegeben."
+    },
+    {
+      "datei": "empfehlungsportal-story.mp4",
+      "sha256": "595f03abb55442a7765ea1163175ea65c5ae23f8ce621c404ab8bd20bbfb079f",
+      "laenge": "1:00",
+      "laeuft_auf": "programm.html · Abschlussfilm der Praesentation (Rueckfallquelle)",
+      "freigegeben_von": "Kai",
+      "freigegeben_am": "2026-08-08"
+    },
+    {
+      "datei": "baufinanzierung-team-wachsbleiche-720p.mp4",
+      "sha256": "3691d7dcb785b73b40d44f70d9e200c9c3cd35079e410526d3ee7305b47e4863",
+      "laenge": "2:14",
+      "laeuft_auf": "baufi.html · Erklaerfilm Baufinanzierung",
+      "freigegeben_von": "Kai",
+      "freigegeben_am": "2026-08-15"
+    }
+  ],
+
+  "wartet_auf_kai": []
+}

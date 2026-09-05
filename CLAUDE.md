@@ -1,8 +1,6 @@
 <!-- odysseus-passport
 purpose: Empfehlungsportal für DVAG-Berater - Vanilla JS + eigene Supabase; Funnel Klick zu Interesse zu Kunde, privates Potenzialbuch mit Kontakt-Coach, echte Kennzahlen, Champions, Prämien; Cockpit-Brücke
-status: live mit sichtbarer Marke der Regionaldirektion (Emblem auf der Anmeldeseite, Namenszug in Schreibschrift aus mitgelieferter Schriftdatei in der Seitenleiste), neu erzählter Präsentation (elf Abschnitte, Themenauswahl als Weiche im Gespräch, Lebensachse statt Themenraster, Marktübersicht als großes Rad mit antippbaren Feldern), KIDZ-Elternseite als Zug mit acht Bausteinen, ausführlicher Überblicksseite hinter der Kachel "Ganz allgemein" (noch nicht im Menü verlinkt), eigenen Bildern und eigener Anschrift je Berater, sicherem Gerätewechsel per Einmal-Link und einem Admin-Wartungsschalter, der den Partnerbereich schließt ohne die Kundenseiten anzufassen
-        Waffelmenue V1 fuer den internen Partnerbereich ist auf dem Feature-Zweig
-        lokal gebaut und geprueft; zentrale Freigabe und Livegang fehlen noch.
+status: live mit sichtbarer Marke der Regionaldirektion (Emblem auf der Anmeldeseite, Namenszug in Schreibschrift aus mitgelieferter Schriftdatei in der Seitenleiste), neu erzählter Präsentation (elf Abschnitte, Themenauswahl als Weiche im Gespräch, Lebensachse statt Themenraster, Marktübersicht als großes Rad mit antippbaren Feldern), KIDZ-Elternseite als Zug mit acht Bausteinen, ausführlicher Überblicksseite hinter der Kachel "Ganz allgemein" (noch nicht im Menü verlinkt), eigenen Bildern und eigener Anschrift je Berater, sicherem Gerätewechsel per Einmal-Link und einem Admin-Wartungsschalter, der den Partnerbereich schließt ohne die Kundenseiten anzufassen; die Themenseite spielt wieder den ursprünglichen Erstgesprächsfilm (1:37), die 25-Sekunden-Probefassung ist zurückgenommen; der Promoterfilm in der Präsentation läuft weiter in der 60-Sekunden-Fassung mit Beratungsszene ab 0:39 und Schlusskarte ab 0:53; der Anwendungswechsler fuer den Partnerbereich holt seine Liste aus der zentralen Freigabematrix in KAI. und wartet auf die Einrichtung der Verbindung
 release: Die Themenkachel "Ganz allgemein" hat eine eigene Empfängerseite bekommen (/ueberblick): Reform 2027, die Formel mit Euro-Rechner, Haushaltsplan, Pyramide mit antippbaren Stufen, Zwei-Konten-Modell, drei Wege am Ende; dazu ein Adressfeld je Berater und ein behobener Datenverlust in der Beraterverwaltung
 live_url: https://empfehlungsportal.vercel.app; Baufinanzierung unter https://finanzierung.kaiblobel.de; KIDZ oeffentlich unter https://kidz.teamwachsbleiche.de, Elternseite unter https://kidz.teamwachsbleiche.de/kidz/konzept
 tags: portal, supabase, empfehlung, promoter, potenzialbuch, kontakt-coach, spracheingabe, mobile-first, live, baufinanzierung, kfw, bookings, power-automate, praesentation, multi-tenant
@@ -122,6 +120,37 @@ Steht `portal_wartung.aktiv` auf true, legt `js/wartung.js` einen Hinweisschirm 
 - Zugangsdaten, Passwörter und aktive Test-Links werden niemals im Repository gespeichert.
 - Testkonten und Testdaten werden ausschließlich in den dafür vorgesehenen Systemen verwaltet.
 - Berater UUID: `b3cbf981-ea3e-4e6d-a993-2fe158ca0d48`
+
+---
+
+## Filme auf Kundenseiten — Freigabe durch Kai, ohne Ausnahme
+
+Am 29.08.2026 ging eine 25 Sekunden lange Probefassung des Erstgespraechsfilms auf die
+Themenseite und war sofort live, weil jeder Push auf `main` bei Vercel veroeffentlicht wird.
+Kai hat sie nie gesehen. Gemerkt hat es niemand, bis er zwei Tage spaeter selbst auf die
+Seite ging.
+
+**Regel:** Ein Film auf einer Kundenseite (`programm.html`, `empfaenger.html`, `baufi.html`)
+laeuft erst, wenn Kai ihn angesehen und freigegeben hat. Das gilt auch fuer eine neue Fassung
+desselben Films und auch fuer die zweite `<source>`-Zeile, die nur als Rueckfall gedacht ist.
+
+**Ablauf:**
+1. Neuen Film nach `assets/video/` legen. Seite **nicht** anfassen.
+2. Kai fragen, ihn ansehen lassen.
+3. Erst nach seinem Ja: Eintrag in `assets/video/FREIGABEN.json` unter `freigegeben`
+   (mit Pruefsumme aus `sha256sum`), dann die Seite umstellen.
+
+**Kein Agent traegt sich dort selbst ein.** Wer den Eintrag ohne Kais Ja setzt, umgeht keine
+Technik, sondern faelscht eine Freigabe.
+
+**Zwei Waechter halten das:**
+- `tests/video-freigabe.test.mjs` — eingebundener Film ohne Eintrag oder mit abweichender
+  Pruefsumme macht den Test rot.
+- `.githooks/pre-push` — bricht das Hochladen ab, sobald ein Film oder eine Seite mit Film
+  betroffen ist und einer der Waechter rot steht.
+
+Eingeschaltet mit `git config core.hooksPath .githooks` (gilt pro Arbeitskopie, eine frisch
+geklonte braucht die Zeile erneut).
 
 ---
 

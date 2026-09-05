@@ -211,6 +211,51 @@ function readGuess() {
   return Number.isFinite(value) ? Math.trunc(value) : Number.NaN;
 }
 
+/**
+ * Was die Erfolgsbox sagt. Seit Phase 321 kann eine Anmeldung auch eine
+ * vorhandene ergaenzen: Wer sich vor dem Fest angemeldet hat, traegt am
+ * Veranstaltungstag mit denselben Daten seine Schaetzung und das Haekchen fuer
+ * KIDZ for Future nach, ohne ein zweites Mal in der Liste zu landen.
+ *
+ * Die Seite darf dann nicht "Du bist dabei" melden, als waere gerade eine neue
+ * Anmeldung entstanden. Sie sagt, was wirklich passiert ist. Was passiert ist,
+ * entscheidet die Datenbank, nicht der Browser.
+ */
+function erfolgsMeldung(result, schaetzung) {
+  if (result?.updated !== true) {
+    return {
+      titel: 'Du bist beim Gewinnspiel dabei!',
+      text: schaetzung === null
+        ? 'Wir haben deine Anmeldung. Deine Schätzung für den Ballumfang gibst du am 6. September vor Ort ab.'
+        : `Wir haben deine Anmeldung und deine Schätzung von ${schaetzung} cm. Wir messen den Ball heute noch nach.`,
+    };
+  }
+
+  const teile = [];
+  if (result.guessAdded) teile.push(`deine Schätzung von ${schaetzung} cm`);
+  if (result.interestAdded) teile.push('deinen Wunsch nach Infos zu KIDZ for Future');
+
+  if (teile.length) {
+    return {
+      titel: 'Wir haben es ergänzt!',
+      text: `Du warst schon angemeldet. Wir haben ${teile.join(' und ')} zu deiner Anmeldung ergänzt. `
+        + 'Ein zweites Mal angemeldet bist du nicht.',
+    };
+  }
+  if (result.guessKept) {
+    return {
+      titel: 'Du bist schon dabei!',
+      text: 'Für dich liegt bereits eine Schätzung vor, und die gilt. Pro Anmeldung zählt eine Schätzung. '
+        + 'Am Ergebnis ändert sich nichts, du bist weiterhin im Rennen.',
+    };
+  }
+  return {
+    titel: 'Du bist schon dabei!',
+    text: 'Deine Anmeldung liegt uns bereits vor, es gab nichts zu ergänzen. '
+      + 'Ein zweites Mal angemeldet bist du nicht.',
+  };
+}
+
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
   clearError();
@@ -259,9 +304,9 @@ form.addEventListener('submit', async (event) => {
     form.hidden = true;
     document.querySelector('.kg-form-intro').hidden = true;
     successBox.hidden = false;
-    document.getElementById('kgSuccessNote').textContent = schaetzung === null
-      ? 'Wir haben deine Anmeldung. Deine Schätzung für den Ballumfang gibst du am 6. September vor Ort ab.'
-      : `Wir haben deine Anmeldung und deine Schätzung von ${schaetzung} cm. Wir messen den Ball heute noch nach.`;
+    const meldung = erfolgsMeldung(result, schaetzung);
+    document.getElementById('kgSuccessTitle').textContent = meldung.titel;
+    document.getElementById('kgSuccessNote').textContent = meldung.text;
     document.getElementById('kgReference').textContent = `Teilnahmebestätigung: ${result.reference}`;
     successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
   } catch (error) {

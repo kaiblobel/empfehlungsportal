@@ -49,7 +49,7 @@ export const NAV_ITEMS = [
       // deckt sich mit der Adresse und bricht in der Leiste nicht mehr um.
       { label: 'KIDZ-Konzept', href: '/kidz/konzept', kunde: true, bald: true },
       { label: 'Sommerfest-Gewinnspiel', href: path('dashboard/kidz-gewinnspiel.html') },
-      { label: 'Elternabend', href: path('dashboard/kidz-elternabend.html') },
+      { label: 'KIDZ for Future', href: path('dashboard/kidz-elternabend.html') },
     ] },
   // Teamleistung ist tägliche Führung und deshalb kein Verwaltungsmenü.
   { id: 'team',        label: 'Team',          icon: 'Users',           href: path('team.html'),                       bottom: false },

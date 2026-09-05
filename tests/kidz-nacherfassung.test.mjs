@@ -355,7 +355,7 @@ assert.match(fenstermigration, /create or replace function public\.register_kidz
 // Der Browser entscheidet nicht selbst, wann das Feld aufgeht.
 const publicJs = await read('js/kidz-gewinnspiel.js');
 assert.match(publicJs, /applyEventDay\(config\?\.eventDay === true/);
-// Das Elternabend-Haekchen haengt am selben Schalter und startet versteckt.
+// Das Haekchen fuer KIDZ for Future haengt am selben Schalter und startet versteckt.
 assert.match(publicJs, /parentEveningRow\.hidden = !isEventDay;/);
 // Das Attribut hidden allein reicht nicht: .kg-check setzt display: grid und
 // wuerde gewinnen. Ohne diese Regel bleibt das ausgeblendete Haekchen sichtbar.
@@ -408,7 +408,7 @@ assert.doesNotMatch(publicJs, /2026-09-06/);
 // Sonst verschickt ein Berater, der ueber die alte Portaladresse angemeldet ist,
 // auch eine alte Adresse.
 const elternabendJs = await read('js/kidz-elternabend-admin.js');
-for (const [name, quelle] of [['Gewinnspiel', adminJs], ['Elternabend', elternabendJs]]) {
+for (const [name, quelle] of [['Gewinnspiel', adminJs], ['KIDZ for Future', elternabendJs]]) {
   assert.match(quelle, /const KIDZ_ADRESSE = 'https:\/\/kidz\.teamwachsbleiche\.de';/,
     `${name}: feste KIDZ-Adresse fehlt`);
   assert.match(quelle, /\$\{KIDZ_ADRESSE\}\/kidz\/(gewinnspiel|elternabend)\?berater=/,

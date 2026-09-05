@@ -1,0 +1,70 @@
+#!/bin/sh
+#
+# Push-Sperre fuer Filme auf Kundenseiten.
+#
+# Anlass: Am 29.08.2026 ging eine 25 Sekunden lange Probefassung des
+# Erstgespraechsfilms auf die Themenseite. Vercel veroeffentlicht jeden Push
+# auf main sofort, also war sie live, ohne dass Kai sie je gesehen hatte.
+#
+# Dieser Haken laeuft vor jedem Hochladen. Beruehrt der Push ein Video oder
+# eine Seite, die eines einbindet, faehrt er die beiden Waechter:
+#   tests/video-freigabe.test.mjs   — steht der Film in FREIGABEN.json?
+#   tests/ki-kennzeichnung.test.mjs — traegt er den Pflichthinweis?
+# Ist einer rot, bricht der Push ab.
+#
+# Der Haken ist kein Schloss. Wer ihn umgehen will, kann --no-verify tippen.
+# Er soll das Versehen abfangen, und das tut er.
+#
+# Eingeschaltet mit:  git config core.hooksPath .githooks
+# (gilt pro Arbeitskopie — eine frisch geklonte braucht die Zeile erneut)
+
+set -e
+
+fern="$1"
+zweig=$(git rev-parse --abbrev-ref HEAD)
+
+# Was geht ueberhaupt raus? Bei einem neuen Zweig gibt es drueben nichts zum
+# Vergleichen, dann pruefen wir den Stand gegen origin/main.
+gegenstelle="$fern/$zweig"
+if git rev-parse --verify --quiet "refs/remotes/$gegenstelle" >/dev/null; then
+  basis="$gegenstelle"
+else
+  basis="$fern/main"
+fi
+
+if git rev-parse --verify --quiet "refs/remotes/$basis" >/dev/null; then
+  geaendert=$(git diff --name-only "$basis"...HEAD)
+else
+  geaendert=$(git ls-files)
+fi
+
+betroffen=$(printf '%s\n' "$geaendert" | grep -E '^(assets/video/|programm\.html|empfaenger\.html|baufi\.html)' || true)
+
+if [ -z "$betroffen" ]; then
+  exit 0
+fi
+
+echo ""
+echo "Dieser Push fasst Filme oder Seiten mit Film an:"
+printf '%s\n' "$betroffen" | sed 's/^/  /'
+echo ""
+echo "Pruefe Freigabe und Kennzeichnung ..."
+
+if ! node --test tests/video-freigabe.test.mjs tests/ki-kennzeichnung.test.mjs; then
+  echo ""
+  echo "ABGEBROCHEN. Es geht nichts raus."
+  echo ""
+  echo "Ein Film auf einer Kundenseite braucht Kais ausdrueckliche Freigabe in"
+  echo "assets/video/FREIGABEN.json. Kein Agent traegt sich dort selbst ein:"
+  echo "Film ablegen, Kai fragen, und erst nach seinem Ja die Seite umstellen."
+  echo ""
+  exit 1
+fi
+
+if [ "$zweig" = "main" ]; then
+  echo ""
+  echo "Hinweis: main geht sofort live (Vercel)."
+  echo ""
+fi
+
+exit 0

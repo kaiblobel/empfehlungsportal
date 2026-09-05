@@ -57,7 +57,10 @@ try {
   const successResponse = responseMock();
   await registerHandler(request(validBody), successResponse);
   assert.equal(successResponse.statusCode, 201);
-  assert.deepEqual(JSON.parse(successResponse.body), { ok: true, reference: 'KIDZ-ABC12345' });
+  assert.deepEqual(JSON.parse(successResponse.body), {
+    ok: true, reference: 'KIDZ-ABC12345',
+    updated: false, guessAdded: false, interestAdded: false, guessKept: false,
+  });
   assert.equal(requests.length, 2);
   const rpcBody = JSON.parse(requests[1].options.body);
   assert.equal(rpcBody.p_event_key, 'kidz-sommerfest-2026');
@@ -79,6 +82,30 @@ try {
   assert.equal(defaultAdvisorResponse.statusCode, 201);
   assert.equal(JSON.parse(requests[1].options.body).p_berater_slug, 'kai-blobel');
 
+  // Der 6. September: Wer sich vor dem Fest angemeldet hat, kommt am Festtag mit
+  // denselben Daten wieder und traegt Schaetzung und Haekchen nach. Die Datenbank
+  // ergaenzt dann die vorhandene Anmeldung. Der Endpunkt muss das durchreichen,
+  // sonst meldet die Seite "Du bist dabei", wo sie etwas ergaenzt hat, und
+  // niemand erfaehrt, ob die Schaetzung angekommen ist.
+  global.fetch = async (url) => {
+    if (String(url).includes('siteverify')) return { ok: true, json: async () => ({ success: true }) };
+    return {
+      ok: true,
+      text: async () => JSON.stringify({
+        ok: true, reference: 'KIDZ-ABC12345', updated: true,
+        guessAdded: true, interestAdded: true, guessKept: false,
+      }),
+    };
+  };
+  const nachtragResponse = responseMock();
+  await registerHandler(request(validBody), nachtragResponse);
+  assert.equal(nachtragResponse.statusCode, 201);
+  assert.deepEqual(JSON.parse(nachtragResponse.body), {
+    ok: true, reference: 'KIDZ-ABC12345',
+    updated: true, guessAdded: true, interestAdded: true, guessKept: false,
+  });
+
+  // Rueckfall: Eine aeltere Fassung der Datenbankfunktion lehnt noch ab.
   global.fetch = async (url) => {
     if (String(url).includes('siteverify')) return { ok: true, json: async () => ({ success: true }) };
     return { ok: true, text: async () => JSON.stringify({ ok: false, reason: 'already_exists' }) };
@@ -159,7 +186,7 @@ const organizerLogoStat = await stat(new URL('../assets/images/team-wachsbleiche
 
 assert.match(html, /id="kgConsent"/);
 assert.match(html, /id="kgParentEvening"/);
-// Das Elternabend-Haekchen ist bis zum Veranstaltungstag ausgeblendet.
+// Das Haekchen fuer KIDZ for Future ist bis zum Veranstaltungstag ausgeblendet.
 assert.match(html, /id="kgParentEveningRow" hidden/);
 // Derselbe Hinweis bleibt bis dahin ebenfalls verborgen. Auswahl und Erklärung
 // dürfen nie unabhängig voneinander sichtbar sein.
@@ -274,7 +301,7 @@ assert.match(adminJs, /delete_kidz_gewinnspiel_participation/);
 assert.match(adminJs, /\['test', 'duplicate', 'erasure_request'\]/);
 assert.match(navJs, /label: 'KIDZ'/);
 assert.match(navJs, /Sommerfest-Gewinnspiel/);
-assert.match(navJs, /Elternabend/);
+assert.match(navJs, /KIDZ for Future/);
 assert.match(vercel, /\/kidz\/gewinnspiel/);
 assert.match(vercel, /kidz\.teamwachsbleiche\.de/);
 assert.match(vercel, /kidz\.kaiblobel\.de/);
@@ -371,5 +398,55 @@ assert.match(comebackMigration, /raise exception 'promoter-anika-bibrach is miss
 // Zugangscodes gehoeren nicht ins Repository, sie werden erzeugt.
 assert.match(comebackMigration, /gen_random_uuid\(\)/);
 assert.doesNotMatch(comebackMigration, /'(?:anika-biebrach|david-stamm)-[a-z0-9]{10,}'/);
+
+// Phase 321: Eine zweite Anmeldung ergaenzt, statt abzulehnen.
+//
+// Die tragende Regel ist "nur fuellen, was leer ist". Faellt sie weg, kann jeder,
+// der eine fremde E-Mail kennt, die Schaetzung eines anderen ueberschreiben und
+// ihm den ersten Platz nehmen. Deshalb steht sie hier unter Aufsicht.
+// Geprueft wird die zuletzt angewendete Fassung. Phase 322 hat die Funktion
+// erneut geschrieben, deshalb steht die Regel dort und nicht mehr nur in 321.
+const nachtragMigration = await read('schema-phase322-kidz-festtag-bremse.sql');
+assert.match(nachtragMigration, /v_schaetzung_neu := \(p_schaetzung_cm is not null and v_alte_schaetzung is null\)/,
+  'Eine vorhandene Schaetzung muss stehen bleiben.');
+assert.match(nachtragMigration, /elternabend_interesse = elternabend_interesse or coalesce\(p_elternabend_interesse, false\)/,
+  'Ein gesetztes Haekchen darf nicht wieder verschwinden.');
+assert.match(nachtragMigration, /'updated', true/);
+// Name, Kontakt und Zuordnung bleiben unberuehrt: sonst schreibt ein Fremder den
+// Eintrag eines anderen um.
+assert.doesNotMatch(nachtragMigration, /set[\s\S]{0,200}name = /);
+assert.doesNotMatch(nachtragMigration, /set[\s\S]{0,200}berater_id = /);
+
+// Phase 323: Aus der Einwilligungszeile wurde eine kleine Karte.
+//
+// Die Karte traegt die Kennung, an der das Ausblenden haengt. Bekommt sie
+// spaeter display: grid oder flex, verliert das Attribut hidden, und die
+// Einladung stuende schon vor dem Fest auf der Seite. Genau das ist dem Projekt
+// bei .kg-check bereits passiert.
+const gewinnspielCss = await read('css/kidz-gewinnspiel.css');
+assert.match(gewinnspielCss, /\.kg-evening\[hidden\]\s*\{\s*display:\s*none/,
+  'Ohne diese Regel kann die Einladung vor dem Veranstaltungstag sichtbar werden.');
+assert.match(html, /<h3 id="kgEveningTitle">Ein Abend nur für Eltern<\/h3>/);
+assert.match(html, /Eine kleine Runde, etwa 60 Minuten/);
+assert.match(html, /Ja, sagt mir einmal Bescheid, wenn der nächste Termin steht\./);
+// Die Dauer steht auf drei Seiten und muss dieselbe sein.
+assert.match(await read('kidz-elternabend.html'), /Etwa 60 Minuten/);
+assert.match(await read('kidz-konzept.html'), /<strong>60 Minuten<\/strong>/);
+
+// Die Seite muss sagen, was passiert ist, statt pauschal "Du bist dabei".
+const gewinnspielJs = await read('js/kidz-gewinnspiel.js');
+assert.match(gewinnspielJs, /function erfolgsMeldung/);
+assert.match(gewinnspielJs, /result\?\.updated !== true/);
+assert.match(gewinnspielJs, /guessKept/);
+
+// Phase 322: Die Bremse pro Anschluss passt zum Festgelaende, wo sich viele
+// Besucher eine Adresse teilen. Die Grenze pro Kontakt bleibt, sie ist der
+// eigentliche Schutz gegen Massenanmeldungen.
+assert.match(nachtragMigration, /'kidz_giveaway_hour', p_rate_key, 60,/);
+assert.match(nachtragMigration, /'kidz_giveaway_day', p_rate_key, 300,/);
+assert.match(nachtragMigration, /'kidz_giveaway_contact_day', p_contact_key, 3,/,
+  'Die Grenze je Kontakt darf nicht mitgelockert werden.');
+// Das Schaetzfenster bleibt der 6. September, es wurde nur die Bremse angefasst.
+assert.match(nachtragMigration, /2026-09-06 00:00:00\+02/);
 
 console.log('kidz-gewinnspiel: OK');

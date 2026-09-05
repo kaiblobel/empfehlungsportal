@@ -1,7 +1,95 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.332 Beta** · Entwicklung ansehen springt zur Person, live seit 21.08.2026.
+Offizielle Live-Version: **v1.338 Beta** · Einladung statt Einwilligungszeile, live seit 05.09.2026.
+
+## v1.338 Beta - Phase 323 · Einladung statt Einwilligungszeile
+**2026-09-05**
+
+Am 6. September geht das Häkchen für KIDZ for Future auf, an der besten Stelle, die es gibt: direkt unter dem Moment, in dem jemand gerade Ja zum Gewinnspiel gesagt hat. Dort stand eine Verwaltungszeile. Sie sagte, was man ankreuzt, aber nicht, warum jemand das wollen sollte. Auf dieser Seite kommt der Abend sonst nirgends vor, und ein Häkchen für etwas Unerklärtes kreuzt niemand an.
+
+Jetzt steht dort eine kleine Karte: Name, ein Satz, das Häkchen. "Ein Abend nur für Eltern. Eine kleine Runde, etwa 60 Minuten." Mehr nicht, damit sie das Formular nicht auseinanderzieht. Die Farben kommen von der Elternabendseite, Creme mit Petrol und Gold, damit sie sich von den blauen Formularfeldern absetzt und auf /kidz/elternabend wiedererkannt wird.
+
+Die Einwilligung bleibt eine Einwilligung: Häkchen nicht vorausgewählt, "Optional" sichtbar, das "einmal" im Text deckt die einmalige Kontaktaufnahme, der Datenschutzabsatz unverändert.
+
+Die Dauer stand bisher dreimal verschieden im Umlauf: 75 Minuten auf der Elternabendseite, 60 bis 75 auf der Konzeptseite. Jetzt überall 60 Minuten. Ein Wächter im Test hält die drei Stellen zusammen, damit sie nicht wieder auseinanderlaufen.
+
+Die Karte trägt die Kennung, an der das Ausblenden hängt. Deshalb hat sie eine eigene Regel `.kg-evening[hidden]`: Bekäme sie später `display: grid`, verlöre das Attribut `hidden`, und die Einladung stünde schon vor dem Fest auf der Seite. Genau das ist dem Projekt bei `.kg-check` bereits passiert. Gegenprobe gemacht: Regel entfernt, Test rot, Regel zurück, Test grün.
+
+Vor dem Livegang beides angesehen: die Seite mit vorgespieltem 6. September, dort ist die Karte da, und die Seite von heute, dort ist sie unsichtbar und das Schätzfeld weiterhin grau mit "ab 6. September".
+
+
+## v1.337 Beta - Phase 322 · Bremse passt zum Festgelände
+**2026-09-05**
+
+Die Anmeldung zählte 5 Versuche je Stunde und 15 je Tag pro Internetanschluss. Von zu Hause aus ist das eine sinnvolle Bremse. Auf dem Festgelände ist es eine Falle: Wer über dasselbe WLAN oder denselben Mobilfunk-Knoten geht, teilt sich eine Adresse. Ab der sechsten Anmeldung in einer Stunde hätten alle weiteren "Zu viele Anfragen" bekommen, und am Stand hätte niemand verstanden, warum. Verschärft wird das dadurch, dass am 6. September zu den Neuanmeldungen die Nachträge der 97 vorab Angemeldeten kommen, jeder davon eine weitere Anfrage von derselben Adresse.
+
+Neu: 60 je Stunde und 300 je Tag pro Anschluss.
+
+Zwei Dinge bleiben unangetastet, weil sie der eigentliche Schutz sind: der Bot-Schutz von Cloudflare vor jeder Anmeldung und die Grenze von 3 Versuchen je Kontakt und Tag. Die verhindert, was man wirklich verhindern will, nämlich dass eine Person hundert Anmeldungen absetzt. Die Bremse pro Anschluss kann das ohnehin nicht, sie trifft nur alle, die zufällig denselben Weg ins Netz nehmen.
+
+Die Funktion wurde aus der Fassung von Phase 321 erzeugt, nicht neu geschrieben. Ein Zeilenvergleich vor dem Anwenden zeigte genau zwei Unterschiede, die beiden Zahlen. Nach dem Anwenden gegengeprüft: Grenzen bei 60 und 300, Kontaktgrenze weiter bei 3, die Nachtrage-Regel aus Phase 321 unverändert vorhanden, das Schätzfenster weiterhin der 6. September.
+
+Datenbank: `schema-phase322-kidz-festtag-bremse.sql`, angewendet am 05.09.2026 als `phase_322_kidz_festtag_bremse`.
+
+
+## v1.336 Beta - Phase 321 · Nachtragen statt doppelt anmelden
+**2026-09-05**
+
+Am Vorabend des Sommerfests fiel eine Lücke auf, die das Fest gekostet hätte. 97 Personen hatten sich vor dem 6. September angemeldet, zu einem Zeitpunkt, an dem es weder das Schätzfeld für den Ballumfang noch das Häkchen für KIDZ for Future gab. Beide gehen erst am Veranstaltungstag auf. Wer sich danach noch einmal anmeldete, um sie nachzutragen, bekam die Antwort "Du bist bereits zum Gewinnspiel angemeldet" und ging leer aus. Die Datenbank kannte nur Annehmen oder Ablehnen, kein Ergänzen.
+
+Neu: Eine zweite Anmeldung mit demselben Kontakt legt keinen zweiten Eintrag an, sondern füllt am vorhandenen, was dort noch leer ist. Die Regel dahinter ist "nur ergänzen, nie überschreiben". Eine bereits abgegebene Schätzung bleibt stehen, sonst könnte jeder, der eine fremde E-Mail-Adresse kennt, die Schätzung eines anderen überschreiben und ihm den ersten Platz nehmen. Ein gesetztes Häkchen bleibt gesetzt. Name, Kontakt, einladender Berater und Personenzahl werden nicht angefasst.
+
+Die Seite sagt jetzt, was tatsächlich passiert ist, statt pauschal "Du bist dabei": ob die Schätzung ergänzt wurde, ob das Häkchen dazukam, oder ob schon eine Schätzung vorlag und deshalb die erste gilt.
+
+Im Beraterbereich lässt sich das Häkchen für KIDZ for Future jetzt ebenfalls nachtragen. Für die Schätzung gab es diesen Weg schon, für das Häkchen nirgends. Beides mit Rückfrage, weil es eine Einwilligung ist und kein Fehlklick sie setzen oder löschen soll.
+
+Geprüft wurde der Ablauf gegen die Live-Datenbank, mit einer Kopie der Funktion, die das Zeitfenster des 6. September aufmacht: Erstanmeldung, Schätzung nachtragen, zweite Schätzung abweisen, Häkchen nachtragen, Häkchen erneut. Am Ende genau eine Zeile mit der ersten Schätzung und gesetztem Häkchen. Die Prüfzeile und die Kopie wurden wieder entfernt, die 97 echten Anmeldungen blieben unberührt.
+
+Ein Wächter im Test hält die Regel "nur füllen, was leer ist" fest. Gegenprobe gemacht: Wird sie aus der Migration entfernt, wird der Test rot.
+
+Datenbank: `schema-phase321-kidz-nachtragen.sql`, angewendet am 05.09.2026 als `phase_321_kidz_nachtragen`.
+
+
+## v1.335 Beta - Phase 320 · Der Elternabend heißt KIDZ for Future
+**2026-09-05**
+
+Der KIDZ-Elternabend heißt ab sofort **KIDZ for Future**. Umbenannt wurde überall dort, wo der Name gelesen wird: auf der Vormerkungsseite `/kidz/elternabend`, im freiwilligen Häkchen der Gewinnspiel-Anmeldung samt Datenschutzabsatz, auf der Elternkonzeptseite mit ihren Schaltflächen, Fragen und dem Vormerk-Dialog, auf der Empfehlungsseite, in der Themenvorschau sowie im Beraterbereich (Menüeintrag, Kopfzeile, Kennzahl, Filter, Nacherfassung, Spaltenkopf im CSV und Name der Exportdatei).
+
+Nicht angefasst wurde alles, woran Daten oder gedrucktes Material hängen: die Adresse `/kidz/elternabend` samt QR-Codes, die Dateinamen, die Tabelle `kidz_elternabend_anmeldungen`, die Spalte `elternabend_interesse`, der Formularname `parentEvening`, die Herkunft `elternabend-qr` und der Bereichsschlüssel `kidz_elternabend`. Ein Name auf der Seite lässt sich ändern, eine Adresse auf einem gedruckten QR-Code nicht.
+
+Zwei Stellen brauchten mehr als ein Wort. Im Gewinnspielformular steht der neue Name ohne Zusammenhang, weil dort sonst nirgends von dem Abend die Rede ist. Deshalb heißt es dort "zum nächsten KIDZ for Future, dem Abend für Eltern". Und auf der Konzeptseite bezog sich der Folgesatz grammatisch auf "der Elternabend"; er lautet jetzt "Der Abend bringt Eltern in entspannter Runde zusammen".
+
+Die Zeitfenster bleiben, wie sie waren: Die Schätzung des Ballumfangs und das Häkchen öffnen weiterhin erst am 6. September.
+
+
+## v1.334 Beta - Phase 318 · Kein Film ohne Kais Freigabe
+**2026-08-31**
+
+Am 29.08. ging eine Probefassung des Erstgesprächsfilms auf die Themenseite, ohne dass Kai sie gesehen hatte. Jeder Push auf `main` veröffentlicht bei Vercel sofort, also war sie damit live. Auffallen konnte es niemandem: Es gab keine Stelle, an der steht, welcher Film laufen darf.
+
+Die gibt es jetzt. `assets/video/FREIGABEN.json` führt jeden freigegebenen Film mit Prüfsumme, Laufzeit, Datum und dem Namen dessen, der ihn freigegeben hat. Die Prüfsumme hängt am Inhalt, nicht am Dateinamen: Eine andere Fassung unter demselben Namen ist eine neue Fassung und fällt auf.
+
+Zwei Wächter halten die Liste. `tests/video-freigabe.test.mjs` wird rot, sobald eine Seite einen Film einbindet, der nicht freigegeben ist. Gezählt wird auch die zweite `<source>`-Zeile, die nur als Rückfall gedacht ist: Sie spielt vor denselben Kundenaugen. `.githooks/pre-push` bricht das Hochladen ab, sobald ein Film oder eine Seite mit Film betroffen ist und einer der Wächter rot steht. Eingeschaltet mit `git config core.hooksPath .githooks`.
+
+Zur Probe rückwärts angewendet: Der 25-Sekunden-Film hätte den Push nicht überstanden. Der bestehende Wächter für die KI-Kennzeichnung hätte ihn durchgelassen, denn gekennzeichnet war er. Er war nur nicht gewollt. Kennzeichnung und Freigabe sind zwei verschiedene Fragen.
+
+Der Promoterfilm der Präsentation stand seit dem 29.08. in einer neuen Fassung live, ebenfalls ungefragt. Kai hat sie am 31.08. angesehen und freigegeben, sie bleibt.
+
+Die Regel steht zusätzlich in `AGENTS.md` und `CLAUDE.md`, damit sie jeder Agent liest, bevor er einen Film anfasst: Film ablegen, Kai fragen, erst nach seinem Ja die Seite umstellen. Kein Agent trägt sich selbst in die Freigabeliste ein.
+
+---
+
+## v1.333 Beta - Phase 317 · Themenseite zeigt wieder den ursprünglichen Film
+**2026-08-31**
+
+Auf der allgemeinen Themenseite lief seit dem 29.08. eine 25 Sekunden kurze Probefassung des Erstgesprächsfilms. Sie war als Test gedacht und ist versehentlich mit veröffentlicht worden. Kapitel 2 spielt jetzt wieder den ursprünglichen Film über die Formel zum finanziellen Glück, mit dem alten Vorschaubild, dem Text „Anderthalb Minuten“ und der Laufzeitangabe 1:37.
+
+Die drei Probedateien sind aus dem Projekt entfernt, nicht nur abgehängt. Der Wächter `tests/ki-kennzeichnung.test.mjs` duldet keine Videodatei, die von keiner Seite eingebunden wird: Eine verwaiste Datei bliebe über ihre Adresse abrufbar, ohne dass der Pflichthinweis zur KI daneben steht.
+
+Der Promoterfilm in der Präsentation bleibt unangetastet, dort läuft weiter die neue 60-Sekunden-Fassung.
+
+---
 
 ## v1.332 Beta - Phase 316 · Entwicklung ansehen springt zur Person
 **2026-08-21**
