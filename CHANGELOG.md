@@ -1,7 +1,28 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.338 Beta** · Einladung statt Einwilligungszeile, live seit 05.09.2026.
+Offizielle Live-Version: **v1.339 Beta** · Der Anwendungswechsler im Portal, Stand 05.09.2026.
+
+## v1.339 Beta - Phase 324 · Der Anwendungswechsler im Portal
+**2026-09-05**
+
+Oben in der Seitenleiste steht jetzt ein Knopf mit neun Kacheln. Ein Klick, und es öffnet sich die Liste der anderen Anwendungen. Dasselbe Menü gibt es seit dem 24. August in KAI. und im Cockpit und seit heute im Umsatz-Navi. Das Portal war die letzte der vier Oberflächen ohne.
+
+Die wichtigste Regel dabei: **es gibt nur eine Liste.** Welche Anwendungen es gibt, steht im Katalog von KAI., wer was sehen darf, in der Freigabematrix unter `/waffel`. Das Portal führt keine eigene Liste und fällt auch bei einem Fehler nie auf eine zurück. Wer hier einen Eintrag vermisst, setzt den Haken in KAI., nicht im Portal. Das ist die Lehre aus dem KB-HUB, der eine zweite Liste pflegte und abgeschaltet wurde, weil zwei Listen immer auseinanderlaufen.
+
+Der Weg dahin: Der Browser schickt nur seinen Portal-Zugang an `api/waffel-config.js`. Der prüft ihn, sieht nach, wer da fragt, und holt damit die fertige Liste von KAI. Das gemeinsame Zugangswort bleibt auf dem Server und erreicht den Browser nie. Fehlt eine der drei Einstellungen, ist das Zugangswort zu kurz oder antwortet KAI. nicht, bleibt die Liste leer und der Knopf verschwindet. Es gibt keine Ersatzliste, das wäre genau die zweite Liste.
+
+**Wer fragt, wird mitgeschickt.** Die Kennung des angemeldeten Beraters geht mit an KAI., und das Inhaber-Kennzeichen dazu. Ohne das gälte Kai auf seinem eigenen Portal als Fremder und sähe fast nichts, und ein Partner bekäme Adressen, die die Interessenten des Inhabers erzeugen. Nachgesehen: die Portal-Kennung ist bei allen sieben Beratern dieselbe wie die Karriere-Kennung im Cockpit. Wer das ändert, muss hier eine Übersetzung einziehen.
+
+Das Aussehen kommt vom Original in KAI. Kopf mit Unterzeile, Suchfeld als bloße Linie statt als Kasten, Symbole frei in Markengold ohne Kachel darunter, Haarlinien zwischen den Zeilen, kein Pfeil am Zeilenende, die eigene Anwendung mit der Marke "Aktuell". Drei Dinge macht das Portal bewusst anders: Die Rundung bleibt bei der Hausform des Portals, denn die Anatomie zu übernehmen heißt nicht, mitten in der Anwendung die Form zu brechen. An die Stelle des Führungsblaus tritt Petrol, die Farbe, die hier alles Positive trägt; feste Hex-Werte stehen keine mehr im Code. Und das Suchfeld erscheint erst ab sechs Einträgen, weil es darunter nur Zierde wäre.
+
+Fremde Anwendungen öffnen in einem neuen Tab. Portal und Navi teilen eine Anmeldung, Cockpit und KAI. eine zweite. Ein Sprung über diese Grenze im selben Tab führt zur Anmeldemaske und kostet die laufende Portal-Sitzung.
+
+Der Knopf steht nur im Beraterbereich, nie auf einer Kundenseite und auch nicht auf der Anmeldeseite. Ein Wächter geht dafür alle achtzehn öffentlichen Seiten durch. Weitere Wächter halten fest, dass keine eingebaute Anwendungsliste entsteht, dass das Zugangswort nicht in den Browser gerät, dass die Verwaltungsadresse vom Server kommt statt fest im Code zu stehen, dass fremde Ziele abgekoppelt öffnen, dass der Knopf mit dem Daumen zu treffen ist und dass die Farben aus der Portal-DNA kommen. Jeder neue Wächter wurde einmal zurückgedreht und ist dabei rot geworden.
+
+**Noch nicht live.** Es fehlen drei Werte in der Vercel-Umgebung des Portals: WAFFEL_MENUE_URL, WAFFEL_MENUE_SECRET und SUPABASE_ANON_KEY (dieselben Namen wie in Cockpit und Navi, damit derselbe Name ueberall denselben Wert traegt). Solange die fehlen, ist das Menü leer und der Knopf unsichtbar. Genau daran hing es beim Cockpit am 25. August schon einmal.
+
+Sichtbarkeit ist dabei kein Zugriffsschutz. Jede Zielanwendung prüft Anmeldung und Berechtigung weiterhin selbst.
 
 ## v1.338 Beta - Phase 323 · Einladung statt Einwilligungszeile
 **2026-09-05**

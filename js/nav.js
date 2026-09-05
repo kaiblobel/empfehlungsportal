@@ -167,6 +167,9 @@ export function renderNav(opts = {}) {
             <span class="nav-brand-signature"><span>Regionaldirektion</span><span>Kai Blobel &amp; Team</span></span>
           </span>
         </div>
+        <div class="nav-waffel-slot">
+          <button class="nav-waffel" type="button" aria-label="Anwendungen" aria-expanded="false" hidden>${icon('Waffel', { size: 18 })}</button>
+        </div>
         <nav class="nav-list">${NAV_ITEMS.map(sidebarItem).join('')}</nav>
         ${appVer ? `<a class="nav-version" href="/changelog.html" title="${window.APP_PHASE || ''}">${appVer}</a>` : ''}
         <button class="nav-collapse-toggle" type="button" aria-label="Menü ein-/ausblenden" title="Menü ein-/ausblenden (⌘\\)">
@@ -174,11 +177,13 @@ export function renderNav(opts = {}) {
           <span class="nav-collapse-icon-collapse">${icon('ChevronRight', { size: 18 })}</span>
         </button>
       </aside>
+      <button class="nav-waffel nav-waffel-mobile" type="button" aria-label="Anwendungen" aria-expanded="false" hidden>${icon('Waffel', { size: 18 })}</button>
       <button class="nav-hamburger" type="button" aria-label="Menü öffnen">${icon('Menu', { size: 22 })}</button>
       <div class="nav-drawer" hidden>
         <div class="nav-drawer-panel">
           <button class="nav-drawer-close" type="button" aria-label="Menü schließen">${icon('X', { size: 22 })}</button>
           <div class="nav-brand" aria-label="Empfehlungsportal, Regionaldirektion Kai Blobel und Team"><span class="nav-brand-mark"></span><span class="nav-brand-copy"><span class="nav-brand-name">Empfehlungsportal</span><span class="nav-brand-signature"><span>Regionaldirektion</span><span>Kai Blobel &amp; Team</span></span></span></div>
+          <div class="nav-waffel-slot nav-waffel-slot-drawer"><button class="nav-waffel" type="button" aria-label="Anwendungen" aria-expanded="false" hidden>${icon('Waffel', { size: 18 })}</button></div>
           <nav class="nav-list">${NAV_ITEMS.map(sidebarItem).join('')}</nav>
           <button class="nav-drawer-logout" type="button" id="navDrawerLogout">${icon('LogOut', { size: 16 })}<span>Abmelden</span></button>
         </div>
@@ -190,6 +195,7 @@ export function renderNav(opts = {}) {
           </a>`).join('')}
         <button class="nav-bottom-item nav-bottom-more" type="button" aria-label="Vollständiges Menü öffnen">${icon('Menu', { size: 20 })}<span>Mehr</span></button>
       </nav>
+      ${waffelMarkup()}
     `;
 
     const ham = sidebar.querySelector('.nav-hamburger');
@@ -438,9 +444,292 @@ function meldeAnwesenheit() {
   document.addEventListener('visibilitychange', () => { if (!document.hidden) melden(); });
 }
 
-// Auto-init if a #appNav exists on DOMContentLoaded
+/* ------------------------------ Waffelmenue ------------------------------
+   Der Anwendungswechsler steht getrennt vom Markenblock. Inhalt kommt fertig
+   von der zentralen Freigabematrix in KAI. (ueber den Gleichursprungs-Vermittler
+   /api/waffel-config, der den Portal-Token prueft; das Tor-Wort zur KAI.-Route
+   bleibt auf dem Server). Fail-closed: leerer Bestand oder Ladefehler heisst
+   leeres Menue, fuer normale Berater verschwindet der Knopf ganz; nur Admins
+   sehen dann "Waffelmenue einrichten". Sichtbarkeit ist KEIN Zugriffsschutz,
+   jede Zielanwendung prueft weiterhin selbst Anmeldung und Berechtigung.
+
+   AUSSEHEN: Massgeblich ist das Original in KAI.
+   (kai-hub/src/components/waffel/WaffelMenue.tsx). Uebernommen ist die ganze
+   Anatomie — Kopf mit Unterzeile, Suchfeld als blosse Linie, Symbole frei in
+   Markengold ohne Kachel darunter, Haarlinien zwischen den Zeilen, kein Pfeil
+   am Zeilenende, die eigene Anwendung als Marke "Aktuell", Verwalten-Fuss.
+
+   Drei bewusste Abweichungen, jeweils mit Grund:
+     * RUNDUNG. KAI. und Cockpit sind eckig, die Hausform des Portals hat
+       10 bis 14 Pixel Radius (CLAUDE.md, Card-System). Die Anatomie des Menues
+       zu uebernehmen heisst nicht, mitten in der Anwendung die Hausform zu
+       brechen. Uebernommen ist der Aufbau, nicht der fremde Radius.
+     * FARBE. Das Portal hat kein Fuehrungsblau. An dessen Stelle steht Petrol
+       (--dna-petrol), die Farbe, die hier alles Positive traegt. Keine festen
+       Hex-Werte mehr; vorher stand hier ein hartes #1677B8.
+     * SUCHFELD ERST AB SECHS EINTRAEGEN. KAI. fuehrt 25 Anwendungen, da hilft
+       es immer. Hier sind es je nach Freigabe oft zwei oder drei, und darueber
+       ein Suchfeld zu setzen waere Zierde. Dieselbe Entscheidung wie im Navi.
+
+   Fremde Ziele oeffnen in einem neuen Tab: Portal und Navi teilen eine
+   Anmeldung, Cockpit und KAI. eine zweite. Ein Sprung ueber diese Grenze fuehrt
+   zur Anmeldemaske, und die laufende Portal-Sitzung soll dabei nicht
+   verlorengehen. */
+
+/** Ab so vielen Eintraegen lohnt das Suchfeld. */
+const WAFFEL_SUCHE_AB = 6;
+
+const WAFFEL_ICONS = new Set([
+  'Archive', 'BookOpen', 'Calculator', 'Coins', 'Gift', 'Globe',
+  'GraduationCap', 'LayoutGrid', 'LineChart', 'PieChart', 'Presentation',
+  'ShieldCheck', 'ShoppingBag', 'Sparkles', 'Store', 'Users', 'Wallet', 'Wrench',
+]);
+
+function waffelHtmlSicher(wert) {
+  return String(wert == null ? '' : wert)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function waffelMarkup() {
+  return `
+      <style>
+        .waffel-overlay{position:fixed;inset:0;z-index:120;background:rgba(19,25,29,.35)}
+        .waffel-panel{position:absolute;top:12px;left:12px;display:flex;flex-direction:column;width:min(440px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:hidden;background:var(--dna-card,#fff);color:var(--dna-ink,#13191D);border:1px solid var(--dna-line,#E3E7E9);border-radius:12px;box-shadow:0 18px 44px rgba(19,25,29,.18);font-family:Inter,system-ui,sans-serif}
+        .waffel-kopf{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:16px 16px 12px}
+        .waffel-kopf strong{display:block;font-size:14px;font-weight:600}
+        .waffel-kopf p{margin:2px 0 0;font-size:12px;color:var(--dna-muted,#6A747C)}
+        .waffel-schliessen{display:grid;place-items:center;width:32px;height:32px;border:0;border-radius:8px;background:transparent;color:var(--dna-muted,#6A747C);cursor:pointer}
+        .waffel-schliessen:hover{background:var(--dna-paper-2,#F1F4F5);color:var(--dna-ink,#13191D)}
+        /* Eingabefeld in der Hausform: eine Linie unten, kein Kasten. */
+        .waffel-suche{display:flex;align-items:center;gap:8px;margin:0 16px 12px;padding:6px 2px;border-bottom:1px solid var(--dna-line-strong,#D5DBDE)}
+        .waffel-suche:focus-within{border-bottom-color:var(--dna-petrol,#0B4650)}
+        .waffel-suche[hidden]{display:none}
+        .waffel-suche svg{flex:0 0 auto;color:var(--dna-gold,#C8AA22)}
+        .waffel-suche input{width:100%;border:0;background:transparent;outline:0;font-size:14px;color:var(--dna-ink,#13191D)}
+        .waffel-liste{min-height:0;overflow-y:auto;border-top:1px solid var(--dna-line,#E3E7E9)}
+        .waffel-liste a{display:flex;align-items:center;gap:16px;padding:14px 16px;color:var(--dna-ink,#13191D);text-decoration:none}
+        .waffel-liste a + a{border-top:1px solid var(--dna-line,#E3E7E9)}
+        .waffel-liste a:hover{background:var(--dna-paper-2,#F1F4F5)}
+        .waffel-liste a:focus-visible{outline:2px solid var(--dna-petrol,#0B4650);outline-offset:-2px}
+        /* Symbol frei in Markengold, ohne Kachel darunter. Der Name steht
+           daneben, die Farbe muss also nichts transportieren. */
+        .waffel-zeichen{flex:0 0 auto;width:32px;height:32px;color:var(--dna-gold,#C8AA22)}
+        .waffel-eintrag-name{display:block;font-size:14px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .waffel-eintrag-zweck{display:block;font-size:12px;color:var(--dna-muted,#6A747C);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .waffel-aktuell{flex:0 0 auto;padding:2px 8px;border:1px solid var(--dna-petrol,#0B4650);border-radius:6px;color:var(--dna-petrol,#0B4650);font-size:11px;font-weight:600}
+        .waffel-leer{padding:32px 16px;text-align:center;font-size:14px;color:var(--dna-muted,#6A747C)}
+        .waffel-fuss{border-top:1px solid var(--dna-line,#E3E7E9);padding:16px}
+        .waffel-fuss a{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--dna-line,#E3E7E9);border-radius:10px;color:var(--dna-petrol,#0B4650);text-decoration:none}
+        .waffel-fuss a:hover{background:var(--dna-paper-2,#F1F4F5)}
+        .waffel-fuss strong{display:block;font-size:12px}
+        .waffel-fuss-untertitel{display:block;font-size:11px;color:var(--dna-muted,#6A747C)}
+        .nav-waffel{display:grid;place-items:center;width:36px;height:36px;flex:0 0 auto;border:1px solid var(--dna-line,#E3E7E9);border-radius:10px;background:transparent;color:var(--dna-muted,#6A747C);cursor:pointer}
+        .nav-waffel[hidden]{display:none!important}
+        /* Sichtbar 36 Pixel, anfassbar 44 — die Untergrenze fuer einen
+           Daumen. Der Knopf soll dabei nicht groesser wirken. */
+        .nav-waffel{position:relative}
+        .nav-waffel::after{content:'';position:absolute;inset:-4px}
+        .nav-waffel:hover,.nav-waffel[aria-expanded="true"]{border-color:var(--dna-petrol,#0B4650);color:var(--dna-petrol,#0B4650)}
+        .nav-waffel svg{width:18px;height:18px}
+        .nav-waffel-slot{display:flex;justify-content:flex-start;padding:0 0 0 2px;margin-top:-18px;margin-bottom:-18px}
+        .nav-waffel-slot-drawer{position:absolute;top:66px;right:18px;margin:0;padding:0}
+        .nav-waffel-mobile{position:fixed;top:16px;right:64px;z-index:110;background:var(--dna-card,#fff);box-shadow:0 4px 14px rgba(19,25,29,.10)}
+        @media (min-width:1024px){.nav-waffel-mobile{display:none!important}}
+        body.nav-collapsed .nav-waffel-slot{justify-content:center;padding:0}
+      </style>
+      <div class="waffel-overlay" hidden>
+        <div class="waffel-panel" role="dialog" aria-modal="true" aria-label="Anwendungen">
+          <div class="waffel-kopf">
+            <div><strong>Anwendungen</strong><p>Schnell zwischen Werkzeugen wechseln</p></div>
+            <button class="waffel-schliessen" type="button" aria-label="Schließen">${icon('X', { size: 16 })}</button>
+          </div>
+          <label class="waffel-suche" hidden>${icon('Search', { size: 16 })}<input type="search" placeholder="Anwendung suchen …" aria-label="Anwendung suchen"></label>
+          <div class="waffel-liste" data-waffel-liste></div>
+          <div class="waffel-fuss" data-waffel-fuss hidden><a href="#"></a></div>
+        </div>
+      </div>`;
+}
+
+function waffelEintragHtml(e) {
+  const zeichen = WAFFEL_ICONS.has(e.symbol) ? e.symbol : 'LayoutGrid';
+  const aktuell = e.key === 'empfehlung';
+  // Fremde Anwendung: neuer Tab, damit die laufende Portal-Sitzung bleibt.
+  // noopener trennt den geoeffneten Tab vom oeffnenden Fenster.
+  const fremd = !aktuell && /^https?:\/\//i.test(String(e.url || ''));
+  const ziel = fremd ? ' target="_blank" rel="noopener noreferrer"' : '';
+  return `<a href="${waffelHtmlSicher(e.url)}"${ziel} data-waffel-eintrag${aktuell ? ' aria-current="page"' : ''}>
+    <span class="waffel-zeichen">${icon(zeichen, { size: 32, strokeWidth: 1.5 })}</span>
+    <span style="min-width:0;flex:1"><span class="waffel-eintrag-name">${waffelHtmlSicher(e.name)}</span><span class="waffel-eintrag-zweck">${waffelHtmlSicher(e.zweck)}</span></span>
+    ${aktuell ? '<span class="waffel-aktuell">Aktuell</span>' : ''}</a>`;
+}
+
+function zeigeWaffel(root, daten) {
+  const eintraege = Array.isArray(daten && daten.eintraege) ? daten.eintraege : [];
+  const istAdmin = !!(daten && daten.istAdmin);
+  // Die Adresse kommt vom Server; steht keine da, entfaellt der Fuss.
+  const verwaltenUrl = daten && typeof daten.verwaltenUrl === 'string' ? daten.verwaltenUrl : '';
+  const knoepfe = root.querySelectorAll('.nav-waffel');
+  if (eintraege.length === 0 && !(istAdmin && verwaltenUrl)) {
+    knoepfe.forEach((k) => { k.hidden = true; });
+    return;
+  }
+  knoepfe.forEach((k) => { k.hidden = false; });
+
+  const liste = root.querySelector('[data-waffel-liste]');
+  const fuss = root.querySelector('[data-waffel-fuss]');
+  if (!liste) return;
+
+  function render(filter) {
+    const s2 = String(filter || '').trim().toLowerCase();
+    const sicht = s2
+      ? eintraege.filter((e) => (e.name || '').toLowerCase().includes(s2) || (e.zweck || '').toLowerCase().includes(s2))
+      : eintraege;
+    liste.innerHTML = sicht.length
+      ? sicht.map(waffelEintragHtml).join('')
+      : `<p class="waffel-leer">${eintraege.length === 0 ? 'Noch keine Anwendungen freigegeben.' : 'Nichts gefunden.'}</p>`;
+  }
+  render('');
+
+  if (fuss) {
+    if (istAdmin && verwaltenUrl) {
+      fuss.hidden = false;
+      const titel = eintraege.length === 0 ? 'Waffelmenü einrichten' : 'Waffelmenü verwalten';
+      const link = fuss.querySelector('a');
+      link.href = verwaltenUrl;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.innerHTML = `${icon('Settings2', { size: 16 })}<span style="min-width:0"><strong>${titel}</strong><span class="waffel-fuss-untertitel">Sichtbarkeit je Oberfläche, zentral in KAI.</span></span>`;
+    } else {
+      fuss.hidden = true;
+    }
+  }
+
+  const overlay = root.querySelector('.waffel-overlay');
+  const suchzeile = root.querySelector('.waffel-suche');
+  const feld = root.querySelector('.waffel-suche input');
+  // Bei wenigen Eintraegen waere ein Suchfeld nur Zierde.
+  const mitSuche = eintraege.length >= WAFFEL_SUCHE_AB;
+  if (suchzeile) suchzeile.hidden = !mitSuche;
+
+  let zuletztFokussiert = null;
+  let vorherigerUeberlauf = '';
+  function oeffne() {
+    zuletztFokussiert = document.activeElement;
+    vorherigerUeberlauf = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    overlay.hidden = false;
+    knoepfe.forEach((k) => k.setAttribute('aria-expanded', 'true'));
+    if (mitSuche && feld) { feld.value = ''; render(''); feld.focus(); }
+  }
+  function schliesse() {
+    overlay.hidden = true;
+    document.body.style.overflow = vorherigerUeberlauf;
+    knoepfe.forEach((k) => k.setAttribute('aria-expanded', 'false'));
+    if (zuletztFokussiert && zuletztFokussiert.focus) zuletztFokussiert.focus();
+  }
+  knoepfe.forEach((k) => k.addEventListener('click', oeffne));
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) schliesse(); });
+  const zu = overlay.querySelector('.waffel-schliessen');
+  if (zu) zu.addEventListener('click', schliesse);
+  document.addEventListener('keydown', (e) => {
+    if (overlay.hidden) return;
+    if (e.key === 'Escape') {
+      schliesse();
+      return;
+    }
+
+    const fokusziele = Array.from(overlay.querySelectorAll('button:not([disabled]),input:not([disabled]),a[href],[tabindex]:not([tabindex="-1"])'))
+      .filter((element) => !element.hidden && !element.closest('[hidden]'));
+    if (e.key === 'Tab' && fokusziele.length > 0) {
+      const erstes = fokusziele[0];
+      const letztes = fokusziele[fokusziele.length - 1];
+      if (e.shiftKey && document.activeElement === erstes) {
+        e.preventDefault();
+        letztes.focus();
+      } else if (!e.shiftKey && document.activeElement === letztes) {
+        e.preventDefault();
+        erstes.focus();
+      }
+      return;
+    }
+
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      const links = Array.from(overlay.querySelectorAll('a[data-waffel-eintrag]'));
+      if (links.length === 0) return;
+      const index = links.indexOf(document.activeElement);
+      if (document.activeElement === feld && e.key === 'ArrowDown') {
+        e.preventDefault();
+        links[0].focus();
+      } else if (index >= 0) {
+        e.preventDefault();
+        const schritt = e.key === 'ArrowDown' ? 1 : -1;
+        links[(index + schritt + links.length) % links.length].focus();
+      }
+    }
+  });
+  if (feld) feld.addEventListener('input', () => render(feld.value));
+}
+
+function lokaleWaffelVorschau() {
+  if (!['127.0.0.1', 'localhost'].includes(window.location.hostname)) return null;
+  const params = new URLSearchParams(window.location.search);
+  const ansicht = params.get('waffel-vorschau');
+  if (!['voll', 'leer'].includes(ansicht)) return null;
+  const istAdmin = params.get('rolle') !== 'berater';
+  return {
+    istAdmin,
+    verwaltenUrl: istAdmin ? 'https://kai-hub-roan.vercel.app/waffel' : '',
+    eintraege: ansicht === 'leer' ? [] : [
+      { key: 'kai', name: 'KAI.', zweck: 'Deine Arbeitszentrale.', url: 'https://kai-hub-roan.vercel.app', symbol: 'Sparkles' },
+      { key: 'cockpit', name: 'Berater Cockpit', zweck: 'Kunden, Partner und Termine.', url: 'https://www.beratercockpit.de', symbol: 'Users' },
+      { key: 'empfehlung', name: 'Empfehlungsportal', zweck: 'Empfehlungen und Prämien.', url: 'https://empfehlungsportal.vercel.app', symbol: 'Gift' },
+      { key: 'navi', name: 'Umsatz-Navi', zweck: 'Zahlen der Woche im Team.', url: 'https://navi.teamwachsbleiche.de', symbol: 'LineChart' },
+      { key: 'finanzcheck', name: 'Finanzcheck', zweck: 'Der Einstieg für neue Kunden.', url: 'https://finanzcheck.kaiblobel.de', symbol: 'Calculator' },
+      { key: 'content', name: 'Content Studio', zweck: 'Beiträge vorbereiten.', url: 'https://content.kaiblobel.de', symbol: 'Presentation' },
+    ],
+  };
+}
+
+async function initWaffel() {
+  const root = document.getElementById('appNav');
+  if (!root || !root.querySelector('.waffel-overlay')) return;
+
+  // Nur auf dem eigenen Rechner: sichere Vorschau ohne Anmeldung und ohne
+  // Datenzugriff. Auf jeder echten Adresse bleibt allein die zentrale Matrix
+  // maßgeblich.
+  const vorschau = lokaleWaffelVorschau();
+  if (vorschau) {
+    zeigeWaffel(root, vorschau);
+    return;
+  }
+
+  try {
+    const { supabase } = await import('./supabase.js');
+    if (!supabase) return;
+    const { data: { session } } = await supabase.auth.getSession();
+    const token = session && session.access_token;
+    if (!token) return;
+    const antwort = await fetch('/api/waffel-config', {
+      headers: { authorization: `Bearer ${token}`, accept: 'application/json' },
+      cache: 'no-store',
+    });
+    if (!antwort.ok) return;
+    const daten = await antwort.json();
+    zeigeWaffel(root, daten);
+  } catch (_) {
+    // still und fail-closed: das Menue bleibt leer.
+  }
+}
+
+// Erst starten, nachdem auch die darunter stehenden Menuebausteine angelegt
+// sind. Modulskripte laufen oft erst nach DOMContentLoaded; ein frueherer
+// Sofortstart wuerde sonst auf noch nicht initialisierte const-Werte treffen.
 if (typeof document !== 'undefined') {
-  const init = () => { renderNav(); initCmdK(); mountContextMenu(); meldeAnwesenheit(); };
+  const init = () => { renderNav(); initWaffel(); initCmdK(); mountContextMenu(); meldeAnwesenheit(); };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 }

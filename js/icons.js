@@ -25,6 +25,38 @@ export const ICONS = {
   Presentation: _SVG(`<path d="M2 3h20"/><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"/><path d="m7 21 5-5 5 5"/>`),
   Link2: _SVG(`<path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 1 1 0 10h-2"/><line x1="8" x2="16" y1="12" y2="12"/>`),
   ArrowRight: _SVG(`<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>`),
+  // Das Zeichen des Anwendungswechslers: neun Kacheln, drei mal drei.
+  //
+  // GEFUELLT, nicht als Umriss (Kais Wahl am 05.09.2026): bei 18 Pixeln laufen
+  // neun duenne Raehmchen zu einem grauen Fleck zusammen. Lucide hat dafuer
+  // kein Zeichen — "LayoutGrid" sind vier grosse, "Grid3x3" ist ein
+  // Linienraster. Deshalb hier von Hand, nicht ueber _SVG (das zeichnet
+  // Umrisse).
+  //
+  // DIESELBE ZEICHNUNG LIEGT IN VIER PROJEKTEN, jeweils in ihrer Technik:
+  //   kai-hub          src/components/waffel/WaffelSymbol.tsx
+  //   berater-cockpit  src/components/layout/WaffelSymbol.tsx
+  //   umsatz-navi      js/v3-pilot-icons.js (Schluessel `waffel`)
+  //   empfehlungsportal  diese Stelle
+  // Die Masse (Kacheln bei 3, 9.5 und 16, je 5 breit, Radius 1) sind wortgleich
+  // uebernommen. Wer sie aendert, aendert sie an allen vieren.
+  Waffel: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">${
+    [3, 9.5, 16].map((y) => [3, 9.5, 16].map((x) => `<rect x="${x}" y="${y}" width="5" height="5" rx="1"/>`).join('')).join('')
+  }</svg>`,
+  LayoutGrid: _SVG(`<rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/>`),
+  Archive: _SVG(`<rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v13h16V8"/><path d="M10 12h4"/>`),
+  BookOpen: _SVG(`<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2Z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7Z"/>`),
+  Calculator: _SVG(`<rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="8" x2="8" y1="10" y2="10"/><line x1="12" x2="12" y1="10" y2="10"/><line x1="16" x2="16" y1="10" y2="10"/><line x1="8" x2="8" y1="14" y2="14"/><line x1="12" x2="12" y1="14" y2="14"/><line x1="16" x2="16" y1="14" y2="14"/><line x1="8" x2="8" y1="18" y2="18"/><line x1="12" x2="12" y1="18" y2="18"/><line x1="16" x2="16" y1="18" y2="18"/>`),
+  Coins: _SVG(`<circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.37 18.09"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/>`),
+  Globe: _SVG(`<circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 0 20"/><path d="M12 2a15.3 15.3 0 0 0 0 20"/>`),
+  GraduationCap: _SVG(`<path d="M21.43 14.83 12 20 2.57 14.83"/><path d="m22 10-10-5-10 5 10 5Z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>`),
+  LineChart: _SVG(`<path d="M3 3v18h18"/><path d="m7 16 4-5 4 3 5-7"/>`),
+  PieChart: _SVG(`<path d="M21.21 15.89A10 10 0 1 1 8.11 2.99"/><path d="M22 12A10 10 0 0 0 12 2v10z"/>`),
+  ShoppingBag: _SVG(`<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>`),
+  Store: _SVG(`<path d="M3 21h18"/><path d="M5 21V10"/><path d="M19 21V10"/><path d="M9 21v-6h6v6"/><path d="M3 7l2-4h14l2 4"/><path d="M5 7a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0"/>`),
+  Wallet: _SVG(`<path d="M20 7V5a2 2 0 0 0-2-2H5a3 3 0 0 0 0 6h15v12H5a3 3 0 0 1-3-3V6"/><path d="M16 13h2"/>`),
+  Wrench: _SVG(`<path d="M14.7 6.3a4 4 0 0 0-5-5L7.4 3.6l3 3 2.3-2.3a4 4 0 0 0 2 5l-9.9 9.9a2.1 2.1 0 0 0 3 3l9.9-9.9a4 4 0 0 0 5-5l-2.3 2.3-3-3z"/>`),
+  Settings2: _SVG(`<path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/>`),
   Menu: _SVG(`<line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>`),
   X: _SVG(`<path d="M18 6 6 18"/><path d="m6 6 12 12"/>`),
   Flame: _SVG(`<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>`),
