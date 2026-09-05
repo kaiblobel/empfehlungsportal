@@ -2009,22 +2009,11 @@ body[data-page="vorlagen-cms"] {
   padding: 2px 9px !important;
 }
 
-/* Activity-Avatar-Tint: stärkere Hierarchie (kunde+created stärker, opened mittel)
-
-   Die Farbwerte hier sind dieselben wie in js/hub.js unter EVENT_META.
-   JavaScript schreibt sie als --act-color ins style-Attribut, dieser
-   Selektor liest sie dort wieder. Wird eine Farbe nur an einer der
-   beiden Stellen geändert, greift die Tönung stillschweigend nicht
-   mehr, ohne Fehlermeldung. */
-.h-activity-row[style*="#0B4650"] .h-activity-avatar {
-  background: color-mix(in srgb, var(--act-color) 20%, transparent) !important;
-}
-.h-activity-row[style*="#2E6E7A"] .h-activity-avatar {
-  background: color-mix(in srgb, var(--act-color) 18%, transparent) !important;
-}
-.h-activity-row[style*="#5E939E"] .h-activity-avatar {
-  background: color-mix(in srgb, var(--act-color) 16%, transparent) !important;
-}
+/* Die Toenung des Symbols laeuft ueber die Variable --act-color, die
+   JavaScript ins style-Attribut schreibt. Bis Phase 329 standen hier drei
+   Selektoren, die stattdessen die FARBE ALS ZEICHENKETTE verglichen
+   ([style*="#0B4650"]). Sobald ein Farbwert in js/hub.js anders geschrieben
+   wurde, griffen sie stillschweigend nicht mehr, ohne Fehlermeldung. */
 
 /* Activity-Pill: höherer Font-Weight für Lesbarkeit */
 .h-activity-pill {
@@ -2072,11 +2061,11 @@ body[data-page="vorlagen-cms"] {
   stroke-width: 2 !important;
 }
 
-/* Status-Hierarchie via stärkere Tönung für Outcome-Events */
-.h-activity-row[style*="#0B4650"] .h-activity-avatar { background: color-mix(in srgb, var(--act-color) 12%, transparent) !important; }
-.h-activity-row[style*="#2E6E7A"] .h-activity-avatar { background: color-mix(in srgb, var(--act-color) 11%, transparent) !important; }
-.h-activity-row[style*="#5E939E"] .h-activity-avatar { background: color-mix(in srgb, var(--act-color) 9%, transparent) !important; }
-.h-activity-row[style*="#13191D"] .h-activity-avatar { background: color-mix(in srgb, var(--act-color) 9%, transparent) !important; }
+/* Hier stand ein zweiter Satz Zeichenvergleiche auf die Farbe im
+   style-Attribut, mit Toenungen zwischen 9 und 12 Prozent. Er ist mit den
+   alten Farbwerten aus Phase 326 hinfaellig geworden und faellt weg: die
+   Toenung setzt die Regel im hub-Block, ueber die Variable statt ueber
+   einen Textvergleich. */
 
 /* Event-Titel stärker */
 .h-activity-name {
@@ -3607,47 +3596,55 @@ body[data-page="hub"] .h-team-momentum {
   padding-top: 2px;
 }
 
+/* ── Der Aktivitätsstrom als echte Karten (Phase 329) ──────────────────
+   Kais Befund am Bild: "das sieht alles einheitlich aus, kannst du mir das
+   etwas stärker hervorheben und auch einen kleinen Abstand zwischen den
+   Karten machen".
+
+   Vorher waren es flache Zeilen: kein Rahmen, keine Rundung, durchsichtig,
+   getrennt nur durch eine Linie. Die Farbe der Ereignisart sass in einem
+   Strich, der mit `left: -18px` AUSSERHALB der Zeile stand und mit
+   opacity .65 kaum zu sehen war. Sieben verschiedene Ereignisse sahen
+   deshalb gleich aus.
+
+   Jetzt: eine Karte je Ereignis, mit Abstand dazwischen, und die Art des
+   Ereignisses traegt die linke Kante. Die Form bleibt die des Portals
+   (Rundung, feine Kante) — Variante B aus Phase 326. */
 body[data-page="hub"] .h-activity-row {
-  grid-template-columns: 32px minmax(0, 1fr) !important;
-  gap: 10px !important;
-  padding: 14px 2px !important;
+  grid-template-columns: 34px minmax(0, 1fr) !important;
+  gap: 12px !important;
+  padding: 12px 14px !important;
   overflow: visible;
-  border: 0 !important;
-  border-bottom: 1px solid var(--surface-2) !important;
-  border-radius: 0 !important;
-  background: transparent !important;
+  border: 1px solid var(--dna-line) !important;
+  border-left: 3px solid var(--act-color, var(--dna-gold)) !important;
+  border-radius: var(--radius-md) !important;
+  background: var(--dna-card) !important;
   box-shadow: none !important;
 }
 
-body[data-page="hub"] .h-activity-row::before {
-  content: '';
-  position: absolute;
-  top: 16px;
-  left: -18px;
-  width: 2px;
-  height: 20px;
-  border-radius: 2px;
-  background: var(--act-color, var(--accent));
-  opacity: .65;
-}
+/* Der alte Strich ausserhalb der Zeile ist durch die Kante ersetzt. */
+body[data-page="hub"] .h-activity-row::before { display: none !important; }
 
 body[data-page="hub"] .h-activity-row:hover {
   transform: none !important;
-  background: rgba(255,255,255,.72) !important;
+  background: var(--dna-paper-2) !important;
+  border-color: var(--act-color, var(--dna-line)) !important;
   box-shadow: none !important;
 }
 
 body[data-page="hub"] .h-activity-avatar {
-  width: 30px !important;
-  height: 30px !important;
-  border-radius: 9px !important;
-  background: color-mix(in srgb, var(--act-color) 8%, white) !important;
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: var(--radius-sm) !important;
+  /* Stand auf 8 Prozent und war damit fast weiss. */
+  background: color-mix(in srgb, var(--act-color) 14%, white) !important;
+  color: var(--act-color) !important;
 }
 
 body[data-page="hub"] .h-activity-avatar svg {
-  width: 15px !important;
-  height: 15px !important;
-  stroke-width: 1.7 !important;
+  width: 17px !important;
+  height: 17px !important;
+  stroke-width: 1.8 !important;
 }
 
 body[data-page="hub"] .h-activity-name {
@@ -3668,10 +3665,19 @@ body[data-page="hub"] .h-activity-text {
   font-weight: 400 !important;
 }
 
+/* Die Marke nennt die Art des Ereignisses beim Namen und ist damit das,
+   was die Zeilen unterscheidet. Sie stand auf 9px, Gewicht 400, und ihre
+   Farbe wurde zu 26 Prozent mit Grau gemischt — das nahm der Ereignisfarbe
+   genau die Aussage, die sie tragen soll.
+
+   Sie steht jetzt in --act-text, nicht in --act-color: bei Gold sind das
+   zwei verschiedene Werte, weil Gold als Schrift nur 2,28:1 hat. Wo keine
+   zweite Farbe gesetzt ist, sind beide gleich. */
 body[data-page="hub"] .h-activity-pill {
-  color: color-mix(in srgb, var(--act-color) 74%, #555) !important;
-  font-size: 9px !important;
-  font-weight: 400 !important;
+  color: var(--act-text, var(--act-color)) !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: .02em !important;
 }
 
 body[data-page="hub"] .h-badge-new {
@@ -3709,13 +3715,11 @@ body[data-page="hub"] .h-activity-unread {
     padding: 0 !important;
   }
 
+  /* Der Abstand zwischen den Karten bleibt auch hier: er ist der Grund,
+     warum man die Ereignisse auseinanderhalten kann (Phase 329). Stand
+     vorher auf 0, aus der Zeit der flachen Zeilen. */
   body[data-page="hub"] .h-side-activity .h-timeline {
-    gap: 0;
     padding-bottom: 0;
-  }
-
-  body[data-page="hub"] .h-side-activity .h-activity-row::before {
-    left: -18px;
   }
 }
 
@@ -3726,9 +3730,6 @@ body[data-page="hub"] .h-activity-unread {
     background: var(--bg);
   }
 
-  body[data-page="hub"] .h-activity-row::before {
-    left: -18px;
-  }
 }
 
 @media (max-width: 560px) {
