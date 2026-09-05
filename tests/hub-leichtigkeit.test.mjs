@@ -48,8 +48,14 @@ assert.match(css, /color: var\(--sage-dark\) !important/);
 assert.match(css, /body\[data-page="hub"\] \.h-network-overview \.h-kpi/);
 assert.match(css, /box-shadow: none !important/);
 assert.match(css, /body\[data-page="hub"\] \.h-activity-row/);
-assert.match(css, /padding: 14px 2px !important/);
-assert.match(css, /border-bottom: 1px solid var\(--surface-2\) !important/);
+// Bis Phase 329 stand hier `padding: 14px 2px`, das Mass der flachen Zeilen.
+// Der Aktivitaetsstrom besteht seither aus Karten mit eigener Flaeche und
+// Abstand (Kais Befund: "das sieht alles einheitlich aus"). Das Polster gehoert
+// jetzt nach innen. Die Zusicherung dazu steht in tests/aktivitaetsstrom.test.mjs.
+assert.match(css, /padding: 12px 14px !important/);
+// Die Trennlinie zwischen den Zeilen ist mit Phase 329 entfallen: der
+// Aktivitaetsstrom besteht aus Karten mit Abstand, dort trennt der Abstand.
+assert.match(css, /border-left: 3px solid var\(--act-color/);
 assert.match(css, /background: var\(--bg\)/);
 assert.match(css, /@media \(max-width: 560px\)/);
 

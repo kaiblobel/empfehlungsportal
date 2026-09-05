@@ -362,24 +362,28 @@ async function loadTimelineEvents() {
 }
 
 /* Die Farbe sagt, was das Ereignis bedeutet, das Symbol sagt, welches
-   es ist. Deshalb tragen mehrere Ereignisse dieselbe Farbe: Petrol wird
+   es ist. Deshalb tragen mehrere Ereignisse dieselbe Farbe: Blau wird
    dunkler, je weiter jemand im Funnel steht, Gold heißt "will etwas von
    dir". Sieben eigene Farben nebeneinander waren ein Regenbogen, in dem
    nichts mehr eine Bedeutung hatte.
 
-   ACHTUNG: Diese Werte stehen in css/hub.css noch einmal, als Selektor
-   .h-activity-row[style*="#0B4650"]. Wer hier eine Farbe ändert, muss
-   sie dort mitändern, sonst greift die Tönung des Avatars nicht mehr.
-   Schreibweise in Großbuchstaben beibehalten, der Selektor vergleicht
-   Zeichen für Zeichen. */
+   ZWEI FARBEN JE EREIGNIS (Phase 329): `color` trägt Fläche und Kante,
+   `text` trägt die Schrift. Bei Gold ist das nicht dasselbe: #C8AA22 auf
+   Weiß sind 2,28:1, für Schrift braucht es gold-140 mit 5,7:1. Wo `text`
+   fehlt, gilt `color` — die anderen Töne sind dunkel genug.
+
+   Die Werte kommen aus den Haustokens (Phase 326), nicht mehr aus der
+   alten Portal-Palette. Der frühere Selektor .h-activity-row[style*="#0B4650"]
+   in css/hub.css ist damit hinfällig und entfernt: die Tönung läuft jetzt
+   über die Variable --act-color, nicht über einen Zeichenvergleich. */
 const EVENT_META = {
-  created:           { label: 'Empfehlung erhalten', color: '#2E6E7A', icon: 'Send' },            // Fortschritt
-  opened:            { label: 'Link geklickt',       color: '#5E939E', icon: 'Eye' },             // früher Kontakt
-  interest:          { label: 'Interesse',           color: '#C8AA22', icon: 'HeartHandshake' },  // Aufmerksamkeit
-  call:              { label: 'Anrufwunsch',         color: '#8F7809', icon: 'PhoneCall' },       // verlangt Handlung
-  kunde:             { label: 'Neuer Kunde',         color: '#0B4650', icon: 'Trophy' },          // Ergebnis
-  promotor_created:  { label: 'Promoter erstellt',   color: '#13191D', icon: 'UserPlus' },        // neuer Mensch
-  termin_booked:     { label: 'Termin gebucht',      color: '#2E6E7A', icon: 'Calendar' },        // Fortschritt
+  created:           { label: 'Empfehlung erhalten', color: '#0070A8', icon: 'Send' },            // Fortschritt
+  opened:            { label: 'Link geklickt',       color: '#337A96', icon: 'Eye' },             // früher Kontakt
+  interest:          { label: 'Interesse',           color: '#C8AA22', text: '#786614', icon: 'HeartHandshake' },  // Aufmerksamkeit
+  call:              { label: 'Anrufwunsch',         color: '#786614', icon: 'PhoneCall' },       // verlangt Handlung
+  kunde:             { label: 'Neuer Kunde',         color: '#00587C', icon: 'Trophy' },          // Ergebnis
+  promotor_created:  { label: 'Promoter erstellt',   color: '#2B2B2B', icon: 'UserPlus' },        // neuer Mensch
+  termin_booked:     { label: 'Termin gebucht',      color: '#0070A8', icon: 'Calendar' },        // Fortschritt
 };
 
 const NEW_BADGE_WINDOW_MS = 24 * 60 * 60 * 1000; // 24h
@@ -396,7 +400,7 @@ function renderTimeline(events) {
     const isNew = (Date.now() - e.ts) < NEW_BADGE_WINDOW_MS;
     const isUnread = previousVisitTs > 0 && e.ts > previousVisitTs && !readEvents.has(key);
     return `
-    <a class="h-activity-row${isUnread ? ' is-unread' : ''}" href="${e.href || `dashboard/detail.html?id=${encodeURIComponent(e.id)}`}" data-event-key="${key}" style="--act-color:${meta.color};">
+    <a class="h-activity-row${isUnread ? ' is-unread' : ''}" href="${e.href || `dashboard/detail.html?id=${encodeURIComponent(e.id)}`}" data-event-key="${key}" style="--act-color:${meta.color};--act-text:${meta.text || meta.color};">
       <span class="h-activity-avatar" aria-label="${meta.label}">${icon(meta.icon, { size: 20 })}</span>
       <div class="h-activity-body">
         <div class="h-activity-top">
@@ -437,10 +441,12 @@ function timelineTime(ts) {
 }
 
 /* ---------- Team-Momentum (Phase 82) ---------- */
+/* Achtung: hier heißt `text` der Satz, nicht die Schriftfarbe. Die Töne
+   sind alle dunkel genug, eine zweite Farbe braucht es deshalb nicht. */
 const TEAM_META = {
-  empfehlung: { label: 'Empfehlung', color: '#2E6E7A', icon: 'Send',     text: 'hat eine Empfehlung erhalten' },
-  promoter:   { label: 'Promoter',   color: '#13191D', icon: 'UserPlus', text: 'hat einen neuen Promoter gewonnen' },
-  kunde:      { label: 'Kunde',      color: '#0B4650', icon: 'Trophy',   text: 'hat einen Kunden gewonnen' },
+  empfehlung: { label: 'Empfehlung', color: '#0070A8', icon: 'Send',     text: 'hat eine Empfehlung erhalten' },
+  promoter:   { label: 'Promoter',   color: '#2B2B2B', icon: 'UserPlus', text: 'hat einen neuen Promoter gewonnen' },
+  kunde:      { label: 'Kunde',      color: '#00587C', icon: 'Trophy',   text: 'hat einen Kunden gewonnen' },
 };
 async function loadTeamMomentum() {
   try {
@@ -478,7 +484,7 @@ function teamRowHtml(r) {
   const m = TEAM_META[r.event] || TEAM_META.empfehlung;
   const ts = parseDbDate(r.event_at).getTime();
   const isNew = (Date.now() - ts) < NEW_BADGE_WINDOW_MS;
-  return `<div class="h-activity-row" style="--act-color:${m.color};">
+  return `<div class="h-activity-row" style="--act-color:${m.color};--act-text:${m.color};">
     <span class="h-activity-avatar" aria-label="${m.label}">${icon(m.icon, { size: 20 })}</span>
     <div class="h-activity-body">
       <div class="h-activity-top">

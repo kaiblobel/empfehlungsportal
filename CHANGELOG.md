@@ -1,7 +1,28 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.343 Beta** · Auch der Anmelde-Knopf, live seit 05.09.2026.
+Offizielle Live-Version: **v1.344 Beta** · Man sieht wieder, was passiert ist, Stand 05.09.2026.
+
+## v1.344 Beta - Phase 329 · Man sieht wieder, was passiert ist
+**2026-09-05**
+
+Kais Befund am Bild: „das sieht alles einheitlich aus, kannst du mir das etwas stärker hervorheben und auch einen kleinen Abstand zwischen den Karten machen."
+
+Er hatte recht, und der Grund lag an drei Stellen gleichzeitig. Die Zeilen im Aktivitätsstrom waren flach: kein Rahmen, keine Rundung, durchsichtig, getrennt nur durch eine Linie. Die Farbe, die sagt um welche Art Ereignis es geht, saß in einem Strich, der mit `left: -18px` **außerhalb** der Zeile stand und mit `opacity: .65` kaum zu sehen war. Und die Marke am Zeilenende („Link geklickt", „Interesse") wurde zu 26 Prozent mit Grau gemischt, stand auf 9 Pixeln und war nicht hervorgehoben.
+
+Sieben verschiedene Ereignisarten sahen deshalb gleich aus.
+
+Jetzt ist jedes Ereignis eine eigene Karte mit Abstand dazwischen, die linke Kante trägt die Farbe der Ereignisart, das Symbol ist kräftiger getönt, und die Marke steht in der Farbe des Ereignisses, fett und einen Tick größer.
+
+**Zwei Dinge, die dabei mit aufgeräumt wurden:**
+
+Die Farben der Ereignisarten standen noch auf der alten Portal-Palette und waren nach dem Anstrich aus Phase 326 die letzten Werte aus der alten Welt. Sie kommen jetzt aus den Haustokens.
+
+Und: Die Tönung des Symbols lief über einen Selektor, der die **Farbe als Zeichenkette** verglich (`.h-activity-row[style*="#0B4650"]`). Derselbe Farbwert stand also zweimal da, in `js/hub.js` und in `css/hub.css`. Wurde er nur an einer Stelle geändert, griff die Tönung stillschweigend nicht mehr. Genau das wäre beim Umstellen der Farben passiert. Die Tönung läuft jetzt über die Variable, ohne Textvergleich.
+
+**Gold bleibt Gold, aber nicht als Schrift.** Das Ereignis „Interesse" ist golden. Seine Marke stünde damit bei 2,28:1. Jedes Ereignis trägt deshalb jetzt zwei Farben: eine für Fläche und Kante, eine für die Schrift. Gemessen: alle sechs Marken liegen zwischen 4,8:1 und 14,2:1.
+
+Sieben Wächter, jeder einmal zurückgedreht und rot geworden. Der erste Versuch der Gegenprobe war ein Fehlalarm, weil die Sabotage die falsche von vier gleichnamigen Regeln traf; erst der gezielte zweite Versuch hat gezeigt, dass der Wächter greift.
 
 ## v1.343 Beta - Phase 328 · Auch der Anmelde-Knopf
 **2026-09-05**
