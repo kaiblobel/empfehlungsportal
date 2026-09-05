@@ -13,7 +13,7 @@
  * trägt — die darf nie veraltet sein.
  */
 
-const CACHE_VERSION = 'v301-2026-09-05-phase326';
+const CACHE_VERSION = 'v302-2026-09-05-phase327';
 const SHELL_CACHE = `shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `assets-${CACHE_VERSION}`;
 
@@ -24,14 +24,14 @@ const SHELL_URLS = [
   '/dashboard/potenziale.html',
   '/dashboard/kidz-elternabend.html',
   '/thema.html',
-  '/css/style.css?v=34',
-  '/css/dashboard.css?v=55',
-  '/css/hub.css?v=60',
-  '/css/dna.css?v=11',
-  '/css/analysen.css?v=3',
-  '/css/promoter-dashboard.css?v=3',
-  '/css/potenziale.css?v=11',
-  '/css/empfehlung-detail.css?v=2',
+  '/css/style.css?v=35',
+  '/css/dashboard.css?v=56',
+  '/css/hub.css?v=61',
+  '/css/dna.css?v=12',
+  '/css/analysen.css?v=4',
+  '/css/promoter-dashboard.css?v=4',
+  '/css/potenziale.css?v=12',
+  '/css/empfehlung-detail.css?v=3',
   '/css/kidz-gewinnspiel-admin.css?v=6',
   '/css/kidz-elternabend-admin.css?v=1',
   '/css/themen-vorschau.css?v=12',

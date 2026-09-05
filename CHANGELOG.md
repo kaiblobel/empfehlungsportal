@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.341 Beta** · Aus einer Schmiede, Stand 05.09.2026.
+Offizielle Live-Version: **v1.342 Beta** · Damit der Anstrich auch ankommt, live seit 05.09.2026.
+
+## v1.342 Beta - Phase 327 · Damit der Anstrich auch ankommt
+**2026-09-05**
+
+Nachtrag zu Phase 326, gefunden bei der Abnahme an der Live-Seite.
+
+Der Anstrich war veröffentlicht, die Dateien auf dem Server richtig, alle Tests grün. Und die Anmeldeseite zeigte trotzdem noch die alten Farben. Der Grund: Die Stylesheets werden mit einer Nummer eingebunden (`css/dna.css?v=11`), und die war stehen geblieben. Für den Browser ist das dieselbe Adresse wie vorher, also liefert er die Fassung, die er schon kennt.
+
+Das Tückische daran ist, dass sich nichts meldet. Kein roter Test, kein Fehler im Protokoll, kein Hinweis beim Veröffentlichen. Man sieht es nur, wenn man die fertige Seite aufmacht und die Werte misst.
+
+Alle acht geänderten Stylesheets haben jetzt eine neue Nummer, und der Dienstspeicher (`sw.js`) führt dieselben.
+
+**Drei neue Wächter**, damit das nicht wieder passiert: jede eingebundene Datei trägt eine Cache-Nummer, dieselbe Datei trägt auf allen Seiten dieselbe, und der Dienstspeicher hält keine ältere vor als die Seiten anfordern. Jeder einmal zurückgedreht und rot geworden.
+
+Eine benannte Ausnahme bleibt: `js/config.js` trägt bewusst keine Nummer. Sie enthält selbst die Fassungsnummer, und der Dienstspeicher holt sie deshalb seit Phase 133 ausdrücklich immer erst aus dem Netz. Dort wäre eine Nummer doppelt gemoppelt.
 
 ## v1.341 Beta - Phase 326 · Aus einer Schmiede
 **2026-09-05**

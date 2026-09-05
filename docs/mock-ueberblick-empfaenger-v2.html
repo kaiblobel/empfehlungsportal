@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Mockup: Das ganze Bild</title>
+  <style>
+    @font-face{font-family:Outfit;font-style:normal;font-weight:400 700;font-display:swap;src:url('/assets/fonts/outfit-latin.woff2') format('woff2')}
+    @font-face{font-family:Inter;font-style:normal;font-weight:400 700;font-display:swap;src:url('/assets/fonts/inter-latin.woff2') format('woff2')}
+    :root{
+      --ink:#13191d;--text:#39434a;--muted:#657078;--paper:#fbfcfc;--soft:#f1f4f5;
+      --card:#fff;--line:#e2e7e9;--gold:#c8aa22;--gold-dark:#725918;--sage:#7a8b6f;
+      --head:Outfit,system-ui,sans-serif;--sans:Inter,system-ui,sans-serif;--max:1160px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--paper);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.58;-webkit-font-smoothing:antialiased}
+    button,input{font:inherit}button,a{-webkit-tap-highlight-color:transparent}a{color:inherit}img{display:block;max-width:100%}
+    [hidden]{display:none!important}
+    :where(a,button,input,summary):focus-visible{outline:3px solid rgba(200,170,34,.85);outline-offset:3px}
+    h1,h2,h3,h4{font-family:var(--head);color:var(--ink);letter-spacing:-.025em}
+    section[id]{scroll-margin-top:92px}
+    .preview-note{display:flex;align-items:center;justify-content:center;min-height:34px;padding:7px 16px;background:#ede8d9;color:#514827;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .referral-band{display:flex;align-items:center;gap:12px;padding:12px max(22px,calc((100vw - var(--max))/2));background:var(--ink);color:#d7dde0}
+    .referral-band b{display:grid;place-items:center;width:31px;height:31px;border-radius:50%;background:var(--gold);color:var(--ink);font-family:var(--head)}
+    .referral-band p{margin:0;font-size:14px}.referral-band strong{color:#fff}
+    .site-header{position:sticky;z-index:30;top:0;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:24px;min-height:78px;padding:10px max(22px,calc((100vw - var(--max))/2));border-bottom:1px solid var(--line);background:rgba(251,252,252,.96)}
+    .brand{display:flex;align-items:center;gap:11px;text-decoration:none}.brand img{width:44px;height:44px;border-radius:50%;object-fit:cover;object-position:50% 22%}
+    .brand span{display:grid}.brand strong{font-family:var(--head);font-size:15px;color:var(--ink)}.brand small{font-size:11.5px;color:var(--muted)}
+    .desktop-nav{display:flex;justify-content:center;gap:28px}.desktop-nav a{font-size:13px;font-weight:700;text-decoration:none;color:#59636a}.desktop-nav a:hover{color:var(--ink)}
+    .button{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:13px 23px;border:1px solid var(--line);border-radius:999px;text-decoration:none;font-weight:700;cursor:pointer}
+    .button-primary{border-color:var(--ink);background:var(--ink);color:#fff;box-shadow:0 12px 28px rgba(19,25,29,.14)}
+    .button-secondary{background:#fff;color:var(--ink)}
+    .mobile-menu-button{display:none;align-items:center;gap:8px;min-height:44px;padding:10px 15px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);font-weight:700}
+    .mobile-menu-button i,.mobile-menu-button i:before,.mobile-menu-button i:after{display:block;width:17px;height:2px;background:currentColor;content:""}.mobile-menu-button i{position:relative}.mobile-menu-button i:before{position:absolute;top:-5px}.mobile-menu-button i:after{position:absolute;top:5px}
+    .mobile-menu{position:fixed;z-index:40;top:78px;right:12px;left:12px;display:grid;padding:12px;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:0 24px 60px rgba(19,25,29,.18)}
+    .mobile-menu a{padding:13px 14px;border-bottom:1px solid var(--line);text-decoration:none;font-weight:700}.mobile-menu a:last-child{border:0}
+    .hero{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(380px,.98fr);align-items:center;gap:58px;max-width:var(--max);margin:auto;padding:68px 22px 78px}
+    .eyebrow{margin:0 0 14px;color:var(--gold-dark);font-size:11px;font-weight:800;letter-spacing:.15em;text-transform:uppercase}
+    .hero h1{max-width:720px;margin:0;font-size:clamp(42px,5.5vw,67px);line-height:1.01}
+    .hero-lede{max-width:650px;margin:24px 0 0;font-size:clamp(17px,1.5vw,20px);line-height:1.62;color:var(--muted)}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+    .trust{display:flex;flex-wrap:wrap;gap:12px 20px;margin:25px 0 0;padding:0;list-style:none;color:#59636a;font-size:13px;font-weight:700}
+    .trust li{display:flex;align-items:center;gap:7px}.trust i{display:grid;place-items:center;width:19px;height:19px;border-radius:50%;background:var(--ink);color:#fff;font-style:normal;font-size:11px}
+    .hero-visual{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:18px;background:#fff;padding:18px}
+    .hero-visual img{width:100%;aspect-ratio:4/3;border-radius:11px;object-fit:cover;object-position:50% 25%}
+    .hero-visual figcaption{position:absolute;right:32px;bottom:32px;left:32px;padding:14px 16px;border-radius:12px;background:rgba(19,25,29,.9);color:#fff}
+    .hero-visual small{display:block;color:#d5dbde}.hero-visual strong{font-family:var(--head);font-size:18px}
+    .value-strip{background:var(--soft);border-block:1px solid var(--line)}
+    .value-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;max-width:var(--max);margin:auto;background:var(--line)}
+    .value-grid article{min-height:150px;padding:28px;background:var(--soft)}
+    .value-grid span{color:var(--gold-dark);font:700 12px/1 var(--head);letter-spacing:.1em}.value-grid h2{margin:10px 0 5px;font-size:20px}.value-grid p{margin:0;color:var(--muted);font-size:14px}
+    .section{max-width:var(--max);margin:auto;padding:82px 22px}
+    .section-heading{max-width:720px;margin-bottom:34px}.section-heading h2{margin:0;font-size:clamp(32px,4vw,48px);line-height:1.08}.section-heading>p:last-child{margin:16px 0 0;color:var(--muted);font-size:17px}
+    .steps{display:grid;gap:10px}
+    .step{overflow:hidden;border:1px solid var(--line);border-radius:14px;background:#fff}
+    .step summary{display:grid;grid-template-columns:52px minmax(0,1fr) 34px;align-items:center;gap:14px;min-height:94px;padding:16px 20px;cursor:pointer;list-style:none}
+    .step summary::-webkit-details-marker{display:none}.step-no{display:grid;place-items:center;width:44px;height:44px;border:1px solid rgba(200,170,34,.55);border-radius:50%;color:var(--gold-dark);font-family:var(--head);font-weight:700}
+    .step summary span:nth-child(2){display:grid}.step summary strong{font-family:var(--head);font-size:20px;color:var(--ink)}.step summary small{margin-top:3px;color:var(--muted);font-size:14px}
+    .step-plus{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--soft);color:var(--ink);font-size:20px;transition:transform .2s}.step[open] .step-plus{transform:rotate(45deg)}
+    .step-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.65fr);gap:28px;margin:0 20px 20px;padding:25px 28px;border-radius:12px;background:var(--soft)}
+    .step-body p{margin:0}.step-body p+p{margin-top:12px}.step-points{margin:0;padding:0;list-style:none}.step-points li{padding:9px 0;border-bottom:1px solid #dce2e4}.step-points li:last-child{border:0}.step-points strong{display:block;font-family:var(--head);color:var(--ink)}
+    .calculator{padding:20px;border-radius:12px;background:#fff}.calculator label{display:block;margin-bottom:10px;font-weight:700;color:var(--ink)}
+    .calculator-field{display:flex;align-items:center;max-width:260px;border:1px solid var(--line);border-radius:999px;background:var(--paper);padding:0 18px}.calculator input{width:100%;min-height:48px;border:0;outline:0;background:transparent;color:var(--ink);font-weight:700}
+    .calculator-output{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:16px 0 0;padding:0;list-style:none}.calculator-output li{padding:12px;border:1px solid var(--line);border-radius:10px}.calculator-output span{display:block;color:var(--muted);font-size:12px}.calculator-output b{font-family:var(--head);color:var(--ink)}
+    .current{max-width:var(--max);margin:0 auto 82px;padding:0 22px}
+    .current-card{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:22px;padding:24px 26px;border-radius:16px;background:var(--ink);color:#d2d8db}
+    .current-date{display:grid;place-items:center;width:70px;height:70px;border:1px solid rgba(200,170,34,.45);border-radius:50%;color:var(--gold);font:700 13px/1.15 var(--head);text-align:center}.current-date small{font-size:10px;color:#fff}
+    .current-card h2{margin:0;color:#fff;font-size:25px}.current-card p{margin:5px 0 0;font-size:14px}
+    .current-card details{min-width:210px}.current-card summary{cursor:pointer;color:#fff;font-weight:700}.current-card details p{max-width:340px;margin-top:12px}.current-card a{color:var(--gold)}
+    .advisor-wrap{background:var(--soft);border-block:1px solid var(--line)}
+    .advisor{display:grid;grid-template-columns:320px minmax(0,1fr);gap:54px;align-items:center;max-width:var(--max);margin:auto;padding:76px 22px}
+    .advisor figure{margin:0}.advisor img{width:100%;aspect-ratio:4/3;border-radius:16px;object-fit:cover;object-position:50% 15%}.advisor h2{margin:0;font-size:clamp(31px,4vw,48px);line-height:1.08}.advisor-lede{max-width:660px;margin:17px 0 0;font-size:17px;color:var(--muted)}
+    .promises{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:26px 0 0;padding:0;list-style:none}.promises li{padding:16px;border:1px solid var(--line);border-radius:11px;background:#fff}.promises strong{display:block;font-family:var(--head);color:var(--ink)}.promises span{display:block;margin-top:4px;color:var(--muted);font-size:13px}
+    .next{padding:82px 22px;background:var(--ink);color:#cbd2d6}.next-inner{max-width:var(--max);margin:auto}.next .section-heading{margin-inline:auto;text-align:center}.next .eyebrow{color:var(--gold)}.next h2{color:#fff}.next .section-heading>p:last-child{color:#cbd2d6}
+    .ways{display:grid;grid-template-columns:1.2fr .9fr .9fr;gap:14px}.way{position:relative;padding:26px;border:1px solid #374147;border-radius:15px;background:#1b2328}.way.primary{border-color:rgba(200,170,34,.6)}.way-mark{display:inline-block;margin-bottom:18px;color:var(--gold);font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.way h3{margin:0;color:#fff;font-size:23px}.way p{margin:9px 0 20px;color:#bfc7cb;font-size:14px}
+    .slots{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}.slot{min-height:55px;padding:8px 11px;border:1px solid #3b464c;border-radius:10px;background:#222c31;color:#fff;text-align:left;cursor:pointer}.slot small{display:block;color:#aeb8bd}.slot.is-selected{border-color:var(--gold);background:var(--gold);color:var(--ink)}.slot.is-selected small{color:#3e3614}
+    .way .button{width:100%}.way .button-secondary{border-color:#3b464c;background:#222c31;color:#fff}.mock-confirm{margin:12px 0 0!important;color:#fff!important;font-weight:700}
+    .optout{margin:22px 0 0;text-align:center;font-size:14px}.optout a{color:#fff;font-weight:700}
+    .faq{max-width:820px;margin:44px auto 0}.faq details{border-top:1px solid #343e44;padding:15px 0}.faq summary{cursor:pointer;color:#fff;font-weight:700}.faq p{margin:8px 0 0;color:#bfc7cb;font-size:14px}
+    .footer{display:flex;align-items:center;justify-content:space-between;gap:24px;max-width:var(--max);margin:auto;padding:28px 22px;color:var(--muted);font-size:12px}.footer strong{font-family:var(--head);color:var(--ink)}
+    .mobile-cta{position:fixed;z-index:25;right:14px;bottom:14px;left:14px;display:none;min-height:54px;border:0;border-radius:999px;background:var(--ink);color:#fff;font-weight:700;box-shadow:0 14px 34px rgba(19,25,29,.28)}
+    .modal{position:fixed;z-index:80;inset:0;display:grid;place-items:center;padding:20px;background:rgba(19,25,29,.7)}.modal-card{max-width:460px;padding:28px;border-radius:16px;background:#fff}.modal-card h2{margin:0}.modal-card p{margin:12px 0 20px}.modal-card .button{width:100%}
+    @media(max-width:900px){.hero{grid-template-columns:1fr;gap:34px;padding-top:48px}.hero-copy{max-width:720px}.advisor{grid-template-columns:260px minmax(0,1fr);gap:34px}.ways{grid-template-columns:1fr}.current-card{grid-template-columns:auto 1fr}.current-card details{grid-column:2}.desktop-nav,.header-cta{display:none}.mobile-menu-button{display:inline-flex;justify-self:end}.site-header{grid-template-columns:1fr auto}}
+    @media(max-width:680px){.preview-note{font-size:10px}.referral-band{padding:10px 18px}.referral-band p{font-size:13px}.site-header{min-height:76px;padding-inline:18px}.brand small{max-width:150px}.hero{padding:42px 22px 54px}.hero h1{font-size:39px}.hero-lede{font-size:17px}.hero-actions{display:grid}.button{width:100%}.trust{display:grid;gap:8px}.hero-visual{padding:12px}.hero-visual img{aspect-ratio:1/1}.hero-visual figcaption{right:24px;bottom:24px;left:24px}.value-grid{grid-template-columns:1fr}.value-grid article{min-height:0;padding:22px}.section{padding-block:62px}.step summary{grid-template-columns:42px 1fr 28px;gap:10px;padding:14px}.step-no{width:38px;height:38px}.step summary strong{font-size:18px}.step-body{grid-template-columns:1fr;margin:0 12px 12px;padding:20px}.current{margin-bottom:62px}.current-card{grid-template-columns:1fr;padding:22px}.current-date{width:auto;height:auto;justify-self:start;border:0;text-align:left}.current-card details{grid-column:1}.advisor{grid-template-columns:1fr;padding-block:62px}.advisor figure{max-width:280px}.promises{grid-template-columns:1fr}.next{padding:62px 22px 92px}.slots{grid-template-columns:1fr 1fr}.footer{flex-direction:column;align-items:flex-start;padding-bottom:92px}.mobile-cta.is-visible{display:block}.mobile-menu{top:76px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+  </style>
+</head>
+<body>
+  <aside class="preview-note">Klickbares Mockup, keine Daten werden gesendet</aside>
+  <aside class="referral-band"><b aria-hidden="true">M</b><p><strong>Max</strong> hat an dich gedacht und diese Seite weitergegeben.</p></aside>
+
+  <header class="site-header">
+    <a class="brand" href="#start"><img src="/assets/images/kai-portrait.jpg" alt="Kai Blobel"><span><strong>Kai Blobel</strong><small>Deine Finanzen, einmal im Ganzen</small></span></a>
+    <nav class="desktop-nav" aria-label="Seitennavigation"><a href="#ueberblick">Der Überblick</a><a href="#aktuell">Aktuell</a><a href="#berater">Wer sich meldet</a><a href="#weiter">Wie weiter</a></nav>
+    <a class="button button-primary header-cta" href="#weiter">Wie es weitergeht</a>
+    <button class="mobile-menu-button" type="button" aria-expanded="false" aria-controls="mobileMenu"><i aria-hidden="true"></i>Menü</button>
+  </header>
+  <nav class="mobile-menu" id="mobileMenu" hidden><a href="#ueberblick">Der Überblick</a><a href="#aktuell">Aktuell</a><a href="#berater">Wer sich meldet</a><a href="#weiter">Wie weiter</a></nav>
+
+  <main>
+    <section class="hero" id="start">
+      <div class="hero-copy">
+        <p class="eyebrow">Deine Empfehlung von Max</p>
+        <h1>Einmal verstehen, wie deine Finanzen zusammenhängen.</h1>
+        <p class="hero-lede">Kein Produktkatalog und keine Vorbereitung. Du bekommst in wenigen Minuten ein klares Bild davon, wie ein Gespräch bei Kai abläuft und was es dir bringen kann.</p>
+        <div class="hero-actions"><a class="button button-primary" href="#ueberblick">Überblick starten</a><a class="button button-secondary" href="#weiter">Direkt zu den Wegen</a></div>
+        <ul class="trust"><li><i>✓</i>Lesen, nichts ausfüllen</li><li><i>✓</i>Kostet nichts</li><li><i>✓</i>Du entscheidest, wie es weitergeht</li></ul>
+      </div>
+      <figure class="hero-visual"><img src="/assets/images/praesentation/kai-buero-teamwand.jpg" alt="Kai Blobel in seinem Büro"><figcaption><small>Dein Ansprechpartner</small><strong>Kai Blobel, Regionaldirektionsleiter</strong></figcaption></figure>
+    </section>
+
+    <section class="value-strip" aria-label="Was du mitnimmst">
+      <div class="value-grid">
+        <article><span>01</span><h2>Was schon da ist</h2><p>Zulagen, Zuschüsse, Verträge und laufende Kosten einmal vollständig sehen.</p></article>
+        <article><span>02</span><h2>Was zuerst kommt</h2><p>Eine klare Reihenfolge, bevor über Produkte oder einzelne Lösungen gesprochen wird.</p></article>
+        <article><span>03</span><h2>Was für dich passt</h2><p>Am Ende kennst du die nächsten Schritte und entscheidest selbst.</p></article>
+      </div>
+    </section>
+
+    <section class="section" id="ueberblick">
+      <div class="section-heading"><p class="eyebrow">Das ganze Bild</p><h2>Sechs Schritte. So läuft das Gespräch ab.</h2><p>Du kannst jeden Punkt kurz öffnen. Die wichtigsten Zusammenhänge stehen direkt da, Vertiefung gibt es nur dort, wo du sie möchtest.</p></div>
+      <div class="steps">
+        <details class="step" open><summary><span class="step-no">01</span><span><strong>Zusammenrechnen, was dir zusteht</strong><small>Erst vorhandene Möglichkeiten sehen, dann entscheiden.</small></span><span class="step-plus">+</span></summary><div class="step-body"><div><p>Viele Beträge wirken einzeln klein: staatliche Zulagen, Arbeitgeberzuschüsse, Rahmenvorteile und steuerliche Wirkungen. Zusammen ergibt sich oft ein Betrag, den man vorher nicht auf dem Schirm hatte.</p><p>Der erste Schritt ist deshalb keine Produktauswahl, sondern eine vollständige Bestandsaufnahme.</p></div><ul class="step-points"><li><strong>Förderungen</strong>Was grundsätzlich infrage kommt</li><li><strong>Bestehende Verträge</strong>Was bereits gut funktioniert</li><li><strong>Lücken</strong>Wo später genauer hingesehen wird</li></ul></div></details>
+        <details class="step"><summary><span class="step-no">02</span><span><strong>Eine grobe Formel als erster Maßstab</strong><small>30, 30, 30 und 10, ohne starre Vorgabe.</small></span><span class="step-plus">+</span></summary><div class="step-body"><div><p>Die Formel teilt das Nettoeinkommen grob auf Wohnen, Alltag, Vermögensaufbau und Absicherung auf. Sie ist kein Gesetz. Sie zeigt nur, wo sich ein genauer Blick lohnt.</p></div><div class="calculator"><label for="netto">Was bleibt netto im Monat?</label><div class="calculator-field"><input id="netto" inputmode="numeric" placeholder="2.800" aria-label="Nettoeinkommen"><span>€</span></div><ul class="calculator-output"><li><span>Wohnen, 30 %</span><b data-share=".3">-</b></li><li><span>Alltag, 30 %</span><b data-share=".3">-</b></li><li><span>Vermögen, 30 %</span><b data-share=".3">-</b></li><li><span>Absicherung, 10 %</span><b data-share=".1">-</b></li></ul></div></div></details>
+        <details class="step"><summary><span class="step-no">03</span><span><strong>Zeile für Zeile Klarheit schaffen</strong><small>Aus einem Gefühl wird eine nachvollziehbare Zahl.</small></span><span class="step-plus">+</span></summary><div class="step-body"><div><p>Wohnen, Alltag, Absicherung und Sparen werden einzeln betrachtet. Schätzwerte reichen für den Anfang. So wird sichtbar, was übrig bleibt und wo der Monat enger ist als gedacht.</p></div><ul class="step-points"><li><strong>Keine Vorbereitung nötig</strong>Die Aufstellung entsteht gemeinsam</li><li><strong>Keine Bewertung</strong>Es geht zuerst nur um Klarheit</li></ul></div></details>
+        <details class="step"><summary><span class="step-no">04</span><span><strong>Die richtige Reihenfolge festlegen</strong><small>Absicherung, langfristiges Sparen, Vermögensaufbau.</small></span><span class="step-plus">+</span></summary><div class="step-body"><div><p>Die Basis trägt alles Weitere. Erst werden große Risiken und eine Rücklage betrachtet, danach langfristige Ziele. Der spannendere Vermögensaufbau kommt obenauf.</p></div><ul class="step-points"><li><strong>Unten</strong>Risikovorsorge und Rücklage</li><li><strong>Mitte</strong>Rente und Wohneigentum</li><li><strong>Oben</strong>Freier Vermögensaufbau</li></ul></div></details>
+        <details class="step"><summary><span class="step-no">05</span><span><strong>Zwei Konten bringen Ruhe in den Monat</strong><small>Feste Kosten und frei verfügbares Geld trennen.</small></span><span class="step-plus">+</span></summary><div class="step-body"><div><p>Auf Konto 1 laufen Gehalt und alle festen Ausgaben. Ein Dauerauftrag bringt den wirklich freien Betrag auf Konto 2. Was dort liegt, darf ausgegeben werden.</p></div><ul class="step-points"><li><strong>Konto 1</strong>Alles, was ohnehin abgeht</li><li><strong>Konto 2</strong>Was wirklich frei ist</li></ul></div></details>
+        <details class="step"><summary><span class="step-no">06</span><span><strong>Verstehen, bevor du entscheidest</strong><small>Was passiert, warum passt es und was kostet es?</small></span><span class="step-plus">+</span></summary><div class="step-body"><div><p>Am Ende sollst du jede Empfehlung in eigenen Worten erklären können. Eine Entscheidung fällt erst, wenn Wirkung, Alternativen und Kosten verständlich sind.</p></div><ul class="step-points"><li><strong>Was passiert genau?</strong>Einfach erklärt</li><li><strong>Warum passt das?</strong>Bezogen auf deine Situation</li><li><strong>Was kostet es?</strong>Offen vor der Entscheidung</li></ul></div></details>
+      </div>
+    </section>
+
+    <section class="current" id="aktuell">
+      <div class="current-card"><span class="current-date"><small>START</small>01.01.<br>2027</span><div><p class="eyebrow">Aktueller Hinweis</p><h2>Die private Altersvorsorge wird neu geregelt.</h2><p>Dieser Punkt hat eine Frist. Deshalb bleibt er sichtbar, steht aber nicht mehr vor dem eigentlichen Überblick.</p></div><details><summary>Was sich ändert</summary><p>Das Altersvorsorgedepot soll geförderte Vorsorge mit Fonds und ETFs ermöglichen. Bestehende Verträge laufen weiter. <a href="https://www.bundesregierung.de/breg-de/aktuelles/reform-private-altersvorsorge-2400072" target="_blank" rel="noopener">Quelle ansehen</a></p></details></div>
+    </section>
+
+    <section class="advisor-wrap" id="berater">
+      <div class="advisor"><figure><img src="/assets/images/kai-portrait.jpg" alt="Kai Blobel"></figure><div><p class="eyebrow">Wer sich meldet</p><h2>Kein Callcenter. Kein Gespräch von der Stange.</h2><p class="advisor-lede">Ich bin Kai Blobel, Regionaldirektionsleiter. Diese Seite steht hier, damit du vorher weißt, was auf dich zukommt. Wenn wir sprechen, geht es um deine Situation, nicht um einen Katalog.</p><ul class="promises"><li><strong>Erst verstehen</strong><span>Zuhören, bevor etwas vorgeschlagen wird.</span></li><li><strong>Klar einordnen</strong><span>In Sätzen, die man weitererzählen kann.</span></li><li><strong>Du entscheidest</strong><span>Kein Abschluss am selben Tag.</span></li></ul></div></div>
+    </section>
+
+    <section class="next" id="weiter">
+      <div class="next-inner"><div class="section-heading"><p class="eyebrow">Wie es weitergeht</p><h2>Drei Wege. Einer genügt.</h2><p>Wenn du nichts auswählst, meldet sich Kai wie besprochen bei dir. Das ist der Normalfall, du musst hier also nichts tun.</p></div>
+        <div class="ways">
+          <article class="way primary"><span class="way-mark">Am schnellsten</span><h3>Sag mir, wann es dir passt</h3><p>Du wählst ein Zeitfenster, Kai ruft darin an. Kein Formular, keine weiteren Angaben.</p><div class="slots"><button class="slot" type="button" data-value="Vormittags, 10 bis 12 Uhr">Vormittags<small>10 bis 12 Uhr</small></button><button class="slot is-selected" type="button" data-value="Nachmittags, 14 bis 17 Uhr">Nachmittags<small>14 bis 17 Uhr</small></button><button class="slot" type="button" data-value="Abends, 17 bis 19 Uhr">Abends<small>17 bis 19 Uhr</small></button><button class="slot" type="button" data-value="Konkreter Termin">Lieber fest<small>Termin vereinbaren</small></button></div><button class="button button-primary" type="button" id="confirmSlot">Anrufzeit bestätigen</button><p class="mock-confirm" id="mockConfirm" hidden></p></article>
+          <article class="way"><span class="way-mark">Vorbereiten</span><h3>Erst die sieben Fragen</h3><p>Ein kurzer Überblick. Danach weiß Kai vorab, worum es geht.</p><button class="button button-secondary" type="button" data-mock-message="Die echte Seite würde jetzt den Finanzcheck öffnen.">Die 7 Fragen starten</button></article>
+          <article class="way"><span class="way-mark">Selbst wählen</span><h3>Termin aussuchen</h3><p>Freie Zeiten ansehen und einen Termin selbst festlegen.</p><button class="button button-secondary" type="button" data-mock-message="Die echte Seite würde jetzt die Terminwahl öffnen.">Freie Termine ansehen</button></article>
+        </div>
+        <p class="optout">Kein Interesse? <a href="#" id="optoutLink">Dann sag hier kurz Bescheid</a>, dann meldet sich niemand.</p>
+        <div class="faq"><details><summary>Kostet mich das etwas?</summary><p>Das erste Gespräch und der Überblick kosten nichts.</p></details><details><summary>Was passiert mit meinen Daten?</summary><p>Die Eingabe im kleinen Rechner bleibt im Browser. Kontaktdaten werden nur in der echten Strecke verarbeitet.</p></details><details><summary>Wie lange dauert ein Gespräch?</summary><p>Für den ersten Überblick reichen in der Regel etwa 30 Minuten.</p></details></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><div><strong>Kai Blobel &amp; Team</strong><br>Regionaldirektion, An der Wachsbleiche 1a, 03046 Cottbus</div><div>Mockup für die Empfängerstrecke, nicht veröffentlicht</div></footer>
+  <button class="mobile-cta" type="button" id="mobileCta">Wie es weitergeht</button>
+  <div class="modal" id="mockModal" hidden><div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><h2 id="modalTitle">Vorschau</h2><p id="modalText"></p><button class="button button-primary" type="button" id="modalClose">Zur Seite zurück</button></div></div>
+
+  <script>
+    const menuButton=document.querySelector('.mobile-menu-button');const menu=document.getElementById('mobileMenu');
+    menuButton.addEventListener('click',()=>{const open=menu.hidden;menu.hidden=!open;menuButton.setAttribute('aria-expanded',String(open))});
+    menu.addEventListener('click',e=>{if(e.target.closest('a')){menu.hidden=true;menuButton.setAttribute('aria-expanded','false')}});
+    document.querySelectorAll('.step').forEach(step=>step.addEventListener('toggle',()=>{if(!step.open)return;document.querySelectorAll('.step[open]').forEach(other=>{if(other!==step)other.open=false})}));
+    const netto=document.getElementById('netto');const euro=new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0});
+    netto.addEventListener('input',()=>{const value=parseFloat(netto.value.replace(/[.\s]/g,'').replace(',','.'));document.querySelectorAll('[data-share]').forEach(out=>{out.textContent=Number.isFinite(value)&&value>0?euro.format(Math.round(value*Number(out.dataset.share))):'-'})});
+    let selected='Nachmittags, 14 bis 17 Uhr';document.querySelectorAll('.slot').forEach(slot=>slot.addEventListener('click',()=>{document.querySelectorAll('.slot').forEach(s=>s.classList.remove('is-selected'));slot.classList.add('is-selected');selected=slot.dataset.value}));
+    document.getElementById('confirmSlot').addEventListener('click',()=>{const out=document.getElementById('mockConfirm');out.textContent='Vorschau: In der echten Seite würde jetzt „'+selected+'“ hinterlegt.';out.hidden=false});
+    const modal=document.getElementById('mockModal');const modalText=document.getElementById('modalText');const openModal=text=>{modalText.textContent=text;modal.hidden=false;document.getElementById('modalClose').focus()};
+    document.querySelectorAll('[data-mock-message]').forEach(button=>button.addEventListener('click',()=>openModal(button.dataset.mockMessage)));
+    document.getElementById('optoutLink').addEventListener('click',e=>{e.preventDefault();openModal('In der echten Strecke würde hier die Austragen-Seite geöffnet. Danach meldet sich niemand.')});
+    document.getElementById('modalClose').addEventListener('click',()=>{modal.hidden=true});modal.addEventListener('click',e=>{if(e.target===modal)modal.hidden=true});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.hidden=true});
+    const mobileCta=document.getElementById('mobileCta');const advisor=document.getElementById('berater');
+    const setMobileCta=()=>{const reached=scrollY>advisor.offsetTop-window.innerHeight*.75;mobileCta.classList.toggle('is-visible',reached&&scrollY<document.getElementById('weiter').offsetTop+500)};
+    addEventListener('scroll',setMobileCta,{passive:true});addEventListener('resize',setMobileCta);setMobileCta();mobileCta.addEventListener('click',()=>document.getElementById('weiter').scrollIntoView({behavior:'smooth'}));
+  </script>
+</body>
+</html>
