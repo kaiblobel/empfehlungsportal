@@ -1,7 +1,21 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.336 Beta** · Nachtragen statt doppelt anmelden, live seit 05.09.2026.
+Offizielle Live-Version: **v1.337 Beta** · Bremse passt zum Festgelände, live seit 05.09.2026.
+
+## v1.337 Beta - Phase 322 · Bremse passt zum Festgelände
+**2026-09-05**
+
+Die Anmeldung zählte 5 Versuche je Stunde und 15 je Tag pro Internetanschluss. Von zu Hause aus ist das eine sinnvolle Bremse. Auf dem Festgelände ist es eine Falle: Wer über dasselbe WLAN oder denselben Mobilfunk-Knoten geht, teilt sich eine Adresse. Ab der sechsten Anmeldung in einer Stunde hätten alle weiteren "Zu viele Anfragen" bekommen, und am Stand hätte niemand verstanden, warum. Verschärft wird das dadurch, dass am 6. September zu den Neuanmeldungen die Nachträge der 97 vorab Angemeldeten kommen, jeder davon eine weitere Anfrage von derselben Adresse.
+
+Neu: 60 je Stunde und 300 je Tag pro Anschluss.
+
+Zwei Dinge bleiben unangetastet, weil sie der eigentliche Schutz sind: der Bot-Schutz von Cloudflare vor jeder Anmeldung und die Grenze von 3 Versuchen je Kontakt und Tag. Die verhindert, was man wirklich verhindern will, nämlich dass eine Person hundert Anmeldungen absetzt. Die Bremse pro Anschluss kann das ohnehin nicht, sie trifft nur alle, die zufällig denselben Weg ins Netz nehmen.
+
+Die Funktion wurde aus der Fassung von Phase 321 erzeugt, nicht neu geschrieben. Ein Zeilenvergleich vor dem Anwenden zeigte genau zwei Unterschiede, die beiden Zahlen. Nach dem Anwenden gegengeprüft: Grenzen bei 60 und 300, Kontaktgrenze weiter bei 3, die Nachtrage-Regel aus Phase 321 unverändert vorhanden, das Schätzfenster weiterhin der 6. September.
+
+Datenbank: `schema-phase322-kidz-festtag-bremse.sql`, angewendet am 05.09.2026 als `phase_322_kidz_festtag_bremse`.
+
 
 ## v1.336 Beta - Phase 321 · Nachtragen statt doppelt anmelden
 **2026-09-05**

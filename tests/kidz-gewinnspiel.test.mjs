@@ -404,7 +404,9 @@ assert.doesNotMatch(comebackMigration, /'(?:anika-biebrach|david-stamm)-[a-z0-9]
 // Die tragende Regel ist "nur fuellen, was leer ist". Faellt sie weg, kann jeder,
 // der eine fremde E-Mail kennt, die Schaetzung eines anderen ueberschreiben und
 // ihm den ersten Platz nehmen. Deshalb steht sie hier unter Aufsicht.
-const nachtragMigration = await read('schema-phase321-kidz-nachtragen.sql');
+// Geprueft wird die zuletzt angewendete Fassung. Phase 322 hat die Funktion
+// erneut geschrieben, deshalb steht die Regel dort und nicht mehr nur in 321.
+const nachtragMigration = await read('schema-phase322-kidz-festtag-bremse.sql');
 assert.match(nachtragMigration, /v_schaetzung_neu := \(p_schaetzung_cm is not null and v_alte_schaetzung is null\)/,
   'Eine vorhandene Schaetzung muss stehen bleiben.');
 assert.match(nachtragMigration, /elternabend_interesse = elternabend_interesse or coalesce\(p_elternabend_interesse, false\)/,
@@ -420,5 +422,15 @@ const gewinnspielJs = await read('js/kidz-gewinnspiel.js');
 assert.match(gewinnspielJs, /function erfolgsMeldung/);
 assert.match(gewinnspielJs, /result\?\.updated !== true/);
 assert.match(gewinnspielJs, /guessKept/);
+
+// Phase 322: Die Bremse pro Anschluss passt zum Festgelaende, wo sich viele
+// Besucher eine Adresse teilen. Die Grenze pro Kontakt bleibt, sie ist der
+// eigentliche Schutz gegen Massenanmeldungen.
+assert.match(nachtragMigration, /'kidz_giveaway_hour', p_rate_key, 60,/);
+assert.match(nachtragMigration, /'kidz_giveaway_day', p_rate_key, 300,/);
+assert.match(nachtragMigration, /'kidz_giveaway_contact_day', p_contact_key, 3,/,
+  'Die Grenze je Kontakt darf nicht mitgelockert werden.');
+// Das Schaetzfenster bleibt der 6. September, es wurde nur die Bremse angefasst.
+assert.match(nachtragMigration, /2026-09-06 00:00:00\+02/);
 
 console.log('kidz-gewinnspiel: OK');
