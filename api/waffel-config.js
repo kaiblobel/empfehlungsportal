@@ -59,8 +59,11 @@ module.exports = async function handler(req, res) {
 
   const portalUrl = String(process.env.SUPABASE_URL || 'https://kkseqhmfubzfyloffkwe.supabase.co');
   const anonKey = String(process.env.SUPABASE_ANON_KEY || '').trim();
-  const kaiBasis = String(process.env.KAI_WAFFEL_URL || '').trim();
-  const kaiSecret = String(process.env.KAI_WAFFEL_SECRET || '').trim();
+  // Dieselben Namen wie in Cockpit und Umsatz-Navi: derselbe Name traegt in
+  // allen vier Projekten denselben Wert. Wer einmal rotiert, sucht dann nicht
+  // in jedem Projekt nach einer anderen Schreibweise.
+  const kaiBasis = String(process.env.WAFFEL_MENUE_URL || '').trim();
+  const kaiSecret = String(process.env.WAFFEL_MENUE_SECRET || '').trim();
   // Ohne vollstaendige Konfiguration bleibt das Menue leer — kein Rueckfall.
   if (!anonKey || !kaiBasis || !kaiSecret || kaiSecret.length < 32) {
     return send(res, 200, { eintraege: [], istAdmin: false });

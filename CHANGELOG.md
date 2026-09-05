@@ -20,7 +20,7 @@ Fremde Anwendungen öffnen in einem neuen Tab. Portal und Navi teilen eine Anmel
 
 Der Knopf steht nur im Beraterbereich, nie auf einer Kundenseite und auch nicht auf der Anmeldeseite. Ein Wächter geht dafür alle achtzehn öffentlichen Seiten durch. Weitere Wächter halten fest, dass keine eingebaute Anwendungsliste entsteht, dass das Zugangswort nicht in den Browser gerät, dass die Verwaltungsadresse vom Server kommt statt fest im Code zu stehen, dass fremde Ziele abgekoppelt öffnen, dass der Knopf mit dem Daumen zu treffen ist und dass die Farben aus der Portal-DNA kommen. Jeder neue Wächter wurde einmal zurückgedreht und ist dabei rot geworden.
 
-**Noch nicht live.** Es fehlen drei Werte in der Vercel-Umgebung des Portals: die Adresse von KAI., das gemeinsame Zugangswort und der Portal-Anon-Key. Solange die fehlen, ist das Menü leer und der Knopf unsichtbar. Genau daran hing es beim Cockpit am 25. August schon einmal.
+**Noch nicht live.** Es fehlen drei Werte in der Vercel-Umgebung des Portals: WAFFEL_MENUE_URL, WAFFEL_MENUE_SECRET und SUPABASE_ANON_KEY (dieselben Namen wie in Cockpit und Navi, damit derselbe Name ueberall denselben Wert traegt). Solange die fehlen, ist das Menü leer und der Knopf unsichtbar. Genau daran hing es beim Cockpit am 25. August schon einmal.
 
 Sichtbarkeit ist dabei kein Zugriffsschutz. Jede Zielanwendung prüft Anmeldung und Berechtigung weiterhin selbst.
 

@@ -163,11 +163,11 @@ test('jedes erlaubte KAI.-Katalogsymbol ist im Portal vorhanden', () => {
 });
 
 test('das Tor-Wort bleibt auf dem Server und faellt fail-closed aus', () => {
-  assert.ok(proxy.includes('KAI_WAFFEL_SECRET'), 'Secret kommt aus der Umgebung');
+  assert.ok(proxy.includes('WAFFEL_MENUE_SECRET'), 'Secret kommt aus der Umgebung');
   assert.ok(proxy.includes('kaiSecret.length < 32'), 'Mindestlaenge wird geprueft');
   assert.ok(proxy.includes("eintraege: [], istAdmin: false"),
     'Fehlende Konfiguration ergibt ein leeres Menue');
-  assert.ok(!nav.includes('KAI_WAFFEL_SECRET'), 'Das Secret erreicht den Browser nie');
+  assert.ok(!nav.includes('WAFFEL_MENUE_SECRET'), 'Das Secret erreicht den Browser nie');
 });
 
 test('nur http(s)-Ziele werden an den Browser durchgereicht', () => {
