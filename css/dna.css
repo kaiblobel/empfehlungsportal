@@ -510,3 +510,69 @@ textarea::placeholder{ color: var(--symbol); }
    Bei einer Schrift mit nur drei Schnitten landet das je nach Umgebung auf
    einer Zwischenstufe, die es nicht gibt. Deshalb hier fest auf 700. */
 b, strong{ font-weight: 700; }
+
+/* ============================================================
+   DER PLATZHALTER VOR DEM NAMEN (Phase 330, 05.09.2026)
+
+   Kais Wunsch: statt zweier Buchstaben ein Zeichen, das sagt, wen man vor
+   sich hat. Gebaut in js/person-zeichen.js; dort steht auch, warum die
+   Anrede aus einem Feld kommt und nicht aus dem Vornamen geraten wird.
+
+   Zwei Angaben, zwei Mittel: das ZEICHEN sagt die Anrede, die FARBE die
+   Rolle. Wo keine Anrede gesetzt ist, steht die schlichte Person.
+   ============================================================ */
+.pz{
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  border-radius: 999px;              /* eine Person bleibt rund, wie jeder Avatar */
+  background: var(--dna-paper-2);
+  color: var(--dna-text);
+  /* Der Grund, auf dem das kleine Abzeichen sitzt. Wird je Rolle mitgesetzt,
+     sonst liefe es in die Silhouette. */
+  --pz-grund: var(--dna-paper-2);
+}
+.pz svg{ width: 19px; height: 19px; }
+
+.pz-promoter{
+  background: var(--dna-petrol-tint);
+  color: var(--dna-petrol);
+  --pz-grund: var(--dna-petrol-tint);
+}
+.pz-empfaenger{
+  background: var(--dna-gold-tint);
+  color: var(--dna-gold-dark);
+  --pz-grund: var(--dna-gold-tint);
+}
+
+/* Groessere Ausgabe, z. B. im Kopf einer Promoterakte. */
+.pz.pz-gross{ width: 52px; height: 52px; flex-basis: 52px; }
+.pz.pz-gross svg{ width: 27px; height: 27px; }
+
+/* Das Auswahlfeld fuer die Anrede. Schmal, es steht neben dem Namensfeld. */
+.pz-auswahl{
+  padding: 10px 12px;
+  min-height: 42px;
+  border: 1px solid var(--dna-line);
+  border-radius: var(--radius-md);
+  background: var(--dna-card);
+  color: var(--dna-text);
+  font: inherit;
+}
+.pz-auswahl:focus-visible{
+  outline: 3px solid var(--fokus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 7px rgba(255,255,255,.92);
+}
+
+/* Der kleine Hinweis unter dem Anrede-Feld. Er erklaert, was das Feld
+   bewirkt, und dass "keine Angabe" ein zulaessiger Zustand ist. */
+.ed-feld-hinweis{
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--dna-muted);
+}

@@ -9,6 +9,7 @@ import {
   toast,
 } from './dashboard.js';
 import { supabase, deleteEmpfehlung, getFunnelQuellen } from './supabase.js';
+import { anredeAuswahlHtml } from './person-zeichen.js';
 
 const ERR_LABELS = {
   vormittag: 'Vormittag (8 bis 12 Uhr)',
@@ -328,6 +329,11 @@ if (!id) content.innerHTML = '<div class="empty-state">Keine Empfehlung ausgewä
             <p id="nextCopy">${escapeHtml(step.copy)}</p>
           </div>
           <div class="ed-field">
+            <label for="anredeSel">Anrede</label>
+            ${anredeAuswahlHtml('anredeSel', record.empfaenger_anrede)}
+            <small class="ed-feld-hinweis">Steuert das Zeichen vor dem Namen. Ohne Angabe steht dort eine neutrale Person.</small>
+          </div>
+          <div class="ed-field">
             <label for="statusSel">Status</label>
             <select id="statusSel">${statusSelect(currentStatus)}</select>
           </div>
@@ -342,7 +348,7 @@ if (!id) content.innerHTML = '<div class="empty-state">Keine Empfehlung ausgewä
               <button class="ed-action" id="copyWorkBtn" type="button"${recipientLink ? '' : ' hidden'}>Link kopieren</button>
             </div>
           </div>
-          <p class="ed-save-note">Status und Notiz werden gemeinsam gespeichert.</p>
+          <p class="ed-save-note">Anrede, Status und Notiz werden gemeinsam gespeichert.</p>
         </section>
       </aside>
     </div>`;
@@ -370,7 +376,8 @@ if (!id) content.innerHTML = '<div class="empty-state">Keine Empfehlung ausgewä
     const notiz = document.getElementById('notizArea').value;
     button.disabled = true;
     button.textContent = 'Speichert ...';
-    const { error } = await updateStatus(id, status, notiz);
+    const anrede = document.getElementById('anredeSel')?.value ?? undefined;
+    const { error } = await updateStatus(id, status, notiz, anrede);
     button.disabled = false;
     button.textContent = 'Änderungen speichern';
     if (error) {

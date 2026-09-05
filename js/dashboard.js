@@ -295,11 +295,18 @@ export async function loadDetail(id) {
   return data;
 }
 
-export async function updateStatus(id, status, notiz) {
+export async function updateStatus(id, status, notiz, anrede) {
   if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
+  const felder = { status, notiz };
+  // Die Anrede kommt nur mit, wenn die Seite sie ueberhaupt anbietet. So
+  // ueberschreibt ein aelterer Aufrufer (ohne das Feld) nichts.
+  if (anrede !== undefined) {
+    const wert = String(anrede || '').trim().toLowerCase();
+    felder.empfaenger_anrede = ['frau', 'herr'].includes(wert) ? wert : null;
+  }
   const { error } = await supabase
     .from('empfehlungen')
-    .update({ status, notiz })
+    .update(felder)
     .eq('id', id);
   return { error };
 }
