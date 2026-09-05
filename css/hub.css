@@ -55,7 +55,7 @@ body[data-page="vorlagen-cms"] {
 }
 .h-clock {
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--text-primary);
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.02em;
@@ -103,7 +103,7 @@ body[data-page="vorlagen-cms"] {
   border-radius: var(--radius-button);
   padding: 8px 14px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 400;
   font-family: inherit;
   color: var(--text-primary);
   cursor: pointer;
@@ -141,7 +141,7 @@ body[data-page="vorlagen-cms"] {
   line-height: 1.5;
   margin: 0;
 }
-.h-stats-text strong { color: var(--text-primary); font-weight: 600; }
+.h-stats-text strong { color: var(--text-primary); font-weight: 400; }
 
 /* ---------- Section Label ---------- */
 .h-label {
@@ -149,7 +149,8 @@ body[data-page="vorlagen-cms"] {
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--accent-gold);
+  /* Abschnittsueberschrift: Gold als Schrift ist 2,28:1, gold-140 ist 5,7:1 */
+  color: var(--dna-gold-dark);
   margin: 0 0 0 4px;
 }
 .h-label.muted { color: var(--text-secondary); }
@@ -191,7 +192,7 @@ body[data-page="vorlagen-cms"] {
 }
 .h-kpi-label {
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-secondary);
@@ -246,7 +247,7 @@ body[data-page="vorlagen-cms"] {
 .h-quick a:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
 .h-quick a:active { transform: scale(0.98); }
 .h-quick .icon { font-size: 22px; line-height: 1; }
-.h-quick .label { font-size: 13px; font-weight: 600; }
+.h-quick .label { font-size: 13px; font-weight: 400; }
 @media (min-width: 720px) {
   .h-quick { grid-template-columns: repeat(4, 1fr); }
 }
@@ -324,7 +325,7 @@ body[data-page="vorlagen-cms"] {
   align-self: flex-start;
   margin-top: 6px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--text-primary);
   text-decoration: none;
   padding: 8px 14px;
@@ -408,7 +409,7 @@ body[data-page="vorlagen-cms"] {
 .h-feed-dot-kunde          { background: var(--sage); }
 .h-feed-dot-kein_interesse { background: var(--err); }
 .h-feed-main { flex: 1; min-width: 0; }
-.h-feed-name { font-size: 15px; font-weight: 600; color: var(--text-primary); }
+.h-feed-name { font-size: 15px; font-weight: 400; color: var(--text-primary); }
 .h-feed-meta { font-size: 12px; color: var(--text-secondary); display: flex; gap: 8px; flex-wrap: wrap; margin-top: 2px; }
 .h-feed-row .arrow { color: var(--text-secondary); }
 .h-feed-all {
@@ -416,8 +417,9 @@ body[data-page="vorlagen-cms"] {
   text-align: right;
   padding: 12px 20px;
   font-size: 13px;
-  font-weight: 600;
-  color: var(--accent-gold);
+  font-weight: 400;
+  /* ist ein Link, also traegt er den Klickton */
+  color: var(--klick);
   text-decoration: none;
   border-top: 1px solid var(--border-light);
 }
@@ -437,7 +439,7 @@ body[data-page="vorlagen-cms"] {
   font-size: 14px;
 }
 .h-status-row:last-child { border-bottom: none; }
-.h-status-row .name { color: var(--text-primary); font-weight: 500; }
+.h-status-row .name { color: var(--text-primary); font-weight: 400; }
 .h-status-row .status { font-size: 13px; }
 .h-status-row .status.ok { color: var(--ok); }
 .h-status-row .status.fail { color: var(--err); }
@@ -453,7 +455,7 @@ body[data-page="vorlagen-cms"] {
 .h-dev summary {
   padding: 18px 20px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-secondary);
@@ -519,7 +521,7 @@ body[data-page="vorlagen-cms"] {
   padding: 12px 22px;
   border-radius: 999px;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 400;
   z-index: 200;
   opacity: 0;
   transition: opacity 0.25s ease, transform 0.25s ease;
@@ -535,13 +537,13 @@ body[data-page="vorlagen-cms"] {
 /* ---------- KPI Sub-Stats ---------- */
 .h-kpi-sub {
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: 0.02em;
   color: var(--text-secondary);
   margin-top: 8px;
   display: block;
 }
-.h-kpi-sub strong { color: var(--text-primary); font-weight: 600; }
+.h-kpi-sub strong { color: var(--text-primary); font-weight: 400; }
 
 /* ---------- Hot Leads ---------- */
 .h-hotleads {
@@ -603,7 +605,7 @@ body[data-page="vorlagen-cms"] {
 .h-lead-meta .label {
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 10px;
 }
 .h-lead-meta .label.anrufwunsch { color: var(--accent-hover); }
@@ -616,7 +618,7 @@ body[data-page="vorlagen-cms"] {
   padding: 9px 14px;
   font-family: inherit;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 400;
   cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
@@ -635,7 +637,7 @@ body[data-page="vorlagen-cms"] {
   font-size: 14px;
   border: 1px dashed var(--border-light);
 }
-.h-empty-positive strong { color: var(--text-primary); font-weight: 600; }
+.h-empty-positive strong { color: var(--text-primary); font-weight: 400; }
 
 /* ---------- Bereiche-Hierarchie ---------- */
 .h-tiles-core {
@@ -700,7 +702,7 @@ body[data-page="vorlagen-cms"] {
 .h-tile-tool:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,0.08); }
 .h-tile-tool.disabled { opacity: 0.65; cursor: pointer; }
 .h-tile-tool .icon { font-size: 22px; }
-.h-tile-tool .titel { font-size: 13px; font-weight: 600; color: var(--text-primary); margin: 0; }
+.h-tile-tool .titel { font-size: 13px; font-weight: 400; color: var(--text-primary); margin: 0; }
 .h-tile-tool .badge {
   position: absolute;
   top: 8px;
@@ -777,15 +779,16 @@ body[data-page="vorlagen-cms"] {
   color: var(--text-secondary);
   padding-top: 1px;
 }
-.h-tl-text strong { color: var(--text-primary); font-weight: 600; }
+.h-tl-text strong { color: var(--text-primary); font-weight: 400; }
 
 .h-tl-all {
   display: block;
   text-align: right;
   padding: 12px 20px;
   font-size: 13px;
-  font-weight: 600;
-  color: var(--accent-gold);
+  font-weight: 400;
+  /* ist ein Link, also traegt er den Klickton */
+  color: var(--klick);
   text-decoration: none;
   border-top: 1px solid var(--border-light);
 }
@@ -911,14 +914,14 @@ body[data-page="vorlagen-cms"] {
   padding: 12px 22px;
   font-family: inherit;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 400;
   cursor: pointer;
 }
 .cms-save:hover { opacity: 0.9; }
 .cms-preview-link {
   color: var(--text-primary);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 400;
   text-decoration: none;
   padding: 12px 18px;
   border: 1px solid var(--border-light);
@@ -958,7 +961,7 @@ body[data-page="vorlagen-cms"] {
   color: var(--accent-hover);
 }
 .h-action-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.h-action-title { font-size: 16px; font-weight: 600; color: var(--ink); }
+.h-action-title { font-size: 16px; font-weight: 400; color: var(--ink); }
 .h-action-sub { font-size: 13px; color: var(--ink-muted); }
 .h-action-arrow { color: var(--ink-soft); transition: transform var(--transition), color var(--transition); }
 .h-action-primary:hover .h-action-arrow { color: var(--accent-hover); transform: translateX(2px); }
@@ -980,7 +983,7 @@ body[data-page="vorlagen-cms"] {
 }
 .h-funnel-label {
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-muted);
@@ -1000,7 +1003,7 @@ body[data-page="vorlagen-cms"] {
 .h-funnel-row.gold .h-funnel-bar { background: var(--accent); }
 .h-funnel-count {
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--ink);
   text-align: right;
 }
@@ -1044,7 +1047,7 @@ body[data-page="vorlagen-cms"] {
 .h-promoter-silber .h-promoter-rank { background: rgba(160, 160, 160, 0.18); color: var(--ink-muted); }
 .h-promoter-bronze .h-promoter-rank { background: rgba(173, 116, 64, 0.18); color: var(--accent-hover); }
 .h-promoter-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.h-promoter-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+.h-promoter-name { font-size: 14px; font-weight: 400; color: var(--ink); }
 .h-promoter-meta { font-size: 12px; color: var(--ink-muted); }
 
 @media (max-width: 720px) {
@@ -1068,7 +1071,7 @@ body[data-page="vorlagen-cms"] {
   background: var(--bg-secondary);
   color: var(--text-secondary);
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: 0.02em;
   cursor: pointer;
   transition: all .2s ease;
@@ -1102,7 +1105,7 @@ body[data-page="vorlagen-cms"] {
 .h-chart-title {
   font-family: 'Fraunces', Georgia, serif;
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--text-primary);
   letter-spacing: -0.01em;
 }
@@ -1194,7 +1197,7 @@ body[data-page="vorlagen-cms"] {
   justify-content: center;
   color: #fff;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 0.02em;
   font-family: 'Inter', sans-serif;
   flex-shrink: 0;
@@ -1216,7 +1219,7 @@ body[data-page="vorlagen-cms"] {
 }
 .h-activity-name {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
@@ -1252,7 +1255,7 @@ body[data-page="vorlagen-cms"] {
   color: var(--act-color, var(--accent-gold));
   border-radius: 999px;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 0.04em;
   white-space: nowrap;
   flex-shrink: 0;
@@ -1392,7 +1395,7 @@ body[data-page="vorlagen-cms"] {
   padding: 3px 9px;
   border-radius: 999px;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 0.02em;
   background: rgba(0,0,0,0.05);
   color: var(--text-secondary);
@@ -1422,7 +1425,7 @@ body[data-page="vorlagen-cms"] {
 .h-hero { padding: 22px 4px 14px; gap: 12px; }
 .h-greet {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-  font-weight: 800 !important;
+  font-weight: 700 !important;
   letter-spacing: -0.03em !important;
   font-size: clamp(34px, 3.4vw, 48px) !important;
   line-height: 1.05;
@@ -1433,13 +1436,13 @@ body[data-page="vorlagen-cms"] {
   font-size: 16px; color: var(--text-secondary);
   line-height: 1.45; max-width: 620px;
 }
-.h-hero-lines strong { color: var(--text-primary); font-weight: 600; }
+.h-hero-lines strong { color: var(--text-primary); font-weight: 400; }
 .h-hero-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
 .h-pill {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 6px 12px; border-radius: 999px;
   font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 500;
+  font-size: 12px; font-weight: 400;
   color: var(--text-secondary);
   background: rgba(255,255,255,0.85);
   border: 1px solid var(--border-light);
@@ -1480,10 +1483,12 @@ body[data-page="vorlagen-cms"] {
   flex-shrink: 0;
 }
 .h-lead.anrufwunsch .h-lead-avatar { background: var(--burnt-orange); }
-.h-lead.interesse .h-lead-avatar { background: var(--accent); color: var(--accent-hover); }
+/* Schrift auf einer Goldflaeche ist dunkel, nicht wieder Gold: gold-140 auf
+   gold-100 sind 2,49:1. Das Haus setzt dort die Ueberschriftfarbe. */
+.h-lead.interesse .h-lead-avatar { background: var(--accent); color: var(--dna-ink); }
 .h-lead-text {
   font-family: 'Inter', sans-serif;
-  font-size: 15px; font-weight: 500;
+  font-size: 15px; font-weight: 400;
   color: var(--text-primary);
   line-height: 1.4; letter-spacing: -0.005em;
 }
@@ -1499,7 +1504,7 @@ body[data-page="vorlagen-cms"] {
   padding: 9px 16px;
   border-radius: 999px;
   font-family: 'Inter', sans-serif;
-  font-size: 12.5px; font-weight: 600;
+  font-size: 12.5px; font-weight: 400;
   white-space: nowrap; text-decoration: none;
   transition: background .2s ease;
 }
@@ -1541,7 +1546,7 @@ body[data-page="vorlagen-cms"] {
 .h-kpi-label {
   font-family: 'Inter', sans-serif !important;
   font-size: 13px !important;
-  font-weight: 500 !important;
+  font-weight: 400 !important;
   letter-spacing: -0.005em !important;
   color: var(--text-secondary) !important;
   text-transform: none !important;
@@ -1550,7 +1555,7 @@ body[data-page="vorlagen-cms"] {
 }
 .h-kpi-value {
   font-family: 'Inter', sans-serif !important;
-  font-weight: 800 !important;
+  font-weight: 700 !important;
   letter-spacing: -0.025em !important;
   font-size: 32px !important;
   color: var(--text-primary);
@@ -1564,7 +1569,7 @@ body[data-page="vorlagen-cms"] {
   padding: 3px 10px;
   border-radius: 999px;
   font-family: 'Inter', sans-serif;
-  font-size: 11px; font-weight: 600;
+  font-size: 11px; font-weight: 400;
   background: rgba(0,0,0,0.04);
   color: var(--text-secondary);
 }
@@ -1602,7 +1607,9 @@ body[data-page="vorlagen-cms"] {
 }
 .h-network-overview .h-kpi-value {
   font-size: 34px !important;
-  font-weight: 650 !important;
+  /* Eine grosse Zahl ist eine Ueberschrift und steht fett. Stand vorher auf
+     650, das kennt die Hausschrift nicht. */
+  font-weight: 700 !important;
   letter-spacing: -0.032em !important;
   line-height: 0.95;
   font-variant-numeric: tabular-nums;
@@ -1611,7 +1618,7 @@ body[data-page="vorlagen-cms"] {
 .h-network-overview .h-kpi-label {
   margin-top: 9px !important;
   font-size: 14px !important;
-  font-weight: 620 !important;
+  font-weight: 400 !important;
   letter-spacing: -0.01em !important;
   color: var(--ink-muted) !important;
 }
@@ -1640,7 +1647,7 @@ body[data-page="vorlagen-cms"] {
 }
 .h-stair-num {
   font-family: 'Inter', sans-serif;
-  font-size: 28px; font-weight: 800;
+  font-size: 28px; font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.025em;
   min-width: 70px;
@@ -1652,7 +1659,8 @@ body[data-page="vorlagen-cms"] {
 .h-stair-arrow {
   display: flex; align-items: center; gap: 8px;
   padding: 2px 0 2px 18px;
-  color: var(--accent-gold);
+  /* Text mit Symbol, 11px fett zaehlt als normaler Text */
+  color: var(--dna-gold-dark);
   font-family: 'Inter', sans-serif;
   font-size: 11px;
   letter-spacing: 0.04em;
@@ -1770,7 +1778,7 @@ body[data-page="vorlagen-cms"] {
   border-radius: 0;
   font-family: 'Inter', sans-serif;
   font-size: 10.5px;
-  font-weight: 600;
+  font-weight: 400;
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -1795,9 +1803,10 @@ body[data-page="vorlagen-cms"] {
   margin-top: 12px;
   font-family: 'Inter', sans-serif;
   font-size: 13px;
-  color: var(--accent-gold);
+  /* ist ein Link, also traegt er den Klickton */
+  color: var(--klick);
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 400;
   display: inline-block;
   padding: 0 4px;
 }
@@ -1814,7 +1823,7 @@ body[data-page="vorlagen-cms"] {
 }
 .h-header-sub {
   font-size: 13px !important;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 /* ============================================================
@@ -1845,7 +1854,7 @@ body[data-page="vorlagen-cms"] {
   position: absolute;
   bottom: 8px;
   right: 10px;
-  color: var(--accent-gold);
+  color: var(--dna-gold);
   opacity: 0.55;
   display: inline-flex;
   align-items: center;
@@ -1948,7 +1957,7 @@ body[data-page="vorlagen-cms"] {
   background: var(--dna-gold-tint-2) !important;
   color: var(--accent-hover) !important;
   font-size: 11px !important;
-  font-weight: 600 !important;
+  font-weight: 400 !important;
   padding: 2px 8px !important;
   border-radius: 999px !important;
   letter-spacing: 0.04em !important;
@@ -2076,7 +2085,7 @@ body[data-page="vorlagen-cms"] {
 }
 .h-activity-text {
   font-size: 12.5px !important;
-  font-weight: 500 !important;
+  font-weight: 400 !important;
   color: var(--ink) !important;
 }
 .h-activity-pill {
@@ -2105,7 +2114,7 @@ body[data-page="vorlagen-cms"] {
   border-radius: 10px;
   font-family: 'Inter', sans-serif;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 400;
   cursor: pointer;
   transition: transform .18s ease, box-shadow .18s ease;
 }
@@ -2119,7 +2128,7 @@ body[data-page="vorlagen-cms"] {
   font-family: 'Inter', sans-serif;
   font-size: 13px;
   color: var(--text-secondary);
-  font-weight: 500;
+  font-weight: 400;
 }
 
 /* Berater-Karten: Profil statt technischer Datenmaske */
@@ -2186,7 +2195,7 @@ body[data-page="vorlagen-cms"] {
 .cms-card.berater-card > summary .titel {
   flex: 0 1 auto;
   font-size: 19px;
-  font-weight: 750;
+  font-weight: 700;
   letter-spacing: -.025em;
 }
 .berater-summary-role,
@@ -2224,7 +2233,7 @@ body[data-page="vorlagen-cms"] {
   border-radius: 999px;
   font-family: 'Inter', sans-serif;
   font-size: 11.5px;
-  font-weight: 680;
+  font-weight: 400;
   white-space: nowrap;
 }
 .berater-auth::before,
@@ -2252,7 +2261,7 @@ body[data-page="vorlagen-cms"] {
   margin: 0;
   color: var(--ink, var(--ink));
   font-size: 16px;
-  font-weight: 750;
+  font-weight: 700;
   letter-spacing: -.015em;
 }
 .berater-section-head p {
@@ -2296,7 +2305,7 @@ body[data-page="vorlagen-cms"] {
   padding: 8px 12px;
   border-radius: 8px;
   font-size: 12.5px;
-  font-weight: 680;
+  font-weight: 400;
   text-align: center;
   cursor: pointer;
 }
@@ -2341,7 +2350,7 @@ body[data-page="vorlagen-cms"] {
   border-radius: 8px;
   background: var(--surface);
   font-size: 12.5px;
-  font-weight: 680;
+  font-weight: 400;
   cursor: pointer;
 }
 
@@ -2426,7 +2435,7 @@ body[data-page="vorlagen-cms"] {
   background: rgba(0,0,0,.05);
   color: var(--text-secondary, var(--ink-muted));
   font-size: 11.5px;
-  font-weight: 680;
+  font-weight: 400;
 }
 .berater-login-status::before {
   content: '';
@@ -2457,7 +2466,7 @@ body[data-page="vorlagen-cms"] {
   border-radius: 9px;
   font-family: 'Inter', sans-serif;
   font-size: 12.5px;
-  font-weight: 680;
+  font-weight: 400;
   line-height: 1.3;
   cursor: pointer;
 }
@@ -2494,7 +2503,7 @@ body[data-page="vorlagen-cms"] {
   display: flex !important;
   color: var(--text-secondary, var(--ink-muted));
   font-size: 12.5px;
-  font-weight: 680;
+  font-weight: 400;
 }
 .berater-tech summary::after { margin-left: auto !important; border: 0 !important; width: auto !important; height: auto !important; }
 .berater-card[open] .berater-tech:not([open]) > summary::after { content: '+'; }
@@ -2567,7 +2576,7 @@ body[data-page="vorlagen-cms"] {
   border-radius: 8px;
   font-family: 'Inter', sans-serif;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 400;
   cursor: pointer;
   transition: border-color .18s ease, color .18s ease;
 }
@@ -2656,7 +2665,7 @@ body[data-page="vorlagen-cms"] {
   gap: 5px;
   font-family: 'Inter', sans-serif;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 0.04em;
   color: var(--text-secondary);
 }
@@ -2687,7 +2696,7 @@ body[data-page="vorlagen-cms"] {
 .berater-form-submit {
   font-family: 'Inter', sans-serif;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 400;
   border-radius: 10px;
   padding: 11px 22px;
   cursor: pointer;
@@ -2743,7 +2752,7 @@ body[data-page="vorlagen-cms"] {
 .changelog-h1 {
   font-family: 'Inter', sans-serif;
   font-size: 22px;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--ink, var(--ink));
   margin: 0 0 4px;
   letter-spacing: -0.015em;
@@ -2769,7 +2778,7 @@ body[data-page="vorlagen-cms"] {
 .changelog-date {
   font-family: 'Inter', sans-serif;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--accent-gold, var(--accent));
   margin: 2px 0 14px;
   letter-spacing: 0.04em;
@@ -2867,7 +2876,7 @@ body[data-page="vorlagen-cms"] {
   border: 0;
   font-family: 'Inter', sans-serif;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 400;
   padding: 11px 18px;
   border-radius: 8px;
   cursor: pointer;
@@ -2892,7 +2901,7 @@ body[data-page="vorlagen-cms"] {
   border-radius: 10px;
   font-family: 'Inter', sans-serif;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 400;
   text-decoration: none;
   transition: background .18s ease, transform .18s ease;
 }
@@ -3017,7 +3026,7 @@ body[data-page="vorlagen-cms"] {
 /* Labels wieder in Satzschrift statt Versalien */
 .cms-body label {
   font-size: 13.5px !important;
-  font-weight: 600 !important;
+  font-weight: 400 !important;
   letter-spacing: 0 !important;
   text-transform: none !important;
   color: var(--ink, var(--ink)) !important;
@@ -3106,7 +3115,7 @@ body[data-page="vorlagen-cms"] {
 }
 .cms-switch input:checked + .cms-switch-track { background: var(--accent, var(--accent)); }
 .cms-switch input:checked + .cms-switch-track::after { transform: translateX(18px); }
-.cms-switch-text strong { display: block; font-size: 13.5px; font-weight: 600; color: var(--ink, var(--ink)); }
+.cms-switch-text strong { display: block; font-size: 13.5px; font-weight: 400; color: var(--ink, var(--ink)); }
 .cms-switch-text span { font-size: 12px; color: var(--ink-soft, var(--ink-soft)); line-height: 1.4; }
 
 /* ============================================================
@@ -3124,7 +3133,7 @@ body[data-page="vorlagen-cms"] {
 .team-hero h1 {
   margin: 8px 0 0;
   font-size: clamp(29px, 3vw, 42px);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.05;
   letter-spacing: -.042em;
 }
@@ -3152,7 +3161,7 @@ body[data-page="vorlagen-cms"] {
   background: transparent;
   color: var(--ink-muted, var(--ink-muted));
   font-size: 11.5px;
-  font-weight: 650;
+  font-weight: 400;
   cursor: pointer;
 }
 .team-range button:hover { background: var(--surface-soft, var(--surface-soft)); color: var(--ink, var(--ink)); }
@@ -3187,7 +3196,7 @@ body[data-page="vorlagen-cms"] {
   min-height: 37px;
   margin-top: 11px;
   font-size: 31px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
   letter-spacing: -.035em;
   font-variant-numeric: tabular-nums;
@@ -3209,7 +3218,7 @@ body[data-page="vorlagen-cms"] {
 .team-ranking-title { min-width: 0; display: flex; align-items: center; gap: 12px; }
 .team-ranking-trophy { width: 40px; height: 40px; display: grid; place-items: center; flex: 0 0 40px; border: 1px solid rgba(200,170,34,.28); border-radius: 12px; background: var(--accent-bg, var(--surface-2)); color: var(--accent-hover, var(--accent-hover)); }
 .team-ranking-title .h-label { margin-bottom: 3px; }
-.team-ranking-title h2 { margin: 0; font-size: 17px; font-weight: 750; letter-spacing: -.02em; }
+.team-ranking-title h2 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
 .team-ranking-title p { margin: 4px 0 0; color: var(--ink-muted, var(--ink-muted)); font-size: 10.5px; }
 .team-ranking-metric { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 5px; }
 .team-ranking-metric button { padding: 7px 9px; border: 1px solid var(--hairline, var(--hairline)); border-radius: 8px; background: var(--surface); color: var(--ink-muted, var(--ink-muted)); font-size: 9.5px; font-weight: 700; cursor: pointer; }
@@ -3223,7 +3232,7 @@ body[data-page="vorlagen-cms"] {
 .team-podium-place.rank-1 { order: 2; }
 .team-podium-place.rank-3 { order: 3; }
 .team-podium-person { min-width: 0; min-height: 82px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 5px 7px; }
-.team-podium-avatar { width: 42px; height: 42px; display: grid; place-items: center; margin-bottom: 6px; overflow: hidden; border: 1px solid var(--hairline); border-radius: 50%; background: var(--surface-2); color: var(--ink-muted); font-size: 10.5px; font-weight: 800; }
+.team-podium-avatar { width: 42px; height: 42px; display: grid; place-items: center; margin-bottom: 6px; overflow: hidden; border: 1px solid var(--hairline); border-radius: 50%; background: var(--surface-2); color: var(--ink-muted); font-size: 10.5px; font-weight: 700; }
 .team-podium-avatar img { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; }
 .team-podium-place.rank-1 .team-podium-avatar { width: 53px; height: 53px; border: 2px solid var(--accent); background: var(--surface-2); box-shadow: 0 0 0 4px rgba(200,170,34,.13), 0 9px 20px rgba(139,115,85,.11); }
 .team-podium-person strong { max-width: 100%; overflow: hidden; font-size: 11.5px; text-overflow: ellipsis; white-space: nowrap; }
@@ -3252,7 +3261,7 @@ body[data-page="vorlagen-cms"] {
 
 .team-grid { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 36px; margin-top: 34px; }
 .team-section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 15px; }
-.team-section-head h2 { margin: 7px 0 0; font-size: 18px; font-weight: 750; letter-spacing: -.02em; }
+.team-section-head h2 { margin: 7px 0 0; font-size: 18px; font-weight: 700; letter-spacing: -.02em; }
 .team-section-head p { margin: 5px 0 0; color: var(--ink-muted, var(--ink-muted)); font-size: 12px; line-height: 1.45; }
 .team-section-head > span { color: var(--ink-soft, var(--ink-soft)); font-size: 10.5px; white-space: nowrap; }
 
@@ -3282,21 +3291,21 @@ body[data-page="vorlagen-cms"] {
   border-radius: 12px;
   background: var(--surface-2);
   color: var(--ink-muted);
-  font-weight: 750;
+  font-weight: 700;
 }
 .team-member-avatar { width: 54px; height: 54px; }
 .team-detail-avatar { width: 62px; height: 62px; }
 .team-member-avatar img,
 .team-detail-avatar img { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; }
 .team-member-identity { min-width: 0; }
-.team-member-identity strong { display: block; overflow: hidden; font-size: 15px; font-weight: 750; letter-spacing: -.015em; text-overflow: ellipsis; white-space: nowrap; }
+.team-member-identity strong { display: block; overflow: hidden; font-size: 15px; font-weight: 700; letter-spacing: -.015em; text-overflow: ellipsis; white-space: nowrap; }
 .team-member-identity span { display: block; overflow: hidden; margin-top: 4px; color: var(--ink-muted, var(--ink-muted)); font-size: 11.5px; text-overflow: ellipsis; white-space: nowrap; }
 .team-member-status { width: 8px; height: 8px; margin-left: auto; align-self: flex-start; border-radius: 50%; background: var(--sage, var(--sage)); box-shadow: 0 0 0 4px rgba(11,70,80,.1); }
 .team-member-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 17px; padding-top: 14px; border-top: 1px solid var(--hairline, var(--hairline)); }
 .team-member-metrics > span { min-width: 0; padding: 0 7px; }
 .team-member-metrics > span:first-child { padding-left: 0; }
 .team-member-metrics > span + span { border-left: 1px solid var(--surface-2); }
-.team-member-metrics b { display: block; overflow: hidden; font-size: 17px; font-weight: 750; letter-spacing: -.02em; text-overflow: ellipsis; }
+.team-member-metrics b { display: block; overflow: hidden; font-size: 17px; font-weight: 700; letter-spacing: -.02em; text-overflow: ellipsis; }
 .team-member-metrics small { display: block; overflow: hidden; margin-top: 3px; color: var(--ink-soft, var(--ink-soft)); font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
 .team-member-more { display: flex; align-items: center; justify-content: flex-end; gap: 5px; margin-top: 12px; color: var(--accent-hover, var(--accent-hover)); font-size: 10.5px; font-weight: 700; }
 .team-member-more svg { width: 14px; height: 14px; }
@@ -3333,12 +3342,12 @@ body[data-page="vorlagen-cms"] {
   box-shadow: var(--shadow-card, 0 4px 12px rgba(0,0,0,.04));
 }
 .team-detail-head { display: flex; align-items: center; gap: 14px; }
-.team-detail-head h3 { margin: 6px 0 0; font-size: 20px; font-weight: 750; letter-spacing: -.025em; }
+.team-detail-head h3 { margin: 6px 0 0; font-size: 20px; font-weight: 700; letter-spacing: -.025em; }
 .team-detail-head p { margin: 4px 0 0; color: var(--ink-muted, var(--ink-muted)); font-size: 11.5px; }
 .team-detail-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 28px; margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--hairline, var(--hairline)); }
 .team-detail-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
 .team-detail-metrics > div { min-width: 0; padding: 13px; border-radius: 10px; background: var(--surface-soft, var(--surface-soft)); }
-.team-detail-metrics b { display: block; overflow: hidden; font-size: 21px; font-weight: 780; letter-spacing: -.03em; text-overflow: ellipsis; }
+.team-detail-metrics b { display: block; overflow: hidden; font-size: 21px; font-weight: 700; letter-spacing: -.03em; text-overflow: ellipsis; }
 .team-detail-metrics span { display: block; overflow: hidden; margin-top: 4px; color: var(--ink-muted, var(--ink-muted)); font-size: 9.5px; text-overflow: ellipsis; white-space: nowrap; }
 .team-conversion { margin-top: 19px; }
 .team-conversion > div:first-child { display: flex; justify-content: space-between; margin-bottom: 8px; color: var(--ink-muted, var(--ink-muted)); font-size: 10.5px; }
@@ -3355,7 +3364,7 @@ body[data-page="vorlagen-cms"] {
 .team-detail-listen { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--hairline, var(--hairline)); }
 .team-liste { min-width: 0; padding: 14px; border-radius: 10px; background: var(--surface-soft, var(--surface-soft)); }
 .team-liste .h-label { margin-bottom: 6px; }
-.team-liste-summe { display: block; margin-bottom: 10px; font-size: 24px; font-weight: 780; letter-spacing: -.03em; }
+.team-liste-summe { display: block; margin-bottom: 10px; font-size: 24px; font-weight: 700; letter-spacing: -.03em; }
 .team-liste ul { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
 .team-liste li { display: flex; gap: 7px; align-items: baseline; min-width: 0; }
 .team-liste li b { flex: 0 0 auto; min-width: 1.4em; font-size: 11.5px; font-weight: 700; font-variant-numeric: tabular-nums; }
@@ -3445,7 +3454,7 @@ body[data-page="hub"] .h-header {
 
 body[data-page="hub"] .h-live {
   color: var(--sage-dark);
-  font-weight: 650;
+  font-weight: 400;
 }
 
 body[data-page="hub"] .h-live-dot {
@@ -3472,7 +3481,7 @@ body[data-page="hub"] .h-hero-lines {
 
 body[data-page="hub"] .h-hero-lines strong {
   color: var(--ink);
-  font-weight: 650;
+  font-weight: 400;
 }
 
 body[data-page="hub"] .h-pill {
@@ -3562,7 +3571,7 @@ body[data-page="hub"] .h-network-overview .h-kpi-label {
   margin-top: 7px !important;
   color: var(--ink-muted) !important;
   font-size: 12.5px !important;
-  font-weight: 600 !important;
+  font-weight: 400 !important;
 }
 
 body[data-page="hub"] .h-network-overview .h-kpi-sub {
@@ -3578,7 +3587,7 @@ body[data-page="hub"] .h-network-overview .h-kpi-sub-pill {
   background: transparent !important;
   color: var(--ink-muted);
   font-size: 9.5px;
-  font-weight: 650;
+  font-weight: 400;
 }
 
 body[data-page="hub"] .h-network-overview .h-kpi-sub-pill.up {
@@ -3643,24 +3652,26 @@ body[data-page="hub"] .h-activity-avatar svg {
 
 body[data-page="hub"] .h-activity-name {
   font-size: 12px !important;
-  font-weight: 650 !important;
+  font-weight: 400 !important;
 }
 
 body[data-page="hub"] .h-activity-time {
-  color: var(--hairline-strong) !important;
+  /* Stand auf --hairline-strong: das ist die Farbe einer Trennlinie, keine
+     Textfarbe. Gemessen 2,14:1 gegen Weiss, noetig sind 4,5:1. */
+  color: var(--dna-muted) !important;
   font-size: 9px !important;
 }
 
 body[data-page="hub"] .h-activity-text {
   color: var(--ink-muted) !important;
   font-size: 10.5px !important;
-  font-weight: 500 !important;
+  font-weight: 400 !important;
 }
 
 body[data-page="hub"] .h-activity-pill {
   color: color-mix(in srgb, var(--act-color) 74%, #555) !important;
   font-size: 9px !important;
-  font-weight: 650 !important;
+  font-weight: 400 !important;
 }
 
 body[data-page="hub"] .h-badge-new {
@@ -3669,7 +3680,7 @@ body[data-page="hub"] .h-badge-new {
   background: transparent !important;
   color: var(--sage-dark) !important;
   font-size: 8px !important;
-  font-weight: 800 !important;
+  font-weight: 700 !important;
   letter-spacing: .08em !important;
 }
 

@@ -62,7 +62,7 @@ function ensureModal() {
     #${MODAL_ID} .pi-ways { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
     #${MODAL_ID} .pi-way { display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-radius: 10px;
       border: 1px solid var(--hairline, #E8E5E0); background: #fff; color: var(--ink, #1A1A1A);
-      font: inherit; font-size: 14px; font-weight: 500; text-decoration: none; cursor: pointer; }
+      font: inherit; font-size: 14px; font-weight: 400; text-decoration: none; cursor: pointer; }
     #${MODAL_ID} .pi-way:hover { background: var(--ivory, #FAF8F5); }
     #${MODAL_ID} .pi-way small { display: block; font-weight: 400; font-size: 12px; color: var(--ink-muted, #6E6660); }
     #${MODAL_ID} .pi-way-ico { width: 26px; text-align: center; font-size: 16px; flex-shrink: 0; }

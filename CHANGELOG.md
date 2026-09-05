@@ -1,7 +1,43 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.340 Beta** · Zwei Brücken, eine Funktion, live seit 05.09.2026.
+Offizielle Live-Version: **v1.341 Beta** · Aus einer Schmiede, Stand 05.09.2026.
+
+## v1.341 Beta - Phase 326 · Aus einer Schmiede
+**2026-09-05**
+
+Kais Frage war nicht „mach es wie die DVAG", sondern: „wäre schon gut wenn die Anwendungen alle aus einer Schmiede kommen, so wie bei DVAG, da sehen die Anwendungen aus einer Familie, aber trotzdem nicht alle gleich aus."
+
+Genau das ist gebaut. Zur Auswahl standen zwei Entwürfe, beide zum Anklicken: **A Familienmitglied** mit allen sechs Hausregeln, so wie Cockpit und KAI. sie tragen, und **B Verwandt**, das Farbe und Bedienung vom Haus nimmt und die Form des Portals behält. Kai hat B genommen.
+
+**Was jetzt vom Haus kommt**
+
+Die Grautöne, das dunkle Gold für Schrift, das Markenblau. Und vor allem eine Trennung, die dem Portal gefehlt hat: Das Haus hat einen eigenen **Klickton** für alles Anklickbare (`#0070A8`), getrennt vom Markenblau für Flächen und Linien (`#00587C`). Das Portal benutzte für beides dasselbe Petrol. Jetzt tragen Knöpfe, Chips und Links den Klickton, und man sieht auf einen Blick, was ein Bedienelement ist.
+
+Dazu die Schriftgewichte. Die Hausschrift kennt nur 300, 400 und 700, im Portal waren **acht Stufen** im Umlauf (bis hin zu 620, 650 und 780). Wären die Zwischenstufen geblieben, hätte der Browser sie später auf 700 hochgerechnet und die Seite wäre fetter geworden statt ruhiger. Alles Halbfette steht jetzt auf 400, alles Fette auf 700.
+
+**Was bleibt**
+
+Die Form. Karten behalten ihre Rundung, Pillen bleiben Pillen, die farbige Oberkante der Kennzahlen bleibt. Das ist der ganze Unterschied zwischen „verwandt" und „gleich wie das Cockpit". Ebenso bleibt die Marke der Regionaldirektion: Emblem, Namenszug in Schreibschrift, der Aufbau der Seitenleiste.
+
+**Und die Kundenseiten bleiben komplett unangetastet.** Das ist keine Geschmacksfrage: Das DVAG-Material darf laut der eigenen Regel nicht auf öffentliche Seiten. Präsentation, Empfängerseiten, Themenseiten, Überblick und KIDZ sind nicht angefasst.
+
+**Vier Sachen, die dabei aufgefallen sind und über Optik hinausgehen**
+
+Beim Nachmessen am gerenderten Bild, nicht am Quelltext:
+
+- Die Abschnittsüberschriften („WARTEN AUF DICH") standen im Markengold auf Weiß. Gemessen **2,28:1**, nötig sind 4,5:1. Sechs Stellen im CSS und ein „Zurück zum Portal"-Link auf vier Seiten. Genau deshalb lautet die Hausregel „Gold trägt Flächen und Kanten, nie Schrift".
+- Die Zeitangaben im Aktivitätsstrom standen in der Farbe einer **Trennlinie**. Gemessen 2,14:1.
+- Die Initialen auf den goldenen Avataren standen wieder in Gold. Gemessen 2,49:1.
+- Der Grauton für Nebentext hatte 2,56:1 und trug an 47 Stellen echten Text.
+
+Alle vier sind behoben. Der hellste Grauton des Hauses (`#808080`) steht jetzt getrennt als eigener Wert und trägt nur noch Symbole, Rahmen und Platzhalter, nie Schrift.
+
+Dazu der Fokusrahmen des Hauses: 3 Pixel in der Aktivfarbe mit hellem Hof. Vorher lag dort ein goldener Ring, den man nur sah, wenn man wusste, dass er da ist.
+
+**Acht neue Wächter**, jeder einmal zurückgedreht und rot geworden: die drei erlaubten Schriftgewichte, Gold nie als Schrift (mit einer benannten Ausnahme für den Punkt, der wirklich eine Fläche ist), Markenblau und Klickton als zwei getrennte Farben, die Grundwerte gegen die Hausliste, der Symbolton nie auf einer Textvariablen, die Rundung als bewusst behaltene Eigenheit, der Fokusrahmen samt der Falle mit `:where()`, und dass keine Kundenseite in die Berater-Listen rutscht.
+
+**Noch offen:** die Hausschrift selbst. Sie ist lizenziertes Firmenmaterial und darf nur an Angemeldete ausgeliefert werden; das braucht einen eigenen Weg und kommt als nächste Etappe.
 
 ## v1.340 Beta - Phase 325 · Zwei Brücken, eine Funktion
 **2026-09-05**

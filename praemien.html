@@ -18,10 +18,10 @@
 
   <style>
     .pr-toolbar { display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin: 8px 0 18px; }
-    .pr-sync { background:#141414; color:#fff; border:0; border-radius:999px; padding:11px 22px; font-weight:600; font-size:14px; cursor:pointer; }
+    .pr-sync { background:#141414; color:#fff; border:0; border-radius:999px; padding:11px 22px; font-weight:400; font-size:14px; cursor:pointer; }
     .pr-sync:disabled { opacity:.6; cursor:default; }
     .pr-filters { display:flex; gap:8px; }
-    .pr-chip { border:1px solid var(--border,#e3ddd4); background:#fff; border-radius:999px; padding:8px 16px; font-size:13px; font-weight:500; cursor:pointer; color:var(--text-secondary,#6B6660); }
+    .pr-chip { border:1px solid var(--border,#e3ddd4); background:#fff; border-radius:999px; padding:8px 16px; font-size:13px; font-weight:400; cursor:pointer; color:var(--text-secondary,#6B6660); }
     .pr-chip.active { background:rgba(201,185,138,.14); border-color:rgba(201,185,138,.5); color:#1A1A1A; }
     .pr-count { font-size:13px; color:var(--text-secondary,#6B6660); margin-left:auto; }
 
@@ -37,22 +37,22 @@
     .pr-titel { font-size:14px; color:#1A1A1A; margin-top:3px; }
     .pr-row1 .pr-status { margin-left:auto; }
     .pr-headline { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-top:8px; }
-    .pr-value-big { font-size:27px; font-weight:800; line-height:1; letter-spacing:-0.02em;
+    .pr-value-big { font-size:27px; font-weight:700; line-height:1; letter-spacing:-0.02em;
       background:linear-gradient(135deg,#C49A4A 0%,#8B6B2E 100%);
       -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:#8B6B2E; }
     .pr-headline .pr-titel { margin-top:0; color:var(--text-secondary,#6B6660); }
     .pr-bezug { display:flex; align-items:center; gap:6px; font-size:12.5px; color:var(--text-secondary,#6B6660); margin-top:6px; }
-    .pr-bezug strong { color:#1A1A1A; font-weight:600; }
+    .pr-bezug strong { color:#1A1A1A; font-weight:400; }
     .pr-bezug svg { color:#2E9E4B; flex:0 0 auto; }
     .pr-card.is-offen .pr-bezug svg { color:#C49A4A; }
     .pr-meta { font-size:12.5px; color:var(--text-secondary,#6B6660); margin-top:6px; }
-    .pr-meta .pr-wert { font-weight:600; color:#1A1A1A; }
+    .pr-meta .pr-wert { font-weight:400; color:#1A1A1A; }
     .pr-status { display:inline-block; font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; }
     .pr-status.offen { background:rgba(194,132,71,.14); color:#9A5A22; }
     .pr-status.ausgezahlt { background:rgba(122,139,111,.16); color:#4F6045; }
     .pr-status.verzichtet { background:rgba(107,102,96,.12); color:#6B6660; }
     .pr-actions { display:flex; flex-direction:column; gap:6px; align-items:flex-end; }
-    .pr-btn { border:1px solid var(--border,#e3ddd4); background:#fff; border-radius:8px; padding:7px 12px; font-size:12.5px; font-weight:600; cursor:pointer; white-space:nowrap; }
+    .pr-btn { border:1px solid var(--border,#e3ddd4); background:#fff; border-radius:8px; padding:7px 12px; font-size:12.5px; font-weight:400; cursor:pointer; white-space:nowrap; }
     .pr-btn.primary { background:#141414; color:#fff; border-color:#141414; }
     .pr-detail { grid-column:1 / -1; display:none; gap:10px; margin-top:6px; padding-top:12px; border-top:1px solid var(--border,#eee); }
     .pr-card.open .pr-detail { display:grid; grid-template-columns:1fr 1fr; }
@@ -78,7 +78,7 @@
 </head>
 <body data-page="praemien-admin" class="has-app-nav">
   <div id="appNav"></div>
-  <script type="module" src="js/nav.js?v=70"></script>
+  <script type="module" src="js/nav.js?v=71"></script>
 
   <header class="h-header">
     <div class="h-header-left">
@@ -101,7 +101,7 @@
         Du siehst hier als Admin alle Prämien des Portals, nicht nur die deiner eigenen Promoter.
       </p>
       <p style="margin-top:10px;font-size:13px;">
-        <a href="hub.html" style="color:var(--accent-gold);font-weight:600;text-decoration:none;">← Zurück zum Portal</a>
+        <a href="hub.html" style="color:var(--klick);font-weight:400;text-decoration:none;">← Zurück zum Portal</a>
       </p>
     </section>
 

@@ -524,14 +524,14 @@ function attachHandlers(list) {
     const loginUrl = `${origin}/dashboard/`;
     const msg = `Hallo ${berater?.name || ''}, dein Login fürs Empfehlungsportal:\nBenutzer: ${berater?.email || ''}\nPasswort: ${pw}\nAnmelden: ${loginUrl}`;
     const waNum = (berater?.whatsapp || '').replace(/[^\d]/g, '');
-    const waBtn = waNum ? `<a href="https://wa.me/${waNum}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener" style="text-decoration:none;padding:5px 12px;border-radius:999px;border:1px solid #25D366;color:#128C36;font-weight:600;">WhatsApp</a>` : '';
-    const mailBtn = berater?.email ? `<a href="mailto:${berater.email}?subject=${encodeURIComponent('Dein Login-Zugang')}&body=${encodeURIComponent(msg)}" style="text-decoration:none;padding:5px 12px;border-radius:999px;border:1px solid var(--border,#e3ddd4);color:#141414;font-weight:600;">E-Mail</a>` : '';
+    const waBtn = waNum ? `<a href="https://wa.me/${waNum}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener" style="text-decoration:none;padding:5px 12px;border-radius:999px;border:1px solid #25D366;color:#128C36;font-weight:400;">WhatsApp</a>` : '';
+    const mailBtn = berater?.email ? `<a href="mailto:${berater.email}?subject=${encodeURIComponent('Dein Login-Zugang')}&body=${encodeURIComponent(msg)}" style="text-decoration:none;padding:5px 12px;border-radius:999px;border:1px solid var(--border,#e3ddd4);color:#141414;font-weight:400;">E-Mail</a>` : '';
     resultEl.innerHTML = `
       <div style="padding:10px 12px;background:rgba(31,107,48,0.06);border:1px solid rgba(31,107,48,0.3);border-radius:8px;">
-        <div style="color:#1F6B30;font-weight:600;margin-bottom:6px;">✓ ${created ? 'Login angelegt' : 'Passwort gesetzt'}</div>
+        <div style="color:#1F6B30;font-weight:400;margin-bottom:6px;">✓ ${created ? 'Login angelegt' : 'Passwort gesetzt'}</div>
         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
           <code style="font-family:'SF Mono',Menlo,monospace;font-size:14px;background:#fff;padding:5px 10px;border-radius:6px;border:1px solid var(--border,#e3ddd4);">${escapeHtml(pw)}</code>
-          <button type="button" data-pw-copy="${escapeAttr(pw)}" style="padding:5px 12px;border-radius:999px;border:1px solid var(--border,#e3ddd4);background:#fff;cursor:pointer;font-weight:600;">Kopieren</button>
+          <button type="button" data-pw-copy="${escapeAttr(pw)}" style="padding:5px 12px;border-radius:999px;border:1px solid var(--border,#e3ddd4);background:#fff;cursor:pointer;font-weight:400;">Kopieren</button>
           ${waBtn}${mailBtn}
         </div>
         <div style="margin-top:6px;color:var(--text-secondary,#6B6660);">Schick ${escapeHtml(berater?.name || 'dem Berater')} Benutzer (E-Mail) + Passwort + Login-Link. Er kann es danach selbst in den Einstellungen ändern.${created ? ' Falls die Seite neu geladen wird, zeigt die Karte „✓ Login".' : ''}</div>

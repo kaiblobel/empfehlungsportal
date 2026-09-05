@@ -32,14 +32,14 @@
   background: var(--accent-bg);
   color: var(--accent-hover);
   font-size: 18px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: .02em;
 }
 .ed-person-copy { min-width: 0; }
-.ed-eyebrow { margin-bottom: 7px; color: var(--accent-hover); font-size: 10px; font-weight: 800; letter-spacing: .17em; text-transform: uppercase; }
+.ed-eyebrow { margin-bottom: 7px; color: var(--accent-hover); font-size: 10px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; }
 .ed-person h1 { margin: 0; overflow: hidden; font-size: clamp(26px, 3vw, 32px); line-height: 1.05; letter-spacing: -.04em; text-overflow: ellipsis; white-space: nowrap; }
 .ed-hero-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; margin-top: 8px; color: var(--ink-muted); font-size: 10.5px; }
-.ed-status { display: inline-flex; align-items: center; gap: 5px; padding: 5px 7px; border-radius: 8px; background: var(--surface-2); color: var(--ink-muted); font-size: 9px; font-weight: 800; }
+.ed-status { display: inline-flex; align-items: center; gap: 5px; padding: 5px 7px; border-radius: 8px; background: var(--surface-2); color: var(--ink-muted); font-size: 9px; font-weight: 700; }
 .ed-status i { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-soft); }
 .ed-status.kunde { background: var(--sage-soft); color: var(--sage-dark); }
 .ed-status.kunde i { background: var(--sage); }
@@ -76,7 +76,7 @@
 .ed-summary { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin-bottom: 14px; }
 .ed-summary-card { min-width: 0; padding: 16px 18px; background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); }
 .ed-summary-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.ed-summary-icon { width: 29px; height: 29px; display: inline-grid; place-items: center; border-radius: 9px; background: var(--accent-bg); color: var(--accent-hover); font-size: 10px; font-weight: 800; }
+.ed-summary-icon { width: 29px; height: 29px; display: inline-grid; place-items: center; border-radius: 9px; background: var(--accent-bg); color: var(--accent-hover); font-size: 10px; font-weight: 700; }
 .ed-summary-top small { overflow: hidden; color: var(--ink-soft); font-size: 8.5px; text-overflow: ellipsis; white-space: nowrap; }
 .ed-summary-card strong { display: block; margin-top: 12px; overflow: hidden; font-size: 17px; letter-spacing: -.03em; text-overflow: ellipsis; white-space: nowrap; }
 .ed-summary-card span { display: block; margin-top: 4px; color: var(--ink-muted); font-size: 9.5px; }
@@ -88,21 +88,21 @@
 .ed-panel { overflow: hidden; background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); }
 .ed-panel-pad { padding: 19px; }
 .ed-panel h2,
-.ed-panel-head h2 { margin: 0; font-size: 15px; line-height: 1.3; font-weight: 750; letter-spacing: -.02em; }
+.ed-panel-head h2 { margin: 0; font-size: 15px; line-height: 1.3; font-weight: 700; letter-spacing: -.02em; }
 .ed-panel-head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); padding: 18px 19px; border-bottom: 1px solid var(--hairline); }
 .ed-panel-head span { color: var(--ink-soft); font-size: 9.5px; white-space: nowrap; }
 .ed-contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
 .ed-contact { min-width: 0; display: flex; align-items: flex-start; gap: 9px; padding: 11px; border-radius: 10px; background: var(--surface-soft); }
-.ed-contact-icon { width: 26px; height: 26px; display: inline-grid; place-items: center; flex: 0 0 auto; border-radius: 8px; background: var(--surface); color: var(--ink-soft); font-size: 9px; font-weight: 750; }
+.ed-contact-icon { width: 26px; height: 26px; display: inline-grid; place-items: center; flex: 0 0 auto; border-radius: 8px; background: var(--surface); color: var(--ink-soft); font-size: 9px; font-weight: 700; }
 .ed-contact label,
-.ed-fact label { display: block; color: var(--ink-soft); font-size: 8px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.ed-fact label { display: block; color: var(--ink-soft); font-size: 8px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .ed-contact span { display: block; margin-top: 3px; overflow-wrap: anywhere; color: var(--ink-muted); font-size: 10.5px; line-height: 1.4; }
 .ed-confidence { display: flex; align-items: center; gap: 8px; margin-top: 11px; padding: 10px 11px; border-radius: 10px; background: var(--sage-soft); color: var(--sage-dark); font-size: 10px; font-weight: 700; }
 .ed-confidence i { width: 19px; height: 19px; display: inline-grid; place-items: center; flex: 0 0 auto; border-radius: 50%; background: var(--surface); font-style: normal; }
 .ed-context-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 11px; }
 .ed-context { padding: 12px; border-radius: 10px; background: var(--accent-bg); }
 .ed-context.neutral { background: var(--surface-soft); }
-.ed-context label { display: block; color: var(--accent-hover); font-size: 8px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.ed-context label { display: block; color: var(--accent-hover); font-size: 8px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .ed-context.neutral label { color: var(--ink-soft); }
 .ed-context p { margin: 6px 0 0; color: var(--ink-muted); font-size: 10.5px; line-height: 1.5; }
 .ed-context.neutral p { color: var(--ink-muted); }
@@ -110,22 +110,22 @@
 .ed-timeline { padding: 9px 19px 15px; }
 .ed-event { position: relative; display: grid; grid-template-columns: 31px minmax(0,1fr) auto; align-items: start; gap: 10px; padding: 10px 0; }
 .ed-event:not(:last-child)::before { content: ''; position: absolute; top: 38px; bottom: -8px; left: 15px; width: 1px; background: var(--hairline); }
-.ed-event-dot { width: 30px; height: 30px; display: inline-grid; place-items: center; z-index: 1; border-radius: 9px; background: var(--sage-soft); color: var(--sage-dark); font-size: 9px; font-weight: 800; }
+.ed-event-dot { width: 30px; height: 30px; display: inline-grid; place-items: center; z-index: 1; border-radius: 9px; background: var(--sage-soft); color: var(--sage-dark); font-size: 9px; font-weight: 700; }
 .ed-event-dot.open { background: rgba(11,70,80,.10); color: var(--marine); }
 .ed-event-copy strong { display: block; font-size: 11px; }
 .ed-event-copy span { display: block; margin-top: 3px; color: var(--ink-muted); font-size: 9.5px; line-height: 1.45; }
 .ed-event time { color: var(--ink-soft); font-size: 9px; white-space: nowrap; }
 
 .ed-work-title { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.ed-work-state { padding: 5px 7px; border-radius: 8px; background: var(--surface-2); color: var(--ink-muted); font-size: 8.5px; font-weight: 800; }
+.ed-work-state { padding: 5px 7px; border-radius: 8px; background: var(--surface-2); color: var(--ink-muted); font-size: 8.5px; font-weight: 700; }
 .ed-next { margin-top: 12px; padding: 11px; border-left: 3px solid var(--accent); border-radius: 9px; background: var(--accent-bg); }
-.ed-next label { display: block; color: var(--accent-hover); font-size: 8px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.ed-next label { display: block; color: var(--accent-hover); font-size: 8px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .ed-next strong { display: block; margin-top: 4px; font-size: 11.5px; }
 .ed-next p { margin: 4px 0 0; color: var(--ink-muted); font-size: 9.5px; line-height: 1.45; }
 .ed-field { margin-top: 13px; }
 .ed-field label { display: block; margin-bottom: 5px; color: var(--ink-muted); font-size: 9px; font-weight: 700; }
 .ed-field select,
-.ed-field textarea { width: 100%; padding: 9px 10px; outline: 0; border: 1px solid var(--hairline); border-radius: 8px; background: var(--surface-soft); color: var(--ink); font: 500 10.5px var(--font-sans); }
+.ed-field textarea { width: 100%; padding: 9px 10px; outline: 0; border: 1px solid var(--hairline); border-radius: 8px; background: var(--surface-soft); color: var(--ink); font: 400 10.5px var(--font-sans); }
 .ed-field select:focus,
 .ed-field textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(200,170,34,.14); }
 .ed-field textarea { min-height: 92px; line-height: 1.5; resize: vertical; }
