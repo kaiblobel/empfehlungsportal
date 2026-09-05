@@ -417,6 +417,22 @@ assert.match(nachtragMigration, /'updated', true/);
 assert.doesNotMatch(nachtragMigration, /set[\s\S]{0,200}name = /);
 assert.doesNotMatch(nachtragMigration, /set[\s\S]{0,200}berater_id = /);
 
+// Phase 323: Aus der Einwilligungszeile wurde eine kleine Karte.
+//
+// Die Karte traegt die Kennung, an der das Ausblenden haengt. Bekommt sie
+// spaeter display: grid oder flex, verliert das Attribut hidden, und die
+// Einladung stuende schon vor dem Fest auf der Seite. Genau das ist dem Projekt
+// bei .kg-check bereits passiert.
+const gewinnspielCss = await read('css/kidz-gewinnspiel.css');
+assert.match(gewinnspielCss, /\.kg-evening\[hidden\]\s*\{\s*display:\s*none/,
+  'Ohne diese Regel kann die Einladung vor dem Veranstaltungstag sichtbar werden.');
+assert.match(html, /<h3 id="kgEveningTitle">Ein Abend nur für Eltern<\/h3>/);
+assert.match(html, /Eine kleine Runde, etwa 60 Minuten/);
+assert.match(html, /Ja, sagt mir einmal Bescheid, wenn der nächste Termin steht\./);
+// Die Dauer steht auf drei Seiten und muss dieselbe sein.
+assert.match(await read('kidz-elternabend.html'), /Etwa 60 Minuten/);
+assert.match(await read('kidz-konzept.html'), /<strong>60 Minuten<\/strong>/);
+
 // Die Seite muss sagen, was passiert ist, statt pauschal "Du bist dabei".
 const gewinnspielJs = await read('js/kidz-gewinnspiel.js');
 assert.match(gewinnspielJs, /function erfolgsMeldung/);

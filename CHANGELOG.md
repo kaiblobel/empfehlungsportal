@@ -1,7 +1,23 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.337 Beta** · Bremse passt zum Festgelände, live seit 05.09.2026.
+Offizielle Live-Version: **v1.338 Beta** · Einladung statt Einwilligungszeile, live seit 05.09.2026.
+
+## v1.338 Beta - Phase 323 · Einladung statt Einwilligungszeile
+**2026-09-05**
+
+Am 6. September geht das Häkchen für KIDZ for Future auf, an der besten Stelle, die es gibt: direkt unter dem Moment, in dem jemand gerade Ja zum Gewinnspiel gesagt hat. Dort stand eine Verwaltungszeile. Sie sagte, was man ankreuzt, aber nicht, warum jemand das wollen sollte. Auf dieser Seite kommt der Abend sonst nirgends vor, und ein Häkchen für etwas Unerklärtes kreuzt niemand an.
+
+Jetzt steht dort eine kleine Karte: Name, ein Satz, das Häkchen. "Ein Abend nur für Eltern. Eine kleine Runde, etwa 60 Minuten." Mehr nicht, damit sie das Formular nicht auseinanderzieht. Die Farben kommen von der Elternabendseite, Creme mit Petrol und Gold, damit sie sich von den blauen Formularfeldern absetzt und auf /kidz/elternabend wiedererkannt wird.
+
+Die Einwilligung bleibt eine Einwilligung: Häkchen nicht vorausgewählt, "Optional" sichtbar, das "einmal" im Text deckt die einmalige Kontaktaufnahme, der Datenschutzabsatz unverändert.
+
+Die Dauer stand bisher dreimal verschieden im Umlauf: 75 Minuten auf der Elternabendseite, 60 bis 75 auf der Konzeptseite. Jetzt überall 60 Minuten. Ein Wächter im Test hält die drei Stellen zusammen, damit sie nicht wieder auseinanderlaufen.
+
+Die Karte trägt die Kennung, an der das Ausblenden hängt. Deshalb hat sie eine eigene Regel `.kg-evening[hidden]`: Bekäme sie später `display: grid`, verlöre das Attribut `hidden`, und die Einladung stünde schon vor dem Fest auf der Seite. Genau das ist dem Projekt bei `.kg-check` bereits passiert. Gegenprobe gemacht: Regel entfernt, Test rot, Regel zurück, Test grün.
+
+Vor dem Livegang beides angesehen: die Seite mit vorgespieltem 6. September, dort ist die Karte da, und die Seite von heute, dort ist sie unsichtbar und das Schätzfeld weiterhin grau mit "ab 6. September".
+
 
 ## v1.337 Beta - Phase 322 · Bremse passt zum Festgelände
 **2026-09-05**

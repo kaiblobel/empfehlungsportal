@@ -32,7 +32,7 @@
   <title>KIDZ Sommerfest-Gewinnspiel | Team Wachsbleiche</title>
   <link rel="icon" type="image/png" href="/assets/images/kidz-logo-konzept.png">
   <link rel="apple-touch-icon" href="/assets/images/kidz-logo-konzept.png">
-  <link rel="stylesheet" href="/css/kidz-gewinnspiel.css?v=9">
+  <link rel="stylesheet" href="/css/kidz-gewinnspiel.css?v=10">
   <link rel="stylesheet" href="/css/kidz-public-nav.css?v=3">
   <script src="/js/config.js"></script>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
@@ -180,10 +180,15 @@
           <span>Ich bin volljährig, melde mich zum Gewinnspiel an und habe die <a href="#teilnahmebedingungen">Teilnahmebedingungen und Datenschutzhinweise</a> gelesen. Mir ist bekannt, dass Platz 1 über die genaueste Schätzung des Ballumfangs vergeben wird.</span>
         </label>
 
-        <label class="kg-check kg-check-optional" for="kgParentEvening" id="kgParentEveningRow" hidden>
-          <input id="kgParentEvening" name="parentEvening" type="checkbox">
-          <span><strong>Optional:</strong> Ich möchte einmalig Informationen zum nächsten KIDZ for Future erhalten, dem Abend für Eltern.</span>
-        </label>
+        <section class="kg-evening" id="kgParentEveningRow" hidden aria-labelledby="kgEveningTitle">
+          <p class="kg-evening-kicker">KIDZ for Future <span class="kg-evening-tag">Optional</span></p>
+          <h3 id="kgEveningTitle">Ein Abend nur für Eltern</h3>
+          <p class="kg-evening-text">Eine kleine Runde, etwa 60 Minuten</p>
+          <label class="kg-evening-check" for="kgParentEvening">
+            <input id="kgParentEvening" name="parentEvening" type="checkbox">
+            <span>Ja, sagt mir einmal Bescheid, wenn der nächste Termin steht.</span>
+          </label>
+        </section>
 
         <div class="kg-captcha" id="kgCaptcha" aria-label="Bot-Schutz"></div>
         <div class="kg-error" id="kgError" role="alert" aria-live="polite" hidden></div>
