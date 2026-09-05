@@ -1482,10 +1482,25 @@ body[data-page="vorlagen-cms"] {
   font-size: 13px; font-weight: 700; color: #fff;
   flex-shrink: 0;
 }
-.h-lead.anrufwunsch .h-lead-avatar { background: var(--burnt-orange); }
+/* Hier sagt die Farbe den ZUSTAND, nicht die Rolle: ein Lead ist immer ein
+   Empfaenger, aber ob er nur Interesse hat oder einen Rueckruf will, ist die
+   Auskunft, die zaehlt. --pz-grund muss mitwandern, sonst sitzt das kleine
+   Abzeichen des Personenzeichens auf dem falschen Grund (Phase 330). */
+.h-lead.anrufwunsch .h-lead-avatar {
+  background: var(--burnt-orange);
+  /* Die Flaeche ist dunkel, das Zeichen muss deshalb hell stehen. Ohne diese
+     Zeile erbt es die Farbe aus .pz-empfaenger — und die IST --burnt-orange:
+     gemessen 1,0 zu 1, also vollstaendig unsichtbar (Phase 330). */
+  color: #fff;
+  --pz-grund: var(--burnt-orange);
+}
 /* Schrift auf einer Goldflaeche ist dunkel, nicht wieder Gold: gold-140 auf
    gold-100 sind 2,49:1. Das Haus setzt dort die Ueberschriftfarbe. */
-.h-lead.interesse .h-lead-avatar { background: var(--accent); color: var(--dna-ink); }
+.h-lead.interesse .h-lead-avatar {
+  background: var(--accent);
+  color: var(--dna-ink);
+  --pz-grund: var(--accent);
+}
 .h-lead-text {
   font-family: 'Inter', sans-serif;
   font-size: 15px; font-weight: 400;

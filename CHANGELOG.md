@@ -1,7 +1,28 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.344 Beta** · Man sieht wieder, was passiert ist, Stand 05.09.2026.
+Offizielle Live-Version: **v1.345 Beta** · Ein Zeichen statt eines Buchstabens, Stand 05.09.2026.
+
+## v1.345 Beta - Phase 330 · Ein Zeichen statt eines Buchstabens
+**2026-09-05**
+
+Kais Wunsch: vor den Namen von Promotern und Empfängern soll statt zweier Buchstaben ein Zeichen stehen, das sagt, wen man vor sich hat.
+
+**Die naheliegende Lösung war die falsche.** Das Geschlecht aus dem Vornamen abzuleiten hätte bei den vorhandenen Daten regelmäßig danebengelegen: Neun von vierzehn Empfängern haben nur ein einziges Wort als Namen, und ob das ein Vor- oder Nachname ist, steht nirgends. Bei den Promotern steht der Nachname teils vorn („Schmidt Lucas"), ein Rater würde dort den Nachnamen auswerten. Und Namen wie Kim, Toni, Andrea oder Luca gehen grundsätzlich in beide Richtungen, bei nicht-deutschen Namen trifft eine Liste fast gar nicht. Ein falsches Zeichen stünde dann in der Akte eines Menschen, den man gleich anruft.
+
+Deshalb kommt die Anrede jetzt aus einem Feld, das der Berater selbst setzt. Zwei neue Spalten, beide dürfen leer bleiben, erlaubt sind nur „frau" und „herr". Wo nichts gesetzt ist, steht eine neutrale Person — das ist kein Mangel, sondern der ehrliche Zustand.
+
+**Zwei Angaben, zwei Mittel:** Das Zeichen sagt die Anrede, die Farbe sagt die Rolle. Promoter stehen im Markenblau, Empfänger im Gold. Bei den Hot-Leads auf der Überblicksseite sagt die Farbe stattdessen den Zustand, denn ein Lead ist ohnehin immer ein Empfänger.
+
+Die Form ist Kais Wahl am Bild: die Person bleibt die Hauptsache, ein kleines Venus- oder Marszeichen unten rechts sagt das Übrige. Der erste Entwurf hatte den Unterschied nur in feinen Haarlinien — bei 19 Pixeln waren alle drei Zeichen praktisch gleich, also genau der Mangel, der behoben werden sollte.
+
+**Gesetzt wird die Anrede an zwei Stellen:** in der Promoterakte neben dem Namen, und auf der Empfehlungs-Detailseite über dem Status. Beide Wege sieben aus, was nicht „frau" oder „herr" ist. Und ein Aufruf ohne das Feld überschreibt eine vorhandene Angabe nicht.
+
+**Am gerenderten Bild gemessen, nicht am Quelltext geraten:** Beim Anrufwunsch-Lead erbte das Zeichen seine Farbe aus der Empfängerregel — und die ist derselbe Ton wie die Fläche darunter. Gemessen 1,0 zu 1, also vollständig unsichtbar. Vorher stand dort ein weißer Buchstabe. Behoben; jetzt liegen alle drei Varianten zwischen 4,9:1 und 6,6:1.
+
+Neun Wächter, jeder einmal zurückgedreht und rot geworden. Der wichtigste hält fest, dass nirgends aus einem Namen geraten wird.
+
+**Noch nicht überall:** In der Promoterakte stehen die aufgelisteten Empfänger vorerst neutral. Ihre Daten kommen über eine Datenbankfunktion mit festen Spalten, die auch die Promoter-Ansicht auf der Kundenseite bedient. Die wird in einem eigenen Schritt erweitert, damit dort nichts kaputtgeht. Dasselbe gilt für die Team-Ansicht.
 
 ## v1.344 Beta - Phase 329 · Man sieht wieder, was passiert ist
 **2026-09-05**

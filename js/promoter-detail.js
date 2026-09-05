@@ -4,6 +4,7 @@
  */
 import { requireAuth, logout, applyBeraterHeader, formatDate } from './dashboard.js';
 import { getEmpfehler, updateEmpfehler, getEmpfehlerStats, getEmpfehlerEmpfehlungen, getBelohnungsStufenPublic } from './supabase.js';
+import { personPlatzhalter, anredeAuswahlHtml, ANREDEN } from './person-zeichen.js';
 import { openPromoterInvite } from './promoter-invite.js';
 
 const STATUS_LABEL = {
@@ -79,7 +80,7 @@ function renderAll() {
   document.getElementById('pdBody').innerHTML = `
     <section class="pd-profile-hero">
       <div class="pd-profile-person">
-        <span class="pd-profile-initial">${initialen(p.name)}</span>
+        ${personPlatzhalter({ anrede: p.anrede, rolle: 'promoter', klasse: 'pz-gross', titel: 'Promoter' })}
         <div class="pd-profile-copy">
           <div class="pd-eyebrow">Promoterprofil</div>
           <h1>${escapeHtml(p.name || 'Promoter')}</h1>
@@ -131,7 +132,10 @@ function renderAll() {
           <div class="pd-note"><label>Interne Notiz</label><p>${escapeHtml(p.notiz || 'Noch keine interne Notiz.')}</p></div>
           <button class="pd-edit-toggle" id="pdEditToggle" type="button">Profil bearbeiten</button>
           <div class="pd-editor" id="pdEditor" hidden>
-            <div class="pd-field"><label for="pdName">Name</label><input id="pdName" value="${escapeAttr(p.name || '')}" /></div>
+            <div class="pd-row-2">
+              <div class="pd-field"><label for="pdAnrede">Anrede</label>${anredeAuswahlHtml('pdAnrede', p.anrede)}</div>
+              <div class="pd-field"><label for="pdName">Name</label><input id="pdName" value="${escapeAttr(p.name || '')}" /></div>
+            </div>
             <div class="pd-row-2">
               <div class="pd-field"><label for="pdTel">Telefon</label><input id="pdTel" type="tel" value="${escapeAttr(p.telefon || '')}" /></div>
               <div class="pd-field"><label for="pdEmail">E-Mail</label><input id="pdEmail" type="email" value="${escapeAttr(p.email || '')}" /></div>
@@ -207,7 +211,7 @@ function renderFeed() {
     return `
       <div class="pd-recommendation">
         <div>
-          <div class="pd-rec-person"><span class="pd-rec-initial">${initialen(e.empfaenger_name)}</span><span><a href="detail.html?id=${encodeURIComponent(e.id)}">${escapeHtml(e.empfaenger_name || 'Ohne Namen')}</a><small>${formatDate(e.created_at)}${e.vorlage_slug ? ' · ' + escapeHtml(e.vorlage_slug) : ''}</small></span></div>
+          <div class="pd-rec-person">${personPlatzhalter({ anrede: e.empfaenger_anrede, rolle: 'empfaenger', titel: 'Empfänger' })}<span><a href="detail.html?id=${encodeURIComponent(e.id)}">${escapeHtml(e.empfaenger_name || 'Ohne Namen')}</a><small>${formatDate(e.created_at)}${e.vorlage_slug ? ' · ' + escapeHtml(e.vorlage_slug) : ''}</small></span></div>
           <div class="pd-link-track">${linkInfo}${copyBtn}</div>
         </div>
         <span class="pd-badge ${escapeAttr(status)}">${STATUS_LABEL[status] || STATUS_LABEL.offen}</span>
@@ -235,7 +239,11 @@ function toggleEditor() {
 
 async function onSave() {
   const btn = document.getElementById('pdSave');
+  // Nur was erlaubt ist, geht in die Datenbank. Alles andere wird zu null,
+  // damit dort nie ein Wert steht, den die Pruefregel nicht kennt.
+  const gewaehlt = (document.getElementById('pdAnrede')?.value || '').trim().toLowerCase();
   const fields = {
+    anrede: ANREDEN.includes(gewaehlt) ? gewaehlt : null,
     name: (document.getElementById('pdName').value || '').trim() || promoter.name,
     telefon: (document.getElementById('pdTel').value || '').trim() || null,
     email: (document.getElementById('pdEmail').value || '').trim() || null,

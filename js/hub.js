@@ -3,6 +3,7 @@ import { parseDbDate } from './date-utils.js';
 import { requireAuth, logout, formatDate, loadFunnel, applyBeraterHeader } from './dashboard.js';
 import { icon, hydrateIcons } from './icons.js';
 import { watchHotLeads } from './hot-lead-watcher.js';
+import { personPlatzhalter } from './person-zeichen.js';
 
 // Phase 40 · Read-State für Activity-Stream
 const READ_EVENTS_KEY = 'hubReadEvents';
@@ -279,7 +280,7 @@ function renderHotLeads(list) {
     const waUrl = `https://wa.me/?text=${encodeURIComponent(waMsg)}`;
     return `
       <div class="h-lead ${cls}" onclick="location.href='${detailUrl}'" role="link" tabindex="0">
-        <span class="h-lead-avatar">${escapeHtml(initials)}</span>
+        ${personPlatzhalter({ anrede: r.empfaenger_anrede, rolle: 'empfaenger', klasse: 'h-lead-avatar', titel: 'Empfänger' })}
         <div class="h-lead-text">
           <strong>${escapeHtml(name)}</strong> ${action}.
           <span class="h-lead-detail">${detailParts.filter(Boolean).map(escapeHtml).join(' · ')}</span>

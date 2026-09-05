@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
   <link rel="stylesheet" href="../css/style.css?v=36" />
   <link rel="stylesheet" href="../css/dashboard.css?v=56" />
-  <link rel="stylesheet" href="../css/dna.css?v=12" />
+  <link rel="stylesheet" href="../css/dna.css?v=13" />
   <script src="../js/config.js"></script>
   <script src="../js/wartung.js?v=4"></script>
 </head>
@@ -151,6 +151,7 @@
       updateEmpfehlung, formatDate, applyBeraterHeader, whatsappLink,
     } from '../js/dashboard.js';
     import { deleteEmpfehlung, getVorlagen, markiereGesehen, getFunnelQuellen } from '../js/supabase.js';
+    import { personPlatzhalter } from '../js/person-zeichen.js';
     import { hydrateIcons, icon } from '../js/icons.js';
 
     applyBeraterHeader();
@@ -275,7 +276,7 @@
       list.innerHTML = '<div class="ep-list">' + visibleItems.map(r => {
         const inhalt = `
           <div class="ep-person">
-            <span class="ep-initial">${initials(r.empfaenger_name)}</span>
+            ${personPlatzhalter({ anrede: r.empfaenger_anrede, rolle: 'empfaenger', titel: 'Empfänger' })}
             <span><strong>${escapeHtml(r.empfaenger_name || 'Unbekannter Kontakt')}</strong>${r.ist_test ? ' <span class="badge badge-test">Test</span>' : ''}<small>${formatDate(r.created_at)}${r.berater_name ? ` · ${escapeHtml(r.berater_name)}` : ''}</small></span>
           </div>
           <div class="ep-topic">${escapeHtml(topicLabel(r))}<small>${herkunftHtml(r)}</small></div>
