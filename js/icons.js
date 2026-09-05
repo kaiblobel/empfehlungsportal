@@ -25,6 +25,24 @@ export const ICONS = {
   Presentation: _SVG(`<path d="M2 3h20"/><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"/><path d="m7 21 5-5 5 5"/>`),
   Link2: _SVG(`<path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 1 1 0 10h-2"/><line x1="8" x2="16" y1="12" y2="12"/>`),
   ArrowRight: _SVG(`<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>`),
+  // Das Zeichen des Anwendungswechslers: neun Kacheln, drei mal drei.
+  //
+  // GEFUELLT, nicht als Umriss (Kais Wahl am 05.09.2026): bei 18 Pixeln laufen
+  // neun duenne Raehmchen zu einem grauen Fleck zusammen. Lucide hat dafuer
+  // kein Zeichen — "LayoutGrid" sind vier grosse, "Grid3x3" ist ein
+  // Linienraster. Deshalb hier von Hand, nicht ueber _SVG (das zeichnet
+  // Umrisse).
+  //
+  // DIESELBE ZEICHNUNG LIEGT IN VIER PROJEKTEN, jeweils in ihrer Technik:
+  //   kai-hub          src/components/waffel/WaffelSymbol.tsx
+  //   berater-cockpit  src/components/layout/WaffelSymbol.tsx
+  //   umsatz-navi      js/v3-pilot-icons.js (Schluessel `waffel`)
+  //   empfehlungsportal  diese Stelle
+  // Die Masse (Kacheln bei 3, 9.5 und 16, je 5 breit, Radius 1) sind wortgleich
+  // uebernommen. Wer sie aendert, aendert sie an allen vieren.
+  Waffel: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">${
+    [3, 9.5, 16].map((y) => [3, 9.5, 16].map((x) => `<rect x="${x}" y="${y}" width="5" height="5" rx="1"/>`).join('')).join('')
+  }</svg>`,
   LayoutGrid: _SVG(`<rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/>`),
   Archive: _SVG(`<rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v13h16V8"/><path d="M10 12h4"/>`),
   BookOpen: _SVG(`<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2Z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7Z"/>`),

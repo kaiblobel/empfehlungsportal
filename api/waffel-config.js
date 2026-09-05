@@ -76,27 +76,56 @@ module.exports = async function handler(req, res) {
     const userId = String((konto && konto.id) || '');
     if (!userId) return send(res, 401, { eintraege: [], istAdmin: false });
 
-    // 2) Admin-Kennzeichen aus der eigenen Berater-Zeile (RLS: eigene Zeile).
+    // 2) Admin-Kennzeichen UND oeffentliche Kennung aus der eigenen
+    // Berater-Zeile (RLS: eigene Zeile). Beides steuert nur die Ausgabe des
+    // Menues, nie einen Zugriff.
     let istAdmin = false;
+    let slug = '';
     try {
       const zeile = await mitZeitgrenze(
-        `${portalUrl}/rest/v1/berater?select=ist_admin&auth_user_id=eq.${encodeURIComponent(userId)}&limit=1`,
+        `${portalUrl}/rest/v1/berater?select=ist_admin,slug&auth_user_id=eq.${encodeURIComponent(userId)}&limit=1`,
         { headers: { apikey: anonKey, authorization: `Bearer ${token}` } },
       );
       if (zeile.ok) {
         const liste = await zeile.json();
-        istAdmin = Array.isArray(liste) && liste[0] ? liste[0].ist_admin === true : false;
+        const eigene = Array.isArray(liste) && liste[0] ? liste[0] : null;
+        istAdmin = eigene ? eigene.ist_admin === true : false;
+        // Nur das Format, das eine Kennung haben darf. Alles andere wird
+        // verworfen, damit nichts Fremdes in eine ausgelieferte Adresse
+        // geraet. Dieselbe Pruefung steht auf der KAI.-Seite noch einmal.
+        const roh = eigene && typeof eigene.slug === 'string' ? eigene.slug.trim().toLowerCase() : '';
+        slug = /^[a-z0-9-]{1,64}$/.test(roh) ? roh : '';
       }
     } catch (_) {
       istAdmin = false;
+      slug = '';
     }
 
+    // Die Verwaltungsadresse bildet der Server aus der eingerichteten
+    // Verbindung. Sonst stuende eine feste fremde Adresse im Browsercode und
+    // zeigte nach einem Umzug von KAI. still ins Leere. Nur Admins bekommen
+    // sie; fuer alle anderen waere der Weg dorthin eine Sackgasse.
+    const verwaltenUrl = istAdmin ? `${kaiBasis.replace(/\/$/, '')}/waffel` : '';
+
     // 3) Das fertige Portal-Profil von KAI. holen. Das Tor-Wort bleibt hier.
+    //
+    // Wer fragt, wird mitgeschickt: die Kennung dreht persoenliche Adressen
+    // auf den angemeldeten Berater (sonst verteilt ein Partner Links, die
+    // Kais Interessenten erzeugen), das Inhaber-Kennzeichen entscheidet, ob
+    // auch die fest zugeschnittenen Eintraege dabei sind. Ohne beides gaelte
+    // Kai auf seinem eigenen Portal als Fremder und saehe fast nichts.
+    //
+    // Die Portal-Kennung ist dieselbe wie die Karriere-Kennung im Cockpit
+    // (geprueft am 05.09.2026 fuer alle sieben Berater). Wer das aendert,
+    // trennt beide Welten und muss hier eine Uebersetzung einziehen.
+    const ziel = new URL(`${kaiBasis.replace(/\/$/, '')}/api/waffel/empfehlungsportal`);
+    if (slug) ziel.searchParams.set('b', slug);
+    if (istAdmin) ziel.searchParams.set('inhaber', '1');
     const antwort = await mitZeitgrenze(
-      `${kaiBasis.replace(/\/$/, '')}/api/waffel/empfehlungsportal`,
+      ziel.toString(),
       { headers: { authorization: `Bearer ${kaiSecret}` } },
     );
-    if (!antwort.ok) return send(res, 200, { eintraege: [], istAdmin });
+    if (!antwort.ok) return send(res, 200, { eintraege: [], istAdmin, verwaltenUrl });
     const daten = await antwort.json();
     const roh = daten && Array.isArray(daten.eintraege) ? daten.eintraege : [];
 
@@ -116,7 +145,7 @@ module.exports = async function handler(req, res) {
         symbol: typeof e.symbol === 'string' && e.symbol ? e.symbol : 'Circle',
       });
     }
-    return send(res, 200, { eintraege, istAdmin });
+    return send(res, 200, { eintraege, istAdmin, verwaltenUrl });
   } catch (_) {
     return send(res, 200, { eintraege: [], istAdmin: false });
   }
