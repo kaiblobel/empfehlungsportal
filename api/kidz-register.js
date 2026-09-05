@@ -216,6 +216,9 @@ module.exports = async function handler(req, res) {
       contactKey: hmac(registrationSecret, `${EVENT_KEY}|${contactIdentity}`),
     });
 
+    // Seit Phase 321 lehnt die Datenbank eine zweite Anmeldung nicht mehr ab,
+    // sondern ergaenzt am vorhandenen Eintrag, was dort noch fehlt. Dieser Zweig
+    // bleibt als Rueckfall stehen, falls eine aeltere Fassung der Funktion laeuft.
     if (result?.reason === 'already_exists') {
       return send(res, 409, { ok: false, reason: 'already_exists' });
     }
@@ -223,7 +226,16 @@ module.exports = async function handler(req, res) {
       return send(res, 400, { ok: false, reason: result.reason });
     }
     if (!result?.ok || !result?.reference) throw new Error('Unvollständige Registrierungsantwort');
-    return send(res, 201, { ok: true, reference: result.reference });
+    return send(res, 201, {
+      ok: true,
+      reference: result.reference,
+      // Was die Datenbank tatsaechlich getan hat. Die Seite meldet sonst
+      // "Anmeldung gespeichert", wo sie eine vorhandene ergaenzt hat.
+      updated: result.updated === true,
+      guessAdded: result.guessAdded === true,
+      interestAdded: result.interestAdded === true,
+      guessKept: result.guessKept === true,
+    });
   } catch (error) {
     console.error('[kidz-register]', error.message);
     return send(res, error.statusCode || 502, {

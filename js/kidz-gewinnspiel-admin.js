@@ -123,7 +123,7 @@ function render() {
       <div>
         ${entry.source === ONSITE_SOURCE ? '<span class="kg-admin-badge kg-admin-badge-onsite">Vor Ort · Papier</span>' : ''}
         <button class="kg-admin-manage" type="button" data-guess-participant="${escapeHtml(entry.id)}">${hasGuess ? `Schätzung: ${escapeHtml(String(entry.schaetzung_cm))} cm` : 'Schätzung eintragen'}</button>
-        <span class="kg-admin-badge ${entry.elternabend_interesse ? '' : 'kg-admin-badge-none'}">KIDZ for Future: ${entry.elternabend_interesse ? 'Interesse' : 'Nein'}</span>
+        <button class="kg-admin-manage" type="button" data-interest-participant="${escapeHtml(entry.id)}">KIDZ for Future: ${entry.elternabend_interesse ? 'Interesse' : 'Nein'}</button>
         ${currentAdvisor?.ist_admin ? `<button class="kg-admin-manage" type="button" data-manage-participant="${escapeHtml(entry.id)}">Teilnahme verwalten</button>` : ''}
       </div>
     </article>
@@ -541,10 +541,47 @@ copyInviteBtn.addEventListener('click', () => copyPersonalInviteLink().catch(() 
 copyWhatsAppBtn.addEventListener('click', () => copyWhatsAppLink().catch(() => {
   copyWhatsAppBtn.textContent = 'Kopieren nicht möglich';
 }));
+/**
+ * Das Haekchen fuer KIDZ for Future nachtragen.
+ *
+ * Am Veranstaltungstag sagt jemand am Stand "zum Elternabend will ich auch",
+ * ist aber schon angemeldet. Ohne diesen Weg muesste die Person das Formular
+ * noch einmal ausfuellen. Es ist eine Einwilligung, deshalb wird gefragt, statt
+ * dass ein Fehlklick sie setzt oder loescht.
+ */
+async function toggleInterest(participantId) {
+  const entry = entries.find((item) => item.id === participantId);
+  if (!entry) return;
+  const neu = !entry.elternabend_interesse;
+  const frage = neu
+    ? `${entry.name} möchte Infos zu KIDZ for Future erhalten. Eintragen?`
+    : `Den Wunsch nach Infos zu KIDZ for Future bei ${entry.name} wieder entfernen?`;
+  if (!window.confirm(frage)) return;
+
+  try {
+    const { error } = await supabase
+      .from('kidz_gewinnspiel_teilnahmen')
+      .update({ elternabend_interesse: neu })
+      .eq('id', participantId);
+    if (error) throw error;
+    entries = entries.map((item) => (item.id === participantId
+      ? { ...item, elternabend_interesse: neu }
+      : item));
+    render();
+  } catch (error) {
+    window.alert(error.message || 'Der Eintrag konnte nicht gespeichert werden.');
+  }
+}
+
 entriesBox.addEventListener('click', (event) => {
   const guessButton = event.target.closest('[data-guess-participant]');
   if (guessButton) {
     openGuessDialog(String(guessButton.dataset.guessParticipant || ''));
+    return;
+  }
+  const interestButton = event.target.closest('[data-interest-participant]');
+  if (interestButton) {
+    toggleInterest(String(interestButton.dataset.interestParticipant || ''));
     return;
   }
   const manageButton = event.target.closest('[data-manage-participant]');

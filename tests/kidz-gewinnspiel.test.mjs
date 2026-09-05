@@ -57,7 +57,10 @@ try {
   const successResponse = responseMock();
   await registerHandler(request(validBody), successResponse);
   assert.equal(successResponse.statusCode, 201);
-  assert.deepEqual(JSON.parse(successResponse.body), { ok: true, reference: 'KIDZ-ABC12345' });
+  assert.deepEqual(JSON.parse(successResponse.body), {
+    ok: true, reference: 'KIDZ-ABC12345',
+    updated: false, guessAdded: false, interestAdded: false, guessKept: false,
+  });
   assert.equal(requests.length, 2);
   const rpcBody = JSON.parse(requests[1].options.body);
   assert.equal(rpcBody.p_event_key, 'kidz-sommerfest-2026');
@@ -79,6 +82,30 @@ try {
   assert.equal(defaultAdvisorResponse.statusCode, 201);
   assert.equal(JSON.parse(requests[1].options.body).p_berater_slug, 'kai-blobel');
 
+  // Der 6. September: Wer sich vor dem Fest angemeldet hat, kommt am Festtag mit
+  // denselben Daten wieder und traegt Schaetzung und Haekchen nach. Die Datenbank
+  // ergaenzt dann die vorhandene Anmeldung. Der Endpunkt muss das durchreichen,
+  // sonst meldet die Seite "Du bist dabei", wo sie etwas ergaenzt hat, und
+  // niemand erfaehrt, ob die Schaetzung angekommen ist.
+  global.fetch = async (url) => {
+    if (String(url).includes('siteverify')) return { ok: true, json: async () => ({ success: true }) };
+    return {
+      ok: true,
+      text: async () => JSON.stringify({
+        ok: true, reference: 'KIDZ-ABC12345', updated: true,
+        guessAdded: true, interestAdded: true, guessKept: false,
+      }),
+    };
+  };
+  const nachtragResponse = responseMock();
+  await registerHandler(request(validBody), nachtragResponse);
+  assert.equal(nachtragResponse.statusCode, 201);
+  assert.deepEqual(JSON.parse(nachtragResponse.body), {
+    ok: true, reference: 'KIDZ-ABC12345',
+    updated: true, guessAdded: true, interestAdded: true, guessKept: false,
+  });
+
+  // Rueckfall: Eine aeltere Fassung der Datenbankfunktion lehnt noch ab.
   global.fetch = async (url) => {
     if (String(url).includes('siteverify')) return { ok: true, json: async () => ({ success: true }) };
     return { ok: true, text: async () => JSON.stringify({ ok: false, reason: 'already_exists' }) };
@@ -371,5 +398,27 @@ assert.match(comebackMigration, /raise exception 'promoter-anika-bibrach is miss
 // Zugangscodes gehoeren nicht ins Repository, sie werden erzeugt.
 assert.match(comebackMigration, /gen_random_uuid\(\)/);
 assert.doesNotMatch(comebackMigration, /'(?:anika-biebrach|david-stamm)-[a-z0-9]{10,}'/);
+
+// Phase 321: Eine zweite Anmeldung ergaenzt, statt abzulehnen.
+//
+// Die tragende Regel ist "nur fuellen, was leer ist". Faellt sie weg, kann jeder,
+// der eine fremde E-Mail kennt, die Schaetzung eines anderen ueberschreiben und
+// ihm den ersten Platz nehmen. Deshalb steht sie hier unter Aufsicht.
+const nachtragMigration = await read('schema-phase321-kidz-nachtragen.sql');
+assert.match(nachtragMigration, /v_schaetzung_neu := \(p_schaetzung_cm is not null and v_alte_schaetzung is null\)/,
+  'Eine vorhandene Schaetzung muss stehen bleiben.');
+assert.match(nachtragMigration, /elternabend_interesse = elternabend_interesse or coalesce\(p_elternabend_interesse, false\)/,
+  'Ein gesetztes Haekchen darf nicht wieder verschwinden.');
+assert.match(nachtragMigration, /'updated', true/);
+// Name, Kontakt und Zuordnung bleiben unberuehrt: sonst schreibt ein Fremder den
+// Eintrag eines anderen um.
+assert.doesNotMatch(nachtragMigration, /set[\s\S]{0,200}name = /);
+assert.doesNotMatch(nachtragMigration, /set[\s\S]{0,200}berater_id = /);
+
+// Die Seite muss sagen, was passiert ist, statt pauschal "Du bist dabei".
+const gewinnspielJs = await read('js/kidz-gewinnspiel.js');
+assert.match(gewinnspielJs, /function erfolgsMeldung/);
+assert.match(gewinnspielJs, /result\?\.updated !== true/);
+assert.match(gewinnspielJs, /guessKept/);
 
 console.log('kidz-gewinnspiel: OK');

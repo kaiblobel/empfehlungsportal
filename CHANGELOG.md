@@ -1,7 +1,25 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.335 Beta** · Der Elternabend heißt KIDZ for Future, live seit 05.09.2026.
+Offizielle Live-Version: **v1.336 Beta** · Nachtragen statt doppelt anmelden, live seit 05.09.2026.
+
+## v1.336 Beta - Phase 321 · Nachtragen statt doppelt anmelden
+**2026-09-05**
+
+Am Vorabend des Sommerfests fiel eine Lücke auf, die das Fest gekostet hätte. 97 Personen hatten sich vor dem 6. September angemeldet, zu einem Zeitpunkt, an dem es weder das Schätzfeld für den Ballumfang noch das Häkchen für KIDZ for Future gab. Beide gehen erst am Veranstaltungstag auf. Wer sich danach noch einmal anmeldete, um sie nachzutragen, bekam die Antwort "Du bist bereits zum Gewinnspiel angemeldet" und ging leer aus. Die Datenbank kannte nur Annehmen oder Ablehnen, kein Ergänzen.
+
+Neu: Eine zweite Anmeldung mit demselben Kontakt legt keinen zweiten Eintrag an, sondern füllt am vorhandenen, was dort noch leer ist. Die Regel dahinter ist "nur ergänzen, nie überschreiben". Eine bereits abgegebene Schätzung bleibt stehen, sonst könnte jeder, der eine fremde E-Mail-Adresse kennt, die Schätzung eines anderen überschreiben und ihm den ersten Platz nehmen. Ein gesetztes Häkchen bleibt gesetzt. Name, Kontakt, einladender Berater und Personenzahl werden nicht angefasst.
+
+Die Seite sagt jetzt, was tatsächlich passiert ist, statt pauschal "Du bist dabei": ob die Schätzung ergänzt wurde, ob das Häkchen dazukam, oder ob schon eine Schätzung vorlag und deshalb die erste gilt.
+
+Im Beraterbereich lässt sich das Häkchen für KIDZ for Future jetzt ebenfalls nachtragen. Für die Schätzung gab es diesen Weg schon, für das Häkchen nirgends. Beides mit Rückfrage, weil es eine Einwilligung ist und kein Fehlklick sie setzen oder löschen soll.
+
+Geprüft wurde der Ablauf gegen die Live-Datenbank, mit einer Kopie der Funktion, die das Zeitfenster des 6. September aufmacht: Erstanmeldung, Schätzung nachtragen, zweite Schätzung abweisen, Häkchen nachtragen, Häkchen erneut. Am Ende genau eine Zeile mit der ersten Schätzung und gesetztem Häkchen. Die Prüfzeile und die Kopie wurden wieder entfernt, die 97 echten Anmeldungen blieben unberührt.
+
+Ein Wächter im Test hält die Regel "nur füllen, was leer ist" fest. Gegenprobe gemacht: Wird sie aus der Migration entfernt, wird der Test rot.
+
+Datenbank: `schema-phase321-kidz-nachtragen.sql`, angewendet am 05.09.2026 als `phase_321_kidz_nachtragen`.
+
 
 ## v1.335 Beta - Phase 320 · Der Elternabend heißt KIDZ for Future
 **2026-09-05**
