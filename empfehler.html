@@ -10,7 +10,7 @@
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/svg+xml" href="/assets/icons/icon.svg" />
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="css/empfehler-mobile.css?v=5">
+  <link rel="stylesheet" href="css/empfehler-mobile.css?v=6">
   <script src="js/config.js"></script>
 </head>
 <body data-page="empfehler">
@@ -157,7 +157,8 @@
         <section class="step active" data-step="1">
           <h2>Wem möchtest du helfen?</h2>
           <p>Vorname und Handynummer genügen. Die Nummer wird nur für diese Empfehlung verwendet.</p>
-          <div class="field"><label for="contactName">Vorname</label><input id="contactName" autocomplete="given-name" placeholder="z. B. Anna" maxlength="80"></div>
+          <div class="field"><label for="contactName">Vorname</label><input id="contactName" autocomplete="given-name" placeholder="z. B. Anna" maxlength="60"></div>
+          <div class="field"><label for="contactLastName">Nachname <span class="label-optional">optional</span></label><input id="contactLastName" autocomplete="family-name" placeholder="z. B. Schmidt" maxlength="60"><div class="input-hint">Hilft bei der Zuordnung. Angesprochen wird sie oder er trotzdem nur mit dem Vornamen.</div></div>
           <div class="field"><label for="contactPhone">Handynummer</label><input id="contactPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="z. B. 0171 2345678" maxlength="40"><div class="input-hint">Die Nummer erscheint nicht öffentlich und wird nicht für Werbung verwendet.</div></div>
           <div class="error" id="step1Error">Bitte trage Vorname und Handynummer ein.</div>
         </section>
@@ -237,6 +238,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script type="module" src="js/empfehler-mobile.js?v=10"></script>
+  <script type="module" src="js/empfehler-mobile.js?v=11"></script>
 </body>
 </html>

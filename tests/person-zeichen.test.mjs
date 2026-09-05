@@ -113,7 +113,7 @@ test('nur erlaubte Werte erreichen die Datenbank', () => {
   assert.match(dashboard, /\['frau', 'herr'\]\.includes\(wert\) \? wert : null/,
     'Die Empfehlung reicht ungeprueft durch');
   // Und ein alter Aufrufer ohne das Feld darf nichts ueberschreiben.
-  assert.match(dashboard, /if \(anrede !== undefined\)/,
+  assert.match(dashboard, /if \(weitere\.anrede !== undefined\)/,
     'Ein Aufruf ohne Anrede wuerde eine vorhandene Angabe loeschen');
 });
 

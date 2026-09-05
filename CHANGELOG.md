@@ -1,7 +1,26 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.345 Beta** · Ein Zeichen statt eines Buchstabens, Stand 05.09.2026.
+Offizielle Live-Version: **v1.346 Beta** · Nachname nachtragbar, Symbole statt Kürzel, Stand 05.09.2026.
+
+## v1.346 Beta - Phase 331 · Der Nachname und die Symbole
+**2026-09-05**
+
+Zwei Beobachtungen von Kai, beide aus dem täglichen Gebrauch.
+
+**Der Nachname fehlte.** Wenn ein Promoter jemanden weiterempfiehlt, trägt er meist nur den Vornamen ein, weil seine persönliche Ansprache ohnehin über die Themenseite läuft. Für Kai bleibt dann eine Empfehlung ohne Nachnamen übrig, und er konnte ihn nirgends nachtragen. An den echten Daten nachgezählt: von vierzehn Empfehlungen hatten neun nur ein einziges Wort als Namen. Kais Beobachtung stimmte also genau.
+
+Jetzt gibt es beides. Der Promoter bekommt im Formular ein zweites Feld für den Nachnamen, ausdrücklich als freiwillig gekennzeichnet, damit niemand daran hängen bleibt. Und in der Empfehlung selbst stehen Vorname und Nachname als getrennte Felder, die Kai jederzeit ändern kann.
+
+**Die Ansprache bleibt beim Vornamen.** Das war Kais Bedingung, und es ist die eigentliche Schwierigkeit an der Sache: Sobald in der Datenbank „Anna Schmidt" steht, könnte auf der Themenseite „Hallo Anna Schmidt" erscheinen. Alle sechs Stellen im Portal, die eine Anrede erzeugen, kürzen bereits auf das erste Wort. Ein Wächter hält das jetzt fest, und zwar so, dass er die Kürzung am Empfängernamen prüft: Der erste Entwurf suchte den Ausdruck nur irgendwo in der Datei und wurde in `baufi.js` von der Kürzung des Beraternamens grün gehalten, obwohl die Ansprache sabotiert war.
+
+**Kürzel wurden zu Symbolen.** In der Empfehlungsansicht standen in den kleinen Kästchen dreibuchstabige Kürzel: „TEL", „KAN", „THE", „TYP". Kai: „Da wäre es vielleicht auch schön, dass da nicht TEL drinsteht, sondern das Symbol für Telefon. Das wirkt glaub ich hochwertiger." Dazu die Beobachtung, die Schrift sei „da so verrückt".
+
+Beides hing zusammen. Die Kästchen sind 26 bis 30 Pixel groß, die Kürzel standen darin mit 9 bis 10 Pixeln, fett und in Versalien. Ein dreibuchstabiges Kürzel füllt das Kästchen dann randlos aus und liest sich wie ein Fehler. Mit einem Zeichen entfällt der Grund dafür ganz. Fünf fehlende Zeichen wurden nachgetragen (Uhr, Sprechblase, Etikett, Ebenen, Haken), auch der Verlauf zeigt jetzt Symbole statt „01", „02", „OK". Im Kopf der Seite steht die Person mit Anrede-Abzeichen statt der Initiale.
+
+Alle Kontraste gerechnet, nicht geschätzt: 4,86:1 beim Kennzahl-Symbol, 7,23:1 im Kontaktblock, 6,8 bis 10:1 im Verlauf. Für Symbole verlangt die Richtlinie 3:1.
+
+**Zehn neue Wächter, alle einmal absichtlich zum Umfallen gebracht.** Drei blieben dabei zuerst grün und mussten nachgeschärft werden: einer sah in `baufi.js` die falsche Stelle, einer traf nur einen von zwei gleichlautenden Aufrufen, einer ließ ein verschriebenes `xwidth` als Treffer durchgehen.
 
 ## v1.345 Beta - Phase 330 · Ein Zeichen statt eines Buchstabens
 **2026-09-05**

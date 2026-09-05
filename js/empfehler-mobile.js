@@ -89,7 +89,9 @@ const snapshotKey = () => `empfehler_mobile_snapshot_${code}`;
 const notificationKey = () => `empfehler_mobile_frequency_${code}`;
 const lastVisitKey = () => `empfehler_mobile_last_visit_${code}`;
 const goalPlanKey = () => `empfehler_mobile_goal_plan_${code}`;
-const funnel = { step: 1, name: '', phone: '', topic: '', topicTitle: '', template: 'warm', message: '' };
+// nachname ist freiwillig. Der Promoter soll nicht an einem Pflichtfeld
+// haengen bleiben, der Berater kann ihn spaeter in der Empfehlung nachtragen.
+const funnel = { step: 1, name: '', nachname: '', phone: '', topic: '', topicTitle: '', template: 'warm', message: '' };
 
 if (!code) {
   window.location.href = 'programm.html';
@@ -409,7 +411,9 @@ function startPlannedRecommendation(index) {
   openFunnel(false);
   funnel.name = entry.name;
   funnel.phone = entry.phone;
+  funnel.nachname = '';
   $('#contactName').value = entry.name;
+  $('#contactLastName').value = '';
   $('#contactPhone').value = entry.phone;
   saveDraft();
 }
@@ -582,9 +586,10 @@ function openFunnel(useDraft) {
     const draft = loadDraft();
     if (draft) Object.assign(funnel, draft);
   } else {
-    Object.assign(funnel, { step: 1, name: '', phone: '', topic: '', topicTitle: '', template: 'warm', message: '' });
+    Object.assign(funnel, { step: 1, name: '', nachname: '', phone: '', topic: '', topicTitle: '', template: 'warm', message: '' });
   }
   $('#contactName').value = funnel.name || '';
+  $('#contactLastName').value = funnel.nachname || '';
   $('#contactPhone').value = funnel.phone || '';
   $('#personalMessage').value = funnel.message || '';
   $$('.template-card').forEach(card => card.classList.toggle('active', card.dataset.template === funnel.template));
@@ -650,6 +655,7 @@ function renderFunnelStep() {
 
 function captureFunnelFields() {
   funnel.name = $('#contactName').value.trim();
+  funnel.nachname = ($('#contactLastName')?.value || '').trim();
   funnel.phone = $('#contactPhone').value.trim();
   funnel.message = $('#personalMessage').value.trim();
 }
@@ -677,6 +683,13 @@ function renderMessagePreview() {
   $('#messagePreview').innerHTML = `${escapeHtml(funnel.message).replace(/\n/g, '<br>')}<span class="message-link">Dein persönlicher Empfehlungslink</span>`;
 }
 
+/* Vor- und Nachname werden zu einem Namen. Die Ansprache bleibt beim
+   Vornamen, weil ueberall im Portal das erste Wort genommen wird. */
+function vollerName() {
+  return [funnel.name, funnel.nachname].map(t => String(t || '').trim())
+    .filter(Boolean).join(' ');
+}
+
 async function createAndShareRecommendation() {
   const button = $('#nextStep');
   button.disabled = true;
@@ -684,7 +697,7 @@ async function createAndShareRecommendation() {
   const normalizedPhone = normalizePhoneDE(funnel.phone);
   const shareWindow = normalizedPhone ? window.open('', '_blank') : null;
   const { data, error } = await createEmpfehlung({
-    empfaenger_name: funnel.name,
+    empfaenger_name: vollerName(),
     empfaenger_telefon: normalizedPhone || null,
     nachricht: funnel.message || buildMessage(),
     vorlage_slug: funnel.topic || 'allgemein',
