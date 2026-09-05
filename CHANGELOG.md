@@ -1,7 +1,16 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.342 Beta** · Damit der Anstrich auch ankommt, live seit 05.09.2026.
+Offizielle Live-Version: **v1.343 Beta** · Auch der Anmelde-Knopf, live seit 05.09.2026.
+
+## v1.343 Beta - Phase 328 · Auch der Anmelde-Knopf
+**2026-09-05**
+
+Bei der Abnahme der Anmeldeseite aufgefallen: Der Anmelde-Knopf stand noch dunkelgrau, während alle anderen Knöpfe im Beraterbereich längst den Klickton tragen. Ausgerechnet der Knopf, den jeder Berater als Erstes sieht.
+
+Jetzt trägt auch er den Klickton. Weiß darauf sind 5,4:1.
+
+Nachgesehen, bevor die Regel angefasst wurde: `.btn-primary` kommt zwar auch auf `programm.html` vor, aber diese Seite lädt `style.css` gar nicht. Die Regel greift also ausschließlich hinter der Anmeldung, und die Kundenseiten bleiben unberührt.
 
 ## v1.342 Beta - Phase 327 · Damit der Anstrich auch ankommt
 **2026-09-05**

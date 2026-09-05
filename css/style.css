@@ -297,11 +297,15 @@ img { max-width: 100%; display: block; }
   text-align: center;
 }
 .btn:active { transform: scale(0.98); }
+/* Der wichtigste Knopf des Beraterbereichs, auch der zum Anmelden. Er stand
+   in der Textfarbe; im Haus fuellt den primaeren Knopf der Klickton, Weiss
+   darauf ergibt 5,4:1. Diese Regel greift nur hinter der Anmeldung:
+   programm.html und die anderen Kundenseiten laden style.css nicht. */
 .btn-primary {
-  background: var(--text-primary);
+  background: var(--klick, var(--text-primary));
   color: #fff;
 }
-.btn-primary:hover { opacity: 0.9; }
+.btn-primary:hover { background: var(--klick-hover, var(--text-primary)); opacity: 1; }
 .btn-secondary {
   background: transparent;
   color: var(--text-primary);
