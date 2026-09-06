@@ -548,6 +548,15 @@ copyWhatsAppBtn.addEventListener('click', () => copyWhatsAppLink().catch(() => {
  * ist aber schon angemeldet. Ohne diesen Weg muesste die Person das Formular
  * noch einmal ausfuellen. Es ist eine Einwilligung, deshalb wird gefragt, statt
  * dass ein Fehlklick sie setzt oder loescht.
+ *
+ * Der Weg fuehrt ueber eine Funktion in der Datenbank, nicht ueber ein direktes
+ * Schreiben in die Tabelle. Grund: Das Aenderungsrecht auf
+ * kidz_gewinnspiel_teilnahmen ist spaltenweise vergeben, und
+ * elternabend_interesse steht bewusst nicht darin. Es ist eine Einwilligung;
+ * haette der Browser das Spaltenrecht, koennte er sie frei schreiben und der
+ * einzige Schutz waere diese Datei hier. Die Datenbank prueft stattdessen
+ * selbst, ob der Aufrufer fuer diese Anmeldung zustaendig ist
+ * (schema-phase324-kidz-interesse-nachtragen.sql).
  */
 async function toggleInterest(participantId) {
   const entry = entries.find((item) => item.id === participantId);
@@ -559,13 +568,22 @@ async function toggleInterest(participantId) {
   if (!window.confirm(frage)) return;
 
   try {
-    const { error } = await supabase
-      .from('kidz_gewinnspiel_teilnahmen')
-      .update({ elternabend_interesse: neu })
-      .eq('id', participantId);
+    const { data, error } = await supabase.rpc('set_kidz_gewinnspiel_interesse', {
+      p_participation_id: participantId,
+      p_interesse: neu,
+    });
     if (error) throw error;
+    if (!data?.ok) {
+      const grund = {
+        forbidden: 'Diese Anmeldung gehört zu einem anderen Berater.',
+        not_found: 'Die Anmeldung wurde nicht gefunden. Bitte die Liste neu laden.',
+        no_advisor_account: 'Zu diesem Zugang gehört kein Beraterkonto.',
+      }[data?.reason] || 'Der Eintrag konnte nicht gespeichert werden.';
+      window.alert(grund);
+      return;
+    }
     entries = entries.map((item) => (item.id === participantId
-      ? { ...item, elternabend_interesse: neu }
+      ? { ...item, elternabend_interesse: data.interesse === true }
       : item));
     render();
   } catch (error) {

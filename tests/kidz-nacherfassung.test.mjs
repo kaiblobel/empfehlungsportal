@@ -314,6 +314,12 @@ assert.equal(configHandler.eventDay(NACH_DEM_FEST), false);
 
 // Die oeffentliche Anmeldung verwirft eine zu frueh mitgeschickte Schaetzung,
 // laesst die Anmeldung selbst aber durchgehen.
+//
+// Diese Pruefung haengt an der echten Uhr: api/kidz-register.js entscheidet mit
+// Date.now(), ob das Schaetzfenster offen ist, und der Handler nimmt keinen
+// Zeitpunkt entgegen. Am 6. September ist die richtige Antwort deshalb eine
+// andere als an allen uebrigen Tagen. Beide Faelle stehen hier, sonst ist der
+// Test genau an dem einen Tag rot, an dem es darauf ankommt.
 {
   const originalSecret = process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET;
   const originalTurnstile = process.env.TURNSTILE_SECRET_KEY;
@@ -333,7 +339,14 @@ assert.equal(configHandler.eventDay(NACH_DEM_FEST), false);
     schaetzung: 240, consent: true,
   }, { headers: { host: 'localhost:3000', origin: 'http://localhost:3000' } }), antwort);
   assert.equal(antwort.statusCode, 201);
-  assert.equal(JSON.parse(gesendet.at(-1).options.body).p_schaetzung_cm, null);
+  const istFesttag = configHandler.eventDay(Date.now());
+  assert.equal(
+    JSON.parse(gesendet.at(-1).options.body).p_schaetzung_cm,
+    istFesttag ? 240 : null,
+    istFesttag
+      ? 'Am Veranstaltungstag muss die Schaetzung durchgereicht werden.'
+      : 'Vor dem Veranstaltungstag muss die Schaetzung verworfen werden.',
+  );
 
   global.fetch = originalGlobalFetch;
   if (originalSecret === undefined) delete process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET;
