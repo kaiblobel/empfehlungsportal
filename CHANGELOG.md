@@ -1,7 +1,27 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.350 Beta** · Kein Kanal im Häkchentext, live seit 06.09.2026.
+Offizielle Live-Version: **v1.351 Beta** · Anmeldeschluss, und die Sicht wieder eng, live seit 06.09.2026.
+
+## v1.351 Beta - Phase 336 · Anmeldeschluss, und die Sicht wieder eng
+**2026-09-06**
+
+Das Sommerfest ist vorbei. 181 Anmeldungen, 125 davon mit Schätzung.
+
+**Die öffentliche Anmeldung ist zu.** Bis hierher gab es gar keinen Anmeldeschluss: Die Strecke wäre technisch bis in den Dezember weitergelaufen. Der Schluss stand nur im Rechtstext der Seite, und genau deshalb kamen nach 15 Uhr noch acht Anmeldungen herein. Der Zeitpunkt im Code ist jetzt der versprochene: "Jede gültige Anmeldung bis zum 6. September 2026 um 15 Uhr nimmt automatisch einmal an der Verlosung teil." Code und Versprechen sagen dasselbe.
+
+Umgesetzt in drei Schichten, wie beim Schätzfenster: Der Server meldet dem Browser, dass geschlossen ist, und die Seite zeigt statt des Formulars einen Abschlusshinweis. Der Endpunkt weist mit 410 ab, bevor er den Bot-Schutz oder die Datenbank behelligt. Und die Datenbank hat die Schranke als letzte Instanz, dort vor den Ratenzählern, damit nach dem Schluss nicht einmal mehr Zählerstände mitgeschrieben werden. Damit ist auch das Nachtragen über die öffentliche Seite zu: Niemand kann seine Schätzung mehr ändern.
+
+**Nicht betroffen ist die Nacherfassung der Papierzettel.** Die Zettel vom Fest werden noch abgetippt, dieser Weg bleibt offen. Das ist kein Versehen, sondern die Bedingung, unter der geschlossen wurde, und steht unter Aufsicht: Taucht `record_kidz_gewinnspiel_onsite` in dieser Migration auf, wird der Test rot.
+
+**Die Sicht ist wieder eng.** Am Festtag sah jeder Berater alle Anmeldungen, damit er am Stand nachsehen konnte (Phase 333). Das war für den Tag gedacht. Die beiden Zusatzregeln sind weg, es gilt wieder: jeder sieht seine eigenen, Administratoren sehen alles. Auch das Häkchen für KIDZ for Future lässt sich wieder nur an eigenen Anmeldungen setzen.
+
+Vier Punkte gegen die echte Datenbank geprüft und zurückgerollt: Die Schranke sitzt in der Live-Funktion vor den Zählern und greift. Die Nacherfassung trägt weiterhin keine Zeitschranke. Ein Berater ohne Admin-Recht sieht wieder nur seine eigenen 17 statt aller 181 und wird an einer fremden Anmeldung abgewiesen. Kai als Admin sieht weiterhin alle 181 und kann die Schätzung ändern.
+
+Damit die Zusicherungen zum Erfolgsfall nicht still mit dem Gewinnspiel verschwinden, ist die Schlussprüfung im Endpunkt austauschbar: Die Tests prüfen beide Zustände, den offenen Betrieb und den Zustand danach. Vier Gegenproben rot gesehen.
+
+Datenbank: `schema-phase336-kidz-anmeldeschluss.sql`, angewendet am 06.09.2026 als `phase_336_kidz_anmeldeschluss`.
+
 
 ## v1.350 Beta - Phase 335 · Kein Kanal im Häkchentext
 **2026-09-06**
@@ -1855,9 +1875,9 @@ Dazu ein Werkzeug: `node tools/version-setzen.mjs "Titel der Phase"` zieht Versi
 - Promoter-Auswahl aktualisiert: **Anika Biebrach** ist deaktiviert, **Anja Scholz** (zählt für Sven Augustin) und **Sandra Röhrens** (zählt für Claudius Tusche) sind neu. David Stamm bleibt unverändert.
 - Die Datenbankmigrationen sind angewendet: `phase_192_kidz_schaetzung_nacherfassung` (Datei `schema-phase200.sql`) und `phase_199_kidz_schaetzfenster` (Datei `schema-phase200-schaetzfenster.sql`). Die Migrationsnamen stammen aus einer früheren Nummerierung, weil parallel weitere Phasen auf `main` gelandet sind. Sie ergänzt die Schätzspalten, lässt Fassung 5 zu, legt den Nacherfassungsweg an und stellt die Promoter um. Sie muss vor der Veröffentlichung des Codes laufen; die bisherige Fassung 4 bleibt dabei gültig, es entsteht also kein Ausfallfenster.
 
-Offizielle Live-Version: **v1.350 Beta** · Kein Kanal im Häkchentext, live seit 06.09.2026.
+Offizielle Live-Version: **v1.351 Beta** · Anmeldeschluss, und die Sicht wieder eng, live seit 06.09.2026.
 
-Offizielle Live-Version: **v1.350 Beta** · Kein Kanal im Häkchentext, live seit 06.09.2026.
+Offizielle Live-Version: **v1.351 Beta** · Anmeldeschluss, und die Sicht wieder eng, live seit 06.09.2026.
 
 ---
 

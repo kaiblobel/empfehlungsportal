@@ -46,6 +46,13 @@ const originalTurnstileSiteKey = process.env.TURNSTILE_SITE_KEY;
 process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET = 'test-kidz-registration-secret-with-enough-entropy';
 process.env.TURNSTILE_SECRET_KEY = 'test-turnstile-secret';
 
+// Phase 336: Die Anmeldung ist seit dem 6. September, 15 Uhr, geschlossen.
+// Damit die Zusicherungen zum Erfolgsfall nicht still verschwinden, wird der
+// Schalter fuer diesen Block auf "offen" gestellt und danach zurueckgegeben.
+// Dass der Schluss selbst greift, prueft der eigene Block weiter unten.
+const echterSchalter = registerHandler.registrationOpen;
+registerHandler.registrationOpen = () => true;
+
 try {
   let requests = [];
   global.fetch = async (url, options) => {
@@ -153,6 +160,7 @@ try {
   assert.equal(JSON.parse(advisorsResponse.body).advisors[2].slug, 'promoter-anja-scholz');
   assert.equal(JSON.parse(advisorsResponse.body).advisors[2].name, 'Anja Scholz');
 } finally {
+  registerHandler.registrationOpen = echterSchalter;
   global.fetch = originalFetch;
   if (originalRegistrationSecret === undefined) delete process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET;
   else process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET = originalRegistrationSecret;
@@ -160,6 +168,35 @@ try {
   else process.env.TURNSTILE_SECRET_KEY = originalTurnstileSecret;
   if (originalTurnstileSiteKey === undefined) delete process.env.TURNSTILE_SITE_KEY;
   else process.env.TURNSTILE_SITE_KEY = originalTurnstileSiteKey;
+}
+
+// Phase 336: Nach dem Anmeldeschluss nimmt die oeffentliche Strecke nichts mehr
+// entgegen, weder eine neue Anmeldung noch einen Nachtrag an einer bestehenden.
+// Geprueft wird mit dem echten Schalter, nicht mit einem gesetzten Datum.
+{
+  let datenbankGefragt = false;
+  const vorher = global.fetch;
+  global.fetch = async () => { datenbankGefragt = true; return { ok: true, text: async () => '{}' }; };
+  process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET = 'test-kidz-registration-secret-with-enough-entropy';
+  process.env.TURNSTILE_SECRET_KEY = 'test-turnstile-secret';
+
+  const geschlossen = responseMock();
+  await registerHandler(request(validBody), geschlossen);
+  const offen = registerHandler.registrationOpen(Date.now());
+  assert.equal(geschlossen.statusCode, offen ? 201 : 410,
+    'Nach dem Anmeldeschluss muss die Anmeldung mit 410 abgewiesen werden.');
+  if (!offen) {
+    assert.equal(JSON.parse(geschlossen.body).reason, 'closed');
+    // Weder Turnstile noch die Datenbank duerfen nach dem Schluss noch behelligt
+    // werden. Die Schranke steht ganz vorn.
+    assert.equal(datenbankGefragt, false);
+  }
+  // Der Schalter selbst: vor dem Schluss offen, danach zu.
+  assert.equal(registerHandler.registrationOpen(Date.parse('2026-09-06T12:00:00+02:00')), true);
+  assert.equal(registerHandler.registrationOpen(Date.parse('2026-09-06T15:00:01+02:00')), false);
+  global.fetch = vorher;
+  delete process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET;
+  delete process.env.TURNSTILE_SECRET_KEY;
 }
 
 const [html, css, js, adminHtml, adminJs, navJs, migration, ticketMigration, bonusMigration, managementMigration, promoterMigration, simpleTermsMigration, parentEveningMigration, comebackMigration, logoPng, vercel] = await Promise.all([
@@ -491,6 +528,36 @@ assert.equal((teamSicht.match(/current_berater_id\(\) is not null/g) || []).leng
 assert.doesNotMatch(teamSicht, /kidz_gewinnspiel_admin_delete/,
   'Die Loeschregel darf hier nicht auftauchen.');
 assert.doesNotMatch(teamSicht, /for delete/);
+
+// Phase 336: Anmeldeschluss, und die Sicht wieder eng.
+const schlussMigration = (await read('schema-phase336-kidz-anmeldeschluss.sql'))
+  .replace(/^--.*$/gm, '');
+
+// Der Schluss steht in der Registrierfunktion, und zwar VOR den Ratenzaehlern:
+// nach dem Schluss soll nicht einmal mehr ein Zaehlerstand mitgeschrieben werden.
+assert.match(schlussMigration, /v_anmeldeschluss constant timestamptz := timestamptz '2026-09-06 15:00:00\+02'/);
+assert.match(schlussMigration, /'reason', 'closed'/);
+assert.ok(
+  schlussMigration.indexOf("'reason', 'closed'")
+    < schlussMigration.indexOf("rate_limit_check_key('kidz_giveaway_hour'"),
+  'Die Schranke muss vor den Ratenzaehlern stehen.',
+);
+
+// Die Papierzettel werden noch abgetippt. Dieser Weg darf vom Schluss nicht
+// mitgetroffen werden, sonst ist die Arbeit eines ganzen Festtags verloren.
+assert.doesNotMatch(schlussMigration, /record_kidz_gewinnspiel_onsite/,
+  'Die Nacherfassung der Papierzettel darf hier nicht auftauchen.');
+
+// Die erweiterte Sicht vom Festtag kommt weg, die Grundregeln bleiben stehen.
+assert.match(schlussMigration, /drop policy if exists kidz_gewinnspiel_team_select_sommerfest/);
+assert.match(schlussMigration, /drop policy if exists kidz_gewinnspiel_team_update_sommerfest/);
+assert.doesNotMatch(schlussMigration, /drop policy if exists kidz_gewinnspiel_berater_select/,
+  'Die Grundregel fuer die eigene Sicht darf nicht mit geloescht werden.');
+assert.doesNotMatch(schlussMigration, /drop policy if exists kidz_gewinnspiel_admin_delete/);
+
+// Und das Haekchen gilt wieder nur an eigenen Anmeldungen.
+assert.doesNotMatch(schlussMigration, /v_event <> 'kidz-sommerfest-2026'/,
+  'Die Sommerfest-Sonderregel muss aus der Interesse-Funktion raus sein.');
 
 // Die Seite muss sagen, was passiert ist, statt pauschal "Du bist dabei".
 const gewinnspielJs = await read('js/kidz-gewinnspiel.js');

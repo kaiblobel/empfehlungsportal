@@ -5,6 +5,14 @@ import { readFile } from 'node:fs/promises';
 const require = createRequire(import.meta.url);
 const onsiteHandler = require('../api/kidz-nacherfassung.js');
 const registerHandler = require('../api/kidz-register.js');
+
+// Seit Phase 336 ist die oeffentliche Anmeldung geschlossen. In dieser Datei
+// geht es aber um das Zusammenspiel von Papier und Online, nicht um den
+// Schluss: Beide Wege muessen denselben Dublettenschluessel erzeugen, sonst
+// landet ein abgetippter Zettel doppelt in der Liste. Diese Zusicherung darf
+// nicht dadurch verschwinden, dass das Gewinnspiel vorbei ist. Der Schluss
+// selbst wird in tests/kidz-gewinnspiel.test.mjs geprueft.
+registerHandler.registrationOpen = () => true;
 const read = (file) => readFile(new URL(`../${file}`, import.meta.url), 'utf8');
 
 function responseMock() {
