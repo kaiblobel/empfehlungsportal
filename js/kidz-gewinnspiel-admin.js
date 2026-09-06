@@ -224,14 +224,13 @@ async function configureParticipantFilter() {
 
   // Phase 209: Als Admin sieht man hier das ganze Portal. Das gehört
   // dazugeschrieben, sonst hält man die Zahlen für die eigenen.
+  //
+  // Phase 333: Beim Sommerfest gilt das für jeden Berater, nicht mehr nur für
+  // Administratoren. Am Stand muss jeder nachsehen können, ob die Person vor ihm
+  // schon angemeldet ist. Der Hinweis erscheint deshalb für alle, und der Filter
+  // nach Berater bleibt sichtbar: Er ist jetzt der Weg zu "zeig mir nur meine".
   const adminHinweis = document.getElementById('adminSichtHinweis');
-  if (adminHinweis) adminHinweis.hidden = !currentAdvisor?.ist_admin;
-
-  if (!currentAdvisor?.ist_admin) {
-    advisorFilter.hidden = true;
-    advisorFilter.disabled = true;
-    return;
-  }
+  if (adminHinweis) adminHinweis.hidden = false;
 
   let catalog = participantCatalogFromEntries();
   try {

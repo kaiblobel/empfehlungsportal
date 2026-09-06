@@ -1,7 +1,29 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.347 Beta** · Einwilligung über die Datenbank nachtragen, live seit 06.09.2026.
+Offizielle Live-Version: **v1.348 Beta** · Am Festtag sieht jeder Berater alle Anmeldungen, live seit 06.09.2026.
+
+## v1.348 Beta - Phase 333 · Am Festtag sieht jeder Berater alle Anmeldungen
+**2026-09-06**
+
+Kurz vor dem Sommerfest aufgefallen: Am Stand konnte ein Berater bei der Person vor ihm nicht nachsehen, ob sie schon angemeldet ist. Jeder sah nur die Anmeldungen, die ihm zugeordnet sind. Wer spontan kommt oder sich ohne Beraterauswahl anmeldet, landet beim Vorgabeberater, und dort lagen 64 der 108 Anmeldungen. Für alle anderen waren diese Personen unsichtbar, also konnten sie ihnen auch keinen Ballumfang eintragen.
+
+Neu: Jeder angemeldete Berater sieht alle Anmeldungen zum Sommerfest und kann dort Schätzung und KIDZ for Future nachtragen.
+
+Die Freigabe ist doppelt begrenzt. Sie gilt nur für Anmeldungen mit dem Kennzeichen dieses Festes, künftige Aktionen starten also wieder mit der engen Sicht, ohne dass jemand daran denken muss. Und sie gilt nur für Personen mit aktivem Beraterkonto.
+
+Nicht geöffnet wurde das Löschen. Es bleibt an das Admin-Recht gebunden. Am Stand wird eingetragen, nicht entfernt. Ebenso unangetastet bleiben Name, Kontaktweg und Zuordnung: Was ein Berater schreiben darf, begrenzen weiterhin die spaltenweisen Rechte.
+
+Umgesetzt wurde das ohne Wegnahme: Die bestehenden Regeln stehen unverändert, es kamen zwei neue dazu. Mehrere Regeln werden mit ODER verknüpft, die enge Sicht auf alles Übrige bleibt damit bestehen.
+
+Im Dashboard erscheint der Hinweis, dass man mehr als die eigenen Anmeldungen sieht, jetzt für jeden Berater statt nur für Administratoren, und der Filter nach Berater bleibt sichtbar: Er ist der Weg zu "zeig mir nur meine".
+
+Fünf Fälle vor dem Livegang gegen die echte Datenbank durchgespielt und zurückgerollt, mit einem simulierten Berater ohne Admin-Recht: Er sieht 108 statt 16 Anmeldungen, kann an einer fremden Anmeldung die Schätzung eintragen, kann dort das Häkchen setzen, kann sie nicht löschen, und Anmeldungen anderer Ereignisse bleiben für ihn unsichtbar.
+
+Zwei Wächter halten die beiden Schranken fest, beide Gegenproben rot gesehen.
+
+Datenbank: `schema-phase333-kidz-team-sicht.sql`, angewendet am 06.09.2026 als `phase_333_kidz_team_sicht`.
+
 
 ## v1.347 Beta - Phase 332 · Einwilligung über die Datenbank nachtragen
 **2026-09-06**
@@ -1811,9 +1833,9 @@ Dazu ein Werkzeug: `node tools/version-setzen.mjs "Titel der Phase"` zieht Versi
 - Promoter-Auswahl aktualisiert: **Anika Biebrach** ist deaktiviert, **Anja Scholz** (zählt für Sven Augustin) und **Sandra Röhrens** (zählt für Claudius Tusche) sind neu. David Stamm bleibt unverändert.
 - Die Datenbankmigrationen sind angewendet: `phase_192_kidz_schaetzung_nacherfassung` (Datei `schema-phase200.sql`) und `phase_199_kidz_schaetzfenster` (Datei `schema-phase200-schaetzfenster.sql`). Die Migrationsnamen stammen aus einer früheren Nummerierung, weil parallel weitere Phasen auf `main` gelandet sind. Sie ergänzt die Schätzspalten, lässt Fassung 5 zu, legt den Nacherfassungsweg an und stellt die Promoter um. Sie muss vor der Veröffentlichung des Codes laufen; die bisherige Fassung 4 bleibt dabei gültig, es entsteht also kein Ausfallfenster.
 
-Offizielle Live-Version: **v1.347 Beta** · Einwilligung über die Datenbank nachtragen, live seit 06.09.2026.
+Offizielle Live-Version: **v1.348 Beta** · Am Festtag sieht jeder Berater alle Anmeldungen, live seit 06.09.2026.
 
-Offizielle Live-Version: **v1.347 Beta** · Einwilligung über die Datenbank nachtragen, live seit 06.09.2026.
+Offizielle Live-Version: **v1.348 Beta** · Am Festtag sieht jeder Berater alle Anmeldungen, live seit 06.09.2026.
 
 ---
 

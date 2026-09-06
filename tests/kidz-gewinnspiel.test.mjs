@@ -464,6 +464,27 @@ assert.match(adminJs, /supabase\.rpc\('set_kidz_gewinnspiel_interesse'/);
 assert.doesNotMatch(adminJs, /update\(\{ elternabend_interesse/,
   'Das direkte Schreiben der Einwilligung aus dem Browser scheitert am Spaltenrecht.');
 
+// Phase 333: Am Festtag sieht jeder Berater alle Anmeldungen des Sommerfests.
+//
+// Die Freigabe ist bewusst doppelt begrenzt. Faellt eine der beiden Schranken
+// weg, oeffnet sich still das ganze Portal fuer jeden mit Beraterkonto.
+const teamSicht = (await read('schema-phase333-kidz-team-sicht.sql'))
+  .replace(/^--.*$/gm, '');
+for (const regel of ['kidz_gewinnspiel_team_select_sommerfest', 'kidz_gewinnspiel_team_update_sommerfest']) {
+  assert.match(teamSicht, new RegExp(`create policy ${regel}`));
+}
+// Schranke 1: nur dieses Fest. Zweimal fuer select, zweimal fuer update
+// (using und with check).
+assert.equal((teamSicht.match(/event_key = 'kidz-sommerfest-2026'/g) || []).length, 3,
+  'Jede der drei Bedingungen muss auf das Sommerfest eingegrenzt sein.');
+// Schranke 2: nur mit aktivem Beraterkonto.
+assert.equal((teamSicht.match(/current_berater_id\(\) is not null/g) || []).length, 3,
+  'Ohne Beraterkonto darf niemand die Liste sehen.');
+// Das Loeschen wird nicht angefasst: Am Stand wird eingetragen, nicht entfernt.
+assert.doesNotMatch(teamSicht, /kidz_gewinnspiel_admin_delete/,
+  'Die Loeschregel darf hier nicht auftauchen.');
+assert.doesNotMatch(teamSicht, /for delete/);
+
 // Die Seite muss sagen, was passiert ist, statt pauschal "Du bist dabei".
 const gewinnspielJs = await read('js/kidz-gewinnspiel.js');
 assert.match(gewinnspielJs, /function erfolgsMeldung/);
