@@ -429,8 +429,11 @@ assert.match(gewinnspielCss, /\.kg-evening\[hidden\]\s*\{\s*display:\s*none/,
 // Phase 334: Die Karte nennt keinen Abend mehr. KIDZ for Future ist mehr als
 // der Elternabend, es geht auch um das Konzept selbst; was zu wem passt, klaert
 // das Team im Gespraech.
-assert.match(html, /<h3 id="kgEveningTitle">Mehr zum Konzept für Familien<\/h3>/);
-assert.match(html, /Ja, schickt mir einmal Informationen zu KIDZ for Future\./);
+assert.match(html, /<h3 id="kgEveningTitle">Mehr zum KIDZ-Konzept erfahren<\/h3>/);
+// Phase 335: kein Kanal im Text. Das Team ruft wegen Ballumfang und Gewinnen
+// ohnehin an, und am Telefon laesst sich KIDZ besser erklaeren als in einer Mail.
+assert.match(html, /Ja, ich möchte einmal über KIDZ for Future informiert werden\./);
+assert.doesNotMatch(html, /schickt mir einmal Informationen/);
 assert.doesNotMatch(html, /Ein Abend nur für Eltern/);
 assert.match(html, /um dich über KIDZ for Future zu informieren/);
 // Die Dauer steht auf drei Seiten und muss dieselbe sein.
