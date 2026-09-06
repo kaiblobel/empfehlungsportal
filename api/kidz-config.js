@@ -28,6 +28,27 @@ function eventDay(now = Date.now()) {
   return now >= EVENT_DAY_STARTS_AT && now < EVENT_DAY_ENDS_AT;
 }
 
+/**
+ * Der Anmeldeschluss.
+ *
+ * Bis zum Fest gab es keinen: Die Anmeldung waere technisch bis in den Dezember
+ * weitergelaufen. Der Schluss stand nur im Rechtstext der Seite, und genau
+ * deshalb kamen nach 15 Uhr noch acht Anmeldungen herein.
+ *
+ * Der Zeitpunkt ist der, der in den Teilnahmebedingungen versprochen wurde:
+ * "Jede gueltige Anmeldung bis zum 6. September 2026 um 15 Uhr nimmt automatisch
+ * einmal an der Verlosung teil." Code und Versprechen sagen jetzt dasselbe.
+ *
+ * Nicht betroffen ist die Nacherfassung der Papierzettel durch angemeldete
+ * Berater (api/kidz-nacherfassung.js). Die Zettel wurden am Festtag von Hand
+ * ausgefuellt und werden danach abgetippt; dieser Weg muss offen bleiben.
+ */
+const REGISTRATION_CLOSES_AT = Date.parse('2026-09-06T15:00:00+02:00');
+
+function registrationOpen(now = Date.now()) {
+  return now < REGISTRATION_CLOSES_AT;
+}
+
 function send(res, status, payload) {
   res.statusCode = status;
   return status === 204 ? res.end() : res.end(JSON.stringify(payload));
@@ -154,10 +175,13 @@ module.exports = async function handler(req, res) {
     eventDay: eventDay(),
     // Alter Name, damit ein Browser mit zwischengespeichertem Skript nichts falsch macht.
     guessOpen: eventDay(),
+    registrationOpen: registrationOpen(),
   }));
 };
 
 module.exports.eventDay = eventDay;
+module.exports.registrationOpen = registrationOpen;
+module.exports.REGISTRATION_CLOSES_AT = REGISTRATION_CLOSES_AT;
 module.exports.EVENT_DAY_STARTS_AT = EVENT_DAY_STARTS_AT;
 module.exports.EVENT_DAY_ENDS_AT = EVENT_DAY_ENDS_AT;
 module.exports._test = { isPreviewBot, sameOrigin };

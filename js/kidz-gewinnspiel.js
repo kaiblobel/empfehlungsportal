@@ -316,6 +316,32 @@ form.addEventListener('submit', async (event) => {
   }
 });
 
+/**
+ * Nach dem Anmeldeschluss steht statt des Formulars ein Abschlusshinweis.
+ *
+ * Ob geschlossen ist, sagt der Server (api/kidz-config.js). Der Browser rechnet
+ * hier bewusst nichts selbst aus: Eine Uhr im Geraet kann falsch gehen, und ein
+ * Datum im Skript waere die zweite Wahrheit neben der im Server.
+ *
+ * Gezeigt wird derselbe Block wie nach einer erfolgreichen Anmeldung, nur mit
+ * anderem Text und ohne Teilnahmebestaetigung. Die Teilnahmebedingungen weiter
+ * unten bleiben stehen: Wer teilgenommen hat, soll sie nachlesen koennen.
+ */
+function applyRegistrationClosed() {
+  form.hidden = true;
+  const intro = document.querySelector('.kg-form-intro');
+  if (intro) intro.hidden = true;
+  successBox.hidden = false;
+  document.getElementById('kgSuccessTitle').textContent = 'Das Gewinnspiel ist beendet';
+  document.getElementById('kgSuccessNote').textContent =
+    'Danke an alle, die beim Sommerfest dabei waren. Die Gewinner benachrichtigen wir über den Kontaktweg, den sie bei der Anmeldung angegeben haben.';
+  document.getElementById('kgReference').textContent = '';
+}
+
 const config = await loadConfig();
-applyEventDay(config?.eventDay === true || config?.guessOpen === true);
-await Promise.all([loadAdvisors(), initializeCaptcha(config)]);
+if (config?.registrationOpen === false) {
+  applyRegistrationClosed();
+} else {
+  applyEventDay(config?.eventDay === true || config?.guessOpen === true);
+  await Promise.all([loadAdvisors(), initializeCaptcha(config)]);
+}

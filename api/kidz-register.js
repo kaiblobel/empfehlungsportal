@@ -24,6 +24,17 @@ function guessOpen(now = Date.now()) {
   return now >= GUESS_OPENS_AT && now < GUESS_CLOSES_AT;
 }
 
+// Anmeldeschluss. Der Zeitpunkt ist der, der in den Teilnahmebedingungen steht:
+// jede gueltige Anmeldung bis zum 6. September 2026 um 15 Uhr. Danach nimmt die
+// oeffentliche Strecke nichts mehr entgegen, weder neue Anmeldungen noch
+// Nachtraege an bestehenden. Die Nacherfassung der Papierzettel laeuft ueber
+// api/kidz-nacherfassung.js und ist davon nicht betroffen.
+const REGISTRATION_CLOSES_AT = Date.parse('2026-09-06T15:00:00+02:00');
+
+function registrationOpen(now = Date.now()) {
+  return now < REGISTRATION_CLOSES_AT;
+}
+
 function send(res, status, payload) {
   res.statusCode = status;
   return res.end(JSON.stringify(payload));
@@ -147,7 +158,7 @@ async function registerParticipation(secret, payload) {
   return result;
 }
 
-module.exports = async function handler(req, res) {
+async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -157,6 +168,16 @@ module.exports = async function handler(req, res) {
     return send(res, 405, { ok: false });
   }
   if (!sameOrigin(req)) return send(res, 403, { ok: false });
+
+  // Vor allem anderen: Ist das Gewinnspiel ueberhaupt noch offen? Die Pruefung
+  // steht hier ganz vorn, damit nach dem Schluss weder Turnstile befragt noch
+  // die Datenbank angefasst wird.
+  // Ueber handler.registrationOpen statt direkt, damit die Tests beide Zustaende
+  // pruefen koennen: den offenen Betrieb und den Zustand nach dem Schluss. Sonst
+  // waeren mit dem Schluss alle Zusicherungen zum Erfolgsfall still tot.
+  if (!handler.registrationOpen()) {
+    return send(res, 410, { ok: false, reason: 'closed' });
+  }
 
   const registrationSecret = process.env.KIDZ_GIVEAWAY_REGISTRATION_SECRET || '';
   const turnstileSecret = process.env.TURNSTILE_SECRET_KEY || '';
@@ -244,3 +265,7 @@ module.exports = async function handler(req, res) {
     });
   }
 };
+
+handler.registrationOpen = registrationOpen;
+handler.REGISTRATION_CLOSES_AT = REGISTRATION_CLOSES_AT;
+module.exports = handler;
