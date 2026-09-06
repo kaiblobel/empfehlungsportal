@@ -1,7 +1,15 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.351 Beta** · Anmeldeschluss, und die Sicht wieder eng, live seit 06.09.2026.
+Offizielle Live-Version: **v1.352 Beta** · Kein Erfolgshaken über dem Abschluss, live seit 06.09.2026.
+
+## v1.352 Beta - Phase 337 · Kein Erfolgshaken über dem Abschluss
+**2026-09-06**
+
+Über dem Hinweis "Das Gewinnspiel ist beendet" stand der grüne Haken, der sonst "deine Anmeldung ist angekommen" bedeutet. Er wird jetzt ausgeblendet, wenn der Block als Abschlusshinweis dient.
+
+Beim Bauen fiel zum dritten Mal dieselbe Falle auf: `hidden` verliert gegen `display: grid`. Der Haken wäre trotz Ausblenden stehen geblieben. Es gibt jetzt eine eigene Regel dafür, wie schon bei der Zustimmungszeile und bei der KIDZ-for-Future-Karte, und einen Wächter mit Gegenprobe.
+
 
 ## v1.351 Beta - Phase 336 · Anmeldeschluss, und die Sicht wieder eng
 **2026-09-06**
@@ -1875,9 +1883,9 @@ Dazu ein Werkzeug: `node tools/version-setzen.mjs "Titel der Phase"` zieht Versi
 - Promoter-Auswahl aktualisiert: **Anika Biebrach** ist deaktiviert, **Anja Scholz** (zählt für Sven Augustin) und **Sandra Röhrens** (zählt für Claudius Tusche) sind neu. David Stamm bleibt unverändert.
 - Die Datenbankmigrationen sind angewendet: `phase_192_kidz_schaetzung_nacherfassung` (Datei `schema-phase200.sql`) und `phase_199_kidz_schaetzfenster` (Datei `schema-phase200-schaetzfenster.sql`). Die Migrationsnamen stammen aus einer früheren Nummerierung, weil parallel weitere Phasen auf `main` gelandet sind. Sie ergänzt die Schätzspalten, lässt Fassung 5 zu, legt den Nacherfassungsweg an und stellt die Promoter um. Sie muss vor der Veröffentlichung des Codes laufen; die bisherige Fassung 4 bleibt dabei gültig, es entsteht also kein Ausfallfenster.
 
-Offizielle Live-Version: **v1.351 Beta** · Anmeldeschluss, und die Sicht wieder eng, live seit 06.09.2026.
+Offizielle Live-Version: **v1.352 Beta** · Kein Erfolgshaken über dem Abschluss, live seit 06.09.2026.
 
-Offizielle Live-Version: **v1.351 Beta** · Anmeldeschluss, und die Sicht wieder eng, live seit 06.09.2026.
+Offizielle Live-Version: **v1.352 Beta** · Kein Erfolgshaken über dem Abschluss, live seit 06.09.2026.
 
 ---
 

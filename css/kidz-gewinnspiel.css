@@ -275,6 +275,10 @@ main { width: min(1120px, calc(100% - 32px)); margin: 18px auto 48px; }
 .kg-submit:disabled { opacity: .5; cursor: not-allowed; box-shadow: none; }
 .kg-safe { margin: 12px 0 0; color: var(--kg-muted); text-align: center; font-size: 12px; }
 .kg-success { max-width: 720px; margin: 0 auto; padding: 36px 22px; text-align: center; background: #eff9e9; border: 2px solid #9fc68a; border-radius: 20px; }
+/* Zum dritten Mal dieselbe Falle: hidden verliert gegen display: grid. Ohne
+   diese Regel bliebe der gruene Haken ueber "Das Gewinnspiel ist beendet"
+   stehen und liesse den Hinweis wie eine erfolgreiche Anmeldung aussehen. */
+.kg-success > div[hidden] { display: none !important; }
 .kg-success > div { display: grid; place-items: center; width: 64px; height: 64px; margin: 0 auto 15px; color: #fff; background: var(--kg-green); border-radius: 50%; font-size: 34px; font-weight: 900; }
 .kg-success h2 { margin: 0; color: var(--kg-green-dark); font-size: 30px; }
 .kg-success p { max-width: 530px; margin: 10px auto; color: #42604e; line-height: 1.55; }
