@@ -433,6 +433,37 @@ assert.match(html, /Ja, sagt mir einmal Bescheid, wenn der nächste Termin steht
 assert.match(await read('kidz-elternabend.html'), /Etwa 60 Minuten/);
 assert.match(await read('kidz-konzept.html'), /<strong>60 Minuten<\/strong>/);
 
+// Phase 324: Das Haekchen im Beraterbereich laeuft ueber die Datenbank.
+//
+// Phase 321 schrieb die Spalte direkt aus dem Browser und lief in eine
+// Fehlermeldung: Das Aenderungsrecht ist spaltenweise vergeben, und
+// elternabend_interesse steht nicht darin. Aufgefallen ist das erst, als Kai
+// den Knopf am Vorabend des Fests wirklich gedrueckt hat. Diese Zusicherungen
+// halten den reparierten Weg fest.
+const interesseMigration = await read('schema-phase324-kidz-interesse-nachtragen.sql');
+assert.match(interesseMigration, /create or replace function public\.set_kidz_gewinnspiel_interesse/);
+assert.match(interesseMigration, /security definer/);
+assert.match(interesseMigration, /public\.current_berater_id\(\)/);
+assert.match(interesseMigration, /public\.is_current_berater_admin\(\)/);
+assert.match(interesseMigration, /revoke execute on function public\.set_kidz_gewinnspiel_interesse\(uuid, boolean\)[\s\S]*from public, anon, service_role/);
+assert.match(interesseMigration, /grant execute on function public\.set_kidz_gewinnspiel_interesse\(uuid, boolean\)[\s\S]*to authenticated/);
+// Der kurze Weg bleibt zu: mit einem Spaltenrecht koennte der Browser die
+// Einwilligung frei schreiben, und der einzige Schutz waere die Oberflaeche.
+// Geprueft wird der Code ohne Kommentarzeilen. Der Kopfkommentar der Migration
+// nennt den kurzen Weg absichtlich, um zu erklaeren, warum er nicht gegangen
+// wird; ein Waechter, der darauf anspringt, zwingt dazu, die Begruendung zu
+// loeschen.
+const interesseCode = interesseMigration.replace(/^--.*$/gm, '');
+assert.doesNotMatch(interesseCode, /grant update \(elternabend_interesse/);
+// Ausser dieser einen Spalte darf die Funktion nichts anfassen.
+assert.doesNotMatch(interesseCode, /set[\s\S]{0,120}name = /);
+assert.doesNotMatch(interesseCode, /set[\s\S]{0,120}berater_id = /);
+assert.doesNotMatch(interesseMigration, /set[\s\S]{0,120}schaetzung_cm = /);
+
+assert.match(adminJs, /supabase\.rpc\('set_kidz_gewinnspiel_interesse'/);
+assert.doesNotMatch(adminJs, /update\(\{ elternabend_interesse/,
+  'Das direkte Schreiben der Einwilligung aus dem Browser scheitert am Spaltenrecht.');
+
 // Die Seite muss sagen, was passiert ist, statt pauschal "Du bist dabei".
 const gewinnspielJs = await read('js/kidz-gewinnspiel.js');
 assert.match(gewinnspielJs, /function erfolgsMeldung/);

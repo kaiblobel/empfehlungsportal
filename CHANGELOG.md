@@ -1,7 +1,25 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.345 Beta** · Ein Zeichen statt eines Buchstabens, Stand 05.09.2026.
+Offizielle Live-Version: **v1.347 Beta** · Einwilligung über die Datenbank nachtragen, live seit 06.09.2026.
+
+## v1.347 Beta - Phase 332 · Einwilligung über die Datenbank nachtragen
+**2026-09-06**
+
+Der Knopf aus Phase 321, mit dem sich das Häkchen für KIDZ for Future an einer bestehenden Anmeldung nachtragen lässt, hat nie funktioniert. Kai hat ihn am Vorabend des Sommerfests gedrückt und bekam eine Fehlermeldung. Die Ballschätzung ging, das Häkchen nicht.
+
+Ursache: Das Änderungsrecht auf `kidz_gewinnspiel_teilnahmen` ist spaltenweise vergeben. Erlaubt sind für einen angemeldeten Berater unter anderem `schaetzung_cm` und `schaetzung_am`, nicht aber `elternabend_interesse`. Beim Bau wurde die Zeilenregel geprüft und daraus geschlossen, das Schreiben sei erlaubt. Die Spaltenrechte wurden nicht angesehen, und der Knopf wurde nie gedrückt, es wurde nur gemessen, dass die Datei ausgeliefert wird. Eine Auslieferung ist kein Funktionsnachweis.
+
+Der kurze Weg wäre ein `grant update (elternabend_interesse)` gewesen. Der wurde nicht gegangen: Die Spalte ist eine Einwilligung, und mit einem Spaltenrecht könnte der Browser sie frei schreiben, in jede Richtung. Ein Schutz, der nur in der Oberfläche sitzt, ist keiner.
+
+Stattdessen eine Funktion in der Datenbank nach dem Vorbild von `record_kidz_gewinnspiel_onsite`: Sie läuft mit den Rechten ihres Besitzers, braucht das Spaltenrecht deshalb nicht, und prüft selbst, wer sie aufruft. Sie schreibt ausschließlich diese eine Spalte, nur an Anmeldungen des aufrufenden Beraters, Administratoren an allen.
+
+Vier Fälle vor dem Livegang gegen die echte Datenbank durchgespielt, in einer Transaktion, die zurückgerollt wurde: ohne Anmeldung wird abgewiesen, ein Berater an seiner eigenen Anmeldung kommt durch, derselbe Berater an einer fremden bekommt `forbidden`, ein Administrator kommt überall durch. Danach nachgelesen, dass der Wert wirklich in der Tabelle steht und nicht nur ein "ok" zurückkam.
+
+Zwei Wächter halten das fest: Die Migration muss die Rechteprüfung enthalten und darf kein Spaltenrecht vergeben, das Admin-Skript darf die Spalte nicht mehr direkt schreiben. Beide Gegenproben rot gesehen.
+
+Datenbank: `schema-phase324-kidz-interesse-nachtragen.sql`, angewendet am 05.09.2026 als `phase_324_kidz_interesse_nachtragen`. Die Nummer der Datei stammt aus der Nacht, in der die Reparatur begann; veröffentlicht wird sie als Phase 332, weil in der Zwischenzeit an anderer Stelle weitergearbeitet wurde.
+
 
 ## v1.345 Beta - Phase 330 · Ein Zeichen statt eines Buchstabens
 **2026-09-05**
@@ -1793,9 +1811,9 @@ Dazu ein Werkzeug: `node tools/version-setzen.mjs "Titel der Phase"` zieht Versi
 - Promoter-Auswahl aktualisiert: **Anika Biebrach** ist deaktiviert, **Anja Scholz** (zählt für Sven Augustin) und **Sandra Röhrens** (zählt für Claudius Tusche) sind neu. David Stamm bleibt unverändert.
 - Die Datenbankmigrationen sind angewendet: `phase_192_kidz_schaetzung_nacherfassung` (Datei `schema-phase200.sql`) und `phase_199_kidz_schaetzfenster` (Datei `schema-phase200-schaetzfenster.sql`). Die Migrationsnamen stammen aus einer früheren Nummerierung, weil parallel weitere Phasen auf `main` gelandet sind. Sie ergänzt die Schätzspalten, lässt Fassung 5 zu, legt den Nacherfassungsweg an und stellt die Promoter um. Sie muss vor der Veröffentlichung des Codes laufen; die bisherige Fassung 4 bleibt dabei gültig, es entsteht also kein Ausfallfenster.
 
-Offizielle Live-Version: **v1.218 Beta** · Prämien, Benachrichtigungen und Führungslinie, live seit 12.08.2026.
+Offizielle Live-Version: **v1.347 Beta** · Einwilligung über die Datenbank nachtragen, live seit 06.09.2026.
 
-Offizielle Live-Version: **v1.219 Beta** · Teamsicht in Promoter- und Empfehlungsliste, live seit 12.08.2026.
+Offizielle Live-Version: **v1.347 Beta** · Einwilligung über die Datenbank nachtragen, live seit 06.09.2026.
 
 ---
 
