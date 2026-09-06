@@ -336,6 +336,10 @@ function applyRegistrationClosed() {
   document.getElementById('kgSuccessNote').textContent =
     'Danke an alle, die beim Sommerfest dabei waren. Die Gewinner benachrichtigen wir über den Kontaktweg, den sie bei der Anmeldung angegeben haben.';
   document.getElementById('kgReference').textContent = '';
+  // Der gruene Haken heisst "deine Anmeldung ist angekommen". Ueber einem
+  // Abschlusshinweis liest er sich, als haette man gerade teilgenommen.
+  const haken = document.getElementById('kgSuccessMark');
+  if (haken) haken.hidden = true;
 }
 
 const config = await loadConfig();

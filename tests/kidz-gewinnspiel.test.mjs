@@ -529,6 +529,13 @@ assert.doesNotMatch(teamSicht, /kidz_gewinnspiel_admin_delete/,
   'Die Loeschregel darf hier nicht auftauchen.');
 assert.doesNotMatch(teamSicht, /for delete/);
 
+// Phase 337: Der gruene Haken verschwindet, wenn das Gewinnspiel zu ist. Auch
+// hier gilt: hidden verliert gegen display: grid, die Regel ist Pflicht.
+assert.match(css, /\.kg-success > div\[hidden\]\s*\{\s*display:\s*none/,
+  'Ohne diese Regel bleibt der Erfolgshaken ueber dem Abschlusshinweis stehen.');
+assert.match(html, /id="kgSuccessMark"/);
+assert.match(js, /kgSuccessMark[\s\S]{0,80}hidden = true/);
+
 // Phase 336: Anmeldeschluss, und die Sicht wieder eng.
 const schlussMigration = (await read('schema-phase336-kidz-anmeldeschluss.sql'))
   .replace(/^--.*$/gm, '');
