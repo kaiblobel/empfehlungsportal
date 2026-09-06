@@ -107,11 +107,10 @@ assert.ok(
 
 assert.match(dashboardCss, /\.admin-sicht-hinweis\s*\{/, 'Für den Hinweis fehlt der Stil.');
 
-// Auf allen drei Seiten sehen normale Berater seit Phase 210 ihre eigenen
+// Auf diesen Seiten sehen normale Berater seit Phase 210 ihre eigenen
 // Daten, der Hinweis ist deshalb versteckt und wird nur für Admins eingeblendet.
 for (const [name, html, js] of [
   ['Prämien', praemienHtml, praemienJs],
-  ['Gewinnspiel', kidzGewinnHtml, kidzGewinnJs],
   ['KIDZ for Future', kidzElternHtml, kidzElternJs],
 ]) {
   assert.match(html, /id="adminSichtHinweis"[^>]*hidden/,
@@ -119,6 +118,19 @@ for (const [name, html, js] of [
   assert.match(js, /adminSichtHinweis[\s\S]{0,200}ist_admin/,
     `${name}: Der Hinweis wird nicht am Admin-Status eingeblendet.`);
 }
+
+// Die Gewinnspielliste ist seit Phase 333 die Ausnahme: Dort sieht jeder Berater
+// alle Anmeldungen des Sommerfests, damit am Stand jeder nachsehen kann, ob die
+// Person vor ihm schon angemeldet ist. Der Hinweis gilt deshalb für alle.
+assert.match(kidzGewinnHtml, /id="adminSichtHinweis"[^>]*hidden/,
+  'Gewinnspiel: Der Hinweis muss versteckt starten, das Skript blendet ihn ein.');
+assert.match(kidzGewinnJs, /adminHinweis\.hidden = false/,
+  'Gewinnspiel: Der Hinweis muss für jeden Berater erscheinen, sonst hält er die Zahlen für seine eigenen.');
+assert.match(kidzGewinnHtml, /alle Anmeldungen zum Sommerfest/);
+// Was offen ist, ist das Sehen und das Eintragen. Das Loeschen bleibt am
+// Admin-Recht, sonst entfernt am Stand jemand eine fremde Anmeldung.
+assert.match(kidzGewinnJs, /ist_admin \?[\s\S]{0,120}data-manage-participant/,
+  'Gewinnspiel: Der Loesch-Knopf haengt nicht mehr am Admin-Recht.');
 assert.match(praemienHtml, /alle Prämien des Portals/);
 
 /* --- 6) Phase 210: Prämien gehören jedem Berater, nicht nur dem Admin --- */
