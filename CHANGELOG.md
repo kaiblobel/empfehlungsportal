@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.348 Beta** · Am Festtag sieht jeder Berater alle Anmeldungen, live seit 06.09.2026.
+Offizielle Live-Version: **v1.349 Beta** · Die Karte nennt keinen Abend mehr, live seit 06.09.2026.
+
+## v1.349 Beta - Phase 334 · Die Karte nennt keinen Abend mehr
+**2026-09-06**
+
+Die Karte im Anmeldeformular band das Interesse an KIDZ for Future an einen Elternabend: "Ein Abend nur für Eltern. Eine kleine Runde, etwa 60 Minuten", und im Häkchen "sagt mir einmal Bescheid, wenn der nächste Termin steht". KIDZ for Future ist aber mehr als dieser Abend, es geht auch um das Konzept selbst. Wer sich meldet, soll nicht auf eine Terminzusage festgelegt sein; was zu wem passt, klärt das Team im Gespräch.
+
+Jetzt steht dort nur noch "Mehr zum Konzept für Familien" und im Häkchen "Ja, schickt mir einmal Informationen zu KIDZ for Future." Die Zeile mit Dauer und Format ist ersatzlos weg. Im Datenschutzabsatz heißt es entsprechend nicht mehr "über den nächsten Termin", sondern "über KIDZ for Future".
+
+Auf der Elternabendseite und der Konzeptseite bleiben die 60 Minuten stehen. Dort ist der Abend gemeint, dort stimmt die Angabe.
+
+Nebenwirkung der gestrichenen Zeile: Der Abstand zwischen Überschrift und Häkchen kam von ihr. Er sitzt jetzt an der Überschrift selbst, sonst klebte das Häkchen daran.
+
 
 ## v1.348 Beta - Phase 333 · Am Festtag sieht jeder Berater alle Anmeldungen
 **2026-09-06**
@@ -1833,9 +1845,9 @@ Dazu ein Werkzeug: `node tools/version-setzen.mjs "Titel der Phase"` zieht Versi
 - Promoter-Auswahl aktualisiert: **Anika Biebrach** ist deaktiviert, **Anja Scholz** (zählt für Sven Augustin) und **Sandra Röhrens** (zählt für Claudius Tusche) sind neu. David Stamm bleibt unverändert.
 - Die Datenbankmigrationen sind angewendet: `phase_192_kidz_schaetzung_nacherfassung` (Datei `schema-phase200.sql`) und `phase_199_kidz_schaetzfenster` (Datei `schema-phase200-schaetzfenster.sql`). Die Migrationsnamen stammen aus einer früheren Nummerierung, weil parallel weitere Phasen auf `main` gelandet sind. Sie ergänzt die Schätzspalten, lässt Fassung 5 zu, legt den Nacherfassungsweg an und stellt die Promoter um. Sie muss vor der Veröffentlichung des Codes laufen; die bisherige Fassung 4 bleibt dabei gültig, es entsteht also kein Ausfallfenster.
 
-Offizielle Live-Version: **v1.348 Beta** · Am Festtag sieht jeder Berater alle Anmeldungen, live seit 06.09.2026.
+Offizielle Live-Version: **v1.349 Beta** · Die Karte nennt keinen Abend mehr, live seit 06.09.2026.
 
-Offizielle Live-Version: **v1.348 Beta** · Am Festtag sieht jeder Berater alle Anmeldungen, live seit 06.09.2026.
+Offizielle Live-Version: **v1.349 Beta** · Die Karte nennt keinen Abend mehr, live seit 06.09.2026.
 
 ---
 

@@ -426,9 +426,13 @@ assert.doesNotMatch(nachtragMigration, /set[\s\S]{0,200}berater_id = /);
 const gewinnspielCss = await read('css/kidz-gewinnspiel.css');
 assert.match(gewinnspielCss, /\.kg-evening\[hidden\]\s*\{\s*display:\s*none/,
   'Ohne diese Regel kann die Einladung vor dem Veranstaltungstag sichtbar werden.');
-assert.match(html, /<h3 id="kgEveningTitle">Ein Abend nur für Eltern<\/h3>/);
-assert.match(html, /Eine kleine Runde, etwa 60 Minuten/);
-assert.match(html, /Ja, sagt mir einmal Bescheid, wenn der nächste Termin steht\./);
+// Phase 334: Die Karte nennt keinen Abend mehr. KIDZ for Future ist mehr als
+// der Elternabend, es geht auch um das Konzept selbst; was zu wem passt, klaert
+// das Team im Gespraech.
+assert.match(html, /<h3 id="kgEveningTitle">Mehr zum Konzept für Familien<\/h3>/);
+assert.match(html, /Ja, schickt mir einmal Informationen zu KIDZ for Future\./);
+assert.doesNotMatch(html, /Ein Abend nur für Eltern/);
+assert.match(html, /um dich über KIDZ for Future zu informieren/);
 // Die Dauer steht auf drei Seiten und muss dieselbe sein.
 assert.match(await read('kidz-elternabend.html'), /Etwa 60 Minuten/);
 assert.match(await read('kidz-konzept.html'), /<strong>60 Minuten<\/strong>/);
