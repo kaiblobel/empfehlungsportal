@@ -14,3 +14,10 @@ tmp/
 # Zweite Arbeitskopien (git worktree). Sie enthalten eine vollstaendige Kopie
 # des Projekts und wuerden beim Sichern als eingebettetes Repo mitgehen.
 .worktrees/
+
+# Pruefkopien der Listenseiten. Erzeugt von docs/pruefkopie.py aus den
+# echten Seiten, also nie von Hand gepflegt und nie eingecheckt: eine
+# eingecheckte Kopie waere ab dem naechsten Umbau veraltet und wuerde
+# genau das vortaeuschen, was sie beweisen soll.
+docs/pruef-*.html
+docs/pruef-leer.js

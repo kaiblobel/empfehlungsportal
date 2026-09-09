@@ -93,23 +93,34 @@ test('Responsive Regeln und Tippziele sind für das iPhone vorbereitet', async (
 });
 
 test('Potenzialbuch bündelt die Bedienung und macht den nächsten Schritt direkt erreichbar', async () => {
-  const [html, css, logic] = await Promise.all([
-    read('dashboard/potenziale.html'), read('css/potenziale.css'), read('js/potenziale.js'),
+  const [html, listenCss, logic] = await Promise.all([
+    read('dashboard/potenziale.html'), read('css/listen.css'), read('js/potenziale.js'),
   ]);
-  assert.match(html, /class="potential-controls"/);
-  assert.match(html, /<summary><span>Weitere Filter<\/span>/);
-  assert.equal((html.match(/data-mobile-label=/g) || []).length, 4);
-  assert.match(html, /Seitlich wischen für alle Stärken/);
-  assert.match(html, /id="potentialFilters"[\s\S]*id="potentialCircleFilters"/);
-  assert.match(css, /\.potential-list \{[^}]*align-items:start/);
-  assert.match(css, /\.potential-card \{[^}]*min-height:0/);
-  assert.match(css, /\.potential-kpis \{ grid-template-columns:repeat\(4,minmax\(0,1fr\)\); margin-bottom:18px; \}/);
-  assert.match(css, /\.potential-actions \.potential-transfer \{ display:none; \}/);
-  assert.match(logic, /class="potential-card-details"/);
+  // Sichtbar bleiben Suche und Schnellauswahl. Kontaktstärke, Stand im
+  // Prozess und Kreise stehen darunter: das waren zusammen rund fünfzehn
+  // Knöpfe über der ersten Person.
+  assert.match(html, /class="liste-leiste"/);
+  assert.match(html, /id="potentialQuickFilters"/);
+  assert.match(html, /data-quick="faellig"/);
+  assert.match(html, /id="mehrBtn"[^>]*aria-expanded="false"/);
+  assert.match(html, /id="potentialStrengthFilters"[\s\S]*id="potentialFilters"[\s\S]*id="potentialCircleFilters"/);
+  // Was heute dran ist, steht oben und steht dort allein.
+  assert.match(html, /id="potentialDueSection"/);
+  assert.match(html, /Heute und überfällig/);
+  assert.match(logic, /function istFaellig\(item\)/);
+  assert.match(logic, /function nachFaelligkeit\(a, b\)/);
+  assert.match(logic, /filtered\.filter\(istFaellig\)\.sort\(nachFaelligkeit\)/);
+  // Die alte Dropdown-Positionierung ist im aufklappbaren Feld zurückgeholt,
+  // sonst quillt die Filterfläche rechts aus dem Bild.
+  assert.match(listenCss, /\.liste-weitere \.potential-circle-filter-body \{[\s\S]*?position: static/);
+  // Notiz und Kontaktwege stehen unter Details, nicht in der Zeile.
+  assert.match(logic, /class="liste-detail"/);
   assert.match(logic, /<summary>Details<\/summary>/);
   assert.match(logic, /data-action="plan-contact"/);
   assert.match(logic, /Nächsten Kontakt planen/);
   assert.match(logic, /Cockpit verbinden/);
+  // Der ausformulierte Ersatztext auf jedem Eintrag ohne Notiz ist weg.
+  assert.doesNotMatch(logic, /Noch keine Gesprächsnotiz/);
 });
 
 test('Service-Worker verweist nur auf vorhandene lokale Dateien', async () => {

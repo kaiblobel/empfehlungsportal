@@ -18,7 +18,7 @@ assert.match(html, /\['interessiert', 'Interesse'\]/);
 assert.match(html, /function effectiveStatus\(r\)/);
 assert.match(html, /r\.interessiert \|\| r\.interessiert_at/);
 assert.match(html, /whatsappLink\(phone\)/);
-assert.match(html, /class="ep-row feed-row"/);
+assert.match(html, /class="liste-zeile"/);
 assert.match(html, /Rechtsklick/);
 assert.match(html, /dashboard\.css\?v=\d+/);
 assert.match(html, /nav\.js\?v=\d+/);

@@ -46,6 +46,9 @@ for (const id of ['empf', 'prom', 'pot']) {
 function zeigeBereich(ziel) {
   document.querySelectorAll('.vs-reiter button').forEach((x) => x.setAttribute('aria-selected', String(x.dataset.ziel === ziel)));
   document.querySelectorAll('.vs-bereich').forEach((s) => { s.hidden = s.id !== ziel; });
+  // Der Anker springt sonst an den Abschnitt und damit am Seitenkopf vorbei.
+  // Genau der soll aber oben stehen, wenn man den Bereich verlinkt.
+  window.scrollTo(0, 0);
 }
 // Auch die Breite laesst sich ueber die Adresse setzen (?eng), damit sich die
 // Handy-Ansicht abfotografieren und verlinken laesst.
@@ -53,7 +56,11 @@ if (location.search.includes('eng')) {
   document.body.classList.add('vs-eng');
   document.querySelectorAll('.vs-breite button').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.breite === 'eng')));
 }
-const ausAdresse = String(location.hash || '').replace('#', '');
+// Zwei Wege, denselben Bereich anzusteuern. Der Anker (#prom) ist bequem zum
+// Verlinken, springt aber immer an den Abschnitt und damit am Seitenkopf
+// vorbei. Zum Abfotografieren gibt es deshalb ?b=prom, das nicht springt.
+const ausParameter = new URLSearchParams(location.search).get('b') || '';
+const ausAdresse = ausParameter || String(location.hash || '').replace('#', '');
 if (['empf', 'prom', 'pot'].includes(ausAdresse)) zeigeBereich(ausAdresse);
 window.addEventListener('hashchange', () => {
   const z = String(location.hash || '').replace('#', '');

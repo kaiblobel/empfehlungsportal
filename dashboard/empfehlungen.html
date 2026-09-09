@@ -11,6 +11,9 @@
   <link rel="stylesheet" href="../css/style.css?v=36" />
   <link rel="stylesheet" href="../css/dashboard.css?v=56" />
   <link rel="stylesheet" href="../css/dna.css?v=13" />
+  <!-- Nach dna.css, weil die Listenregeln eigene Klassennamen haben und
+       nicht von deren Nachzuegen ueberschrieben werden sollen. -->
+  <link rel="stylesheet" href="../css/listen.css?v=1" />
   <script src="../js/config.js"></script>
   <script src="../js/wartung.js?v=4"></script>
 </head>
@@ -34,47 +37,58 @@
     </header>
 
     <main class="app-content emp-content">
-      <section class="ep-intro">
+      <!-- Der Erklaersatz ist weg. Wer die Seite oeffnet, weiss was
+           Empfehlungen sind; der Platz gehoert den Menschen darunter. -->
+      <section class="liste-kopf">
         <div>
           <div class="h-label">Tagesgeschäft</div>
           <h1>Empfehlungen</h1>
-          <p>Kontakte priorisieren, persönlich reagieren und den nächsten Schritt festhalten.</p>
         </div>
-        <a href="neu.html" class="ep-primary">+ Neue Empfehlung</a>
+        <a href="neu.html" class="liste-haupttun">+ Neue Empfehlung</a>
       </section>
 
-      <section class="ep-workbar" aria-label="Empfehlungen suchen und filtern">
-        <label class="ep-search" for="searchInput">
-          <i data-icon="Search" data-icon-size="17"></i>
+      <!-- Sichtbar bleiben die vier Filter, die im Alltag gebraucht werden.
+           Alles Weitere steht unter "Weitere Filter": frueher lagen bis zu
+           vierzehn Knoepfe ueber der ersten Person. -->
+      <div class="liste-leiste" role="group" aria-label="Empfehlungen suchen und filtern">
+        <label class="liste-suche" for="searchInput">
+          <i data-icon="Search" data-icon-size="16"></i>
           <input id="searchInput" type="search" placeholder="Name, Telefon oder Promoter suchen" autocomplete="off" />
         </label>
-        <div class="ep-filters" id="filterTabs" aria-label="Statusfilter"></div>
-        <div class="ep-filters ep-scope" id="scopeTabs" role="group" aria-label="Bereich" hidden>
-          <button class="filter-tab active" type="button" data-scope="mein">Meine</button>
-          <button class="filter-tab" type="button" data-scope="team">Mein Team</button>
-        </div>
+        <div class="liste-reiter" id="filterTabs" aria-label="Statusfilter"></div>
+        <button class="liste-mehr" type="button" id="mehrBtn" aria-expanded="false" aria-controls="mehrFeld">Weitere Filter</button>
+        <div class="liste-weitere liste-spalte" id="mehrFeld">
+          <div class="liste-reiter" id="filterTabsMehr" aria-label="Weitere Zustände"></div>
 
-        <!-- Woher jemand kommt. Erscheint erst, wenn wirklich Leads aus
-             einem Funnel da sind: solange nur Empfehlungen im Bestand
-             sind, waere die Zeile eine Auswahl ohne Auswahl. -->
-        <div class="ep-filters ep-herkunft" id="artTabs" role="group" aria-label="Herkunft" hidden>
-          <button class="filter-tab active" type="button" data-art="alle">Alle</button>
-          <button class="filter-tab" type="button" data-art="empfehlung">Empfehlungen</button>
-          <button class="filter-tab" type="button" data-art="funnel">Funnels</button>
+          <!-- Erscheint nur bei Fuehrungskraeften, also wenn wirklich
+               jemand unter einem haengt. -->
+          <div class="liste-reiter" id="scopeTabs" role="group" aria-label="Bereich" hidden>
+            <button type="button" data-scope="mein" aria-pressed="true">Meine</button>
+            <button type="button" data-scope="team" aria-pressed="false">Mein Team</button>
+          </div>
+
+          <!-- Woher jemand kommt. Erscheint erst, wenn wirklich Leads aus
+               einem Funnel da sind: solange nur Empfehlungen im Bestand
+               sind, waere die Zeile eine Auswahl ohne Auswahl. -->
+          <div class="liste-reiter" id="artTabs" role="group" aria-label="Herkunft" hidden>
+            <button type="button" data-art="alle" aria-pressed="true">Alle Herkünfte</button>
+            <button type="button" data-art="empfehlung" aria-pressed="false">Empfehlungen</button>
+            <button type="button" data-art="funnel" aria-pressed="false">Funnels</button>
+          </div>
+          <div class="liste-reiter" id="quellenTabs" role="group" aria-label="Welcher Funnel" hidden></div>
         </div>
-        <div class="ep-quellen" id="quellenTabs" role="group" aria-label="Welcher Funnel" hidden></div>
-      </section>
+      </div>
 
       <section id="prioritySection" hidden>
-        <div class="ep-section-head">
+        <div class="liste-abschnitt">
           <h2>Wartet auf dich</h2>
-          <span>Nach Dringlichkeit sortiert</span>
+          <span id="prioMeta"></span>
         </div>
-        <div class="ep-priority-grid" id="priorityList"></div>
+        <div class="liste-dringend-block" id="priorityList"></div>
       </section>
 
-      <div class="ep-section-head">
-        <h2>Alle Empfehlungen</h2>
+      <div class="liste-abschnitt">
+        <h2>Alle weiteren</h2>
         <span id="resultMeta">Wird geladen…</span>
       </div>
       <div id="list" aria-live="polite">
@@ -151,7 +165,6 @@
       updateEmpfehlung, formatDate, applyBeraterHeader, whatsappLink,
     } from '../js/dashboard.js';
     import { deleteEmpfehlung, getVorlagen, markiereGesehen, getFunnelQuellen } from '../js/supabase.js';
-    import { personPlatzhalter } from '../js/person-zeichen.js';
     import { hydrateIcons, icon } from '../js/icons.js';
 
     applyBeraterHeader();
@@ -163,6 +176,10 @@
       ['interessiert', 'Interesse'], ['kontaktiert', 'Kontaktiert'],
       ['kunde', 'Kunde'], ['kein_interesse', 'Kein Interesse'],
     ];
+    /* Sichtbar bleiben die vier, die im Alltag gebraucht werden. Der Rest
+       steht unter "Weitere Filter". Wer dort einen auswaehlt, sieht ihn
+       trotzdem: das Feld bleibt dann offen. */
+    const FILTER_SICHTBAR = new Set(['alle', 'offen', 'anrufwunsch', 'interessiert']);
     const THEMA_LABELS = {
       allgemein: 'Allgemeine Beratung', baufi: 'Baufinanzierung', foerderungen: 'Staatliche Förderungen',
       selbstaendige: 'Selbständige', investment: 'Geldanlage & Investment',
@@ -177,7 +194,6 @@
        eine leere Zeile. */
     let QUELLEN = {};
     const quelleLabel = (q) => (QUELLEN[q] && QUELLEN[q].anzeige) || q || 'Funnel';
-    const quelleTon = (q) => (QUELLEN[q] && QUELLEN[q].ton) || '#5E939E';
     const istLead = (r) => r.typ === 'funnel' || Boolean(r.quelle);
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -187,6 +203,10 @@
     let currentSearch = '';
     let allItems = [];
     let currentArt = 'alle';      // alle · empfehlung · funnel
+    /* Wer oben unter "Wartet auf dich" steht, steht nicht noch einmal in
+       der Liste darunter. Genau diese Doppelung hat die erste Person am
+       Handy frueher um rund 1300 Punkte nach unten geschoben. */
+    let obenSchon = new Set();
     let currentQuelle = 'alle';   // welcher Funnel, wenn currentArt = funnel
 
     /* Phase 199 · Umschalter "Meine" / "Mein Team". Erscheint nur bei
@@ -215,19 +235,28 @@
 
       tabs.hidden = false;
       tabs.querySelectorAll('[data-scope]').forEach((b) => {
-        b.classList.toggle('active', b.dataset.scope === bereich);
+        b.setAttribute('aria-pressed', String(b.dataset.scope === bereich));
         b.addEventListener('click', async () => {
           if (b.dataset.scope === bereich) return;
           bereich = b.dataset.scope;
           try { localStorage.setItem(SCOPE_KEY, bereich); } catch (_) {}
-          tabs.querySelectorAll('[data-scope]').forEach((x) => x.classList.toggle('active', x === b));
+          tabs.querySelectorAll('[data-scope]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
           await refresh();
         });
       });
     }
 
-    document.getElementById('filterTabs').addEventListener('click', (e) => {
-      const btn = e.target.closest('.filter-tab');
+    /* "Weitere Filter" auf- und zuklappen. */
+    const mehrBtn = document.getElementById('mehrBtn');
+    const mehrFeld = document.getElementById('mehrFeld');
+    mehrBtn.addEventListener('click', () => zeigeMehr(mehrBtn.getAttribute('aria-expanded') !== 'true'));
+    function zeigeMehr(offen) {
+      mehrBtn.setAttribute('aria-expanded', String(offen));
+      mehrFeld.dataset.offen = offen ? 'ja' : 'nein';
+    }
+
+    document.querySelector('.liste-leiste').addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-filter]');
       if (!btn) return;
       currentFilter = btn.dataset.filter;
       const nextUrl = new URL(window.location.href);
@@ -262,43 +291,45 @@
       renderFilters();
       renderHerkunft();
       renderPriorities();
-      const visibleItems = allItems.filter(matchesCurrentView);
+      const visibleItems = allItems.filter(matchesCurrentView).filter(r => !obenSchon.has(String(r.id)));
       const list = document.getElementById('list');
       document.getElementById('resultMeta').textContent = visibleItems.length === 1 ? '1 Kontakt' : `${visibleItems.length} Kontakte`;
       document.getElementById('totalMeta').textContent = `${allItems.length} Empfehlungen insgesamt`;
       if (!visibleItems.length) {
-        list.innerHTML = '<div class="empty-state">Für diese Auswahl gibt es aktuell keine Empfehlungen.</div>';
+        list.innerHTML = '<div class="liste-leer">Für diese Auswahl gibt es aktuell keine Empfehlungen.</div>';
         return;
       }
       // Phase 199 · Eine Empfehlung aus dem Team gehört einem anderen Berater.
       // Sie wird gezeigt, aber nicht verlinkt: die Detailseite fände sie wegen
       // der Leseregel ohnehin nicht und liefe in eine leere Ansicht.
-      list.innerHTML = '<div class="ep-list">' + visibleItems.map(r => {
+      const zeile = (r) => {
+        const status = effectiveStatus(r);
+        const ton = tonVon(status);
+        const leise = ['offen', 'kontaktiert'].includes(status);
         const inhalt = `
-          <div class="ep-person">
-            ${personPlatzhalter({ anrede: r.empfaenger_anrede, rolle: 'empfaenger', titel: 'Empfänger' })}
-            <span><strong>${escapeHtml(r.empfaenger_name || 'Unbekannter Kontakt')}</strong>${r.ist_test ? ' <span class="badge badge-test">Test</span>' : ''}<small>${formatDate(r.created_at)}${r.berater_name ? ` · ${escapeHtml(r.berater_name)}` : ''}</small></span>
-          </div>
-          <div class="ep-topic">${escapeHtml(topicLabel(r))}<small>${herkunftHtml(r)}</small></div>
-          ${statusPill(r)}
-          ${r.fremd
-            ? '<span class="ep-opened off"><i></i>fremder Bestand</span>'
-            : `<span class="ep-opened${r.link_geoeffnet ? '' : ' off'}"><i></i>${r.link_geoeffnet ? 'geöffnet' : 'ungeöffnet'}</span>`}
-          ${r.fremd ? '' : `<span class="ep-arrow">${icon('ChevronRight', { size: 16 })}</span>`}`;
+          <span class="liste-kreis">${initials(r.empfaenger_name)}</span>
+          <span class="liste-mitte">
+            <span class="liste-name">${escapeHtml(r.empfaenger_name || 'Unbekannter Kontakt')}</span>
+            <span class="liste-zeile2"><b class="liste-zustand${leise ? ' leise' : ''}">${STATUS_TEXT[status] || status}</b><span class="liste-punkt">·</span>${escapeHtml(topicLabel(r))}${herkunftKurz(r)}</span>
+          </span>
+          <span class="liste-neben">
+            ${r.ist_test ? '<span class="liste-test">Testeintrag</span>' : ''}
+            <span class="liste-zeit">${formatDate(r.created_at)}</span>
+            ${r.fremd ? `<span class="liste-zeit">${escapeHtml(r.berater_name || 'anderer Bestand')}</span>` : ''}
+          </span>
+          ${r.fremd ? '<span></span>' : `<span class="liste-pfeil">${icon('ChevronRight', { size: 15 })}</span>`}`;
+        const merkmale = `data-id="${escapeHtml(r.id)}" data-status="${escapeHtml(r.status || 'offen')}"${ton ? ` data-ton="${ton}"` : ''}`;
         return r.fremd
-          ? `<div class="ep-row feed-row ep-row-fremd" data-id="${escapeHtml(r.id)}" data-status="${escapeHtml(r.status || 'offen')}">${inhalt}</div>`
-          : `<a class="ep-row feed-row" href="detail.html?id=${encodeURIComponent(r.id)}" data-id="${escapeHtml(r.id)}" data-status="${escapeHtml(r.status || 'offen')}">${inhalt}</a>`;
-      }).join('') + '</div>';
-    }
+          ? `<div class="liste-zeile" ${merkmale}>${inhalt}</div>`
+          : `<a class="liste-zeile" href="detail.html?id=${encodeURIComponent(r.id)}" ${merkmale}>${inhalt}</a>`;
+      };
 
-    /* Die Herkunft steht in derselben Zeile wie das Thema. Bei einer
-       Empfehlung ist das der Promoter, bei einem Lead die Funnel-Seite,
-       farbig abgesetzt: so sieht man es beim Ueberfliegen. */
-    function herkunftHtml(r) {
-      if (!istLead(r)) {
-        return `Promoter: ${escapeHtml(r.empfehler_name || 'nicht angegeben')}`;
-      }
-      return `<span class="ep-herkunft" style="--marke-ton:${escapeHtml(quelleTon(r.quelle))}"><i></i>${escapeHtml(quelleLabel(r.quelle))}</span>`;
+      // Nach Alter gruppiert. Eine Gruppe ohne Eintraege faellt weg.
+      list.innerHTML = '<div class="liste-block">' + GRUPPEN.map(([schluessel, titel]) => {
+        const teil = visibleItems.filter(r => gruppeVon(r.created_at) === schluessel);
+        if (!teil.length) return '';
+        return `<div class="liste-gruppe"><span>${titel}</span><b>${teil.length}</b></div>` + teil.map(zeile).join('');
+      }).join('') + '</div>';
     }
 
     /* Die Herkunfts-Reiter erscheinen erst, wenn wirklich Leads da sind.
@@ -313,8 +344,8 @@
         quellenTabs.hidden = true;
         return;
       }
-      artTabs.querySelectorAll('.filter-tab').forEach((b) => {
-        b.classList.toggle('active', b.dataset.art === currentArt);
+      artTabs.querySelectorAll('[data-art]').forEach((b) => {
+        b.setAttribute('aria-pressed', String(b.dataset.art === currentArt));
       });
 
       const zeigen = currentArt === 'funnel';
@@ -325,12 +356,12 @@
       quellenTabs.innerHTML = [['alle', `alle Funnels (${leads.length})`]]
         .concat(vorhanden.map(q => [q, `${quelleLabel(q)} (${leads.filter(r => r.quelle === q).length})`]))
         .map(([key, label]) => `
-          <button class="ep-quelle${key === currentQuelle ? ' active' : ''}" type="button" data-quelle="${escapeHtml(key)}">${escapeHtml(label)}</button>`)
+          <button type="button" data-quelle="${escapeHtml(key)}" aria-pressed="${key === currentQuelle}">${escapeHtml(label)}</button>`)
         .join('');
     }
 
     document.getElementById('artTabs').addEventListener('click', (e) => {
-      const btn = e.target.closest('.filter-tab');
+      const btn = e.target.closest('button[data-art]');
       if (!btn) return;
       currentArt = btn.dataset.art;
       if (currentArt !== 'funnel') currentQuelle = 'alle';
@@ -338,7 +369,7 @@
     });
 
     document.getElementById('quellenTabs').addEventListener('click', (e) => {
-      const btn = e.target.closest('.ep-quelle');
+      const btn = e.target.closest('button[data-quelle]');
       if (!btn) return;
       currentQuelle = btn.dataset.quelle;
       render();
@@ -346,10 +377,18 @@
 
     function renderFilters() {
       const counts = Object.fromEntries(FILTERS.map(([key]) => [key, key === 'alle' ? allItems.length : allItems.filter(r => effectiveStatus(r) === key).length]));
-      document.getElementById('filterTabs').innerHTML = FILTERS.map(([key, label]) => `
-        <button class="filter-tab${currentFilter === key ? ' active' : ''}" type="button" data-filter="${key}" aria-pressed="${currentFilter === key}">
-          ${label}<span>${counts[key]}</span>
-        </button>`).join('');
+      const knopf = ([key, label]) => `
+        <button type="button" data-filter="${key}" aria-pressed="${currentFilter === key}">
+          ${label} <b>${counts[key]}</b>
+        </button>`;
+      document.getElementById('filterTabs').innerHTML =
+        FILTERS.filter(([key]) => FILTER_SICHTBAR.has(key)).map(knopf).join('');
+      document.getElementById('filterTabsMehr').innerHTML =
+        FILTERS.filter(([key]) => !FILTER_SICHTBAR.has(key)).map(knopf).join('');
+      // Ein ausgewaehlter Filter darf nicht hinter einer zugeklappten
+      // Flaeche verschwinden: sonst sucht man den Grund fuer die kurze
+      // Liste und findet ihn nicht.
+      if (!FILTER_SICHTBAR.has(currentFilter)) zeigeMehr(true);
     }
 
     function renderPriorities() {
@@ -359,23 +398,61 @@
         .sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0))
         .slice(0, 4);
       prioritySection.hidden = priorityItems.length === 0 || currentFilter !== 'alle' || Boolean(currentSearch);
+      obenSchon = prioritySection.hidden ? new Set() : new Set(priorityItems.map(r => String(r.id)));
+      document.getElementById('prioMeta').textContent =
+        priorityItems.length ? `${priorityItems.length} von ${allItems.length}` : '';
+      /* Frueher stand hier eine Karte mit einem ausformulierten Satz, der
+         auf jeder Karte gleich lief. Jetzt eine Zeile: Name, Zustand,
+         Thema, und daneben das, was man tun kann. */
       document.getElementById('priorityList').innerHTML = priorityItems.map(r => {
-        const interested = effectiveStatus(r) === 'interessiert';
+        const zustand = effectiveStatus(r) === 'interessiert' ? 'Interessiert' : 'Anrufwunsch';
         const phone = String(r.empfaenger_telefon || '').trim();
         const phoneHref = phone ? `tel:${phone.replace(/[^+\d]/g, '')}` : '';
-        return `<article class="ep-lead${interested ? ' interest' : ''}">
-          <div class="ep-lead-top">
-            <div class="ep-lead-person"><span class="ep-lead-initial">${initials(r.empfaenger_name)}</span><span><strong>${escapeHtml(r.empfaenger_name || 'Unbekannter Kontakt')}</strong><small>${formatDate(r.created_at)} · über ${escapeHtml(r.empfehler_name || 'unbekannt')}</small></span></div>
-            <span class="ep-lead-badge">${interested ? 'Interesse' : 'Anrufwunsch'}</span>
-          </div>
-          <p>${escapeHtml(r.empfaenger_name || 'Der Kontakt')} interessiert sich für <strong>${escapeHtml(topicLabel(r))}</strong>${phone ? ' und hat eine Telefonnummer angegeben.' : '.'}</p>
-          <div class="ep-lead-actions">
-            ${phoneHref ? `<a class="ep-action primary" href="${phoneHref}">${icon('PhoneCall', { size: 15 })} Jetzt anrufen</a>` : ''}
-            ${phone ? `<a class="ep-action" href="${whatsappLink(phone)}" target="_blank" rel="noopener">WhatsApp</a>` : ''}
-            <a class="ep-action" href="detail.html?id=${encodeURIComponent(r.id)}">Details</a>
-          </div>
-        </article>`;
+        return `<div class="liste-dringend" data-ton="achtung">
+          <span class="liste-kreis">${initials(r.empfaenger_name)}</span>
+          <span class="liste-mitte">
+            <span class="liste-name gross">${escapeHtml(r.empfaenger_name || 'Unbekannter Kontakt')}</span>
+            <span class="liste-zeile2"><b class="liste-zustand">${zustand}</b><span class="liste-punkt">·</span>${escapeHtml(topicLabel(r))}${herkunftKurz(r)}</span>
+          </span>
+          <span class="liste-tuen">
+            ${phoneHref
+              ? `<a class="liste-tun haupt" href="${phoneHref}">${icon('PhoneCall', { size: 14 })} Anrufen</a>
+                 <a class="liste-tun" href="${whatsappLink(phone)}" target="_blank" rel="noopener">WhatsApp</a>`
+              : '<span class="liste-tun leer">Keine Nummer</span>'}
+            <a class="liste-tun" href="detail.html?id=${encodeURIComponent(r.id)}">Details</a>
+          </span>
+        </div>`;
       }).join('');
+    }
+
+    /* Die Herkunft in der kurzen Fassung. Steht der Promotername nicht in
+       der Empfehlung, steht hier nichts: "ueber unbekannt" auf jeder
+       zweiten Zeile ist keine Auskunft, sondern Fuellung. */
+    function herkunftKurz(r) {
+      if (istLead(r)) return `<span class="liste-punkt">·</span>${escapeHtml(quelleLabel(r.quelle))}`;
+      const name = String(r.empfehler_name || '').trim();
+      return name ? `<span class="liste-punkt">·</span>von ${escapeHtml(name)}` : '';
+    }
+
+    /* Wie alt ein Kontakt ist, in drei Stufen. Vierzig gleich hohe Zeilen
+       ohne Zwischenkopf sind eine graue Wand. */
+    const GRUPPEN = [['heute', 'Heute'], ['woche', 'Diese Woche'], ['aelter', 'Älter']];
+    function gruppeVon(iso) {
+      const d = new Date(iso || 0);
+      if (Number.isNaN(d.getTime())) return 'aelter';
+      const heute = new Date();
+      const tagAnfang = new Date(heute.getFullYear(), heute.getMonth(), heute.getDate());
+      if (d >= tagAnfang) return 'heute';
+      if (d >= new Date(tagAnfang.getTime() - 7 * 864e5)) return 'woche';
+      return 'aelter';
+    }
+
+    /* Der Ton einer Zeile: etwas verlangt Aufmerksamkeit, etwas ist
+       gelungen, alles andere bleibt still. */
+    function tonVon(status) {
+      if (['anrufwunsch', 'interessiert'].includes(status)) return 'achtung';
+      if (status === 'kunde') return 'kunde';
+      return '';
     }
 
     function matchesCurrentView(r) {
@@ -399,11 +476,10 @@
       return 'offen';
     }
 
-    function statusPill(r) {
-      const status = effectiveStatus(r);
-      const labels = { offen: 'Offen', anrufwunsch: 'Anrufwunsch', interessiert: 'Interesse', kontaktiert: 'Kontaktiert', kunde: 'Kunde', kein_interesse: 'Kein Interesse' };
-      return `<span class="ep-state ${status}">${labels[status] || status}</span>`;
-    }
+    const STATUS_TEXT = {
+      offen: 'Offen', anrufwunsch: 'Anrufwunsch', interessiert: 'Interessiert',
+      kontaktiert: 'Kontaktiert', kunde: 'Kunde', kein_interesse: 'Kein Interesse',
+    };
 
     function topicLabel(r) {
       if (r.vorlage_slug) return THEMA_LABELS[r.vorlage_slug] || r.vorlage_slug;
@@ -441,7 +517,7 @@
       ctxMenu.hidden = true;
       ctxTarget = null;
       // aktive Markierung auf der Zeile entfernen
-      document.querySelectorAll('.feed-row.ctx-active').forEach(el => el.classList.remove('ctx-active'));
+      document.querySelectorAll('.liste-zeile.ctx-active').forEach(el => el.classList.remove('ctx-active'));
     }
 
     function openCtx(x, y, row) {
@@ -463,7 +539,7 @@
     }
 
     document.getElementById('list').addEventListener('contextmenu', (e) => {
-      const row = e.target.closest('.feed-row');
+      const row = e.target.closest('.liste-zeile');
       if (!row) return;
       e.preventDefault();
       openCtx(e.clientX, e.clientY, row);
