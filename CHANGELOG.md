@@ -1,7 +1,21 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.354 Beta** · Nachzug: eine Fassung je Datei, live seit 09.09.2026.
+Offizielle Live-Version: **v1.355 Beta** · Das Auswahlfeld erscheint auch wirklich, live seit 09.09.2026.
+
+## v1.355 Beta - Phase 340 · Das Auswahlfeld erscheint auch wirklich
+**2026-09-09**
+
+Phase 338 hat das Auswahlfeld für die Beraterzuordnung gebaut, aber es war nie zu sehen. Kai bekam weiter den festen Text "Zugeordnet zu Kai Blobel".
+
+Die Ursache lag in der Ladereihenfolge. Beim Öffnen der Seite wird zuerst die Teilnehmerliste gezeichnet und erst danach die Beraterliste geholt. Das Auswahlfeld fällt aber bewusst auf den festen Namen zurück, solange keine Berater bekannt sind, und danach wurde nie neu gezeichnet. Also stand dort für immer der alte Text.
+
+Jetzt wird die Beraterliste geladen, bevor gezeichnet wird, und zwar abgewartet statt nebenher gestartet. Nebenher heißt nur "zur gleichen Zeit begonnen", nicht "vorher fertig", und genau daran wäre die Behebung sonst noch einmal gescheitert. Dazu ein Sicherheitsnetz: Wird die Liste doch erst später gefüllt, wird einmal neu gezeichnet.
+
+Der eigentliche Fehler war der Nachweis. Gemessen wurde, dass die Datei mit der neuen Funktion ausgeliefert wird, und das für einen Funktionsnachweis gehalten. Dieselbe Verwechslung wie bei Phase 321 mit dem Häkchen: Eine ausgelieferte Datei sagt nichts darüber, ob im Browser etwas ankommt. Was in diesem Fall trägt, ist nur, dass Kai die Seite öffnet und nachsieht.
+
+Drei Wächter halten die Reihenfolge fest, alle Gegenproben rot gesehen. Sie sind Textmuster, kein Browser-Test, und fangen genau diesen Rückfall.
+
 
 ## v1.354 Beta - Phase 339 · Nachzug: eine Fassung je Datei
 **2026-09-09**
@@ -1915,9 +1929,9 @@ Dazu ein Werkzeug: `node tools/version-setzen.mjs "Titel der Phase"` zieht Versi
 - Promoter-Auswahl aktualisiert: **Anika Biebrach** ist deaktiviert, **Anja Scholz** (zählt für Sven Augustin) und **Sandra Röhrens** (zählt für Claudius Tusche) sind neu. David Stamm bleibt unverändert.
 - Die Datenbankmigrationen sind angewendet: `phase_192_kidz_schaetzung_nacherfassung` (Datei `schema-phase200.sql`) und `phase_199_kidz_schaetzfenster` (Datei `schema-phase200-schaetzfenster.sql`). Die Migrationsnamen stammen aus einer früheren Nummerierung, weil parallel weitere Phasen auf `main` gelandet sind. Sie ergänzt die Schätzspalten, lässt Fassung 5 zu, legt den Nacherfassungsweg an und stellt die Promoter um. Sie muss vor der Veröffentlichung des Codes laufen; die bisherige Fassung 4 bleibt dabei gültig, es entsteht also kein Ausfallfenster.
 
-Offizielle Live-Version: **v1.354 Beta** · Nachzug: eine Fassung je Datei, live seit 09.09.2026.
+Offizielle Live-Version: **v1.355 Beta** · Das Auswahlfeld erscheint auch wirklich, live seit 09.09.2026.
 
-Offizielle Live-Version: **v1.354 Beta** · Nachzug: eine Fassung je Datei, live seit 09.09.2026.
+Offizielle Live-Version: **v1.355 Beta** · Das Auswahlfeld erscheint auch wirklich, live seit 09.09.2026.
 
 ---
 

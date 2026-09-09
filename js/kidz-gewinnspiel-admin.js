@@ -289,6 +289,36 @@ function appendParticipantFilterGroup(label, choices, kind) {
   advisorFilter.append(group);
 }
 
+/**
+ * Die Berater fuer das Zuordnungs-Auswahlfeld holen.
+ *
+ * Muss laufen, BEVOR die Liste zum ersten Mal gezeichnet wird. Sonst faellt
+ * zuordnungsFeld() auf den festen Namen zurueck, und das Auswahlfeld erscheint
+ * gar nicht. Genau das ist nach Phase 338 passiert: Die Liste wurde erst im
+ * Filteraufbau geholt, also nach dem Zeichnen, und danach wurde nie wieder
+ * gezeichnet.
+ *
+ * Promoter fliegen raus: Sie stehen in derselben Auswahlliste, laden aber nur
+ * ein und betreuen nicht. Die Datenbank weist sie ohnehin ab.
+ *
+ * Bei einem Fehler bleibt die Liste leer, dann steht wie bisher der feste Name
+ * da. Lieber kein Auswahlfeld als ein leeres.
+ */
+async function ladeBeraterAuswahl() {
+  try {
+    const response = await fetch('/api/kidz-advisors', { headers: { Accept: 'application/json' } });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const payload = await response.json();
+    const choices = Array.isArray(payload.advisors) ? payload.advisors : [];
+    beraterAuswahl = choices
+      .filter((choice) => !String(choice.slug || '').startsWith('promoter-'))
+      .sort((a, b) => String(a.name || '').localeCompare(String(b.name || ''), 'de'));
+  } catch (error) {
+    console.warn('[kidz-berater-auswahl]', error);
+    beraterAuswahl = [];
+  }
+}
+
 function participantCatalogFromEntries() {
   const advisors = [...new Map(entries
     .filter((entry) => entry.berater?.slug)
@@ -333,10 +363,14 @@ async function configureParticipantFilter() {
   }
 
   const byName = (a, b) => String(a.name || '').localeCompare(String(b.name || ''), 'de');
-  // Dieselbe Liste braucht die Karte, um die Zuordnung anbieten zu koennen.
-  beraterAuswahl = [...catalog.advisors].sort(byName);
+  // Falls die Liste beim Start nicht geladen werden konnte, hier noch einmal.
+  if (!beraterAuswahl.length) beraterAuswahl = [...catalog.advisors].sort(byName);
   appendParticipantFilterGroup('Vermögensberater', catalog.advisors.sort(byName), 'advisor');
   appendParticipantFilterGroup('Promoter', catalog.promoters.sort(byName), 'promoter');
+
+  // Sicherheitsnetz: Wurde die Liste erst hier gefuellt, traegt die bereits
+  // gezeichnete Karte noch den festen Namen statt des Auswahlfelds.
+  render();
 }
 
 async function copyPersonalInviteLink() {
@@ -749,6 +783,11 @@ const session = await requireAuth();
 if (session) {
   try {
     currentAdvisor = await getCurrentBerater();
+    // Die Beraterliste muss FERTIG sein, bevor die Liste gezeichnet wird, sonst
+    // faellt das Auswahlfeld fuer die Zuordnung auf den festen Namen zurueck.
+    // Deshalb hier nacheinander und nicht nebenher: Nebenher hiesse nur "zur
+    // gleichen Zeit gestartet", nicht "vorher fertig".
+    await ladeBeraterAuswahl();
     await Promise.all([
       loadEntries(),
       loadPageviews().catch((error) => {
