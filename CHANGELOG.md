@@ -1,7 +1,27 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.352 Beta** · Kein Erfolgshaken über dem Abschluss, live seit 06.09.2026.
+Offizielle Live-Version: **v1.353 Beta** · Zuordnung von Hand ändern, live seit 09.09.2026.
+
+## v1.353 Beta - Phase 338 · Zuordnung von Hand ändern
+**2026-09-09**
+
+Nach dem Sommerfest liegen 225 Kontakte in der Liste, 170 davon beim Vorgabeberater. Das ist kein Zufall: 115 kamen über den allgemeinen Link ohne Beraterauswahl, 56 über den QR-Code am Fest, und die 44 nacherfassten Papierzettel wurden beim Abtippen alle demselben Konto zugeordnet. Nur 9 Anmeldungen kamen über einen persönlichen Beraterlink und sind damit sauber zugeordnet. Das ist die eigentliche Lehre fürs nächste Fest.
+
+Wer wen kennt, weiß nur das Team. Deshalb wird die Liste im Meeting durchgegangen und von Hand zugeordnet. Dafür steht auf jeder Karte jetzt ein Auswahlfeld statt eines festen Namens, sichtbar nur für Administratoren.
+
+Zwei Entscheidungen, die den Ablauf im Meeting betreffen. Es gibt keine Rückfrage beim Umhängen: Bei 170 Kontakten wäre ein Bestätigungsdialog eine Qual, und anders als beim Häkchen für KIDZ for Future geht es nicht um eine Einwilligung, sondern um eine interne Zuständigkeit. Und die Liste springt nicht: Nach dem Speichern bekommt die Karte nur einen Vermerk, sortiert wird beim nächsten Laden. Sonst verschwindet der gerade bearbeitete Eintrag unter den Fingern, sobald man nach einem Berater gefiltert hat.
+
+Geschrieben wird über eine Funktion in der Datenbank, nicht über ein Spaltenrecht. Mit einem Recht auf `berater_id` könnte sich jeder Berater fremde Kontakte zuschreiben. Die Funktion prüft selbst und lässt nur Administratoren durch.
+
+Unangetastet bleibt, wer eingeladen hat. `empfehler_id` wird beim Umhängen nicht verändert, sonst verlieren die Promoter die Zurechnung ihrer Arbeit. Und Promoter selbst lassen sich nicht als Betreuer eintragen, obwohl sie in derselben Auswahlliste stehen: Ein Promoter lädt ein, er betreut nicht.
+
+Vier Fälle gegen die echte Datenbank durchgespielt und zurückgerollt: Ein Administrator hängt um und der Wert steht danach wirklich in der Tabelle, ein Promoter-Schlüssel wird abgewiesen, ein unbekannter Schlüssel ebenso, und ein Berater ohne Admin-Recht bekommt `forbidden`. Die Zuordnung des Einladenden blieb dabei unverändert.
+
+Drei Wächter, alle Gegenproben rot gesehen. Darunter zum vierten Mal dieselbe Falle: Der Vermerk an der Karte ist ein `span`, und für `span` steht in dieser Datei `display: block`. Ohne eigene Regel stünde er dauerhaft an jeder Karte.
+
+Datenbank: `schema-phase338-kidz-zuordnung-aendern.sql`, angewendet am 09.09.2026 als `phase_338_kidz_zuordnung_aendern`.
+
 
 ## v1.352 Beta - Phase 337 · Kein Erfolgshaken über dem Abschluss
 **2026-09-06**
@@ -1883,9 +1903,9 @@ Dazu ein Werkzeug: `node tools/version-setzen.mjs "Titel der Phase"` zieht Versi
 - Promoter-Auswahl aktualisiert: **Anika Biebrach** ist deaktiviert, **Anja Scholz** (zählt für Sven Augustin) und **Sandra Röhrens** (zählt für Claudius Tusche) sind neu. David Stamm bleibt unverändert.
 - Die Datenbankmigrationen sind angewendet: `phase_192_kidz_schaetzung_nacherfassung` (Datei `schema-phase200.sql`) und `phase_199_kidz_schaetzfenster` (Datei `schema-phase200-schaetzfenster.sql`). Die Migrationsnamen stammen aus einer früheren Nummerierung, weil parallel weitere Phasen auf `main` gelandet sind. Sie ergänzt die Schätzspalten, lässt Fassung 5 zu, legt den Nacherfassungsweg an und stellt die Promoter um. Sie muss vor der Veröffentlichung des Codes laufen; die bisherige Fassung 4 bleibt dabei gültig, es entsteht also kein Ausfallfenster.
 
-Offizielle Live-Version: **v1.352 Beta** · Kein Erfolgshaken über dem Abschluss, live seit 06.09.2026.
+Offizielle Live-Version: **v1.353 Beta** · Zuordnung von Hand ändern, live seit 09.09.2026.
 
-Offizielle Live-Version: **v1.352 Beta** · Kein Erfolgshaken über dem Abschluss, live seit 06.09.2026.
+Offizielle Live-Version: **v1.353 Beta** · Zuordnung von Hand ändern, live seit 09.09.2026.
 
 ---
 
