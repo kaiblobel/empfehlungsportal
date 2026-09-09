@@ -56,6 +56,9 @@ const guessSaveBtn = document.getElementById('guessSaveBtn');
 const guessCancelBtn = document.getElementById('guessCancelBtn');
 let entries = [];
 let currentAdvisor = null;
+// Die Berater fuer das Zuordnungs-Auswahlfeld auf der Karte. Wird beim Aufbau
+// des Filters gefuellt, aus derselben Quelle.
+let beraterAuswahl = [];
 let pageviewStats = { total: 0, whatsapp: 0 };
 let selectedParticipantId = '';
 let guessParticipantId = '';
@@ -118,7 +121,7 @@ function render() {
     <article class="kg-admin-entry">
       <div><strong>${escapeHtml(entry.name)}</strong>${entry.ist_test ? '<span class="badge badge-test">Test</span>' : ''}<span>${escapeHtml(entry.reference)}</span></div>
       <div><strong>${escapeHtml(entry.email || entry.telefon || 'Kein Kontaktweg')}</strong><span>${escapeHtml(entry.email && entry.telefon ? entry.telefon : '')}</span></div>
-      <div><small>Zugeordnet zu</small><strong>${escapeHtml(entry.berater?.name || 'Kai Blobel')}</strong>${entry.empfehler?.name ? `<span>Eingeladen von ${escapeHtml(entry.empfehler.name)}</span>` : ''}</div>
+      <div><small>Zugeordnet zu</small>${zuordnungsFeld(entry)}${entry.empfehler?.name ? `<span>Eingeladen von ${escapeHtml(entry.empfehler.name)}</span>` : ''}<span class="kg-admin-assign-hinweis" data-assign-note="${escapeHtml(entry.id)}" hidden></span></div>
       <div><small>${escapeHtml(formatDate(entry.created_at))}</small><span>${escapeHtml(sourceLabel(entry.source))}</span>${entry.begleitpersonen === null || entry.begleitpersonen === undefined ? '' : `<span>${1 + entry.begleitpersonen} ${1 + entry.begleitpersonen === 1 ? 'Person' : 'Personen'}</span>`}</div>
       <div>
         ${entry.source === ONSITE_SOURCE ? '<span class="kg-admin-badge kg-admin-badge-onsite">Vor Ort · Papier</span>' : ''}
@@ -129,6 +132,84 @@ function render() {
     </article>
   `;
   }).join('');
+}
+
+/**
+ * Die Zuordnung auf der Karte.
+ *
+ * Fuer Administratoren ein Auswahlfeld, sonst der Name als Text. Nach dem Fest
+ * lagen 170 von 225 Kontakten beim Vorgabeberater, weil die meisten sich ueber
+ * den allgemeinen Link angemeldet haben. Wer wen kennt, weiss nur das Team,
+ * deshalb wird die Liste im Meeting durchgegangen und von Hand zugeordnet.
+ */
+function zuordnungsFeld(entry) {
+  const name = entry.berater?.name || 'Kai Blobel';
+  if (!currentAdvisor?.ist_admin || !beraterAuswahl.length) {
+    return `<strong>${escapeHtml(name)}</strong>`;
+  }
+  const aktuell = String(entry.berater?.slug || '');
+  const optionen = beraterAuswahl
+    .map((b) => `<option value="${escapeHtml(b.slug)}"${b.slug === aktuell ? ' selected' : ''}>${escapeHtml(b.name)}</option>`)
+    .join('');
+  const fehlt = beraterAuswahl.some((b) => b.slug === aktuell)
+    ? ''
+    : `<option value="" selected>${escapeHtml(name)}</option>`;
+  return `<select class="kg-admin-assign" data-assign-participant="${escapeHtml(entry.id)}" aria-label="Zugeordnet zu, änderbar">${fehlt}${optionen}</select>`;
+}
+
+/**
+ * Eine Zuordnung aendern.
+ *
+ * Ohne Rueckfrage: Bei 170 Kontakten waere ein Bestaetigungsdialog eine Qual,
+ * und anders als beim Haekchen fuer KIDZ for Future geht es hier nicht um eine
+ * Einwilligung, sondern um eine interne Zustaendigkeit. Ein Fehlgriff ist mit
+ * einer zweiten Auswahl behoben.
+ *
+ * Die Liste wird bewusst NICHT neu aufgebaut. Wer nach einem Berater gefiltert
+ * hat, verliert sonst mitten im Durchgang die Stelle, weil der gerade bearbeitete
+ * Eintrag unter den Fingern verschwindet. Die Karte bekommt nur einen Vermerk,
+ * sortiert wird beim naechsten Laden.
+ */
+async function assignParticipant(participantId, slug, feld) {
+  const eintrag = entries.find((item) => item.id === participantId);
+  const notiz = document.querySelector(`[data-assign-note="${CSS.escape(participantId)}"]`);
+  const zeigen = (text, art) => {
+    if (!notiz) return;
+    notiz.textContent = text;
+    notiz.dataset.art = art;
+    notiz.hidden = false;
+  };
+  if (!eintrag || !slug) return;
+  const vorher = String(eintrag.berater?.slug || '');
+  if (slug === vorher) return;
+
+  feld.disabled = true;
+  zeigen('wird gespeichert ...', 'wartet');
+  try {
+    const { data, error } = await supabase.rpc('set_kidz_gewinnspiel_berater', {
+      p_participation_id: participantId,
+      p_berater_slug: slug,
+    });
+    if (error) throw error;
+    if (!data?.ok) {
+      const grund = {
+        forbidden: 'Nur Administratoren dürfen die Zuordnung ändern.',
+        not_found: 'Die Anmeldung wurde nicht gefunden. Bitte die Liste neu laden.',
+        invalid_advisor: 'Dieser Name ist kein aktiver Berater.',
+      }[data?.reason] || 'Die Zuordnung konnte nicht gespeichert werden.';
+      feld.value = vorher;
+      zeigen(grund, 'fehler');
+      return;
+    }
+    const gewaehlt = beraterAuswahl.find((b) => b.slug === slug);
+    eintrag.berater = { name: data.berater || gewaehlt?.name || '', slug };
+    zeigen(`gespeichert, jetzt bei ${data.berater || gewaehlt?.name || 'dem neuen Berater'}`, 'fertig');
+  } catch (error) {
+    feld.value = vorher;
+    zeigen(error.message || 'Die Zuordnung konnte nicht gespeichert werden.', 'fehler');
+  } finally {
+    feld.disabled = false;
+  }
 }
 
 function renderPageviews() {
@@ -252,6 +333,8 @@ async function configureParticipantFilter() {
   }
 
   const byName = (a, b) => String(a.name || '').localeCompare(String(b.name || ''), 'de');
+  // Dieselbe Liste braucht die Karte, um die Zuordnung anbieten zu koennen.
+  beraterAuswahl = [...catalog.advisors].sort(byName);
   appendParticipantFilterGroup('Vermögensberater', catalog.advisors.sort(byName), 'advisor');
   appendParticipantFilterGroup('Promoter', catalog.promoters.sort(byName), 'promoter');
 }
@@ -594,6 +677,12 @@ async function toggleInterest(participantId) {
     window.alert(error.message || 'Der Eintrag konnte nicht gespeichert werden.');
   }
 }
+
+entriesBox.addEventListener('change', (event) => {
+  const feld = event.target.closest('[data-assign-participant]');
+  if (!feld) return;
+  assignParticipant(String(feld.dataset.assignParticipant || ''), String(feld.value || ''), feld);
+});
 
 entriesBox.addEventListener('click', (event) => {
   const guessButton = event.target.closest('[data-guess-participant]');

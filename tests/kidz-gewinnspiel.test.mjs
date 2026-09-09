@@ -536,6 +536,39 @@ assert.match(css, /\.kg-success > div\[hidden\]\s*\{\s*display:\s*none/,
 assert.match(html, /id="kgSuccessMark"/);
 assert.match(js, /kgSuccessMark[\s\S]{0,80}hidden = true/);
 
+const adminCss = await read('css/kidz-gewinnspiel-admin.css');
+
+// Phase 338: Die Zuordnung laesst sich von Hand aendern, aber nur von
+// Administratoren. Ein Spaltenrecht auf berater_id waere hier die falsche
+// Antwort: Damit koennte sich jeder Berater fremde Kontakte zuschreiben.
+const zuordnung = (await read('schema-phase338-kidz-zuordnung-aendern.sql'))
+  .replace(/^--.*$/gm, '');
+assert.match(zuordnung, /create or replace function public\.set_kidz_gewinnspiel_berater/);
+assert.match(zuordnung, /security definer/);
+assert.match(zuordnung, /public\.is_current_berater_admin\(\)/);
+assert.match(zuordnung, /revoke execute on function public\.set_kidz_gewinnspiel_berater\(uuid, text\)[\s\S]*from public, anon, service_role/);
+assert.doesNotMatch(zuordnung, /grant update \(berater_id/,
+  'Der kurze Weg ueber ein Spaltenrecht bleibt zu.');
+// Wer eingeladen hat, ist Geschichte und wird von einer Umverteilung nicht
+// ueberschrieben. Sonst verlieren die Promoter die Zurechnung ihrer Arbeit.
+assert.doesNotMatch(zuordnung, /set[\s\S]{0,120}empfehler_id = /,
+  'empfehler_id darf beim Umhaengen nicht angefasst werden.');
+// Der Slug wird gegen public.berater aufgeloest, nicht gegen die Einladenden:
+// Ein Promoter laedt ein, er betreut nicht.
+assert.match(zuordnung, /from public\.berater b[\s\S]{0,120}ist_aktiv/);
+assert.doesNotMatch(zuordnung, /kidz_gewinnspiel_einladende/);
+
+assert.match(adminJs, /supabase\.rpc\('set_kidz_gewinnspiel_berater'/);
+assert.doesNotMatch(adminJs, /update\(\{ berater_id/,
+  'Die Zuordnung darf nicht direkt aus dem Browser geschrieben werden.');
+// Das Auswahlfeld erscheint nur fuer Administratoren.
+assert.match(adminJs, /ist_admin[\s\S]{0,120}return `<strong>\$\{escapeHtml\(name\)\}<\/strong>`/);
+
+// Die Falle mit hidden gilt auch hier: der Vermerk an der Karte ist ein span,
+// und fuer span steht weiter oben display: block.
+assert.match(adminCss, /\.kg-admin-entry span\[hidden\]\s*\{\s*display:\s*none/,
+  'Ohne diese Regel steht der Vermerk dauerhaft an jeder Karte.');
+
 // Phase 336: Anmeldeschluss, und die Sicht wieder eng.
 const schlussMigration = (await read('schema-phase336-kidz-anmeldeschluss.sql'))
   .replace(/^--.*$/gm, '');

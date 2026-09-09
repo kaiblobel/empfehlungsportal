@@ -29,6 +29,18 @@
 .kg-admin-entry strong { color: #24384c; font-size: 14px; }
 .kg-admin-entry span { margin-top: 3px; color: #747981; font-size: 12px; overflow-wrap: anywhere; }
 .kg-admin-entry small { color: #7a7e84; font-size: 11px; line-height: 1.45; }
+/* Das Auswahlfeld fuer die Zuordnung. Es steht an der Stelle, an der vorher der
+   Name stand, und soll sich auch bei 170 Kontakten hintereinander gut bedienen
+   lassen: volle Breite der Spalte, ausreichend hoch fuer den Finger. */
+.kg-admin-assign { width: 100%; min-height: 36px; margin-top: 2px; padding: 4px 8px; color: #24384c; background: #fff; border: 1px solid #d6d5cf; border-radius: 8px; font: inherit; font-size: 13px; cursor: pointer; }
+.kg-admin-assign:focus { border-color: #2d7fc1; outline: none; box-shadow: 0 0 0 3px rgba(45,127,193,.14); }
+.kg-admin-assign:disabled { color: #9aa0a6; background: #f6f6f4; cursor: wait; }
+.kg-admin-assign-hinweis { margin-top: 4px !important; font-size: 11px !important; font-weight: 700; }
+.kg-admin-assign-hinweis[data-art="fertig"] { color: #3b672a !important; }
+.kg-admin-assign-hinweis[data-art="wartet"] { color: #7a7e84 !important; }
+.kg-admin-assign-hinweis[data-art="fehler"] { color: #a3302e !important; }
+/* hidden verliert sonst gegen die display-Regel fuer span weiter oben. */
+.kg-admin-entry span[hidden] { display: none !important; }
 .kg-admin-badge { display: inline-flex !important; width: fit-content; margin-top: 5px !important; padding: 4px 8px; color: #3b672a !important; background: #eef7e8; border-radius: 999px; font-size: 10px !important; font-weight: 800; }
 .kg-admin-badge-none { color: #72767c !important; background: #f1f2f3; }
 .kg-admin-ticket { display: flex; align-items: center; gap: 7px; }
