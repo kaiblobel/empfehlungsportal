@@ -90,33 +90,49 @@ export function promNeu() {
   const rang = [...echt].filter((p) => p.gesamt || p.kunden)
     .sort((a, b) => b.kunden - a.kunden || b.gesamt - a.gesamt);
 
-  const zeile = (p) => '<a class="n-zeile" href="#" style="--ton:var(--marine)">'
-    + '<span class="n-kuerzel">' + esc(initialen(p.name)) + '</span>'
-    + '<span style="min-width:0"><span class="n-oben"><strong>' + esc(p.name) + '</strong>'
-    + (p.test ? '<span class="n-test">Testeintrag</span>' : '') + '</span>'
-    + '<span class="n-unten"><span><b class="n-zahl">' + p.kunden + '</b> Kunden aus ' + p.gesamt + ' Empfehlungen</span>'
-    + '<span class="n-punkt">·</span><span>' + esc(p.aktiv) + '</span></span></span>'
-    + '<span class="n-pfeil">' + icon('ChevronRight', { size: 15 }) + '</span></a>';
+  const zeile = (p) => '<a class="n2-zeile" href="#" style="--ton:var(--marine)">'
+    + '<span class="n2-kreis">' + esc(initialen(p.name)) + '</span>'
+    + '<span class="n2-mitte"><span class="n2-name">' + esc(p.name) + '</span>'
+    + '<span class="n2-zeile2">'
+    + (p.kunden
+      ? '<b class="n2-zustand">' + p.kunden + ' Kunden</b>'
+      : '<b class="n2-zustand leise">noch keine Kunden</b>')
+    + '<span class="n2-punkt">·</span>' + p.gesamt + ' Empfehlungen</span></span>'
+    + (p.test ? '<span class="n2-test">Testeintrag</span>' : '')
+    + '<span class="n2-zeit">' + esc(p.aktiv) + '</span>'
+    + '<span class="n2-pfeil">' + icon('ChevronRight', { size: 15 }) + '</span></a>';
+
+  const gruppe = (titel, liste) => liste.length
+    ? '<div class="n2-gruppe"><span>' + titel + '</span><b>' + liste.length + '</b></div>' + liste.map(zeile).join('')
+    : '';
+
+  const aktiv = PROMOTER.filter((p) => p.aktiv.includes('heute') || p.aktiv.includes('Tag'));
+  const ruhig = PROMOTER.filter((p) => !aktiv.includes(p) && p.gesamt > 0);
+  const still = PROMOTER.filter((p) => !aktiv.includes(p) && p.gesamt === 0);
 
   const zahl = (wert, label) => '<span class="n-zahl-block"><b>' + wert + '</b><span>' + label + '</span></span>';
 
-  return '<section class="n-kopf"><div>'
+  return '<section class="n2-kopf"><div>'
     + '<div class="h-label">Dein Empfehlungsnetzwerk</div><h1>Promoter</h1></div>'
     + '<a href="#">+ Neuer Promoter</a></section>'
-    + '<div class="n-leiste">'
-    + '<label class="n-suche">' + icon('Search', { size: 16 }) + '<input type="search" placeholder="Promoter suchen"></label>'
-    + '<div class="n-reiter"><button type="button" aria-pressed="true">Aktuell</button>'
+    + '<div class="n2-leiste">'
+    + '<label class="n2-suche">' + icon('Search', { size: 16 }) + '<input type="search" placeholder="Promoter suchen"></label>'
+    + '<div class="n2-reiter"><button type="button" aria-pressed="true">Aktuell</button>'
     + '<button type="button">Meiste Kunden</button><button type="button">Name</button></div>'
-    + '<button class="n-mehr" type="button" aria-expanded="false" id="promMehr">Rangliste und Zahlen</button>'
-    + '<div class="n-weitere n-spalte" id="promWeitere">'
+    + '<button class="n2-mehr" type="button" aria-expanded="false" id="promMehr">Rangliste und Zahlen</button>'
+    + '<div class="n2-weitere n-spalte" id="promWeitere">'
     + '<div class="n-zahlen">' + zahl(echt.length, 'Promoter') + zahl(gesamt, 'Empfehlungen')
     + zahl(kunden, 'Kunden') + zahl(Math.round((kunden / gesamt) * 100) + ' %', 'Quote')
     + '<span class="n-fussnote">ohne Testeinträge gerechnet</span></div>'
     + '<ol class="n-rangliste">'
     + rang.slice(0, 5).map((p) => '<li><b>' + esc(p.name) + '</b> · ' + p.kunden + ' Kunden aus ' + p.gesamt + ' Empfehlungen</li>').join('')
     + '</ol></div></div>'
-    + '<div class="n-abschnitt"><h2>Dein Netzwerk</h2><span>' + PROMOTER.length + ' Promoter</span></div>'
-    + '<div class="n-liste">' + PROMOTER.map(zeile).join('') + '</div>';
+    + '<div class="n2-abschnitt"><h2>Dein Netzwerk</h2><span>' + PROMOTER.length + ' Promoter</span></div>'
+    + '<div class="n2-liste">'
+    + gruppe('Diese Woche aktiv', aktiv)
+    + gruppe('Länger ruhig', ruhig)
+    + gruppe('Noch ohne Empfehlung', still)
+    + '</div>';
 }
 
 export const PROM_BEFUND = '<strong>Befund Promoter.</strong> Bis zur ersten Promoter-Karte stehen'

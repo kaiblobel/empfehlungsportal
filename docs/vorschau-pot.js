@@ -88,51 +88,50 @@ export function potNeu() {
 
   const ton = (k) => (k.faellig === 'ueberfaellig' ? 'var(--burnt-orange)' : 'var(--terracotta)');
 
-  const dringendZeile = (k) => '<div class="n-dringend-zeile" style="--ton:' + ton(k) + '">'
-    + '<span class="n-kuerzel">' + esc(initialen(k.name)) + '</span>'
-    + '<span style="min-width:0"><span class="n-name">' + esc(k.name) + '</span>'
-    + '<span class="n-satz"><b>' + esc(faelligText(k)) + '</b> · ' + esc(k.staerke) + ' · ' + esc(k.kreis) + '</span></span>'
-    + '<span class="n-tuen">'
-    + (k.tel ? '<a class="n-tun haupt" href="#">' + icon('PhoneCall', { size: 14 }) + ' Anrufen</a>' : '<span class="n-tun">Keine Nummer</span>')
-    + '<a class="n-tun" href="#">Vorbereiten</a></span></div>';
+  const dringendZeile = (k) => '<div class="n2-dringend" style="--ton:' + ton(k) + '">'
+    + '<span class="n2-kreis">' + esc(initialen(k.name)) + '</span>'
+    + '<span class="n2-mitte"><span class="n2-name gross">' + esc(k.name) + '</span>'
+    + '<span class="n2-zeile2"><b>' + esc(faelligText(k)) + '</b> · ' + esc(k.staerke) + ' · ' + esc(k.kreis) + '</span></span>'
+    + '<span class="n2-tuen">'
+    + (k.tel ? '<a class="n2-tun haupt" href="#">' + icon('PhoneCall', { size: 14 }) + ' Anrufen</a>' : '<span class="n2-tun">Keine Nummer</span>')
+    + '<a class="n2-tun" href="#">Vorbereiten</a></span></div>';
 
-  const zeile = (k) => '<a class="n-zeile" href="#" style="--ton:var(--marine)">'
-    + '<span class="n-kuerzel">' + esc(initialen(k.name)) + '</span>'
-    + '<span style="min-width:0"><span class="n-oben"><strong>' + esc(k.name) + '</strong>'
-    + '<span class="n-marke"><i></i>' + esc(k.staerke) + '</span></span>'
-    + '<span class="n-unten"><span>' + esc(k.kreis) + '</span>'
-    + '<span class="n-punkt">·</span><span>' + esc(k.status) + '</span>'
-    + (k.faellig === 'spaeter' ? '<span class="n-punkt">·</span><span>ab ' + esc(k.faelligDatum) + '</span>' : '')
+  const zeile = (k) => '<a class="n2-zeile" href="#" style="--ton:var(--marine)">'
+    + '<span class="n2-kreis">' + esc(initialen(k.name)) + '</span>'
+    + '<span class="n2-mitte"><span class="n2-name">' + esc(k.name) + '</span>'
+    + '<span class="n2-zeile2"><b class="n2-zustand">' + esc(k.staerke) + '</b><span class="n2-punkt">·</span>' + esc(k.kreis)
+    + '<span class="n2-punkt">·</span><span>' + esc(k.status) + '</span>'
+    + (k.faellig === 'spaeter' ? '<span class="n2-punkt">·</span><span>ab ' + esc(k.faelligDatum) + '</span>' : '')
     + '</span>'
-    + (k.notiz ? '<details class="n-detail"><summary>Notiz</summary><p>' + esc(k.notiz) + '</p></details>' : '')
+    + (k.notiz ? '<details class="n2-detail"><summary>Notiz</summary><p>' + esc(k.notiz) + '</p></details>' : '')
     + '</span>'
-    + '<span class="n-pfeil">' + icon('ChevronRight', { size: 15 }) + '</span></a>';
+    + '<span class="n2-pfeil">' + icon('ChevronRight', { size: 15 }) + '</span></a>';
 
-  return '<section class="n-kopf"><div>'
+  return '<section class="n2-kopf"><div>'
     + '<div class="h-label">Beziehungen bewusst entwickeln</div><h1>Potenzialbuch</h1></div>'
     + '<a href="#">Kontakt eintragen</a></section>'
-    + '<div class="n-leiste">'
-    + '<label class="n-suche">' + icon('Search', { size: 16 }) + '<input type="search" placeholder="Name oder Kreis"></label>'
-    + '<div class="n-reiter"><button type="button" aria-pressed="true">Alle</button>'
+    + '<div class="n2-leiste">'
+    + '<label class="n2-suche">' + icon('Search', { size: 16 }) + '<input type="search" placeholder="Name oder Kreis"></label>'
+    + '<div class="n2-reiter"><button type="button" aria-pressed="true">Alle</button>'
     + '<button type="button">Heute und überfällig <b>' + dringend.length + '</b></button>'
     + '<button type="button">Im Gespräch</button></div>'
-    + '<button class="n-mehr" type="button" aria-expanded="false" id="potMehr">Weitere Filter</button>'
-    + '<div class="n-weitere n-spalte" id="potWeitere">'
+    + '<button class="n2-mehr" type="button" aria-expanded="false" id="potMehr">Weitere Filter</button>'
+    + '<div class="n2-weitere n-spalte" id="potWeitere">'
     + '<div class="n-zahlen">'
     + '<span class="n-zahl-block"><b>4</b><span>Offen</span></span>'
     + '<span class="n-zahl-block"><b>2</b><span>Im Gespräch</span></span>'
     + '<span class="n-zahl-block"><b>0</b><span>Im Cockpit</span></span></div>'
     + '<div class="n-filterreihe">'
-    + '<button class="n-mehr" type="button">Kontaktstärke</button>'
-    + '<button class="n-mehr" type="button">Kreise</button>'
-    + '<button class="n-mehr" type="button">Stand im Prozess</button>'
-    + '<button class="n-mehr" type="button">Mit Stimme anlegen</button></div>'
+    + '<button class="n2-mehr" type="button">Kontaktstärke</button>'
+    + '<button class="n2-mehr" type="button">Kreise</button>'
+    + '<button class="n2-mehr" type="button">Stand im Prozess</button>'
+    + '<button class="n2-mehr" type="button">Mit Stimme anlegen</button></div>'
     + '<p class="n-fussnote">Einträge aus dem Potenzialbuch zählen nicht zu Empfehlungen, Promotern oder Prämien.</p>'
     + '</div></div>'
-    + '<div class="n-abschnitt"><h2>Heute und überfällig</h2><span>' + dringend.length + ' von ' + KONTAKTE.length + '</span></div>'
-    + '<div class="n-dringend">' + dringend.map(dringendZeile).join('') + '</div>'
-    + '<div class="n-abschnitt"><h2>Alle weiteren</h2><span>' + rest.length + ' Kontakte</span></div>'
-    + '<div class="n-liste">' + rest.map(zeile).join('') + '</div>';
+    + '<div class="n2-abschnitt"><h2>Heute und überfällig</h2><span>' + dringend.length + ' von ' + KONTAKTE.length + '</span></div>'
+    + '<div class="n2-dringend-block">' + dringend.map(dringendZeile).join('') + '</div>'
+    + '<div class="n2-abschnitt"><h2>Alle weiteren</h2><span>' + rest.length + ' Kontakte</span></div>'
+    + '<div class="n2-liste">' + rest.map(zeile).join('') + '</div>';
 }
 
 export const POT_BEFUND = '<strong>Befund Potenzialbuch.</strong> Bis zum ersten Menschen stehen'

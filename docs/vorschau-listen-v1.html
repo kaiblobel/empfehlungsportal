@@ -114,6 +114,81 @@ body { margin: 0; background: var(--bg); font-family: Inter, -apple-system, Blin
 .n-rangliste { margin: 10px 0 0; padding-left: 20px; color: var(--ink-muted); font-size: 12.5px; line-height: 1.9; }
 .n-rangliste b { color: var(--ink); font-weight: 700; }
 .n-filterreihe { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+/* ------------------------------------------------ Entwurf, zweite Fassung */
+/* Schriftgewichte bleiben bei 300, 400 und 700: das haelt der Waechter
+   tests/familienaehnlichkeit fest, und es ist Kais Entscheidung fuer die
+   ganze Portal-Familie. */
+.n2-kopf { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.n2-kopf h1 { margin: 0; font-size: 30px; font-weight: 700; letter-spacing: -.03em; color: var(--ink); }
+.n2-kopf .h-label { margin-bottom: 5px; color: var(--accent-hover); font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.n2-kopf a { display: inline-flex; align-items: center; min-height: 42px; padding: 0 16px; border-radius: 10px; background: var(--ink); color: #fff; text-decoration: none; font-size: 12.5px; font-weight: 700; white-space: nowrap; }
+
+.n2-leiste { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 22px; }
+.n2-suche { flex: 1 1 210px; min-width: 0; height: 42px; display: flex; align-items: center; gap: 9px; padding: 0 13px; background: #fff; border: 1px solid var(--hairline); border-radius: 10px; color: var(--ink-soft); }
+.n2-suche input { min-width: 0; width: 100%; border: 0; outline: 0; background: transparent; font: 400 13px inherit; color: var(--ink); }
+.n2-reiter { display: flex; gap: 5px; overflow-x: auto; scrollbar-width: none; }
+.n2-reiter::-webkit-scrollbar { display: none; }
+.n2-reiter button { display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 0 12px; border: 1px solid var(--hairline); border-radius: 999px; background: #fff; color: var(--ink-muted); font: 400 12.5px inherit; white-space: nowrap; cursor: pointer; }
+.n2-reiter button b { font-weight: 700; }
+.n2-reiter button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.n2-mehr { min-height: 38px; padding: 0 12px; border: 1px solid var(--hairline); border-radius: 999px; background: #fff; color: var(--ink-muted); font: 400 12.5px inherit; cursor: pointer; }
+.n2-weitere { flex-basis: 100%; display: none; gap: 8px; flex-wrap: wrap; padding: 12px; background: #fff; border: 1px solid var(--hairline); border-radius: 12px; }
+.n2-weitere[data-offen="ja"] { display: flex; }
+
+.n2-abschnitt { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0 0 10px; }
+.n2-abschnitt h2 { margin: 0; font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
+.n2-abschnitt span { color: var(--ink-soft); font-size: 11.5px; }
+
+/* Der Namenskreis ist neutral. Vorher trug er Person UND Zustand; bei vierzig
+   Zeilen flimmert das. Der Zustand steht jetzt allein im Streifen links. */
+.n2-kreis { display: grid; place-items: center; width: 40px; height: 40px; flex: 0 0 40px; border-radius: 999px; background: var(--surface-2); color: var(--ink-muted); font-size: 13px; font-weight: 700; }
+.n2-mitte { min-width: 0; }
+.n2-name { display: block; overflow: hidden; color: var(--ink); font-size: 15px; font-weight: 700; letter-spacing: -.012em; text-overflow: ellipsis; white-space: nowrap; }
+.n2-name.gross { font-size: 16px; }
+.n2-zeile2 { display: block; overflow: hidden; margin-top: 3px; color: var(--ink-soft); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.n2-zustand { color: var(--ton); font-weight: 700; }
+.n2-zustand.leise { color: var(--ink-soft); font-weight: 400; }
+.n2-punkt { margin: 0 6px; color: var(--hairline-strong, #d9d5cf); }
+
+.n2-dringend-block { display: grid; gap: 9px; margin-bottom: 26px; }
+.n2-dringend { display: grid; grid-template-columns: 40px minmax(0,1fr) auto; align-items: center; gap: 13px; padding: 13px 15px 13px 16px; background: #fff; border: 1px solid var(--hairline); border-left: 3px solid var(--ton); border-radius: 12px; }
+.n2-dringend .n2-kreis { background: color-mix(in srgb, var(--ton) 12%, transparent); color: var(--ton); }
+.n2-tuen { display: flex; gap: 6px; }
+.n2-tun { display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 0 13px; border: 1px solid var(--hairline); border-radius: 9px; background: #fff; color: var(--ink-muted); text-decoration: none; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.n2-tun.haupt { background: var(--ink); border-color: var(--ink); color: #fff; }
+.n2-tun.leer { color: var(--ink-soft); font-weight: 400; }
+
+/* Die Liste bekommt Datumskoepfe. Ohne sie sind vierzig gleich hohe Zeilen
+   eine graue Wand, und man sieht nicht, wie alt ein Kontakt ist. */
+.n2-liste { background: #fff; border: 1px solid var(--hairline); border-radius: 14px; overflow: hidden; }
+.n2-gruppe { display: flex; align-items: baseline; gap: 8px; padding: 11px 16px 8px; background: var(--surface-soft); border-bottom: 1px solid var(--hairline); color: var(--ink-muted); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.n2-gruppe b { color: var(--ink-soft); font-size: 11px; font-weight: 400; letter-spacing: 0; }
+.n2-liste .n2-gruppe:first-child { border-top: 0; }
+.n2-zeile { display: grid; grid-template-columns: 40px minmax(0,1fr) auto auto 30px; align-items: center; gap: 12px; padding: 12px 15px 12px 16px; border-bottom: 1px solid var(--hairline); border-left: 3px solid transparent; color: inherit; text-decoration: none; }
+.n2-zeile:last-child { border-bottom: 0; }
+.n2-zeile:hover { background: var(--surface-soft); }
+.n2-zeile[style*="burnt"], .n2-zeile[style*="terracotta"], .n2-zeile[style*="marine"] { border-left-color: var(--ton); }
+.n2-zeit { color: var(--ink-soft); font-size: 11.5px; white-space: nowrap; }
+.n2-test { padding: 2px 8px; border: 1px dashed var(--accent-hover); border-radius: 999px; color: var(--accent-hover); font-size: 10px; font-weight: 700; white-space: nowrap; }
+.n2-pfeil { display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid var(--hairline); border-radius: 9px; color: var(--ink-soft); }
+
+
+.n2-detail { margin-top: 5px; font-size: 11.5px; color: var(--ink-soft); }
+.n2-detail summary { cursor: pointer; color: var(--ink-muted); font-weight: 700; list-style: none; }
+.n2-detail summary::-webkit-details-marker { display: none; }
+.n2-detail summary::before { content: "＋ "; }
+.n2-detail[open] summary::before { content: "－ "; }
+.n2-detail p { margin: 5px 0 0; line-height: 1.5; }
+.n2-zeile2 b { font-weight: 700; }
+
+@media (max-width: 700px) {
+  .n2-zeile { grid-template-columns: 40px minmax(0,1fr) auto; }
+  .n2-zeit { display: none; }
+  .n2-dringend { grid-template-columns: 40px minmax(0,1fr); }
+  .n2-tuen { grid-column: 1 / -1; }
+  .n2-tun { flex: 1; justify-content: center; }
+}
+
 
 
 </style>
