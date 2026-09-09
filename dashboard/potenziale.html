@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="../css/hub.css?v=63" />
   <link rel="stylesheet" href="../css/potenziale.css?v=12" />
   <link rel="stylesheet" href="../css/dna.css?v=13" />
+  <link rel="stylesheet" href="../css/listen.css?v=1" />
   <script src="../js/config.js"></script>
   <script src="../js/wartung.js?v=4"></script>
 </head>
@@ -36,68 +37,50 @@
   </header>
 
   <main class="h-main potential-main">
-    <section class="potential-hero">
+    <section class="liste-kopf">
       <div>
         <div class="h-label">Beziehungen bewusst entwickeln</div>
         <h1>Potenzialbuch</h1>
-        <p>Menschen im Blick behalten, Chancen entwickeln und erst dann bewusst ins Cockpit übernehmen.</p>
       </div>
-      <div class="potential-hero-actions">
-        <button class="potential-secondary" id="voicePotentialBtn" type="button">Mit Stimme anlegen</button>
-        <button class="potential-primary" id="newPotentialBtn" type="button" data-icon="plus">Kontakt eintragen</button>
+      <div class="liste-kopf-tuen">
+        <button class="liste-nebentun" id="voicePotentialBtn" type="button">Mit Stimme anlegen</button>
+        <button class="liste-haupttun" id="newPotentialBtn" type="button" data-icon="plus">Kontakt eintragen</button>
       </div>
-    </section>
-
-    <div class="potential-boundary" role="note">
-      <span aria-hidden="true">✓</span>
-      <p><strong>Dein privater Denkraum.</strong> Einträge aus dem Potenzialbuch werden nicht zu Empfehlungen, Promotern oder Prämien gezählt.</p>
-    </div>
-
-    <section class="potential-kpis" aria-label="Potenzialbuch-Kennzahlen">
-      <article class="potential-kpi" data-mobile-label="Offen" style="--potential-tone:#5E939E">
-        <span class="potential-kpi-dot"></span><strong id="kpiOpen">0</strong><span>Offene Potenziale</span><small>noch ohne Abschluss</small>
-      </article>
-      <article class="potential-kpi" data-mobile-label="Woche" style="--potential-tone:#8F7809">
-        <span class="potential-kpi-dot"></span><strong id="kpiDue">0</strong><span>Diese Woche nachfassen</span><small>dein nächster Fokus</small>
-      </article>
-      <article class="potential-kpi" data-mobile-label="Gespräch" style="--potential-tone:#0B4650">
-        <span class="potential-kpi-dot"></span><strong id="kpiTalks">0</strong><span>Im Gespräch</span><small>inklusive Termine</small>
-      </article>
-      <article class="potential-kpi" data-mobile-label="Cockpit" style="--potential-tone:#13191D">
-        <span class="potential-kpi-dot"></span><strong id="kpiTransferred">0</strong><span>Ins Cockpit übernommen</span><small>bewusst bestätigt</small>
-      </article>
     </section>
 
     <section class="potential-workspace" aria-labelledby="potentialListTitle">
-      <header class="potential-toolbar">
-        <div>
-          <div class="h-label">Deine Kontakte</div>
-          <h2 id="potentialListTitle">Wen möchtest du weiterentwickeln?</h2>
-        </div>
-      </header>
+      <h2 id="potentialListTitle" class="sr-only">Deine Kontakte</h2>
 
-      <div class="potential-controls" aria-label="Kontakte suchen und filtern">
-        <section class="potential-strength-filter" aria-labelledby="potentialStrengthFilterLabel">
-          <div class="potential-filter-heading" id="potentialStrengthFilterLabel">Kontaktstärke</div>
-          <div class="potential-strength-buttons" id="potentialStrengthFilters">
-            <button class="active" type="button" data-strength-filter="alle"><span class="potential-filter-all" aria-hidden="true">●</span><span>Alle</span></button>
-            <button type="button" data-strength-filter="kalt"><span data-strength-symbol="kalt" aria-hidden="true"></span><span>Kalt</span></button>
-            <button type="button" data-strength-filter="lauwarm"><span data-strength-symbol="lauwarm" aria-hidden="true"></span><span>Lauwarm</span></button>
-            <button type="button" data-strength-filter="warm"><span data-strength-symbol="warm" aria-hidden="true"></span><span>Warm</span></button>
-            <button type="button" data-strength-filter="heiss"><span data-strength-symbol="heiss" aria-hidden="true"></span><span>Heiß</span></button>
-            <button type="button" data-strength-filter="sehr_heiss"><span data-strength-symbol="sehr_heiss" aria-hidden="true"></span><span>Sehr heiß</span></button>
-          </div>
-          <span class="potential-strength-scroll-hint">Seitlich wischen für alle Stärken</span>
-        </section>
-        <div class="potential-control-tools">
-          <label class="potential-search">
-            <span class="sr-only">Potenziale durchsuchen</span>
-            <span aria-hidden="true">⌕</span>
-            <input id="potentialSearch" type="search" placeholder="Name, Telefon, E-Mail, Kreis oder Stärke" autocomplete="off" />
-          </label>
-          <details class="potential-circle-filter potential-more-filters" id="potentialCircleFilter">
-            <summary><span>Weitere Filter</span><strong id="potentialMoreFilterCount">Alle</strong></summary>
-            <div class="potential-circle-filter-body">
+      <!-- Sichtbar bleiben Suche und die Reiter, die den Tag steuern. Die
+           Kontaktstaerke, der Stand im Prozess und die Kreise stehen unter
+           "Weitere Filter": frueher lagen sie mit rund fuenfzehn Knoepfen
+           ueber der ersten Person. -->
+      <div class="liste-leiste" role="group" aria-label="Kontakte suchen und filtern">
+        <label class="liste-suche" for="potentialSearch">
+          <span class="sr-only">Potenziale durchsuchen</span>
+          <span aria-hidden="true">⌕</span>
+          <input id="potentialSearch" type="search" placeholder="Name, Telefon, E-Mail, Kreis oder Stärke" autocomplete="off" />
+        </label>
+        <div class="liste-reiter" id="potentialQuickFilters" role="group" aria-label="Schnellauswahl">
+          <button type="button" data-quick="alle" aria-pressed="true">Alle</button>
+          <button type="button" data-quick="faellig" aria-pressed="false">Heute und überfällig <b id="quickDueCount">0</b></button>
+          <button type="button" data-quick="im_gespraech" aria-pressed="false">Im Gespräch</button>
+        </div>
+        <button class="liste-mehr" type="button" id="mehrBtn" aria-expanded="false" aria-controls="mehrFeld">Weitere Filter <b id="potentialMoreFilterCount"></b></button>
+        <div class="liste-weitere liste-spalte" id="mehrFeld">
+          <div class="liste-zahlen" id="potentialZahlen"></div>
+          <section class="potential-strength-filter" aria-labelledby="potentialStrengthFilterLabel">
+            <div class="potential-filter-heading" id="potentialStrengthFilterLabel">Kontaktstärke</div>
+            <div class="potential-strength-buttons" id="potentialStrengthFilters">
+              <button class="active" type="button" data-strength-filter="alle"><span class="potential-filter-all" aria-hidden="true">●</span><span>Alle</span></button>
+              <button type="button" data-strength-filter="kalt"><span data-strength-symbol="kalt" aria-hidden="true"></span><span>Kalt</span></button>
+              <button type="button" data-strength-filter="lauwarm"><span data-strength-symbol="lauwarm" aria-hidden="true"></span><span>Lauwarm</span></button>
+              <button type="button" data-strength-filter="warm"><span data-strength-symbol="warm" aria-hidden="true"></span><span>Warm</span></button>
+              <button type="button" data-strength-filter="heiss"><span data-strength-symbol="heiss" aria-hidden="true"></span><span>Heiß</span></button>
+              <button type="button" data-strength-filter="sehr_heiss"><span data-strength-symbol="sehr_heiss" aria-hidden="true"></span><span>Sehr heiß</span></button>
+            </div>
+          </section>
+          <div class="potential-circle-filter-body" id="potentialCircleFilter">
               <section class="potential-process-filter" aria-labelledby="potentialProcessFilterLabel">
                 <div class="potential-filter-heading" id="potentialProcessFilterLabel">Stand im Prozess</div>
                 <div class="potential-filters" id="potentialFilters" aria-label="Status filtern">
@@ -129,15 +112,25 @@
                 </div>
               </section>
               <button class="potential-filter-reset" id="clearAdditionalFilters" type="button">Zusätzliche Filter zurücksetzen</button>
-            </div>
-          </details>
+          </div>
         </div>
       </div>
 
       <div class="potential-error" id="potentialError" hidden></div>
-      <div class="potential-list" id="potentialList" aria-live="polite">
-        <div class="potential-loading"><span></span><span></span><span></span></div>
+
+      <section id="potentialDueSection" hidden>
+        <div class="liste-abschnitt"><h2>Heute und überfällig</h2><span id="potentialDueMeta"></span></div>
+        <div class="liste-dringend-block" id="potentialDueList"></div>
+      </section>
+
+      <div class="liste-abschnitt"><h2 id="potentialRestTitel">Alle weiteren</h2><span id="potentialRestMeta"></span></div>
+      <div id="potentialList" aria-live="polite">
+        <div class="liste-leer">Kontakte werden geladen…</div>
       </div>
+
+      <!-- Stand vorher als Kasten ueber der Liste. Der Satz stimmt, aber er
+           beantwortet keine Frage, die man beim Oeffnen der Seite hat. -->
+      <p class="liste-fussnote potential-grenze">Dein privater Denkraum. Einträge aus dem Potenzialbuch werden nicht zu Empfehlungen, Promotern oder Prämien gezählt.</p>
     </section>
   </main>
 
@@ -401,6 +394,6 @@
   </div>
 
   <div class="potential-toast" id="potentialToast" role="status" aria-live="polite" hidden></div>
-  <script type="module" src="../js/potenziale.js?v=10"></script>
+  <script type="module" src="../js/potenziale.js?v=11"></script>
 </body>
 </html>

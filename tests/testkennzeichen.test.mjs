@@ -134,8 +134,16 @@ for (const fn of ['testdaten_bestand()', 'testdaten_entfernen(text)']) {
 
 assert.match(empfehlerHtml, /id="newIstTest"/, 'Beim Promoter-Anlegen fehlt das Häkchen.');
 assert.match(empfehlerHtml, /istTest: newIstTest\.checked/, 'Das Häkchen wird nicht mitgeschickt.');
-assert.match(empfehlerHtml, /badge badge-test/, 'Die Promoterliste kennzeichnet Testdaten nicht.');
-assert.match(empfehlungenHtml, /badge badge-test/, 'Die Empfehlungsliste kennzeichnet Testdaten nicht.');
+assert.match(empfehlerHtml, /liste-test/, 'Die Promoterliste kennzeichnet Testdaten nicht.');
+assert.match(empfehlungenHtml, /liste-test/, 'Die Empfehlungsliste kennzeichnet Testdaten nicht.');
+// Seit Phase 341 rechnen die Promoter-Kennzahlen Testeintraege nicht mehr mit.
+// Im Anlege-Dialog stand das schon immer so: "Zaehlt in keiner Auswertung mit".
+assert.match(empfehlerHtml, /const ohneTest = \(\) => allItems\.filter\(\(item\) => !item\.ist_test\)/,
+  'Die Promoter-Kennzahlen trennen Testeintraege nicht ab.');
+assert.match(empfehlerHtml, /const echte = ohneTest\(\)/,
+  'Die Kennzahlen rechnen wieder mit Testeintraegen.');
+assert.match(empfehlerHtml, /const ranking = ohneTest\(\)/,
+  'Ein Testeintrag koennte wieder in die Rangliste kommen.');
 assert.match(beraterHtml, /data-f="ist_test"/, 'Beim Berater-Anlegen fehlt das Häkchen.');
 assert.match(beraterAdmin, /data-f="ist_test"/, 'In der Beraterkarte fehlt das Häkchen.');
 assert.match(beraterAdmin, /badge badge-test/, 'Ein Testkonto ist in der Liste nicht erkennbar.');

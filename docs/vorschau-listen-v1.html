@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gestaltungsvorschau · Listenseiten</title>
+<link rel="stylesheet" href="../css/style.css?v=36">
+<link rel="stylesheet" href="../css/dashboard.css?v=56">
+<link rel="stylesheet" href="../css/hub.css?v=63">
+<link rel="stylesheet" href="../css/promoter-dashboard.css?v=4">
+<link rel="stylesheet" href="../css/potenziale.css?v=12">
+<link rel="stylesheet" href="../css/dna.css?v=13">
+<style>
+/* Nur das Gerüst der Vorschau. Alles, was in den Kacheln steht, kommt aus den
+   echten Stylesheets des Portals, damit der Vergleich ehrlich ist. */
+body { margin: 0; background: var(--bg); font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.vs-kopf { position: sticky; top: 0; z-index: 20; padding: 14px 22px; background: #fff; border-bottom: 2px solid var(--dna-gold); }
+.vs-kopf h1 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -.02em; color: var(--ink); }
+.vs-kopf p { margin: 4px 0 0; font-size: 12px; color: var(--ink-muted); }
+.vs-reiter { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 11px; }
+.vs-reiter button { min-height: 34px; padding: 0 13px; font: inherit; font-size: 12px; font-weight: 700; color: var(--ink-muted); background: var(--surface-soft); border: 1px solid var(--hairline); border-radius: 999px; cursor: pointer; }
+.vs-reiter button[aria-selected="true"] { color: #fff; background: var(--dna-petrol); border-color: var(--dna-petrol); }
+.vs-bereich { padding: 22px; }
+.vs-bereich[hidden] { display: none; }
+.vs-paar { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; }
+@media (max-width: 1100px) { .vs-paar { grid-template-columns: 1fr; } }
+.vs-spalte { min-width: 0; }
+.vs-marke { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.vs-marke.heute { color: #8a7f74; }
+.vs-marke.neu { color: var(--dna-petrol); }
+.vs-marke b { padding: 3px 8px; border-radius: 999px; font-size: 10px; letter-spacing: .04em; text-transform: none; }
+.vs-marke.heute b { color: #6b6660; background: #eeebe6; }
+.vs-marke.neu b { color: #fff; background: var(--dna-petrol); }
+.vs-rahmen { padding: 16px; background: var(--bg); border: 1px dashed var(--hairline-strong, #d9d5cf); border-radius: 16px; }
+.vs-befund { margin: 14px 0 0; padding: 13px 15px; background: #fff; border: 1px solid var(--hairline); border-left: 3px solid var(--dna-gold); border-radius: var(--radius-card); font-size: 12.5px; line-height: 1.55; color: var(--ink-muted); }
+.vs-befund strong { color: var(--ink); }
+.vs-breite { display: flex; gap: 7px; align-items: center; margin-top: 11px; font-size: 12px; color: var(--ink-muted); }
+.vs-breite button { min-height: 30px; padding: 0 11px; font: inherit; font-size: 11px; font-weight: 700; color: var(--ink-muted); background: #fff; border: 1px solid var(--hairline); border-radius: 8px; cursor: pointer; }
+.vs-breite button[aria-pressed="true"] { color: #fff; background: var(--dna-petrol); border-color: var(--dna-petrol); }
+.vs-hinweis { color: var(--ink-soft); font-size: 11.5px; }
+.vs-eng .vs-paar { grid-template-columns: 1fr; }
+.vs-eng .vs-rahmen { max-width: 390px; }
+@media (max-width: 700px) {
+  .vs-bereich { padding: 12px; }
+  .vs-rahmen { padding: 10px; }
+  .vs-kopf { padding: 12px 14px; }
+}
+
+
+/* --- Erste Entwurfsfassung: nur noch die Kennzahlen-Bloecke ---
+   Der Rest ist entfallen, die zweite Fassung (n2-) hat ihn ersetzt. */
+.n-spalte { flex-direction: column; align-items: stretch; }
+.n-zahlen { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 20px; padding-bottom: 10px; border-bottom: 1px solid var(--hairline); }
+.n-zahl-block b { font-family: var(--font-head); font-size: 21px; font-weight: 400; letter-spacing: -.03em; font-variant-numeric: tabular-nums; color: var(--dna-petrol); }
+.n-zahl-block span { margin-left: 5px; color: var(--ink-muted); font-size: 12px; }
+.n-zahl { font-weight: 700; color: var(--ink); }
+.n-fussnote { margin: 0; color: var(--ink-soft); font-size: 11.5px; align-self: center; }
+.n-rangliste { margin: 10px 0 0; padding-left: 20px; color: var(--ink-muted); font-size: 12.5px; line-height: 1.9; }
+.n-rangliste b { color: var(--ink); font-weight: 700; }
+.n-filterreihe { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+/* ------------------------------------------------ Entwurf, zweite Fassung */
+/* Schriftgewichte bleiben bei 300, 400 und 700: das haelt der Waechter
+   tests/familienaehnlichkeit fest, und es ist Kais Entscheidung fuer die
+   ganze Portal-Familie. */
+.n2-kopf { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 16px; padding-bottom: 13px; border-bottom: 2px solid var(--dna-gold); }
+.n2-kopf h1 { margin: 0; font-family: var(--font-head); font-size: 31px; font-weight: 400; letter-spacing: -.025em; color: var(--ink); }
+.n2-kopf .h-label { margin-bottom: 6px; color: var(--dna-gold-dark); font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.n2-kopf a { display: inline-flex; align-items: center; min-height: 42px; padding: 0 16px; border-radius: var(--radius-button); background: var(--klick); color: #fff; text-decoration: none; font-size: 12.5px; font-weight: 700; white-space: nowrap; }
+
+.n2-leiste { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 22px; }
+.n2-suche { flex: 1 1 210px; min-width: 0; height: 42px; display: flex; align-items: center; gap: 9px; padding: 0 13px; background: #fff; border: 1px solid var(--hairline); border-radius: var(--radius-md); color: var(--symbol); }
+.n2-suche input { min-width: 0; width: 100%; border: 0; outline: 0; background: transparent; font: 400 13px inherit; color: var(--ink); }
+.n2-reiter { display: flex; gap: 5px; overflow-x: auto; scrollbar-width: none; }
+.n2-reiter::-webkit-scrollbar { display: none; }
+.n2-reiter button { display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 0 12px; border: 1px solid var(--hairline); border-radius: 999px; background: #fff; color: var(--ink-muted); font: 400 12.5px inherit; white-space: nowrap; cursor: pointer; }
+.n2-reiter button b { font-weight: 700; }
+.n2-reiter button[aria-pressed="true"] { background: var(--dna-petrol); border-color: var(--dna-petrol); color: #fff; }
+.n2-mehr { min-height: 38px; padding: 0 12px; border: 1px solid var(--hairline); border-radius: 999px; background: #fff; color: var(--klick); font: 400 12.5px inherit; cursor: pointer; }
+.n2-weitere { flex-basis: 100%; display: none; gap: 8px; flex-wrap: wrap; padding: 12px; background: #fff; border: 1px solid var(--hairline); border-radius: var(--radius-card); }
+.n2-weitere[data-offen="ja"] { display: flex; }
+
+.n2-abschnitt { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0 0 10px; }
+.n2-abschnitt h2 { margin: 0; font-family: var(--font-head); font-size: 18px; font-weight: 400; letter-spacing: -.02em; color: var(--ink); }
+.n2-abschnitt span { color: var(--ink-soft); font-size: 11.5px; }
+
+/* Der Namenskreis ist neutral. Vorher trug er Person UND Zustand; bei vierzig
+   Zeilen flimmert das. Der Zustand steht jetzt allein im Streifen links. */
+.n2-kreis { display: grid; place-items: center; width: 40px; height: 40px; flex: 0 0 40px; border-radius: 999px; background: var(--dna-petrol-tint); color: var(--dna-petrol); font-family: var(--font-head); font-size: 14px; font-weight: 400; letter-spacing: .01em; }
+.n2-mitte { min-width: 0; }
+.n2-name { display: block; overflow: hidden; color: var(--ink); font-family: var(--font-head); font-size: 16px; font-weight: 400; letter-spacing: -.015em; text-overflow: ellipsis; white-space: nowrap; }
+.n2-name.gross { font-size: 17.5px; }
+.n2-zeile2 { display: block; overflow: hidden; margin-top: 3px; color: var(--ink-soft); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.n2-zustand { color: var(--ton); font-weight: 700; }
+.n2-zustand.leise { color: var(--ink-soft); font-weight: 400; }
+.n2-punkt { margin: 0 6px; color: var(--hairline-strong, #d9d5cf); }
+
+.n2-dringend-block { display: grid; gap: 9px; margin-bottom: 26px; }
+.n2-dringend { display: grid; grid-template-columns: 40px minmax(0,1fr) auto; align-items: center; gap: 13px; padding: 13px 15px 13px 16px; background: #fff; border: 1px solid var(--hairline); border-left: 4px solid var(--dna-gold); border-radius: var(--radius-card); }
+.n2-dringend .n2-kreis { background: var(--dna-gold-tint); color: var(--dna-gold-dark); }
+.n2-tuen { display: flex; gap: 6px; }
+.n2-tun { display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 0 13px; border: 1px solid var(--hairline); border-radius: var(--radius-button); background: #fff; color: var(--klick); text-decoration: none; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.n2-tun.haupt { background: var(--klick); border-color: var(--klick); color: #fff; }
+/* Kein Kontaktweg ist eine Auskunft, kein Knopf. Rahmen und weisser Grund
+   weg, sonst sieht das Feld nach einer Handlung aus, die es nicht gibt. */
+.n2-tun.leer { border-color: transparent; background: transparent; color: var(--ink-soft); font-weight: 400; }
+
+/* Die Liste bekommt Datumskoepfe. Ohne sie sind vierzig gleich hohe Zeilen
+   eine graue Wand, und man sieht nicht, wie alt ein Kontakt ist. */
+.n2-liste { background: #fff; border: 1px solid var(--hairline); border-radius: var(--radius-card); overflow: hidden; }
+.n2-gruppe { display: flex; align-items: baseline; gap: 8px; padding: 10px 16px 9px; background: var(--dna-petrol-tint); border-bottom: 1px solid var(--hairline); color: var(--dna-petrol); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.n2-gruppe b { color: var(--dna-petrol); font-family: var(--font-head); font-size: 12px; font-weight: 400; letter-spacing: 0; opacity: .8; }
+.n2-liste .n2-gruppe:first-child { border-top: 0; }
+.n2-zeile { display: grid; grid-template-columns: 40px minmax(0,1fr) auto auto 30px; align-items: center; gap: 12px; padding: 12px 15px 12px 16px; border-bottom: 1px solid var(--hairline); border-left: 3px solid transparent; color: inherit; text-decoration: none; }
+.n2-zeile:last-child { border-bottom: 0; }
+.n2-zeile:hover { background: var(--dna-paper); }
+.n2-zeile:hover .n2-name { color: var(--dna-klick); }
+.n2-zeile[style*="burnt"], .n2-zeile[style*="terracotta"], .n2-zeile[style*="marine"] { border-left-color: var(--ton); }
+.n2-zeit { color: var(--ink-soft); font-size: 11.5px; white-space: nowrap; }
+.n2-test { padding: 2px 8px; border: 1px dashed var(--dna-gold-dark); border-radius: 999px; color: var(--dna-gold-dark); font-size: 10px; font-weight: 700; white-space: nowrap; }
+.n2-pfeil { display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid var(--hairline); border-radius: var(--radius-button); color: var(--symbol); }
+
+
+.n2-detail { margin-top: 5px; font-size: 11.5px; color: var(--ink-soft); }
+.n2-detail summary { cursor: pointer; color: var(--ink-muted); font-weight: 700; list-style: none; }
+.n2-detail summary::-webkit-details-marker { display: none; }
+.n2-detail summary::before { content: "＋ "; }
+.n2-detail[open] summary::before { content: "－ "; }
+.n2-detail p { margin: 5px 0 0; line-height: 1.5; }
+.n2-zeile2 b { font-weight: 700; }
+
+@media (max-width: 700px) {
+  .n2-zeile { grid-template-columns: 40px minmax(0,1fr) auto; }
+  .n2-zeit { display: none; }
+  .n2-dringend { grid-template-columns: 40px minmax(0,1fr); }
+  .n2-tuen { grid-column: 1 / -1; }
+  .n2-tun { flex: 1; justify-content: center; }
+}
+
+
+
+</style>
+</head>
+<body>
+
+<header class="vs-kopf">
+  <h1>Gestaltungsvorschau · Listenseiten im Beraterbereich</h1>
+  <p>Erfundene Beispieldaten. Links der heutige Stand, rechts der Vorschlag. Nichts davon ist live.</p>
+  <div class="vs-reiter" role="tablist">
+    <button role="tab" aria-selected="true" data-ziel="empf">Empfehlungen</button>
+    <button role="tab" aria-selected="false" data-ziel="prom">Promoter</button>
+    <button role="tab" aria-selected="false" data-ziel="pot">Potenzialbuch</button>
+  </div>
+  <div class="vs-breite">
+    Ansicht:
+    <button data-breite="weit" aria-pressed="true">Nebeneinander</button>
+    <button data-breite="eng" aria-pressed="false">Schmale Spalte</button>
+    <span class="vs-hinweis">Für die echte Handy-Ansicht das Browserfenster schmal ziehen: nur dann greifen die Handy-Regeln der Seite.</span>
+  </div>
+</header>
+
+<main>
+  <section class="vs-bereich" id="empf"></section>
+  <section class="vs-bereich" id="prom" hidden></section>
+  <section class="vs-bereich" id="pot" hidden></section>
+</main>
+
+<script type="module" src="./vorschau-listen-v1.js"></script>
+</body>
+</html>

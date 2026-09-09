@@ -2,10 +2,11 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
 const read = (file) => readFile(new URL(`../${file}`, import.meta.url), 'utf8');
-const [listHtml, detailHtml, promoterCss, dashboardJs, detailJs, sw] = await Promise.all([
+const [listHtml, detailHtml, promoterCss, listenCss, dashboardJs, detailJs, sw] = await Promise.all([
   read('dashboard/empfehler.html'),
   read('dashboard/promoter.html'),
   read('css/promoter-dashboard.css'),
+  read('css/listen.css'),
   read('js/dashboard.js'),
   read('js/promoter-detail.js'),
   read('sw.js'),
@@ -14,15 +15,17 @@ const [listHtml, detailHtml, promoterCss, dashboardJs, detailJs, sw] = await Pro
 assert.match(listHtml, /class="has-app-nav promoter-page"/);
 assert.match(listHtml, /Dein Empfehlungsnetzwerk/);
 assert.match(listHtml, /id="networkSummary"/);
-assert.match(listHtml, /id="promoterChampions"/);
 assert.match(listHtml, /id="promoterPodium"/);
+assert.match(listHtml, /class="liste-rangliste"/);
 assert.match(listHtml, /id="promoterSearch"/);
 assert.match(listHtml, /data-sort="aktuell"/);
-assert.match(listHtml, /class="promoter-card feed-row"/);
+assert.match(listHtml, /class="liste-zeile"/);
 assert.match(listHtml, /function renderSummary\(\)/);
 assert.match(listHtml, /function renderPodium\(\)/);
 assert.match(listHtml, /function relativeDate\(value\)/);
-assert.match(listHtml, /function impulsText\(gesamt, kunden, ziel\)/);
+// Der Impulssatz ist entfallen. "Beziehung persoenlich pflegen" war sein
+// Auffangfall und stand damit auf fast jeder Karte, ohne etwas zu sagen.
+assert.doesNotMatch(listHtml, /Beziehung persönlich pflegen/);
 assert.match(listHtml, /Rechtsklick/);
 assert.match(listHtml, /promoter-dashboard\.css\?v=\d+/);
 
@@ -48,7 +51,7 @@ assert.match(detailJs, /navigator\.clipboard\.writeText/);
 
 assert.match(promoterCss, /\.promoter-grid/);
 assert.match(promoterCss, /\.pr-champions/);
-assert.match(promoterCss, /\.pr-podium-place\.rank-1/);
+assert.match(listenCss, /\.liste-rangliste/);
 assert.match(promoterCss, /\.pd-layout/);
 assert.match(promoterCss, /grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
 assert.match(promoterCss, /@media \(max-width: 540px\)/);

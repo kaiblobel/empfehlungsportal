@@ -1,7 +1,32 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.355 Beta** · Das Auswahlfeld erscheint auch wirklich, live seit 09.09.2026.
+Offizielle Live-Version: **v1.356 Beta** · Die drei Arbeitslisten in einer Form, live seit 09.09.2026.
+
+## v1.356 Beta - Phase 341 · Die drei Arbeitslisten in einer Form
+**2026-09-09**
+
+Die drei Arbeitslisten des Beraterbereichs sahen aus wie drei verschiedene Anwendungen: Empfehlungen als Zeilentabelle, Promoter als Kachelraster mit goldenem Siegerpodest, das Potenzialbuch als Karten mit Fortschrittsbalken. Sie tun aber dasselbe, nämlich Menschen zeigen, bei denen etwas ansteht. Jetzt haben sie eine gemeinsame Bauform in `css/listen.css`.
+
+**Was oben steht, ist jetzt der Mensch und nicht die Verpackung.** Bis zur ersten Person standen bei den Promotern rund 675 Punkte Vorspann, am Handy 750: eine Überschrift mit Erklärsatz, vier Kennzahlen, ein Siegerpodest. Das Podest zeigte dieselben drei Namen, die direkt darunter noch einmal in der Liste standen. Zahlen und Rangliste stehen jetzt eingeklappt unter „Zahlen und Rangliste", das Podest ist eine Rangliste geworden.
+
+**Zwei echte Fehler, keine Geschmacksfrage.** Im Anlege-Dialog für einen Promoter steht wörtlich „Zählt in keiner Auswertung mit". Das stimmte nicht: Die vier Kennzahlen rechneten Testeinträge mit, und auf dem Podest konnte ein Testpromoter auf Platz 1 stehen, mit Pokal und ohne die Kennzeichnung, die es in der Liste gab. Beides ist behoben, und die Zeile darunter sagt, wie viele Testeinträge nicht mitgerechnet wurden.
+
+**Auf der Empfehlungsseite standen die dringenden Kontakte zweimal.** Einmal als große Karte unter „Wartet auf dich" und direkt darunter noch einmal in der Liste. Am Handy schob das die erste Listenzeile um rund 1300 Punkte nach unten. Wer oben steht, steht jetzt nicht mehr unten.
+
+**Ersatztexte sind weg.** „Promoter: nicht angegeben" und „über unbekannt" standen auf jeder Empfehlung aus der Promoter-App; steht kein Name da, steht jetzt nichts. „Beziehung persönlich pflegen" war der Auffangfall des Impulssatzes und stand auf fast jeder Promoter-Karte. Die ausformulierte Ersatznotiz im Potenzialbuch war der längste Text auf jedem Eintrag ohne Notiz. Und „vor 1 Woche aktiv" stand auch bei jemandem, der nie aktiv war: der Rückfall aufs Anlagedatum machte aus dem Anlegen eine Aktivität. Jetzt heißt es „angelegt am".
+
+**Im Potenzialbuch steht das Fällige oben.** „Heute nachfassen" war eine 9,5-Punkt-Zeile mitten in einer Karte, und die Liste war nicht nach Fälligkeit sortiert: Das Überfällige konnte ganz unten stehen. Jetzt gibt es einen eigenen Abschnitt „Heute und überfällig", das längst Fällige zuerst, mit Anrufen und Vorbereiten direkt daneben.
+
+**Filter: vier sichtbar, der Rest unter „Weitere Filter".** Auf der Empfehlungsseite lagen bis zu vierzehn Knöpfe über der ersten Person, im Potenzialbuch rund fünfzehn. Wer einen Filter aus dem eingeklappten Teil wählt, sieht das Feld offen: sonst sucht man den Grund für die kurze Liste und findet ihn nicht.
+
+**Und das Haus ist jetzt sichtbar.** Das DVAG-Design lief bisher nur automatisch über `css/dna.css` mit. Jetzt tragen Namen, Überschriften und Zahlen Outfit im leichten Schnitt, das Markengold trägt die Kante unter dem Seitentitel und den Streifen an allem, was wartet, Markenblau trägt die Datumsbänder und Namenskreise, und der Klickton trägt die Knöpfe. Gold steht nie als Schrift: auf Weiß sind das 2,28:1.
+
+Kleinigkeiten am Rand: „Keine Nummer" sah aus wie ein Knopf und war keiner, der Hinweis auf den privaten Denkraum steht als leise Zeile unter der Liste statt als Kasten darüber.
+
+Nachweis: Die drei Seiten laufen in `docs/pruef-*.html` gegen erfundene Daten, erzeugt aus den echten Seiten von `docs/pruefkopie.py`. Eine ausgelieferte Datei ist kein Funktionsnachweis. Der Wächter `tests/familienaehnlichkeit.test.mjs` prüft `css/listen.css` mit, Gegenprobe rot gesehen.
+
+---
 
 ## v1.355 Beta - Phase 340 · Das Auswahlfeld erscheint auch wirklich
 **2026-09-09**

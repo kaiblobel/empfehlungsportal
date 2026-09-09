@@ -19,6 +19,7 @@ import { readFileSync } from 'node:fs';
 const BERATER_CSS = [
   'css/style.css', 'css/dashboard.css', 'css/hub.css', 'css/dna.css',
   'css/analysen.css', 'css/potenziale.css', 'css/promoter-dashboard.css',
+  'css/listen.css',
   'css/empfehlung-detail.css',
 ];
 

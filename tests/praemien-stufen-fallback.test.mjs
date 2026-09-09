@@ -142,8 +142,8 @@ for (const seite of [promoterListe, empfehlungsListe]) {
 }
 
 // Fremde Einträge sind sichtbar, aber nicht anklickbar.
-assert.match(promoterListe, /promoter-card-fremd/);
-assert.match(empfehlungsListe, /ep-row-fremd/);
+assert.match(promoterListe, /fremd\s*\?\s*`<div class="liste-zeile"/);
+assert.match(empfehlungsListe, /r\.fremd\s*\?\s*`<div class="liste-zeile"/);
 assert.match(empfehlungsListe, /r\.fremd/);
 
 /* Der Versionsstand wird seit Phase 208 an einer Stelle geprüft:

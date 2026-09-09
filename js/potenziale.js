@@ -76,6 +76,10 @@ let cockpitLinks = new Map();
 let cockpitAccess = 'unavailable';
 let activeFilter = 'alle';
 let activeStrengthFilter = 'alle';
+/* Die Schnellauswahl ueber der Liste: alles, was heute faellig ist, oder
+   alles, was im Gespraech ist. Der Stand im Prozess bleibt daneben
+   bestehen, die beiden Filter wirken zusammen. */
+let activeQuick = 'alle';
 const activeCircleFilters = new Set();
 let transferTarget = null;
 let restoreFocusEl = null;
@@ -95,6 +99,26 @@ document.getElementById('logoutBtn')?.addEventListener('click', async () => {
 document.getElementById('newPotentialBtn')?.addEventListener('click', (event) => openForm(null, event.currentTarget));
 document.getElementById('voicePotentialBtn')?.addEventListener('click', (event) => openVoiceContact(event.currentTarget));
 searchEl?.addEventListener('input', render);
+
+document.getElementById('potentialQuickFilters')?.addEventListener('click', (event) => {
+  const button = event.target.closest('[data-quick]');
+  if (!button) return;
+  activeQuick = button.dataset.quick || 'alle';
+  button.parentElement.querySelectorAll('[data-quick]').forEach((item) => {
+    item.setAttribute('aria-pressed', String(item === button));
+  });
+  render();
+});
+
+/* "Weitere Filter" auf- und zuklappen. Vorher war das ein <details>; als
+   eigener Knopf steht es in einer Reihe mit den uebrigen Reitern. */
+const potMehrBtn = document.getElementById('mehrBtn');
+const potMehrFeld = document.getElementById('mehrFeld');
+potMehrBtn?.addEventListener('click', () => {
+  const offen = potMehrBtn.getAttribute('aria-expanded') !== 'true';
+  potMehrBtn.setAttribute('aria-expanded', String(offen));
+  potMehrFeld.dataset.offen = offen ? 'ja' : 'nein';
+});
 filtersEl?.addEventListener('click', (event) => {
   const button = event.target.closest('[data-filter]');
   if (!button) return;
@@ -108,6 +132,7 @@ strengthFiltersEl?.addEventListener('click', (event) => {
   if (!button) return;
   activeStrengthFilter = button.dataset.strengthFilter || 'alle';
   strengthFiltersEl.querySelectorAll('[data-strength-filter]').forEach((item) => item.classList.toggle('active', item === button));
+  updateMoreFilterCount();
   render();
 });
 circleFiltersEl?.addEventListener('change', (event) => {
@@ -121,6 +146,8 @@ circleFiltersEl?.addEventListener('change', (event) => {
 document.getElementById('clearAdditionalFilters')?.addEventListener('click', () => {
   activeFilter = 'alle';
   filtersEl.querySelectorAll('[data-filter]').forEach((item) => item.classList.toggle('active', item.dataset.filter === 'alle'));
+  activeStrengthFilter = 'alle';
+  strengthFiltersEl?.querySelectorAll('[data-strength-filter]').forEach((item) => item.classList.toggle('active', item.dataset.strengthFilter === 'alle'));
   activeCircleFilters.clear();
   circleFiltersEl.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => { checkbox.checked = false; });
   updateMoreFilterCount();
@@ -219,6 +246,8 @@ function render() {
   const query = normalizePotentialText(searchEl?.value);
   const filtered = potentials.filter((item) => {
     if (activeFilter !== 'alle' && item.status !== activeFilter) return false;
+    if (activeQuick === 'faellig' && !istFaellig(item)) return false;
+    if (activeQuick === 'im_gespraech' && !TALK_STATUSES.has(item.status)) return false;
     const strength = potentialContactStrength(item);
     if (activeStrengthFilter !== 'alle' && strength.key !== activeStrengthFilter) return false;
     const circles = potentialCircleKeys(item);
@@ -228,33 +257,82 @@ function render() {
       .some((value) => normalizePotentialText(value).includes(query));
   });
 
+  const dueSection = document.getElementById('potentialDueSection');
+  const dueList = document.getElementById('potentialDueList');
+
   if (!filtered.length) {
+    if (dueSection) dueSection.hidden = true;
+    setText('potentialRestMeta', '');
     const hasAny = potentials.length > 0;
     listEl.innerHTML = `
       <div class="potential-empty">
         <div><span class="potential-empty-mark">${hasAny ? '⌕' : '+'}</span>
           <h3>${hasAny ? 'Kein Kontakt passt zu deiner Auswahl' : 'Dein Potenzialbuch ist noch leer'}</h3>
           <p>${hasAny ? 'Ändere den Filter oder die Suche. Deine Einträge bleiben unverändert.' : 'Beginne mit einem Namen. Telefonnummer, Notiz und nächster Schritt können später dazukommen.'}</p>
-          ${hasAny ? '' : '<button class="potential-primary" type="button" data-action="new">Ersten Kontakt eintragen</button>'}
+          ${hasAny ? '' : '<button class="liste-haupttun" type="button" data-action="new">Ersten Kontakt eintragen</button>'}
         </div>
       </div>`;
     return;
   }
 
-  listEl.innerHTML = filtered.map(renderCard).join('');
+  /* Was heute dran ist, steht oben und steht dort allein. Frueher war
+     "Heute nachfassen" eine 9,5-Punkt-Zeile mitten in einer Karte, und die
+     Liste war nicht nach Faelligkeit sortiert: das Ueberfaellige konnte
+     ganz unten stehen. */
+  const faellig = filtered.filter(istFaellig).sort(nachFaelligkeit);
+  const rest = filtered.filter((item) => !faellig.includes(item));
+
+  if (dueSection) {
+    dueSection.hidden = faellig.length === 0;
+    setText('potentialDueMeta', faellig.length ? `${faellig.length} von ${filtered.length}` : '');
+    if (dueList) dueList.innerHTML = faellig.map(renderFaelligZeile).join('');
+  }
+
+  setText('potentialRestTitel', faellig.length ? 'Alle weiteren' : 'Deine Kontakte');
+  setText('potentialRestMeta', rest.length === 1 ? '1 Kontakt' : `${rest.length} Kontakte`);
+  listEl.innerHTML = rest.length
+    ? `<div class="liste-block">${rest.map(renderCard).join('')}</div>`
+    : '<div class="liste-leer">Alles Weitere ist abgearbeitet.</div>';
 }
 
+/* Faellig heisst: heute oder ueberfaellig, und noch offen. Ein
+   uebernommener Kontakt taucht hier nicht mehr auf. */
+function istFaellig(item) {
+  if (!ACTIVE_STATUSES.has(item.status)) return false;
+  const date = parsePotentialDate(item.naechster_kontakt_am);
+  return Boolean(date) && date <= potentialStartOfDay();
+}
+
+/* Das laengst Ueberfaellige zuerst. */
+function nachFaelligkeit(a, b) {
+  const zeit = (item) => {
+    const date = parsePotentialDate(item.naechster_kontakt_am);
+    return date ? date.getTime() : Infinity;
+  };
+  return zeit(a) - zeit(b);
+}
+
+/* Die vier Kennzahlen standen als Kacheln ueber der Liste. Sie stehen
+   jetzt eingeklappt unter "Weitere Filter": sie beantworten keine Frage,
+   die man beim Oeffnen der Seite hat. */
 function renderKpis() {
   const today = potentialStartOfDay();
   const weekEnd = new Date(today);
   weekEnd.setDate(weekEnd.getDate() + 7);
-  setText('kpiOpen', potentials.filter((item) => ACTIVE_STATUSES.has(item.status)).length);
-  setText('kpiDue', potentials.filter((item) => {
+  const offen = potentials.filter((item) => ACTIVE_STATUSES.has(item.status)).length;
+  const woche = potentials.filter((item) => {
     const date = parsePotentialDate(item.naechster_kontakt_am);
     return ACTIVE_STATUSES.has(item.status) && date && date <= weekEnd;
-  }).length);
-  setText('kpiTalks', potentials.filter((item) => TALK_STATUSES.has(item.status)).length);
-  setText('kpiTransferred', potentials.filter((item) => cockpitLinks.has(item.id) || item.status === 'uebernommen').length);
+  }).length;
+  const gespraeche = potentials.filter((item) => TALK_STATUSES.has(item.status)).length;
+  const uebernommen = potentials.filter((item) => cockpitLinks.has(item.id) || item.status === 'uebernommen').length;
+  const zahl = (wert, text) => `<span class="liste-zahl-block"><b>${wert}</b><span>${text}</span></span>`;
+  const feld = document.getElementById('potentialZahlen');
+  if (feld) {
+    feld.innerHTML = zahl(offen, 'offen') + zahl(woche, 'diese Woche nachfassen')
+      + zahl(gespraeche, 'im Gespräch') + zahl(uebernommen, 'ins Cockpit übernommen');
+  }
+  setText('quickDueCount', potentials.filter(istFaellig).length);
 }
 
 function renderCard(item) {
@@ -277,37 +355,74 @@ function renderCard(item) {
     item.email,
   ].filter(Boolean);
   const metaMarkup = meta.map((value) => `<span>${escapeHtml(value)}</span>`).join('');
+  /* Eine Zeile statt einer Karte. Name, Kontaktstaerke und Stand stehen
+     in der Zeile, die Notiz und die Kontaktwege stehen unter "Details":
+     eine ausformulierte Ersatznotiz auf jedem Eintrag ohne Notiz war der
+     laengste Text der Seite und sagte nichts. */
+  const zweiteZeile = [
+    `<b class="liste-zustand${item.status === 'kein_interesse' ? ' leise' : ''}">${escapeHtml(statusLabel)}</b>`,
+    escapeHtml(strength.label),
+    escapeHtml(circleLabels.slice(0, 2).join(' · ')),
+  ].filter(Boolean).join('<span class="liste-punkt">·</span>');
+  const naechster = item.naechster_kontakt_am ? escapeHtml(due.label) : '';
   return `
-    <article class="potential-card${due.kind === 'overdue' ? ' overdue' : ''}${isLinked ? ' cockpit-linked' : ''}" data-id="${escapeHtml(item.id)}">
-      <header class="potential-card-head">
-        <span class="potential-avatar" style="${avatarTone}">${escapeHtml(potentialInitials(item.name))}</span>
-        <div class="potential-person"><h3>${escapeHtml(item.name)}</h3><p>${escapeHtml(circleLabels.slice(0, 3).join(' · ') || (item.ziel === 'partner' ? 'Potenzialpartner' : 'Potenzialkunde'))}</p></div>
-        <span class="potential-status" data-status="${escapeHtml(statusKey)}">${escapeHtml(statusLabel)}</span>
-      </header>
-      <div class="potential-strength-line">
-        <span class="potential-strength-badge" data-strength="${strength.key}">${strengthIcon(strength.key)}<strong>${escapeHtml(strength.label)}</strong></span>
-        <span class="potential-strength-reason">${escapeHtml(strength.reason)}</span>
-      </div>
-      <div class="potential-meta potential-meta-desktop">${metaMarkup}</div>
-      <details class="potential-card-details">
-        <summary>Details</summary>
-        <div class="potential-meta potential-meta-mobile">${metaMarkup}</div>
-      </details>
-      <p class="potential-note">${escapeHtml(item.notiz || 'Noch keine Gesprächsnotiz. Ein kurzer Gedanke reicht für den nächsten Schritt.')}</p>
-      ${renderNextStep(item, due)}
-      <div class="potential-actions">
+    <div class="liste-zeile${isLinked ? ' cockpit-linked' : ''}" data-id="${escapeHtml(item.id)}">
+      <span class="liste-kreis">${escapeHtml(potentialInitials(item.name))}</span>
+      <span class="liste-mitte">
+        <span class="liste-name">${escapeHtml(item.name)}</span>
+        <span class="liste-zeile2">${zweiteZeile}</span>
+        <details class="liste-detail">
+          <summary>Details</summary>
+          <div class="potential-meta">${metaMarkup}</div>
+          ${item.notiz ? `<p>${escapeHtml(item.notiz)}</p>` : ''}
+          ${renderNextStep(item, due)}
+        </details>
+      </span>
+      <span class="liste-tuen">
         ${isLinked
-          ? '<button class="potential-contact" type="button" data-action="open-cockpit">Kundenakte öffnen</button>'
-          : `<button class="potential-contact" type="button" data-action="coach">Gespräch vorbereiten</button>${cockpitAvailable ? cockpitTransferButton() : cockpitLockedButton()}`}
-        <button class="potential-more" type="button" data-action="menu" aria-label="Weitere Aktionen" aria-expanded="false">•••</button>
-      </div>
-      <div class="potential-card-menu" hidden>
-        <button type="button" data-action="edit">Bearbeiten</button>
-        ${!isLinked ? `<button type="button" data-action="contact">${escapeHtml(contact.label)}</button>` : ''}
-        ${isLinked ? '<button type="button" data-action="open-cockpit">Kundenakte im Cockpit öffnen</button>' : (cockpitAvailable ? '<button type="button" data-action="transfer">Mit Cockpit verbinden</button>' : cockpitLockedMenuButton())}
-        <button class="danger" type="button" data-action="delete">Kontakt löschen</button>
-      </div>
-    </article>`;
+          ? '<button class="liste-tun" type="button" data-action="open-cockpit">Kundenakte</button>'
+          : `<button class="liste-tun" type="button" data-action="coach">Vorbereiten</button>`}
+        <button class="liste-tun potential-more" type="button" data-action="menu" aria-label="Weitere Aktionen" aria-expanded="false">•••</button>
+        <div class="potential-card-menu" hidden>
+          <button type="button" data-action="edit">Bearbeiten</button>
+          ${!isLinked ? `<button type="button" data-action="contact">${escapeHtml(contact.label)}</button>` : ''}
+          ${isLinked ? '<button type="button" data-action="open-cockpit">Kundenakte im Cockpit öffnen</button>' : (cockpitAvailable ? '<button type="button" data-action="transfer">Mit Cockpit verbinden</button>' : cockpitLockedMenuButton())}
+          <button class="danger" type="button" data-action="delete">Kontakt löschen</button>
+        </div>
+      </span>
+      <span class="liste-neben"><span class="liste-zeit">${naechster}</span></span>
+      <span></span>
+    </div>`;
+}
+
+/* Die faellige Zeile oben: Name gross, die Faelligkeit im Klartext, und
+   daneben das, was man jetzt tun kann. */
+function renderFaelligZeile(item) {
+  const due = potentialDueState(item.naechster_kontakt_am);
+  const contact = primaryContact(item);
+  const strength = potentialContactStrength(item);
+  const circleLabels = potentialCircleLabels(item);
+  const telefon = String(item.telefon || '').trim();
+  return `
+    <div class="liste-dringend" data-id="${escapeHtml(item.id)}" data-ton="achtung">
+      <span class="liste-kreis">${escapeHtml(potentialInitials(item.name))}</span>
+      <span class="liste-mitte">
+        <span class="liste-name gross">${escapeHtml(item.name)}</span>
+        <span class="liste-zeile2"><b class="liste-zustand">${escapeHtml(due.label)}</b><span class="liste-punkt">·</span>${escapeHtml(strength.label)}${circleLabels.length ? `<span class="liste-punkt">·</span>${escapeHtml(circleLabels.slice(0, 2).join(' · '))}` : ''}</span>
+      </span>
+      <span class="liste-tuen">
+        ${telefon
+          ? `<a class="liste-tun haupt" href="tel:${escapeHtml(potentialPhoneDigits(telefon))}">Anrufen</a>`
+          : `<span class="liste-tun leer">${escapeHtml(contact.label)}</span>`}
+        <button class="liste-tun" type="button" data-action="coach">Vorbereiten</button>
+        <button class="liste-tun potential-more" type="button" data-action="menu" aria-label="Weitere Aktionen" aria-expanded="false">•••</button>
+        <div class="potential-card-menu" hidden>
+          <button type="button" data-action="edit">Bearbeiten</button>
+          <button type="button" data-action="contact">${escapeHtml(contact.label)}</button>
+          <button class="danger" type="button" data-action="delete">Kontakt löschen</button>
+        </div>
+      </span>
+    </div>`;
 }
 
 function cockpitTransferButton() {
@@ -997,8 +1112,10 @@ function strengthIcon(key) {
 function updateMoreFilterCount() {
   const element = document.getElementById('potentialMoreFilterCount');
   if (!element) return;
-  const count = activeCircleFilters.size + (activeFilter === 'alle' ? 0 : 1);
-  element.textContent = count ? `${count} aktiv` : 'Alle';
+  const count = activeCircleFilters.size
+    + (activeFilter === 'alle' ? 0 : 1)
+    + (activeStrengthFilter === 'alle' ? 0 : 1);
+  element.textContent = count ? `${count}` : '';
 }
 
 function updateStrengthPreview() {
