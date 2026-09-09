@@ -4,7 +4,7 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.356 Beta** · Die drei Arbeitslisten in einer Form, live seit 09.09.2026.
 
 ## v1.356 Beta - Phase 341 · Die drei Arbeitslisten in einer Form
-**2026-09-09**
+**2026-09-09 · live veröffentlicht**
 
 Die drei Arbeitslisten des Beraterbereichs sahen aus wie drei verschiedene Anwendungen: Empfehlungen als Zeilentabelle, Promoter als Kachelraster mit goldenem Siegerpodest, das Potenzialbuch als Karten mit Fortschrittsbalken. Sie tun aber dasselbe, nämlich Menschen zeigen, bei denen etwas ansteht. Jetzt haben sie eine gemeinsame Bauform in `css/listen.css`.
 
