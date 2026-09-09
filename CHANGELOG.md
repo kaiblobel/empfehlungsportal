@@ -1,7 +1,19 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.353 Beta** · Zuordnung von Hand ändern, live seit 09.09.2026.
+Offizielle Live-Version: **v1.354 Beta** · Nachzug: eine Fassung je Datei, live seit 09.09.2026.
+
+## v1.354 Beta - Phase 339 · Nachzug: eine Fassung je Datei
+**2026-09-09**
+
+Beim Veröffentlichen von Phase 338 waren zwei Tests rot, und veröffentlicht wurde trotzdem. Das war ein Fehler in meinem Ablauf, nicht im Code: Der Testlauf und der Livegang standen im selben Befehl, das Ergebnis wurde nicht abgewartet.
+
+Inhaltlich ging es um eine Kleinigkeit mit unangenehmer Wirkung: `css/kidz-gewinnspiel-admin.css` wird von zwei Seiten geladen, der Gewinnspielliste und der KIDZ-for-Future-Liste. Hochgezogen wurde die Fassungsnummer nur auf einer. Damit hätte derselbe Nutzer je nach Seite zwei verschiedene Stände desselben Stylesheets bekommen. Genau dafür gibt es den Wächter, der angeschlagen hat.
+
+Jetzt steht überall dieselbe Nummer.
+
+Lehre für den Ablauf: Testergebnis abwarten und lesen, bevor der Livegang folgt. Ein Testlauf, dessen Ausgang niemand liest, ist kein Wächter.
+
 
 ## v1.353 Beta - Phase 338 · Zuordnung von Hand ändern
 **2026-09-09**
@@ -1903,9 +1915,9 @@ Dazu ein Werkzeug: `node tools/version-setzen.mjs "Titel der Phase"` zieht Versi
 - Promoter-Auswahl aktualisiert: **Anika Biebrach** ist deaktiviert, **Anja Scholz** (zählt für Sven Augustin) und **Sandra Röhrens** (zählt für Claudius Tusche) sind neu. David Stamm bleibt unverändert.
 - Die Datenbankmigrationen sind angewendet: `phase_192_kidz_schaetzung_nacherfassung` (Datei `schema-phase200.sql`) und `phase_199_kidz_schaetzfenster` (Datei `schema-phase200-schaetzfenster.sql`). Die Migrationsnamen stammen aus einer früheren Nummerierung, weil parallel weitere Phasen auf `main` gelandet sind. Sie ergänzt die Schätzspalten, lässt Fassung 5 zu, legt den Nacherfassungsweg an und stellt die Promoter um. Sie muss vor der Veröffentlichung des Codes laufen; die bisherige Fassung 4 bleibt dabei gültig, es entsteht also kein Ausfallfenster.
 
-Offizielle Live-Version: **v1.353 Beta** · Zuordnung von Hand ändern, live seit 09.09.2026.
+Offizielle Live-Version: **v1.354 Beta** · Nachzug: eine Fassung je Datei, live seit 09.09.2026.
 
-Offizielle Live-Version: **v1.353 Beta** · Zuordnung von Hand ändern, live seit 09.09.2026.
+Offizielle Live-Version: **v1.354 Beta** · Nachzug: eine Fassung je Datei, live seit 09.09.2026.
 
 ---
 
