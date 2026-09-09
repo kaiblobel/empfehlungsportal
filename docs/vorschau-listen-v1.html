@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gestaltungsvorschau · Listenseiten</title>
+<link rel="stylesheet" href="../css/style.css?v=36">
+<link rel="stylesheet" href="../css/dashboard.css?v=56">
+<link rel="stylesheet" href="../css/hub.css?v=63">
+<link rel="stylesheet" href="../css/promoter-dashboard.css?v=4">
+<link rel="stylesheet" href="../css/potenziale.css?v=12">
+<link rel="stylesheet" href="../css/dna.css?v=13">
+<style>
+/* Nur das Gerüst der Vorschau. Alles, was in den Kacheln steht, kommt aus den
+   echten Stylesheets des Portals, damit der Vergleich ehrlich ist. */
+body { margin: 0; background: var(--bg); font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.vs-kopf { position: sticky; top: 0; z-index: 20; padding: 14px 22px; background: #fff; border-bottom: 1px solid var(--hairline); }
+.vs-kopf h1 { margin: 0; font-size: 17px; font-weight: 800; letter-spacing: -.02em; color: var(--ink); }
+.vs-kopf p { margin: 4px 0 0; font-size: 12px; color: var(--ink-muted); }
+.vs-reiter { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 11px; }
+.vs-reiter button { min-height: 34px; padding: 0 13px; font: inherit; font-size: 12px; font-weight: 700; color: var(--ink-muted); background: var(--surface-soft); border: 1px solid var(--hairline); border-radius: 999px; cursor: pointer; }
+.vs-reiter button[aria-selected="true"] { color: #fff; background: var(--ink); border-color: var(--ink); }
+.vs-bereich { padding: 22px; }
+.vs-bereich[hidden] { display: none; }
+.vs-paar { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; }
+@media (max-width: 1100px) { .vs-paar { grid-template-columns: 1fr; } }
+.vs-spalte { min-width: 0; }
+.vs-marke { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.vs-marke.heute { color: #8a7f74; }
+.vs-marke.neu { color: var(--accent-hover); }
+.vs-marke b { padding: 3px 8px; border-radius: 999px; font-size: 10px; letter-spacing: .04em; text-transform: none; }
+.vs-marke.heute b { color: #6b6660; background: #eeebe6; }
+.vs-marke.neu b { color: #fff; background: var(--accent-hover); }
+.vs-rahmen { padding: 16px; background: var(--bg); border: 1px dashed var(--hairline-strong, #d9d5cf); border-radius: 16px; }
+.vs-befund { margin: 14px 0 0; padding: 13px 15px; background: #fff; border: 1px solid var(--hairline); border-left: 3px solid var(--accent); border-radius: 12px; font-size: 12.5px; line-height: 1.55; color: var(--ink-muted); }
+.vs-befund strong { color: var(--ink); }
+.vs-breite { display: flex; gap: 7px; align-items: center; margin-top: 11px; font-size: 12px; color: var(--ink-muted); }
+.vs-breite button { min-height: 30px; padding: 0 11px; font: inherit; font-size: 11px; font-weight: 700; color: var(--ink-muted); background: #fff; border: 1px solid var(--hairline); border-radius: 8px; cursor: pointer; }
+.vs-breite button[aria-pressed="true"] { color: #fff; background: var(--ink); border-color: var(--ink); }
+.vs-hinweis { color: var(--ink-soft); font-size: 11.5px; }
+.vs-eng .vs-paar { grid-template-columns: 1fr; }
+.vs-eng .vs-rahmen { max-width: 390px; }
+@media (max-width: 700px) {
+  .vs-bereich { padding: 12px; }
+  .vs-rahmen { padding: 10px; }
+  .vs-kopf { padding: 12px 14px; }
+}
+
+
+/* ---------------------------------------------------------------- Entwurf */
+/* Schriftgewichte: nur 300, 400 und 700. Das haelt tests/familienaehnlichkeit
+   fest, und es ist Kais Entscheidung fuer die ganze Portal-Familie. */
+.n-kopf { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+.n-kopf h1 { margin: 0; font-size: 30px; font-weight: 700; letter-spacing: -.03em; color: var(--ink); }
+.n-kopf .h-label { margin-bottom: 5px; color: var(--accent-hover); font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.n-kopf a { display: inline-flex; align-items: center; min-height: 42px; padding: 0 16px; border-radius: 10px; background: var(--ink); color: #fff; text-decoration: none; font-size: 12.5px; font-weight: 700; white-space: nowrap; }
+
+.n-leiste { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 18px; }
+.n-suche { flex: 1 1 220px; min-width: 0; height: 42px; display: flex; align-items: center; gap: 9px; padding: 0 13px; background: #fff; border: 1px solid var(--hairline); border-radius: 10px; color: var(--ink-soft); }
+.n-suche input { min-width: 0; width: 100%; border: 0; outline: 0; background: transparent; font: 400 13px inherit; color: var(--ink); }
+.n-reiter { display: flex; gap: 5px; overflow-x: auto; scrollbar-width: none; }
+.n-reiter::-webkit-scrollbar { display: none; }
+.n-reiter button { display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 0 12px; border: 1px solid var(--hairline); border-radius: 999px; background: #fff; color: var(--ink-muted); font: 400 12.5px inherit; white-space: nowrap; cursor: pointer; }
+.n-reiter button b { font-weight: 700; }
+.n-reiter button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.n-mehr { min-height: 38px; padding: 0 12px; border: 1px solid var(--hairline); border-radius: 999px; background: #fff; color: var(--ink-muted); font: 400 12.5px inherit; cursor: pointer; }
+.n-mehr[aria-expanded="true"] { border-color: var(--ink-soft); color: var(--ink); }
+.n-weitere { flex-basis: 100%; display: none; gap: 8px; flex-wrap: wrap; padding: 12px; background: #fff; border: 1px solid var(--hairline); border-radius: 12px; }
+.n-weitere[data-offen="ja"] { display: flex; }
+
+.n-abschnitt { margin: 0 0 9px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.n-abschnitt h2 { margin: 0; font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
+.n-abschnitt span { color: var(--ink-soft); font-size: 11.5px; }
+
+/* Wartet auf dich: eine Zeile je Person statt einer grossen Karte. Dieselbe
+   Aussage, ein Viertel der Hoehe, und die Handlung sitzt direkt daneben. */
+.n-dringend { display: grid; gap: 8px; margin-bottom: 24px; }
+.n-dringend-zeile { position: relative; display: grid; grid-template-columns: 40px minmax(0,1fr) auto; align-items: center; gap: 12px; padding: 12px 14px 12px 15px; background: #fff; border: 1px solid var(--hairline); border-left: 3px solid var(--ton); border-radius: 12px; }
+.n-kuerzel { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 999px; background: color-mix(in srgb, var(--ton) 13%, transparent); color: var(--ton); font-size: 13px; font-weight: 700; }
+.n-name { display: block; overflow: hidden; color: var(--ink); font-size: 14px; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+.n-satz { display: block; margin-top: 2px; color: var(--ink-muted); font-size: 12px; }
+.n-satz b { color: var(--ton); font-weight: 700; }
+.n-tuen { display: flex; gap: 6px; }
+.n-tun { display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 0 13px; border: 1px solid var(--hairline); border-radius: 9px; background: #fff; color: var(--ink-muted); text-decoration: none; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.n-tun.haupt { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+/* Die Liste: zwei Zeilen je Person, damit auch am Handy Thema und Herkunft
+   stehen bleiben. Heute fallen beide unter 820px ersatzlos weg. */
+.n-liste { background: #fff; border: 1px solid var(--hairline); border-radius: 14px; overflow: hidden; }
+.n-zeile { display: grid; grid-template-columns: 38px minmax(0,1fr) auto; align-items: center; gap: 12px; padding: 13px 15px; border-bottom: 1px solid var(--hairline); color: inherit; text-decoration: none; }
+.n-zeile:last-child { border-bottom: 0; }
+.n-zeile:hover { background: var(--surface-soft); }
+.n-zeile .n-kuerzel { width: 38px; height: 38px; font-size: 12px; }
+.n-oben { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.n-oben strong { overflow: hidden; font-size: 13.5px; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+.n-unten { display: flex; flex-wrap: wrap; align-items: center; gap: 5px 9px; margin-top: 3px; color: var(--ink-soft); font-size: 11.5px; }
+.n-punkt { color: var(--hairline-strong, #d9d5cf); }
+.n-marke { display: inline-flex; align-items: center; gap: 5px; padding: 2px 8px; border-radius: 999px; background: color-mix(in srgb, var(--ton) 12%, transparent); color: var(--ton); font-size: 11px; font-weight: 700; }
+.n-marke i { width: 6px; height: 6px; border-radius: 999px; background: currentColor; }
+.n-test { padding: 2px 7px; border: 1px dashed var(--accent-hover); border-radius: 999px; color: var(--accent-hover); font-size: 10px; font-weight: 700; }
+.n-pfeil { display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid var(--hairline); border-radius: 9px; color: var(--ink-soft); }
+.n-detail { margin-top: 6px; font-size: 11.5px; color: var(--ink-soft); }
+.n-detail summary { cursor: pointer; color: var(--ink-muted); font-weight: 700; list-style: none; }
+.n-detail summary::-webkit-details-marker { display: none; }
+.n-detail summary::before { content: "＋ "; }
+.n-detail[open] summary::before { content: "－ "; }
+.n-detail p { margin: 6px 0 0; line-height: 1.5; }
+.n-spalte { flex-direction: column; align-items: stretch; }
+.n-zahlen { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 20px; padding-bottom: 10px; border-bottom: 1px solid var(--hairline); }
+.n-zahl-block b { font-size: 19px; font-weight: 700; letter-spacing: -.02em; }
+.n-zahl-block span { margin-left: 5px; color: var(--ink-muted); font-size: 12px; }
+.n-zahl { font-weight: 700; color: var(--ink); }
+.n-fussnote { margin: 0; color: var(--ink-soft); font-size: 11.5px; align-self: center; }
+.n-rangliste { margin: 10px 0 0; padding-left: 20px; color: var(--ink-muted); font-size: 12.5px; line-height: 1.9; }
+.n-rangliste b { color: var(--ink); font-weight: 700; }
+.n-filterreihe { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+
+
+</style>
+</head>
+<body>
+
+<header class="vs-kopf">
+  <h1>Gestaltungsvorschau · Listenseiten im Beraterbereich</h1>
+  <p>Erfundene Beispieldaten. Links der heutige Stand, rechts der Vorschlag. Nichts davon ist live.</p>
+  <div class="vs-reiter" role="tablist">
+    <button role="tab" aria-selected="true" data-ziel="empf">Empfehlungen</button>
+    <button role="tab" aria-selected="false" data-ziel="prom">Promoter</button>
+    <button role="tab" aria-selected="false" data-ziel="pot">Potenzialbuch</button>
+  </div>
+  <div class="vs-breite">
+    Ansicht:
+    <button data-breite="weit" aria-pressed="true">Nebeneinander</button>
+    <button data-breite="eng" aria-pressed="false">Schmale Spalte</button>
+    <span class="vs-hinweis">Für die echte Handy-Ansicht das Browserfenster schmal ziehen: nur dann greifen die Handy-Regeln der Seite.</span>
+  </div>
+</header>
+
+<main>
+  <section class="vs-bereich" id="empf"></section>
+  <section class="vs-bereich" id="prom" hidden></section>
+  <section class="vs-bereich" id="pot" hidden></section>
+</main>
+
+<script type="module" src="./vorschau-listen-v1.js"></script>
+</body>
+</html>
