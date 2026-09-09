@@ -538,6 +538,23 @@ assert.match(js, /kgSuccessMark[\s\S]{0,80}hidden = true/);
 
 const adminCss = await read('css/kidz-gewinnspiel-admin.css');
 
+// Phase 340: Das Auswahlfeld erschien nicht, weil die Beraterliste erst nach
+// dem Zeichnen geladen wurde. Diese beiden Zusicherungen halten die Reihenfolge
+// fest. Sie sind Textmuster, kein Browser-Test: Sie fangen genau diesen
+// Rueckfall und sonst nichts.
+assert.match(adminJs, /async function ladeBeraterAuswahl/);
+assert.ok(
+  adminJs.indexOf('await ladeBeraterAuswahl()') > -1
+    && adminJs.indexOf('await ladeBeraterAuswahl()') < adminJs.indexOf('loadEntries(),'),
+  'Die Beraterliste muss vor dem Zeichnen der Teilnahmen geladen werden, sonst fehlt das Auswahlfeld.',
+);
+// Und sie muss abgewartet werden. Nebenher gestartet heisst nicht vorher fertig.
+assert.doesNotMatch(adminJs, /Promise\.all\(\[\s*ladeBeraterAuswahl\(\)/,
+  'ladeBeraterAuswahl darf nicht nebenher laufen, sondern muss fertig sein.');
+// Sicherheitsnetz: Wird die Liste doch erst im Filteraufbau gefuellt, muss
+// danach neu gezeichnet werden.
+assert.match(adminJs, /appendParticipantFilterGroup\('Promoter'[\s\S]{0,400}render\(\);/);
+
 // Phase 338: Die Zuordnung laesst sich von Hand aendern, aber nur von
 // Administratoren. Ein Spaltenrecht auf berater_id waere hier die falsche
 // Antwort: Damit koennte sich jeder Berater fremde Kontakte zuschreiben.
