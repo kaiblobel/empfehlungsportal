@@ -15,8 +15,12 @@ const [listHtml, detailHtml, promoterCss, listenCss, dashboardJs, detailJs, sw] 
 assert.match(listHtml, /class="has-app-nav promoter-page"/);
 assert.match(listHtml, /Dein Empfehlungsnetzwerk/);
 assert.match(listHtml, /id="networkSummary"/);
+// Das Podest ist zurueck: Kai hat es vermisst, es ist die einzige Stelle,
+// an der die Menschen gewuerdigt werden, die empfehlen. Was bleibt: keine
+// Testeintraege darauf, und es ist rund halb so hoch wie frueher.
 assert.match(listHtml, /id="promoterPodium"/);
-assert.match(listHtml, /class="liste-rangliste"/);
+assert.match(listHtml, /id="promoterChampions"/);
+assert.match(listHtml, /class="liste-podest-platz rang-/);
 assert.match(listHtml, /id="promoterSearch"/);
 assert.match(listHtml, /data-sort="aktuell"/);
 assert.match(listHtml, /class="liste-zeile"/);
@@ -51,7 +55,7 @@ assert.match(detailJs, /navigator\.clipboard\.writeText/);
 
 assert.match(promoterCss, /\.promoter-grid/);
 assert.match(promoterCss, /\.pr-champions/);
-assert.match(listenCss, /\.liste-rangliste/);
+assert.match(listenCss, /\.liste-podest-platz\.rang-1/);
 assert.match(promoterCss, /\.pd-layout/);
 assert.match(promoterCss, /grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
 assert.match(promoterCss, /@media \(max-width: 540px\)/);

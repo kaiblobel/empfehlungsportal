@@ -76,6 +76,11 @@ async function sammleHtml(ordner, gesammelt = []) {
     // Ohne diese Zeile vergleicht der Test die Fassungen dieser Kopie mit
     // denen des Hauptordners und meldet Unterschiede, die keine sind.
     if (['.git', '.worktrees', 'node_modules', 'assets', 'tools'].includes(eintrag.name)) continue;
+    // docs/pruef-*.html sind Erzeugnisse von docs/pruefkopie.py, keine
+    // ausgelieferten Seiten. Sie tragen die Fassungsnummern des letzten
+    // Laufs und wuerden hier einen Unterschied melden, den es live nicht
+    // gibt. Sie stehen auch in .gitignore.
+    if (eintrag.name.startsWith('pruef-')) continue;
     const pfad = new URL(`${eintrag.name}${eintrag.isDirectory() ? '/' : ''}`, ordner);
     if (eintrag.isDirectory()) await sammleHtml(pfad, gesammelt);
     else if (eintrag.name.endsWith('.html')) gesammelt.push(pfad);

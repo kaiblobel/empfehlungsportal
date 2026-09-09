@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.356 Beta** · Die drei Arbeitslisten in einer Form, live seit 09.09.2026.
+Offizielle Live-Version: **v1.357 Beta** · Das Podest ist zurück, live seit 09.09.2026.
+
+## v1.357 Beta - Phase 342 · Das Podest ist zurück
+**2026-09-09**
+
+Phase 341 hat das Siegerpodest der Promoter durch eine eingeklappte Rangliste ersetzt. Kai hat es vermisst: „Die 3 Besten mit der Treppe, das fand ich gut." Es kommt zurück, an seinen alten Platz über der Liste.
+
+Was anders ist als vorher: Der Block ist rund halb so hoch. Die Überschrift „Deine Besten / Top-Promoter / Die drei stärksten Empfehlungsgeber in deinem Netzwerk" stand früher in drei Zeilen übereinander, jetzt steht „Top-Promoter" in einer Zeile mit der Wertungsregel. Die Stufen sind 34, 24 und 18 Punkte hoch statt 82, 54 und 44. Aus rund 270 Punkten werden rund 150.
+
+Der Fehler aus Phase 341 bleibt behoben: **Auf dem Podest steht kein Testeintrag.** Ein Wächter hält das fest, die Gegenprobe wurde rot gesehen.
+
+Die Rangliste hinter dem Knopf ist entfallen, sie zeigte dieselben Namen wie das Podest. Der Knopf heißt jetzt nur noch „Zahlen".
+
+Am Handy bleibt das Podest dreispaltig, nur schmaler: nebeneinander ist es ein Podest, untereinander wäre es wieder eine Liste. Geprüft in einem Rahmen mit echten 390 Punkten, das Dokument bleibt 390 Punkte breit.
+
+---
 
 ## v1.356 Beta - Phase 341 · Die drei Arbeitslisten in einer Form
 **2026-09-09 · live veröffentlicht**

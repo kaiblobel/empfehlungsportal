@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="../css/dashboard.css?v=56" />
   <link rel="stylesheet" href="../css/promoter-dashboard.css?v=4" />
   <link rel="stylesheet" href="../css/dna.css?v=13" />
-  <link rel="stylesheet" href="../css/listen.css?v=1" />
+  <link rel="stylesheet" href="../css/listen.css?v=2" />
   <script src="../js/config.js"></script>
   <script src="../js/wartung.js?v=4"></script>
 </head>
@@ -61,16 +61,27 @@
           <button type="button" data-sort="gesamt" aria-pressed="false">Meiste Empfehlungen</button>
           <button type="button" data-sort="name" aria-pressed="false">Name A-Z</button>
         </div>
-        <button class="liste-mehr" type="button" id="mehrBtn" aria-expanded="false" aria-controls="mehrFeld">Zahlen und Rangliste</button>
+        <button class="liste-mehr" type="button" id="mehrBtn" aria-expanded="false" aria-controls="mehrFeld">Zahlen</button>
         <div class="liste-weitere liste-spalte" id="mehrFeld">
           <div class="liste-zahlen" id="networkSummary"></div>
-          <ol class="liste-rangliste" id="promoterPodium"></ol>
           <div class="liste-reiter" id="scopeTabs" role="group" aria-label="Bereich" hidden>
             <button type="button" data-scope="mein" aria-pressed="true">Meine</button>
             <button type="button" data-scope="team" aria-pressed="false">Mein Team</button>
           </div>
         </div>
       </div>
+
+      <!-- Flacher als frueher: die Ueberschrift steht in einer Zeile mit
+           der Wertungsregel, der Erklaersatz ist weg, die Stufen sind
+           niedriger. Aus rund 270 Punkten werden rund 150. -->
+      <section class="liste-podest" id="promoterChampions" hidden aria-labelledby="promoterChampionsTitle">
+        <div class="liste-podest-kopf">
+          <span class="liste-podest-pokal" id="promoterChampionsIcon" aria-hidden="true"></span>
+          <h2 id="promoterChampionsTitle">Top-Promoter</h2>
+          <span class="liste-podest-regel">nach gewonnenen Kunden</span>
+        </div>
+        <div class="liste-podest-stufen" id="promoterPodium"></div>
+      </section>
 
       <div class="liste-abschnitt"><h2>Dein Netzwerk</h2><span id="networkCount">Promoter werden geladen</span></div>
       <div id="list" aria-live="polite">
@@ -281,10 +292,12 @@
       document.getElementById('networkFoot').textContent = `${allItems.length} Promoter insgesamt`;
     }
 
-    /* Aus dem goldenen Siegerpodest ist eine Rangliste geworden, die
-       zusammen mit den Zahlen eingeklappt steht. Sie zeigte dieselben drei
-       Namen, die direkt darunter in der Liste stehen. */
+    /* Das Podest. Es zeigt dieselben drei Namen, die auch in der Liste
+       darunter stehen, und das ist hier der Punkt: es ist die einzige
+       Stelle, an der die Menschen gewuerdigt werden, die empfehlen.
+       Testeintraege stehen nicht darauf. */
     function renderPodium() {
+      const section = document.getElementById('promoterChampions');
       const podium = document.getElementById('promoterPodium');
       const ranking = ohneTest()
         .filter((item) => number(item.gesamt) > 0 || number(item.kunde) > 0)
@@ -292,11 +305,21 @@
           || number(b.gesamt) - number(a.gesamt)
           || activityTime(b) - activityTime(a)
           || String(a.name || '').localeCompare(String(b.name || ''), 'de', { sensitivity: 'base' }))
-        .slice(0, 5);
-      podium.innerHTML = ranking.map((item) => {
+        .slice(0, 3);
+      section.hidden = ranking.length === 0;
+      if (!ranking.length) { podium.innerHTML = ''; return; }
+      document.getElementById('promoterChampionsIcon').innerHTML = icon('Trophy', { size: 16 });
+      podium.className = `liste-podest-stufen anzahl-${ranking.length}`;
+      podium.innerHTML = ranking.map((item, index) => {
+        const rang = index + 1;
         const kunden = number(item.kunde);
         const empfehlungen = number(item.gesamt);
-        return `<li><a href="promoter.html?id=${encodeURIComponent(item.id)}"><b>${escapeHtml(item.name)}</b></a> · ${kunden} Kunde${kunden === 1 ? '' : 'n'} aus ${empfehlungen} Empfehlung${empfehlungen === 1 ? '' : 'en'}</li>`;
+        return `<a class="liste-podest-platz rang-${rang}" href="promoter.html?id=${encodeURIComponent(item.id)}">
+          <span class="liste-kreis">${initialen(item.name)}</span>
+          <strong>${escapeHtml(item.name)}</strong>
+          <small>${kunden} Kunde${kunden === 1 ? '' : 'n'} · ${empfehlungen} Empfehlung${empfehlungen === 1 ? '' : 'en'}</small>
+          <span class="liste-podest-stufe">${rang === 1 ? icon('Trophy', { size: 13 }) : ''}<b>${rang}</b></span>
+        </a>`;
       }).join('');
     }
 

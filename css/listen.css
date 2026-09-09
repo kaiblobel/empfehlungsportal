@@ -362,6 +362,124 @@ button.liste-nebentun {
 .liste-detail[open] summary::before { content: "－ "; }
 .liste-detail p { margin: 5px 0 0; line-height: 1.5; }
 
+/* -------------------------------------------------------- Podest */
+/* Die drei Besten. Es zeigt dieselben Namen, die auch in der Liste
+   darunter stehen, und das ist hier der Punkt: die einzige Stelle, an der
+   die Menschen gewuerdigt werden, die empfehlen.
+
+   Flacher als die alte Fassung: die Ueberschrift steht in einer Zeile mit
+   der Wertungsregel statt in drei, und die Stufen sind 34/24/18 statt
+   82/54/44 Punkte hoch. Aus rund 270 Punkten werden rund 150. */
+.liste-podest {
+  margin-bottom: 22px;
+  padding: 14px 16px 0;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-top: 2px solid var(--dna-gold);
+  border-radius: var(--radius-card);
+  /* Die Stufen stehen bewusst buendig am unteren Rand, so wie ein Podest
+     auf dem Boden steht. Ohne das hier laufen sie ueber die Rundung. */
+  overflow: hidden;
+}
+.liste-podest[hidden] { display: none !important; }
+.liste-podest-kopf {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 12px;
+}
+.liste-podest-kopf h2 {
+  margin: 0;
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: -.01em;
+  color: var(--ink);
+}
+.liste-podest-pokal {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  border-radius: 999px;
+  background: var(--dna-gold-tint);
+  color: var(--dna-gold-dark);
+}
+.liste-podest-regel {
+  margin-left: auto;
+  color: var(--ink-soft);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+/* Platz 2 links, Platz 1 in der Mitte, Platz 3 rechts. Die Reihenfolge im
+   Quelltext bleibt 1-2-3, damit sie vorgelesen stimmt. */
+.liste-podest-stufen {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
+  gap: 8px;
+}
+.liste-podest-stufen.anzahl-1 { grid-template-columns: minmax(0, 1fr); }
+.liste-podest-stufen.anzahl-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.liste-podest-platz {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  min-width: 0;
+  padding-top: 4px;
+  color: inherit;
+  text-decoration: none;
+  text-align: center;
+}
+.liste-podest-platz.rang-1 { order: 2; }
+.liste-podest-platz.rang-2 { order: 1; }
+.liste-podest-platz.rang-3 { order: 3; }
+.liste-podest-platz strong {
+  overflow: hidden;
+  max-width: 100%;
+  font-family: var(--font-head);
+  font-size: 13.5px;
+  font-weight: 400;
+  letter-spacing: -.01em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.liste-podest-platz small {
+  overflow: hidden;
+  max-width: 100%;
+  color: var(--ink-soft);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.liste-podest-platz:hover strong { color: var(--klick); }
+.liste-podest-platz .liste-kreis { width: 34px; height: 34px; flex-basis: 34px; font-size: 12.5px; }
+
+/* Die Stufe selbst. Gold traegt hier die Flaeche, die Ziffer darauf steht
+   in Gold-dunkel: das Markengold als Schrift waeren 2,28:1. */
+.liste-podest-stufe {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  margin-top: 3px;
+  border-radius: var(--radius-button) var(--radius-button) 0 0;
+  background: var(--dna-paper-2);
+  color: var(--ink-muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+.liste-podest-platz.rang-1 .liste-podest-stufe {
+  height: 34px;
+  background: var(--dna-gold-tint-2);
+  color: var(--dna-gold-dark);
+}
+.liste-podest-platz.rang-2 .liste-podest-stufe { height: 24px; background: var(--dna-gold-tint); color: var(--dna-gold-dark); }
+.liste-podest-platz.rang-3 .liste-podest-stufe { height: 18px; }
+
 /* ----------------------------------------------------- Kennzahlen */
 /* Zahlen stehen nicht mehr als vier Kacheln ueber der Liste, sondern
    eingeklappt unter "Zahlen und Rangliste". Sie beantworten keine
@@ -441,6 +559,12 @@ button.liste-nebentun {
 /* -------------------------------------------------------- Handy */
 @media (max-width: 700px) {
   .liste-kopf { flex-wrap: wrap; }
+  /* Das Podest bleibt dreispaltig, nur schmaler: nebeneinander ist es
+     ein Podest, untereinander waere es wieder eine Liste. */
+  .liste-podest { padding: 12px 11px 0; }
+  .liste-podest-regel { display: none; }
+  .liste-podest-stufen { gap: 5px; }
+  .liste-podest-platz small { display: none; }
   .liste-kopf h1 { font-size: 26px; }
   /* Die Zeitangabe faellt weg, die Testkennzeichnung bleibt: dass ein
      Eintrag ein Testeintrag ist, muss man auch am Handy sehen. */
