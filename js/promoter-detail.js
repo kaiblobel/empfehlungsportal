@@ -95,10 +95,10 @@ function renderAll() {
     </section>
 
     <section class="pd-stats" aria-label="Promoter-Kennzahlen">
-      ${statCard('↗', total, 'Empfehlungen', total ? `${total} insgesamt` : 'Noch keine')}
-      ${statCard('✓', kunden, 'Kunden geworden', kunden ? `${kunden} erfolgreich` : 'Noch offen')}
-      ${statCard('%', `${quote} %`, 'Kundenquote', quote >= 50 ? 'stark' : 'im Aufbau')}
-      ${statCard('◇', zielKpi, zielKpiLabel, ziel.ziel ? ziel.titel : 'noch offen')}
+      ${statCard('↗', 'pfeil', total, 'Empfehlungen', total ? `${total} insgesamt` : 'Noch keine')}
+      ${statCard('✓', 'haken', kunden, 'Kunden geworden', kunden ? `${kunden} erfolgreich` : 'Noch offen')}
+      ${statCard('%', 'prozent', `${quote} %`, 'Kundenquote', quote >= 50 ? 'stark' : 'im Aufbau')}
+      ${statCard('◇', 'ziel', zielKpi, zielKpiLabel, ziel.ziel ? ziel.titel : 'noch offen')}
     </section>
 
     <section class="pd-layout">
@@ -123,10 +123,10 @@ function renderAll() {
         <article class="pd-card pd-card-pad">
           <h2>Kontakt und Beziehungspflege</h2>
           <div class="pd-info-list">
-            ${infoRow('☎', 'Telefon', p.telefon)}
-            ${infoRow('@', 'E-Mail', p.email)}
-            ${infoRow('⌂', 'Adresse', p.adresse)}
-            ${infoRow('#', 'Promoter-Code', p.code)}
+            ${infoRow('☎', 'telefon', 'Telefon', p.telefon)}
+            ${infoRow('@', 'mail', 'E-Mail', p.email)}
+            ${infoRow('⌂', 'haus', 'Adresse', p.adresse)}
+            ${infoRow('#', 'raute', 'Promoter-Code', p.code)}
           </div>
           <div class="pd-note"><label>Motive und Interessen</label><p>${escapeHtml(p.motive || 'Noch nichts hinterlegt.')}</p></div>
           <div class="pd-note"><label>Interne Notiz</label><p>${escapeHtml(p.notiz || 'Noch keine interne Notiz.')}</p></div>
@@ -162,12 +162,14 @@ function renderAll() {
   document.getElementById('pdSave').addEventListener('click', onSave);
 }
 
-function statCard(icon, value, label, hint) {
-  return `<article class="pd-stat"><div class="pd-stat-top"><span class="pd-stat-icon">${icon}</span><small>${escapeHtml(hint)}</small></div><strong class="pd-stat-num">${escapeHtml(value)}</strong><span class="pd-stat-lbl">${escapeHtml(label)}</span></article>`;
+// Phase 342: data-symbol waehlt das gezeichnete Symbol (promoter-dashboard.css),
+// das Textzeichen bleibt als Rueckfall stehen.
+function statCard(icon, symbol, value, label, hint) {
+  return `<article class="pd-stat"><div class="pd-stat-top"><span class="pd-stat-icon" data-symbol="${symbol}" aria-hidden="true">${icon}</span><small>${escapeHtml(hint)}</small></div><strong class="pd-stat-num">${escapeHtml(value)}</strong><span class="pd-stat-lbl">${escapeHtml(label)}</span></article>`;
 }
 
-function infoRow(icon, label, value) {
-  return `<div class="pd-info-row"><span class="pd-info-icon">${icon}</span><div><label>${escapeHtml(label)}</label><span>${escapeHtml(value || 'Nicht hinterlegt')}</span></div></div>`;
+function infoRow(icon, symbol, label, value) {
+  return `<div class="pd-info-row"><span class="pd-info-icon" data-symbol="${symbol}" aria-hidden="true">${icon}</span><div><label>${escapeHtml(label)}</label><span>${escapeHtml(value || 'Nicht hinterlegt')}</span></div></div>`;
 }
 
 function renderZielInfo() {

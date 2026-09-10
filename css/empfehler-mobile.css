@@ -403,6 +403,160 @@ details[open] summary::after { content: "−"; }
   *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
 }
 
+/* ============================================================
+   PHASE 342 · DIE PROMOTER-SEITE IN DER RUHIGEN LINIE (10.09.2026)
+
+   Kais Befund: "immer noch das alte Design ... so eine fette Schrift".
+   Entschieden am Vorher/Nachher-Entwurf
+   (kds/referenz/dvag-design-system/mockups/promoter-familie).
+
+   Das ist eine Kundenseite, auch die Vorschau aus der Praesentation.
+   Deshalb KEIN DVAG-Hausmaterial: keine Hausschrift (lizenziert, nur fuer
+   angemeldete Berater), keine internen Hauswerte. Stattdessen dieselbe
+   Linie wie Kundenseite und Service-App: Tinte #132126, Petrol #0b4650,
+   Gold nur als Flaeche, Gold als Schrift #806b0d, Inter aus dem Projekt,
+   Staerken 400 bis 600 statt bis 850. Kein Verlauf, kein Leuchtring, kein
+   Glaseffekt, flache Karten mit feiner Linie.
+
+   Nachgerechnet: Nebentext 5,1:1 auf dem Grund, Goldschrift 4,76:1,
+   Tinte auf Goldknopf 7,25:1.
+   ============================================================ */
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('/assets/fonts/inter-latin.woff2') format('woff2')}
+
+:root{
+  --ink: #132126;
+  --muted: #5d6a70;
+  --paper: #f3f5f4;
+  --line: rgba(19, 33, 38, .12);
+  --line-strong: rgba(19, 33, 38, .24);
+  --petrol-soft: #e6eeef;
+  --gold-dark: #806b0d;
+  --gold-soft: #f6f0d6;
+  --shadow: none;
+  --radius: 14px;
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+body{ background: #e7ecea; }
+
+/* ---- Kopfzeile: fest, aber ohne Glas ---- */
+.topbar{ background: var(--paper); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.advisor-photo{ box-shadow: none; }
+.top-copy strong{ font-size: 16px; font-weight: 600; letter-spacing: 0; }
+.top-copy > span{ font-size: 13px; }
+
+/* ---- Startbereich: flaches Petrol, kein Verlauf, kein Ring ---- */
+.hero{ background: var(--petrol); box-shadow: none; }
+.hero::before{ display: none; }
+.eyebrow{ font-size: 12px; font-weight: 600; letter-spacing: .08em; color: #efe0a0; }
+.hero h1{ font-size: 26px; font-weight: 600; line-height: 1.22; letter-spacing: -.01em; }
+.hero p{ font-size: 15px; color: rgba(255, 255, 255, .86); }
+.primary,
+.secondary{ font-weight: 600; border-radius: 12px; }
+.primary{ min-height: 52px; font-size: 16px; letter-spacing: 0; color: var(--ink); }
+.primary:hover{ filter: none; background: #d3b62e; }
+.plus-ring{ font-weight: 500; background: rgba(19, 33, 38, .12); }
+.draft-button{ font-size: 14px; font-weight: 500; }
+.hero-proof{ font-size: 13px; color: rgba(255, 255, 255, .8); }
+
+/* ---- So laeuft es ab ---- */
+.howto{ box-shadow: none; }
+.howto-head strong{ font-size: 16px; font-weight: 600; }
+.howto-head span{ font-size: 12px; }
+.howto-num{ font-weight: 600; }
+.howto-step strong{ font-size: 14px; font-weight: 600; }
+.howto-step > div > span{ font-size: 13.5px; }
+.howto-note{ font-size: 13px; }
+
+/* ---- Abschnitte ---- */
+.section-head .eyebrow{ color: var(--gold-dark); }
+.section-head h2{ font-size: 20px; font-weight: 600; letter-spacing: -.01em; }
+.text-button{ font-size: 13px; font-weight: 600; }
+
+.metric{ border-radius: 12px; box-shadow: none; }
+.metric strong{ font-size: 28px; font-weight: 600; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+.metric span{ font-size: 13px; font-weight: 500; }
+.metric small{ font-size: 12px; font-weight: 400; }
+
+.activity-card,
+.recommendation-card,
+.reward-card,
+details,
+.empty-card{ box-shadow: none; }
+.activity-icon{ font-weight: 600; }
+.activity-copy strong{ font-size: 15px; font-weight: 600; }
+.activity-copy span{ font-size: 13.5px; }
+.time{ font-size: 12px; }
+
+.reward-mark{ font-weight: 600; }
+.reward-copy strong{ font-size: 16px; font-weight: 600; }
+.reward-copy span{ font-size: 13.5px; }
+.progress{ height: 8px; }
+.progress i{ background: var(--gold); }
+.progress-meta{ font-size: 12px; }
+
+.avatar{ font-weight: 600; }
+.rec-name strong{ font-size: 15px; font-weight: 600; }
+.rec-name span{ font-size: 13px; }
+.pill{ font-size: 12px; font-weight: 600; }
+.timeline span{ font-size: 12px; }
+.timeline span.done{ font-weight: 600; }
+.rec-action{ font-size: 13px; font-weight: 600; border-radius: 10px; background: var(--card); }
+.rec-action.primary-small{ background: var(--petrol); }
+.detail-field label{ font-weight: 600; }
+
+summary{ font-size: 15px; font-weight: 600; }
+.setting-row > label{ font-size: 13px; font-weight: 600; }
+.setting-meta button{ font-weight: 600; }
+.choice-chip{ font-size: 13px; font-weight: 500; }
+.footer{ font-size: 13px; }
+
+/* ---- Feste Bedienleiste: weiss statt Glas, Hauptknopf ohne Leuchtschatten ---- */
+.bottom-nav{ background: var(--card); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.nav-button{ font-size: 12px; font-weight: 500; }
+.nav-button.active{ font-weight: 600; }
+.nav-main{ font-size: 15px; font-weight: 600; color: var(--ink); box-shadow: none; }
+.nav-main span:last-child{ font-weight: 600; }
+.nav-plus{ font-weight: 500; }
+
+/* ---- Empfehlung anlegen, Ziel, Neuigkeiten ---- */
+.sheet{ box-shadow: 0 -12px 40px rgba(19, 33, 38, .14); }
+.sheet-title strong{ font-size: 15px; font-weight: 600; }
+.sheet-title span{ font-size: 12px; }
+.step-number{ font-weight: 600; }
+.step h2,
+.confirm-sheet h2,
+.notice-head h2,
+.error-state h1{ font-weight: 600; letter-spacing: -.01em; }
+.step > p{ font-size: 14px; }
+.field label{ font-size: 13px; font-weight: 600; }
+.topic-card{ border-radius: 12px; box-shadow: none; }
+.topic-symbol{ font-weight: 600; }
+.topic-card strong{ font-size: 14px; font-weight: 600; }
+.topic-card > span:last-child{ font-size: 12px; }
+.template-card strong,
+.preview-title strong,
+.goal-option strong,
+.goal-plan-summary strong,
+.notice-item strong{ font-weight: 600; }
+.preview-card,
+.goal-option,
+.notice-item{ box-shadow: none; }
+.message-link{ font-weight: 500; }
+.honesty{ font-size: 13px; color: #5a4c08; }
+.goal-option-media,
+.goal-slot-number,
+.goal-plan-summary small,
+.goal-plan-empty,
+.error-mark{ font-weight: 600; }
+.error{ font-weight: 500; }
+.toast{ box-shadow: 0 8px 24px rgba(19, 33, 38, .18); }
+
+/* Auf dem Rechner steht die Seite als Telefon in der Mitte. Rahmen statt
+   grossem Schlagschatten. */
+@media (min-width: 720px){
+  .phone-shell{ box-shadow: 0 0 0 1px var(--line); }
+}
+
 /* Symbole der Meldungen: gezeichnet statt Kuerzel wie "ZIEL" oder "AUF".
    Wer selten hier ist, soll nicht raten muessen, was ein Kuerzel bedeutet. */
 .activity-icon { position: relative; }
