@@ -198,6 +198,19 @@
 .ed-contact .ed-contact-icon svg      { width: 14px; height: 14px; display: block; }
 .ed-event .ed-event-dot svg           { width: 16px; height: 16px; display: block; }
 
+/* Phase 344 · Die Symbole sitzen in der Mitte (10.09.2026)
+   Dieselbe Falle wie oben, nur beim Zentrieren uebersehen: .ed-summary-card span
+   und .ed-contact span setzen display:block und margin-top und sind spezifischer
+   als die einfache Kaestchen-Klasse. Aus dem zentrierenden Raster wurde ein
+   Block, das Symbol rutschte nach oben links. Kai hat es am Bildschirmfoto
+   gesehen. Mit zwei Klassen gewinnt auch hier die Absicht. */
+.ed-summary-card .ed-summary-icon,
+.ed-contact .ed-contact-icon {
+  display: inline-grid;
+  place-items: center;
+  margin-top: 0;
+}
+
 /* Der Kopf der Seite: das Zeichen erbt die Groesse der alten Initiale.
    Die Spezifitaet muss hoeher sein als die von .pz in dna.css, sonst gewinnt
    dna.css, weil es spaeter geladen wird — gleiche Spezifitaet, spaetere Regel. */
