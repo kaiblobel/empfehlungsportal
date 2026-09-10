@@ -4,7 +4,7 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.357 Beta** · Das Promoterprofil in der Hauslinie, live seit 10.09.2026.
 
 ## v1.357 Beta - Phase 342 · Das Promoterprofil in der Hauslinie
-**2026-09-10**
+**2026-09-10 · live veröffentlicht**
 
 Kais Befund am Bildschirmfoto des Promoterprofils: immer noch das alte Design, die falsche Schrift, „so eine fette Schrift". Dasselbe galt für die Promoter-Seite und für die Vorschau, die aus der Präsentation heraus gezeigt wird. Entschieden am Vorher/Nachher-Entwurf (`kds/referenz/dvag-design-system/mockups/promoter-familie`).
 
