@@ -4,7 +4,7 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.359 Beta** · Die Symbole sitzen in der Mitte, live seit 10.09.2026.
 
 ## v1.359 Beta - Phase 344 · Die Symbole sitzen in der Mitte
-**2026-09-10**
+**2026-09-10 · live veröffentlicht**
 
 Kais Befund am Bildschirmfoto, eine Stunde nach dem Nachzug von Phase 331: „die Symbole sind irgendwie verrutscht". Stimmt. In den vier Kacheln oben und in den sechs Kontaktkästchen stand jedes Symbol oben links statt in der Mitte.
 
