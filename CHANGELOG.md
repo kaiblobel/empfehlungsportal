@@ -4,7 +4,7 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.358 Beta** · Der Nachname und die Symbole, live seit 10.09.2026.
 
 ## v1.358 Beta - Phase 343 · Der Nachname und die Symbole
-**2026-09-10**
+**2026-09-10 · live veröffentlicht**
 
 **Ein Nachzug.** Diese Phase war am 05.09.2026 als v1.346 fertig gebaut und hochgeladen (Zweig `konrad/nachname-und-symbole`), wurde aber nie mit `main` zusammengeführt. Im Changelog von `main` sprang die Version deshalb von v1.345 auf v1.347, und auf der Empfehlungs-Detailseite standen weiter TEL, KAN, ZEIT und eine Initiale. Aufgefallen ist es am 10.09. an Kais Bildschirmfoto. Auf Kais Wort „direkt live" nachgezogen: Konflikte gab es nur in den drei Versionsdateien, der Code passte unverändert auf den heutigen Stand, die Datenbank braucht nichts Neues (Vor- und Nachname stehen gemeinsam in `empfaenger_name`). `empfehler-mobile.css` bekommt `?v=7`, weil `?v=6` seit Phase 342 für einen anderen Inhalt vergeben ist.
 
