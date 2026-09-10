@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.358 Beta** · Der Nachname und die Symbole, live seit 10.09.2026.
+Offizielle Live-Version: **v1.359 Beta** · Die Symbole sitzen in der Mitte, live seit 10.09.2026.
+
+## v1.359 Beta - Phase 344 · Die Symbole sitzen in der Mitte
+**2026-09-10**
+
+Kais Befund am Bildschirmfoto, eine Stunde nach dem Nachzug von Phase 331: „die Symbole sind irgendwie verrutscht". Stimmt. In den vier Kacheln oben und in den sechs Kontaktkästchen stand jedes Symbol oben links statt in der Mitte.
+
+**Die Ursache ist dieselbe Falle, die Phase 331 schon beschrieben hatte, nur an einer anderen Eigenschaft.** `.ed-summary-card span` und `.ed-contact span` sind für die Textzeilen gedacht und setzen `display: block` und einen Abstand oben. Die Symbolkästchen sind selbst ein `span` und bekamen diese Regeln ab, weil Klasse plus Element spezifischer ist als die einfache Kästchen-Klasse. Phase 331 hatte deshalb Schriftgröße und Farbe mit zwei Klassen abgesichert, das Zentrieren aber nicht. Aus dem zentrierenden Raster wurde ein Block, und das Symbol stand dort, wo ein Block anfängt.
+
+Jetzt tragen beide Kästchen Raster, Mittelstellung und den Abstand null ebenfalls mit zwei Klassen. Am gerenderten Bild in doppelter Auflösung geprüft, nicht am Quelltext.
+
+**Ein Wächter** in `tests/symbole-mittig.test.mjs`. Einmal absichtlich zum Umfallen gebracht: ohne die Korrektur beide Fälle rot. Dabei selbst einen Fehler im Wächter gefunden: Er zerlegte die Selektorliste an Kommas, bevor er Kommentare entfernte, und der Kommentar über der Regel enthält Kommas. Mit Korrektur war deshalb einer der beiden Fälle trotzdem rot. Jetzt werden Kommentare zuerst entfernt.
+
+---
 
 ## v1.358 Beta - Phase 343 · Der Nachname und die Symbole
 **2026-09-10 · live veröffentlicht**
