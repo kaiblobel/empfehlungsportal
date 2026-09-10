@@ -174,3 +174,65 @@
   .ed-secondary-actions { grid-template-columns: 1fr; }
   .ed-facts { grid-template-columns: 1fr; }
 }
+
+/* ============================================================
+   Phase 331 · Symbole statt Kuerzel, Name bearbeitbar (05.09.2026)
+
+   Vorher stand in den Kaestchen ein dreibuchstabiges Kuerzel ("TEL", "KAN",
+   "THE") bei 9 bis 10 Pixeln, fett und in Versalien. Kais Urteil: "die Schrift
+   ist da so verrueckt". Er hatte recht — bei der Groesse fuellt ein Kuerzel
+   das Kaestchen randlos aus und liest sich wie ein Fehler, nicht wie ein
+   Symbol. Mit einem Zeichen entfaellt der Grund dafuer ganz.
+   ============================================================ */
+
+/* Zwei Klassen, nicht eine. Am gerenderten Bild gemessen: .ed-summary-card span
+   und .ed-contact span treffen diese Kaestchen ebenfalls und sind mit
+   Klasse+Element spezifischer als eine einzelne Klasse. Sie haben deshalb
+   Schriftgroesse und Farbe ueberschrieben — die Kuerzel standen nie in der
+   Farbe, die im Entwurf steht. Mit zwei Klassen gewinnt die Absicht. */
+.ed-summary-card .ed-summary-icon { font-size: 0; color: var(--accent-hover); }
+.ed-contact .ed-contact-icon      { font-size: 0; color: var(--ink-soft); }
+.ed-event .ed-event-dot           { font-size: 0; }
+
+.ed-summary-card .ed-summary-icon svg { width: 16px; height: 16px; display: block; }
+.ed-contact .ed-contact-icon svg      { width: 14px; height: 14px; display: block; }
+.ed-event .ed-event-dot svg           { width: 16px; height: 16px; display: block; }
+
+/* Der Kopf der Seite: das Zeichen erbt die Groesse der alten Initiale.
+   Die Spezifitaet muss hoeher sein als die von .pz in dna.css, sonst gewinnt
+   dna.css, weil es spaeter geladen wird — gleiche Spezifitaet, spaetere Regel. */
+.ed-person .pz.pz-hero {
+  width: 66px;
+  height: 66px;
+  flex: 0 0 auto;
+  border-radius: 18px;
+  background: var(--accent-bg);
+  color: var(--accent-hover);
+  --pz-grund: var(--accent-bg);
+}
+.ed-person .pz.pz-hero svg { width: 34px; height: 34px; }
+
+/* Vorname und Nachname stehen nebeneinander. */
+.ed-field-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ed-field-2 .ed-field { margin: 0; }
+.ed-field input[type="text"] {
+  width: 100%;
+  padding: 10px 12px;
+  min-height: 42px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 12px;
+}
+.ed-field input[type="text"]:focus-visible {
+  outline: 3px solid var(--fokus);
+  outline-offset: 2px;
+}
+
+@media (max-width: 720px) {
+  .ed-field-2 { grid-template-columns: 1fr; }
+  .ed-person .pz.pz-hero { width: 52px; height: 52px; border-radius: 14px; }
+  .ed-person .pz.pz-hero svg { width: 27px; height: 27px; }
+}

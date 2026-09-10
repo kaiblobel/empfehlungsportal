@@ -295,14 +295,20 @@ export async function loadDetail(id) {
   return data;
 }
 
-export async function updateStatus(id, status, notiz, anrede) {
+export async function updateStatus(id, status, notiz, weitere = {}) {
   if (!supabase) return { error: { message: 'Supabase nicht konfiguriert' } };
   const felder = { status, notiz };
-  // Die Anrede kommt nur mit, wenn die Seite sie ueberhaupt anbietet. So
-  // ueberschreibt ein aelterer Aufrufer (ohne das Feld) nichts.
-  if (anrede !== undefined) {
-    const wert = String(anrede || '').trim().toLowerCase();
+  // Anrede und Name kommen nur mit, wenn die Seite sie ueberhaupt anbietet.
+  // So ueberschreibt ein aelterer Aufrufer (ohne diese Felder) nichts.
+  if (weitere.anrede !== undefined) {
+    const wert = String(weitere.anrede || '').trim().toLowerCase();
     felder.empfaenger_anrede = ['frau', 'herr'].includes(wert) ? wert : null;
+  }
+  // Ein leerer Name wird NICHT gespeichert. Die Empfehlung haette sonst keinen
+  // Kontakt mehr, und beim Anlegen verlangt die Datenbank ihn ohnehin.
+  if (weitere.name !== undefined) {
+    const name = String(weitere.name || '').trim();
+    if (name) felder.empfaenger_name = name.slice(0, 120);
   }
   const { error } = await supabase
     .from('empfehlungen')

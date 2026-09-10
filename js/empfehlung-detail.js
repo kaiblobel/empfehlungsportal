@@ -9,7 +9,8 @@ import {
   toast,
 } from './dashboard.js';
 import { supabase, deleteEmpfehlung, getFunnelQuellen } from './supabase.js';
-import { anredeAuswahlHtml } from './person-zeichen.js';
+import { anredeAuswahlHtml, personPlatzhalter } from './person-zeichen.js';
+import { icon } from './icons.js';
 
 const ERR_LABELS = {
   vormittag: 'Vormittag (8 bis 12 Uhr)',
@@ -109,49 +110,63 @@ function quelleLabel(quelle) {
   return (eintrag && eintrag.anzeige) || quelle;
 }
 
-function summaryCard(icon, value, label, hint) {
+function vornameVon(name) {
+  return String(name || '').trim().split(/\s+/)[0] || '';
+}
+
+function nachnameVon(name) {
+  const teile = String(name || '').trim().split(/\s+/).filter(Boolean);
+  return teile.slice(1).join(' ');
+}
+
+function nameZusammen(vorname, nachname) {
+  return [String(vorname || '').trim(), String(nachname || '').trim()]
+    .filter(Boolean).join(' ');
+}
+
+function summaryCard(zeichen, value, label, hint) {
   return `
     <article class="ed-summary-card">
-      <div class="ed-summary-top"><span class="ed-summary-icon">${icon}</span><small>${escapeHtml(hint)}</small></div>
+      <div class="ed-summary-top"><span class="ed-summary-icon">${icon(zeichen)}</span><small>${escapeHtml(hint)}</small></div>
       <strong title="${escapeHtml(value)}">${escapeHtml(value)}</strong>
       <span>${escapeHtml(label)}</span>
     </article>`;
 }
 
-function contactCard(icon, label, value) {
+function contactCard(zeichen, label, value) {
   return `
     <div class="ed-contact">
-      <span class="ed-contact-icon">${icon}</span>
+      <span class="ed-contact-icon">${icon(zeichen)}</span>
       <div><label>${escapeHtml(label)}</label><span>${escapeHtml(value || 'Nicht angegeben')}</span></div>
     </div>`;
 }
 
-function eventRow(icon, title, copy, time, variant = '') {
+function eventRow(zeichen, title, copy, time, variant = '') {
   return `
     <div class="ed-event">
-      <span class="ed-event-dot ${variant}">${icon}</span>
+      <span class="ed-event-dot ${variant}">${icon(zeichen)}</span>
       <div class="ed-event-copy"><strong>${escapeHtml(title)}</strong><span>${escapeHtml(copy)}</span></div>
       <time>${escapeHtml(time)}</time>
     </div>`;
 }
 
 function timeline(record) {
-  const rows = [eventRow('01', 'Empfehlung erstellt', `Über ${record.empfehler_name || 'Promoter'} · ${topicLabel(record.vorlage_slug)}`, formatDate(record.created_at))];
+  const rows = [eventRow('UserPlus', 'Empfehlung erstellt', `Über ${record.empfehler_name || 'Promoter'} · ${topicLabel(record.vorlage_slug)}`, formatDate(record.created_at))];
 
   if (record.link_geoeffnet) {
-    rows.push(eventRow('02', 'Link geöffnet', `${Number(record.link_klicks) || 1} Klick${Number(record.link_klicks) === 1 ? '' : 's'} insgesamt`, formatDate(record.link_geoeffnet_at), 'open'));
+    rows.push(eventRow('Eye', 'Link geöffnet', `${Number(record.link_klicks) || 1} Klick${Number(record.link_klicks) === 1 ? '' : 's'} insgesamt`, formatDate(record.link_geoeffnet_at), 'open'));
   }
   if (record.interessiert) {
-    rows.push(eventRow('03', 'Interesse bekundet', `Interesse an ${topicLabel(record.vorlage_slug)}`, formatDate(record.interessiert_at), 'open'));
+    rows.push(eventRow('Star', 'Interesse bekundet', `Interesse an ${topicLabel(record.vorlage_slug)}`, formatDate(record.interessiert_at), 'open'));
   }
   if (record.anrufwunsch) {
-    rows.push(eventRow('04', 'Rückruf gewünscht', record.anrufwunsch, formatDate(record.anrufwunsch_at), 'open'));
+    rows.push(eventRow('PhoneCall', 'Rückruf gewünscht', record.anrufwunsch, formatDate(record.anrufwunsch_at), 'open'));
   }
 
   const terminal = {
-    kontaktiert: ['OK', 'Kontakt aufgenommen', 'Der Kontakt wurde als bearbeitet festgehalten.'],
-    kunde: ['OK', 'Kunde gewonnen', 'Die Empfehlung wurde erfolgreich zum Kunden.'],
-    kein_interesse: ['EN', 'Kein Interesse', 'Die Empfehlung wurde sauber abgeschlossen.'],
+    kontaktiert: ['Check', 'Kontakt aufgenommen', 'Der Kontakt wurde als bearbeitet festgehalten.'],
+    kunde: ['Trophy', 'Kunde gewonnen', 'Die Empfehlung wurde erfolgreich zum Kunden.'],
+    kein_interesse: ['X', 'Kein Interesse', 'Die Empfehlung wurde sauber abgeschlossen.'],
   }[record.status];
   if (terminal) rows.push(eventRow(terminal[0], terminal[1], terminal[2], 'Aktueller Stand'));
 
@@ -251,7 +266,7 @@ if (!id) content.innerHTML = '<div class="empty-state">Keine Empfehlung ausgewä
   content.innerHTML = `
     <section class="ed-hero">
       <div class="ed-person">
-        <span class="ed-initial">${escapeHtml(initials(record.empfaenger_name))}</span>
+        ${personPlatzhalter({ anrede: record.empfaenger_anrede, rolle: 'empfaenger', klasse: 'pz-hero', titel: 'Empfänger' })}
         <div class="ed-person-copy">
           <div class="ed-eyebrow">${istLead ? 'Lead' : 'Empfehlung'} · ${escapeHtml(topic)}</div>
           <h1>${escapeHtml(record.empfaenger_name || 'Unbekannter Kontakt')}</h1>
@@ -274,11 +289,11 @@ if (!id) content.innerHTML = '<div class="empty-state">Keine Empfehlung ausgewä
     </section>
 
     <section class="ed-summary" aria-label="Kontakt auf einen Blick">
-      ${summaryCard('TEL', phone || 'Nicht angegeben', 'Telefonnummer', phone ? 'direkt erreichbar' : 'noch ergänzen')}
-      ${mail ? summaryCard('MAIL', mail, 'E-Mail', 'aus dem Funnel') : ''}
-      ${summaryCard('KAN', channel, 'Bevorzugter Kanal', record.bevorzugter_kanal ? 'vom Kontakt gewählt' : 'noch offen')}
-      ${summaryCard('ZEIT', reachability, 'Beste Erreichbarkeit', record.beste_erreichbarkeit ? 'Wunschzeit' : 'noch offen')}
-      ${summaryCard('LINK', record.link_geoeffnet ? 'Geöffnet' : 'Ungeöffnet', 'Empfehlungslink', `${Number(record.link_klicks) || 0} Klick${Number(record.link_klicks) === 1 ? '' : 's'}`)}
+      ${summaryCard('PhoneCall', phone || 'Nicht angegeben', 'Telefonnummer', phone ? 'direkt erreichbar' : 'noch ergänzen')}
+      ${mail ? summaryCard('Mail', mail, 'E-Mail', 'aus dem Funnel') : ''}
+      ${summaryCard('MessageCircle', channel, 'Bevorzugter Kanal', record.bevorzugter_kanal ? 'vom Kontakt gewählt' : 'noch offen')}
+      ${summaryCard('Clock', reachability, 'Beste Erreichbarkeit', record.beste_erreichbarkeit ? 'Wunschzeit' : 'noch offen')}
+      ${summaryCard('Link2', record.link_geoeffnet ? 'Geöffnet' : 'Ungeöffnet', 'Empfehlungslink', `${Number(record.link_klicks) || 0} Klick${Number(record.link_klicks) === 1 ? '' : 's'}`)}
     </section>
 
     <div class="ed-layout">
@@ -286,14 +301,14 @@ if (!id) content.innerHTML = '<div class="empty-state">Keine Empfehlung ausgewä
         <section class="ed-panel ed-panel-pad">
           <h2>Kontakt und Empfehlung</h2>
           <div class="ed-contact-grid">
-            ${contactCard('THE', 'Thema', topic)}
-            ${contactCard('TYP', 'Art', istLead ? 'Lead aus einem Funnel' : (record.typ === 'info' ? 'Info-Variante' : 'Direkt-Empfehlung'))}
+            ${contactCard('Tag', 'Thema', topic)}
+            ${contactCard('Layers', 'Art', istLead ? 'Lead aus einem Funnel' : (record.typ === 'info' ? 'Info-Variante' : 'Direkt-Empfehlung'))}
             ${istLead
-              ? contactCard('QUE', 'Herkunft', quelle || 'Unbekannter Funnel')
-              : contactCard('PRO', 'Promoter', record.empfehler_name || 'Nicht angegeben')}
-            ${contactCard('ERG', 'Promoter-Erfolg', scoreLabel(score))}
-            ${contactCard('VER', 'Verbindung', record.empfaenger_verbindung || 'Nicht angegeben')}
-            ${contactCard('BER', 'Beruf', record.empfaenger_beruf || 'Nicht angegeben')}
+              ? contactCard('Globe', 'Herkunft', quelle || 'Unbekannter Funnel')
+              : contactCard('Users', 'Promoter', record.empfehler_name || 'Nicht angegeben')}
+            ${contactCard('TrendingUp', 'Promoter-Erfolg', scoreLabel(score))}
+            ${contactCard('HeartHandshake', 'Verbindung', record.empfaenger_verbindung || 'Nicht angegeben')}
+            ${contactCard('Briefcase', 'Beruf', record.empfaenger_beruf || 'Nicht angegeben')}
           </div>
           ${record.empfehler_vorinformiert ? '<div class="ed-confidence"><i>✓</i>Der Promoter hat den Kontakt vorab informiert.</div>' : ''}
           ${contextCards ? `<div class="ed-context-grid">${contextCards}</div>` : ''}
@@ -328,6 +343,17 @@ if (!id) content.innerHTML = '<div class="empty-state">Keine Empfehlung ausgewä
             <strong id="nextTitle">${escapeHtml(step.title)}</strong>
             <p id="nextCopy">${escapeHtml(step.copy)}</p>
           </div>
+          <div class="ed-field-2">
+            <div class="ed-field">
+              <label for="vornameFeld">Vorname</label>
+              <input id="vornameFeld" type="text" maxlength="60" value="${escapeHtml(vornameVon(record.empfaenger_name))}" />
+            </div>
+            <div class="ed-field">
+              <label for="nachnameFeld">Nachname</label>
+              <input id="nachnameFeld" type="text" maxlength="60" placeholder="noch offen" value="${escapeHtml(nachnameVon(record.empfaenger_name))}" />
+            </div>
+          </div>
+          <p class="ed-feld-hinweis">Angesprochen wird der Kontakt weiterhin nur mit dem Vornamen.</p>
           <div class="ed-field">
             <label for="anredeSel">Anrede</label>
             ${anredeAuswahlHtml('anredeSel', record.empfaenger_anrede)}
@@ -348,7 +374,7 @@ if (!id) content.innerHTML = '<div class="empty-state">Keine Empfehlung ausgewä
               <button class="ed-action" id="copyWorkBtn" type="button"${recipientLink ? '' : ' hidden'}>Link kopieren</button>
             </div>
           </div>
-          <p class="ed-save-note">Anrede, Status und Notiz werden gemeinsam gespeichert.</p>
+          <p class="ed-save-note">Name, Anrede, Status und Notiz werden gemeinsam gespeichert.</p>
         </section>
       </aside>
     </div>`;
@@ -377,7 +403,11 @@ if (!id) content.innerHTML = '<div class="empty-state">Keine Empfehlung ausgewä
     button.disabled = true;
     button.textContent = 'Speichert ...';
     const anrede = document.getElementById('anredeSel')?.value ?? undefined;
-    const { error } = await updateStatus(id, status, notiz, anrede);
+    const name = nameZusammen(
+      document.getElementById('vornameFeld')?.value,
+      document.getElementById('nachnameFeld')?.value,
+    );
+    const { error } = await updateStatus(id, status, notiz, { anrede, name });
     button.disabled = false;
     button.textContent = 'Änderungen speichern';
     if (error) {
@@ -386,6 +416,21 @@ if (!id) content.innerHTML = '<div class="empty-state">Keine Empfehlung ausgewä
     }
     record.status = status;
     record.notiz = notiz;
+    // Ein leerer Name wird nicht gespeichert (siehe updateStatus). Dann bleibt
+    // auch hier der alte stehen, damit Anzeige und Datenbank nicht auseinander
+    // laufen.
+    if (name) {
+      record.empfaenger_name = name;
+      record.empfaenger_anrede = anrede || null;
+      const kopf = document.querySelector('.ed-person h1');
+      if (kopf) kopf.textContent = name;
+      const zeichen = document.querySelector('.ed-person .pz');
+      if (zeichen) {
+        zeichen.outerHTML = personPlatzhalter({
+          anrede: record.empfaenger_anrede, rolle: 'empfaenger', klasse: 'pz-hero', titel: 'Empfänger',
+        });
+      }
+    }
     updateWorkingState(status, record);
     toast('Änderungen gespeichert.');
   });
