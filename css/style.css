@@ -1,5 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&display=swap');
+/* Phase 342: Inter und Fraunces liegen im Projekt. Vorher kamen sie per @import von Googles
+   Schriftserver, obwohl dna.css verspricht, dass nichts von Google nachgeladen wird (DSGVO). */
+@font-face{font-family:'Inter';font-style:normal;font-weight:300 700;font-display:swap;src:url('/assets/fonts/inter-latin.woff2') format('woff2')}
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:400 700;font-display:swap;src:url('/assets/fonts/fraunces-latin.woff2') format('woff2')}
 
 /* ============================================================
    Empfehlungsportal · Design-System Master-Reference (Phase 39)

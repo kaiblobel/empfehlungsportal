@@ -1,7 +1,28 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.356 Beta** · Die drei Arbeitslisten in einer Form, live seit 09.09.2026.
+Offizielle Live-Version: **v1.357 Beta** · Das Promoterprofil in der Hauslinie, live seit 10.09.2026.
+
+## v1.357 Beta - Phase 342 · Das Promoterprofil in der Hauslinie
+**2026-09-10**
+
+Kais Befund am Bildschirmfoto des Promoterprofils: immer noch das alte Design, die falsche Schrift, „so eine fette Schrift". Dasselbe galt für die Promoter-Seite und für die Vorschau, die aus der Präsentation heraus gezeigt wird. Entschieden am Vorher/Nachher-Entwurf (`kds/referenz/dvag-design-system/mockups/promoter-familie`).
+
+**Warum es fett aussah.** Das Profil hatte die Farben aus Phase 326 schon. Die Überschriften standen aber in Outfit 700 mit zusammengezogenen Buchstaben (-0,04em), die Beschriftungen bei 8,5 bis 11 Pixel. Die DVAG setzt Überschriften regulär, fett nur auf ausdrücklichen Wunsch. Und die Hausschrift selbst wurde im Portal bisher nirgends geladen.
+
+**Das Profil im Beraterbereich** trägt jetzt die Hausschrift DVAG-Type, Überschriften im Gewicht 400 ohne zusammengezogene Buchstaben, die Textstufen des Hauses (12, 14, 16, 20 und 34 Pixel), Zweitknöpfe im Klickton, gezeichnete Symbole statt ☎ und ⌂, dazu „aktiv" und „Kunde" in Grün, weil das ein Zustand ist und keine Marke. Die Form bleibt die des Portals, also Rundung und Pillen, wie am 05.09. entschieden. Seitenleiste, Kopf und Promoterliste sind nicht angefasst.
+
+**Die Hausschrift liegt in der Datenbank, nicht im Projekt.** Dieses Repo ist öffentlich, lizenzierte Schriftdateien gehören nicht hinein. Die drei Schnitte liegen deshalb gesperrt in `public.hausschrift`, ohne jede Leseregel. Heraus kommen sie nur über `hausschrift_datei()`, und die antwortet nur, wenn die Anmeldung zu einem Berater gehört. `js/hausschrift.js` holt sie nach der Anmeldung und hängt sie ein, pro Tab einmal. Fehlt sie, steht die Seite in Inter, ohne Fehler. Eingespielt wurde einmalig über eine Funktion mit Einmal-Kennwort, die direkt danach wieder gelöscht wurde; die Prüfsummen sind gegen die Originale verglichen. Das Schema ohne Daten steht in `schema-phase342-hausschrift.sql`.
+
+**Die Promoter-Seite ist eine Kundenseite** und bekommt deshalb kein DVAG-Hausmaterial. Sie folgt der Linie von Kundenseite und Service-App: Inter aus dem Projekt statt Systemschrift, Stärken bis 600 statt bis 850, kein Verlauf und kein Leuchtring im Kopf, kein Glaseffekt an Kopf- und Fußleiste, flache Karten mit feiner Linie statt weicher Schatten. Farben und Aufbau bleiben. Das gilt für `empfehler.html` und `promoter-vorschau.html`, beide nutzen dasselbe Stylesheet.
+
+**Nebenbei behoben: Schriften von Google.** `style.css` holte Inter und Fraunces per `@import` von fonts.googleapis.com, auf allen zwanzig Seiten, die es einbinden, obwohl `dna.css` verspricht, dass nichts von Google nachgeladen wird. Beide kommen jetzt aus dem Projekt.
+
+**Nachgerechnet, nicht geschätzt.** Alle neuen Farbpaare liegen zwischen 4,63:1 und 8,25:1. Grün auf der üblichen grünen Fläche wären 4,39:1 gewesen, zu wenig für 12 Pixel; die Fläche ist deshalb heller.
+
+**Neun neue Wächter** in `tests/promoter-hauslinie.test.mjs`: keine Schriftdatei im Repo, keine Hausschrift auf einer Kundenseite, das Profil lädt sie, der Lader fragt nur die gesperrte Abfrage, das Schema sperrt Nichtangemeldete aus, Überschriften im Hausgewicht, jedes Symbol hat ein gezeichnetes Gegenstück, keine Schwergewichte auf der Promoter-Seite, keine Schrift von Google.
+
+---
 
 ## v1.356 Beta - Phase 341 · Die drei Arbeitslisten in einer Form
 **2026-09-09 · live veröffentlicht**

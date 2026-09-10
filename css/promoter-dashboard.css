@@ -344,3 +344,177 @@
   .pd-link-track { margin-left: 0; }
   .pd-row-2 { grid-template-columns: 1fr; gap: 0; }
 }
+
+/* ============================================================
+   PHASE 342 · DAS PROFIL IN DER HAUSLINIE (10.09.2026)
+
+   Kais Befund am Bild: "immer noch das alte Design ... so eine fette
+   Schrift". Entschieden am Vorher/Nachher-Entwurf
+   (kds/referenz/dvag-design-system/mockups/promoter-familie).
+
+   - Hausschrift DVAG-Type. Sie liegt nicht im Projekt, sondern gesperrt
+     in der Datenbank und kommt ueber js/hausschrift.js, weil dieses Repo
+     oeffentlich ist. Bis sie da ist, steht Inter.
+   - Ueberschriften im Hausgewicht 400 ohne negativen Zeichenabstand. Die
+     DVAG setzt Ueberschriften regulaer (dx-text), fett nur auf Wunsch.
+     Vorher: 700 bei -0,04em.
+   - Die Textstufen des Hauses 12 / 14 / 16 / 20 / 34. Vorher standen
+     Beschriftungen bei 8,5 bis 11 Pixel.
+   - Zweitknoepfe im Klickton, "aktiv" und "Kunde" gruen (Zustand, keine
+     Marke), gezeichnete Symbole statt Textzeichen.
+   - Die Form bleibt die des Portals (Variante B): Rundung und Pillen.
+
+   Gilt nur im Inhalt der Detailseite. Seitenleiste und Kopf bleiben wie
+   auf allen anderen Seiten, die Promoterliste ist nicht beruehrt.
+   ============================================================ */
+.promoter-detail-page .promoter-detail-content{
+  --font-sans: "DVAG-Type", 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-head: "DVAG-Type", 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-sans);
+}
+.promoter-detail-page .promoter-detail-content h1,
+.promoter-detail-page .promoter-detail-content h2{ letter-spacing: 0; }
+
+/* Seitenflaeche wie im Haus (gray-3), Karten weiss mit Linie. */
+.promoter-detail-page .app-shell{ background: var(--dna-paper); }
+.promoter-detail-page .app-content.promoter-detail-content{ padding: 40px 32px 72px; }
+
+/* ---- Kopf ---- */
+.pd-profile-hero{ margin-bottom: 16px; padding: 24px; border-color: var(--dna-line); border-radius: var(--radius-card); box-shadow: none; }
+.pd-profile-person{ gap: 20px; }
+.pd-profile-person .pz.pz-gross{ width: 64px; height: 64px; flex-basis: 64px; }
+.pd-profile-person .pz.pz-gross svg{ width: 32px; height: 32px; }
+.pd-eyebrow{ margin-bottom: 4px; font-size: 12px; line-height: 16px; letter-spacing: .12em; color: var(--dna-gold-dark); }
+.pd-profile-copy h1{ font-size: 34px; line-height: 44px; font-weight: 400; letter-spacing: 0; color: var(--dna-ink); }
+.pd-profile-meta{ margin-top: 4px; gap: 12px; font-size: 14px; line-height: 20px; color: var(--dna-text); }
+/* Gruen auf 6 Prozent Gruen: gemessen 4,63:1. Mit der Standardflaeche
+   (10 Prozent) waeren es 4,39:1, zu wenig fuer 12 Pixel. */
+.pd-active-pill{ gap: 6px; padding: 2px 10px; border-radius: 999px; background: color-mix(in srgb, var(--ok) 6%, #fff); color: var(--ok); font-size: 12px; line-height: 16px; font-weight: 400; }
+.pd-active-pill i{ background: var(--ok); }
+
+/* ---- Knoepfe: Hauptknopf gefuellt, Zweitknoepfe mit Rahmen, beide im Klickton ---- */
+.pd-actions{ gap: 8px; }
+.pd-btn{
+  min-height: 40px;
+  padding: 6px 16px;
+  border: 1px solid var(--klick);
+  border-radius: var(--radius-button);
+  background: var(--dna-card);
+  color: var(--klick);
+  font: 400 14px/20px var(--font-sans);
+  box-shadow: none;
+  transition: background-color 150ms ease-in-out, border-color 150ms ease-in-out, color 150ms ease-in-out;
+}
+.pd-btn:hover{ transform: none; box-shadow: none; background: var(--dna-petrol-tint); border-color: var(--klick-hover); color: var(--klick-hover); }
+.pd-btn.primary{ box-shadow: none; }
+.pd-btn.primary:hover{ background: var(--klick-hover); color: #fff; }
+
+/* ---- Kennzahlen ---- */
+.pd-stats{ gap: 16px; margin-bottom: 16px; }
+.pd-stat{ padding: 16px 20px 20px; box-shadow: none; }
+.pd-stat-top{ gap: 12px; }
+.pd-stat-icon{ width: 32px; height: 32px; border-radius: var(--radius-md); background: var(--dna-petrol-tint); color: var(--dna-petrol); }
+.pd-stat-top small{ font-size: 12px; line-height: 16px; font-weight: 400; color: var(--dna-text); }
+.pd-stat-num{ margin-top: 16px; font-family: var(--font-head); font-size: 34px; line-height: 44px; font-weight: 400; letter-spacing: 0; color: var(--dna-ink); font-variant-numeric: tabular-nums; }
+.pd-stat-lbl{ margin-top: 0; font-size: 14px; line-height: 20px; color: var(--dna-text); }
+
+/* ---- Gezeichnete Symbole statt Textzeichen ----
+   Zeichen wie ☎ und ⌂ gibt es in der Hausschrift nicht, der Browser holt
+   sie aus einer beliebigen Ersatzschrift. promoter-detail.js setzt
+   data-symbol, das Textzeichen bleibt als Rueckfall im Markup. */
+.pd-stat-icon[data-symbol],
+.pd-info-icon[data-symbol]{ font-size: 0; }
+.pd-stat-icon[data-symbol]::before,
+.pd-info-icon[data-symbol]::before{
+  content: "";
+  width: 18px;
+  height: 18px;
+  background: currentColor;
+  -webkit-mask: var(--sym) center / contain no-repeat;
+  mask: var(--sym) center / contain no-repeat;
+}
+[data-symbol="pfeil"]{ --sym: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7'/%3E%3Cpath d='M8 7h9v9'/%3E%3C/svg%3E"); }
+[data-symbol="haken"]{ --sym: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.5 4.5 4.5L19 7.5'/%3E%3C/svg%3E"); }
+[data-symbol="prozent"]{ --sym: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 5 5 19'/%3E%3Ccircle cx='7' cy='7' r='2.5'/%3E%3Ccircle cx='17' cy='17' r='2.5'/%3E%3C/svg%3E"); }
+[data-symbol="ziel"]{ --sym: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 21V4'/%3E%3Cpath d='M5 4h12l-2.5 4.5L17 13H5'/%3E%3C/svg%3E"); }
+[data-symbol="telefon"]{ --sym: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 4h3.5l1.8 4.6-2.4 1.6a11 11 0 0 0 5.9 5.9l1.6-2.4L20 15.5V19a1.5 1.5 0 0 1-1.6 1.5A16.5 16.5 0 0 1 3.5 5.6 1.5 1.5 0 0 1 5 4z'/%3E%3C/svg%3E"); }
+[data-symbol="mail"]{ --sym: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='14' rx='2'/%3E%3Cpath d='m3.5 6.5 8.5 6.5 8.5-6.5'/%3E%3C/svg%3E"); }
+[data-symbol="haus"]{ --sym: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 11l9-7 9 7'/%3E%3Cpath d='M5 10v10h14V10'/%3E%3C/svg%3E"); }
+[data-symbol="raute"]{ --sym: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9.5 4 7.5 20M16.5 4l-2 16M4.5 9h15.5M4 15h15.5'/%3E%3C/svg%3E"); }
+
+/* ---- Karten ---- */
+.pd-layout{ gap: 16px; }
+.pd-side{ gap: 16px; }
+.pd-card{ box-shadow: none; }
+.pd-card-pad{ padding: 24px; }
+.pd-card-head{ padding: 20px 24px; }
+.pd-card h2,
+.pd-card-head h2{ font-size: 20px; line-height: 28px; font-weight: 400; letter-spacing: 0; color: var(--dna-ink); }
+.pd-card-head span{ font-size: 14px; line-height: 20px; color: var(--dna-text); }
+
+/* ---- Empfehlungen ---- */
+.pd-recommendation{ gap: 16px; padding: 16px 24px; }
+.pd-rec-person{ gap: 12px; }
+.pd-rec-person a{ font-size: 16px; line-height: 24px; font-weight: 700; color: var(--dna-ink); }
+.pd-rec-person a:hover{ color: var(--klick); text-decoration: underline; text-underline-offset: 3px; }
+.pd-rec-person small{ margin-top: 0; font-size: 14px; line-height: 20px; color: var(--dna-text); }
+.pd-link-track{ gap: 12px; margin: 8px 0 0 48px; }
+.pd-link-status{ font-size: 14px; line-height: 20px; color: var(--dna-text); }
+.pd-link-status.is-open{ color: var(--dna-petrol); font-weight: 400; }
+.pd-copy{ min-height: 32px; padding: 4px 12px; border: 1px solid var(--klick); border-radius: var(--radius-button); background: var(--dna-card); color: var(--klick); font: 400 14px/20px var(--font-sans); }
+.pd-copy:hover{ background: var(--dna-petrol-tint); }
+.pd-badge{ padding: 2px 10px; border-radius: 999px; background: var(--dna-paper-2); color: var(--dna-text); font-size: 12px; line-height: 16px; font-weight: 400; }
+.pd-badge.kunde{ background: color-mix(in srgb, var(--ok) 6%, #fff); color: var(--ok); }
+.pd-empty{ font-size: 14px; line-height: 20px; }
+
+/* ---- Gemeinsames Ziel ---- */
+.pd-goal-head{ gap: 12px; }
+.pd-goal-stage{ padding: 2px 10px; border-radius: 999px; background: var(--dna-gold-tint); color: var(--dna-gold-dark); font-size: 12px; line-height: 16px; font-weight: 400; }
+.pd-goal-title{ margin: 16px 0 4px; font-size: 16px; line-height: 24px; font-weight: 700; color: var(--dna-ink); }
+.pd-goal-copy{ font-size: 14px; line-height: 20px; color: var(--dna-text); }
+.pd-goal-numbers{ margin: 16px 0 8px; font-size: 14px; line-height: 20px; color: var(--dna-text); }
+.pd-progress{ height: 8px; }
+
+/* ---- Felder: Rahmen im Symbolton (3,95:1). Die Haarlinie #D6D6D6 hat nur
+   1,4:1 und reicht fuer ein Bedienelement nicht, noetig sind 3:1. ---- */
+.pd-field{ margin-top: 16px; }
+.pd-field label{ margin-bottom: 4px; font-size: 14px; line-height: 20px; font-weight: 400; color: var(--dna-text); }
+.pd-field input,
+.pd-field textarea,
+.pd-field select{ min-height: 40px; padding: 8px 12px; border: 1px solid var(--dna-symbol); border-radius: var(--radius-button); color: var(--dna-ink); font: 400 16px/24px var(--font-sans); }
+
+/* ---- Kontakt ---- */
+.pd-info-list{ gap: 16px; margin-top: 16px; }
+.pd-info-row{ grid-template-columns: 32px minmax(0, 1fr); align-items: center; gap: 12px; }
+.pd-info-row .pd-info-icon{ display: grid; place-items: center; width: 32px; height: 32px; margin: 0; border-radius: var(--radius-md); background: var(--dna-paper-2); color: var(--dna-text); }
+.pd-info-row label{ font-size: 12px; line-height: 16px; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--dna-text); }
+.pd-info-row > div > span{ margin-top: 0; font-size: 16px; line-height: 24px; color: var(--dna-ink); }
+.pd-note{ margin-top: 16px; padding: 12px 16px; border: 1px solid var(--dna-line); border-radius: var(--radius-md); background: var(--dna-paper); }
+.pd-note label{ font-size: 14px; line-height: 20px; font-weight: 700; letter-spacing: 0; text-transform: none; color: var(--dna-ink); }
+.pd-note p{ margin-top: 4px; font-size: 14px; line-height: 20px; color: var(--dna-text); }
+.pd-edit-toggle{ min-height: 40px; margin-top: 16px; padding: 8px 16px; border: 1px solid var(--klick); border-radius: var(--radius-button); color: var(--klick); font: 400 14px/20px var(--font-sans); }
+.pd-edit-toggle:hover{ background: var(--dna-petrol-tint); }
+.pd-save-meta{ font-size: 12px; line-height: 16px; color: var(--dna-text); }
+
+/* ---- Schmalere Fenster: die Hausstufen gehen eine Stufe herunter ---- */
+@media (max-width: 820px){
+  .pd-profile-copy h1{ font-size: 30px; line-height: 40px; }
+}
+@media (max-width: 540px){
+  .promoter-detail-page .app-content.promoter-detail-content{ padding: 24px 16px 56px; }
+  .pd-profile-hero{ padding: 16px; }
+  .pd-profile-person{ gap: 12px; }
+  .pd-profile-person .pz.pz-gross{ width: 52px; height: 52px; flex-basis: 52px; }
+  .pd-profile-person .pz.pz-gross svg{ width: 27px; height: 27px; }
+  .pd-profile-copy h1{ font-size: 26px; line-height: 36px; white-space: normal; }
+  /* Untereinander statt zu zweit: bei 14 Pixel passt "Promoter-Ansicht ↗"
+     nicht in eine halbe Zeile, der Pfeil rutschte sonst allein nach unten. */
+  .pd-actions{ grid-template-columns: 1fr; }
+  .pd-btn{ min-height: 40px; padding: 6px 12px; font-size: 14px; }
+  .pd-stats{ gap: 8px; }
+  .pd-stat{ padding: 12px 16px 16px; }
+  .pd-stat-num{ margin-top: 8px; font-size: 26px; line-height: 36px; }
+  .pd-recommendation{ padding: 16px; }
+  .pd-badge{ margin-left: 48px; }
+  .pd-card-pad{ padding: 16px; }
+}
