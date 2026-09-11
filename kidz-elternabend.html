@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0d4f4b">
+  <meta name="theme-color" content="#b8d4e3">
   <meta name="color-scheme" content="light">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="KIDZ">
   <meta name="robots" content="noindex,nofollow">
-  <meta name="description" content="KIDZ for Future, der exklusive Abend für Eltern: Absicherung, Vorsorge und Finanzwissen verständlich erklärt. Jetzt unverbindlich vormerken.">
+  <meta name="description" content="KIDZ for Future ist der Elternabend zum KIDZ-Konzept: etwa 60 Minuten, kostenlos und in persönlicher Runde. Jetzt unverbindlich vormerken.">
   <link rel="canonical" href="https://kidz.teamwachsbleiche.de/kidz/elternabend">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="de_DE">
   <meta property="og:site_name" content="KIDZ · Team Wachsbleiche">
   <meta property="og:title" content="KIDZ for Future">
-  <meta property="og:description" content="Ein persönlicher Eltern-Workshop für eine starke finanzielle Zukunft der Familie. Jetzt unverbindlich vormerken.">
+  <meta property="og:description" content="Der Elternabend zum KIDZ-Konzept vom Team Wachsbleiche. Jetzt unverbindlich vormerken.">
   <meta property="og:url" content="https://kidz.teamwachsbleiche.de/kidz/elternabend">
   <!-- Eigenes Vorschaubild fuer WhatsApp und Co: 1200x630 und unter 300 KB.
        Das alte Bild war 1,07 MB gross, WhatsApp laedt es dann nicht. -->
@@ -27,177 +27,199 @@
   <meta property="og:image:alt" content="Einladung zu KIDZ for Future von Team Wachsbleiche">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="KIDZ for Future">
-  <meta name="twitter:description" content="Absicherung, Vorsorge und Finanzwissen verständlich für Eltern.">
+  <meta name="twitter:description" content="Der Elternabend zum KIDZ-Konzept vom Team Wachsbleiche.">
   <meta name="twitter:image" content="https://kidz.teamwachsbleiche.de/assets/images/kidz-vorschau-elternabend.jpg">
   <title>KIDZ for Future | Team Wachsbleiche</title>
   <link rel="icon" type="image/png" href="/assets/images/kidz-logo-konzept.png">
   <link rel="apple-touch-icon" href="/assets/images/kidz-logo-konzept.png">
-  <link rel="stylesheet" href="/css/kidz-elternabend.css?v=2">
+  <link rel="stylesheet" href="/css/kidz-elternabend.css?v=3">
   <link rel="stylesheet" href="/css/kidz-public-nav.css?v=3">
   <script src="/js/config.js"></script>
 </head>
 <body>
+  <a class="kea-skip" href="#anmeldung">Direkt zur Vormerkung</a>
+
   <header class="kea-header">
     <a class="kea-brand" href="#start" aria-label="Zum Anfang der Seite KIDZ for Future">
       <img src="/assets/images/kidz-logo-konzept.png" alt="KIDZ Konzept mit Lok" width="1080" height="1100">
       <span><strong>Kinderleicht in die Zukunft</strong><small>Team Wachsbleiche</small></span>
     </a>
-    <nav aria-label="Seitennavigation">
-      <a href="#informationen">Informationen</a>
-      <a href="#themen">Themen</a>
-      <a class="kea-nav-cta" href="#anmeldung">Platz vormerken</a>
+    <nav class="kea-nav" aria-label="Seitennavigation">
+      <a href="#themen">Worum es geht</a>
+      <a href="#gastgeber">Wer einlädt</a>
+      <a href="/kidz/konzept">KIDZ-Konzept</a>
     </nav>
+    <a class="kea-header-cta" href="#anmeldung">KIDZ for Future vormerken</a>
   </header>
 
   <main id="start">
     <section class="kea-hero" aria-labelledby="keaTitle">
       <div class="kea-hero-copy">
-        <p class="kea-kicker">KIDZ for Future</p>
-        <h1 id="keaTitle">Kinderleicht vorsorgen.<br><span>Klarheit für Eltern.</span></h1>
-        <p class="kea-lede">Der persönliche Eltern-Workshop für Familien, die heute gute Entscheidungen treffen und ihren Kindern morgen mehr Möglichkeiten geben möchten.</p>
+        <!-- Allgemeiner Einstieg. Bei ?quelle=sommerfest-danke ersetzt
+             js/kidz-elternabend.js den Satz durch die Begrüßung zum Fest. -->
+        <p class="kea-greeting" id="keaGreeting">Eine Einladung vom Team Wachsbleiche</p>
+        <p class="kea-eyebrow">KIDZ for Future</p>
+        <h1 id="keaTitle">Der Elternabend zur Zukunft deines Kindes.</h1>
+        <p class="kea-lede">Mit anderen Eltern schauen wir uns an einem Abend an, was dein Kind beim Umgang mit Geld, bei der Gesundheit und bei der Absicherung braucht. Und du fragst, was dich beschäftigt.</p>
         <div class="kea-hero-actions">
           <a class="kea-button kea-button-primary" href="#anmeldung">Unverbindlich vormerken</a>
-          <a class="kea-button kea-button-secondary" href="#informationen">Was erwartet mich?</a>
+          <a class="kea-textlink" href="#themen">Was besprochen wird</a>
         </div>
-        <p class="kea-trust">Etwa 60 Minuten · kleine persönliche Runde · Teilnahme kostenlos · ohne Abschlussdruck</p>
+        <dl class="kea-facts" aria-label="Der Rahmen">
+          <div><dt>Dauer</dt><dd>Etwa 60 Minuten</dd></div>
+          <div><dt>Kosten</dt><dd>Kostenlos</dd></div>
+          <div><dt>Rahmen</dt><dd>Persönliche Runde</dd></div>
+          <div><dt>Termin</dt><dd>Wird noch bekannt gegeben</dd></div>
+        </dl>
       </div>
-      <aside class="kea-hero-card" aria-label="Das nimmst du mit">
-        <p>Dein Ergebnis</p>
-        <ol>
-          <li><span>1</span><strong>Absicherung verstehen</strong><small>Was eine Familie wirklich schützen sollte</small></li>
-          <li><span>2</span><strong>Vorsorge richtig einordnen</strong><small>Flexibel für Kinder und ihre Ziele planen</small></li>
-          <li><span>3</span><strong>Finanzwissen weitergeben</strong><small>Geld im Familienalltag verständlich machen</small></li>
-        </ol>
-      </aside>
+      <figure class="kea-hero-media">
+        <img src="/assets/images/kidz-heuwagen-960.webp"
+             srcset="/assets/images/kidz-heuwagen-640.webp 640w, /assets/images/kidz-heuwagen-960.webp 960w"
+             sizes="(max-width: 860px) calc(100vw - 40px), 440px"
+             alt="KIDZ-Schriftzug auf einem Heuwagen, geschmückt mit blauen und goldenen Wimpeln"
+             width="960" height="1280" fetchpriority="high">
+      </figure>
     </section>
 
-    <section class="kea-section kea-intro" id="informationen" aria-labelledby="keaInfoTitle">
-      <div>
-        <p class="kea-eyebrow">Ein Abend mit echtem Familiennutzen</p>
-        <h2 id="keaInfoTitle">Keine Fachsprache. Keine Produktshow. Sondern Orientierung.</h2>
+    <section class="kea-topics-section" id="themen" aria-labelledby="keaTopicsTitle">
+      <div class="kea-section-head">
+        <p class="kea-eyebrow">Worum es geht</p>
+        <h2 id="keaTopicsTitle">Diese Fragen klären wir an dem Abend.</h2>
+        <p>Jede gehört zu einer der drei Grundlagen aus dem KIDZ-Konzept.</p>
       </div>
-      <div class="kea-intro-copy">
-        <p>Viele Eltern wissen, dass sie etwas für die Zukunft ihrer Kinder tun möchten. Unsicher ist oft nur, was wirklich wichtig ist, womit man anfangen sollte und welche Entscheidungen später noch veränderbar bleiben.</p>
-        <p>Bei KIDZ for Future ordnen wir die wichtigsten Fragen gemeinsam. Verständlich, offen und mit ausreichend Zeit für persönliche Fragen. Wer danach ein Einzelgespräch möchte, entscheidet das selbst und getrennt von diesem Abend.</p>
-      </div>
-    </section>
-
-    <section class="kea-section" id="themen" aria-labelledby="keaTopicsTitle">
-      <p class="kea-eyebrow">Die drei Bausteine</p>
-      <h2 id="keaTopicsTitle">Was wir gemeinsam besprechen</h2>
       <div class="kea-topics">
-        <article>
-          <span>01</span>
-          <h3>Familie absichern</h3>
-          <p>Welche Risiken Familien finanziell besonders treffen können und welche Reihenfolge bei der Absicherung sinnvoll ist.</p>
+        <article class="kea-topic">
+          <span class="kea-topic-icon" aria-hidden="true">€</span>
+          <p class="kea-topic-label">Finanzielle Kompetenz</p>
+          <h3>Wie lernt mein Kind, mit Geld umzugehen?</h3>
+          <ul>
+            <li>Wie wir altersgerecht über Taschengeld, Wünsche und Sparen sprechen</li>
+            <li>Was ein früher Start beim Vermögensaufbau später ausmachen kann</li>
+          </ul>
         </article>
-        <article>
-          <span>02</span>
-          <h3>Chancen aufbauen</h3>
-          <p>Wie Eltern langfristig und flexibel für Ausbildung, Führerschein, Studium oder den ersten eigenen Schritt vorsorgen können.</p>
+        <article class="kea-topic">
+          <span class="kea-topic-icon" aria-hidden="true">+</span>
+          <p class="kea-topic-label">Gesundheitszustand früh sichern</p>
+          <h3>Was bedeutet die Gesundheit meines Kindes heute für später?</h3>
+          <ul>
+            <li>Warum der heutige Gesundheitszustand spätere Möglichkeiten offenhalten kann</li>
+            <li>Was die gesetzliche Krankenkasse bei Krankenhaus, Zähnen und Sehhilfe übernimmt und was nicht</li>
+          </ul>
         </article>
-        <article>
-          <span>03</span>
-          <h3>Geld erklären</h3>
-          <p>Wie Kinder altersgerecht lernen, mit Geld umzugehen, Wünsche einzuordnen und eigene Entscheidungen zu treffen.</p>
+        <article class="kea-topic">
+          <span class="kea-topic-icon" aria-hidden="true">◇</span>
+          <p class="kea-topic-label">Finanzielle Absicherung</p>
+          <h3>Was trägt unsere Familie, wenn etwas passiert?</h3>
+          <ul>
+            <li>Was ein Kind nach einem Unfall braucht</li>
+            <li>Wie die Familie abgesichert ist, wenn ein Einkommen wegfällt</li>
+          </ul>
         </article>
+      </div>
+      <a class="kea-more" href="/kidz/konzept">Zum ganzen KIDZ-Konzept <span aria-hidden="true">→</span></a>
+    </section>
+
+    <section class="kea-section kea-host" id="gastgeber" aria-labelledby="keaHostTitle">
+      <figure class="kea-host-photo">
+        <img src="/assets/images/kai-portrait.jpg" alt="Kai Blobel" width="1152" height="928" loading="lazy">
+      </figure>
+      <div class="kea-host-copy">
+        <p class="kea-eyebrow">Wer einlädt</p>
+        <h2 id="keaHostTitle">Hallo, ich bin Kai.</h2>
+        <p>Ich bin zweifacher Vater und seit über 20 Jahren für Familien in und um Cottbus da. Die Fragen hinter KIDZ stellen wir uns zu Hause selbst. Deshalb laden wir als Team Wachsbleiche zu diesem Abend ein.</p>
+        <p>Durch den Abend führe ich selbst oder jemand aus meinem Team, der KIDZ genauso gut kennt.</p>
+        <p class="kea-honest"><strong>Und danach?</strong> Du entscheidest selbst, ob du ein persönliches Gespräch möchtest. Die Antworten vom Abend nimmst du so oder so mit.</p>
+        <p class="kea-signature"><strong>Kai Blobel</strong><span data-bo="bezeichnung">Regionaldirektion Kai Blobel &amp; Team</span></p>
       </div>
     </section>
 
-    <section class="kea-section kea-format" aria-labelledby="keaFormatTitle">
-      <div>
-        <p class="kea-eyebrow">Persönlich und begrenzt</p>
-        <h2 id="keaFormatTitle">Maximal 15 Familien pro Termin</h2>
-        <p>Die kleine Runde ist bewusst gewählt. So bleibt Zeit für echte Fragen und niemand geht mit einem allgemeinen Vortrag nach Hause.</p>
-      </div>
-      <dl>
-        <div><dt>Dauer</dt><dd>etwa 60 Minuten</dd></div>
-        <div><dt>Teilnahme</dt><dd>kostenlos und unverbindlich</dd></div>
-        <div><dt>Nächster Termin</dt><dd>wird zuerst an die Vormerkliste vergeben</dd></div>
-        <div><dt>Ort</dt><dd>Cottbus, genaue Einladung folgt</dd></div>
-      </dl>
-    </section>
-
-    <section class="kea-section kea-register-section" id="anmeldung" aria-labelledby="keaRegisterTitle">
+    <section class="kea-register" id="anmeldung" aria-labelledby="keaRegisterTitle">
       <div class="kea-register-intro">
-        <p class="kea-eyebrow">Persönliche Einladungsliste</p>
-        <h2 id="keaRegisterTitle">Exklusiven Platz vormerken</h2>
-        <p>Sobald der nächste Termin feststeht, informieren wir dich zuerst. Die Vormerkung ist kostenlos und verpflichtet zu nichts.</p>
+        <p class="kea-eyebrow">Vormerkung</p>
+        <h2 id="keaRegisterTitle">Für den Elternabend vormerken</h2>
+        <p>Sobald Termin und Ort feststehen, melden wir uns bei dir. Dann sagst du zu oder ab. Die Vormerkung kostet nichts.</p>
       </div>
 
-      <form id="keaForm" novalidate>
-        <div class="kea-fields-two">
+      <div class="kea-register-card">
+        <form id="keaForm" novalidate>
           <div class="kea-field">
             <label for="keaName">Vorname und Nachname</label>
             <input id="keaName" name="name" type="text" maxlength="100" autocomplete="name" required>
           </div>
+
+          <fieldset class="kea-contact">
+            <legend>Wie erreichen wir dich?</legend>
+            <p class="kea-hint" id="keaContactHint">E-Mail oder Mobilnummer genügt. Wir nutzen sie nur für diese Vormerkung und die Terminabstimmung.</p>
+            <div class="kea-fields-two">
+              <div class="kea-field">
+                <label for="keaEmail">E-Mail</label>
+                <input id="keaEmail" name="email" type="email" maxlength="180" autocomplete="email" aria-describedby="keaContactHint" placeholder="name@beispiel.de">
+              </div>
+              <div class="kea-field">
+                <label for="keaPhone">Mobilnummer</label>
+                <input id="keaPhone" name="telefon" type="tel" maxlength="30" autocomplete="tel" aria-describedby="keaContactHint" placeholder="0171 2345678">
+              </div>
+            </div>
+          </fieldset>
+
           <div class="kea-field">
-            <label for="keaTime">Welche Zeit passt meistens?</label>
+            <label for="keaTime">Welche Zeit passt dir meistens?</label>
             <select id="keaTime" name="timePreference">
               <option value="flexibel">Ich bin flexibel</option>
               <option value="werktag-abends">Unter der Woche am Abend</option>
               <option value="samstag-vormittags">Samstag am Vormittag</option>
             </select>
           </div>
-        </div>
-        <div class="kea-fields-two">
+
           <div class="kea-field">
-            <label for="keaEmail">E-Mail</label>
-            <input id="keaEmail" name="email" type="email" maxlength="180" autocomplete="email" placeholder="name@beispiel.de">
+            <label for="keaQuestion">Welche Familienfrage interessiert dich besonders? <span>freiwillig</span></label>
+            <textarea id="keaQuestion" name="question" maxlength="500" rows="3" placeholder="Zum Beispiel: Wie bleiben wir beim Sparen für unser Kind flexibel?"></textarea>
           </div>
-          <div class="kea-field">
-            <label for="keaPhone">Mobilnummer</label>
-            <input id="keaPhone" name="telefon" type="tel" maxlength="30" autocomplete="tel" placeholder="0171 2345678">
+
+          <div class="kea-field kea-advisor-field">
+            <label for="keaAdvisor">Wer hat dich eingeladen? <span>freiwillig</span></label>
+            <select id="keaAdvisor" name="beraterSlug" aria-describedby="keaAdvisorHint">
+              <option value="">Niemand aus dem Team oder nicht bekannt</option>
+              <option value="claudius-tusche">Claudius Tusche</option>
+              <option value="david-stamm">David Stamm</option>
+              <option value="josephine-buerger">Josephine Bürger</option>
+              <option value="kai-blobel">Kai Blobel</option>
+              <option value="max-kudlek">Max Kudlek</option>
+              <option value="sandro-wernicke">Sandro Wernicke</option>
+              <option value="sven-augustin">Sven Augustin</option>
+              <option value="promoter-anika-bibrach">Anika Biebrach</option>
+              <option value="promoter-anja-scholz">Anja Scholz</option>
+              <option value="promoter-sandra-roehrens">Sandra Röhrens</option>
+            </select>
+            <p id="keaAdvisorHint">So erreicht deine Vormerkung die richtige Person.</p>
           </div>
-        </div>
-        <p class="kea-hint">Ein Kontaktweg genügt. Wir verwenden ihn ausschließlich für deine Vormerkung und die Terminabstimmung.</p>
 
-        <div class="kea-field kea-advisor-field">
-          <label for="keaAdvisor">Wer hat dich eingeladen? <span>optional</span></label>
-          <select id="keaAdvisor" name="beraterSlug">
-            <option value="">Niemand aus dem Team oder nicht bekannt</option>
-            <option value="claudius-tusche">Claudius Tusche</option>
-            <option value="david-stamm">David Stamm</option>
-            <option value="josephine-buerger">Josephine Bürger</option>
-            <option value="kai-blobel">Kai Blobel</option>
-            <option value="max-kudlek">Max Kudlek</option>
-            <option value="sandro-wernicke">Sandro Wernicke</option>
-            <option value="sven-augustin">Sven Augustin</option>
-            <option value="promoter-anika-bibrach">Anika Biebrach</option>
-            <option value="promoter-anja-scholz">Anja Scholz</option>
-            <option value="promoter-sandra-roehrens">Sandra Röhrens</option>
-</select>
-          <p>Die Auswahl ordnet deine Vormerkung der einladenden Person und dem richtigen Ansprechpartner zu. Ohne Auswahl übernimmt Kai Blobel &amp; Team.</p>
-        </div>
+          <label class="kea-check" for="keaConsent">
+            <input id="keaConsent" name="consent" type="checkbox" required>
+            <span>Ich bin volljährig und möchte für den nächsten Termin von KIDZ for Future vorgemerkt werden. Ich habe die <a href="#datenschutz">Datenschutzhinweise</a> gelesen. Die Vormerkung ist freiwillig und jederzeit widerrufbar.</span>
+          </label>
 
-        <div class="kea-field">
-          <label for="keaQuestion">Welche Familienfrage interessiert dich besonders? <span>optional</span></label>
-          <textarea id="keaQuestion" name="question" maxlength="500" rows="4" placeholder="Zum Beispiel: Wie bleiben wir beim Sparen für unser Kind flexibel?"></textarea>
-        </div>
+          <div class="kea-captcha" id="keaCaptcha"></div>
+          <p class="kea-error" id="keaError" role="alert" hidden></p>
+          <button class="kea-submit" id="keaSubmit" type="submit" disabled>Unverbindlich vormerken</button>
+          <p class="kea-safe">Wir fragen nichts über deine Kinder und nutzen deine Angaben nur für diesen Elternabend.</p>
+        </form>
 
-        <label class="kea-check" for="keaConsent">
-          <input id="keaConsent" name="consent" type="checkbox" required>
-          <span>Ich bin volljährig und möchte für den nächsten Termin von KIDZ for Future vorgemerkt werden. Ich habe die <a href="#datenschutz">Datenschutzhinweise</a> gelesen. Die Vormerkung ist freiwillig und jederzeit widerrufbar.</span>
-        </label>
-
-        <div class="kea-captcha" id="keaCaptcha"></div>
-        <p class="kea-error" id="keaError" role="alert" hidden></p>
-        <button class="kea-submit" id="keaSubmit" type="submit" disabled>Jetzt unverbindlich vormerken</button>
-        <p class="kea-safe">Keine Angaben zu Kindern. Kein Kauf. Keine automatische Werbeeinwilligung.</p>
-      </form>
-
-      <section class="kea-success" id="keaSuccess" aria-live="polite" hidden>
-        <div>✓</div>
-        <h2>Du bist vorgemerkt.</h2>
-        <p>Sobald der nächste Termin von KIDZ for Future feststeht, erhältst du über deinen gewählten Kontaktweg zuerst die persönliche Einladung.</p>
-        <span id="keaReference"></span>
-      </section>
+        <section class="kea-success" id="keaSuccess" aria-live="polite" tabindex="-1" hidden>
+          <div aria-hidden="true">✓</div>
+          <h2>Du bist vorgemerkt.</h2>
+          <p>Sobald Termin und Ort von KIDZ for Future feststehen, melden wir uns über den Kontaktweg, den du angegeben hast.</p>
+          <span id="keaReference"></span>
+        </section>
+      </div>
     </section>
 
     <section class="kea-section kea-legal" id="datenschutz" aria-labelledby="keaPrivacyTitle">
-      <p class="kea-eyebrow">Datenschutz und Klarheit</p>
-      <h2 id="keaPrivacyTitle">Wofür wir deine Angaben verwenden</h2>
       <div>
+        <p class="kea-eyebrow">Datenschutz</p>
+        <h2 id="keaPrivacyTitle">Wofür wir deine Angaben verwenden</h2>
+      </div>
+      <div class="kea-legal-copy">
         <p>Wir verarbeiten Name, Kontaktweg, Zeitwunsch, freiwillige Frage und die Zuordnung zur einladenden Person ausschließlich, um deine Vormerkung zu verwalten und dich zum nächsten Termin von KIDZ for Future einzuladen.</p>
         <p>Die Vormerkung ist keine Gewinnspielteilnahme, keine Kundenanfrage und keine Einwilligung in allgemeine Werbung. Du kannst sie jederzeit bei Regionaldirektion Kai Blobel &amp; Team widerrufen. Nicht mehr benötigte Daten werden nach Zweckerfüllung gelöscht; spätestens nach 18 Monaten wird die weitere Speicherung überprüft.</p>
       </div>
@@ -209,7 +231,7 @@
     <div class="kidz-instagram-copy">
       <small>Mehr vom Team Wachsbleiche</small>
       <strong>Folge uns auf Instagram</strong>
-      <p>Einblicke, Aktionen und neue Termine aus unserem Team.</p>
+      <p>Neue Termine und Bilder aus unserem Team.</p>
     </div>
     <a class="kidz-instagram-link" href="https://www.instagram.com/team_wachsbleiche/" target="_blank" rel="noopener noreferrer" aria-label="Team Wachsbleiche auf Instagram öffnen">
       @team_wachsbleiche <span aria-hidden="true">↗</span>
@@ -218,14 +240,21 @@
 
   <footer class="kea-footer">
     <div class="kea-organizer">
-      <img src="/assets/images/team-wachsbleiche-petrol.jpeg" alt="Team Wachsbleiche · Kai Blobel &amp; Team" width="1254" height="1254">
+      <img src="/assets/images/team-wachsbleiche-petrol.jpeg" alt="Team Wachsbleiche · Kai Blobel &amp; Team" width="1254" height="1254" loading="lazy">
       <div><strong data-bo="bezeichnung">Regionaldirektion Kai Blobel &amp; Team</strong><br>Deutsche Vermögensberatung<br><span data-bo="adresse">An der Wachsbleiche 1a · 03046 Cottbus</span></div>
     </div>
-    <a href="/kidz/sommerfest">Zum KIDZ-Sommerfest</a>
+    <nav aria-label="Weitere KIDZ-Seiten und rechtliche Hinweise">
+      <a href="/kidz/konzept">KIDZ-Konzept</a>
+      <a href="/kidz/sommerfest">Sommerfest-Rückblick</a>
+      <a data-bo="impressum" href="https://www.dvag.de/kai.blobel/impressum.html" target="_blank" rel="noopener noreferrer">Impressum</a>
+      <a data-bo="datenschutz" href="https://www.dvag.de/kai.blobel/datenschutz.html" target="_blank" rel="noopener noreferrer">Datenschutz</a>
+    </nav>
   </footer>
 
+  <a class="kea-mobile-cta" id="keaMobileCta" href="#anmeldung" hidden>KIDZ for Future vormerken</a>
+
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
-  <script type="module" src="/js/kidz-elternabend.js?v=1"></script>
+  <script type="module" src="/js/kidz-elternabend.js?v=2"></script>
   <script type="module" src="/js/buero-brand.js?v=1"></script>
 </body>
 </html>

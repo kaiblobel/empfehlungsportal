@@ -1,7 +1,30 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.364 Beta** · Allgemein-Seite mit neuem Film, live seit 11.09.2026.
+Offizielle Live-Version: **v1.365 Beta** · KIDZ-Anmeldeseite im Look der Konzeptseite, live seit 11.09.2026.
+
+## v1.365 Beta - Phase 350 · KIDZ-Anmeldeseite im Look der Konzeptseite
+**2026-09-11**
+
+Kais Auftrag vom 11.09.2026: Die Anmeldung zu KIDZ for Future (`kidz-elternabend.html`, `/kidz/elternabend`) soll sichtbar zur Konzeptseite gehören, persönlicher wirken und Eltern einfach zur Vormerkung führen. Kai hat die Vorschau abgenommen („ok freigabe und live").
+
+**Gestaltung wie die Konzeptseite.** Farben, Schriftfolge, Pillenknöpfe und der Bildbogen kommen aus `css/kidz-konzept.css`, der petrolgrüne Einstiegsblock ist weg. Keine neue Schrift, keine fremden Bilder. Im Einstieg steht Kais eigenes Foto vom KIDZ-Heuwagen (`assets/images/kidz-heuwagen-640.webp` und `-960.webp`, 112 und 219 KB, ohne Standortdaten). Am Rechner steht es ganz im Bogen, am Handy als Band, dessen Ausschnitt auf dem Schriftzug sitzt.
+
+**Kopfzeile.** Oben steht wie auf der Konzeptseite „Kinderleicht in die Zukunft", der Name KIDZ for Future nur im Knopf „KIDZ for Future vormerken". Am Handy sitzt dieser Knopf unten am Rand. Er erscheint erst, wenn der Knopf im Einstieg aus dem Bild ist, und verschwindet am Formular, damit er kein Feld verdeckt.
+
+**Einstieg.** Wer über die Dankesmail kommt (`?quelle=sommerfest-danke`), liest „Schön, dass ihr beim Sommerfest dabei wart." Alle anderen sehen „Eine Einladung vom Team Wachsbleiche". Herkunft und Beraterzuordnung laufen unverändert. Eine Hauptaktion („Unverbindlich vormerken"), darunter Dauer, Kosten, Rahmen und „Termin wird noch bekannt gegeben".
+
+**Keine Verkaufswörter, auch nicht verneint.** Kais Regel: „keine Produktshow", „kein Kauf", „ohne Abschlussdruck" und Ähnliches kommen gar nicht vor, dazu keine Füllwörter wie „verständlich" oder „in Ruhe". Stattdessen steht beim Gastgeber, was nach dem Abend passiert. Dieselbe Regel gilt jetzt auf der Konzeptseite: drei Stellen umformuliert, die FAQ-Frage heißt „Muss ich nach dem Abend etwas entscheiden?". Datenschutz- und Einwilligungstexte sind wörtlich geblieben.
+
+**Nichts versprechen, was nicht feststeht.** „Exklusiven Platz vormerken", „Maximal 15 Familien", „Termin geht zuerst an die Vormerkliste" und „Ort: Cottbus" sind raus, weil sie nirgends belegt waren. Gastgeber ist Kai mit dem Porträt, das schon auf der KIDZ-Empfehlungsseite steht, und dem Satz der Konzeptseite: er selbst oder jemand aus seinem Team.
+
+**Formular.** „E-Mail oder Mobilnummer genügt" steht vor den Kontaktfeldern. „Wer hat dich eingeladen?" ist freiwillig und optisch zurückgenommen, Feldname, Vorauswahl per `?berater=` und Zuordnung sind unverändert. Fehlt der Kontaktweg, springt der Fokus ins E-Mail-Feld; nach dem Absenden landet er auf der Bestätigung. Neu im Fuß: Impressum und Datenschutz über `data-bo`.
+
+Wächter: `tests/kidz-elternabend.test.mjs` prüft Begrüßung, Kopfzeile, Handy-Knopf, Hauptaktion, Bildgröße und dass Verkaufs- und Füllwörter außerhalb des Datenschutztexts nicht zurückkommen. Lokal geprüft auf 1440, 390 und 360 px (keine Überbreite, Knöpfe mindestens 44 px, Schrift mindestens 12 px) und mit einem Bedientest über Tastatur, Sprunglink und alle Formularzustände gegen Attrappen, ohne echte Anmeldung.
+
+Offen für Kai: Termin, Ort, weitere Gastgeber mit Foto, Kinderbetreuung und Gruppengröße. Nichts davon steht auf der Seite, bis es feststeht.
+
+---
 
 ## v1.364 Beta - Phase 349 · Allgemein-Seite mit neuem Film
 **2026-09-11 · live veröffentlicht**
