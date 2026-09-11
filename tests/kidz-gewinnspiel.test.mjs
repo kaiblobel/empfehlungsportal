@@ -616,6 +616,21 @@ assert.doesNotMatch(schlussMigration, /drop policy if exists kidz_gewinnspiel_ad
 assert.doesNotMatch(schlussMigration, /v_event <> 'kidz-sommerfest-2026'/,
   'Die Sommerfest-Sonderregel muss aus der Interesse-Funktion raus sein.');
 
+// Phase 359: Noch einmal sieht jeder Berater alle Sommerfest-Anmeldungen, aber
+// nur sehen und nur bis Montag, 14.09.2026. Faellt eine der drei Schranken weg,
+// bleibt die Liste still fuer jeden mit Beraterkonto offen.
+const befristet = (await read('schema-phase359-kidz-team-sicht-befristet.sql'))
+  .replace(/^--.*$/gm, '');
+assert.match(befristet, /create policy kidz_gewinnspiel_team_select_befristet[\s\S]{0,120}for select/);
+assert.match(befristet, /current_berater_id\(\) is not null/);
+assert.match(befristet, /event_key = 'kidz-sommerfest-2026'/);
+assert.match(befristet, /now\(\) < timestamptz '2026-09-15 00:00:00\+02'/,
+  'Ohne Ablaufdatum bleibt die Freigabe fuer immer stehen.');
+// Nur Sehen. Schreiben, Haekchen und Loeschen bleiben so, wie Phase 336 sie
+// zurueckgesetzt hat.
+assert.doesNotMatch(befristet, /for (update|delete|insert|all)/);
+assert.doesNotMatch(befristet, /set_kidz_gewinnspiel_interesse/);
+
 // Die Seite muss sagen, was passiert ist, statt pauschal "Du bist dabei".
 const gewinnspielJs = await read('js/kidz-gewinnspiel.js');
 assert.match(gewinnspielJs, /function erfolgsMeldung/);

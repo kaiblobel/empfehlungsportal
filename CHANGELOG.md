@@ -3,6 +3,21 @@
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.373 Beta** · KIDZ-Anmeldeseite: Instagram und Facebook im Fuß, live seit 11.09.2026.
 
+## Phase 359 · Jeder Berater sieht die Sommerfest-Anmeldungen, bis Montag
+**2026-09-11 · nur Datenbank, live eingespielt, keine neue Seitenversion**
+
+Kais Auftrag vom 11.09.2026: „die KIDZ Sommerfestteilnehmer bis Montag wieder für alle Berater freigeben, so dass jeder wieder alle sieht". Seit Phase 336 sah jeder Berater nur seine eigenen Anmeldungen. Für die Nacharbeit nach dem Fest (170 von 225 Kontakten liegen noch beim Vorgabeberater) sieht jetzt wieder jeder alle.
+
+**Nur Sehen, und nur bis Montag.** Die neue Leseregel `kidz_gewinnspiel_team_select_befristet` gilt für das Sommerfest, für Personen mit Beraterkonto und bis Montag, 14.09.2026, 24 Uhr. Danach greift sie von selbst nicht mehr. Nicht wieder geöffnet sind das Schreiben an fremden Anmeldungen, das Häkchen für KIDZ for Future und das Löschen, anders als am Festtag (Phase 333).
+
+Gegen die echte Datenbank geprüft und zurückgerollt: Ein Berater ohne Admin-Recht sieht 225 statt seiner 13 und kann an keiner fremden Anmeldung etwas ändern.
+
+Die Seite selbst braucht nichts: Die Liste lädt ohnehin alles, was die Datenbank herausgibt.
+
+Datenbank: `schema-phase359-kidz-team-sicht-befristet.sql`, angewendet am 11.09.2026 als `phase_359_kidz_team_sicht_befristet`. Wächter in `tests/kidz-gewinnspiel.test.mjs`.
+
+---
+
 ## v1.373 Beta - Phase 358 · KIDZ-Anmeldeseite: Instagram und Facebook im Fuß
 **2026-09-11 · live veröffentlicht**
 
