@@ -4,7 +4,7 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.368 Beta** · Abmelden im Promoterbereich, live seit 11.09.2026.
 
 ## v1.368 Beta - Phase 353 · Abmelden im Promoterbereich
-**2026-09-11**
+**2026-09-11 · live veröffentlicht**
 
 Kais Frage vom 11.09.2026 am Bildschirmfoto des Promoterbereichs: „Hast du schon den Ausloggen-Button und Anmeldebutton eingebaut?" Gab es nicht.
 
