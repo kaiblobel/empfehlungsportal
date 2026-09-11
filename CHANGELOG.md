@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.372 Beta** · Zugangs-Mail professionell gestaltet, live seit 11.09.2026.
+Offizielle Live-Version: **v1.373 Beta** · KIDZ-Anmeldeseite: Instagram und Facebook im Fuß, live seit 11.09.2026.
+
+## v1.373 Beta - Phase 358 · KIDZ-Anmeldeseite: Instagram und Facebook im Fuß
+**2026-09-11**
+
+Kais Wunsch vom 11.09.2026: Facebook auf der KIDZ-Anmeldeseite, als Symbol im Fuß wie auf seinen anderen Seiten, und beide Symbole in ihren Farben. Freigabe: „ja veröffentlichen".
+
+**Instagram und Facebook im Fuß.** Rechts neben Impressum und Datenschutz stehen zwei runde Symbole, dauerhaft in ihren Markenfarben (Instagram-Verlauf, Facebook `#1877f2`) mit weißem Zeichen. Die Form stammt aus dem Fuß des Karrierechecks (`foot__soc`), die Links führen aber auf die Team-Profile wie auf der Sommerfest-Seite: `instagram.com/team_wachsbleiche` und die Facebook-Seite Team Wachsbleiche. 44 × 44 px, per Tastatur erreichbar, mit dem gelben Fokusrahmen. Der große Instagram-Block am Seitenende bleibt unverändert.
+
+**Behoben: Handy-Knopf über dem Fuß (seit v1.365 live).** Der untere Knopf „KIDZ for Future vormerken" erfuhr über einen Beobachter nur, wenn das Formular durchs Bild lief. Sprang die Seite ohne Zwischenbild ans Ende, etwa beim Zurückkehren mit wiederhergestellter Position, blieb er stehen und verdeckte den Fuß. Jetzt rechnet `watchMobileCta` in `js/kidz-elternabend.js` bei jedem Scrollen und jeder Größenänderung direkt aus der Lage auf dem Schirm.
+
+Wächter: `tests/kidz-elternabend.test.mjs` prüft beide Links mit genauer Adresse, dass die Facebook-Adresse der Sommerfest-Seite entspricht, die Markenfarben und die neue Berechnung des Handy-Knopfs. Der Bedientest hat einen Sprung ans Seitenende dazubekommen.
+
+---
 
 ## v1.372 Beta - Phase 357 · Zugangs-Mail professionell gestaltet
 **2026-09-11 · live veröffentlicht**

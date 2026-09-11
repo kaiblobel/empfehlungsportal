@@ -117,6 +117,11 @@ assert.match(html, /<strong>Kinderleicht in die Zukunft<\/strong><small>Team Wac
 assert.match(html, /class="kea-header-cta" href="#anmeldung">KIDZ for Future vormerken</);
 assert.match(html, /id="keaMobileCta" href="#anmeldung" hidden>KIDZ for Future vormerken</);
 assert.match(publicJs, /watchMobileCta\(\);/);
+// Der Handy-Knopf rechnet aus der Lage auf dem Schirm, nicht aus Durchgangsmeldungen. Sonst
+// bleibt er nach einem Sprung ans Seitenende stehen und verdeckt den Fuß (gefunden 11.09.2026).
+assert.match(publicJs, /const formReached = register\.getBoundingClientRect\(\)\.top < window\.innerHeight;/);
+assert.match(publicJs, /window\.addEventListener\('scroll', schedule, \{ passive: true \}\);/);
+assert.doesNotMatch(publicJs, /IntersectionObserver/);
 // Kais Regel vom 11.09.2026: Auf der allgemeinen Seite ist kein Berater zu sehen. Eine
 // Person erscheint nur über den persönlichen Anmeldelink (?berater=…), und dann genau die.
 assert.match(html, /<section class="kea-section kea-host" id="gastgeber" aria-labelledby="keaHostTitle" hidden>/);
@@ -197,6 +202,17 @@ assert.match(html, /kidz-vorschau-elternabend\.jpg/);
 // führt, wie die Dankesmail an die Familien, mit derselben Herkunft zum Vormerken.
 assert.match(sommerfestHtml, /href="\/kidz\/elternabend\?quelle=sommerfest-danke"/);
 assert.match(publicJs, /'sommerfest-danke'/);
+// Fuß: Instagram und Facebook als Symbole, Team-Profile wie auf der Sommerfest-Seite (Kai, 11.09.2026).
+// Der große Instagram-Block am Seitenende bleibt daneben bestehen.
+const fuss = html.match(/<footer class="kea-footer">[\s\S]*?<\/footer>/)?.[0] || '';
+assert.match(fuss, /class="kea-social-ig" href="https:\/\/www\.instagram\.com\/team_wachsbleiche\/" target="_blank" rel="noopener noreferrer" aria-label="Team Wachsbleiche auf Instagram"/);
+assert.match(fuss, /class="kea-social-fb" href="https:\/\/www\.facebook\.com\/people\/Team-Wachsbleiche\/61594233901851\/" target="_blank" rel="noopener noreferrer" aria-label="Team Wachsbleiche auf Facebook"/);
+assert.ok(sommerfestHtml.includes('https://www.facebook.com/people/Team-Wachsbleiche/61594233901851/'),
+  'Facebook-Adresse weicht von der Sommerfest-Seite ab');
+assert.match(html, /<section class="kidz-instagram"/);
+// Beide Symbole stehen dauerhaft in ihren Markenfarben, nicht erst beim Überfahren.
+assert.match(css, /\.kea-social-ig \{ background: radial-gradient\(/);
+assert.match(css, /\.kea-social-fb \{ background: #1877f2; \}/);
 assert.match(css, /color-scheme:\s*light/);
 assert.match(css, /@media \(max-width:\s*640px\)/);
 

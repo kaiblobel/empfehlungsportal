@@ -206,19 +206,29 @@ form.addEventListener('submit', async (event) => {
 
 // Handy: der Knopf am unteren Rand erscheint erst, wenn der Knopf im Einstieg aus dem Bild
 // ist, und verschwindet, sobald das Formular erreicht ist. So verdeckt er nie ein Feld.
+// Berechnet wird bei jedem Scrollen direkt aus der Lage auf dem Schirm. Vorher meldete ein
+// Beobachter nur Durchgänge durchs Bild: Sprang die Seite ohne Zwischenbild ans Ende (Zurück-
+// Taste mit wiederhergestellter Position), blieb der Knopf stehen und lag über dem Fuß.
 function watchMobileCta() {
   const bar = document.getElementById('keaMobileCta');
   const heroActions = document.querySelector('.kea-hero-actions');
   const register = document.getElementById('anmeldung');
-  if (!bar || !heroActions || !register || !('IntersectionObserver' in window)) return;
-  let heroVisible = true;
-  let formReached = false;
-  const update = () => { bar.hidden = heroVisible || formReached; };
-  new IntersectionObserver(([entry]) => { heroVisible = entry.isIntersecting; update(); }).observe(heroActions);
-  new IntersectionObserver(([entry]) => {
-    formReached = entry.isIntersecting || entry.boundingClientRect.top < 0;
-    update();
-  }).observe(register);
+  if (!bar || !heroActions || !register) return;
+  let pending = false;
+  const update = () => {
+    pending = false;
+    const heroVisible = heroActions.getBoundingClientRect().bottom > 0;
+    const formReached = register.getBoundingClientRect().top < window.innerHeight;
+    bar.hidden = heroVisible || formReached;
+  };
+  const schedule = () => {
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(update);
+  };
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule);
+  update();
 }
 
 // Ein Berater erscheint nur über seinen persönlichen Anmeldelink (?berater=…). Ohne Link
