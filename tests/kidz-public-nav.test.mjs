@@ -19,9 +19,12 @@ assert.match(summerHtml, /kidz-public-nav\.css\?v=\d+/);
 assert.match(giveawayHtml, /kidz-public-nav\.css\?v=\d+/);
 assert.match(summerHtml, /kidz-public-nav\.js\?v=\d+/);
 assert.match(giveawayHtml, /kidz-public-nav\.js\?v=\d+/);
-assert.match(summerHtml, /<strong>Sommerfest<\/strong>/);
-assert.match(summerHtml, /<strong>Gewinne<\/strong>/);
-assert.match(summerHtml, /<strong>Anmeldung<\/strong>/);
+// Seit Phase 346 (nach dem Fest am 06.09.2026) führt das Menü durch den Rückblick
+// und zum Vormerken für KIDZ for Future, nicht mehr zur Anmeldung.
+assert.match(summerHtml, /<strong>Rückblick<\/strong>/);
+assert.match(summerHtml, /<strong>Auflösung<\/strong>/);
+assert.match(summerHtml, /<strong>KIDZ for Future<\/strong>/);
+assert.doesNotMatch(summerHtml, /<strong>Anmeldung<\/strong>/);
 // Die Elternseite wird am 6. September vor Ort freigeschaltet und bis dahin
 // nicht über das öffentliche Menü beworben. Erreichbar bleibt sie weiterhin.
 assert.doesNotMatch(summerHtml, /<strong>KIDZ Konzept<\/strong>/);

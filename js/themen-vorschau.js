@@ -32,14 +32,14 @@ const TOPICS = {
     number: '01',
     title: 'Investment & Gold',
     eyebrow: 'Vermögen aufbauen',
-    headlinePublic: 'Geld braucht einen Plan, der zu Ihrem Leben passt.',
+    headlinePublic: 'Geld braucht einen Plan, der zu deinem Leben passt.',
     headlineReferral: 'Geld braucht einen Plan, der zu deinem Leben passt.',
-    ledePublic: 'Geldanlage beginnt nicht mit einem Produkt. Sie beginnt mit der Frage, was Sie erreichen möchten und wie viel Sicherheit Sie unterwegs brauchen.',
+    ledePublic: 'Geldanlage beginnt nicht mit einem Produkt. Sie beginnt mit der Frage, was du erreichen möchtest und wie viel Sicherheit du unterwegs brauchst.',
     ledeReferral: 'Geldanlage beginnt nicht mit einem Produkt. Sie beginnt mit der Frage, was du erreichen möchtest und wie viel Sicherheit du unterwegs brauchst.',
     signals: [
       ['Geld liegt ohne klare Aufgabe bereit', 'Rücklagen sind vorhanden, aber Sparen, Sicherheit und langfristiger Aufbau sind noch nicht sauber getrennt.'],
       ['Es gibt Anlagen, aber keinen Gesamtplan', 'Einzelne Fonds, Depots oder Edelmetalle sind vorhanden. Unklar ist, ob alles noch zu Zielen und Risikowunsch passt.'],
-      ['Vermögen soll planbar wachsen', 'Sie möchten Chancen nutzen, ohne dabei Liquidität, Kosten und die eigene Ruhe aus dem Blick zu verlieren.']
+      ['Vermögen soll planbar wachsen', 'Du möchtest Chancen nutzen, ohne dabei Liquidität, Kosten und die eigene Ruhe aus dem Blick zu verlieren.']
     ],
     options: [
       ['start', 'Ich möchte erst anfangen', 'Zuerst braucht es eine klare Aufteilung zwischen Reserve, mittelfristigen Zielen und langfristigem Vermögensaufbau.'],
@@ -53,8 +53,8 @@ const TOPICS = {
       ['Kosten und laufende Begleitung', 'Eine Strategie soll verständlich bleiben und regelmäßig an Veränderungen im Leben angepasst werden können.']
     ],
     tools: [
-      ['Depot-Check', 'Wie krisenfest ist Ihr Depot?', 'Eine kurze Einordnung zu Streuung, Schwankungen und vorhandenen Anlagen.', 'https://depotcheck.kaiblobel.de/'],
-      ['Strategie-Check', 'Welche Vermögensstrategie passt zu Ihnen?', 'Ziele, Zeit und Sicherheitswunsch in einen verständlichen Rahmen bringen.', 'https://vermoegensstrategie-check.kaiblobel.de/']
+      ['Depot-Check', 'Wie krisenfest ist dein Depot?', 'Eine kurze Einordnung zu Streuung, Schwankungen und vorhandenen Anlagen.', 'https://depotcheck.kaiblobel.de/'],
+      ['Strategie-Check', 'Welche Vermögensstrategie passt zu dir?', 'Ziele, Zeit und Sicherheitswunsch in einen verständlichen Rahmen bringen.', 'https://vermoegensstrategie-check.kaiblobel.de/']
     ]
   },
   foerderungen: {
@@ -63,7 +63,7 @@ const TOPICS = {
     eyebrow: 'Zukunft planbar machen',
     headlinePublic: 'Vorsorge wirkt am besten, wenn Förderung und eigener Plan zusammenpassen.',
     headlineReferral: 'Vorsorge wirkt am besten, wenn Förderung und dein eigener Plan zusammenpassen.',
-    ledePublic: 'Private Vorsorge, betriebliche Möglichkeiten und staatliche Förderung greifen oft ineinander. Entscheidend ist, welche Bausteine wirklich zu Ihrer Situation passen.',
+    ledePublic: 'Private Vorsorge, betriebliche Möglichkeiten und staatliche Förderung greifen oft ineinander. Entscheidend ist, welche Bausteine wirklich zu deiner Situation passen.',
     ledeReferral: 'Private Vorsorge, betriebliche Möglichkeiten und staatliche Förderung greifen oft ineinander. Entscheidend ist, welche Bausteine wirklich zu deiner Situation passen.',
     signals: [
       ['Die spätere Versorgung ist schwer einzuschätzen', 'Es gibt Verträge oder Ansprüche, aber kein verständliches Gesamtbild über die zu erwartende Versorgung.'],
@@ -90,9 +90,9 @@ const TOPICS = {
     number: '03',
     title: 'Baufinanzierung',
     eyebrow: 'Baufinanzierung mit Überblick',
-    headlinePublic: 'Ein Vorhaben. Über 400 Banken. Ein Plan, der zu Ihrem Leben passt.',
+    headlinePublic: 'Ein Vorhaben. Über 400 Banken. Ein Plan, der zu deinem Leben passt.',
     headlineReferral: 'Ein Vorhaben. Über 400 Banken. Ein Plan, der zu deinem Leben passt.',
-    ledePublic: 'Wir prüfen nicht nur einen Zinssatz. Wir vergleichen Möglichkeiten, beziehen Förderwege ein und schauen darauf, ob Rate, Rücklagen und Laufzeit langfristig zu Ihnen passen.',
+    ledePublic: 'Wir prüfen nicht nur einen Zinssatz. Wir vergleichen Möglichkeiten, beziehen Förderwege ein und schauen darauf, ob Rate, Rücklagen und Laufzeit langfristig zu dir passen.',
     ledeReferral: 'Wir prüfen nicht nur einen Zinssatz. Wir vergleichen Möglichkeiten, beziehen Förderwege ein und schauen darauf, ob Rate, Rücklagen und Laufzeit langfristig zu dir passen.',
     signals: [
       ['Der Wunsch ist da, der Rahmen noch nicht', 'Bevor die Suche beginnt, soll klar sein, welcher Gesamtaufwand langfristig gut tragbar bleibt.'],
@@ -113,15 +113,15 @@ const TOPICS = {
       ['Sicherheit über die Laufzeit', 'Tilgung, Zinsbindung und Flexibilität müssen auch bei Veränderungen tragfähig bleiben.']
     ],
     tools: [
-      ['Finanzierungskompass', 'Wo stehen Sie mit Ihrem Vorhaben?', 'Der Kompass vertieft genau die Situation, die Sie hier ausgewählt haben.', '/baufi.html?vorlage=baufi'],
-      ['Restschuld-Check', 'Kennen Sie Ihre spätere Restschuld?', 'Fünf kurze Fragen und ein Rechner zeigen, welche Zahl für Ihre Anschlussfinanzierung entscheidend wird.', 'https://restschuldcheck.kaiblobel.de/']
+      ['Finanzierungskompass', 'Wo stehst du mit deinem Vorhaben?', 'Der Kompass vertieft genau die Situation, die du hier ausgewählt hast.', '/baufi.html?vorlage=baufi'],
+      ['Restschuld-Check', 'Kennst du deine spätere Restschuld?', 'Fünf kurze Fragen und ein Rechner zeigen, welche Zahl für deine Anschlussfinanzierung entscheidend wird.', 'https://restschuldcheck.kaiblobel.de/']
     ]
   },
   absicherung: {
     number: '04',
     title: 'Absicherung',
     eyebrow: 'Familie und Werte schützen',
-    headlinePublic: 'Gute Absicherung schützt das, was für Sie wirklich wichtig ist.',
+    headlinePublic: 'Gute Absicherung schützt das, was für dich wirklich wichtig ist.',
     headlineReferral: 'Gute Absicherung schützt das, was für dich wirklich wichtig ist.',
     ledePublic: 'Nicht jede Versicherung ist für jeden Menschen gleich wichtig. Einkommen, Gesundheit, Familie und Sachwerte brauchen eine klare Reihenfolge.',
     ledeReferral: 'Nicht jede Versicherung ist für jeden Menschen gleich wichtig. Einkommen, Gesundheit, Familie und Sachwerte brauchen eine klare Reihenfolge.',
@@ -142,7 +142,7 @@ const TOPICS = {
       ['Sachwerte und Haftung', 'Wichtige Risiken werden abgesichert, ohne jede theoretische Möglichkeit zum Pflichtprogramm zu machen.']
     ],
     tools: [
-      ['Finanzcheck', 'Das Gesamtbild Ihrer Absicherung', 'Der allgemeine Check verbindet Schutz, Vorsorge und finanzielle Struktur.', 'https://finanzcheck.kaiblobel.de/?from=thema&schwerpunkt=struktur'],
+      ['Finanzcheck', 'Das Gesamtbild deiner Absicherung', 'Der allgemeine Check verbindet Schutz, Vorsorge und finanzielle Struktur.', 'https://finanzcheck.kaiblobel.de/?from=thema&schwerpunkt=struktur'],
       ['Persönliches Gespräch', 'Absicherung passend einordnen', 'Bestehende Unterlagen können gemeinsam ruhig und verständlich sortiert werden.', '#termin']
     ]
   },
@@ -237,9 +237,9 @@ const TOPICS = {
     number: '08',
     title: 'KIDZ für Kinder',
     eyebrow: 'Kinderleicht in die Zukunft',
-    headlinePublic: 'Was wünschen Sie sich für die Zukunft Ihres Kindes?',
+    headlinePublic: 'Was wünschst du dir für die Zukunft deines Kindes?',
     headlineReferral: 'Was wünschst du dir für die Zukunft deines Kindes?',
-    ledePublic: 'KIDZ bringt drei Dinge zusammen, die Kinder stark machen: ein gutes Gefühl für Geld, Gesundheit und eine verlässliche Absicherung. Sie müssen heute nichts entscheiden und nichts abschließen.',
+    ledePublic: 'KIDZ bringt drei Dinge zusammen, die Kinder stark machen: ein gutes Gefühl für Geld, Gesundheit und eine verlässliche Absicherung. Du musst heute nichts entscheiden und nichts abschließen.',
     ledeReferral: 'KIDZ bringt drei Dinge zusammen, die Kinder stark machen: ein gutes Gefühl für Geld, Gesundheit und eine verlässliche Absicherung. Du musst heute nichts entscheiden und nichts abschließen.',
     signals: [
       ['Über Geld wird zu Hause selten gesprochen', 'Kinder erleben täglich Entscheidungen über Wünsche, Sparen und Prioritäten, ohne dass sie jemand einordnet.'],
@@ -260,7 +260,7 @@ const TOPICS = {
     tools: [
       ['KIDZ für Eltern', 'Das Elternkonzept in Ruhe ansehen', 'Die drei Grundlagen, konkrete Möglichkeiten und häufige Fragen, verständlich auf einer Seite.', '/kidz/konzept'],
       ['KIDZ for Future', 'Unverbindlich vormerken lassen', 'Das Konzept wird in kleiner Runde vorgestellt. Eine Vormerkung ist keine Anmeldung zu etwas anderem.', '/kidz/elternabend'],
-      ['Familiengespräch', 'Den Plan für Ihr Kind gemeinsam aufsetzen', 'Ziele und Möglichkeiten werden in Ruhe und ohne Abschlussdruck sortiert.', '#termin']
+      ['Familiengespräch', 'Den Plan für dein Kind gemeinsam aufsetzen', 'Ziele und Möglichkeiten werden in Ruhe und ohne Abschlussdruck sortiert.', '#termin']
     ]
   },
   karriere: {
@@ -274,7 +274,7 @@ const TOPICS = {
     signals: [
       ['Mehr Entwicklung wird wichtig', 'Der aktuelle Weg bietet zu wenig Verantwortung, Gestaltung oder langfristige Perspektive.'],
       ['Selbstständigkeit ist interessant', 'Chancen und Anforderungen sollen ohne Schönfärberei verstanden werden.'],
-      ['Ein unverbindlicher Einblick reicht zunächst', 'Sie möchten erfahren, wie der Alltag und der Einstieg im Team tatsächlich aussehen.']
+      ['Ein unverbindlicher Einblick reicht zunächst', 'Du möchtest erfahren, wie der Alltag und der Einstieg im Team tatsächlich aussehen.']
     ],
     options: [
       ['look', 'Ich möchte mich erst informieren', 'Ein neutraler Einblick klärt Aufgaben, Arbeitsweise und mögliche Einstiegswege.'],
@@ -288,7 +288,7 @@ const TOPICS = {
       ['Persönliche Passung', 'Nicht jeder Weg passt zu jedem Menschen. Genau das darf früh sichtbar werden.']
     ],
     tools: [
-      ['KarriereCheck', 'Welcher Weg könnte zu Ihnen passen?', 'Zwölf neutrale Fragen geben eine erste Orientierung ohne Bewerbung.', 'https://karrierecheck.kaiblobel.de/'],
+      ['KarriereCheck', 'Welcher Weg könnte zu dir passen?', 'Zwölf neutrale Fragen geben eine erste Orientierung ohne Bewerbung.', 'https://karrierecheck.kaiblobel.de/'],
       ['Kennenlernen', 'Das Team unverbindlich kennenlernen', 'Ein persönlicher Termin klärt offene Fragen und gegenseitige Erwartungen.', '#termin']
     ]
   }
@@ -550,7 +550,7 @@ async function loadAdvisor() {
   if (!data && (expliziterSlug || token)) {
     const bezeichnung = await zeigeBueroStattBerater();
     // Teile der Seite werden später neu aufgebaut (etwa die Überschrift
-    // „… begleitet Sie weiter") und greifen dabei auf advisorData zurück.
+    // „… begleitet dich weiter") und greifen dabei auf advisorData zurück.
     // Ohne diesen Eintrag stünde dort wieder der Standard-Berater.
     if (bezeichnung) advisorData = { name: bezeichnung };
     return;
@@ -810,15 +810,15 @@ function renderBaufiMode() {
 
   if (isBaufi) {
     document.getElementById('orientationCta').textContent = tone('Meine Situation einordnen', 'Meine Situation einordnen');
-    document.getElementById('orientationHeading').textContent = tone('Was haben Sie vor?', 'Was hast du vor?');
+    document.getElementById('orientationHeading').textContent = tone('Was hast du vor?', 'Was hast du vor?');
     document.getElementById('orientationIntro').textContent = tone(
-      'Eine Auswahl genügt. Danach sehen Sie sofort, worauf es in Ihrer Situation ankommt.',
+      'Eine Auswahl genügt. Danach siehst du sofort, worauf es in deiner Situation ankommt.',
       'Eine Auswahl genügt. Danach siehst du sofort, worauf es in deiner Situation ankommt.'
     );
-    document.getElementById('toolsHeading').textContent = tone('Genau dort weitergehen, wo es für Sie sinnvoll ist.', 'Genau dort weitergehen, wo es für dich sinnvoll ist.');
-    document.getElementById('toolsEyebrow').textContent = 'Ihre passenden Werkzeuge';
+    document.getElementById('toolsHeading').textContent = tone('Genau dort weitergehen, wo es für dich sinnvoll ist.', 'Genau dort weitergehen, wo es für dich sinnvoll ist.');
+    document.getElementById('toolsEyebrow').textContent = 'Deine passenden Werkzeuge';
     document.getElementById('baufiPromise').textContent = tone(
-      'Wenn Ihre bestehende Lösung bereits gut ist, sagen wir das auch. Es geht nicht um eine Finanzierung um jeden Preis, sondern um eine tragfähige Entscheidung.',
+      'Wenn deine bestehende Lösung bereits gut ist, sagen wir das auch. Es geht nicht um eine Finanzierung um jeden Preis, sondern um eine tragfähige Entscheidung.',
       'Wenn deine bestehende Lösung bereits gut ist, sagen wir das auch. Es geht nicht um eine Finanzierung um jeden Preis, sondern um eine tragfähige Entscheidung.'
     );
     document.querySelectorAll('.topic-hero [data-bb="booking"], #termin [data-bb="booking"], #baufiSticky').forEach((link) => {
@@ -855,31 +855,31 @@ function render() {
   document.getElementById('topicHeading').textContent = `${recipient ? `${recipient}. ` : ''}${tone(topic.headlinePublic, topic.headlineReferral)}`;
   document.getElementById('topicLede').textContent = tone(topic.ledePublic, topic.ledeReferral);
   document.getElementById('orientationCta').textContent = tone('Erste Orientierung erhalten', 'Erste Orientierung erhalten');
-  document.getElementById('signalsHeading').textContent = tone('Kommt Ihnen davon etwas bekannt vor?', 'Kommt dir davon etwas bekannt vor?');
+  document.getElementById('signalsHeading').textContent = tone('Kommt dir davon etwas bekannt vor?', 'Kommt dir davon etwas bekannt vor?');
   document.getElementById('signalsIntro').textContent = tone('Drei typische Situationen, bei denen sich ein genauer Blick lohnt.', 'Drei typische Situationen, bei denen sich ein genauer Blick lohnt.');
-  document.getElementById('orientationHeading').textContent = tone('Wo stehen Sie gerade?', 'Wo stehst du gerade?');
+  document.getElementById('orientationHeading').textContent = tone('Wo stehst du gerade?', 'Wo stehst du gerade?');
   document.getElementById('orientationIntro').textContent = tone('Eine Auswahl genügt. Es werden keine Angaben gespeichert.', 'Eine Auswahl genügt. Es werden keine Angaben gespeichert.');
   const decisionTrust = document.getElementById('decisionTrust');
-  if (decisionTrust) decisionTrust.textContent = tone('Sie entscheiden', 'Du entscheidest');
+  if (decisionTrust) decisionTrust.textContent = tone('Du entscheidest', 'Du entscheidest');
   const stepSituation = document.getElementById('stepSituation');
-  if (stepSituation) stepSituation.textContent = tone('Was beschäftigt Sie gerade?', 'Was beschäftigt dich gerade?');
+  if (stepSituation) stepSituation.textContent = tone('Was beschäftigt dich gerade?', 'Was beschäftigt dich gerade?');
   const stepPossibilities = document.getElementById('stepPossibilities');
-  if (stepPossibilities) stepPossibilities.textContent = tone('Was passt wirklich zu Ihnen?', 'Was passt wirklich zu dir?');
+  if (stepPossibilities) stepPossibilities.textContent = tone('Was passt wirklich zu dir?', 'Was passt wirklich zu dir?');
   const orientationResultLabel = document.getElementById('orientationResultLabel');
-  if (orientationResultLabel) orientationResultLabel.textContent = tone('Ihre erste Einordnung', 'Deine erste Einordnung');
+  if (orientationResultLabel) orientationResultLabel.textContent = tone('Deine erste Einordnung', 'Deine erste Einordnung');
   const toolsEyebrow = document.getElementById('toolsEyebrow');
-  if (toolsEyebrow) toolsEyebrow.textContent = tone('Wenn Sie tiefer einsteigen möchten', 'Wenn du tiefer einsteigen möchtest');
+  if (toolsEyebrow) toolsEyebrow.textContent = tone('Wenn du tiefer einsteigen möchtest', 'Wenn du tiefer einsteigen möchtest');
   const advisorKicker = document.getElementById('advisorKicker');
-  if (advisorKicker) advisorKicker.textContent = tone('Ihr persönlicher Ansprechpartner', 'Dein persönlicher Ansprechpartner');
+  if (advisorKicker) advisorKicker.textContent = tone('Dein persönlicher Ansprechpartner', 'Dein persönlicher Ansprechpartner');
   const advisorHeading = document.getElementById('advisorHeading');
   if (advisorHeading) {
     const advisorName = document.createElement('span');
     advisorName.dataset.bb = 'name';
     advisorName.textContent = advisorData?.name || 'Kai Blobel';
-    advisorHeading.replaceChildren(advisorName, ` begleitet ${tone('Sie', 'dich')} weiter.`);
+    advisorHeading.replaceChildren(advisorName, ` begleitet ${tone('dich', 'dich')} weiter.`);
   }
   document.getElementById('advisorText').textContent = tone(
-    'Sie müssen heute noch nichts entscheiden. Wenn Sie möchten, schauen wir gemeinsam auf Ihre Situation und klären, welcher nächste Schritt sinnvoll ist.',
+    'Du musst heute noch nichts entscheiden. Wenn du möchtest, schauen wir gemeinsam auf deine Situation und klären, welcher nächste Schritt sinnvoll ist.',
     'Du musst heute noch nichts entscheiden. Wenn du möchtest, schauen wir gemeinsam auf deine Situation und klären, welcher nächste Schritt sinnvoll ist.'
   );
   const refHeading = document.getElementById('refHeading');

@@ -124,7 +124,11 @@ assert.match(html, /keine Gewinnspielteilnahme, keine Kundenanfrage und keine Ei
 assert.match(html, /property="og:image:width" content="1200"/);
 assert.match(html, /property="og:image:height" content="630"/);
 assert.match(html, /kidz-vorschau-elternabend\.jpg/);
-assert.doesNotMatch(sommerfestHtml, /href="\/kidz\/elternabend/);
+// Bis zum Fest am 06.09.2026 verlinkte die Sommerfest-Seite bewusst nicht auf den
+// Elternabend, sie lief als eigene Kampagne. Seit Phase 346 ist sie der Rückblick und
+// führt, wie die Dankesmail an die Familien, mit derselben Herkunft zum Vormerken.
+assert.match(sommerfestHtml, /href="\/kidz\/elternabend\?quelle=sommerfest-danke"/);
+assert.match(publicJs, /'sommerfest-danke'/);
 assert.match(css, /color-scheme:\s*light/);
 assert.match(css, /@media \(max-width:\s*640px\)/);
 

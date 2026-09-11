@@ -367,3 +367,11 @@ main { width: min(1120px, calc(100% - 32px)); margin: 18px auto 48px; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
+
+/* Hinweis nach dem Anmeldeschluss (Phase 346), steht vor dem Kopf der Seite. */
+.kg-beendet { max-width: 1060px; margin: 14px auto; padding: 14px 16px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; color: var(--kg-ink); background: #fff; border: 2px solid var(--kg-yellow); border-radius: 18px; box-shadow: var(--kg-shadow); }
+.kg-beendet p { margin: 0; flex: 1 1 260px; font-size: 15px; line-height: 1.5; }
+.kg-beendet strong { color: var(--kg-navy); }
+.kg-beendet a { min-height: 46px; padding: 0 18px; display: inline-flex; align-items: center; justify-content: center; color: #fff; background: var(--kg-green); border-radius: 12px; font-weight: 850; text-decoration: none; }
+.kg-beendet a:hover, .kg-beendet a:focus-visible { background: var(--kg-green-dark); outline: 3px solid rgba(255,197,52,.55); outline-offset: 2px; }
+@media (max-width: 560px) { .kg-beendet a { width: 100%; } }

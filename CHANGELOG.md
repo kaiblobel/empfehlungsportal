@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.360 Beta** · Nur Fertiges im Schaufenster, live seit 11.09.2026.
+Offizielle Live-Version: **v1.361 Beta** · Du-Form und Dankeschön, live seit 11.09.2026.
+
+## v1.361 Beta - Phase 346 · Du-Form und Dankeschön
+**2026-09-11**
+
+Kais Entscheidungen vom 11.09.2026: alle Kundenseiten in Du-Form, und die Sommerfest-Seite wird nach dem Fest ein Dankeschön.
+
+**Alle Kundenseiten sprechen mit Du.** Der Weg über Allgemein, Baufinanzierung und Überblick war Du, die Themenseiten und das KIDZ-Konzept Sie. Wer von einer Seite zur nächsten klickte, erlebte den Wechsel. Umgestellt sind 113 Stellen in `thema.html`, `js/themen-vorschau.js`, `kidz-konzept.html`, `js/kidz-konzept.js` und `kidz-empfehlung.html`, jede einzeln gelesen, ohne Suchen und Ersetzen. „Sie" als dritte Person blieb stehen. Wo auf den KIDZ-Seiten die ganze Familie gemeint ist, steht ihr und euch. Die Regel „Sie auf Kundenseiten" vom 14.08.2026 gilt nicht mehr. Nebenbei heißt „So kurz merkst du dich vor." jetzt „So schnell bist du vorgemerkt."
+
+**Die Sommerfest-Seite ist jetzt der Rückblick.** Sie lud nach dem Fest am 06.09. weiter zur Anmeldung ein, und `kidz.teamwachsbleiche.de` landet genau dort. Jetzt steht dort der Dank an über 700 Gäste, die Auflösung des Gewinnspiels (314 cm, 12 richtige Tipps, Auslosung per Video auf Instagram und Facebook), der Dank an Helfer und Partner und zum Schluss der Weg zum Vormerken für KIDZ for Future. Text und Links folgen der Dankesmail an die KIDZ-Familien, auch die Herkunft `sommerfest-danke`. Die Sprungmarken `#sommerfest` und `#gewinnspiel` bleiben, damit alte Links und QR-Codes am passenden Abschnitt landen. Die beendete Gewinnspiel-Seite teilt sich die Kopfzeile mit ihr und hat dasselbe neue Menü: Rückblick, Auflösung, KIDZ for Future.
+
+**Die Gewinnspiel-Seite sagt oben, dass die Anmeldung vorbei ist.** Bisher begann sie weiter mit „Melde dich an und du bist bei der Verlosung dabei", der Hinweis „beendet" kam erst unten beim Formular. Jetzt steht ganz oben ein fester Hinweis mit dem Knopf „Zur Auflösung". Die Seite bleibt erreichbar, weil ihre Teilnahmebedingungen bis zur Auslosung in der Woche ab dem 14.09. gelten. Danach wird sie auf den Rückblick umgeleitet (Kais Freigabe vom 11.09.2026).
+
+Die Regel „kein Link vom Sommerfest zum Elternabend" galt nur, solange das Fest als Kampagne lief. Der Test verlangt jetzt genau diesen Link mit der Herkunft aus der Mail. `tests/kidz-sommerfest-startseite.test.mjs` hält den Rückblick fest und prüft zusätzlich, dass nichts mehr zur Anmeldung einlädt.
+
+---
 
 ## v1.360 Beta - Phase 345 · Nur Fertiges im Schaufenster
 **2026-09-11 · live veröffentlicht**
