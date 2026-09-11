@@ -224,7 +224,9 @@
     .fuss-sozial nav{display:flex;gap:18px;flex-wrap:wrap}
     .fuss-sozial a{display:inline-flex;align-items:center;gap:8px;min-height:44px;color:var(--text);font-size:14px;font-weight:600;text-decoration:none}
     .fuss-sozial a:hover{color:var(--blau);text-decoration:underline;text-underline-offset:3px}
-    .fuss-sozial svg{width:18px;height:18px;fill:currentColor}
+    /* Die Symbole tragen ihre Markenfarben im SVG selbst. Deshalb hier KEIN
+       fill:currentColor, das würde die Originalfarben überschreiben. */
+    .fuss-sozial svg{width:19px;height:19px;flex:0 0 auto}
     .fuss-recht{margin-left:auto;display:flex;flex-direction:column;gap:6px;text-align:right}
     @media(max-width:780px){.fuss-recht{margin-left:0;text-align:left}.fuss-innen{padding:22px 16px 28px}}
     .fuss-recht b{font-size:14px;font-weight:650}
@@ -487,11 +489,11 @@
         <small>Mehr von uns im Alltag</small>
         <nav aria-label="Unser Team in sozialen Netzwerken">
           <a id="linkInstagram" href="#" target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><circle cx="12" cy="12" r="3.8"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="url(#igVerlauf)" stroke-width="1.9"><defs><linearGradient id="igVerlauf" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stop-color="#fdf497"/><stop offset="25%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/><stop offset="100%" stop-color="#285aeb"/></linearGradient></defs><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><circle cx="12" cy="12" r="3.8"/><circle cx="17.2" cy="6.8" r="1" fill="url(#igVerlauf)" stroke="none"/></svg>
             Instagram
           </a>
           <a id="linkFacebook" href="#" target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.8-.1-1.6-.15-2.4-.15-2.4 0-4.05 1.46-4.05 4.15v2.3H7.5V13h2.75v8z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#1877f2" d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.8-.1-1.6-.15-2.4-.15-2.4 0-4.05 1.46-4.05 4.15v2.3H7.5V13h2.75v8z"/></svg>
             Facebook
           </a>
         </nav>
