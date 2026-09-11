@@ -4,7 +4,7 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.378 Beta** · Farbige Kapitel und Social im Fuß der Empfängerseite, live seit 12.09.2026.
 
 ## v1.378 Beta - Phase 363 · Farbige Kapitel und Social im Fuß der Empfängerseite
-**2026-09-12**
+**2026-09-12 · live veröffentlicht**
 
 Kais Wunsch vom 11.09.2026: „können wir die Interessentenseite Allgemein noch mehr Farbe verleihen? würdest du in der Fußzeile auch Insta-Link und Facebook-Link einbauen?" Die Seite war fast nur Grau-Weiß mit schwarzem Knopf, Gold stand nur als Haarlinie da. Gebaut wurden vier Richtungen als Vorher/Nachher an der echten Seite (Farbige Kapitel, DVAG-Farben, Petrol-Bühne, Warmes Creme). Kai wählte A: „ok freigabe für A".
 
