@@ -4,7 +4,7 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.370 Beta** · Team-Logo auf der Promoter-Einstiegsseite, live seit 11.09.2026.
 
 ## v1.370 Beta - Phase 355 · Team-Logo auf der Promoter-Einstiegsseite
-**2026-09-11**
+**2026-09-11 · live veröffentlicht**
 
 Kais Wunsch vom 11.09.2026 an zwei Bildschirmfotos der Einstiegsseite für Promoter (`promoter-start.html`): „hier noch den Platzhalter gegen unser Logo tauschen und unten in der Fußzeile auch".
 
