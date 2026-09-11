@@ -1,7 +1,32 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.378 Beta** · Farbige Kapitel und Social im Fuß der Empfängerseite, live seit 12.09.2026.
+Offizielle Live-Version: **v1.379 Beta** · Empfängerseite in Weiß, Blau und Grau, live seit 12.09.2026.
+
+## v1.379 Beta - Phase 364 · Empfängerseite in Weiß, Blau und Grau
+**2026-09-12**
+
+Kais Entscheidung vom 12.09.2026 nach zwei Vorschauen: „alles wie in der Vorschau, und auf der letzten Seite können wir bei Termin die Auswahl von der jetzigen Version übernehmen, aber auch im neuen Design." Die farbigen Kapitel von gestern (Phase 363) sind damit wieder weg.
+
+**Weiß trägt die Seite.** Hellblau `#e6eef2` liegt unter den Themenkarten und unter dem Finanzcheck-Ablauf, Blaugrau `#cedfe6` unter den Symbolfeldern, Blau `#00587c` führt Information, Auswahl und Fortschritt, Hellgrau `#f2f2f2` trägt den Kontaktbereich mit weißer Karte und feiner Goldkante. Gold `#c8aa22` bleibt der Hauptaktion und den kleinen Linien vor den Abschnittszeilen vorbehalten. Die Werte stammen aus den Stilblättern von `dvag.de/kai.blobel`, dazu Text `#404040`. Radien durchgehend 3 px statt der runden Pillen.
+
+**Gold als Fläche schafft auf Weiß nur 2,3:1.** Der Fortschrittsbalken trägt Information und läuft deshalb in Blau (7,8:1). Ränder von Bedienelementen brauchen 3:1, `#cedfe6` schafft nur 1,3:1 und bleibt deshalb Fläche; für Ränder gibt es `--rand #7394a3` (3,2:1).
+
+**Die Texte kommen aus dem Entwurf** (Codex, 11.09.), an den heutigen Stand angepasst: „Was passt bei deinen Finanzen schon gut …", „Der Film zeigt dir, wie ich auf Finanzen schaue", die drei Themenkarten aus der Ich-Sicht, „Dein Ergebnis ansehen" und „Deine Fragen mitbringen" im Ablauf, dazu Schritt 5 als „Ich bin Kai. Und ich höre erst mal zu." mit zwei Kacheln statt drei. Die Aussagen über Callcenter und Hotline sind raus. Zahlen, Google-Rezension und der Reform-Hinweis bleiben unverändert.
+
+**Schritt 6 heißt jetzt „Lernen wir uns kennen?"**, behält aber die vorhandene Auswahl: Vormittags, Nachmittags, Abends, Konkreter Termin, dazu „Anrufzeit bestätigen", „Termin im Kalender wählen", WhatsApp und der Austragen-Link. **Neu ist, dass keine Zeit mehr vorausgewählt ist**: Bisher stand „Nachmittags" gesetzt da, auch im versteckten Feld. Wer den Knopf ohne Nachdenken drückte, bestätigte eine Zeit, die er nie gewählt hat. Der Anrufwunsch im Cockpit funktioniert unverändert.
+
+**Der Kasten daneben behauptet nichts mehr.** Dort stand „Dein Kontakt ist vorgemerkt" samt „hat dir diese Seite nach eurem Gespräch geschickt", ohne dass ein Vorgang das belegt. Jetzt steht dort, was tatsächlich gilt: „Du entscheidest, ob und wie wir Kontakt aufnehmen. Nichts davon passiert automatisch."
+
+**Instagram und Facebook im Fuß tragen ihre Markenfarben** und stehen mit ausgeschriebenem Namen neben Impressum und Datenschutz. Dafür musste `fill:currentColor` an den Symbolen weg, sonst überschreibt das Stylesheet die Farben. Die Adressen kommen weiterhin aus dem Büroprofil.
+
+Beim Bauen hat `tests/knoepfe-namen.test.mjs` angeschlagen: „Mit Kai sprechen" hätte als „MitKaisprechen" angezeigt werden können, weil Knöpfe Flex-Elemente sind. Der Knopfinhalt steht jetzt in einem Element.
+
+Geprüft an der geänderten Seite, lokal ausgeliefert und wie ein Besucher durch alle sechs Schritte geklickt, Rechner und Handy: keine Fehler, keine schreibende Anfrage, beide Symbole mit den Team-Adressen. 191 von 191 Tests grün, die Farb- und Kontrastwächter auf die neue Palette umgeschrieben.
+
+Nicht angefasst (kommt als eigener Schritt): Ohne gültige Zuordnung zeigt die Seite weiterhin Kai, und die Empfehlungszeile steht auch ohne echte Empfehlung da.
+
+---
 
 ## v1.378 Beta - Phase 363 · Farbige Kapitel und Social im Fuß der Empfängerseite
 **2026-09-12**

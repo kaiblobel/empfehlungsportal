@@ -20,7 +20,7 @@
   <style>
     @font-face{font-family:"Inter";src:url(/assets/fonts/inter-latin.woff2) format("woff2");font-weight:100 900;font-display:swap}
     @font-face{font-family:"Petit Formal Script";src:url(/assets/fonts/petit-formal-script-latin.woff2) format("woff2");font-display:swap}
-    :root{--ink:#12242a;--paper:#f5f7f6;--soft:#e8f0f0;--petrol:#0b4650;--gold:#c8aa22;--gold-dark:#6b5908;--muted:#4f6269;--line:rgba(11,70,80,.13);--white:#fff;--sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;--script:"Petit Formal Script",cursive;--shadow:0 24px 60px -40px rgba(18,36,42,.55)}
+    :root{--ink:#404040;--paper:#ffffff;--soft:#e6eef2;--petrol:#00587c;--gold:#c8aa22;--gold-dark:#786614;--muted:#5c5c5c;--line:#e0e0e0;--white:#fff;--sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;--script:"Petit Formal Script",cursive;--shadow:0 1px 2px rgba(0,0,0,.05)}
     *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--paper);font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}button,a{font:inherit}
     img:not([src]),img[src=""]{visibility:hidden}
     .story{min-height:100svh;position:relative;overflow:hidden;background:var(--paper)}
@@ -164,43 +164,78 @@
     }
     @media(max-width:340px){.topbar{padding:0 14px}.chapter{padding-left:16px;padding-right:16px}.headline{font-size:31px}.time-grid{grid-template-columns:1fr}}
 
-    /* Phase 363 · Farbige Kapitel (Kais Wahl A vom 11.09.2026, am Vergleich entschieden).
-       Jeder Schritt hat seine eigene Fläche, Film und Anrufzeit stehen auf Petrol.
+    /* Phase 364 · Weiß, Blau und Grau (Kais Vorgabe vom 12.09.2026, an der Vorschau
+       entschieden). Weiß trägt die Seite, Hellblau die Themenkarten und den
+       Finanzcheck, Blaugrau die Symbolfelder, Blau Information und Auswahl,
+       Hellgrau den Kontaktbereich, Gold nur Hauptknopf und feine Linien.
+       Werte aus kais DVAG-Seite gemessen: Blau #00587c, Gold #c8aa22,
+       Text #404040, Flächen #f2f2f2 und #e6eef2.
        Nur Farben, keine Maße: Die Maße hält tests/empfaenger-mobile-first fest.
        Kontraste gerechnet in tests/empfaenger-farbe.test.mjs. */
-    :root{--flaeche-creme:#f7f1de;--flaeche-petrol-hell:#e2edef;--flaeche-gold:#f3ecd2;--gold-hell:#e8cf5a;--gold-knopf:#e0c64a}
-    .story{background:var(--flaeche-creme)}.story:before{display:none}
+    :root{--blau-hell:#e6eef2;--blau-grau:#cedfe6;--grau-flaeche:#f2f2f2;--blau-dunkel:#004663;--rand:#7394a3;--auf-gold:#2b2b2b}
+    .story{background:var(--white)}.story:before{display:none}
     .topbar{background:rgba(255,255,255,.96)}
-    .chapter[data-step="1"],.chapter[data-step="4"]{background:var(--flaeche-creme)}
-    .chapter[data-step="3"]{background:var(--flaeche-petrol-hell)}
-    .chapter[data-step="5"]{background:var(--flaeche-gold)}
-    .chapter[data-step="2"],.chapter[data-step="6"]{background:var(--petrol);color:#fff}
-    .chapter[data-step="2"] .chapter-title,.chapter[data-step="6"] .chapter-title{color:#fff}
-    .chapter[data-step="2"] .chapter-title em,.chapter[data-step="6"] .chapter-title em,.chapter[data-step="2"] .eyebrow,.chapter[data-step="6"] .eyebrow{color:var(--gold-hell)}
-    .chapter[data-step="2"] .chapter-lede,.chapter[data-step="6"] .chapter-lede,.chapter[data-step="2"] .micro{color:#d3e2e5}
-    .chapter[data-step="2"] .micro span:before{color:var(--gold-hell)}
-    .chapter[data-step="2"] .primary{background:var(--gold-knopf);border-color:var(--gold-knopf);color:var(--ink)}.chapter[data-step="2"] .primary:hover{background:#ecd66e;border-color:#ecd66e}
-    /* Weiße Karten auf Petrol erben sonst die weiße Schrift und wären leer. */
-    .chapter[data-step="6"] .decision-card,.chapter[data-step="6"] .status{color:var(--ink)}
-    .primary{background:var(--petrol);border-color:var(--petrol)}.primary:hover{background:#083840;border-color:#083840}.primary:disabled{background:var(--petrol)}
-    .secondary{border-color:var(--petrol);color:var(--petrol)}
-    .choice svg{color:var(--petrol)}
-    .choice.selected{background:var(--petrol);border-color:var(--petrol)}
-    .von-zeile svg{background:#f4e7b0}
-    .ablauf li i{background:var(--petrol);color:#fff}
-    .fakt{background:#fff}
-    /* Fuß, Zurück und Hinweis liegen auch auf den Petrol-Schritten. Heller Grund,
-       damit sie überall lesbar sind; Zurück ist am Handy damit als Knopf erkennbar. */
-    .legal-note{background:rgba(255,255,255,.92);border-radius:999px;padding:5px 6px 5px 16px;box-shadow:0 8px 22px -14px rgba(18,36,42,.55)}
-    .legal-social{display:inline-flex;gap:6px;margin-left:6px}
-    .legal-social a{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;color:#fff;text-decoration:none}
+    .chapter[data-step="1"],.chapter[data-step="2"],.chapter[data-step="5"]{background:var(--white)}
+    .chapter[data-step="3"],.chapter[data-step="4"]{background:var(--white)}
+    .chapter[data-step="6"]{background:var(--grau-flaeche)}
+    /* Gold als Fläche schafft auf Weiß nur 2,3:1. Der Fortschritt ist Information,
+       also trägt ihn Blau mit 7,8:1. */
+    .progress i.active,.progress i.done{background:var(--petrol)}
+    .eyebrow{display:flex;align-items:center;gap:10px;color:var(--petrol)}
+    .eyebrow:before{content:"";width:26px;height:2px;background:var(--gold);flex:0 0 auto}
+    .headline em,.chapter-title em{color:var(--petrol)}
+    /* Gold kennzeichnet die Hauptaktion, mit dunkler Schrift. */
+    .primary{background:var(--gold);border-color:var(--gold);color:var(--auf-gold);border-radius:3px}
+    .primary:hover{background:#b89c1f;border-color:#b89c1f}
+    .primary:disabled{opacity:1;background:var(--grau-flaeche);border-color:var(--rand);color:var(--muted)}
+    .secondary{border-color:var(--rand);color:var(--petrol);border-radius:3px}
+    .secondary:hover{border-color:var(--petrol);background:var(--blau-hell);color:var(--petrol)}
+    /* Themenkarten: hellblaue Fläche, Symbol im blaugrauen Feld, Auswahl in Blau. */
+    .choice{background:var(--blau-hell);border-color:var(--blau-hell);border-radius:3px;box-shadow:none}
+    .choice:hover{transform:none;border-color:var(--petrol)}
+    .choice.selected{background:var(--petrol);border-color:var(--petrol);transform:none;color:#fff}
+    .choice svg{width:44px;height:44px;padding:10px;box-sizing:content-box;background:var(--blau-grau);border-radius:3px;color:var(--petrol);margin-bottom:14px}
+    .choice.selected svg{background:#1a6b89;color:#fff}
+    .choice .num{color:var(--petrol)}.choice.selected .num{color:#fff}
+    .choice.selected p{color:#e6f0f5}
+    /* Der leere Haken bleibt eine feine Linie, kein auffälliges Kästchen. */
+    .choice .check{border-color:var(--blau-grau);border-radius:3px}
+    .choice.selected .check{background:var(--gold);border-color:var(--gold);color:var(--auf-gold)}
+    .von-zeile{border-radius:3px;border-color:var(--rand);color:var(--petrol)}
+    .von-zeile svg{background:var(--blau-grau);color:var(--petrol);border-radius:3px}
+    /* Finanzcheck-Kasten auf Hellblau, die Schritte mit blaugrauen Feldern. */
+    .ablauf{background:var(--blau-hell);border-color:var(--blau-hell);border-radius:3px}
+    .ablauf-kopf{border-bottom-color:#c2d5de}
+    .ablauf-kopf small{color:var(--petrol)}
+    .ablauf-kopf span{background:var(--blau-grau);color:var(--petrol);border-radius:3px}
+    .ablauf li{border-bottom-color:#c2d5de}
+    .ablauf li i{background:var(--blau-grau);color:var(--petrol);border-radius:3px}
+    .ablauf li:last-child i{background:var(--petrol);color:#fff}
+    .reform-proof{background:var(--white);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:3px}
+    .reform-kicker{color:var(--gold-dark)}
+    /* Vorstellung: weiße Karte, Zahlen in Blau. */
+    .trust-person,.decision-card,.review,.promise{border-radius:3px}
+    .fakt{background:#fff;border-radius:3px}.fakt b{color:var(--petrol)}
+    .stars{color:var(--gold-dark)}
+    /* Schritt 6 auf hellem Grau, die Kontaktkarte weiß mit feiner Goldkante. */
+    .chapter[data-step="6"] .decision-card{background:#fff;border:1px solid var(--line);border-top:3px solid var(--gold)}
+    .time{border-radius:3px;border-color:var(--rand)}
+    .time.selected{border-color:var(--petrol);background:var(--blau-hell);color:var(--petrol);font-weight:650}
+    .wa-link{color:var(--petrol)}
+    .success{background:var(--blau-hell);color:var(--petrol);border-radius:3px}
+    .optout{color:var(--muted)}
+    .status{background:var(--blau-hell);border:1px solid var(--blau-grau);border-radius:3px;color:var(--ink)}
+    .status i{background:var(--petrol)}
+    /* Fuß als ruhige Zeile, keine schwebende Kapsel. Symbole in ihren Markenfarben. */
+    .legal-note{background:none;border-radius:0;padding:8px 4px;box-shadow:none;color:var(--muted)}
+    .legal-social{display:inline-flex;gap:14px;margin-left:10px}
+    .legal-social a{display:inline-flex;align-items:center;gap:6px;min-height:44px;color:var(--ink);text-decoration:none;font-size:11px;font-weight:600}
     .legal-social a[hidden]{display:none}
-    .legal-social svg{width:16px;height:16px}
-    .legal-ig{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285aeb 90%)}
-    .legal-fb{background:#1877f2}
-    .back.visible{background:rgba(255,255,255,.94);padding:8px 14px;border-radius:999px;box-shadow:0 8px 22px -14px rgba(18,36,42,.55)}
-    .transition-note{background:rgba(255,255,255,.92);padding:6px 12px;border-radius:999px}
-    @media(max-width:780px){.topbar{background:#fff}}
+    .legal-social a:hover{color:var(--petrol);text-decoration:underline;text-underline-offset:3px}
+    .legal-social svg{width:17px;height:17px;flex:0 0 auto}
+    .back.visible{background:var(--white);padding:8px 14px;border-radius:3px;border:1px solid var(--rand);color:var(--petrol)}
+    .transition-note{background:var(--white);padding:6px 12px;border-radius:3px}
+    @media(max-width:780px){.topbar{background:#fff}.choice svg{width:34px;height:34px;padding:6px}}
   </style>
 </head>
 <body data-page="empfaenger">
@@ -218,14 +253,14 @@
           <div>
             <p class="von-zeile"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg><span data-von-text>Eine persönliche Empfehlung für dich</span></p>
             <h1 class="headline"><span data-recipient-prefix></span><span data-headline-start>Schön</span>, dass du da bist.</h1>
-            <p class="lede">Ein genauer Blick auf deine Finanzen kann sich lohnen. In drei Minuten siehst du hier, worum es geht.</p>
+            <p class="lede">Was passt bei deinen Finanzen schon gut, und wo lohnt sich ein genauer Blick? Finde heraus, womit du anfangen möchtest.</p>
             <div class="promoter-card" id="ePromoterCard"><div class="pc-bubble"><p id="ePromoterMessage">Ich habe dir <span data-bb="vorname">Kai</span> empfohlen und diese Seite nach unserem Gespräch weitergeschickt.</p></div><p class="pc-name"><b data-promoter>Jemand aus deinem Umfeld</b></p></div>
             <div class="berater-notiz">
               <img class="bn-foto" data-bb="foto" alt="">
-              <div><p>Hallo, ich bin <span data-bb="vorname">Kai</span>. Schau dich in Ruhe um. Danach entscheidest du ganz allein, ob wir sprechen.</p><div class="sig" data-bb="vorname">Kai</div></div>
+              <div><p>Hallo, ich bin <span data-bb="vorname">Kai</span>. Hier lernst du mich und meine Arbeit kennen. Wenn du danach eine Frage hast, schreib mir einfach.</p><div class="sig" data-bb="vorname">Kai</div></div>
             </div>
             <div class="actions"><button class="primary" data-next>Zeig mir, worum es geht</button></div>
-            <p class="micro"><span>Kostenlos</span><span>Keine Unterlagen</span><span>Du entscheidest</span></p>
+            <p class="micro"><span>Etwa 3 Minuten</span><span>Kostenlos ansehen</span></p>
           </div>
           <figure class="portrait"><img id="eFoto" data-bb="foto" alt=""><figcaption><b data-bb="name">Kai Blobel</b><span><span data-bb="rolle">Regionaldirektionsleiter</span> · Deutsche Vermögensberatung</span></figcaption></figure>
         </div>
@@ -237,8 +272,8 @@
           <div class="film-copy">
             <p class="eyebrow">Anderthalb Minuten</p>
             <h2 class="chapter-title">Deine persönliche Formel zum <em>finanziellen Glück.</em></h2>
-            <p class="chapter-lede">Hier siehst du, worum es mir geht, ganz ohne Fachbegriffe. Danach entscheidest du, ob du weitermachst.</p>
-            <div class="actions"><button class="primary" data-next>Weiter</button></div>
+            <p class="chapter-lede">Der Film zeigt dir, wie ich auf Finanzen schaue. Danach kannst du das Thema wählen, das dich gerade beschäftigt.</p>
+            <div class="actions"><button class="primary" data-next>Mein Thema wählen</button></div>
             <p class="micro"><span>1:28 Minuten</span><span>Ton an empfohlen</span></p>
           </div>
           <figure class="film-frame">
@@ -261,11 +296,11 @@
         <div class="inner">
           <p class="eyebrow">Ein Gedanke genügt</p>
           <h2 class="chapter-title">Womit sollen wir anfangen?</h2>
-          <p class="chapter-lede">Wähle spontan. Im Finanzcheck schauen wir auf alle drei Bereiche, du bestimmst nur, wo wir anfangen.</p>
+          <p class="chapter-lede">Was beschäftigt dich gerade? Deine Auswahl legt fest, welchen Bereich du dir zuerst ansiehst.</p>
           <div class="choice-grid">
-            <button class="choice" data-interest="kosten"><span class="check">✓</span><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="18"/><path d="M30.5 16.8a9 9 0 1 0 0 14.4M14 21.5h12M14 26.5h12"/></svg><span class="num">01 · GELD BEHALTEN</span><strong>Wie viel Geld jeden Monat liegen bleibt</strong><p>Steuern, Kosten und unnötige Doppelungen</p></button>
-            <button class="choice" data-interest="foerderung"><span class="check">✓</span><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M9 21h30v19H9zM24 21v19M7 14h34v7H7z"/><path d="M24 14h-8c-4.5 0-4.5-6.5 0-6.5 4.5 0 8 6.5 8 6.5Zm0 0h8c4.5 0 4.5-6.5 0-6.5-4.5 0-8 6.5-8 6.5Z"/></svg><span class="num">02 · VORTEILE NUTZEN</span><strong>Welche Förderungen du möglicherweise verpasst</strong><p>Staatliche Vorteile passend zu deiner Situation</p></button>
-            <button class="choice" data-interest="struktur"><span class="check">✓</span><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="18" cy="20" r="10.5"/><circle cx="30" cy="20" r="10.5"/><circle cx="24" cy="30.5" r="10.5"/></svg><span class="num">03 · KLARHEIT GEWINNEN</span><strong>Ob deine Finanzen wirklich gut aufgestellt sind</strong><p>Vorsorge, Vermögen und Schutz im Zusammenspiel</p></button>
+            <button class="choice" data-interest="kosten"><span class="check">✓</span><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="18"/><path d="M30.5 16.8a9 9 0 1 0 0 14.4M14 21.5h12M14 26.5h12"/></svg><span class="num">01 · GELD BEHALTEN</span><strong>Wo sich bei meinen Ausgaben etwas ändern lässt</strong><p>Steuern, Kosten und unnötige Doppelungen</p></button>
+            <button class="choice" data-interest="foerderung"><span class="check">✓</span><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M9 21h30v19H9zM24 21v19M7 14h34v7H7z"/><path d="M24 14h-8c-4.5 0-4.5-6.5 0-6.5 4.5 0 8 6.5 8 6.5Zm0 0h8c4.5 0 4.5-6.5 0-6.5-4.5 0-8 6.5-8 6.5Z"/></svg><span class="num">02 · VORTEILE NUTZEN</span><strong>Welche Förderungen zu meiner Situation passen</strong><p>Staatliche Vorteile passend zu deiner Situation</p></button>
+            <button class="choice" data-interest="struktur"><span class="check">✓</span><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="18" cy="20" r="10.5"/><circle cx="30" cy="20" r="10.5"/><circle cx="24" cy="30.5" r="10.5"/></svg><span class="num">03 · DAS GANZE SEHEN</span><strong>Wie Vorsorge, Vermögen und Schutz zusammenpassen</strong><p>Vorsorge, Vermögen und Schutz im Zusammenspiel</p></button>
           </div>
           <div class="choice-footer"><p class="choice-feedback" id="choiceFeedback">Tipp einfach auf das, was dich am meisten interessiert.</p><button class="primary" id="choiceNext" data-next disabled>Meinen Schwerpunkt ansehen</button></div>
         </div>
@@ -279,7 +314,7 @@
             <h2 class="chapter-title" id="resultHeadline">Dieses Thema möchtest du genauer betrachten.</h2>
             <p class="chapter-lede" id="resultText">Im Finanzcheck beginnen wir mit deinem Schwerpunkt und schauen danach auf alles andere.</p>
             <div class="actions"><a class="primary" id="eFinanzCta" data-bb="finanzcheck" href="https://finanzcheck.kaiblobel.de/?from=empfehlung&amp;v=111">Meine 7 Fragen starten</a><button class="secondary" data-next><span>Erst <span data-bb="vorname">Kai</span> kennenlernen</span></button></div>
-            <p class="micro"><span>3 Minuten</span><span>Erste Orientierung</span></p>
+            <p class="micro"><span>Etwa 3 Minuten</span><span>7 Fragen</span></p>
             <p class="micro"><a id="eUeberblick" href="/ueberblick">Lieber erst das ganze Bild ansehen</a></p>
           </div>
           <div>
@@ -287,8 +322,8 @@
               <div class="ablauf-kopf"><small>So läuft dein Finanzcheck</small><span id="profileFocus">Finanzielle Klarheit</span></div>
               <ol>
                 <li><i>1</i><div><b>Sieben kurze Fragen</b><span>Etwa drei Minuten. Du brauchst keine Unterlagen.</span></div></li>
-                <li><i>2</i><div><b>Deine erste Orientierung</b><span>Direkt danach siehst du, wo bei dir Luft sein könnte.</span></div></li>
-                <li><i>3</i><div><b>Gemeinsam draufschauen, wenn du magst</b><span>Ich gehe die Ergebnisse mit dir durch. Ob und wann, entscheidest du.</span><div class="sig" data-bb="vorname">Kai</div></div></li>
+                <li><i>2</i><div><b>Dein Ergebnis ansehen</b><span>Du siehst, welche Themen du näher prüfen kannst.</span></div></li>
+                <li><i>3</i><div><b>Deine Fragen mitbringen</b><span>Wenn du möchtest, schauen wir uns dein Ergebnis zusammen an.</span><div class="sig" data-bb="vorname">Kai</div></div></li>
               </ol>
             </div>
             <aside class="reform-proof"><div class="reform-kicker"><span class="reform-flag" aria-hidden="true"></span>Neu ab 2027</div><strong>Bis zu <em>540 €</em> vom Staat, jedes Jahr bis zur Rente.</strong><p>Für Förderberechtigte bei entsprechendem Eigenbeitrag. Voraussetzungen beachten. <a href="https://www.bundestag.de/presse/hib/kurzmeldungen-1157838" target="_blank" rel="noopener">Quelle: Deutscher Bundestag</a></p></aside>
@@ -309,12 +344,14 @@
             </div>
           </div>
           <div class="trust-content">
-            <p class="eyebrow">Wer sich bei dir meldet</p>
-            <h2 class="chapter-title">Kein Callcenter. <em>Ich melde mich selbst.</em></h2>
-            <p class="ich-text">Ich bin <span data-bb="name">Kai Blobel</span>, <span data-bb="rolle">Regionaldirektionsleiter</span> bei der Deutschen Vermögensberatung. Bei mir landest du nicht in einer Hotline. Ich schaue mir erst in Ruhe an, wie es bei dir aussieht, und erkläre dir verständlich, was sinnvoll ist und was nicht. Die Entscheidung liegt immer bei dir.</p>
+            <p class="eyebrow">Dein Ansprechpartner</p>
+            <h2 class="chapter-title">Ich bin <span data-bb="vorname">Kai</span>. <em>Und ich höre erst mal zu.</em></h2>
+            <p class="ich-text">Bevor wir über Zahlen sprechen, möchte ich wissen, was du vorhast. Ein eigenes Zuhause? Mehr Geld zur Seite legen? Oder erst einmal wissen, wo du stehst? Du bringst deine Fragen mit. Gemeinsam schauen wir, was zu deinem Alltag passt.</p>
             <div class="review" data-default-berater-only><div class="stars">★★★★★</div><blockquote>„Ich kann die Betreuung bei Kai Blobel jedem empfehlen, der Wert auf Substanz und Fachkompetenz legt und keine Lust auf heiße Luft hat.“</blockquote><cite>Patrice Hempe · echte Google-Rezension 2026</cite></div>
-            <div class="promises"><div class="promise"><b>Erst verstehen</b><span>Deine Situation steht am Anfang.</span></div><div class="promise"><b>Klar einordnen</b><span>Chancen und Grenzen verständlich erklärt.</span></div><div class="promise"><b>Du entscheidest</b><span>Kein Abschluss am Telefon.</span></div></div>
-            <div class="actions"><button class="primary" data-next>So geht es für mich weiter</button></div>
+            <div class="promises"><div class="promise"><b>Unser erstes Gespräch</b><span>Du erzählst, was dich beschäftigt. Wir besprechen, welche Fragen wir gemeinsam angehen können.</span></div><div class="promise"><b>Wie es weitergeht</b><span>Du entscheidest nach dem Kennenlernen, ob du einen weiteren Termin möchtest.</span></div></div>
+            <!-- Knopfinhalt in EINEM span: Knöpfe sind Flex, sonst klebt der
+                 eingesetzte Name am Text (tests/knoepfe-namen.test.mjs). -->
+            <div class="actions"><button class="primary" data-next><span>Mit <span data-bb="vorname">Kai</span> sprechen</span></button></div>
           </div>
         </div>
       </section>
@@ -323,15 +360,18 @@
       <section class="chapter" data-step="6">
         <div class="inner decision-grid">
           <div>
-            <p class="eyebrow">Deine Entscheidung</p>
-            <h2 class="chapter-title">Wann darf ich dich <em>anrufen?</em></h2>
-            <p class="chapter-lede">Ich melde mich einmal kurz bei dir, so wie besprochen. Sag mir einfach, wann es dir am besten passt.</p>
-            <div class="status"><i>✓</i><span><b>Dein Kontakt ist vorgemerkt.</b><br><span data-promoter>Dein Empfehlungsgeber</span> hat dir diese Seite nach eurem Gespräch geschickt.</span></div>
+            <p class="eyebrow">Wenn du möchtest</p>
+            <h2 class="chapter-title">Lernen wir uns <em>kennen?</em></h2>
+            <p class="chapter-lede">Such dir den Weg aus, der für dich passt: eine Zeit, zu der ich dich anrufe, ein Termin im Kalender oder erst einmal eine Frage per Nachricht.</p>
+            <!-- Phase 364: Der Kasten behauptete „Dein Kontakt ist vorgemerkt",
+                 ohne dass ein Vorgang das belegt. Stattdessen steht hier, was
+                 tatsächlich gilt: Der Besucher entscheidet. -->
+            <div class="status"><i>✓</i><span><b>Du entscheidest, ob und wie wir Kontakt aufnehmen.</b><br>Nichts davon passiert automatisch.</span></div>
           </div>
           <div class="decision-card">
             <div class="dc-kopf"><img data-bb="foto" alt=""><div><h3>Wann passt es dir am besten?</h3><span><span data-bb="vorname">Kai</span> ruft dich an</span></div></div>
-            <div class="time-grid"><button class="time" data-value="Vormittags (10–12 Uhr)">Vormittags</button><button class="time selected" data-value="Nachmittags (14–17 Uhr)">Nachmittags</button><button class="time" data-value="Abends (17–19 Uhr)">Abends</button><button class="time" data-value="Konkreter Termin">Konkreter Termin</button></div>
-            <select class="backend-slot" id="eSlot" aria-label="Bevorzugtes Zeitfenster"><option value="Vormittags (10–12 Uhr)">Vormittags</option><option value="Nachmittags (14–17 Uhr)" selected>Nachmittags</option><option value="Abends (17–19 Uhr)">Abends</option><option value="Konkreter Termin">Konkreter Termin</option></select>
+            <div class="time-grid"><button class="time" data-value="Vormittags (10–12 Uhr)">Vormittags</button><button class="time" data-value="Nachmittags (14–17 Uhr)">Nachmittags</button><button class="time" data-value="Abends (17–19 Uhr)">Abends</button><button class="time" data-value="Konkreter Termin">Konkreter Termin</button></div>
+            <select class="backend-slot" id="eSlot" aria-label="Bevorzugtes Zeitfenster"><option value="Vormittags (10–12 Uhr)">Vormittags</option><option value="Nachmittags (14–17 Uhr)">Nachmittags</option><option value="Abends (17–19 Uhr)">Abends</option><option value="Konkreter Termin">Konkreter Termin</option></select>
             <div class="decision-actions"><button class="primary" id="eAnrufSubmit">Anrufzeit bestätigen</button><a class="secondary" data-bb="booking" href="https://outlook.office.com/book/RegionaldirektionKaiBlobel@dvag02.onmicrosoft.com/s/vIk8AVAbE0CCK6qZpumyTA2?ismsaljsauthenabled=true" target="_blank" rel="noopener">Termin im Kalender wählen</a></div>
             <a class="wa-link" data-bb="whatsapp" href="https://wa.me/4915154776159" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2a9.8 9.8 0 0 0-8.4 14.8L2.3 21.8l4.9-1.3A9.8 9.8 0 1 0 12 2.2Zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A8 8 0 1 1 12 20Zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.3-.4.8-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.9 2c0 1.2.9 2.3 1 2.5.1.2 1.7 2.6 4.2 3.7 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.6-.4Z"/></svg>Lieber per WhatsApp schreiben</a>
             <div class="success" id="eAnrufConfirm"><span id="eAnrufConfirmText">Perfekt. Ich weiß jetzt, wann ich dich am besten erreiche.</span></div>
@@ -340,7 +380,7 @@
         </div>
       </section>
     </main>
-    <button class="back" id="back">Zurück</button><nav class="legal-note" aria-label="Rechtliche Hinweise"><a data-bb="impressum" href="https://www.dvag.de/kai.blobel/impressum.html" target="_blank" rel="noopener">Impressum</a><span aria-hidden="true">·</span><a data-bb="datenschutz" href="https://www.dvag.de/kai.blobel/datenschutz.html" target="_blank" rel="noopener">Datenschutz</a><span class="legal-social"><a class="legal-ig" data-bb="instagram" target="_blank" rel="noopener noreferrer" aria-label="Instagram" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg></a><a class="legal-fb" data-bb="facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook" hidden><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.8-.1-1.6-.15-2.4-.15-2.4 0-4.05 1.46-4.05 4.15v2.3H7.5V13h2.75v8z"/></svg></a></span></nav><span class="transition-note">Persönliche Empfehlung · sicher &amp; vertraulich</span>
+    <button class="back" id="back">Zurück</button><nav class="legal-note" aria-label="Rechtliche Hinweise"><a data-bb="impressum" href="https://www.dvag.de/kai.blobel/impressum.html" target="_blank" rel="noopener">Impressum</a><span aria-hidden="true">·</span><a data-bb="datenschutz" href="https://www.dvag.de/kai.blobel/datenschutz.html" target="_blank" rel="noopener">Datenschutz</a><span class="legal-social"><a class="legal-ig" data-bb="instagram" target="_blank" rel="noopener noreferrer" aria-label="Instagram" hidden><svg viewBox="0 0 24 24" fill="none" stroke="url(#igVerlauf)" stroke-width="1.9" aria-hidden="true"><defs><linearGradient id="igVerlauf" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stop-color="#fdf497"/><stop offset="25%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/><stop offset="100%" stop-color="#285aeb"/></linearGradient></defs><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><circle cx="12" cy="12" r="3.8"/><circle cx="17.2" cy="6.8" r="1" fill="url(#igVerlauf)" stroke="none"/></svg>Instagram</a><a class="legal-fb" data-bb="facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#1877f2" d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.8-.1-1.6-.15-2.4-.15-2.4 0-4.05 1.46-4.05 4.15v2.3H7.5V13h2.75v8z"/></svg>Facebook</a></span></nav><span class="transition-note">Persönliche Empfehlung · sicher &amp; vertraulich</span>
   </div>
   <script>
     const query = new URLSearchParams(location.search);
