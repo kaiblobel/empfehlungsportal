@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.366 Beta** · KIDZ-Anmeldeseite: Berater nur per persönlichem Link, live seit 11.09.2026.
+Offizielle Live-Version: **v1.367 Beta** · KIDZ-Anmeldeseite: Symbole in den Rahmen-Kacheln, live seit 11.09.2026.
+
+## v1.367 Beta - Phase 352 · KIDZ-Anmeldeseite: Symbole in den Rahmen-Kacheln
+**2026-09-11**
+
+Kais Frage vom 11.09.2026: Symbole für Dauer, Kosten, Rahmen und Termin, damit es professioneller aussieht. Entschieden gegen Emojis (sehen auf jedem Gerät anders aus, wirken verspielt) und für schlichte Liniensymbole. Freigabe: „ja veröffentlichen".
+
+**Liniensymbole im Stil der Konzeptseite.** Uhr (`clock-3`), Euro-Siegel (`badge-euro`), zwei Personen (`users`) und Kalender mit Uhr (`calendar-clock`) aus Lucide, dieselbe Sammlung wie auf der Baufi-Seite, Lizenz ISC in `assets/icons/baufi/`. Gezeichnet in Dunkelblau auf hellblauem Kreis und als eingebettetes Bild in `css/kidz-elternabend.css`, damit die Beschreibungsliste nur `dt` und `dd` enthält.
+
+**Rechner 2 × 2, Handy als Liste.** Vorher standen vier schmale Kacheln nebeneinander, „Wird noch bekannt gegeben" brach dreizeilig um und die anderen Kacheln liefen leer nach unten. Jetzt steht jede Angabe am Rechner und bei 390 und 360 px in einer Zeile.
+
+Wächter: `tests/kidz-elternabend.test.mjs` prüft die vier Symbole und dass auf der Seite kein Emoji steht (typografische Zeichen wie ✓ und → bleiben erlaubt).
+
+---
 
 ## v1.366 Beta - Phase 351 · KIDZ-Anmeldeseite: Berater nur per persönlichem Link
 **2026-09-11 · live veröffentlicht**

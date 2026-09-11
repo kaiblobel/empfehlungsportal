@@ -136,6 +136,14 @@ assert.match(html, /id="keaSubmit" type="submit" disabled>Unverbindlich vormerke
 assert.match(publicJs, /const SUBMIT_LABEL = 'Unverbindlich vormerken';/);
 assert.match(html, /<dd>Kostenlos<\/dd>/);
 assert.match(html, /<dd>Wird noch bekannt gegeben<\/dd>/);
+// Jede Rahmen-Kachel trägt ein Liniensymbol aus Lucide, keine Emojis (Kai, 11.09.2026).
+for (const fakt of ['dauer', 'kosten', 'rahmen', 'termin']) {
+  assert.match(html, new RegExp(`<div class="kea-fact-${fakt}"><dt>`));
+  assert.match(css, new RegExp(`\\.kea-facts \\.kea-fact-${fakt}::before \\{ background-image: url\\("data:image/svg\\+xml,`));
+}
+// Nur echte Emoji-Darstellung zählt; typografische Zeichen wie ✓ oder → sind erlaubt.
+assert.doesNotMatch(html, /[\p{Emoji_Presentation}\u{FE0F}]/u);
+assert.match('Dauer 🕒', /[\p{Emoji_Presentation}\u{FE0F}]/u);
 assert.doesNotMatch(html, /[Ee]xklusiv|Maximal 15|zuerst an die Vormerkliste|Platz vormerken/);
 // "E-Mail oder Mobilnummer genügt" steht VOR den beiden Kontaktfeldern.
 assert.ok(html.indexOf('E-Mail oder Mobilnummer genügt.') > 0
