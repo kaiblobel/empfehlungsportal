@@ -18,15 +18,15 @@
     "Erstgespraechsfilms auf die Themenseite und war live, ohne dass Kai sie je",
     "gesehen hatte. Aufgefallen ist es zwei Tage spaeter beim Ansehen der Seite."
   ],
-
   "freigegeben": [
     {
-      "datei": "formel-finanzielles-glueck.mp4",
-      "sha256": "f99ec749c281a8f80951b69739da5a3153e76cc9c149d856bafeb411db038f33",
-      "laenge": "1:37",
+      "datei": "allgemein-persoenliche-formel-v5-720p.mp4",
+      "sha256": "eb79331b07a65dbe834db831d9378a2405f0e72f1c85ed0d4f957cbbd8917541",
+      "laenge": "1:28",
       "laeuft_auf": "empfaenger.html · Kapitel 2 der Themenstrecke",
       "freigegeben_von": "Kai",
-      "freigegeben_am": "2026-08-08"
+      "freigegeben_am": "2026-09-11",
+      "anmerkung": "Kai am 11.09.2026 im Chat: „allgemein-premium-v5-logo-icons-kurz. Und das Video jetzt erstmal einbinden“, auf Rueckfrage zur Freigabeliste: „Ja, eintragen“. Webfassung 720p der Codex-Fassung v5 vom 10.09. 17:36 (entstanden vor den Abspann-Tonspuren mit fremder Stimme, also Originalstimme). C2PA nachtraeglich eingebettet. Ersetzt formel-finanzielles-glueck.mp4 (1:37)."
     },
     {
       "datei": "empfehlungsportal-story-v3.mp4",
@@ -54,6 +54,5 @@
       "freigegeben_am": "2026-08-15"
     }
   ],
-
   "wartet_auf_kai": []
 }

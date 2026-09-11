@@ -39,8 +39,7 @@
        Groesser in einen Kommentar schreiben. Mehrere Tests greifen sich den
        ersten Treffer dieses Musters als das Video-Markup und pruefen dann den
        Kommentar statt das Element. */
-    .ki-hinweis{line-height:1.5;padding:10px 16px 12px;color:#f2f7f8;opacity:.72;font-size:12px;letter-spacing:.01em}
-    @media(max-width:780px){.film-grid{grid-template-columns:1fr;gap:22px}.film-copy .actions{margin-top:20px}}
+        @media(max-width:780px){.film-grid{grid-template-columns:1fr;gap:22px}.film-copy .actions{margin-top:20px}}
   </style>
 </head>
 <body data-page="empfaenger">
@@ -48,7 +47,7 @@
     <header class="topbar"><div class="brand">Deine persönliche Empfehlung<span><span data-bb="name">Kai Blobel</span> &amp; Team</span></div><div class="progress" aria-label="Fortschritt"><i class="active"></i><i></i><i></i><i></i><i></i><i></i></div><div class="step-count"><b id="stepNow">1</b> / 6</div></header>
     <main class="chapters">
       <section class="chapter active" data-step="1">
-        <div class="inner hero-grid"><div><div class="promoter-pill"><span class="promoter-avatar" data-static-icon aria-hidden="true">✦</span><span>Ganz bewusst für dich</span></div><h1 class="headline"><span data-recipient-prefix></span><span data-headline-start>Ein</span> genauer Blick auf deine Finanzen <em>könnte sich lohnen.</em></h1><p class="lede">Schau in Ruhe, welche Themen für dich interessant sein könnten.</p><div class="promoter-card" id="ePromoterCard"><span class="pc-avatar" id="ePromoterInitial" data-static-icon aria-hidden="true">“</span><div class="pc-body"><div class="pc-bubble"><p id="ePromoterMessage">Ich habe dir <span data-bb="vorname">Kai</span> empfohlen und diese Seite nach unserem Gespräch weitergeschickt.</p></div><p class="pc-name"><b data-promoter>Jemand aus deinem Umfeld</b></p></div></div><div class="actions"><button class="primary" data-next>Unverbindlich entdecken</button></div><p class="micro"><span>Kostenlos</span><span>Keine Unterlagen</span><span>Du entscheidest</span></p></div><div class="portrait"><img id="eFoto" data-bb="foto" alt=""><div class="portrait-label"><b data-bb="name">Kai Blobel</b><span>Dein persönlicher Ansprechpartner</span></div></div></div>
+        <div class="inner hero-grid"><div><div class="promoter-pill"><span>Ganz bewusst für dich</span></div><h1 class="headline"><span data-recipient-prefix></span><span data-headline-start>Ein</span> genauer Blick auf deine Finanzen <em>könnte sich lohnen.</em></h1><p class="lede">Schau in Ruhe, welche Themen für dich interessant sein könnten.</p><div class="promoter-card" id="ePromoterCard"><div class="pc-body"><div class="pc-bubble"><p id="ePromoterMessage">Ich habe dir <span data-bb="vorname">Kai</span> empfohlen und diese Seite nach unserem Gespräch weitergeschickt.</p></div><p class="pc-name"><b data-promoter>Jemand aus deinem Umfeld</b></p></div></div><div class="actions"><button class="primary" data-next>Unverbindlich entdecken</button></div><p class="micro"><span>Kostenlos</span><span>Keine Unterlagen</span><span>Du entscheidest</span></p></div><div class="portrait"><img id="eFoto" data-bb="foto" alt=""><div class="portrait-label"><b data-bb="name">Kai Blobel</b><span>Dein persönlicher Ansprechpartner</span></div></div></div>
       </section>
 
       <!-- 2 · Die Idee in 97 Sekunden. Eigener Bildschirm, weil ein Film keine
@@ -58,23 +57,21 @@
           <div class="film-copy">
             <p class="eyebrow">Bevor du weiterklickst</p>
             <h2 class="chapter-title">Deine persönliche Formel zum <em>finanziellen Glück.</em></h2>
-            <p class="chapter-lede">Anderthalb Minuten, in denen du siehst, worum es geht — ohne Fachbegriffe. Danach entscheidest du, ob du weitermachst.</p>
+            <p class="chapter-lede">Anderthalb Minuten, in denen du siehst, worum es geht, ohne Fachbegriffe. Danach entscheidest du, ob du weitermachst.</p>
             <div class="actions"><button class="primary" data-next>Weiter</button></div>
-            <p class="micro"><span>1:37 Minuten</span><span>Ton an empfohlen</span></p>
+            <p class="micro"><span>1:28 Minuten</span><span>Ton an empfohlen</span></p>
           </div>
           <figure class="film-frame">
             <video id="formelVideo" controls preload="none" playsinline
-                   poster="/assets/video/formel-finanzielles-glueck-poster.jpg"
-                   width="1920" height="1080">
-              <source src="/assets/video/formel-finanzielles-glueck.mp4" type="video/mp4" />
-              <p>Dein Browser kann dieses Video nicht abspielen — <a href="/assets/video/formel-finanzielles-glueck.mp4">hier herunterladen</a>.</p>
+                   poster="/assets/video/allgemein-persoenliche-formel-v5-poster.jpg"
+                   width="1280" height="720">
+              <source src="/assets/video/allgemein-persoenliche-formel-v5-720p.mp4" type="video/mp4" />
+              <p>Dein Browser kann dieses Video nicht abspielen, <a href="/assets/video/allgemein-persoenliche-formel-v5-720p.mp4">hier herunterladen</a>.</p>
             </video>
-            <!-- KI-Kennzeichnung, Pflicht seit 02.08.2026 (EU-Transparenzpflicht).
-                 Hier besonders wichtig: der Film zeigt eine fotorealistische Person,
-                 die es nicht gibt. Ohne Hinweis liest sich das wie ein echter Kunde.
-                 Dieselbe Angabe steckt als C2PA-Manifest in der Datei, damit sie beim
-                 Herunterladen mitreist. Geprüft von tests/ki-kennzeichnung.test.mjs. -->
-            <figcaption class="ki-hinweis">Mit KI erstellt. Die gezeigten Personen sind KI-generiert und stellen keine realen Personen dar.</figcaption>
+            <!-- Seit Phase 349 (Kais Entscheidung vom 11.09.2026) kein Satz mehr unter dem Film.
+                 Der Film zeigt keine KI-Personen, sondern echte Fotos von Kai und
+                 Beispiel-Oberflächen. Die KI-Stimme ist im Bild selbst gekennzeichnet (oben
+                 rechts), die Datei trägt das C2PA-Manifest. Geprüft von tests/ki-kennzeichnung.test.mjs. -->
           </figure>
         </div>
       </section>

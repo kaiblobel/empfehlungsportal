@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.363 Beta** · Rückblick mit Flyer und allen Gewinnen, live seit 11.09.2026.
+Offizielle Live-Version: **v1.364 Beta** · Allgemein-Seite mit neuem Film, live seit 11.09.2026.
+
+## v1.364 Beta - Phase 349 · Allgemein-Seite mit neuem Film
+**2026-09-11**
+
+Kais Entscheidungen vom 11.09.2026 zur Allgemein-Seite (`empfaenger.html`), der Seite, die jeder Interessent mit einer allgemeinen Empfehlung zuerst sieht.
+
+**Neuer Film.** Statt des Erstgesprächsfilms (1:37) läuft die Fassung v5 aus der Filmwerkstatt (`allgemein-persoenliche-formel-v5-720p.mp4`, 1:28, 3,4 MB, 720p). Kai hat sie am Morgen beim Namen genannt („Und das Video jetzt erstmal einbinden") und auf Rückfrage die Freigabe bestätigt; der Eintrag in `assets/video/FREIGABEN.json` trägt seinen Wortlaut. v5 entstand am 10.09. um 17:36, vor den beiden Abspann-Tonspuren mit der fremden Stimme (18:11 und 18:37), und enthält deshalb nur die Originalstimme. Der alte Film und sein Standbild sind aus dem Projekt entfernt, sonst meldet der KI-Wächter eine verwaiste Datei.
+
+**Kein Satz mehr unter dem Film.** Dort stand „Mit KI erstellt. Die gezeigten Personen sind KI-generiert und stellen keine realen Personen dar." Zum neuen Film passte das nicht: Er zeigt keine KI-Personen, sondern echte Fotos von Kai und Beispiel-Oberflächen. Kai hat entschieden, den Satz ganz zu streichen. Die Kennzeichnung bleibt an zwei anderen Stellen: im Film selbst steht oben rechts „KI-Stimme. Beispiel-Oberflächen und beispielhafte Ansichten", und die Datei trägt ein C2PA-Manifest (nachträglich eingebettet mit `avatar_reel label-existing`, Beschreibung ohne den Standardtext zum digitalen Zwilling). `tests/ki-kennzeichnung.test.mjs` führt dafür eine benannte Ausnahme `HINWEIS_IM_BILD`; das Manifest in der Datei bleibt auch für diesen Film Pflicht.
+
+**Keine Zeichenkreise mehr.** Der Funkelstern vor „Ganz bewusst für dich" und der Kreis mit Anführungszeichen vor der Nachricht des Empfehlungsgebers sind weg. Beide trugen `data-static-icon`; das Skript fragt beide Stellen nur bedingt ab und läuft ohne sie unverändert. Die Nachricht nimmt jetzt die volle Breite der Karte ein. Das Anführungszeichen der echten Google-Rezension bleibt, es ist Text, kein Kreis.
+
+Nebenbei zwei Gedankenstriche im Filmtext durch Kommas ersetzt. Wächter: `tests/empfaenger-formel-video.test.mjs` prüft den neuen Film, „1:28 Minuten" und dass Stern, Kreis und Satz nicht zurückkommen.
+
+---
 
 ## v1.363 Beta - Phase 348 · Rückblick mit Flyer und allen Gewinnen
 **2026-09-11 · live veröffentlicht**
