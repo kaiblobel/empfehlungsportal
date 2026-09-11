@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.360 Beta** · Nur Fertiges im Schaufenster, live seit 11.09.2026.
+Offizielle Live-Version: **v1.361 Beta** · Abmelden von KIDZ-Mails, live seit 11.09.2026.
+
+## v1.361 Beta - Phase 346 · Abmelden von KIDZ-Mails
+**2026-09-11**
+
+**Wer keine KIDZ-Mails mehr will, meldet sich mit einem Klick ab.** Am 11.09.2026 geht die erste KIDZ-Mail an alle Gewinnspiel-Teilnehmer mit Mailadresse. Jede Mail trägt einen persönlichen Link auf `/kidz/abmelden?t=<Schlüssel>`. Die Seite fragt einmal nach („Ja, abmelden") und trägt dann die Mailadresse aus, alle Einträge mit derselben Adresse zugleich. Abgemeldet wird bewusst erst per Klick: Virenscanner öffnen Links aus Mails vorab, ein Abmelden schon beim Laden würde Menschen ungefragt austragen.
+
+Datenbank: `schema-phase346-kidz-mail-abmeldung.sql` ergänzt `kidz_gewinnspiel_teilnahmen` um `abmelde_token` (zufällige UUID je Zeile, steht im Link statt der Adresse) und `mail_abgemeldet_at`, dazu die Funktion `kidz_mail_abmelden_public`. Sie ist ohne Anmeldung aufrufbar, schreibt nur den Abmeldezeitpunkt, behält den ersten und verrät keine Adresse. Gewinnspiel, Los und die einmalige KIDZ-for-Future-Einwilligung bleiben unberührt.
+
+Wächter: `tests/kidz-mail-abmeldung.test.mjs`.
+
+Bekannt und nicht aus dieser Phase: `tests/share-handler.test.cjs` scheitert schon auf dem Stand v1.360. Er erwartet für das Thema Förderungen noch `thema.html`, seit Phase 345 geht ein gesperrtes Thema auf die allgemeine Seite. Geprüft in einer sauberen Kopie von `origin/main`.
+
+---
 
 ## v1.360 Beta - Phase 345 · Nur Fertiges im Schaufenster
 **2026-09-11 · live veröffentlicht**
