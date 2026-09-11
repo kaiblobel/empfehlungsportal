@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.362 Beta** · Abmelden von KIDZ-Mails, live seit 11.09.2026.
+Offizielle Live-Version: **v1.363 Beta** · Rückblick mit Flyer und allen Gewinnen, live seit 11.09.2026.
+
+## v1.363 Beta - Phase 348 · Rückblick mit Flyer und allen Gewinnen
+**2026-09-11**
+
+Kais Wunsch vom 11.09.2026 nachmittags: Die Dankeschön-Seite soll sich zum Teilen bei WhatsApp und Instagram eignen.
+
+**Der Flyer bleibt sichtbar.** Am Rechner steht er rechts neben dem Dank, am Handy darunter, damit jeder sieht, worum es ging.
+
+**Die Auflösung nennt alle Gewinne.** Vorher stand dort nur der Ball. Jetzt stehen dort vier Karten: das Survival Event, über das unter den 12 genauen Tipps das Los entscheidet, und die UCI Kinogutscheine, die Tierpark-Jahreskarte und die weiteren Sachpreise, verlost unter allen Anmeldungen. Dazu, wann ausgelost wird (Woche ab dem 14.09.), wie die Gewinner davon erfahren, und ein Link auf die Teilnahmebedingungen. Der Wortlaut folgt den Teilnahmebedingungen der Gewinnspiel-Seite. Die Gewinnübersicht als Grafik kommt bewusst nicht auf die Seite, sie wiegt 2,3 MB.
+
+**Zum Schluss: „Wir freuen uns schon aufs nächste Mal mit euch".** Der Weg zum Vormerken bleibt der aus der Dankesmail.
+
+**Neues Vorschaubild zum Teilen.** Wer den Link bei WhatsApp teilte, sah bisher die Einladung „Kommt vorbei und meldet euch kurz an". Jetzt zeigt `kidz-vorschau-sommerfest-danke.jpg` (1200 × 630) Dank, Zahlen und Flyer. Der neue Dateiname sorgt dafür, dass WhatsApp nicht das alte Bild aus seinem Zwischenspeicher zeigt. Dazu gibt es ein Instagram-Story-Bild für Kai, das nicht im Portal liegt.
+
+---
 
 ## v1.362 Beta - Phase 347 · Abmelden von KIDZ-Mails
 **2026-09-11 · live veröffentlicht**

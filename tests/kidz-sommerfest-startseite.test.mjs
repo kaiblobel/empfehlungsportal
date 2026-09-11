@@ -63,7 +63,7 @@ assert.match(html, /class="kf-footer" id="veranstalter"/);
 assert.match(html, /class="kf-organizer"/);
 assert.match(html, /assets\/images\/team-wachsbleiche-petrol\.jpeg/);
 assert.match(html, /alt="Team Wachsbleiche · Kai Blobel &amp; Team"/);
-assert.match(html, /property="og:image" content="https:\/\/kidz\.teamwachsbleiche\.de\/assets\/images\/kidz-vorschau-sommerfest\.jpg"/);
+assert.match(html, /property="og:image" content="https:\/\/kidz\.teamwachsbleiche\.de\/assets\/images\/kidz-vorschau-sommerfest-danke\.jpg"/);
 assert.match(html, /property="og:image:width" content="1200"/);
 assert.match(html, /property="og:image:height" content="630"/);
 assert.ok(organizerLogo.size > 300_000);
@@ -114,5 +114,21 @@ await import(new URL(`../js/kidz-sommerfest.js?test=${Date.now()}`, import.meta.
 assert.deepEqual(registrationLinks.map((link) => link.href), ['/kidz/gewinnspiel?quelle=whatsapp&berater=sandro#anmeldung']);
 delete globalThis.window;
 delete globalThis.document;
+
+// Phase 348 (Kais Wunsch vom 11.09.2026): Der Flyer bleibt sichtbar, damit man
+// sieht, worum es ging; die Auflösung nennt alle Preise, nicht nur den Ball;
+// der Schluss blickt nach vorn.
+assert.match(html, /class="kf-flyer-card kf-danke-flyer"/);
+assert.match(html, /assets\/images\/kidz-sommerfest-flyer\.jpg" alt="[^"]+" width="904" height="1280"/);
+for (const preis of ['Survival Event', 'UCI Kinogutscheine', 'Tierpark-Jahreskarte', 'weitere Sachpreise']) {
+  assert.match(html, new RegExp(preis), `Preis fehlt: ${preis}`);
+}
+assert.match(html, /Unter allen Anmeldungen/);
+assert.match(html, /hört über den angegebenen Kontaktweg von uns/);
+assert.match(html, /href="\/kidz\/gewinnspiel#teilnahmebedingungen"/);
+assert.match(html, /Wir freuen uns schon aufs nächste Mal mit euch/);
+assert.doesNotMatch(html, /kidz-sommerfest-gewinnspiel-v2\.png/, 'Die 2,3-MB-Gewinngrafik ist zu schwer fürs Handy');
+assert.match(css, /\.kf-danke-flyer/);
+assert.match(css, /\.kf-preise/);
 
 console.log('kidz-sommerfest-startseite: OK');
