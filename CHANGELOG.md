@@ -4,7 +4,7 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.364 Beta** · Allgemein-Seite mit neuem Film, live seit 11.09.2026.
 
 ## v1.364 Beta - Phase 349 · Allgemein-Seite mit neuem Film
-**2026-09-11**
+**2026-09-11 · live veröffentlicht**
 
 Kais Entscheidungen vom 11.09.2026 zur Allgemein-Seite (`empfaenger.html`), der Seite, die jeder Interessent mit einer allgemeinen Empfehlung zuerst sieht.
 
