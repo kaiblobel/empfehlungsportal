@@ -32,7 +32,7 @@
   <title>KIDZ for Future | Team Wachsbleiche</title>
   <link rel="icon" type="image/png" href="/assets/images/kidz-logo-konzept.png">
   <link rel="apple-touch-icon" href="/assets/images/kidz-logo-konzept.png">
-  <link rel="stylesheet" href="/css/kidz-elternabend.css?v=3">
+  <link rel="stylesheet" href="/css/kidz-elternabend.css?v=4">
   <link rel="stylesheet" href="/css/kidz-public-nav.css?v=3">
   <script src="/js/config.js"></script>
 </head>
@@ -46,7 +46,7 @@
     </a>
     <nav class="kea-nav" aria-label="Seitennavigation">
       <a href="#themen">Worum es geht</a>
-      <a href="#gastgeber">Wer einlädt</a>
+      <a href="#gastgeber" id="keaNavHost" hidden>Wer einlädt</a>
       <a href="/kidz/konzept">KIDZ-Konzept</a>
     </nav>
     <a class="kea-header-cta" href="#anmeldung">KIDZ for Future vormerken</a>
@@ -116,20 +116,24 @@
           </ul>
         </article>
       </div>
+      <p class="kea-honest kea-afterwards"><strong>Und danach?</strong> Du entscheidest selbst, ob du ein persönliches Gespräch möchtest. Die Antworten vom Abend nimmst du so oder so mit.</p>
       <a class="kea-more" href="/kidz/konzept">Zum ganzen KIDZ-Konzept <span aria-hidden="true">→</span></a>
     </section>
 
-    <section class="kea-section kea-host" id="gastgeber" aria-labelledby="keaHostTitle">
+    <!-- Nur über den persönlichen Anmeldelink (?berater=…) sichtbar. Ohne Link zeigt die
+         Seite keinen Berater. js/kidz-elternabend.js blendet den Abschnitt erst ein, wenn
+         sich der Berater aus der Adresse auflösen lässt; Promoter und unbekannte Kürzel nie. -->
+    <section class="kea-section kea-host" id="gastgeber" aria-labelledby="keaHostTitle" hidden>
       <figure class="kea-host-photo">
-        <img src="/assets/images/kai-portrait.jpg" alt="Kai Blobel" width="1152" height="928" loading="lazy">
+        <img data-bb="foto" alt="" width="1152" height="928" loading="lazy">
       </figure>
       <div class="kea-host-copy">
-        <p class="kea-eyebrow">Wer einlädt</p>
-        <h2 id="keaHostTitle">Hallo, ich bin Kai.</h2>
-        <p>Ich bin zweifacher Vater und seit über 20 Jahren für Familien in und um Cottbus da. Die Fragen hinter KIDZ stellen wir uns zu Hause selbst. Deshalb laden wir als Team Wachsbleiche zu diesem Abend ein.</p>
-        <p>Durch den Abend führe ich selbst oder jemand aus meinem Team, der KIDZ genauso gut kennt.</p>
-        <p class="kea-honest"><strong>Und danach?</strong> Du entscheidest selbst, ob du ein persönliches Gespräch möchtest. Die Antworten vom Abend nimmst du so oder so mit.</p>
-        <p class="kea-signature"><strong>Kai Blobel</strong><span data-bo="bezeichnung">Regionaldirektion Kai Blobel &amp; Team</span></p>
+        <p class="kea-eyebrow">Wer dich einlädt</p>
+        <h2 id="keaHostTitle">Hallo, ich bin <span data-bb="vorname"></span>.</h2>
+        <p data-default-berater-only>Ich bin zweifacher Vater und seit über 20 Jahren für Familien in und um Cottbus da. Die Fragen hinter KIDZ stellen wir uns zu Hause selbst. Deshalb laden wir als Team Wachsbleiche zu diesem Abend ein.</p>
+        <p data-default-berater-only>Durch den Abend führe ich selbst oder jemand aus meinem Team, der KIDZ genauso gut kennt.</p>
+        <p data-andere-berater hidden>Ich habe dich zu diesem Abend eingeladen und bin für deine Fragen da. Durch den Abend führt Kai Blobel oder jemand aus dem Team Wachsbleiche, der KIDZ genauso gut kennt.</p>
+        <p class="kea-signature"><strong data-bb="name"></strong><span data-bo="bezeichnung">Regionaldirektion Kai Blobel &amp; Team</span></p>
       </div>
     </section>
 
@@ -254,7 +258,7 @@
   <a class="kea-mobile-cta" id="keaMobileCta" href="#anmeldung" hidden>KIDZ for Future vormerken</a>
 
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
-  <script type="module" src="/js/kidz-elternabend.js?v=2"></script>
+  <script type="module" src="/js/kidz-elternabend.js?v=3"></script>
   <script type="module" src="/js/buero-brand.js?v=1"></script>
 </body>
 </html>
