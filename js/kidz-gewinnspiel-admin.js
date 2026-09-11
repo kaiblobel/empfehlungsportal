@@ -59,6 +59,13 @@ let currentAdvisor = null;
 // Die Berater fuer das Zuordnungs-Auswahlfeld auf der Karte. Wird beim Aufbau
 // des Filters gefuellt, aus derselben Quelle.
 let beraterAuswahl = [];
+// Phase 360: Der Schalter fuer die Teamsicht. Steht er an, sieht jeder Berater
+// alle Anmeldungen des Festes und darf sie zuordnen. Durchgesetzt wird das in
+// der Datenbank (kidz_team_sicht), hier wird nur angezeigt, was sie erlaubt.
+let teamSichtOffen = false;
+// Namen der Berater fuer fremde Anmeldungen. Ohne Admin-Recht ist die Tabelle
+// berater nicht lesbar, die Einbettung berater:berater_id bleibt dann leer.
+const beraterNamen = new Map();
 let pageviewStats = { total: 0, whatsapp: 0 };
 let selectedParticipantId = '';
 let guessParticipantId = '';
@@ -125,8 +132,11 @@ function render() {
       <div><small>${escapeHtml(formatDate(entry.created_at))}</small><span>${escapeHtml(sourceLabel(entry.source))}</span>${entry.begleitpersonen === null || entry.begleitpersonen === undefined ? '' : `<span>${1 + entry.begleitpersonen} ${1 + entry.begleitpersonen === 1 ? 'Person' : 'Personen'}</span>`}</div>
       <div>
         ${entry.source === ONSITE_SOURCE ? '<span class="kg-admin-badge kg-admin-badge-onsite">Vor Ort · Papier</span>' : ''}
+        ${istEigen(entry) ? `
         <button class="kg-admin-manage" type="button" data-guess-participant="${escapeHtml(entry.id)}">${hasGuess ? `Schätzung: ${escapeHtml(String(entry.schaetzung_cm))} cm` : 'Schätzung eintragen'}</button>
-        <button class="kg-admin-manage" type="button" data-interest-participant="${escapeHtml(entry.id)}">KIDZ for Future: ${entry.elternabend_interesse ? 'Interesse' : 'Nein'}</button>
+        <button class="kg-admin-manage" type="button" data-interest-participant="${escapeHtml(entry.id)}">KIDZ for Future: ${entry.elternabend_interesse ? 'Interesse' : 'Nein'}</button>` : `
+        <span>${hasGuess ? `Schätzung: ${escapeHtml(String(entry.schaetzung_cm))} cm` : 'Ohne Schätzung'}</span>
+        <span>KIDZ for Future: ${entry.elternabend_interesse ? 'Interesse' : 'Nein'}</span>`}
         ${currentAdvisor?.ist_admin ? `<button class="kg-admin-manage" type="button" data-manage-participant="${escapeHtml(entry.id)}">Teilnahme verwalten</button>` : ''}
       </div>
     </article>
@@ -135,16 +145,35 @@ function render() {
 }
 
 /**
+ * Darf der Angemeldete zuordnen? Administratoren immer, alle anderen nur bei
+ * offener Teamsicht (Phase 360). Die Datenbank prueft dasselbe noch einmal.
+ */
+function darfZuordnen() {
+  return Boolean(currentAdvisor?.ist_admin || teamSichtOffen);
+}
+
+/**
+ * Gehoert die Anmeldung dem Angemeldeten? Nur dann gibt es die Knoepfe fuer
+ * Schaetzung und KIDZ for Future. Bei fremden Anmeldungen weist die Datenbank
+ * das Schreiben ab, und die Schaetzung saehe ohne Rueckmeldung gespeichert aus.
+ */
+function istEigen(entry) {
+  return Boolean(currentAdvisor?.ist_admin
+    || (currentAdvisor?.id && entry.berater_id === currentAdvisor.id));
+}
+
+/**
  * Die Zuordnung auf der Karte.
  *
- * Fuer Administratoren ein Auswahlfeld, sonst der Name als Text. Nach dem Fest
- * lagen 170 von 225 Kontakten beim Vorgabeberater, weil die meisten sich ueber
- * den allgemeinen Link angemeldet haben. Wer wen kennt, weiss nur das Team,
- * deshalb wird die Liste im Meeting durchgegangen und von Hand zugeordnet.
+ * Ein Auswahlfeld fuer alle, die zuordnen duerfen, sonst der Name als Text.
+ * Nach dem Fest lagen 170 von 225 Kontakten beim Vorgabeberater, weil die
+ * meisten sich ueber den allgemeinen Link angemeldet haben. Wer wen kennt,
+ * weiss nur das Team: Jeder Berater geht die Liste mit seinen Promotern durch
+ * und ordnet zu, solange Kai die Teamsicht offen hat.
  */
 function zuordnungsFeld(entry) {
   const name = entry.berater?.name || 'Kai Blobel';
-  if (!currentAdvisor?.ist_admin || !beraterAuswahl.length) {
+  if (!darfZuordnen() || !beraterAuswahl.length) {
     return `<strong>${escapeHtml(name)}</strong>`;
   }
   const aktuell = String(entry.berater?.slug || '');
@@ -193,7 +222,7 @@ async function assignParticipant(participantId, slug, feld) {
     if (error) throw error;
     if (!data?.ok) {
       const grund = {
-        forbidden: 'Nur Administratoren dürfen die Zuordnung ändern.',
+        forbidden: 'Die Teamsicht ist gerade aus. Zuordnen darf dann nur ein Admin.',
         not_found: 'Die Anmeldung wurde nicht gefunden. Bitte die Liste neu laden.',
         invalid_advisor: 'Dieser Name ist kein aktiver Berater.',
       }[data?.reason] || 'Die Zuordnung konnte nicht gespeichert werden.';
@@ -203,6 +232,7 @@ async function assignParticipant(participantId, slug, feld) {
     }
     const gewaehlt = beraterAuswahl.find((b) => b.slug === slug);
     eintrag.berater = { name: data.berater || gewaehlt?.name || '', slug };
+    if (data.berater_id) eintrag.berater_id = data.berater_id;
     zeigen(`gespeichert, jetzt bei ${data.berater || gewaehlt?.name || 'dem neuen Berater'}`, 'fertig');
   } catch (error) {
     feld.value = vorher;
@@ -266,6 +296,7 @@ async function loadEntries() {
   if (error) throw error;
   entries = (data || []).map((entry) => ({
     ...entry,
+    berater: entry.berater || beraterNamen.get(entry.berater_id) || null,
     empfehler: entry.empfehler ? {
       ...entry.empfehler,
       name: entry.empfehler.name,
@@ -319,6 +350,76 @@ async function ladeBeraterAuswahl() {
   }
 }
 
+/** Phase 360: Stand des Schalters holen. Ohne Antwort gilt die enge Sicht. */
+async function ladeTeamSicht() {
+  const { data, error } = await supabase
+    .from('kidz_team_sicht')
+    .select('alle_sehen')
+    .eq('event_key', EVENT_KEY)
+    .maybeSingle();
+  if (error) console.warn('[kidz-team-sicht]', error);
+  teamSichtOffen = !error && data?.alle_sehen === true;
+}
+
+/** Namen der Berater fuer fremde Anmeldungen, nur bei offener Teamsicht. */
+async function ladeBeraterNamen() {
+  beraterNamen.clear();
+  if (!teamSichtOffen || currentAdvisor?.ist_admin) return;
+  const { data, error } = await supabase.rpc('kidz_team_berater');
+  if (error) {
+    console.warn('[kidz-team-berater]', error);
+    return;
+  }
+  (data || []).forEach((b) => beraterNamen.set(b.id, { name: b.name, slug: b.slug }));
+}
+
+function zeigeTeamSicht() {
+  const istAdmin = Boolean(currentAdvisor?.ist_admin);
+  const schalter = document.getElementById('teamSichtSchalter');
+  const feld = document.getElementById('teamSichtAn');
+  const lage = document.getElementById('teamSichtLage');
+  const hinweis = document.getElementById('teamSichtHinweis');
+  if (schalter) schalter.hidden = !istAdmin;
+  if (feld) feld.checked = teamSichtOffen;
+  if (lage) {
+    lage.textContent = teamSichtOffen
+      ? 'An: Jeder Berater sieht alle Teilnehmer und kann sie zuordnen.'
+      : 'Aus: Jeder Berater sieht nur seine eigenen Teilnehmer.';
+  }
+  if (hinweis) hinweis.hidden = istAdmin || !teamSichtOffen;
+}
+
+/**
+ * Den Schalter umlegen. Nur fuer Administratoren, die Datenbank laesst es
+ * anderen ohnehin nicht zu. Die eigene Liste aendert sich dabei nicht: Ein
+ * Admin sieht immer alles. Die Berater merken es beim naechsten Laden.
+ */
+async function schalteTeamSicht(an) {
+  const feld = document.getElementById('teamSichtAn');
+  const lage = document.getElementById('teamSichtLage');
+  if (!currentAdvisor?.ist_admin || !feld) return;
+  feld.disabled = true;
+  if (lage) lage.textContent = 'wird gespeichert ...';
+  try {
+    const { data, error } = await supabase
+      .from('kidz_team_sicht')
+      .update({ alle_sehen: an })
+      .eq('event_key', EVENT_KEY)
+      .select('alle_sehen')
+      .maybeSingle();
+    if (error) throw error;
+    if (!data) throw new Error('Der Schalter wurde nicht gespeichert.');
+    teamSichtOffen = data.alle_sehen === true;
+    zeigeTeamSicht();
+  } catch (error) {
+    console.warn('[kidz-team-sicht] umlegen', error);
+    zeigeTeamSicht();
+    if (lage) lage.textContent = `Hat nicht geklappt: ${error.message || 'bitte nochmal versuchen'}`;
+  } finally {
+    feld.disabled = false;
+  }
+}
+
 function participantCatalogFromEntries() {
   const advisors = [...new Map(entries
     .filter((entry) => entry.berater?.slug)
@@ -336,13 +437,13 @@ async function configureParticipantFilter() {
   // Phase 209: Als Admin sieht man hier das ganze Portal. Das gehört
   // dazugeschrieben, sonst hält man die Zahlen für die eigenen.
   //
-  // Phase 333 hatte das für den Festtag geöffnet: Jeder Berater sah alle
-  // Anmeldungen, damit er am Stand nachsehen konnte. Seit Phase 336 gilt wieder
-  // die enge Sicht, deshalb hängt der Hinweis wieder am Admin-Recht.
+  // Phase 360: Ob die übrigen Berater alles sehen, entscheidet Kais Schalter.
+  // Dann bekommen auch sie einen Hinweis und den Filter nach Beratern.
   const adminHinweis = document.getElementById('adminSichtHinweis');
   if (adminHinweis) adminHinweis.hidden = !currentAdvisor?.ist_admin;
+  zeigeTeamSicht();
 
-  if (!currentAdvisor?.ist_admin) {
+  if (!currentAdvisor?.ist_admin && !teamSichtOffen) {
     advisorFilter.hidden = true;
     advisorFilter.disabled = true;
     return;
@@ -712,6 +813,10 @@ async function toggleInterest(participantId) {
   }
 }
 
+document.getElementById('teamSichtAn')?.addEventListener('change', (event) => {
+  schalteTeamSicht(event.target.checked);
+});
+
 entriesBox.addEventListener('change', (event) => {
   const feld = event.target.closest('[data-assign-participant]');
   if (!feld) return;
@@ -783,6 +888,9 @@ const session = await requireAuth();
 if (session) {
   try {
     currentAdvisor = await getCurrentBerater();
+    // Erst der Schalter, dann die Namen: Beides braucht die Liste beim Zeichnen.
+    await ladeTeamSicht();
+    await ladeBeraterNamen();
     // Die Beraterliste muss FERTIG sein, bevor die Liste gezeichnet wird, sonst
     // faellt das Auswahlfeld fuer die Zuordnung auf den festen Namen zurueck.
     // Deshalb hier nacheinander und nicht nebenher: Nebenher hiesse nur "zur
