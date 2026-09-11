@@ -1,7 +1,35 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.373 Beta** · KIDZ-Anmeldeseite: Instagram und Facebook im Fuß, live seit 11.09.2026.
+Offizielle Live-Version: **v1.374 Beta** · Interessenten-Seite persönlicher, live seit 11.09.2026.
+
+## v1.374 Beta - Phase 359 · Interessenten-Seite persönlicher
+**2026-09-11**
+
+- **Interessenten-Seite persönlicher.** Kai fand die Seite, die ein Interessent über eine
+  Empfehlung bekommt, zu roh. Jetzt spricht der Berater selbst: Kopfzeile mit Foto und Namen,
+  "Eine Empfehlung von Vanessa", "Lisa, schön, dass du da bist.", eine kurze Notiz mit
+  Unterschrift, Schritt 5 mit Ich-Text ("Kein Callcenter. Ich melde mich selbst."), Schritt 6
+  "Wann darf ich dich anrufen?" mit Foto und WhatsApp-Weg. Kai: "gefällt mir gut".
+- **Am Handy fehlte der Berater ganz.** Porträt in Schritt 1 und Personenkarte in Schritt 5 waren
+  per CSS versteckt. Jetzt steht das Gesicht in Kopfzeile, Notiz, Personenkarte und Anrufkarte.
+- **Kais Zahlen bei fremden Beratern.** "20+ Jahre" und "3.000 Haushalte" sahen auch Interessenten
+  von David und den anderen. Jetzt `data-default-berater-only` wie die Google-Bewertung. Die Rolle
+  kommt aus dem Profil statt fest "Dein persönlicher Ansprechpartner".
+- **Schritt 4 ehrlich.** Statt "gesperrtem Potenzialprofil" mit Scheinbalken und laufenden Ziffern
+  der Ablauf des Finanzchecks in drei Schritten. Euro statt Dollar-Zeichen bei "Geld behalten".
+- **Rückweg aus dem Finanzcheck.** Die Seite merkt sich Schritt und Schwerpunkt (sessionStorage) und
+  stellt sie nur bei Zurück-Navigation wieder her, frische Links beginnen vorne. Das X im
+  Finanzcheck selbst führte in die Präsentation; korrigiert in kai-blobel-website v1.65.2.
+- **Bürofoto nur, wenn hinterlegt.** Ohne `buero_foto_url` setzte das Portal das Porträt ein, in
+  Schritt 5 stand dann dasselbe Gesicht zweimal. Jetzt bleibt das Bild weg (`zeigeBuero` in
+  `js/app.js`). Kais Feld ist leer, das Bürofoto erscheint bei ihm erst nach dem Eintrag im Profil.
+- `js/app.js`: Rückfall-Foto für alle Porträts der Seite, Name des Empfehlungsgebers in
+  `data-von-text`, Kleinschreibung nach dem Empfängernamen ohne festes Wort. Wächter
+  `tests/empfaenger-persoenlich.test.mjs`; `empfaenger-mobile-first` und `empfaenger-formel-video`
+  auf den neuen Stand.
+
+---
 
 ## v1.373 Beta - Phase 358 · KIDZ-Anmeldeseite: Instagram und Facebook im Fuß
 **2026-09-11 · live veröffentlicht**

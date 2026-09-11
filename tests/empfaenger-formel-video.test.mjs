@@ -24,8 +24,10 @@ assert.match(html, /<b id="stepNow">1<\/b> \/ 6/);
 
 // --- Fest verdrahtete Schrittnummern im Skript: alle mitgewandert ---
 assert.match(html, /if\(next<1\|\|next>6\|\|next===step\)return;/, 'Obergrenze auf 6');
-assert.match(html, /if\(step===4\)setTimeout\(/, 'Profil-Aufbau haengt jetzt am Ergebnis-Kapitel 4');
-assert.match(html, /\.chapter\[data-step="3"\] \.chapter-lede/, 'Themenwahl ist Kapitel 3');
+// Seit dem Umbau "persönlicher" (11.09.2026) gibt es kein animiertes Profil in Kapitel 4
+// mehr. Neu fest verdrahtet: der gemerkte Schritt beim Zurückkommen aus dem Finanzcheck.
+assert.match(html, /alt\.step>1&&alt\.step<=6/, 'Gemerkter Schritt bleibt innerhalb der sechs Kapitel');
+assert.match(html, /<section class="chapter" data-step="3">[\s\S]*?class="chapter-lede"/, 'Themenwahl ist Kapitel 3');
 assert.match(html, /step===3&&!interest/, 'Pfeiltaste blockt weiter an der Themenwahl');
 
 // --- Nichts spielt von allein, nichts laedt ungefragt ---

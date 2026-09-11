@@ -517,7 +517,22 @@ if (page === 'empfaenger') {
   const bioFoto = document.getElementById('eBioFoto');
   const brandKey = params.get('berater') || (token ? `tok_${token}` : 'me');
   const sofort = gemerkterBerater(brandKey);
-  if (sofort) applyBeraterBrand(sofort);
+  if (sofort) { applyBeraterBrand(sofort); zeigeBuero(sofort); }
+
+  // Bürofoto in Schritt 5 nur, wenn der Berater eins hinterlegt hat. data-bb="buerofoto"
+  // setzt ohne Eintrag das Porträt ein, dann stand dasselbe Gesicht zweimal übereinander.
+  // Ohne Berater (Standard-Aufruf) bleibt das Bild aus dem HTML stehen.
+  function zeigeBuero(b) {
+    const el = document.getElementById('eBueroFoto');
+    if (!el || !b) return;
+    if (b.buero_foto_url) {
+      el.src = b.buero_foto_url;
+      el.alt = b.name ? `${b.name} im Büro` : '';
+      el.hidden = false;
+    } else {
+      el.hidden = true;
+    }
+  }
   // Das Kürzel für applyVorlage. Stand bis hierher nur im Block der
   // Empfehlen-Seite: Auf dieser Seite warf applyVorlage deshalb einen
   // ReferenceError, und alles danach (Empfehlerkarte, Anrufwunsch) lief nie.
@@ -598,13 +613,16 @@ if (page === 'empfaenger') {
     // damit die Portraits nicht leer bleiben.
     if (berater) {
       applyBeraterBrand(berater);
+      zeigeBuero(berater);
       merkeBerater(brandKey, berater);
       aktuellerBeraterSlug = berater.slug || aktuellerBeraterSlug;
       fremderBerater = window.ENV_BERATER_ID
         ? berater.id !== window.ENV_BERATER_ID
         : berater.slug !== 'kai-blobel';
     } else if (!sofort) {
-      [foto, bioFoto].forEach((el) => {
+      // Alle Porträts der Seite, nicht nur die zwei großen: Seit dem Entwurf
+      // "persönlicher" steht das Gesicht auch in Kopfzeile, Notiz und Anrufkarte.
+      [foto, bioFoto, ...document.querySelectorAll('img[data-bb="foto"]')].forEach((el) => {
         if (!el) return;
         el.src = window.ENV_BERATER_FOTO || '';
         el.alt = window.ENV_BERATER_NAME || '';
@@ -684,6 +702,7 @@ if (page === 'empfaenger') {
     const recipient = (d.empfaenger_name || '').trim().split(/\s+/)[0] || '';
     const promoterLabel = name || 'Dein Empfehlungsgeber';
     document.querySelectorAll('[data-promoter]').forEach((el) => { el.textContent = promoterLabel; });
+    if (name) document.querySelectorAll('[data-von-text]').forEach((el) => { el.textContent = `Eine Empfehlung von ${name}`; });
     const mark = document.querySelector('.recommendation-mark, .promoter-avatar:not([data-static-icon])');
     if (mark && name) mark.textContent = name.charAt(0).toUpperCase();
     const initial = document.getElementById('ePromoterInitial');
@@ -701,7 +720,8 @@ if (page === 'empfaenger') {
     const headlineStart = document.querySelector('[data-headline-start]');
     if (recipientPrefix && recipient) {
       recipientPrefix.textContent = `${recipient}, `;
-      if (headlineStart) headlineStart.textContent = 'ein';
+      // Erstes Wort nach dem Namen klein: "Lisa, schön, dass du da bist."
+      if (headlineStart) headlineStart.textContent = headlineStart.textContent.charAt(0).toLowerCase() + headlineStart.textContent.slice(1);
     }
   }
 
