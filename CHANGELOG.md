@@ -4,7 +4,7 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.367 Beta** · KIDZ-Anmeldeseite: Symbole in den Rahmen-Kacheln, live seit 11.09.2026.
 
 ## v1.367 Beta - Phase 352 · KIDZ-Anmeldeseite: Symbole in den Rahmen-Kacheln
-**2026-09-11**
+**2026-09-11 · live veröffentlicht**
 
 Kais Frage vom 11.09.2026: Symbole für Dauer, Kosten, Rahmen und Termin, damit es professioneller aussieht. Entschieden gegen Emojis (sehen auf jedem Gerät anders aus, wirken verspielt) und für schlichte Liniensymbole. Freigabe: „ja veröffentlichen".
 
