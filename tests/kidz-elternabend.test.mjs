@@ -127,6 +127,19 @@ assert.match(publicJs, /getBeraterPublicBySlug\(slug\)/);
 assert.match(publicJs, /applyBeraterBrand\(berater\)/);
 assert.match(publicJs, /!slug\.startsWith\('promoter-'\)/);
 assert.match(publicJs, /loadInvitingAdvisor\(\);/);
+// Themenkacheln: Liniensymbole statt Schriftzeichen (€, +, ◇), kompakt mit Symbol links.
+for (const thema of ['geld', 'gesundheit', 'absicherung']) {
+  assert.match(html, new RegExp(`<span class="kea-topic-icon kea-topic-icon-${thema}" aria-hidden="true"></span>`));
+  assert.match(css, new RegExp(`\\.kea-topics \\.kea-topic-icon-${thema} \\{ background-image: url\\("data:image/svg\\+xml,`));
+}
+assert.match(css, /\.kea-topic \{ display: grid; grid-template-columns: 44px minmax\(0, 1fr\);/);
+// Einziger Auszug aus der Konzeptseite: § 12 im Wortlaut, mit Sprung zum Abschnitt dort.
+// Er ersetzt den früheren Knopf "Zum ganzen KIDZ-Konzept" (Kai, 11.09.2026).
+assert.match(html, /<section class="kea-law" id="gesetz" aria-labelledby="keaLawTitle">/);
+assert.match(html, /„Die Leistungen müssen ausreichend, zweckmäßig und wirtschaftlich sein; sie dürfen das Maß des Notwendigen nicht überschreiten\.“/);
+assert.match(html, /href="\/kidz\/konzept#luecke"/);
+assert.doesNotMatch(html, /Zum ganzen KIDZ-Konzept|class="kea-more"/);
+assert.ok(html.indexOf('id="gesetz"') < html.indexOf('id="anmeldung"'));
 // "Und danach?" gehört allen, deshalb steht es bei den Themen und nicht beim Berater.
 assert.ok(html.indexOf('<strong>Und danach?</strong>') < html.indexOf('id="gastgeber"'));
 assert.match(publicJs, /'sommerfest-danke': 'Schön, dass ihr beim Sommerfest dabei wart\.'/);
