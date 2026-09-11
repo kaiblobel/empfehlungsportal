@@ -4,7 +4,7 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.363 Beta** · Rückblick mit Flyer und allen Gewinnen, live seit 11.09.2026.
 
 ## v1.363 Beta - Phase 348 · Rückblick mit Flyer und allen Gewinnen
-**2026-09-11**
+**2026-09-11 · live veröffentlicht**
 
 Kais Wunsch vom 11.09.2026 nachmittags: Die Dankeschön-Seite soll sich zum Teilen bei WhatsApp und Instagram eignen.
 
