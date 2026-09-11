@@ -1,5 +1,8 @@
-// Phase 363: Die Empfängerseite bekommt Farbe (Kais Wahl A „Farbige Kapitel",
-// 11.09.2026) und im Fuß Instagram und Facebook des Büros.
+// Phase 363: Die Empfängerseite bekommt Farbe und im Fuß Instagram und Facebook
+// des Büros.
+// Phase 364 (12.09.2026): Kais Farbrichtung ist Weiß, Blau und Grau. Weiß trägt
+// die Seite, Hellblau die Themenkarten und den Finanzcheck, Blau Information und
+// Auswahl, Hellgrau den Kontaktbereich, Gold nur die Hauptaktion.
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
@@ -8,16 +11,27 @@ const html = read('empfaenger.html');
 const brand = read('js/berater-brand.js');
 const sql = read('schema-phase363-buero-social.sql');
 
-/* --- 1) Jeder Schritt hat seine Fläche, Film und Anrufzeit stehen auf Petrol --- */
+/* --- 1) Weiß trägt die Seite, nur der Kontaktbereich steht auf Grau --- */
 
 for (const n of [1, 2, 3, 4, 5, 6]) {
   assert.match(html, new RegExp(`\\.chapter\\[data-step="${n}"\\][^{]*\\{background:`),
     `Schritt ${n} hat keine eigene Fläche.`);
 }
-assert.match(html, /\.chapter\[data-step="2"\],\.chapter\[data-step="6"\]\{background:var\(--petrol\)/);
-// Weiße Karten auf Petrol erben sonst die weiße Schrift.
-assert.match(html, /\.chapter\[data-step="6"\] \.decision-card,\.chapter\[data-step="6"\] \.status\{color:var\(--ink\)\}/,
-  'Die Anrufkarte auf Petrol braucht dunkle Schrift, sonst ist ihre Überschrift unsichtbar.');
+assert.match(html, /\.chapter\[data-step="6"\]\{background:var\(--grau-flaeche\)\}/,
+  'Der Kontaktbereich steht nicht auf der hellen Graufläche.');
+// Die Kontaktkarte darauf ist weiß mit feiner Goldkante.
+assert.match(html, /\.chapter\[data-step="6"\] \.decision-card\{background:#fff;[^}]*border-top:3px solid var\(--gold\)/,
+  'Die Kontaktkarte braucht weißen Grund und die Goldkante.');
+// Themenkarten hellblau, Auswahl in Blau mit heller Schrift.
+assert.match(html, /\.choice\{background:var\(--blau-hell\)/);
+assert.match(html, /\.choice\.selected\{background:var\(--petrol\);[^}]*color:#fff\}/,
+  'Die ausgewählte Themenkarte braucht Blau mit heller Schrift.');
+// Gold als Fläche schafft auf Weiß nur 2,3:1, taugt also nicht für den Fortschritt.
+assert.match(html, /\.progress i\.active,\.progress i\.done\{background:var\(--petrol\)\}/,
+  'Der Fortschritt gehört in Blau, nicht in Gold.');
+// Keine vorausgewählte Anrufzeit (Kais Vorgabe vom 12.09.2026).
+assert.doesNotMatch(html, /class="time selected"/, 'Es darf keine Zeit vorausgewählt sein.');
+assert.doesNotMatch(html, /<option value="Nachmittags \(14–17 Uhr\)" selected>/, 'Das versteckte Feld darf nichts vorwählen.');
 
 /* --- 2) Kontrast, gerechnet aus den Werten der Datei --- */
 
@@ -38,23 +52,28 @@ const kontrast = (a, b) => {
 
 const flaechen = {
   weiss: '#ffffff',
-  creme: wert('--flaeche-creme'),
-  'helles Petrol': wert('--flaeche-petrol-hell'),
-  'Gold-Creme': wert('--flaeche-gold'),
+  Hellblau: wert('--blau-hell'),
+  'Grau-Fläche': wert('--grau-flaeche'),
 };
 const paare = [];
 for (const [flaeche, grund] of Object.entries(flaechen)) {
-  paare.push([`Gold-Überschrift auf ${flaeche}`, wert('--gold-dark'), grund]);
+  paare.push([`Blau auf ${flaeche}`, wert('--petrol'), grund]);
   paare.push([`grauer Text auf ${flaeche}`, wert('--muted'), grund]);
   paare.push([`Schrift auf ${flaeche}`, wert('--ink'), grund]);
 }
-paare.push(['Weiß auf Petrol', '#ffffff', wert('--petrol')]);
-paare.push(['Hellgold auf Petrol', wert('--gold-hell'), wert('--petrol')]);
-paare.push(['Schrift auf dem Gold-Knopf', wert('--ink'), wert('--gold-knopf')]);
+paare.push(['Weiß auf Blau (ausgewählte Karte)', '#ffffff', wert('--petrol')]);
+paare.push(['Blau im blaugrauen Symbolfeld', wert('--petrol'), wert('--blau-grau')]);
+paare.push(['Schrift auf dem Gold-Knopf', wert('--auf-gold'), wert('--gold')]);
+paare.push(['Gold-Schrift auf Weiß', wert('--gold-dark'), '#ffffff']);
+paare.push(['Rand eines Bedienelements auf Weiß', wert('--rand'), '#ffffff']);
 
+// Text braucht 4,5:1. Für Ränder und Symbolflächen verlangt die Richtlinie 3:1,
+// sie tragen keine Schrift.
+const nurSymbol = /Symbolfeld|Rand eines Bedienelements/;
 for (const [was, vorne, grund] of paare) {
   const k = kontrast(vorne, grund);
-  assert.ok(k >= 4.5, `${was}: ${k.toFixed(2)}:1, verlangt sind 4,5:1 (${vorne} auf ${grund})`);
+  const soll = nurSymbol.test(was) ? 3 : 4.5;
+  assert.ok(k >= soll, `${was}: ${k.toFixed(2)}:1, verlangt sind ${soll}:1 (${vorne} auf ${grund})`);
 }
 
 /* --- 3) Im Fuß: Symbole des Büros, keine feste Adresse --- */
