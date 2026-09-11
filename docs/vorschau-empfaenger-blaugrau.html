@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Vorschau · Empfehlungsseite Weiß, Blau und Grau</title>
+  <!--
+    Klickbare Vorschau der Empfehlungsseite in Weiß, Blau und Grau
+    (Kais Farbvorgabe vom 12.09.2026, abgeleitet aus der Codex-Vorschau).
+
+    Bewusst eigenständig: Diese Datei bindet KEIN Projektskript ein (kein config.js,
+    app.js, berater-brand.js, referral-tracking.js, kein Supabase). Sie kann deshalb
+    technisch nichts senden, nichts buchen und nichts in die Datenbank schreiben.
+    Die Live-Seite empfaenger.html bleibt unberührt.
+
+    docs/ ist in .vercelignore, diese Vorschau wird also nicht veröffentlicht.
+
+    Texte: Entwurf von Codex vom 11.09.2026, an den heutigen Stand angepasst.
+
+    Farben nach Kais Vorgabe. Wo er Näherungen genannt hat, stehen hier die aus
+    seiner DVAG-Seite gemessenen Werte: Blau #00587c (dort blue-100), Hellblau
+    #e6eef2, Gold #c8aa22, Text #404040 und #4d4d4d, Flächen #f2f2f2, Radien
+    0 bis 4 px. Blaugrau #cedfe6 bleibt die Näherung aus der Vorschau, dafür
+    gibt es keinen belegten Hauswert. Hausschrift DVAG-Type wird NICHT
+    verwendet (lizenziert, nur für Angemeldete).
+  -->
+  <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <style>
+    @font-face{font-family:"Inter";src:url(../assets/fonts/inter-latin.woff2) format("woff2");font-weight:100 900;font-display:swap}
+    @font-face{font-family:"Petit Formal Script";src:url(../assets/fonts/petit-formal-script-latin.woff2) format("woff2");font-display:swap}
+
+    :root{
+      --weiss:#ffffff;
+      --blau:#00587c;          /* Information, Auswahl, Fortschritt */
+      --blau-dunkel:#004663;   /* Zeigefinger beim Überfahren */
+      --blau-hell:#e6eef2;     /* Themenkarten, Finanzcheck-Kasten */
+      --blau-grau:#cedfe6;     /* Symbolkreise */
+      --grau-flaeche:#f2f2f2;  /* Kontaktbereich */
+      --flaeche:#f7f7f7;
+      --flaeche-2:#f2f2f2;
+      --text:#404040;
+      --text-2:#4d4d4d;
+      --text-3:#5c5c5c;
+      --linie:#e0e0e0;
+      --linie-stark:#d9d9d9;
+      /* Ränder, die zu einem Bedienelement gehören, brauchen 3:1 gegen Weiß.
+         #cedfe6 schafft nur 1,3:1 und bleibt deshalb Fläche, nicht Rand. */
+      --rand:#7394a3;
+      --gold:#c8aa22;
+      --gold-schrift:#786614;
+      --gold-tief:#50440d;
+      --auf-gold:#2b2b2b;
+      --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+      --script:"Petit Formal Script",cursive;
+      --radius:3px;
+      --schatten:0 1px 2px rgba(0,0,0,.05);
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--weiss);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+    body{min-height:100vh;display:flex;flex-direction:column}
+    img{max-width:100%}
+    [hidden]{display:none !important}
+    a{color:var(--blau)}
+    :focus-visible{outline:3px solid var(--blau);outline-offset:3px}
+    /* Beim Schrittwechsel springt der Fokus auf die Überschrift, damit
+       Vorleseprogramme den neuen Schritt ansagen. Sichtbar sein muss er dort
+       nicht: Überschriften sind mit der Tabulatortaste nicht erreichbar. */
+    h1[tabindex="-1"]:focus,h2[tabindex="-1"]:focus{outline:none}
+
+    /* Kopfzeile */
+    .kopf{position:sticky;top:0;z-index:5;background:var(--weiss);border-bottom:1px solid var(--linie)}
+    .kopf-innen{max-width:1120px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:14px}
+    .marke{display:flex;align-items:center;gap:11px;min-width:0}
+    .marke img{width:40px;height:40px;border-radius:var(--radius);object-fit:cover;object-position:center 20%}
+    .marke b{display:block;font-size:14px;font-weight:650;line-height:1.25}
+    .marke span{display:block;font-size:12px;color:var(--text-3)}
+    .schrittzahl{margin-left:auto;font-size:12px;color:var(--text-3);white-space:nowrap}
+    .schrittzahl b{color:var(--text);font-size:14px}
+    .fortschritt{display:flex;gap:4px;margin-left:18px}
+    .fortschritt i{display:block;width:30px;height:3px;border-radius:2px;background:var(--linie-stark)}
+    /* Gold auf Weiß schafft als Fläche nur 2,3:1. Der Fortschritt ist
+       Information, also trägt ihn Blau mit 7,8:1. */
+    .fortschritt i.aktiv,.fortschritt i.fertig{background:var(--blau)}
+    @media(max-width:780px){.fortschritt{display:none}.kopf-innen{padding:10px 16px}}
+
+    /* Schritte */
+    main{flex:1}
+    .schritt{max-width:1120px;margin:0 auto;padding:40px 24px 56px}
+    .schritt[hidden]{display:none !important}
+    /* Feine Goldlinie vor der Zeile: der eine Gold-Akzent je Abschnitt. */
+    .eyebrow{display:flex;align-items:center;gap:10px;margin:0 0 12px;color:var(--blau);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+    .eyebrow:before{content:"";width:26px;height:2px;background:var(--gold);flex:0 0 auto}
+    h1{margin:0;font-size:clamp(32px,4vw,46px);line-height:1.1;letter-spacing:-.02em;font-weight:700}
+    h2{margin:0;font-size:clamp(26px,3vw,36px);line-height:1.15;letter-spacing:-.02em;font-weight:700}
+    .lede{max-width:560px;margin:16px 0 0;color:var(--text-2);font-size:17px;line-height:1.6}
+    .zwei{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:start}
+    @media(max-width:880px){
+      .zwei{grid-template-columns:1fr;gap:28px}
+      .schritt{padding:24px 16px 40px}
+      /* Am Handy steht das Gesicht vor dem Knopf, nicht dahinter. */
+      .schritt[data-schritt="1"] .zwei{display:flex;flex-direction:column}
+      .schritt[data-schritt="1"] .zwei>figure{order:-1}
+    }
+
+    /* Knöpfe */
+    .knopf{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:0 22px;border-radius:var(--radius);border:1px solid transparent;font:inherit;font-size:15px;font-weight:600;text-decoration:none;cursor:pointer}
+    .knopf-gold{background:var(--gold);border-color:var(--gold);color:var(--auf-gold)}
+    .knopf-gold:hover{background:#b89c1f;border-color:#b89c1f}
+    /* Gesperrt heißt neutral, nicht blasses Gold: Halbdurchsichtiges Gold liest
+       sich wie ein Anzeigefehler und der Text wird unlesbar. */
+    .knopf-gold:disabled{background:var(--flaeche-2);border-color:var(--linie-stark);color:var(--text-3);cursor:not-allowed}
+    .knopf-rand{background:var(--weiss);border-color:var(--rand);color:var(--blau)}
+    .knopf-rand:hover{border-color:var(--blau);background:var(--blau-hell)}
+    .knopf-text{background:none;border:0;padding:0;min-height:44px;color:var(--blau);font:inherit;font-size:14px;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+    .aktionen{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+    @media(max-width:520px){.aktionen{display:grid}.aktionen .knopf{width:100%}}
+    .mikro{margin:14px 0 0;color:var(--text-3);font-size:13px}
+    .mikro span+span:before{content:"·";margin:0 8px;color:var(--linie-stark)}
+
+    /* Karten und Flächen */
+    .karte{background:var(--weiss);border:1px solid var(--linie);border-radius:var(--radius);box-shadow:var(--schatten)}
+    .bildkarte img{display:block;width:100%;height:auto;border-radius:var(--radius) var(--radius) 0 0}
+    .bildzeile{padding:12px 16px;border-top:1px solid var(--linie);font-size:13px;color:var(--text-3)}
+    .bildzeile b{display:block;color:var(--text);font-size:15px;font-weight:650}
+
+    .sig{font-family:var(--script);font-size:22px;color:var(--gold-tief);line-height:1.1;margin-top:6px}
+
+    /* Notiz des Beraters */
+    .notiz{display:flex;gap:14px;align-items:flex-start;margin-top:24px;padding-left:16px;border-left:2px solid var(--gold)}
+    .notiz img{width:48px;height:48px;border-radius:var(--radius);object-fit:cover;object-position:center 18%;flex:0 0 auto}
+    .notiz p{margin:0;color:var(--text-2);font-size:16px;line-height:1.6}
+
+    /* Empfehlungskarte */
+    .empfehlung{max-width:560px;margin-top:22px;padding:16px 18px;background:var(--flaeche);border:1px solid var(--linie);border-radius:var(--radius)}
+    .empfehlung p{margin:0;font-size:16px;line-height:1.55}
+    .empfehlung small{display:block;margin-top:8px;color:var(--text-3);font-size:13px}
+    .band{display:inline-block;margin:0 0 18px;padding:6px 12px;background:var(--flaeche-2);border:1px solid var(--linie);border-radius:var(--radius);font-size:13px;font-weight:600;color:var(--text-2)}
+
+    /* Film */
+    .film{margin:0;border:1px solid var(--linie);border-radius:var(--radius);overflow:hidden;background:#1a1a1a;line-height:0}
+    .film video{display:block;width:100%;height:auto;aspect-ratio:16/9}
+
+    /* Themenwahl */
+    .themen{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
+    @media(max-width:880px){.themen{grid-template-columns:1fr}}
+    .thema{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:20px;text-align:left;background:var(--blau-hell);border:1px solid var(--blau-hell);border-radius:var(--radius);color:var(--text);font:inherit;cursor:pointer}
+    .thema:hover{border-color:var(--blau)}
+    /* Ausgewählt: blaue Fläche, helle Schrift, dazu ein Haken in Gold. */
+    .thema[aria-pressed="true"]{background:var(--blau);border-color:var(--blau);color:var(--weiss)}
+    .thema[aria-pressed="true"] .nummer{color:var(--weiss)}
+    .thema[aria-pressed="true"] p{color:#e6f0f5}
+    .thema[aria-pressed="true"] .symbol{background:#1a6b89;color:var(--weiss)}
+    .thema[aria-pressed="true"]:after{content:"✓";position:absolute;right:16px;top:16px;width:24px;height:24px;display:grid;place-items:center;background:var(--gold);color:var(--auf-gold);font-size:13px;font-weight:700;border-radius:var(--radius)}
+    .thema .symbol{display:grid;place-items:center;width:44px;height:44px;margin-bottom:6px;background:var(--blau-grau);color:var(--blau);border-radius:var(--radius)}
+    .thema .symbol svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+    .thema .nummer{color:var(--blau);font-size:11px;font-weight:700;letter-spacing:.1em}
+    .thema strong{font-size:17px;line-height:1.35;font-weight:650}
+    .thema p{margin:0;color:var(--text-3);font-size:14px;line-height:1.5}
+    .themen-fuss{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-top:22px;flex-wrap:wrap}
+    .themen-fuss p{margin:0;color:var(--text-2);font-size:15px}
+
+    /* Ablauf */
+    .ablauf{padding:22px;background:var(--blau-hell);border:1px solid var(--blau-hell);border-radius:var(--radius)}
+    .ablauf-kopf{display:flex;justify-content:space-between;align-items:center;gap:14px;padding-bottom:14px;border-bottom:1px solid #c2d5de}
+    .ablauf-kopf small{color:var(--blau);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+    .ablauf-kopf span{padding:5px 10px;background:var(--blau-grau);border:0;border-radius:var(--radius);font-size:12px;font-weight:600;color:var(--blau)}
+    .ablauf ol{list-style:none;margin:0;padding:0}
+    .ablauf li{display:grid;grid-template-columns:34px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid #c2d5de}
+    .ablauf li:last-child{border-bottom:0;padding-bottom:0}
+    .ablauf li i{width:34px;height:34px;display:grid;place-items:center;background:var(--blau-grau);border:0;border-radius:var(--radius);color:var(--blau);font-style:normal;font-weight:700;font-size:14px}
+    .ablauf li:last-child i{background:var(--blau);color:var(--weiss)}
+    .ablauf li b{display:block;font-size:16px}
+    .ablauf li span{display:block;margin-top:3px;color:var(--text-3);font-size:14px;line-height:1.5}
+
+    .reform{margin-top:16px;padding:16px 18px;background:var(--weiss);border:1px solid var(--linie-stark);border-left:3px solid var(--gold);border-radius:var(--radius)}
+    .reform-kicker{display:flex;align-items:center;gap:8px;color:var(--gold-schrift);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+    .reform-flagge{width:16px;height:11px;border-radius:1px;background:linear-gradient(to bottom,#171717 0 33.33%,#c83332 33.33% 66.66%,#e8b928 66.66%)}
+    .reform strong{display:block;margin-top:6px;font-size:17px;line-height:1.35}
+    .reform p{margin:6px 0 0;color:var(--text-3);font-size:12px;line-height:1.5}
+
+    /* Vorstellung */
+    .fakten{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:0;background:var(--linie);border-top:1px solid var(--linie)}
+    .fakt{padding:14px 16px;background:var(--weiss)}
+    .fakt b{display:block;color:var(--blau);font-size:20px;font-weight:700}
+    .fakt span{display:block;margin-top:2px;color:var(--text-3);font-size:12px;line-height:1.35}
+    .rezension{margin-top:22px;padding:18px 20px;background:var(--flaeche);border:1px solid var(--linie);border-radius:var(--radius)}
+    .sterne{color:var(--gold-tief);letter-spacing:2px;font-size:13px}
+    .rezension blockquote{margin:8px 0 10px;font-size:17px;line-height:1.5}
+    .rezension cite{font-style:normal;color:var(--text-3);font-size:12px}
+    .zusagen{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+    @media(max-width:880px){.zusagen{grid-template-columns:1fr}}
+    .zusage{padding:16px;border:1px solid var(--linie);border-radius:var(--radius)}
+    .zusage b{display:block;font-size:15px}
+    .zusage span{display:block;margin-top:4px;color:var(--text-3);font-size:14px;line-height:1.5}
+
+    /* Kontaktabschluss */
+    .wege{display:grid;gap:12px;margin-top:8px}
+    .weg{display:flex;align-items:center;gap:14px;min-height:72px;padding:16px 20px;border-radius:var(--radius);border:1px solid var(--rand);background:var(--weiss);color:var(--text);text-decoration:none;font:inherit;cursor:pointer;text-align:left}
+    .weg-gold{background:var(--gold);border-color:var(--gold);color:var(--auf-gold)}
+    .weg-gold:hover{background:#b89c1f;border-color:#b89c1f}
+    .weg-rand:hover{border-color:var(--blau);background:var(--blau-hell)}
+    .weg-rand svg{color:var(--blau)}
+    .weg svg{width:22px;height:22px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+    .weg b{display:block;font-size:16px;font-weight:650}
+    .weg span{display:block;margin-top:2px;font-size:13px;opacity:.85}
+    .hinweis{margin:14px 0 0;color:var(--text-3);font-size:13px}
+    details{margin-top:18px;border-top:1px solid var(--linie);padding-top:14px}
+    details+details{border-top:1px solid var(--linie)}
+    summary{cursor:pointer;font-size:15px;font-weight:600;color:var(--blau);min-height:44px;display:flex;align-items:center}
+    details p{margin:8px 0 0;color:var(--text-2);font-size:15px;line-height:1.6}
+
+    /* Fuß, ruhige Zeile über die Breite, keine schwebende Kapsel */
+    .fuss{border-top:1px solid var(--linie);background:var(--flaeche)}
+    .fuss-innen{max-width:1120px;margin:0 auto;padding:26px 24px 32px;display:flex;flex-wrap:wrap;gap:18px 34px;align-items:flex-start}
+    .fuss-sozial small{display:block;margin-bottom:8px;color:var(--text-3);font-size:13px}
+    .fuss-sozial nav{display:flex;gap:18px;flex-wrap:wrap}
+    .fuss-sozial a{display:inline-flex;align-items:center;gap:8px;min-height:44px;color:var(--text);font-size:14px;font-weight:600;text-decoration:none}
+    .fuss-sozial a:hover{color:var(--blau);text-decoration:underline;text-underline-offset:3px}
+    .fuss-sozial svg{width:18px;height:18px;fill:currentColor}
+    .fuss-recht{margin-left:auto;display:flex;flex-direction:column;gap:6px;text-align:right}
+    @media(max-width:780px){.fuss-recht{margin-left:0;text-align:left}.fuss-innen{padding:22px 16px 28px}}
+    .fuss-recht b{font-size:14px;font-weight:650}
+    .fuss-recht nav{display:flex;gap:16px}
+    .fuss-recht a{min-height:44px;display:inline-flex;align-items:center;color:var(--text-2);font-size:13px;text-decoration:none}
+    .fuss-recht a:hover{text-decoration:underline;text-underline-offset:3px}
+
+    /* Erklärdialog der Vorschau */
+    dialog{max-width:440px;width:calc(100% - 32px);padding:0;border:1px solid var(--linie-stark);border-radius:var(--radius);box-shadow:0 10px 40px rgba(0,0,0,.18)}
+    dialog::backdrop{background:rgba(0,0,0,.4)}
+    .dialog-innen{padding:24px}
+    .dialog-innen h3{margin:0 0 10px;font-size:19px}
+    .dialog-innen p{margin:0 0 18px;color:var(--text-2);font-size:15px;line-height:1.6}
+    .dialog-marke{color:var(--blau);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
+
+    /* Schritt 6 liegt auf hellem Grau, die Kontaktkarte darauf ist weiß mit
+       feiner Goldkante. Die Fläche kommt an den Körper, damit sie über die
+       ganze Breite läuft und nicht nur im Textbereich. */
+    body[data-aktiver-schritt="6"]{background:var(--grau-flaeche)}
+    body[data-aktiver-schritt="6"] .kopf{background:var(--weiss)}
+    body[data-aktiver-schritt="6"] .karte{border-top:3px solid var(--gold)}
+    body[data-aktiver-schritt="6"] .fuss{background:var(--grau-flaeche)}
+
+    /* Zurück-Zeile, im Fluss statt schwebend */
+    .zurueck-zeile{max-width:1120px;margin:0 auto;padding:0 24px 8px}
+    @media(max-width:780px){.zurueck-zeile{padding:0 16px 8px}}
+
+    @media(prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}
+  </style>
+</head>
+<body>
+  <header class="kopf">
+    <div class="kopf-innen">
+      <div class="marke">
+        <img id="markeFoto" alt="" hidden>
+        <div>
+          <b id="markeName">Team Wachsbleiche</b>
+          <span>Ein erster Blick auf deine Finanzen</span>
+        </div>
+      </div>
+      <div class="fortschritt" id="fortschritt" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <div class="schrittzahl"><b id="schrittJetzt">1</b> / 6</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1 · Willkommen -->
+    <section class="schritt" data-schritt="1" aria-label="Schritt 1 von 6">
+      <div class="zwei">
+        <div>
+          <p class="band" id="willkommenBand">Willkommen bei Team Wachsbleiche</p>
+          <h1>Schön, dass du da bist.</h1>
+          <p class="lede">Was passt bei deinen Finanzen schon gut, und wo lohnt sich ein genauer Blick? Finde heraus, womit du anfangen möchtest.</p>
+
+          <div class="empfehlung" id="empfehlungKarte" hidden>
+            <p id="empfehlungText">Anna hat dir diese Seite empfohlen.</p>
+            <small>Persönlich weitergegeben · Beispieldaten, keine echte Empfehlung</small>
+          </div>
+
+          <div class="notiz" id="notizEinstieg" hidden>
+            <img id="notizFoto" alt="">
+            <div>
+              <p id="notizText">Hallo, ich bin Kai. Hier lernst du mich und meine Arbeit kennen. Wenn du danach eine Frage hast, schreib mir einfach.</p>
+              <div class="sig" id="notizSignatur">Kai</div>
+            </div>
+          </div>
+
+          <p class="lede" id="notizNeutral" hidden>Diese Seite gehört dem Team der Regionaldirektion. Wer dich begleitet, steht fest, sobald du über den persönlichen Link einer Beraterin oder eines Beraters kommst.</p>
+
+          <div class="aktionen">
+            <button class="knopf knopf-gold" type="button" data-weiter>Zeig mir, worum es geht</button>
+          </div>
+          <p class="mikro"><span>Etwa 3 Minuten</span><span>Kostenlos ansehen</span></p>
+        </div>
+
+        <figure class="karte bildkarte" id="portraitKarte" style="margin:0" hidden>
+          <img id="portraitFoto" alt="">
+          <figcaption class="bildzeile"><b id="portraitName">Kai Blobel</b><span id="portraitRolle">Regionaldirektionsleiter · Deutsche Vermögensberatung</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 2 · Film -->
+    <section class="schritt" data-schritt="2" aria-label="Schritt 2 von 6" hidden>
+      <div class="zwei">
+        <div>
+          <p class="eyebrow">Anderthalb Minuten</p>
+          <h2>Deine persönliche Formel zum finanziellen Glück.</h2>
+          <p class="lede" id="filmText">Der Film zeigt dir, wie ich auf Finanzen schaue. Danach kannst du das Thema wählen, das dich gerade beschäftigt.</p>
+          <div class="aktionen">
+            <button class="knopf knopf-gold" type="button" data-weiter>Mein Thema wählen</button>
+          </div>
+          <p class="mikro"><span>1:28 Minuten</span><span>Ton an empfohlen</span></p>
+        </div>
+        <figure class="film" style="margin:0">
+          <video id="film" controls preload="none" playsinline
+                 poster="../assets/video/allgemein-persoenliche-formel-v5-poster.jpg"
+                 width="1280" height="720">
+            <source src="../assets/video/allgemein-persoenliche-formel-v5-720p.mp4" type="video/mp4">
+          </video>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 3 · Themenwahl -->
+    <section class="schritt" data-schritt="3" aria-label="Schritt 3 von 6" hidden>
+      <p class="eyebrow">Ein Gedanke genügt</p>
+      <h2>Womit sollen wir anfangen?</h2>
+      <p class="lede">Was beschäftigt dich gerade? Deine Auswahl legt fest, welchen Bereich du dir zuerst ansiehst.</p>
+      <div class="themen">
+        <button class="thema" type="button" data-thema="kosten" aria-pressed="false">
+          <span class="symbol" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="18"/><path d="M30.5 16.8a9 9 0 1 0 0 14.4M14 21.5h12M14 26.5h12"/></svg></span>
+          <span class="nummer">01 · GELD BEHALTEN</span>
+          <strong>Wo sich bei meinen Ausgaben etwas ändern lässt</strong>
+          <p>Steuern, Kosten und unnötige Doppelungen</p>
+        </button>
+        <button class="thema" type="button" data-thema="foerderung" aria-pressed="false">
+          <span class="symbol" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M9 21h30v19H9zM24 21v19M7 14h34v7H7z"/><path d="M24 14h-8c-4.5 0-4.5-6.5 0-6.5 4.5 0 8 6.5 8 6.5Zm0 0h8c4.5 0 4.5-6.5 0-6.5-4.5 0-8 6.5-8 6.5Z"/></svg></span>
+          <span class="nummer">02 · VORTEILE NUTZEN</span>
+          <strong>Welche Förderungen zu meiner Situation passen</strong>
+          <p>Staatliche Vorteile passend zu deiner Situation</p>
+        </button>
+        <button class="thema" type="button" data-thema="struktur" aria-pressed="false">
+          <span class="symbol" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="18" cy="20" r="10.5"/><circle cx="30" cy="20" r="10.5"/><circle cx="24" cy="30.5" r="10.5"/></svg></span>
+          <span class="nummer">03 · DAS GANZE SEHEN</span>
+          <strong>Wie Vorsorge, Vermögen und Schutz zusammenpassen</strong>
+          <p>Vorsorge, Vermögen und Schutz im Zusammenspiel</p>
+        </button>
+      </div>
+      <div class="themen-fuss">
+        <p id="themenRueckmeldung">Tipp einfach auf das, was dich am meisten interessiert.</p>
+        <button class="knopf knopf-gold" type="button" id="themaWeiter" data-weiter disabled>Meinen Schwerpunkt ansehen</button>
+      </div>
+    </section>
+
+    <!-- 4 · Schwerpunkt -->
+    <section class="schritt" data-schritt="4" aria-label="Schritt 4 von 6" hidden>
+      <div class="zwei">
+        <div>
+          <p class="eyebrow">Dein Schwerpunkt</p>
+          <h2 id="ergebnisUeberschrift">Dieses Thema möchtest du genauer betrachten.</h2>
+          <p class="lede" id="ergebnisText">Du beginnst mit deinem Schwerpunkt und schaust danach auf alles andere.</p>
+          <div class="aktionen">
+            <button class="knopf knopf-gold" type="button" data-dialog="check">Meine 7 Fragen starten</button>
+            <button class="knopf knopf-rand" type="button" data-weiter id="kennenlernenKnopf">Erst Kai kennenlernen</button>
+          </div>
+          <p class="mikro"><span>Etwa 3 Minuten</span><span>7 Fragen</span></p>
+          <p class="mikro"><button class="knopf-text" type="button" data-dialog="ueberblick">Lieber erst das ganze Bild ansehen</button></p>
+        </div>
+        <div>
+          <div class="ablauf">
+            <div class="ablauf-kopf"><small>So läuft dein Finanzcheck</small><span id="schwerpunktEtikett">Dein Schwerpunkt</span></div>
+            <ol>
+              <li><i>1</i><div><b>Sieben kurze Fragen</b><span>Etwa drei Minuten. Du brauchst keine Unterlagen.</span></div></li>
+              <li><i>2</i><div><b>Dein Ergebnis ansehen</b><span>Du siehst, welche Themen du näher prüfen kannst.</span></div></li>
+              <li><i>3</i><div><b>Deine Fragen mitbringen</b><span id="ablaufDrei">Wenn du möchtest, schauen wir uns dein Ergebnis zusammen an.</span></div></li>
+            </ol>
+          </div>
+          <aside class="reform">
+            <div class="reform-kicker"><span class="reform-flagge" aria-hidden="true"></span>Neu ab 2027</div>
+            <strong>Bis zu 540 € vom Staat, jedes Jahr bis zur Rente.</strong>
+            <p>Für Förderberechtigte bei entsprechendem Eigenbeitrag. Voraussetzungen beachten. <a href="https://www.bundestag.de/presse/hib/kurzmeldungen-1157838" target="_blank" rel="noopener noreferrer">Quelle: Deutscher Bundestag</a></p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 · Vorstellung -->
+    <section class="schritt" data-schritt="5" aria-label="Schritt 5 von 6" hidden>
+      <div class="zwei">
+        <div class="karte bildkarte" id="personKarte">
+          <img id="bueroFoto" src="../assets/images/praesentation/kai-buero-teamwand.jpg" alt="Blick in das Büro des Teams">
+          <div class="bildzeile"><b id="bueroName">Ein Hallo aus unserem Büro.</b><span id="bueroRolle"></span></div>
+          <div class="fakten" id="fakten">
+            <div class="fakt"><b>20+</b><span>Jahre Erfahrung in der Beratung</span></div>
+            <div class="fakt"><b>3.000+</b><span>betreute Haushalte</span></div>
+            <div class="fakt"><b>1:1</b><span>immer dieselbe Ansprechperson</span></div>
+          </div>
+        </div>
+        <div>
+          <p class="eyebrow">Dein Ansprechpartner</p>
+          <h2 id="vorstellungUeberschrift">Ich bin Kai. Und ich höre erst mal zu.</h2>
+          <p class="lede" id="vorstellungText">Bevor wir über Zahlen sprechen, möchte ich wissen, was du vorhast. Ein eigenes Zuhause? Mehr Geld zur Seite legen? Oder erst einmal wissen, wo du stehst? Du bringst deine Fragen mit. Gemeinsam schauen wir, was zu deinem Alltag passt.</p>
+
+          <div class="rezension" id="rezension">
+            <div class="sterne" aria-label="Fünf von fünf Sternen">★★★★★</div>
+            <blockquote>„Ich kann die Betreuung bei Kai Blobel jedem empfehlen, der Wert auf Substanz und Fachkompetenz legt und keine Lust auf heiße Luft hat."</blockquote>
+            <cite>Patrice Hempe · echte Google-Rezension 2026</cite>
+          </div>
+
+          <div class="zusagen">
+            <div class="zusage"><b>Unser erstes Gespräch</b><span>Du erzählst, was dich beschäftigt. Wir besprechen, welche Fragen wir gemeinsam angehen können.</span></div>
+            <div class="zusage"><b>Wie es weitergeht</b><span>Du entscheidest nach dem Kennenlernen, ob du einen weiteren Termin möchtest.</span></div>
+          </div>
+
+          <div class="aktionen">
+            <button class="knopf knopf-gold" type="button" data-weiter id="sprechenKnopf">Mit Kai sprechen</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 · Kennenlernen -->
+    <section class="schritt" data-schritt="6" aria-label="Schritt 6 von 6" hidden>
+      <div class="zwei">
+        <div>
+          <p class="eyebrow">Wenn du möchtest</p>
+          <h2>Lernen wir uns kennen?</h2>
+          <p class="lede" id="abschlussText">Du kannst direkt einen Termin wählen oder mir zuerst eine Frage schreiben. Such dir den Weg aus, der für dich passt.</p>
+          <div class="notiz" id="notizAbschluss" hidden>
+            <img id="abschlussFoto" alt="">
+            <div>
+              <p id="abschlussNotiz">Ich freue mich darauf, zu hören, was du vorhast.</p>
+              <div class="sig" id="abschlussSignatur">Kai</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="karte" style="padding:22px">
+          <p class="eyebrow" style="margin-bottom:6px">Dein nächster Schritt</p>
+          <p style="margin:0 0 16px;font-size:15px;color:var(--text-2)" id="abschlussMit">Mit Kai Blobel</p>
+
+          <div class="wege" id="wege">
+            <button class="weg weg-gold" type="button" data-dialog="termin">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="1"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+              <span><b>Termin auswählen</b><span>Du suchst dir einen passenden Zeitpunkt.</span></span>
+            </button>
+            <button class="weg weg-rand" type="button" data-dialog="frage">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.4L3 20.5l1.7-5.2A8.4 8.4 0 1 1 21 11.5Z"/></svg>
+              <span><b>Erst eine Frage schreiben</b><span id="frageZiel">Über WhatsApp direkt an Kai.</span></span>
+            </button>
+          </div>
+          <p class="hinweis">Du entscheidest, ob und wie wir Kontakt aufnehmen.</p>
+
+          <details>
+            <summary>Ich möchte erst einmal schauen</summary>
+            <p>Schön, dass du vorbeigeschaut hast. Wenn später eine Frage auftaucht, findest du mich wieder hier.</p>
+            <div class="aktionen" style="margin-top:14px">
+              <button class="knopf knopf-rand" type="button" id="zurueckThemen">Noch einmal zu den Themen</button>
+            </div>
+          </details>
+          <details>
+            <summary>Was besprechen wir beim Kennenlernen?</summary>
+            <p>Wir sprechen darüber, was dich zu mir führt und was du erreichen möchtest. Danach legen wir gemeinsam fest, welche Themen wir uns genauer anschauen.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="zurueck-zeile">
+    <button class="knopf-text" type="button" id="zurueck" hidden>← Zurück</button>
+  </div>
+
+  <footer class="fuss">
+    <div class="fuss-innen">
+      <div class="fuss-sozial" id="sozial">
+        <small>Mehr von uns im Alltag</small>
+        <nav aria-label="Unser Team in sozialen Netzwerken">
+          <a id="linkInstagram" href="#" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><circle cx="12" cy="12" r="3.8"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg>
+            Instagram
+          </a>
+          <a id="linkFacebook" href="#" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.8-.1-1.6-.15-2.4-.15-2.4 0-4.05 1.46-4.05 4.15v2.3H7.5V13h2.75v8z"/></svg>
+            Facebook
+          </a>
+        </nav>
+      </div>
+      <div class="fuss-recht">
+        <b id="fussName">Team Wachsbleiche</b>
+        <nav aria-label="Rechtliche Hinweise">
+          <a id="linkImpressum" href="#" target="_blank" rel="noopener noreferrer">Impressum</a>
+          <a id="linkDatenschutz" href="#" target="_blank" rel="noopener noreferrer">Datenschutz</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <dialog id="hinweisDialog" aria-labelledby="dialogTitel">
+    <div class="dialog-innen">
+      <div class="dialog-marke">Klickbare Vorschau</div>
+      <h3 id="dialogTitel">Vorschau</h3>
+      <p id="dialogText">In dieser Vorschau passiert nichts.</p>
+      <button class="knopf knopf-rand" type="button" id="dialogSchliessen">Zur Vorschau zurück</button>
+    </div>
+  </dialog>
+
+  <script src="vorschau-empfaenger-blaugrau.js"></script>
+</body>
+</html>
