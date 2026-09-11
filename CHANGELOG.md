@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.370 Beta** · Team-Logo auf der Promoter-Einstiegsseite, live seit 11.09.2026.
+Offizielle Live-Version: **v1.371 Beta** · KIDZ-Anmeldeseite: § 12 und kompakte Themenkacheln, live seit 11.09.2026.
+
+## v1.371 Beta - Phase 356 · KIDZ-Anmeldeseite: § 12 und kompakte Themenkacheln
+**2026-09-11**
+
+Zwei Wünsche von Kai vom 11.09.2026 für die Anmeldung zu KIDZ for Future, gemeinsam veröffentlicht. Freigabe: „freigabe für live". Die Nummern v1.368 bis v1.370 haben parallele Sitzungen am selben Nachmittag veröffentlicht, deshalb v1.371. Gebaut auf dem Zweig `konrad/kidz-elternabend-paragraf12` (`b156e9b`), für die Veröffentlichung auf den aktuellen main-Stand gesetzt als `konrad/kidz-elternabend-paragraf12-neu`.
+
+**§ 12 als einziger Auszug aus der Konzeptseite.** Zwischen Themen und Formular steht ein dunkelblaues Band mit goldgelber Linie: „Was die Kasse deinem Kind schuldet, steht im Gesetz." Darunter der Wortlaut von § 12 Absatz 1 SGB V mit Quellenangabe und der Satz, was das bei Krankenhaus, Zahnspange oder Brille bedeutet. „Weiterlesen auf der KIDZ-Seite" führt direkt zu `/kidz/konzept#luecke`. Der Knopf „Zum ganzen KIDZ-Konzept" ist dafür weggefallen, zwei Ausgänge zur selben Seite so dicht hintereinander hätten nur vom Formular weggeführt. Die Konzeptseite bleibt über die Kopfzeile am Rechner und den Seitenfuß erreichbar. Die 55-Euro-Rechnung und der KIDZ-Zug kommen bewusst nicht auf die Anmeldeseite.
+
+**Kompakte Themenkacheln.** Das Symbol steht links neben Stichwort und Frage statt darüber, Abstände und Überschrift sind kleiner. Statt der Schriftzeichen €, + und ◇ stehen Liniensymbole aus Lucide: Sparschwein, Herz mit Puls, Schild mit Haken (Lizenzvermerk in `assets/icons/baufi/CREDITS.md`). Keine zusätzlichen Farben, keine Hintergrundbilder. Die drei Kacheln zusammen sind am Handy mit 390 px 710 statt 1.018 px hoch, am Rechner jede 304 statt 391 px.
+
+Wächter: `tests/kidz-elternabend.test.mjs` prüft den § 12-Wortlaut, den Sprung zu `#luecke`, dass der alte Knopf nicht zurückkommt und die drei Kachelsymbole. Lokal geprüft auf 1440, 900, 390 und 360 px und mit dem Bedientest über alle Wege, ohne echte Anmeldung.
+
+Nebenbefund: Ein erster Testlauf brach mit „spawn UNKNOWN" in 23 Tests ab, weil der Rechner nur 0,6 GB freien Arbeitsspeicher und 0,8 GB freien Platz auf C: hatte. Mit `--test-concurrency=2` liefen alle Tests grün.
+
+---
 
 ## v1.370 Beta - Phase 355 · Team-Logo auf der Promoter-Einstiegsseite
 **2026-09-11 · live veröffentlicht**
