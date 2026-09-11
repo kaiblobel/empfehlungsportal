@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.369 Beta** · Rückblick: Cottbus Hüpft und Spende vom Kuchenbasar, live seit 11.09.2026.
+Offizielle Live-Version: **v1.370 Beta** · Team-Logo auf der Promoter-Einstiegsseite, live seit 11.09.2026.
+
+## v1.370 Beta - Phase 355 · Team-Logo auf der Promoter-Einstiegsseite
+**2026-09-11**
+
+Kais Wunsch vom 11.09.2026 an zwei Bildschirmfotos der Einstiegsseite für Promoter (`promoter-start.html`): „hier noch den Platzhalter gegen unser Logo tauschen und unten in der Fußzeile auch".
+
+**Team-Logo statt Initialen.** Im Kopf stand ein Kreis mit den Initialen des Beraters (`data-bb="initialen"`, bei Kai „KB", bei David Stamm „DS"). Jetzt steht dort das Team-Wachsbleiche-Emblem (`team-wachsbleiche-marke-96.webp`, dasselbe wie auf der Anmeldeseite). Im Fuß steht es jetzt ebenfalls, links neben Name und „Deutsche Vermögensberatung", in einer eigenen 160-Pixel-Fassung (`team-wachsbleiche-marke-160.webp`, 7 KB, aus dem großen Emblem erzeugt), damit es am Handy scharf bleibt. Das Team-Logo passt für jeden Partner; der Name im Fuß kommt weiter aus dem Beraterprofil.
+
+**Nebenbei behoben:** Im Fuß stand „& Team" in einer eigenen Zeile unter dem Namen. Ursache war die Regel `.ps-footer span:last-child`, gedacht für den Linkblock rechts. Sie traf auch das Namens-span im `<strong>`, weil es dort das letzte Kind ist, und machte es zum Flex-Block. Jetzt `.ps-footer > :last-child`, und der Text neben dem Logo steht in einem `div`.
+
+Wächter: `tests/promoter-start-logo.test.mjs`.
+
+---
 
 ## v1.369 Beta - Phase 354 · Rückblick: Cottbus Hüpft und Spende vom Kuchenbasar
 **2026-09-11**

@@ -10,14 +10,14 @@
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/svg+xml" href="/assets/icons/icon.svg" />
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="/css/promoter-start.css?v=4">
+  <link rel="stylesheet" href="/css/promoter-start.css?v=5">
   <script src="/js/config.js"></script>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 </head>
 <body>
   <header class="ps-header">
     <a class="ps-brand" href="/programm.html" aria-label="Zur Präsentation">
-      <span class="ps-mark" data-bb="initialen" aria-hidden="true">KB</span>
+      <img class="ps-mark ps-mark-logo" src="/assets/images/team-wachsbleiche-marke-96.webp" alt="" width="96" height="96">
       <span><strong>Empfehlungsportal</strong><small><span data-bb="name">Kai Blobel</span> &amp; Team</small></span>
     </a>
     <a class="ps-existing" id="psExistingLink" href="#vorhandener-bereich">Mein vorhandener Bereich</a>
@@ -98,7 +98,12 @@
   </dialog>
 
   <footer class="ps-footer">
-    <span><strong><span data-bb="name">Kai Blobel</span> &amp; Team</strong><br>Deutsche Vermögensberatung</span>
+    <!-- Team-Logo statt reinem Text (Kais Wunsch vom 11.09.2026). Bewusst div statt
+         span: ".ps-footer > :last-child" meint nur den Linkblock. -->
+    <div class="ps-footer-marke">
+      <img src="/assets/images/team-wachsbleiche-marke-160.webp" alt="Team Wachsbleiche" width="160" height="160" loading="lazy">
+      <div><strong><span data-bb="name">Kai Blobel</span> &amp; Team</strong><br>Deutsche Vermögensberatung</div>
+    </div>
     <span><a data-bb="impressum" href="#" target="_blank" rel="noopener">Impressum</a><a data-bb="datenschutz" href="#" target="_blank" rel="noopener">Datenschutz</a></span>
   </footer>
 
