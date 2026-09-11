@@ -612,4 +612,4 @@ summary{ font-size: 15px; font-weight: 600; }
 }
 
 /* Abmelden auf diesem Gerät, unauffällig im Fuß der Seite. */
-.footer .footer-abmelden { display: inline-flex; margin-top: 14px; }
+.footer .footer-abmelden { display: flex; width: max-content; margin: 14px auto 0; }
