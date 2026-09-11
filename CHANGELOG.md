@@ -4,7 +4,7 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.362 Beta** · Abmelden von KIDZ-Mails, live seit 11.09.2026.
 
 ## v1.362 Beta - Phase 347 · Abmelden von KIDZ-Mails
-**2026-09-11**
+**2026-09-11 · live veröffentlicht**
 
 **Wer keine KIDZ-Mails mehr will, meldet sich mit einem Klick ab.** Am 11.09.2026 geht die erste KIDZ-Mail an alle Gewinnspiel-Teilnehmer mit Mailadresse. Jede Mail trägt einen persönlichen Link auf `/kidz/abmelden/<Schlüssel>` und denselben Link im Mailkopf (`List-Unsubscribe`), damit Gmail seinen eigenen Abbestellen-Knopf zeigen kann. Die Seite fragt einmal nach („Ja, abmelden") und trägt dann die Mailadresse aus, alle Einträge mit derselben Adresse zugleich. Abgemeldet wird bewusst erst per Klick: Virenscanner öffnen Links aus Mails vorab, ein Abmelden schon beim Laden würde Menschen ungefragt austragen.
 
