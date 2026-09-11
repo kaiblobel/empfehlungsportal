@@ -14,7 +14,7 @@ import {
   supabase,
 } from './supabase.js';
 import { ICONS } from './icons.js';
-import { applyBeraterBrand, merkeBerater, gemerkterBerater } from './berater-brand.js';
+import { applyBeraterBrand, merkeBerater, gemerkterBerater, setzeProfile } from './berater-brand.js';
 
 const page = document.body.dataset.page;
 
@@ -627,6 +627,17 @@ if (page === 'empfaenger') {
         el.src = window.ENV_BERATER_FOTO || '';
         el.alt = window.ENV_BERATER_NAME || '';
       });
+    }
+
+    // Phase 363 · Instagram und Facebook des Büros. Über Token und ?berater=
+    // bringt get_berater_public sie mit. Kommt der Berater aus der Anmeldung
+    // (Vorschau) oder gar keiner (Aufruf ohne Link), fehlen sie im Datensatz.
+    // Dann nur die Profile nachholen, der Rest der Seite bleibt, wie er ist.
+    const profilQuelle = berater || sofort;
+    if (!profilQuelle || !('instagram_url' in profilQuelle)) {
+      const id = profilQuelle?.id || window.ENV_BERATER_ID;
+      const profil = id ? (await getBeraterPublicById(id)).data : null;
+      setzeProfile(profil);
     }
 
     const slugResolved = (urlVorlage || empData?.vorlage_slug || 'allgemein').toLowerCase();
