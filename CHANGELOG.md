@@ -4,7 +4,7 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.360 Beta** · Nur Fertiges im Schaufenster, live seit 11.09.2026.
 
 ## v1.360 Beta - Phase 345 · Nur Fertiges im Schaufenster
-**2026-09-11**
+**2026-09-11 · live veröffentlicht**
 
 Kais Leitlinie vom 11.09.2026: Kein Interessent sieht eine Seite, die nicht fertig ist oder nicht richtig funktioniert.
 
