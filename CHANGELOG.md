@@ -4,7 +4,7 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.365 Beta** · KIDZ-Anmeldeseite im Look der Konzeptseite, live seit 11.09.2026.
 
 ## v1.365 Beta - Phase 350 · KIDZ-Anmeldeseite im Look der Konzeptseite
-**2026-09-11**
+**2026-09-11 · live veröffentlicht**
 
 Kais Auftrag vom 11.09.2026: Die Anmeldung zu KIDZ for Future (`kidz-elternabend.html`, `/kidz/elternabend`) soll sichtbar zur Konzeptseite gehören, persönlicher wirken und Eltern einfach zur Vormerkung führen. Kai hat die Vorschau abgenommen („ok freigabe und live").
 
