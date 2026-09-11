@@ -46,29 +46,29 @@
   const pathData = {
     elternabend: {
       title: 'KIDZ for Future vormerken',
-      intro: 'Sie möchten beim nächsten passenden Termin von KIDZ for Future gern dabei sein. Termin und Ort bestätigen Sie später in Ruhe.',
+      intro: 'Du möchtest beim nächsten passenden Termin von KIDZ for Future gern dabei sein. Termin und Ort bestätigst du später in Ruhe.',
       number: '01',
       choice: 'Teilnahme vormerken',
       detail: 'Noch keine feste Zusage und ohne Beratungspflicht',
-      contactTitle: 'So kurz merken Sie sich vor.',
+      contactTitle: 'So schnell bist du vorgemerkt.',
       consent: 'Ich möchte einmalig zu meiner Teilnahmevormerkung kontaktiert werden.'
     },
     termininfo: {
       title: 'Nur Termininfo erhalten',
-      intro: 'Sie erhalten einmalig Datum und Ort, ohne dass Ihre Teilnahme vorgemerkt wird.',
+      intro: 'Du erhältst einmalig Datum und Ort, ohne dass deine Teilnahme vorgemerkt wird.',
       number: '02',
       choice: 'Einmalig informieren lassen',
       detail: 'Keine Vormerkung und keine weitere Kontaktfolge',
-      contactTitle: 'So kurz erhalten Sie die Termininfo.',
+      contactTitle: 'So kurz erhältst du die Termininfo.',
       consent: 'Ich möchte einmalig Datum und Ort des nächsten KIDZ for Future erhalten.'
     },
     gespraech: {
       title: 'Persönlich sprechen',
-      intro: 'Sie möchten Ihre Fragen lieber direkt mit einem Ansprechpartner sortieren.',
+      intro: 'Du möchtest deine Fragen lieber direkt mit einem Ansprechpartner sortieren.',
       number: '03',
       choice: 'Gespräch anfragen',
-      detail: 'Persönlich, verständlich und in Ihrem Tempo',
-      contactTitle: 'So kurz fragen Sie ein Gespräch an.',
+      detail: 'Persönlich, verständlich und in deinem Tempo',
+      contactTitle: 'So kurz fragst du ein Gespräch an.',
       consent: 'Ich möchte einmalig wegen eines persönlichen Gesprächs kontaktiert werden.'
     }
   };
@@ -176,7 +176,7 @@
   if (nameFeld && nameAusgabe) {
     nameFeld.addEventListener('input', () => {
       const wert = nameFeld.value.trim().slice(0, 24);
-      nameAusgabe.textContent = wert || 'Ihr Kind';
+      nameAusgabe.textContent = wert || 'dein Kind';
     });
   }
 
@@ -359,14 +359,14 @@
   }, { passive: true });
 
   const trainData = {
-    vermoegen: { number: '01', label: 'Vermögensaufbau', title: 'Was kann Zeit für Ihr Kind möglich machen?', text: 'Ein kleiner Betrag bekommt eine große Wirkung, wenn er früh beginnt. Eltern legen den Grundstein, später kann das Kind selbst weiterbauen.', bullets: ['Früh starten statt später aufholen', 'Geld im Familienalltag verständlich machen'], question: 'Wie viel Freiheit kann ein früher Start später schenken?', link: 'Die Beispielrechnung ansehen', target: '#vermoegensaufbau' },
-    gesundheit: { number: '02', label: 'Gesundheit früh sichern', title: 'Welche Möglichkeiten kann der heutige Gesundheitszustand bewahren?', text: 'Bei Kindern sprechen wir nicht über einen Beruf. Wir sprechen darüber, dass sich Gesundheit verändern kann und spätere Möglichkeiten davon abhängen können.', bullets: ['Die U4 als frühen Orientierungspunkt kennen', 'Spätere Wahlmöglichkeiten im Blick behalten'], question: 'Welche Türen sollen für Ihr Kind auch später noch offenstehen?', link: 'Das VIP-Ticket verstehen', target: '#vip-ticket' },
-    schule: { number: '03', label: 'Schulunfähigkeit', title: 'Was passiert, wenn Schule für längere Zeit nicht möglich ist?', text: 'Krankheit oder Pflegebedürftigkeit können den vertrauten Bildungsweg unterbrechen. Dann geht es darum, dem Kind Zeit und der Familie Stabilität zu geben.', bullets: ['Längere Ausfälle mitdenken', 'Entwicklung und Betreuung absichern'], question: 'Wie soll Ihr Kind aufgefangen werden, wenn der normale Weg pausiert?', link: 'Gesundheit früh betrachten', target: '#gesundheit-frueh' },
-    versorgung: { number: '04', label: 'Versorgerschutz', title: 'Wie bleibt Ihre Familie handlungsfähig, wenn plötzlich vieles anders ist?', text: 'Eine schwere Erkrankung oder dauerhafte Einschränkung betrifft nie nur das Kind. Zeit, Betreuung und Umbauten können auch Eltern finanziell fordern.', bullets: ['Die Familie als Ganzes betrachten', 'Langfristige Unterstützung früh einordnen'], question: 'Was würde Ihrer Familie helfen, wenn Betreuung plötzlich Vorrang hat?', link: 'Gesundheit früh betrachten', target: '#gesundheit-frueh' },
-    ambulant: { number: '05', label: 'Ambulante Versorgung', title: 'Welche Wege zur Gesundheit sollen Ihrem Kind offenstehen?', text: 'Manchmal wünschen Eltern mehr als die vorgesehene Grundversorgung, etwa bei Vorsorge, alternativen Behandlungen oder einer schnellen ärztlichen Einschätzung.', bullets: ['Vorsorge und zusätzliche Wege verstehen', 'Schnelle Hilfe im Familienalltag mitdenken'], question: 'Wie frei möchten Sie bei der Behandlung Ihres Kindes entscheiden können?', link: 'Das Kassenprinzip verstehen', target: '#luecke' },
-    stationaer: { number: '06', label: 'Stationäre Versorgung', title: 'Welche Wahl soll Ihre Familie im Krankenhaus haben?', text: 'Im Ernstfall zählt nicht nur, dass behandelt wird. Klinik, ärztliche Betreuung und die Nähe eines Elternteils können für Familien einen spürbaren Unterschied machen.', bullets: ['Freie Klinikwahl verständlich prüfen', 'Begleitung und Unterbringung mitdenken'], question: 'Wer soll entscheiden, was in einem schweren Moment für Ihr Kind das Beste ist?', link: 'Das Krankenhausbeispiel ansehen', target: '#luecke' },
-    zaehne: { number: '07', label: 'Zähne und Sehhilfe', title: 'Was ist ausreichend, und was wünschen Sie sich darüber hinaus?', text: 'Krankenkassen sichern eine notwendige Grundversorgung. KIDZ zeigt verständlich, an welchen Stellen Familien eigene Wahlmöglichkeiten wichtig werden können.', bullets: ['Kieferorthopädie früh einordnen', 'Sehhilfen und zusätzliche Wege verstehen'], question: 'Welche Behandlung soll Ihr Kind bekommen können, wenn Standard nicht Ihr Maßstab ist?', link: 'Das Kassenprinzip verstehen', target: '#luecke' },
-    alltag: { number: '08', label: 'Sicher im Kinderalltag', title: 'Was hilft Ihrer Familie, wenn beim Entdecken etwas passiert?', text: 'Kinder spielen, klettern und probieren sich aus. Wenn dabei ein Unfall passiert, geht es darum, was Ihr Kind für Genesung, Entwicklung und einen möglichst normalen Alltag braucht.', bullets: ['Hilfe, Betreuung und Alltag gemeinsam betrachten', 'Mögliche Folgen für die Entwicklung einordnen'], question: 'Was braucht Ihr Kind, damit nach einem Unfall möglichst viel Alltag zurückkehrt?', link: 'Gesundheit als Ganzes ansehen', target: '#gesundheit-frueh' }
+    vermoegen: { number: '01', label: 'Vermögensaufbau', title: 'Was kann Zeit für dein Kind möglich machen?', text: 'Ein kleiner Betrag bekommt eine große Wirkung, wenn er früh beginnt. Eltern legen den Grundstein, später kann das Kind selbst weiterbauen.', bullets: ['Früh starten statt später aufholen', 'Geld im Familienalltag verständlich machen'], question: 'Wie viel Freiheit kann ein früher Start später schenken?', link: 'Die Beispielrechnung ansehen', target: '#vermoegensaufbau' },
+    gesundheit: { number: '02', label: 'Gesundheit früh sichern', title: 'Welche Möglichkeiten kann der heutige Gesundheitszustand bewahren?', text: 'Bei Kindern sprechen wir nicht über einen Beruf. Wir sprechen darüber, dass sich Gesundheit verändern kann und spätere Möglichkeiten davon abhängen können.', bullets: ['Die U4 als frühen Orientierungspunkt kennen', 'Spätere Wahlmöglichkeiten im Blick behalten'], question: 'Welche Türen sollen für dein Kind auch später noch offenstehen?', link: 'Das VIP-Ticket verstehen', target: '#vip-ticket' },
+    schule: { number: '03', label: 'Schulunfähigkeit', title: 'Was passiert, wenn Schule für längere Zeit nicht möglich ist?', text: 'Krankheit oder Pflegebedürftigkeit können den vertrauten Bildungsweg unterbrechen. Dann geht es darum, dem Kind Zeit und der Familie Stabilität zu geben.', bullets: ['Längere Ausfälle mitdenken', 'Entwicklung und Betreuung absichern'], question: 'Wie soll dein Kind aufgefangen werden, wenn der normale Weg pausiert?', link: 'Gesundheit früh betrachten', target: '#gesundheit-frueh' },
+    versorgung: { number: '04', label: 'Versorgerschutz', title: 'Wie bleibt deine Familie handlungsfähig, wenn plötzlich vieles anders ist?', text: 'Eine schwere Erkrankung oder dauerhafte Einschränkung betrifft nie nur das Kind. Zeit, Betreuung und Umbauten können auch Eltern finanziell fordern.', bullets: ['Die Familie als Ganzes betrachten', 'Langfristige Unterstützung früh einordnen'], question: 'Was würde deiner Familie helfen, wenn Betreuung plötzlich Vorrang hat?', link: 'Gesundheit früh betrachten', target: '#gesundheit-frueh' },
+    ambulant: { number: '05', label: 'Ambulante Versorgung', title: 'Welche Wege zur Gesundheit sollen deinem Kind offenstehen?', text: 'Manchmal wünschen Eltern mehr als die vorgesehene Grundversorgung, etwa bei Vorsorge, alternativen Behandlungen oder einer schnellen ärztlichen Einschätzung.', bullets: ['Vorsorge und zusätzliche Wege verstehen', 'Schnelle Hilfe im Familienalltag mitdenken'], question: 'Wie frei möchtest du bei der Behandlung deines Kindes entscheiden können?', link: 'Das Kassenprinzip verstehen', target: '#luecke' },
+    stationaer: { number: '06', label: 'Stationäre Versorgung', title: 'Welche Wahl soll deine Familie im Krankenhaus haben?', text: 'Im Ernstfall zählt nicht nur, dass behandelt wird. Klinik, ärztliche Betreuung und die Nähe eines Elternteils können für Familien einen spürbaren Unterschied machen.', bullets: ['Freie Klinikwahl verständlich prüfen', 'Begleitung und Unterbringung mitdenken'], question: 'Wer soll entscheiden, was in einem schweren Moment für dein Kind das Beste ist?', link: 'Das Krankenhausbeispiel ansehen', target: '#luecke' },
+    zaehne: { number: '07', label: 'Zähne und Sehhilfe', title: 'Was ist ausreichend, und was wünschst du dir darüber hinaus?', text: 'Krankenkassen sichern eine notwendige Grundversorgung. KIDZ zeigt verständlich, an welchen Stellen Familien eigene Wahlmöglichkeiten wichtig werden können.', bullets: ['Kieferorthopädie früh einordnen', 'Sehhilfen und zusätzliche Wege verstehen'], question: 'Welche Behandlung soll dein Kind bekommen können, wenn Standard nicht dein Maßstab ist?', link: 'Das Kassenprinzip verstehen', target: '#luecke' },
+    alltag: { number: '08', label: 'Sicher im Kinderalltag', title: 'Was hilft deiner Familie, wenn beim Entdecken etwas passiert?', text: 'Kinder spielen, klettern und probieren sich aus. Wenn dabei ein Unfall passiert, geht es darum, was dein Kind für Genesung, Entwicklung und einen möglichst normalen Alltag braucht.', bullets: ['Hilfe, Betreuung und Alltag gemeinsam betrachten', 'Mögliche Folgen für die Entwicklung einordnen'], question: 'Was braucht dein Kind, damit nach einem Unfall möglichst viel Alltag zurückkehrt?', link: 'Gesundheit als Ganzes ansehen', target: '#gesundheit-frueh' }
   };
   const trainButtons = Array.from(document.querySelectorAll('[data-car]'));
   const trainDetail = document.getElementById('train-detail');

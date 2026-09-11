@@ -1,3 +1,8 @@
+// Die Sommerfest-Seite ist seit Phase 346 (11.09.2026) der Rückblick nach dem Fest
+// am 06.09.2026. Vorher hielt dieser Test die Einladung fest (Flyer, Anmeldung,
+// Gewinnspiel). Jetzt: Danke, Auflösung, Dank an die Helfer, Vormerken für
+// KIDZ for Future. Die Adressen und Sprungmarken bleiben, weil Flyer, QR-Codes
+// und alte Links weiter auf /kidz/sommerfest#sommerfest und #gewinnspiel zeigen.
 import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
 
@@ -9,42 +14,51 @@ const [html, css, js, vercel] = await Promise.all([
   read('vercel.json'),
 ]);
 
-const eventFlyer = await stat(new URL('../assets/images/kidz-sommerfest-flyer.jpg', import.meta.url));
-const prizeFlyer = await stat(new URL('../assets/images/kidz-sommerfest-gewinnspiel-v2.png', import.meta.url));
 const organizerLogo = await stat(new URL('../assets/images/team-wachsbleiche-petrol.jpeg', import.meta.url));
 const factIcons = await Promise.all([
   'kidz-calendar.svg',
-  'kidz-clock.svg',
   'kidz-location.svg',
   'kidz-ticket.svg',
 ].map((name) => stat(new URL(`../assets/icons/${name}`, import.meta.url))));
 const vercelConfig = JSON.parse(vercel);
 const hasHost = (entry, host) => entry.has?.some((condition) => condition.type === 'host' && condition.value === host);
 
-const eventIndex = html.indexOf('id="sommerfest"');
-const prizeIndex = html.indexOf('id="gewinnspiel"');
-const registrationIndex = html.indexOf('3 · Die Anmeldung');
+// Reihenfolge: Danke, Auflösung, Helfer, wie es weitergeht.
+const dankeIndex = html.indexOf('id="sommerfest"');
+const aufloesungIndex = html.indexOf('id="gewinnspiel"');
+const helferIndex = html.indexOf('kf-section-partner');
+const weiterIndex = html.indexOf('Wie es weitergeht');
+assert.ok(dankeIndex >= 0, 'Sprungmarke #sommerfest fehlt, alte Links laufen ins Leere');
+assert.ok(aufloesungIndex > dankeIndex, 'Sprungmarke #gewinnspiel muss bei der Auflösung stehen');
+assert.ok(helferIndex > aufloesungIndex);
+assert.ok(weiterIndex > helferIndex);
 
-assert.ok(eventIndex >= 0);
-assert.ok(prizeIndex > eventIndex);
-assert.ok(registrationIndex > prizeIndex);
-assert.match(html, /Kinder-Sommerfest für die ganze Familie/);
+// Inhalt wie in der Dankesmail an die KIDZ-Familien.
+assert.match(html, /Danke, dass ihr dabei wart!/);
+assert.match(html, /Über 700 Menschen/);
+assert.match(html, /314 cm/);
+assert.match(html, /12 von euch lagen genau richtig/);
 assert.match(html, /6\. September 2026/);
-assert.match(html, /10:00 bis 15:00 Uhr/);
 assert.match(html, /Kutzeburger Mühle/);
-assert.match(html, /Eintritt kostenlos/);
+assert.match(html, /Spreewald Survival/);
+assert.match(html, /href="https:\/\/www\.instagram\.com\/team_wachsbleiche\/"/);
+assert.match(html, /href="https:\/\/www\.facebook\.com\/people\/Team-Wachsbleiche\/61594233901851\/"/);
+assert.match(html, /href="\/kidz\/elternabend\?quelle=sommerfest-danke"/);
 assert.match(html, /class="kf-fact kf-fact-date"/);
-assert.match(html, /class="kf-fact kf-fact-time"/);
 assert.match(html, /class="kf-fact kf-fact-place"/);
 assert.match(html, /class="kf-fact kf-fact-free"/);
 assert.match(html, /assets\/icons\/kidz-calendar\.svg/);
-assert.match(html, /assets\/icons\/kidz-clock\.svg/);
 assert.match(html, /assets\/icons\/kidz-location\.svg/);
 assert.match(html, /assets\/icons\/kidz-ticket\.svg/);
-assert.match(html, /assets\/images\/kidz-sommerfest-flyer\.jpg/);
-assert.match(html, /assets\/images\/kidz-sommerfest-gewinnspiel-v2\.png/);
-assert.match(html, /Jetzt kostenlos anmelden/);
-assert.match(html, /data-registration-link/);
+
+// Nach dem Fest lädt nichts mehr zur Anmeldung ein.
+assert.doesNotMatch(html, /data-registration-link/, 'Anmeldeknöpfe gehören nicht mehr auf den Rückblick');
+assert.doesNotMatch(html, /Jetzt (kostenlos )?(anmelden|mitmachen)/);
+assert.doesNotMatch(html, /10:00 bis 15:00 Uhr/);
+assert.doesNotMatch(html, /Eintritt (&amp; Teilnahme )?kostenlos/);
+// Keine typografischen Gedankenstriche im sichtbaren Text.
+assert.doesNotMatch(html.replace(/<!--[\s\S]*?-->/g, ''), /[–—]/);
+
 assert.match(html, /class="kf-footer" id="veranstalter"/);
 assert.match(html, /class="kf-organizer"/);
 assert.match(html, /assets\/images\/team-wachsbleiche-petrol\.jpeg/);
@@ -52,24 +66,24 @@ assert.match(html, /alt="Team Wachsbleiche · Kai Blobel &amp; Team"/);
 assert.match(html, /property="og:image" content="https:\/\/kidz\.teamwachsbleiche\.de\/assets\/images\/kidz-vorschau-sommerfest\.jpg"/);
 assert.match(html, /property="og:image:width" content="1200"/);
 assert.match(html, /property="og:image:height" content="630"/);
-assert.ok(eventFlyer.size > 400_000);
-assert.ok(prizeFlyer.size > 2_000_000);
 assert.ok(organizerLogo.size > 300_000);
 assert.ok(factIcons.every((icon) => icon.size > 300));
 
 assert.match(css, /\.kf-section-event/);
 assert.match(css, /\.kf-section-prizes/);
+assert.match(css, /\.kf-section-partner/);
 assert.match(css, /\.kf-section-register/);
+assert.match(css, /\.kf-facts\.kf-facts-drei/);
+assert.match(css, /\.kf-zahlen/);
 assert.match(css, /\.kf-fact-icon img/);
-assert.match(css, /grid-template-columns: repeat\(4, 1fr\)/);
-assert.match(css, /grid-template-columns: 1fr 1fr/);
 assert.match(css, /\.kf-organizer img/);
 assert.match(css, /@media \(max-width: 760px\)/);
 assert.doesNotMatch(css, /prefers-color-scheme\s*:\s*dark/);
 
+// Das Skript zählt weiter die Aufrufe und würde Anmeldelinks weiter richtig
+// zuordnen, falls je wieder welche auf die Seite kommen.
 assert.match(js, /ALLOWED_SOURCES/);
 assert.match(js, /SAFE_SLUG/);
-assert.match(js, /data-registration-link/);
 assert.match(js, /target\.searchParams\.set\('quelle'/);
 assert.match(js, /target\.searchParams\.set\('berater'/);
 assert.doesNotMatch(js, /localStorage|sessionStorage|document\.cookie/);
@@ -88,12 +102,8 @@ assert.ok(vercelConfig.rewrites.some((entry) => (
   entry.source === '/kidz/sommerfest'
   && entry.destination === '/kidz-sommerfest.html'
 )));
-assert.ok(vercelConfig.rewrites.some((entry) => (
-  entry.source === '/kidz/gewinnspiel'
-  && entry.destination === '/kidz-gewinnspiel.html'
-)));
 
-const registrationLinks = [{ href: '' }, { href: '' }, { href: '' }];
+const registrationLinks = [{ href: '' }];
 globalThis.window = {
   location: new URL('https://kidz.teamwachsbleiche.de/kidz/sommerfest?quelle=whatsapp&berater=sandro'),
 };
@@ -101,26 +111,8 @@ globalThis.document = {
   querySelectorAll: (selector) => selector === '[data-registration-link]' ? registrationLinks : [],
 };
 await import(new URL(`../js/kidz-sommerfest.js?test=${Date.now()}`, import.meta.url));
-assert.deepEqual(
-  registrationLinks.map((link) => link.href),
-  Array(3).fill('/kidz/gewinnspiel?quelle=whatsapp&berater=sandro#anmeldung'),
-);
+assert.deepEqual(registrationLinks.map((link) => link.href), ['/kidz/gewinnspiel?quelle=whatsapp&berater=sandro#anmeldung']);
 delete globalThis.window;
 delete globalThis.document;
 
 console.log('kidz-sommerfest-startseite: OK');
-
-// --- Anmeldung deutlich sichtbar, oberhalb des Flyers -------------------------
-// Wer schon muendlich zugesagt hat, braucht einen Grund, sich trotzdem einzutragen.
-assert.match(html, /class="kf-anmeldezeile"/);
-assert.match(html, /Du kommst\? Dann sag uns kurz Bescheid\./);
-assert.match(html, /mit wie vielen wir planen/);
-// Eine Zeile, kein Block: Der Flyer darf nicht nach unten gedrueckt werden.
-assert.doesNotMatch(html, /kf-anmeldebox/);
-// Sie steht vor der ersten Flyerkarte, sonst sieht sie niemand.
-// (Der Dateiname des Flyers taugt nicht zum Vergleich, er steht schon in den
-// Vorschau-Metadaten im Kopf der Seite.)
-assert.ok(html.indexOf('kf-anmeldezeile') < html.indexOf('kf-flyer-card'),
-  'Die Anmeldezeile muss oberhalb der Flyerkarte stehen');
-// Beide Wege zur Anmeldung tragen die Beraterzuordnung mit.
-assert.equal((html.match(/data-registration-link/g) || []).length, 3);

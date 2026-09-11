@@ -1,10 +1,17 @@
 const assert = require('node:assert/strict');
 const handler = require('../api/share.js');
 
+// Seit Phase 345 fragt share.js die freigegebenen Themen ab (vorlagen mit
+// in_arbeit=false). Die Attrappe antwortet darauf wie die Live-Datenbank am
+// 11.09.2026: frei sind nur Allgemein, Baufinanzierung und Kinder.
+const FREIGEGEBEN = [{ slug: 'allgemein' }, { slug: 'baufi' }, { slug: 'kinder' }];
+const istFreigabeAbruf = (url) => String(url).includes('/rest/v1/vorlagen?');
+
 async function testHappyPath() {
   const calls = [];
   global.fetch = async (url) => {
     calls.push(String(url));
+    if (istFreigabeAbruf(url)) return new Response(JSON.stringify(FREIGEGEBEN), { status: 200 });
     if (String(url).endsWith('/empfaenger.html')) {
       return new Response([
         '<title>Alt</title>',
@@ -55,18 +62,21 @@ async function testFallbackKeepsQuery() {
   assert.equal(headers.Location, '/baufi.html?token=abc+123&vorlage=baufi');
 }
 
+// Ohne Netz ist die Freigabe unbekannt. Dann gehen alle Themen, die nur die
+// gemeinsame Vorlage thema.html haben, sicherheitshalber auf die allgemeine
+// Seite. Baufinanzierung und Kinder haben eigene Seiten und bleiben dort.
 async function testThemeFallbackRoutes() {
   const routes = {
-    foerderungen: '/thema.html?token=abc+123&vorlage=foerderungen',
-    selbstaendige: '/thema.html?token=abc+123&vorlage=selbstaendige',
-    investment: '/thema.html?token=abc+123&vorlage=investment',
-    absicherung: '/thema.html?token=abc+123&vorlage=absicherung',
-    karriere: '/thema.html?token=abc+123&vorlage=karriere',
+    foerderungen: '/empfaenger.html?token=abc+123&vorlage=foerderungen',
+    selbstaendige: '/empfaenger.html?token=abc+123&vorlage=selbstaendige',
+    investment: '/empfaenger.html?token=abc+123&vorlage=investment',
+    absicherung: '/empfaenger.html?token=abc+123&vorlage=absicherung',
+    karriere: '/empfaenger.html?token=abc+123&vorlage=karriere',
     // Kinder führt auf die eigene KIDZ-Einleitung, die von dort aufs Konzept
     // weitergeht. Die allgemeine Themenseite ist hier bewusst nicht das Ziel.
     kinder: '/kidz-empfehlung.html?token=abc+123&vorlage=kinder',
-    banking: '/thema.html?token=abc+123&vorlage=banking',
-    energie: '/thema.html?token=abc+123&vorlage=energie',
+    banking: '/empfaenger.html?token=abc+123&vorlage=banking',
+    energie: '/empfaenger.html?token=abc+123&vorlage=energie',
     unbekannt: '/empfaenger.html?token=abc+123&vorlage=unbekannt',
   };
 
@@ -85,7 +95,36 @@ async function testThemeFallbackRoutes() {
     }, res);
 
     assert.equal(res.statusCode, 302);
-    assert.equal(headers.Location, expected);
+    assert.equal(headers.Location, expected, `Thema ${template}`);
+  }
+}
+
+// Mit Netz entscheidet die Freigabe: gesperrt geht auf die allgemeine Seite,
+// freigegeben auf die eigene Themenseite. Gibt Kai ein Thema in der
+// Themen-Verwaltung frei, führt der Link ohne Veröffentlichung dorthin.
+async function testFreigabeEntscheidet() {
+  const faelle = [
+    { freigegeben: FREIGEGEBEN, vorlage: 'absicherung', seite: '/empfaenger.html' },
+    { freigegeben: [...FREIGEGEBEN, { slug: 'absicherung' }], vorlage: 'absicherung', seite: '/thema.html' },
+    { freigegeben: FREIGEGEBEN, vorlage: 'baufi', seite: '/baufi.html' },
+    { freigegeben: FREIGEGEBEN, vorlage: 'kinder', seite: '/kidz-empfehlung.html' },
+  ];
+  for (const fall of faelle) {
+    const calls = [];
+    global.fetch = async (url) => {
+      calls.push(String(url));
+      if (istFreigabeAbruf(url)) return new Response(JSON.stringify(fall.freigegeben), { status: 200 });
+      if (String(url).endsWith(fall.seite)) return new Response('<title>Ziel</title>', { status: 200 });
+      return new Response('[]', { status: 200 });
+    };
+    const res = { statusCode: 0, setHeader: () => {}, end: () => {} };
+    await handler({
+      headers: { host: 'example.test', 'x-forwarded-proto': 'https' },
+      url: `/e?vorlage=${fall.vorlage}`,
+    }, res);
+    assert.equal(res.statusCode, 200, `${fall.vorlage} ohne Antwort`);
+    assert.ok(calls.some((url) => url.endsWith(fall.seite)),
+      `${fall.vorlage} sollte auf ${fall.seite} führen, geladen wurde: ${calls.filter((u) => u.startsWith('https://example.test')).join(', ')}`);
   }
 }
 
@@ -93,6 +132,7 @@ async function testStoredThemeRoutesOldLinks() {
   const calls = [];
   global.fetch = async (url) => {
     calls.push(String(url));
+    if (istFreigabeAbruf(url)) return new Response(JSON.stringify(FREIGEGEBEN), { status: 200 });
     if (String(url).includes('get_empfehlung_public')) {
       return new Response(JSON.stringify([{ vorlage_slug: 'kinder' }]), {
         status: 200,
@@ -127,6 +167,7 @@ async function testStoredBaufiRoutesToCanonicalPage() {
   const calls = [];
   global.fetch = async (url) => {
     calls.push(String(url));
+    if (istFreigabeAbruf(url)) return new Response(JSON.stringify(FREIGEGEBEN), { status: 200 });
     if (String(url).includes('get_empfehlung_public')) {
       return new Response(JSON.stringify([{ vorlage_slug: 'baufi' }]), {
         status: 200,
@@ -159,6 +200,7 @@ async function testStoredBaufiRoutesToCanonicalPage() {
 async function testCleanRecommendationAddressCarriesTokenIntoPage() {
   const token = '125b319f-4ba7-4577-acf3-4ed28468cb27';
   global.fetch = async (url) => {
+    if (istFreigabeAbruf(url)) return new Response(JSON.stringify(FREIGEGEBEN), { status: 200 });
     if (String(url).includes('get_empfehlung_public')) {
       return new Response(JSON.stringify([{ vorlage_slug: 'baufi' }]), {
         status: 200,
@@ -192,6 +234,7 @@ async function testCleanRecommendationAddressCarriesTokenIntoPage() {
   await testHappyPath();
   await testFallbackKeepsQuery();
   await testThemeFallbackRoutes();
+  await testFreigabeEntscheidet();
   await testStoredThemeRoutesOldLinks();
   await testStoredBaufiRoutesToCanonicalPage();
   await testCleanRecommendationAddressCarriesTokenIntoPage();
