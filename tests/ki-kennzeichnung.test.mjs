@@ -65,6 +65,16 @@ async function hatC2pa(datei) {
   }
 }
 
+// Filme, deren sichtbarer Hinweis im Bild selbst steckt statt als Satz darunter.
+// Kais Entscheidung vom 11.09.2026 für den Allgemein-Film v5: kein Satz mehr unter dem
+// Video. Der Film zeigt keine KI-Personen, sondern echte Fotos von Kai und Beispiel-
+// Oberflächen; oben rechts steht in jedem Bild "KI-Stimme. Beispiel-Oberflächen und
+// beispielhafte Ansichten". Ebene 1 (C2PA in der Datei) bleibt für ihn Pflicht.
+// Wer hier einen Film einträgt, muss den Hinweis im Bild selbst gesehen haben.
+const HINWEIS_IM_BILD = new Map([
+  ['allgemein-persoenliche-formel-v5-720p.mp4', 'KI-Stimme oben rechts im Bild; Kai, 11.09.2026'],
+]);
+
 for (const datei of videos) {
   // --- 1. Die Datei trägt ein Manifest -------------------------------------
   assert.ok(
@@ -84,6 +94,7 @@ for (const datei of videos) {
   );
 
   for (const [seite, html] of eingebunden) {
+    if (HINWEIS_IM_BILD.has(datei)) continue;
     // Der Hinweis muss beim Video stehen, nicht irgendwo auf der Seite.
     // Gemessen wird im Umkreis der <figure>, die das Video enthält.
     const pos = html.indexOf(datei);

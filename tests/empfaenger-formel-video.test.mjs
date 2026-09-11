@@ -34,13 +34,13 @@ assert.doesNotMatch(tag, /autoplay/);
 assert.match(tag, /controls/);
 assert.match(tag, /preload="none"/);
 assert.match(tag, /playsinline/);
-assert.match(tag, /poster="\/assets\/video\/formel-finanzielles-glueck-poster\.jpg"/);
-assert.match(html, /<source src="\/assets\/video\/formel-finanzielles-glueck\.mp4" type="video\/mp4"/);
+assert.match(tag, /poster="\/assets\/video\/allgemein-persoenliche-formel-v5-poster\.jpg"/);
+assert.match(html, /<source src="\/assets\/video\/allgemein-persoenliche-formel-v5-720p\.mp4" type="video\/mp4"/);
 assert.match(html, /hier herunterladen/);
 
 // --- Die Dateien liegen da und bleiben handytauglich ---
-const video = await stat(new URL('../assets/video/formel-finanzielles-glueck.mp4', import.meta.url));
-const poster = await stat(new URL('../assets/video/formel-finanzielles-glueck-poster.jpg', import.meta.url));
+const video = await stat(new URL('../assets/video/allgemein-persoenliche-formel-v5-720p.mp4', import.meta.url));
+const poster = await stat(new URL('../assets/video/allgemein-persoenliche-formel-v5-poster.jpg', import.meta.url));
 assert.ok(video.size > 0 && video.size < 10 * 1024 * 1024,
   `Video zu gross fuers Handy: ${(video.size / 1024 / 1024).toFixed(1)} MB`);
 assert.ok(poster.size > 0 && poster.size < 400 * 1024);
@@ -49,5 +49,14 @@ assert.ok(poster.size > 0 && poster.size < 400 * 1024);
 assert.match(html, /\.film-grid\{display:grid;grid-template-columns:\.85fr 1\.15fr/);
 assert.match(html, /\.film-frame video\{[^}]*max-width:100%/, 'Video schrumpft im Raster mit');
 assert.match(html, /@media\(max-width:780px\)\{\.film-grid\{grid-template-columns:1fr/);
+
+// --- Phase 349, Kais Entscheidungen vom 11.09.2026 ---
+// Film v5 (1:28), keine Zeichenkreise mehr (Funkelstern, Anführungszeichen), kein Satz
+// unter dem Film. Die KI-Stimme ist im Bild gekennzeichnet, siehe ki-kennzeichnung.test.mjs.
+assert.match(html, /1:28 Minuten/);
+assert.doesNotMatch(html, /1:37/);
+assert.doesNotMatch(html, /✦/, 'Der Funkelstern ist ein KI-Merkmal und bleibt weg');
+assert.doesNotMatch(html, /id="ePromoterInitial"/, 'Kein Kreis vor der Nachricht des Empfehlungsgebers');
+assert.doesNotMatch(html, /class="ki-hinweis"/);
 
 console.log('empfaenger-formel-video: OK');
