@@ -131,4 +131,14 @@ assert.doesNotMatch(html, /kidz-sommerfest-gewinnspiel-v2\.png/, 'Die 2,3-MB-Gew
 assert.match(css, /\.kf-danke-flyer/);
 assert.match(css, /\.kf-preise/);
 
+// Phase 354 (Kais Wunsch vom 11.09.2026, wie in der Dankesmail): Cottbus Hüpft hat
+// die Hüpfburg gestellt und steht im Dank; die Spende vom Kuchenbasar steht als
+// eigene Karte im Dank-Abschnitt.
+assert.match(html, /Spreewald Survival, Cottbus Hüpft, den Förderverein/);
+assert.match(html, /class="kf-preis kf-preis-haupt kf-spende"/);
+assert.match(html, /1\.250 Euro für den Förderverein Zauberland Vetschau e\.V\./);
+const spendeIndex = html.indexOf('kf-spende');
+assert.ok(spendeIndex > helferIndex && spendeIndex < weiterIndex, 'Die Spende gehört in den Dank-Abschnitt');
+assert.match(css, /\.kf-spende/);
+
 console.log('kidz-sommerfest-startseite: OK');

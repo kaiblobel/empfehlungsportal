@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.368 Beta** · Abmelden im Promoterbereich, live seit 11.09.2026.
+Offizielle Live-Version: **v1.369 Beta** · Rückblick: Cottbus Hüpft und Spende vom Kuchenbasar, live seit 11.09.2026.
+
+## v1.369 Beta - Phase 354 · Rückblick: Cottbus Hüpft und Spende vom Kuchenbasar
+**2026-09-11**
+
+Kais Wunsch vom 11.09.2026: Der Rückblick soll dasselbe sagen wie die Dankesmail an die KIDZ-Familien. Dort stehen seit heute Abend Cottbus Hüpft (hat die Hüpfburg gestellt) und die Spende vom Kuchenbasar. Freigabe: „ja Cottbus Hüpft und die 1.250 Euro vom Kuchenbasar soll ja mit drin stehen" auf die Frage, ob die Seite dafür neu veröffentlicht werden soll.
+
+**Dank.** Cottbus Hüpft steht in der Reihe der Partner direkt nach Spreewald Survival, wie in der Mail.
+
+**Spende.** Unter dem Dank steht eine eigene Karte im Stil des Hauptpreises (goldener Rahmen): „1.250 Euro für den Förderverein Zauberland Vetschau e.V.", darunter der Dank an alle, die gebacken und zugegriffen haben. Neue Regel `.kf-spende` in `css/kidz-sommerfest.css` (höchstens 560 px breit, mittig), deshalb `kidz-sommerfest.css?v=8`. Lokal am Rechner (1280 px) und im Handy-Format (390 px) geprüft.
+
+Wächter: `tests/kidz-sommerfest-startseite.test.mjs` prüft Cottbus Hüpft im Dank, die Spenden-Karte samt Betrag und dass sie im Dank-Abschnitt steht.
+
+---
 
 ## v1.368 Beta - Phase 353 · Abmelden im Promoterbereich
 **2026-09-11 · live veröffentlicht**
