@@ -362,4 +362,7 @@ if (accessState === 'ungueltig') {
   openAccessDialog('', 'Dieser Einmal-Link ist abgelaufen oder wurde bereits verwendet. Fordere einfach einen neuen an.');
 } else if (accessState === 'fehler') {
   openAccessDialog('', 'Der Zugang konnte gerade nicht geöffnet werden. Bitte fordere einen neuen Einmal-Link an.');
+} else if (window.location.hash === '#vorhandener-bereich' && !existingCode) {
+  // Nach dem Abmelden im Promoterbereich steht das Anmeldefenster gleich offen.
+  openAccessDialog();
 }
