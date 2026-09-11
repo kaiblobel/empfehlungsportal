@@ -12,6 +12,8 @@ Kais Entscheidungen vom 11.09.2026: alle Kundenseiten in Du-Form, und die Sommer
 
 **Die Sommerfest-Seite ist jetzt der Rückblick.** Sie lud nach dem Fest am 06.09. weiter zur Anmeldung ein, und `kidz.teamwachsbleiche.de` landet genau dort. Jetzt steht dort der Dank an über 700 Gäste, die Auflösung des Gewinnspiels (314 cm, 12 richtige Tipps, Auslosung per Video auf Instagram und Facebook), der Dank an Helfer und Partner und zum Schluss der Weg zum Vormerken für KIDZ for Future. Text und Links folgen der Dankesmail an die KIDZ-Familien, auch die Herkunft `sommerfest-danke`. Die Sprungmarken `#sommerfest` und `#gewinnspiel` bleiben, damit alte Links und QR-Codes am passenden Abschnitt landen. Die beendete Gewinnspiel-Seite teilt sich die Kopfzeile mit ihr und hat dasselbe neue Menü: Rückblick, Auflösung, KIDZ for Future.
 
+**Die Gewinnspiel-Seite sagt oben, dass die Anmeldung vorbei ist.** Bisher begann sie weiter mit „Melde dich an und du bist bei der Verlosung dabei", der Hinweis „beendet" kam erst unten beim Formular. Jetzt steht ganz oben ein fester Hinweis mit dem Knopf „Zur Auflösung". Die Seite bleibt erreichbar, weil ihre Teilnahmebedingungen bis zur Auslosung in der Woche ab dem 14.09. gelten. Danach wird sie auf den Rückblick umgeleitet (Kais Freigabe vom 11.09.2026).
+
 Die Regel „kein Link vom Sommerfest zum Elternabend" galt nur, solange das Fest als Kampagne lief. Der Test verlangt jetzt genau diesen Link mit der Herkunft aus der Mail. `tests/kidz-sommerfest-startseite.test.mjs` hält den Rückblick fest und prüft zusätzlich, dass nichts mehr zur Anmeldung einlädt.
 
 ---

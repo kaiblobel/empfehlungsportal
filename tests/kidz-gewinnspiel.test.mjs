@@ -633,3 +633,9 @@ assert.match(nachtragMigration, /'kidz_giveaway_contact_day', p_contact_key, 3,/
 assert.match(nachtragMigration, /2026-09-06 00:00:00\+02/);
 
 console.log('kidz-gewinnspiel: OK');
+
+// Phase 346: Nach dem Anmeldeschluss steht oben ein fester Hinweis, bevor jemand
+// die Werbung für die Anmeldung liest. Er führt zur Auflösung auf dem Rückblick.
+assert.ok(html.indexOf('class="kg-beendet"') > -1, 'Hinweis "Anmeldung beendet" fehlt');
+assert.ok(html.indexOf('class="kg-beendet"') < html.indexOf('class="kg-hero"'), 'Hinweis muss vor dem Kopf stehen');
+assert.match(html, /href="\/kidz\/sommerfest#gewinnspiel">Zur Auflösung</);
