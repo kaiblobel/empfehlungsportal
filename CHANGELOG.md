@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.371 Beta** · KIDZ-Anmeldeseite: § 12 und kompakte Themenkacheln, live seit 11.09.2026.
+Offizielle Live-Version: **v1.372 Beta** · Zugangs-Mail professionell gestaltet, live seit 11.09.2026.
+
+## v1.372 Beta - Phase 357 · Zugangs-Mail professionell gestaltet
+**2026-09-11**
+
+Kais Wunsch vom 11.09.2026 am Bildschirmfoto der Zugangs-Mail in Outlook: „können wir hier auch professioneller".
+
+**Die Zugangs-Mail für Promoter ist neu gestaltet.** In Outlook am Rechner war der Knopf ein schwarzer Textkasten, Abstände und runde Ecken fehlten, weil Outlook div-Abstände, Polster an Links und moderne Stile ignoriert. Die Mail ist jetzt aus Tabellen gebaut, mit Inline-Stilen, einem Knopf als Tabellenzelle mit fester Hintergrundfarbe (Petrol) und einem Ersatzlink darunter. Oben stehen das Team-Wachsbleiche-Logo und „Name & Team / Deutsche Vermögensberatung", darunter eine goldene Linie, am Ende „Viele Grüße" mit Namen und eine kurze Fußzeile, warum die Mail kam. Das Logo liegt als JPG im Portal (`team-wachsbleiche-marke-mail-120.jpg`, 6 KB), weil Outlook kein WebP zeigt. Die Textfassung trägt denselben Wortlaut.
+
+Die Absenderadresse bleibt vorerst `noreply@beratercockpit.de` (Kais Entscheidung); eine Team-Adresse bräuchte eine bestätigte Domain bei Resend.
+
+Reihenfolge beim Veröffentlichen: zuerst das Portal (das Logo muss erreichbar sein), dann die Mail-Funktion neu hochladen und die hochgeladene Fassung abrufen und prüfen. Wächter: `tests/promoter-mail-gestaltung.test.mjs`.
+
+---
 
 ## v1.371 Beta - Phase 356 · KIDZ-Anmeldeseite: § 12 und kompakte Themenkacheln
 **2026-09-11 · live veröffentlicht**
