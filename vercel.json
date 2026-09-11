@@ -37,6 +37,8 @@
     { "source": "/kidz/gewinnspiel", "destination": "/kidz-gewinnspiel.html" },
     { "source": "/kidz/elternabend", "destination": "/kidz-elternabend.html" },
     { "source": "/kidz/konzept", "destination": "/kidz-konzept.html" },
+    { "source": "/kidz/abmelden", "destination": "/kidz-abmelden.html" },
+    { "source": "/kidz/abmelden/:schluessel", "destination": "/kidz-abmelden.html" },
     { "source": "/ueberblick", "destination": "/ueberblick.html" },
     { "source": "/ueberblick/:berater", "destination": "/ueberblick.html?berater=:berater" },
     { "source": "/(.*)", "destination": "/$1" }

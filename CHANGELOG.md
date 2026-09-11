@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.361 Beta** · Du-Form und Dankeschön, live seit 11.09.2026.
+Offizielle Live-Version: **v1.362 Beta** · Abmelden von KIDZ-Mails, live seit 11.09.2026.
+
+## v1.362 Beta - Phase 347 · Abmelden von KIDZ-Mails
+**2026-09-11**
+
+**Wer keine KIDZ-Mails mehr will, meldet sich mit einem Klick ab.** Am 11.09.2026 geht die erste KIDZ-Mail an alle Gewinnspiel-Teilnehmer mit Mailadresse. Jede Mail trägt einen persönlichen Link auf `/kidz/abmelden/<Schlüssel>` und denselben Link im Mailkopf (`List-Unsubscribe`), damit Gmail seinen eigenen Abbestellen-Knopf zeigen kann. Die Seite fragt einmal nach („Ja, abmelden") und trägt dann die Mailadresse aus, alle Einträge mit derselben Adresse zugleich. Abgemeldet wird bewusst erst per Klick: Virenscanner öffnen Links aus Mails vorab, ein Abmelden schon beim Laden würde Menschen ungefragt austragen.
+
+Der Schlüssel steht im Pfad, nicht als `?t=`. Outlook verschickt HTML als quoted-printable, ohne das Gleichheitszeichen selbst zu kodieren; aus `?t=3f2b…` wird beim Empfänger Zeichensalat (beim Facebook-Link in der Testmail so passiert). `?t=` bleibt als Rückfall lesbar.
+
+Datenbank: `schema-phase347-kidz-mail-abmeldung.sql` (live eingespielt als Migration `phase346_kidz_mail_abmeldung`, die Nummer war vergeben, bevor Phase 346 parallel belegt wurde) ergänzt `kidz_gewinnspiel_teilnahmen` um `abmelde_token` (zufällige UUID je Zeile, steht im Link statt der Adresse) und `mail_abgemeldet_at`, dazu die Funktion `kidz_mail_abmelden_public`. Sie ist ohne Anmeldung aufrufbar, schreibt nur den Abmeldezeitpunkt, behält den ersten und verrät keine Adresse. Gewinnspiel, Los und die einmalige KIDZ-for-Future-Einwilligung bleiben unberührt. Nach dem Einspielen geprüft: 225 Zeilen, 225 verschiedene Schlüssel, ein unbekannter Schlüssel ergibt `ok: false`.
+
+Die Seite zeigt das KIDZ-Signet ohne den gestrichenen Zusatz „Konzept" (`assets/images/kidz-signet-240.png`).
+
+Wächter: `tests/kidz-mail-abmeldung.test.mjs`.
+
+---
 
 ## v1.361 Beta - Phase 346 · Du-Form und Dankeschön
 **2026-09-11 · live veröffentlicht**

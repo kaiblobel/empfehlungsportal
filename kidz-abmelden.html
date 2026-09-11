@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d4f4b">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Von KIDZ-Mails abmelden | Team Wachsbleiche</title>
+  <link rel="icon" type="image/png" href="/assets/images/kidz-logo-konzept.png">
+  <link rel="apple-touch-icon" href="/assets/images/kidz-logo-konzept.png">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px 16px;
+      background: #f4f1e8; color: #183f56; font-family: "Segoe UI", Arial, Helvetica, sans-serif; }
+    .kab-karte { width: 100%; max-width: 460px; background: #ffffff; border-radius: 22px;
+      border-top: 6px solid #c9a04a; box-shadow: 0 16px 40px rgba(24, 63, 86, .12);
+      padding: 30px 26px 28px; text-align: center; }
+    .kab-karte img { width: 84px; height: 84px; }
+    h1 { font-size: 24px; line-height: 1.25; margin: 16px 0 10px; }
+    p { font-size: 16px; line-height: 1.55; margin: 0 0 14px; color: #2b4a5c; }
+    .kab-knopf { display: inline-block; margin-top: 8px; padding: 14px 28px; border: 0; border-radius: 26px;
+      background: #0d4f4b; color: #ffffff; font: inherit; font-size: 16px; font-weight: 700; cursor: pointer; }
+    .kab-knopf:disabled { opacity: .6; cursor: wait; }
+    .kab-knopf:focus-visible { outline: 3px solid #c9a04a; outline-offset: 3px; }
+    .kab-leise { display: inline-block; margin-top: 18px; color: #2c5f7c; font-size: 15px; }
+    .kab-haken { width: 56px; height: 56px; margin: 6px auto 0; border-radius: 50%; background: #c9a04a;
+      color: #ffffff; font-size: 30px; line-height: 56px; font-weight: 700; }
+  </style>
+  <script src="/js/config.js"></script>
+</head>
+<body>
+  <main class="kab-karte">
+    <img src="/assets/images/kidz-signet-240.png" alt="KIDZ" width="240" height="240">
+
+    <section id="kab-frage" hidden>
+      <h1>Keine KIDZ-Mails mehr?</h1>
+      <p>Schade, dass ihr geht. Mit einem Klick tragen wir eure Mailadresse aus. Danach bekommt ihr von uns keine KIDZ-Mails mehr.</p>
+      <p>Eure Teilnahme an der Auslosung bleibt davon unberührt.</p>
+      <button class="kab-knopf" id="kab-knopf" type="button">Ja, abmelden</button>
+    </section>
+
+    <section id="kab-fertig" hidden>
+      <div class="kab-haken" aria-hidden="true">✓</div>
+      <h1>Ihr seid abgemeldet.</h1>
+      <p>Wir schreiben euch keine KIDZ-Mails mehr. Danke, dass ihr beim KIDZ Kinder-Sommerfest dabei wart!</p>
+      <a class="kab-leise" href="/kidz/sommerfest">Zur KIDZ-Seite</a>
+    </section>
+
+    <section id="kab-ungueltig" hidden>
+      <h1>Dieser Link funktioniert leider nicht.</h1>
+      <p>Antwortet einfach auf unsere KIDZ-Mail mit dem Wort „Abmelden“. Dann tragen wir euch von Hand aus.</p>
+    </section>
+
+    <section id="kab-fehler" hidden>
+      <h1>Das hat gerade nicht geklappt.</h1>
+      <p>Bitte versucht es gleich noch einmal.</p>
+      <button class="kab-knopf" id="kab-nochmal" type="button">Noch einmal versuchen</button>
+    </section>
+  </main>
+
+  <script type="module" src="/js/kidz-abmelden.js?v=1"></script>
+</body>
+</html>
