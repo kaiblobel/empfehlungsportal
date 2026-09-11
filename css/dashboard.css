@@ -388,6 +388,10 @@
   border-radius: 50%;
   background: var(--accent-gold, var(--accent));
 }
+/* Phase 362: display: flex oben schlaegt das hidden-Attribut. Ohne diese Regel
+   stand der Admin-Hinweis auf Praemien, Gewinnspiel und KIDZ for Future auch
+   bei normalen Beratern. */
+.admin-sicht-hinweis[hidden] { display: none; }
 
 /* Phase 208: Testdatensatz. Bewusst auffällig gestreift, damit man ihn im
    Vorbeigehen erkennt und nicht mit einem echten Vorgang verwechselt. */

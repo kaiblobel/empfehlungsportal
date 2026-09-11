@@ -106,6 +106,10 @@ assert.ok(
 /* --- 4) Wo die Admin-Sicht mehr zeigt, steht es dabei --- */
 
 assert.match(dashboardCss, /\.admin-sicht-hinweis\s*\{/, 'Für den Hinweis fehlt der Stil.');
+// Phase 362: Der Stil setzt display: flex, und das schlaegt hidden. Ohne diese
+// Regel stuende der versteckte Hinweis bei jedem normalen Berater.
+assert.match(dashboardCss, /\.admin-sicht-hinweis\[hidden\]\s*\{\s*display:\s*none/,
+  'Ohne [hidden]-Regel ist der Admin-Hinweis für alle sichtbar.');
 
 // Auf allen drei Seiten sehen normale Berater seit Phase 210 ihre eigenen
 // Daten, der Hinweis ist deshalb versteckt und wird nur für Admins eingeblendet.

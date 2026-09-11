@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.376 Beta** · Interessenten-Seite persönlicher, live seit 11.09.2026.
+Offizielle Live-Version: **v1.377 Beta** · Admin-Hinweis nur für Admins, live seit 11.09.2026.
+
+## v1.377 Beta - Phase 362 · Admin-Hinweis nur für Admins
+**2026-09-11**
+
+**Der Admin-Hinweis stand auch bei normalen Beratern.** Auf Prämien, Sommerfest-Gewinnspiel und KIDZ for Future steht für Admins der Satz „Du siehst hier als Admin alle …". Er ist im HTML mit `hidden` versteckt und wird nur für Admins eingeblendet. `.admin-sicht-hinweis` in `css/dashboard.css` setzt aber `display: flex`, und eine eigene `display`-Angabe schlägt das `hidden`-Attribut. Also stand der Hinweis für jeden da. Aufgefallen beim Bau von Phase 360, dort nur für die beiden KIDZ-Seiten abgefangen. Kai: „ja erledige schnell".
+
+Jetzt sitzt die Regel `.admin-sicht-hinweis[hidden] { display: none; }` dort, wo der Stil herkommt, und gilt damit auf allen Seiten. Alle 21 Seiten und der Dienstspeicher laden `dashboard.css?v=57`, damit niemand die alte Fassung aus dem Zwischenspeicher behält.
+
+Dieselbe Falle gab es in diesem Portal schon mehrfach (Phase 337, 338 und 360, dazu Zustimmungszeile und KfF-Karte). Wer einem Element eine eigene `display`-Angabe gibt und es mit `hidden` versteckt, braucht die `[hidden]`-Regel dazu.
+
+Wächter in `tests/admin-sicht.test.mjs`, Gegenprobe ohne die Regel rot gesehen. Außerdem ist v1.375 im Changelog jetzt als live gekennzeichnet.
+
+---
 
 ## v1.376 Beta - Phase 361 · Interessenten-Seite persönlicher
 **2026-09-11 · live veröffentlicht**
@@ -37,7 +50,7 @@ Offizielle Live-Version: **v1.376 Beta** · Interessenten-Seite persönlicher, l
 ---
 
 ## v1.375 Beta - Phase 360 · Schalter für die Teamsicht beim KIDZ-Sommerfest
-**2026-09-11**
+**2026-09-11 · live veröffentlicht**
 
 Kais Wunsch vom 11.09.2026, eine Stunde nach Phase 359: „ein Schalter für mich als Admin, dass jeder nur seine Teilnehmer sieht, und wenn ich umschalte, jeder Berater alle sieht". Und dazu: Jeder Berater soll dann auch zuordnen können, „weil jeder Berater mit seinen Promotern die Teilnehmer durchgeht und ggf. dann zuordnet".
 
