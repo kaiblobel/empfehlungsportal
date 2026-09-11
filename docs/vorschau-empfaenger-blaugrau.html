@@ -99,9 +99,12 @@
     @media(max-width:880px){
       .zwei{grid-template-columns:1fr;gap:28px}
       .schritt{padding:24px 16px 40px}
-      /* Am Handy steht das Gesicht vor dem Knopf, nicht dahinter. */
+      /* Am Handy nahm das große Porträt 31 Prozent des ersten Bildschirms ein,
+         die Überschrift begann erst bei 526 px und der Knopf stand bei 841 von
+         844 px. Das Gesicht steht oben in der Kopfzeile und in der Notiz, das
+         große Bild kann hier also weg. */
       .schritt[data-schritt="1"] .zwei{display:flex;flex-direction:column}
-      .schritt[data-schritt="1"] .zwei>figure{order:-1}
+      .schritt[data-schritt="1"] .zwei>figure{display:none}
     }
 
     /* Knöpfe */
@@ -122,6 +125,9 @@
     /* Karten und Flächen */
     .karte{background:var(--weiss);border:1px solid var(--linie);border-radius:var(--radius);box-shadow:var(--schatten)}
     .bildkarte img{display:block;width:100%;height:auto;border-radius:var(--radius) var(--radius) 0 0}
+    /* Das Porträt im Einstieg steht neben der Überschrift, nicht über ihr:
+       486 px waren fast so breit wie die Textspalte. */
+    #portraitKarte{max-width:340px;margin-left:auto}
     .bildzeile{padding:12px 16px;border-top:1px solid var(--linie);font-size:13px;color:var(--text-3)}
     .bildzeile b{display:block;color:var(--text);font-size:15px;font-weight:650}
 
