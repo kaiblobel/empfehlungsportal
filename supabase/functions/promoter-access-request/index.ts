@@ -193,7 +193,7 @@ function emailHtml(
 <html lang="de"><head><meta charset="utf-8"></head>
 <body style="margin:0;padding:32px 16px;background:#F7F4EE;color:#20231F;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
   <div style="max-width:520px;margin:0 auto;padding:38px 32px;background:#FFFDF9;border:1px solid rgba(32,35,31,.13);border-radius:14px;">
-    <p style="margin:0 0 16px;color:#8D7B4E;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;">Empfehlungsportal</p>
+    <p style="margin:0 0 16px;color:#8D7B4E;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;">Persönlicher Zugang</p>
     <h1 style="margin:0 0 18px;font-size:28px;line-height:1.15;">${greeting}</h1>
     <p style="margin:0 0 24px;color:#565850;font-size:15px;line-height:1.6;">Mit diesem Einmal-Link öffnest du deinen persönlichen Empfehlungsbereich. Der Link ist 15 Minuten gültig und kann nur einmal verwendet werden.</p>
     <a href="${

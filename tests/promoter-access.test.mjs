@@ -157,6 +157,11 @@ assert.match(migration, /used_at is null[\s\S]*expires_at > clock_timestamp\(\)/
 assert.match(edge, /crypto\.getRandomValues\(new Uint8Array\(32\)\)/);
 assert.match(edge, /action === "consume"/);
 assert.match(edge, /accessUrl\.hash = new URLSearchParams/);
+// Die hochgeladene Fassung vom August war doppelt kodiert ("persÃ¶nlicher").
+// Die Datei muss sauberes UTF-8 bleiben; nach jedem Hochladen die Fassung bei
+// Supabase abrufen und auf dieselbe Folge prüfen (Phase 345).
+assert.doesNotMatch(edge, /Ã/, 'Mail-Funktion ist doppelt kodiert');
+assert.match(edge, /Dein persönlicher Zugang zum Empfehlungsbereich/);
 assert.match(edge, /Idempotency-Key/);
 assert.match(edge, /api\.resend\.com\/emails/);
 assert.match(edge, /return Response\.json\(\{ ok: true \}\)/);

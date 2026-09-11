@@ -306,6 +306,9 @@ details[open] summary::after { content: "−"; }
 .topic-card.tone-terra .topic-symbol { background: var(--gold-soft); color: var(--gold-dark); }
 .topic-card strong { display: block; margin-top: 12px; font-size: 13.5px; font-weight: 700; }
 .topic-card > span:last-child { display: block; margin-top: 4px; color: var(--muted); font-size: 11.5px; line-height: 1.4; }
+/* Gesperrtes Thema (Phase 345): sichtbar, aber nicht wählbar. */
+.topic-card.topic-card-bald { cursor: default; opacity: .55; box-shadow: none; }
+.topic-card.topic-card-bald .topic-symbol { background: var(--line); color: var(--muted); }
 .template-list { display: grid; gap: 10px; margin-bottom: 18px; }
 .template-card { display: grid; grid-template-columns: 20px 1fr; gap: 11px; text-align: left; border: 1px solid var(--line); background: var(--card); border-radius: 13px; padding: 14px; cursor: pointer; }
 .template-card.active { border-color: var(--petrol); box-shadow: 0 0 0 1px var(--petrol) inset; }

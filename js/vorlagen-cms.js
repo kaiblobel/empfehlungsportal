@@ -128,13 +128,13 @@ function renderCard(v) {
         </div>
 
         <div class="cms-group">
-          <div class="cms-group-title">Nur für dich</div>
+          <div class="cms-group-title">Freigabe</div>
           <label class="cms-switch">
             <input type="checkbox" data-f-check="in_arbeit" ${v.in_arbeit ? 'checked' : ''} />
             <span class="cms-switch-track"></span>
             <span class="cms-switch-text">
-              <strong>Noch in Arbeit</strong>
-              <span>Markiert das Thema nur in dieser Liste. Für deine Kontakte ändert sich nichts.</span>
+              <strong>Für Empfehlungen gesperrt</strong>
+              <span>Solange der Schalter an ist, kann niemand dieses Thema auswählen. Links, die schon verschickt sind, führen auf die allgemeine Seite.</span>
             </span>
           </label>
         </div>

@@ -160,13 +160,22 @@ export async function getVorlagenPublic(beraterId = null) {
   const sichtbar = eineZeileProSchluessel(alle, (v) => v.slug, beraterId);
   const vorhandeneSlugs = new Set(sichtbar.map((v) => v.slug));
   const gemeinsameErgaenzungen = [
-    { slug: 'banking', titel: 'Banking & Kredit', icon: 'Banknote', aktiv: true, sort_order: 8 },
-    { slug: 'energie', titel: 'Energie', icon: 'Activity', aktiv: true, sort_order: 9 },
+    // Beide haben noch keine eigene Seite, deshalb gesperrt (Phase 345).
+    { slug: 'banking', titel: 'Banking & Kredit', icon: 'Banknote', aktiv: true, in_arbeit: true, sort_order: 8 },
+    { slug: 'energie', titel: 'Energie', icon: 'Activity', aktiv: true, in_arbeit: true, sort_order: 9 },
   ];
   gemeinsameErgaenzungen.forEach((vorlage) => {
     if (!vorhandeneSlugs.has(vorlage.slug)) sichtbar.push(vorlage);
   });
   return sichtbar.sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
+}
+
+// Gesperrt heißt: die Themenseite ist noch nicht fertig, niemand darf das
+// Thema wählen (Phase 345). Die Sperre setzt Kai in der Themen-Verwaltung
+// über vorlagen.in_arbeit. Allgemein ist nie gesperrt, es ist der Rückfall.
+export function themaGesperrt(vorlage) {
+  if (!vorlage || vorlage.slug === 'allgemein') return false;
+  return vorlage.in_arbeit === true;
 }
 
 export async function updateVorlage(slug, data, beraterId = null) {

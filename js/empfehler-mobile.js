@@ -5,6 +5,7 @@ import {
   getBelohnungsStufenPublic,
   getBeraterPublicById,
   getVorlagenPublic,
+  themaGesperrt,
   createEmpfehlung,
   setEmpfehlerZiel,
   updateEmpfehlungKontext,
@@ -420,16 +421,24 @@ function startPlannedRecommendation(index) {
 
 function renderTopics() {
   const wrap = $('#topicGrid');
+  // Ein Entwurf von früher kann ein Thema tragen, das inzwischen gesperrt ist
+  // (Phase 345). Dann muss neu gewählt werden.
+  if (funnel.topic && themaGesperrt(vorlagen.find(v => v.slug === funnel.topic))) {
+    funnel.topic = '';
+    funnel.topicTitle = '';
+  }
   wrap.innerHTML = vorlagen.map(template => {
     const meta = TOPIC_META[template.slug] || TOPIC_META.allgemein;
-    const active = template.slug === funnel.topic;
-    return `<button class="topic-card ${meta.tone}${active ? ' active' : ''}" type="button" data-topic="${escapeAttr(template.slug)}" data-title="${escapeAttr(template.titel || template.slug)}">
+    // Gesperrt: sichtbar, damit man sieht, dass es kommt, aber nicht wählbar.
+    const gesperrt = themaGesperrt(template);
+    const active = !gesperrt && template.slug === funnel.topic;
+    return `<button class="topic-card ${meta.tone}${active ? ' active' : ''}${gesperrt ? ' topic-card-bald' : ''}" type="button" data-topic="${escapeAttr(template.slug)}" data-title="${escapeAttr(template.titel || template.slug)}"${gesperrt ? ' disabled aria-disabled="true"' : ''}>
       <span class="topic-symbol">${escapeHtml(meta.symbol)}</span>
       <strong>${escapeHtml(template.titel || template.slug)}</strong>
-      <span>${escapeHtml(meta.subtitle)}</span>
+      <span>${gesperrt ? 'Kommt bald' : escapeHtml(meta.subtitle)}</span>
     </button>`;
   }).join('');
-  $$('[data-topic]', wrap).forEach(card => card.addEventListener('click', () => {
+  $$('[data-topic]:not([disabled])', wrap).forEach(card => card.addEventListener('click', () => {
     $$('[data-topic]', wrap).forEach(item => item.classList.remove('active'));
     card.classList.add('active');
     funnel.topic = card.dataset.topic;
