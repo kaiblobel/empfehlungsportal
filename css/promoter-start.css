@@ -274,7 +274,14 @@ a { color: inherit; }
   line-height: 1.5;
 }
 .ps-footer strong { color: var(--ps-ink); }
-.ps-footer span:last-child { display: flex; gap: 18px; }
+/* Nur der äußere Linkblock. Vorher ".ps-footer span:last-child": Das traf auch das
+   Namens-span im <strong>, und "& Team" rutschte in eine eigene Zeile. */
+.ps-footer > :last-child { display: flex; gap: 18px; }
+
+/* Team-Logo im Kopf und im Fuß statt des Initialen-Platzhalters (11.09.2026). */
+.ps-mark-logo { display: block; object-fit: cover; box-shadow: 0 0 0 1px rgba(200, 170, 34, .35); }
+.ps-footer-marke { display: flex; align-items: center; gap: 12px; }
+.ps-footer-marke img { width: 52px; height: 52px; flex: 0 0 52px; border-radius: 50%; }
 
 @media (max-width: 800px) {
   .ps-main { grid-template-columns: 1fr; padding: 48px 0 64px; gap: 42px; }
