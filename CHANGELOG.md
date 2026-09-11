@@ -4,7 +4,7 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.366 Beta** · KIDZ-Anmeldeseite: Berater nur per persönlichem Link, live seit 11.09.2026.
 
 ## v1.366 Beta - Phase 351 · KIDZ-Anmeldeseite: Berater nur per persönlichem Link
-**2026-09-11**
+**2026-09-11 · live veröffentlicht**
 
 Kais Hinweis nach dem Live-Gang von v1.365: Auf der allgemeinen Anmeldeseite stand sein Foto im Abschnitt „Wer einlädt". Eine persönliche Anmeldung läuft aber nur über den Anmeldelink des jeweiligen Beraters. Ohne diesen Link darf kein Berater zu sehen sein. Freigabe: „ja veröffentlichen".
 
