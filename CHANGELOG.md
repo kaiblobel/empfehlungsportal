@@ -4,7 +4,7 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.379 Beta** · Empfängerseite in Weiß, Blau und Grau, live seit 12.09.2026.
 
 ## v1.379 Beta - Phase 364 · Empfängerseite in Weiß, Blau und Grau
-**2026-09-12**
+**2026-09-12** · live veröffentlicht
 
 Kais Entscheidung vom 12.09.2026 nach zwei Vorschauen: „alles wie in der Vorschau, und auf der letzten Seite können wir bei Termin die Auswahl von der jetzigen Version übernehmen, aber auch im neuen Design." Die farbigen Kapitel von gestern (Phase 363) sind damit wieder weg.
 
