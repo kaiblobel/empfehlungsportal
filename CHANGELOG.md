@@ -1,7 +1,20 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.367 Beta** · KIDZ-Anmeldeseite: Symbole in den Rahmen-Kacheln, live seit 11.09.2026.
+Offizielle Live-Version: **v1.368 Beta** · Abmelden im Promoterbereich, live seit 11.09.2026.
+
+## v1.368 Beta - Phase 353 · Abmelden im Promoterbereich
+**2026-09-11**
+
+Kais Frage vom 11.09.2026 am Bildschirmfoto des Promoterbereichs: „Hast du schon den Ausloggen-Button und Anmeldebutton eingebaut?" Gab es nicht.
+
+**Promoter können sich auf einem Gerät abmelden.** Der Zugang eines Promoters ist ein Code, den der Browser speichert (`empfehler_code`). Bisher löschte ihn nichts: Wer einmal drin war, blieb auf dem Gerät für immer angemeldet, und ein zweiter Promoter kam dort nicht hinein. Jetzt steht im Fuß des Promoterbereichs „Abmelden". Nach einer kurzen Rückfrage vergisst das Gerät den Code und alles, was zu diesem Zugang gespeichert ist (Entwurf, Verlaufsstand, Benachrichtigungswahl, Wunschziel-Plan, zwischengespeicherter Berater), und die Seite springt auf die Einstiegsseite, auf der das Fenster „Mein vorhandener Bereich" für den Einmal-Link gleich offen steht. Der Verlaufseintrag wird ersetzt, „Zurück" führt also nicht wieder hinein. Der Code selbst bleibt gültig: Wer den persönlichen Link noch hat, kommt damit weiter in seinen Bereich, genau wie vorher.
+
+Nebenbei in der Datenbank korrigiert: Ein Promoter war mit dem Nachnamen zuerst eingetragen, die Seite begrüßte ihn deshalb mit dem Nachnamen. Mit Kais Ok umgedreht, die Begrüßung stimmt jetzt.
+
+Wächter: `tests/promoter-abmelden.test.mjs` (Knopf sichtbar im Fuß, Aufräumregel mit nachgebautem Speicher geprüft, Anmeldefenster öffnet sich nach dem Abmelden).
+
+---
 
 ## v1.367 Beta - Phase 352 · KIDZ-Anmeldeseite: Symbole in den Rahmen-Kacheln
 **2026-09-11 · live veröffentlicht**

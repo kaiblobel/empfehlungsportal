@@ -78,6 +78,7 @@ let empfehlungen = [];
 let stufen = [];
 let vorlagen = [];
 let beraterName = 'Kai';
+let beraterSlug = '';
 let refreshTimer = null;
 let isRefreshing = false;
 let pendingRecommendationId = null;
@@ -155,6 +156,7 @@ async function init() {
     applyBeraterBrand(beraterRes.data);
     merkeBerater(`code_${code}`, beraterRes.data);
     beraterName = (beraterRes.data.name || 'Kai').split(' ')[0];
+    beraterSlug = beraterRes.data.slug || '';
   } else if (empfehler.berater_id) {
     // Der Promoter gehört zu einem Berater, dessen Datensatz sich nicht laden
     // ließ (gelöscht oder inaktiv gesetzt). Dann tritt die Regionaldirektion an
@@ -578,6 +580,7 @@ function bindStaticControls() {
   $('#navHistory').addEventListener('click', () => $('#history').scrollIntoView({ behavior: 'smooth', block: 'start' }));
   $('#defaultMessage').addEventListener('input', event => { $('#defaultMessageCount').textContent = `${event.target.value.length}/240`; });
   $('#saveDefaultMessage').addEventListener('click', saveDefaultMessage);
+  $('#logoutButton')?.addEventListener('click', abmelden);
   $$('#notifyChoices .choice-chip').forEach(chip => chip.addEventListener('click', () => saveNotificationChoice(chip)));
   $('#funnelOverlay').addEventListener('click', event => { if (event.target === $('#funnelOverlay')) closeFunnel(); });
   window.addEventListener('scroll', () => $('#topbar').classList.toggle('scrolled', window.scrollY > 8), { passive: true });
@@ -829,6 +832,30 @@ function clearDraft() {
 
 function hasDraftContent() {
   return Boolean(funnel.name || funnel.phone || funnel.topic || funnel.message);
+}
+
+// Abmelden auf diesem Gerät (Kais Wunsch vom 11.09.2026). Der Zugang ist ein
+// Code im Browser; vorher löschte ihn nichts, das Gerät blieb für immer
+// angemeldet. Abmelden vergisst den Code und alles, was zu diesem Zugang auf
+// dem Gerät liegt, und führt zur Anmeldung per Einmal-Link. Der Code selbst
+// bleibt gültig: Wer den persönlichen Link noch hat, kommt damit weiter hinein.
+const gehoertZumZugang = (key) => key === 'empfehler_code' || (Boolean(code) && key.includes(code));
+
+function abmelden() {
+  if (!window.confirm('Auf diesem Gerät abmelden? Mit deiner E-Mail-Adresse holst du dir jederzeit einen neuen Einmal-Link.')) return;
+  try {
+    const weg = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && gehoertZumZugang(key)) weg.push(key);
+    }
+    weg.forEach((key) => localStorage.removeItem(key));
+  } catch (_) {}
+  const ziel = new URL('/promoter-start.html', window.location.origin);
+  if (beraterSlug) ziel.searchParams.set('berater', beraterSlug);
+  ziel.hash = 'vorhandener-bereich';
+  // replace statt Link: "Zurück" soll nicht wieder in den Bereich führen.
+  window.location.replace(`${ziel.pathname}${ziel.search}${ziel.hash}`);
 }
 
 async function saveDefaultMessage() {
