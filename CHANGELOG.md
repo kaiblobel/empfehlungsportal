@@ -4,7 +4,7 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.361 Beta** · Du-Form und Dankeschön, live seit 11.09.2026.
 
 ## v1.361 Beta - Phase 346 · Du-Form und Dankeschön
-**2026-09-11**
+**2026-09-11 · live veröffentlicht**
 
 Kais Entscheidungen vom 11.09.2026: alle Kundenseiten in Du-Form, und die Sommerfest-Seite wird nach dem Fest ein Dankeschön.
 
