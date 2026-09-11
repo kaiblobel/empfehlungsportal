@@ -4,7 +4,7 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.373 Beta** · KIDZ-Anmeldeseite: Instagram und Facebook im Fuß, live seit 11.09.2026.
 
 ## v1.373 Beta - Phase 358 · KIDZ-Anmeldeseite: Instagram und Facebook im Fuß
-**2026-09-11**
+**2026-09-11 · live veröffentlicht**
 
 Kais Wunsch vom 11.09.2026: Facebook auf der KIDZ-Anmeldeseite, als Symbol im Fuß wie auf seinen anderen Seiten, und beide Symbole in ihren Farben. Freigabe: „ja veröffentlichen".
 
