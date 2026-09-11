@@ -183,27 +183,56 @@ function escapeHtml(value: unknown): string {
   }[char]!));
 }
 
+// Outlook-tauglich gebaut (11.09.2026, Kais Wunsch "professioneller"): Outlook am
+// Rechner ignoriert div-Abstände, runde Ecken und Polster an Links. Deshalb
+// Tabellen, Inline-Stile, ein Knopf als Tabellenzelle mit bgcolor und das Logo
+// als JPG (Outlook zeigt kein WebP). Das Logo liegt im Portal unter DASHBOARD_BASE.
 function emailHtml(
   firstName: string,
   adviserName: string,
   url: string,
 ): string {
   const greeting = firstName ? `Hallo ${escapeHtml(firstName)},` : "Hallo,";
+  const name = escapeHtml(adviserName);
+  const link = escapeHtml(url);
+  const logo = new URL(
+    "/assets/images/team-wachsbleiche-marke-mail-120.jpg",
+    new URL(DASHBOARD_BASE),
+  ).toString();
+  const font = "font-family:'Segoe UI',Helvetica,Arial,sans-serif;";
   return `<!doctype html>
-<html lang="de"><head><meta charset="utf-8"></head>
-<body style="margin:0;padding:32px 16px;background:#F7F4EE;color:#20231F;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
-  <div style="max-width:520px;margin:0 auto;padding:38px 32px;background:#FFFDF9;border:1px solid rgba(32,35,31,.13);border-radius:14px;">
-    <p style="margin:0 0 16px;color:#8D7B4E;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;">Persönlicher Zugang</p>
-    <h1 style="margin:0 0 18px;font-size:28px;line-height:1.15;">${greeting}</h1>
-    <p style="margin:0 0 24px;color:#565850;font-size:15px;line-height:1.6;">Mit diesem Einmal-Link öffnest du deinen persönlichen Empfehlungsbereich. Der Link ist 15 Minuten gültig und kann nur einmal verwendet werden.</p>
-    <a href="${
-    escapeHtml(url)
-  }" style="display:inline-block;padding:14px 22px;border-radius:9px;background:#20231F;color:#FFF;text-decoration:none;font-size:14px;font-weight:700;">Meinen Bereich öffnen</a>
-    <p style="margin:28px 0 0;color:#696B64;font-size:12px;line-height:1.55;">Falls du den Link nicht angefordert hast, kannst du diese E-Mail einfach ignorieren.</p>
-    <p style="margin:24px 0 0;color:#8D7B4E;font-size:13px;">${
-    escapeHtml(adviserName)
-  }</p>
-  </div>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Dein persönlicher Zugang</title></head>
+<body style="margin:0;padding:0;background:#F1F4F5;">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;">Dein Einmal-Link ist 15 Minuten gültig.</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#F1F4F5" style="background:#F1F4F5;">
+  <tr><td align="center" style="padding:32px 12px;">
+    <table role="presentation" width="560" cellpadding="0" cellspacing="0" border="0" bgcolor="#FFFFFF" style="width:100%;max-width:560px;background:#FFFFFF;border:1px solid #E3E7E9;">
+      <tr><td style="padding:28px 32px 20px 32px;border-bottom:3px solid #C8AA22;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+          <td width="48" style="padding-right:14px;"><img src="${logo}" width="48" height="48" alt="Team Wachsbleiche" style="display:block;width:48px;height:48px;border:0;border-radius:24px;"></td>
+          <td style="${font}color:#13191D;font-size:15px;line-height:20px;"><strong>${name} &amp; Team</strong><br><span style="color:#5E6B70;font-size:13px;">Deutsche Vermögensberatung</span></td>
+        </tr></table>
+      </td></tr>
+      <tr><td style="padding:30px 32px 8px 32px;${font}color:#13191D;">
+        <p style="margin:0 0 6px 0;color:#0B4650;font-size:12px;line-height:16px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Dein Empfehlungsbereich</p>
+        <p style="margin:0 0 18px 0;font-size:24px;line-height:30px;font-weight:700;">${greeting}</p>
+        <p style="margin:0 0 24px 0;color:#3D4A50;font-size:15px;line-height:24px;">hier ist dein Einmal-Link für deinen persönlichen Empfehlungsbereich. Er ist 15 Minuten gültig und funktioniert genau einmal.</p>
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+          <td bgcolor="#0B4650" style="background:#0B4650;border-radius:10px;padding:14px 26px;">
+            <a href="${link}" style="${font}color:#FFFFFF;font-size:15px;line-height:20px;font-weight:700;text-decoration:none;display:inline-block;">Meinen Bereich öffnen</a>
+          </td>
+        </tr></table>
+        <p style="margin:26px 0 6px 0;color:#5E6B70;font-size:13px;line-height:20px;">Falls der Knopf nicht funktioniert, kopiere diesen Link in deinen Browser:</p>
+        <p style="margin:0 0 24px 0;font-size:12px;line-height:18px;word-break:break-all;"><a href="${link}" style="color:#0B4650;text-decoration:underline;">${link}</a></p>
+        <p style="margin:0 0 26px 0;color:#5E6B70;font-size:13px;line-height:20px;">Du hast den Link nicht angefordert? Dann kannst du diese Mail einfach ignorieren. Dein Bereich bleibt geschützt.</p>
+        <p style="margin:0 0 30px 0;color:#13191D;font-size:15px;line-height:22px;">Viele Grüße<br><strong>${name}</strong></p>
+      </td></tr>
+      <tr><td style="padding:16px 32px 20px 32px;background:#F7F9F9;border-top:1px solid #E3E7E9;${font}color:#7A868B;font-size:11px;line-height:17px;">
+        Diese Mail wurde automatisch versendet, weil mit dieser Adresse ein Zugang zum Empfehlungsbereich angefordert wurde.
+      </td></tr>
+    </table>
+  </td></tr>
+</table>
 </body></html>`;
 }
 
@@ -213,5 +242,5 @@ function emailText(
   url: string,
 ): string {
   const greeting = firstName ? `Hallo ${firstName},` : "Hallo,";
-  return `${greeting}\n\nMit diesem Einmal-Link öffnest du deinen persönlichen Empfehlungsbereich. Der Link ist 15 Minuten gültig und kann nur einmal verwendet werden.\n\n${url}\n\nFalls du den Link nicht angefordert hast, kannst du diese E-Mail einfach ignorieren.\n\n${adviserName}`;
+  return `${greeting}\n\nhier ist dein Einmal-Link für deinen persönlichen Empfehlungsbereich. Er ist 15 Minuten gültig und funktioniert genau einmal.\n\n${url}\n\nDu hast den Link nicht angefordert? Dann kannst du diese Mail einfach ignorieren. Dein Bereich bleibt geschützt.\n\nViele Grüße\n${adviserName}\n${adviserName} & Team · Deutsche Vermögensberatung`;
 }
