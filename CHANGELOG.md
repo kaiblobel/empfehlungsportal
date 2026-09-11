@@ -1,7 +1,28 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.377 Beta** · Admin-Hinweis nur für Admins, live seit 11.09.2026.
+Offizielle Live-Version: **v1.378 Beta** · Farbige Kapitel und Social im Fuß der Empfängerseite, live seit 12.09.2026.
+
+## v1.378 Beta - Phase 363 · Farbige Kapitel und Social im Fuß der Empfängerseite
+**2026-09-12**
+
+Kais Wunsch vom 11.09.2026: „können wir die Interessentenseite Allgemein noch mehr Farbe verleihen? würdest du in der Fußzeile auch Insta-Link und Facebook-Link einbauen?" Die Seite war fast nur Grau-Weiß mit schwarzem Knopf, Gold stand nur als Haarlinie da. Gebaut wurden vier Richtungen als Vorher/Nachher an der echten Seite (Farbige Kapitel, DVAG-Farben, Petrol-Bühne, Warmes Creme). Kai wählte A: „ok freigabe für A".
+
+**Jeder Schritt hat seine eigene Fläche.** Begrüßung und Schwerpunkt-Ergebnis auf warmem Creme, der Film auf dunklem Petrol mit Gold-Knopf, die Auswahl auf hellem Petrol, die Person auf Gold-Creme, die Anrufzeit wieder auf Petrol. Die Knöpfe sind Petrol statt Schwarz. Geändert sind nur Farben, keine Maße; die Maße hält `tests/empfaenger-mobile-first.test.mjs` fest. Auf den Petrol-Schritten erben weiße Karten sonst die weiße Schrift; in der Vergleichsfassung war die Überschrift der Anrufkarte deshalb unsichtbar, die eigene Regel dafür steht unter Aufsicht.
+
+**Zwei Kontraste waren schon vorher zu schwach.** Die kleinen goldenen Überschriften (`--gold-dark #8f7809`) lagen bei 4,0:1 auf dem Seitengrund und 4,3:1 auf Weiß, verlangt sind 4,5:1. Jetzt `#6b5908`. Der graue Fließtext (`--muted`) wäre auf den neuen Flächen unter 4,5:1 gefallen und ist jetzt `#4f6269`. `tests/empfaenger-farbe.test.mjs` rechnet 15 Farbpaare direkt aus den Werten der Datei nach.
+
+**Instagram und Facebook stehen im Fuß, und zwar die des Büros.** Zwei runde Symbole neben Impressum und Datenschutz, mit den Profilen von Team Wachsbleiche. Die Adressen stehen nicht in der Seite, sondern im Büroprofil: `public.buero` hat dafür `instagram_url` und `facebook_url` (nur https), und die beiden Lesefunktionen, über die jede Kundenseite ihren Berater lädt, geben sie vom Büro des Beraters mit. Alle sieben Berater hängen am selben Büro, eine zweite Direktion hätte ihre eigenen Profile. Ohne Adresse bleibt das Symbol versteckt. Eingetragen am 12.09.2026 für das Büro Regionaldirektion Kai Blobel & Team.
+
+Kommt der Berater nicht über den Empfehlungslink, sondern aus der Anmeldung (Vorschau) oder gar nicht (Aufruf ohne Link), fehlen die Felder im Datensatz. Dann holt die Seite nur die zwei Profile nach. Ohne das hätte Kai beim eigenen Nachsehen nie Symbole gesehen. Der gemerkte Berater im Browser heißt jetzt `bb_berater_v5_`, damit Wiederkehrer nicht den alten Datensatz ohne die Felder behalten.
+
+**Fuß, Zurück und Hinweis haben einen hellen Grund.** Der Fuß wandert mit dem aktiven Schritt und liegt damit auch auf Petrol. Am Handy lag das durchsichtige „Zurück" beim Scrollen über dem Hauptknopf und war dort kaum lesbar; jetzt ist es als eigener Knopf erkennbar, am Ende des Schritts liegt es frei unter dem Knopf.
+
+Geprüft an der geänderten Seite, lokal ausgeliefert und wie ein Besucher durch alle sechs Schritte geklickt, Desktop und Handy: beide Symbole sichtbar mit den Team-Adressen, keine Fehler auf der Seite. Als anonymer Besucher liefert `get_berater_public` und `get_berater_public_by_id` die zwei Felder, Rechte unverändert. Gegenproben der neuen Wächter rot gesehen.
+
+Datenbank: `schema-phase363-buero-social.sql`, angewendet am 12.09.2026 als `phase_363_buero_social`. `js/app.js` auf `?v=57`.
+
+---
 
 ## v1.377 Beta - Phase 362 · Admin-Hinweis nur für Admins
 **2026-09-11**

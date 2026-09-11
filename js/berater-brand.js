@@ -22,6 +22,8 @@
  *   data-bb="finanzcheck" → <a>.href bekommt ?b=<slug> angehängt, damit der
  *                           Finanzcheck weiß, wessen Lead er verschickt
  *   data-bb="title"     → document.title-Suffix „· <name>" wird ersetzt
+ *   data-bb="instagram" → <a>.href = instagram_url des Büros, sonst versteckt
+ *   data-bb="facebook"  → <a>.href = facebook_url des Büros, sonst versteckt
  *
  * Felder, die im Berater-Datensatz leer sind, werden NICHT überschrieben — so
  * bleiben die statischen HTML-Defaults (Kai) als Fallback erhalten.
@@ -42,7 +44,8 @@
 // v4 seit Phase 304: Der Datensatz erbt jetzt fehlende Angaben vom Büro und
 // bringt je geerbtem Feld ein Herkunftskennzeichen mit. Ein Wiederkehrer mit
 // altem Eintrag sähe sonst weiter die leeren Felder von vorher.
-const BRAND_CACHE_PREFIX = 'bb_berater_v4_';
+// v5 seit Phase 363: Instagram und Facebook des Büros kommen mit.
+const BRAND_CACHE_PREFIX = 'bb_berater_v5_';
 
 export function merkeBerater(key, b) {
   if (!key || !b) return;
@@ -262,6 +265,13 @@ export function applyBeraterBrand(b) {
         if (b.email) { el.href = `mailto:${b.email}`; el.textContent = b.email; }
         else el.style.display = 'none';
         break;
+      // Phase 363 · Profile des Büros. Im HTML steht bewusst keine Adresse und
+      // das Symbol ist versteckt: Die Seite dient allen Beratern, und welches
+      // Profil gilt, weiß nur das Büro. Nur https, sonst bleibt es versteckt.
+      case 'instagram':
+      case 'facebook':
+        setzeProfilLink(el, b);
+        break;
       case 'finanzcheck': {
         // Phase 311 · Der Finanzcheck gehört allen, nicht nur dem Standard-Berater.
         //
@@ -290,6 +300,26 @@ export function applyBeraterBrand(b) {
   if (b.name && document.title.includes('·')) {
     document.title = document.title.replace(/·[^·]*$/, `· ${b.name}`);
   }
+}
+
+function setzeProfilLink(el, b) {
+  const url = el.dataset.bb === 'instagram' ? b.instagram_url : b.facebook_url;
+  if (typeof url === 'string' && /^https:\/\//.test(url)) {
+    el.href = url;
+    el.hidden = false;
+  } else {
+    el.hidden = true;
+  }
+}
+
+/**
+ * Phase 363 · Nur die Profile des Büros setzen, ohne den Rest der Seite
+ * anzufassen. Für die Fälle, in denen der geladene Datensatz die Felder nicht
+ * kennt (angemeldete Vorschau, Aufruf ohne Link) und sie nachgeholt werden.
+ */
+export function setzeProfile(b) {
+  if (!b) return;
+  document.querySelectorAll('[data-bb="instagram"],[data-bb="facebook"]').forEach((el) => setzeProfilLink(el, b));
 }
 
 /**
