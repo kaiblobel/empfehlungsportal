@@ -4,7 +4,7 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.371 Beta** · KIDZ-Anmeldeseite: § 12 und kompakte Themenkacheln, live seit 11.09.2026.
 
 ## v1.371 Beta - Phase 356 · KIDZ-Anmeldeseite: § 12 und kompakte Themenkacheln
-**2026-09-11**
+**2026-09-11 · live veröffentlicht**
 
 Zwei Wünsche von Kai vom 11.09.2026 für die Anmeldung zu KIDZ for Future, gemeinsam veröffentlicht. Freigabe: „freigabe für live". Die Nummern v1.368 bis v1.370 haben parallele Sitzungen am selben Nachmittag veröffentlicht, deshalb v1.371. Gebaut auf dem Zweig `konrad/kidz-elternabend-paragraf12` (`b156e9b`), für die Veröffentlichung auf den aktuellen main-Stand gesetzt als `konrad/kidz-elternabend-paragraf12-neu`.
 
