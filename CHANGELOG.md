@@ -4,7 +4,7 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.375 Beta** · Schalter für die Teamsicht beim KIDZ-Sommerfest, live seit 11.09.2026.
 
 ## v1.375 Beta - Phase 360 · Schalter für die Teamsicht beim KIDZ-Sommerfest
-**2026-09-11**
+**2026-09-11 · live veröffentlicht**
 
 Kais Wunsch vom 11.09.2026, eine Stunde nach Phase 359: „ein Schalter für mich als Admin, dass jeder nur seine Teilnehmer sieht, und wenn ich umschalte, jeder Berater alle sieht". Und dazu: Jeder Berater soll dann auch zuordnen können, „weil jeder Berater mit seinen Promotern die Teilnehmer durchgeht und ggf. dann zuordnet".
 
