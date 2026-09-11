@@ -24,6 +24,9 @@ Offizielle Live-Version: **v1.374 Beta** · Interessenten-Seite persönlicher, l
 - **Bürofoto nur, wenn hinterlegt.** Ohne `buero_foto_url` setzte das Portal das Porträt ein, in
   Schritt 5 stand dann dasselbe Gesicht zweimal. Jetzt bleibt das Bild weg (`zeigeBuero` in
   `js/app.js`). Kais Feld ist leer, das Bürofoto erscheint bei ihm erst nach dem Eintrag im Profil.
+- **Überblick-Seite scrollte am Handy quer.** Die Fußzeile (Telefon, E-Mail, Impressum,
+  Datenschutz) brach nicht um und ragte bei 390 px 20 px über den Rand. Jetzt `flex-wrap`.
+  Gefunden, als Kai "Lieber erst das ganze Bild ansehen" anklickte.
 - `js/app.js`: Rückfall-Foto für alle Porträts der Seite, Name des Empfehlungsgebers in
   `data-von-text`, Kleinschreibung nach dem Empfängernamen ohne festes Wort. Wächter
   `tests/empfaenger-persoenlich.test.mjs`; `empfaenger-mobile-first` und `empfaenger-formel-video`

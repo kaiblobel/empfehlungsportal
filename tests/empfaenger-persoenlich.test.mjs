@@ -50,4 +50,9 @@ assert.doesNotMatch(html, /\.brand-text span\{display:block/);
 assert.doesNotMatch(html, /\.portrait figcaption span\{display:block/);
 assert.doesNotMatch(html, /\.dc-kopf span\{display:block/);
 
+// Der Link "Lieber erst das ganze Bild ansehen" führt auf die Überblick-Seite. Deren Fußzeile
+// ragte am Handy über den Rand (Querscrollen), sie muss umbrechen dürfen.
+const ueberblickCss = read('css/ueberblick.css');
+assert.match(ueberblickCss, /\.site-footer nav\{display:flex; flex-wrap:wrap;/, 'Fußzeile der Überblick-Seite bricht nicht um');
+
 console.log('empfaenger-persoenlich: OK');
