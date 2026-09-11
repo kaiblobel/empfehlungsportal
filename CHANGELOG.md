@@ -1,7 +1,40 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.375 Beta** · Schalter für die Teamsicht beim KIDZ-Sommerfest, live seit 11.09.2026.
+Offizielle Live-Version: **v1.376 Beta** · Interessenten-Seite persönlicher, live seit 11.09.2026.
+
+## v1.376 Beta - Phase 361 · Interessenten-Seite persönlicher
+**2026-09-11 · live veröffentlicht**
+
+- **Interessenten-Seite persönlicher.** Kai fand die Seite, die ein Interessent über eine
+  Empfehlung bekommt, zu roh. Jetzt spricht der Berater selbst: Kopfzeile mit Foto und Namen,
+  "Eine Empfehlung von Vanessa", "Lisa, schön, dass du da bist.", eine kurze Notiz mit
+  Unterschrift, Schritt 5 mit Ich-Text ("Kein Callcenter. Ich melde mich selbst."), Schritt 6
+  "Wann darf ich dich anrufen?" mit Foto und WhatsApp-Weg. Kai: "gefällt mir gut", "veröffentlichen".
+- **Am Handy fehlte der Berater ganz.** Porträt in Schritt 1 und Personenkarte in Schritt 5 waren
+  per CSS versteckt. Jetzt steht das Gesicht in Kopfzeile, Notiz, Personenkarte und Anrufkarte.
+- **Kais Zahlen bei fremden Beratern.** "20+ Jahre" und "3.000 Haushalte" sahen auch Interessenten
+  von David und den anderen. Jetzt `data-default-berater-only` wie die Google-Bewertung. Die Rolle
+  kommt aus dem Profil statt fest "Dein persönlicher Ansprechpartner".
+- **Schritt 4 ehrlich.** Statt "gesperrtem Potenzialprofil" mit Scheinbalken und laufenden Ziffern
+  der Ablauf des Finanzchecks in drei Schritten. Euro statt Dollar-Zeichen bei "Geld behalten".
+- **Rückweg aus dem Finanzcheck.** Die Seite merkt sich Schritt und Schwerpunkt (sessionStorage) und
+  stellt sie nur bei Zurück-Navigation wieder her, frische Links beginnen vorne. Das X im
+  Finanzcheck selbst führte in die Präsentation; korrigiert in kai-blobel-website v1.65.2 (live).
+- **Bürofoto nur, wenn hinterlegt.** Ohne `buero_foto_url` setzte das Portal das Porträt ein, in
+  Schritt 5 stand dann dasselbe Gesicht zweimal. Jetzt bleibt das Bild weg (`zeigeBuero` in
+  `js/app.js`). Kais Feld ist leer, das Bürofoto erscheint bei ihm erst nach dem Eintrag im Profil.
+- **Überblick-Seite scrollte am Handy quer.** Die Fußzeile (Telefon, E-Mail, Impressum,
+  Datenschutz) brach nicht um und ragte bei 390 px 20 px über den Rand. Jetzt `flex-wrap`.
+  Gefunden, als Kai "Lieber erst das ganze Bild ansehen" anklickte.
+- `js/app.js`: Rückfall-Foto für alle Porträts der Seite, Name des Empfehlungsgebers in
+  `data-von-text`, Kleinschreibung nach dem Empfängernamen ohne festes Wort. Wächter
+  `tests/empfaenger-persoenlich.test.mjs`; `empfaenger-mobile-first` und `empfaenger-formel-video`
+  auf den neuen Stand.
+- Phase 359/360 hatte die parallele Sitzung belegt (KIDZ-Teamsicht, v1.375). Dieser Stand wurde
+  deshalb neu auf `origin/main` aufgesetzt (Zweig `konrad/empfaenger-persoenlich-2`).
+
+---
 
 ## v1.375 Beta - Phase 360 · Schalter für die Teamsicht beim KIDZ-Sommerfest
 **2026-09-11**
