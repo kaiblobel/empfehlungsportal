@@ -117,6 +117,18 @@ assert.match(html, /<strong>Kinderleicht in die Zukunft<\/strong><small>Team Wac
 assert.match(html, /class="kea-header-cta" href="#anmeldung">KIDZ for Future vormerken</);
 assert.match(html, /id="keaMobileCta" href="#anmeldung" hidden>KIDZ for Future vormerken</);
 assert.match(publicJs, /watchMobileCta\(\);/);
+// Kais Regel vom 11.09.2026: Auf der allgemeinen Seite ist kein Berater zu sehen. Eine
+// Person erscheint nur über den persönlichen Anmeldelink (?berater=…), und dann genau die.
+assert.match(html, /<section class="kea-section kea-host" id="gastgeber" aria-labelledby="keaHostTitle" hidden>/);
+assert.match(html, /<a href="#gastgeber" id="keaNavHost" hidden>/);
+assert.doesNotMatch(html, /kai-portrait\.jpg/);
+assert.match(html, /<img data-bb="foto" alt=""/);
+assert.match(publicJs, /getBeraterPublicBySlug\(slug\)/);
+assert.match(publicJs, /applyBeraterBrand\(berater\)/);
+assert.match(publicJs, /!slug\.startsWith\('promoter-'\)/);
+assert.match(publicJs, /loadInvitingAdvisor\(\);/);
+// "Und danach?" gehört allen, deshalb steht es bei den Themen und nicht beim Berater.
+assert.ok(html.indexOf('<strong>Und danach?</strong>') < html.indexOf('id="gastgeber"'));
 assert.match(publicJs, /'sommerfest-danke': 'Schön, dass ihr beim Sommerfest dabei wart\.'/);
 assert.match(publicJs, /showGreeting\(\);/);
 assert.match(html, /class="kea-button kea-button-primary" href="#anmeldung">Unverbindlich vormerken</);

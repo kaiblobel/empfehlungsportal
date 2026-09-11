@@ -1,7 +1,22 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.365 Beta** · KIDZ-Anmeldeseite im Look der Konzeptseite, live seit 11.09.2026.
+Offizielle Live-Version: **v1.366 Beta** · KIDZ-Anmeldeseite: Berater nur per persönlichem Link, live seit 11.09.2026.
+
+## v1.366 Beta - Phase 351 · KIDZ-Anmeldeseite: Berater nur per persönlichem Link
+**2026-09-11**
+
+Kais Hinweis nach dem Live-Gang von v1.365: Auf der allgemeinen Anmeldeseite stand sein Foto im Abschnitt „Wer einlädt". Eine persönliche Anmeldung läuft aber nur über den Anmeldelink des jeweiligen Beraters. Ohne diesen Link darf kein Berater zu sehen sein. Freigabe: „ja veröffentlichen".
+
+**Ohne Link niemand.** Der Abschnitt „Wer einlädt" und sein Menüpunkt stehen im HTML als `hidden`, ohne Porträt und ohne Namen. Wer die Seite direkt, über den Sommerfest-Link oder mit einem unbekannten Kürzel öffnet, sieht keine Person. Kais Porträt wird dann gar nicht erst geladen. Oben steht „Eine Einladung vom Team Wachsbleiche".
+
+**Mit Link genau dieser Berater.** `js/kidz-elternabend.js` liest `?berater=…`, holt den Berater über `get_berater_public` und setzt Foto und Namen über `js/berater-brand.js`, wie auf der KIDZ-Empfehlungsseite. Die Begrüßung lautet dann „Persönlich eingeladen von …". Kais eigene Angaben (zweifacher Vater, über 20 Jahre) tragen `data-default-berater-only` und stehen nur bei ihm. Andere Berater bekommen einen allgemeinen Satz, der sagt, dass Kai oder jemand aus dem Team durch den Abend führt. Promoter-Kürzel zeigen keine Person, die Zuordnung im Formular bleibt.
+
+**„Und danach?"** steht jetzt bei den Themen, damit der Satz auch ohne Berater-Abschnitt auf der Seite bleibt. Der Seitenfuß mit der Regionaldirektion als Veranstalter bleibt unverändert.
+
+Wächter: `tests/kidz-elternabend.test.mjs` prüft, dass der Abschnitt versteckt startet, kein Porträt im HTML steht, Promoter ausgenommen sind und „Und danach?" vor dem Berater-Abschnitt steht. Lokal geprüft mit einem Bedientest über allgemeine Seite, Sommerfest-Link, Kais Link, Sandros Link, Promoter-Link und ein unbekanntes Kürzel, ohne echte Anmeldung.
+
+---
 
 ## v1.365 Beta - Phase 350 · KIDZ-Anmeldeseite im Look der Konzeptseite
 **2026-09-11 · live veröffentlicht**

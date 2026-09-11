@@ -1,3 +1,6 @@
+import { getBeraterPublicBySlug } from './supabase.js';
+import { applyBeraterBrand, merkeBerater, gemerkterBerater } from './berater-brand.js';
+
 const ALLOWED_SOURCES = new Set([
   'elternabend-qr', 'kidz-station', 'berater-einladung', 'sommerfest-danke',
   'facebook', 'instagram', 'whatsapp', 'direkt',
@@ -28,9 +31,8 @@ function readSource() {
   return ALLOWED_SOURCES.has(value) ? value : 'direkt';
 }
 
-function showGreeting() {
+function showGreeting(text = GREETINGS[readSource()]) {
   const greeting = document.getElementById('keaGreeting');
-  const text = GREETINGS[readSource()];
   if (!greeting || !text) return;
   greeting.textContent = text;
   greeting.classList.add('is-personal');
@@ -219,7 +221,46 @@ function watchMobileCta() {
   }).observe(register);
 }
 
+// Ein Berater erscheint nur über seinen persönlichen Anmeldelink (?berater=…). Ohne Link
+// zeigt die Seite niemanden, auch nicht den Standard-Berater. Promoter sind keine Berater
+// und bekommen deshalb keinen Personenabschnitt, ihre Zuordnung läuft über die Auswahl.
+const SAFE_SLUG = /^[a-z0-9-]+$/;
+
+function invitingAdvisorSlug() {
+  const slug = requestedAdvisorSlug();
+  return slug && slug.length <= 80 && SAFE_SLUG.test(slug) && !slug.startsWith('promoter-') ? slug : '';
+}
+
+function setAdvisorVisible(visible) {
+  document.getElementById('gastgeber').hidden = !visible;
+  document.getElementById('keaNavHost').hidden = !visible;
+}
+
+function showAdvisor(berater) {
+  applyBeraterBrand(berater);
+  const isDefault = window.ENV_BERATER_ID ? berater.id === window.ENV_BERATER_ID : berater.slug === 'kai-blobel';
+  document.querySelectorAll('[data-andere-berater]').forEach((el) => { el.hidden = isDefault; });
+  setAdvisorVisible(true);
+  if (!GREETINGS[readSource()] && berater.name) showGreeting(`Persönlich eingeladen von ${berater.name}`);
+}
+
+async function loadInvitingAdvisor() {
+  const slug = invitingAdvisorSlug();
+  if (!slug) return;
+  const remembered = gemerkterBerater(slug);
+  if (remembered) showAdvisor(remembered);
+  const { data, error } = await getBeraterPublicBySlug(slug);
+  if (data) {
+    showAdvisor(data);
+    merkeBerater(slug, data);
+  } else if (!error) {
+    // Das Kürzel gibt es nicht (mehr). Dann steht niemand da, auch kein gemerkter Stand.
+    setAdvisorVisible(false);
+  }
+}
+
 showGreeting();
 watchMobileCta();
 loadAdvisors();
+loadInvitingAdvisor();
 mountTurnstile();
