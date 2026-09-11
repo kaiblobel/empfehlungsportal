@@ -95,7 +95,9 @@
     .knopf{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:0 22px;border-radius:var(--radius);border:1px solid transparent;font:inherit;font-size:15px;font-weight:600;text-decoration:none;cursor:pointer}
     .knopf-gold{background:var(--gold);border-color:var(--gold);color:var(--auf-gold)}
     .knopf-gold:hover{background:#b89c1f;border-color:#b89c1f}
-    .knopf-gold:disabled{opacity:.45;cursor:not-allowed}
+    /* Gesperrt heißt neutral, nicht blasses Gold: Halbdurchsichtiges Gold liest
+       sich wie ein Anzeigefehler und der Text wird unlesbar. */
+    .knopf-gold:disabled{background:var(--flaeche-2);border-color:var(--linie-stark);color:var(--text-3);cursor:not-allowed}
     .knopf-rand{background:var(--weiss);border-color:var(--rand);color:var(--text)}
     .knopf-rand:hover{border-color:var(--gold-schrift);color:var(--gold-schrift)}
     .knopf-text{background:none;border:0;padding:0;min-height:44px;color:var(--gold-schrift);font:inherit;font-size:14px;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
