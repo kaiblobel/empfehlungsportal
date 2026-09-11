@@ -444,7 +444,7 @@ for (const [name, quelle] of [['Gewinnspiel', adminJs], ['KIDZ for Future', elte
 import { stat as dateiInfo } from 'node:fs/promises';
 
 for (const [seite, bild] of [
-  ['kidz-sommerfest.html', 'kidz-vorschau-sommerfest.jpg'],
+  ['kidz-sommerfest.html', 'kidz-vorschau-sommerfest-danke.jpg'],
   ['kidz-gewinnspiel.html', 'kidz-vorschau-gewinnspiel.jpg'],
   ['kidz-elternabend.html', 'kidz-vorschau-elternabend.jpg'],
 ]) {
