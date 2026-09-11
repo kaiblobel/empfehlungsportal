@@ -20,6 +20,10 @@
 .kg-admin-toolbar select { min-height: 42px; padding: 0 34px 0 11px; border: 1px solid #d9dadd; border-radius: 9px; background: #fff; color: #3e4852; font: inherit; font-size: 12px; }
 .kg-admin-toggle { display: flex; align-items: center; gap: 7px; color: #3e4852; font-size: 12px; font-weight: 650; }
 .kg-admin-toggle input { width: 18px; height: 18px; accent-color: #0c6c3f; }
+/* Phase 360: .admin-sicht-hinweis steht in dashboard.css auf display: flex, und
+   das schlaegt hidden. Ohne diese Regel stuenden beide Sicht-Hinweise fuer jeden da. */
+.admin-sicht-hinweis[hidden] { display: none; }
+#teamSichtLage { display: block; margin: 4px 0 0 25px; color: #6b6f76; font-size: 12px; }
 .kg-admin-section-head { display: flex; align-items: center; justify-content: space-between; margin: 0 0 10px; }
 .kg-admin-section-head h2 { margin: 0; font-size: 19px; }
 .kg-admin-section-head span { color: #777b82; font-size: 12px; }

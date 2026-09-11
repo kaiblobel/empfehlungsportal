@@ -1,7 +1,45 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.373 Beta** · KIDZ-Anmeldeseite: Instagram und Facebook im Fuß, live seit 11.09.2026.
+Offizielle Live-Version: **v1.375 Beta** · Schalter für die Teamsicht beim KIDZ-Sommerfest, live seit 11.09.2026.
+
+## v1.375 Beta - Phase 360 · Schalter für die Teamsicht beim KIDZ-Sommerfest
+**2026-09-11**
+
+Kais Wunsch vom 11.09.2026, eine Stunde nach Phase 359: „ein Schalter für mich als Admin, dass jeder nur seine Teilnehmer sieht, und wenn ich umschalte, jeder Berater alle sieht". Und dazu: Jeder Berater soll dann auch zuordnen können, „weil jeder Berater mit seinen Promotern die Teilnehmer durchgeht und ggf. dann zuordnet".
+
+**Der Schalter steht auf der Gewinnspiel-Seite, nur für Administratoren sichtbar.** „Teamsicht: Alle Berater sehen alle Teilnehmer und können sie zuordnen". Darunter steht in einem Satz, was gerade gilt. Er startet auf an, damit sich für das Team heute nichts ändert, und bleibt so, bis Kai ihn umlegt. Die Frist bis Montag aus Phase 359 ist damit ersetzt (Kais Entscheidung).
+
+**Es ist ein Schloss, keine Anzeige.** Der Stand liegt in der Tabelle `kidz_team_sicht`, je Fest eine Zeile, umlegen darf nur ein Admin. Die Leseregel `kidz_gewinnspiel_team_select_schalter` und die Zuordnungsfunktion fragen ihn selbst ab. Fehlt die Zeile für ein Fest, gilt die enge Sicht, künftige Feste starten also eng.
+
+**Was an ist:** sehen und zuordnen. **Was aus bleibt:** das Schreiben an fremden Anmeldungen (Schätzung, Begleitpersonen), das Häkchen für KIDZ for Future und das Löschen. Wer wem zuordnet, hält die Datenbank fest (`zugeordnet_von`, `zugeordnet_am`), denn solange der Schalter an ist, kann jeder Berater jeden Teilnehmer auch sich selbst zuordnen. Wer eingeladen hat (`empfehler_id`), bleibt beim Umhängen unberührt.
+
+**Berater sehen jetzt einen Hinweis**, wenn die Teamsicht an ist, und den Filter nach Beratern und Promotern, den bisher nur Admins hatten.
+
+**Zwei Fehler, die mit der offenen Sicht sichtbar geworden wären, sind mit behoben.** Ein Berater ohne Admin-Recht darf die Tabelle `berater` nicht lesen. Bei fremden Anmeldungen stand deshalb „Zugeordnet zu Kai Blobel", egal bei wem sie lagen. Die Namen kommen jetzt über `kidz_team_berater()`, die nur Name und Kürzel derer herausgibt, die bei einem offenen Fest Anmeldungen haben. Und die Knöpfe „Schätzung" und „KIDZ for Future" standen auch an fremden Anmeldungen: Die Datenbank wies das Schreiben still ab, die Seite zeigte die Schätzung trotzdem als gespeichert. An fremden Anmeldungen stehen die Werte jetzt als Text.
+
+**Nebenbei:** `.admin-sicht-hinweis` steht in `dashboard.css` auf `display: flex`, und das schlägt `hidden`. Der Hinweis „Du siehst hier als Admin alle Anmeldungen" stand dadurch auch bei normalen Beratern. Behoben für die beiden KIDZ-Seiten, die `css/kidz-gewinnspiel-admin.css` laden (`?v=8` auf beiden). `praemien.html` hat dieselbe Stelle und ist nicht angefasst.
+
+Gegen die echte Datenbank geprüft und zurückgerollt. Schalter an: Ein Berater ohne Admin-Recht sieht 225, bekommt 7 Beraternamen, kann eine fremde Anmeldung zuordnen und den Schalter nicht umlegen. Schalter aus: Er sieht seine 13, bekommt keine Namen, Zuordnen ergibt `forbidden`.
+
+Datenbank: `schema-phase360-kidz-sicht-schalter.sql`, angewendet am 11.09.2026 als `phase_360_kidz_sicht_schalter`. Wächter in `tests/kidz-gewinnspiel.test.mjs`.
+
+---
+
+## Phase 359 · Jeder Berater sieht die Sommerfest-Anmeldungen, bis Montag
+**2026-09-11 · nur Datenbank, live eingespielt, keine eigene Seitenversion, am selben Tag von Phase 360 ersetzt**
+
+Kais Auftrag vom 11.09.2026: „die KIDZ Sommerfestteilnehmer bis Montag wieder für alle Berater freigeben, so dass jeder wieder alle sieht". Seit Phase 336 sah jeder Berater nur seine eigenen Anmeldungen. Für die Nacharbeit nach dem Fest (170 von 225 Kontakten liegen noch beim Vorgabeberater) sieht jetzt wieder jeder alle.
+
+**Nur Sehen, und nur bis Montag.** Die neue Leseregel `kidz_gewinnspiel_team_select_befristet` gilt für das Sommerfest, für Personen mit Beraterkonto und bis Montag, 14.09.2026, 24 Uhr. Danach greift sie von selbst nicht mehr. Nicht wieder geöffnet sind das Schreiben an fremden Anmeldungen, das Häkchen für KIDZ for Future und das Löschen, anders als am Festtag (Phase 333).
+
+Gegen die echte Datenbank geprüft und zurückgerollt: Ein Berater ohne Admin-Recht sieht 225 statt seiner 13 und kann an keiner fremden Anmeldung etwas ändern.
+
+Die Seite selbst braucht nichts: Die Liste lädt ohnehin alles, was die Datenbank herausgibt.
+
+Datenbank: `schema-phase359-kidz-team-sicht-befristet.sql`, angewendet am 11.09.2026 als `phase_359_kidz_team_sicht_befristet`. Wächter in `tests/kidz-gewinnspiel.test.mjs`.
+
+---
 
 ## v1.373 Beta - Phase 358 · KIDZ-Anmeldeseite: Instagram und Facebook im Fuß
 **2026-09-11 · live veröffentlicht**

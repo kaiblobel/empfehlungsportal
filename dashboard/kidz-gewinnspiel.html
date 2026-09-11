@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
   <link rel="stylesheet" href="../css/style.css?v=38">
   <link rel="stylesheet" href="../css/dashboard.css?v=56">
-  <link rel="stylesheet" href="../css/kidz-gewinnspiel-admin.css?v=7">
+  <link rel="stylesheet" href="../css/kidz-gewinnspiel-admin.css?v=8">
   <link rel="stylesheet" href="../css/dna.css?v=13" />
   <script src="../js/config.js"></script>
   <script src="../js/wartung.js?v=4"></script>
@@ -50,6 +50,20 @@
 
       <p class="admin-sicht-hinweis" id="adminSichtHinweis" hidden>
         Du siehst hier als Admin alle Anmeldungen des Portals, nicht nur deine eigenen. Die Kacheln zählen entsprechend das ganze Fest.
+      </p>
+
+      <!-- Phase 360: Kais Schalter für die Teamsicht. Nur für Administratoren
+           sichtbar, durchgesetzt in der Datenbank (kidz_team_sicht). -->
+      <div id="teamSichtSchalter" style="margin: 14px 0 0;" hidden>
+        <label class="kg-admin-toggle" for="teamSichtAn">
+          <input id="teamSichtAn" type="checkbox">
+          Teamsicht: Alle Berater sehen alle Teilnehmer und können sie zuordnen
+        </label>
+        <small id="teamSichtLage" role="status"></small>
+      </div>
+
+      <p class="admin-sicht-hinweis" id="teamSichtHinweis" hidden>
+        Die Teamsicht ist freigegeben: Du siehst alle Anmeldungen des Festes, nicht nur deine eigenen, und kannst sie einem Berater zuordnen. Die Kacheln zählen entsprechend das ganze Fest.
       </p>
 
       <div class="kg-admin-kpi-label">Reichweite des Sommerfests</div>
@@ -197,6 +211,6 @@
   </dialog>
 
   <script type="module" src="../js/nav.js?v=71"></script>
-  <script type="module" src="../js/kidz-gewinnspiel-admin.js?v=18"></script>
+  <script type="module" src="../js/kidz-gewinnspiel-admin.js?v=19"></script>
 </body>
 </html>

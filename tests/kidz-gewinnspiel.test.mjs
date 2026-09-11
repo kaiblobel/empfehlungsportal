@@ -578,8 +578,10 @@ assert.doesNotMatch(zuordnung, /kidz_gewinnspiel_einladende/);
 assert.match(adminJs, /supabase\.rpc\('set_kidz_gewinnspiel_berater'/);
 assert.doesNotMatch(adminJs, /update\(\{ berater_id/,
   'Die Zuordnung darf nicht direkt aus dem Browser geschrieben werden.');
-// Das Auswahlfeld erscheint nur fuer Administratoren.
-assert.match(adminJs, /ist_admin[\s\S]{0,120}return `<strong>\$\{escapeHtml\(name\)\}<\/strong>`/);
+// Das Auswahlfeld erscheint nur fuer die, die zuordnen duerfen: Administratoren
+// immer, alle anderen nur bei offener Teamsicht (Phase 360).
+assert.match(adminJs, /darfZuordnen\(\)[\s\S]{0,120}return `<strong>\$\{escapeHtml\(name\)\}<\/strong>`/);
+assert.match(adminJs, /function darfZuordnen\(\) \{\s*return Boolean\(currentAdvisor\?\.ist_admin \|\| teamSichtOffen\);/);
 
 // Die Falle mit hidden gilt auch hier: der Vermerk an der Karte ist ein span,
 // und fuer span steht weiter oben display: block.
@@ -615,6 +617,53 @@ assert.doesNotMatch(schlussMigration, /drop policy if exists kidz_gewinnspiel_ad
 // Und das Haekchen gilt wieder nur an eigenen Anmeldungen.
 assert.doesNotMatch(schlussMigration, /v_event <> 'kidz-sommerfest-2026'/,
   'Die Sommerfest-Sonderregel muss aus der Interesse-Funktion raus sein.');
+
+// Phase 359: Noch einmal sieht jeder Berater alle Sommerfest-Anmeldungen, aber
+// nur sehen und nur bis Montag, 14.09.2026. Faellt eine der drei Schranken weg,
+// bleibt die Liste still fuer jeden mit Beraterkonto offen.
+const befristet = (await read('schema-phase359-kidz-team-sicht-befristet.sql'))
+  .replace(/^--.*$/gm, '');
+assert.match(befristet, /create policy kidz_gewinnspiel_team_select_befristet[\s\S]{0,120}for select/);
+assert.match(befristet, /current_berater_id\(\) is not null/);
+assert.match(befristet, /event_key = 'kidz-sommerfest-2026'/);
+assert.match(befristet, /now\(\) < timestamptz '2026-09-15 00:00:00\+02'/,
+  'Ohne Ablaufdatum bleibt die Freigabe fuer immer stehen.');
+// Nur Sehen. Schreiben, Haekchen und Loeschen bleiben so, wie Phase 336 sie
+// zurueckgesetzt hat.
+assert.doesNotMatch(befristet, /for (update|delete|insert|all)/);
+assert.doesNotMatch(befristet, /set_kidz_gewinnspiel_interesse/);
+
+// Phase 360: Kais Schalter ersetzt die Frist. An = jeder Berater sieht alle
+// Teilnehmer und darf zuordnen. Aus = jeder nur seine.
+const schalterSql = (await read('schema-phase360-kidz-sicht-schalter.sql'))
+  .replace(/^--.*$/gm, '');
+assert.match(schalterSql, /create table if not exists public\.kidz_team_sicht/);
+// Umlegen darf nur ein Admin, anlegen und loeschen niemand im Browser.
+assert.match(schalterSql, /on public\.kidz_team_sicht for update[\s\S]{0,120}is_current_berater_admin\(\)/);
+assert.doesNotMatch(schalterSql, /on public\.kidz_team_sicht for (insert|delete|all)/);
+assert.match(schalterSql, /revoke all on public\.kidz_team_sicht from public, anon, authenticated/);
+assert.match(schalterSql, /grant update \(alle_sehen\) on public\.kidz_team_sicht to authenticated/);
+// Die Frist aus Phase 359 ist weg, die neue Leseregel haengt am Schalter.
+assert.match(schalterSql, /drop policy if exists kidz_gewinnspiel_team_select_befristet/);
+assert.match(schalterSql,
+  /create policy kidz_gewinnspiel_team_select_schalter[\s\S]{0,200}current_berater_id\(\) is not null[\s\S]{0,80}kidz_team_sicht_offen\(event_key\)/);
+// Sehen und Zuordnen, sonst nichts: kein Schreiben, kein Haekchen, kein Loeschen.
+assert.doesNotMatch(schalterSql, /on public\.kidz_gewinnspiel_teilnahmen for (update|delete|insert|all)/);
+assert.doesNotMatch(schalterSql, /set_kidz_gewinnspiel_interesse/);
+assert.doesNotMatch(schalterSql, /grant update \(berater_id/);
+// Zuordnen: Admin immer, andere nur bei offenem Schalter, mit Stempel.
+assert.match(schalterSql, /v_is_admin or \(v_event is not null and public\.kidz_team_sicht_offen\(v_event\)\)/);
+assert.match(schalterSql, /zugeordnet_von = v_actor/);
+assert.doesNotMatch(schalterSql, /set[\s\S]{0,160}empfehler_id = /,
+  'Wer eingeladen hat, darf beim Umhaengen nicht ueberschrieben werden.');
+// Die Seite liest den Schalter und holt die Namen fremder Berater.
+assert.match(adminJs, /\.from\('kidz_team_sicht'\)/);
+assert.match(adminJs, /supabase\.rpc\('kidz_team_berater'\)/);
+// Bei fremden Anmeldungen keine Knoepfe, die scheinbar speichern.
+assert.match(adminJs, /\$\{istEigen\(entry\) \?/);
+// hidden verliert gegen display: flex. Ohne diese Regel stuende der Hinweis
+// fuer jeden da.
+assert.match(adminCss, /\.admin-sicht-hinweis\[hidden\]\s*\{\s*display:\s*none/);
 
 // Die Seite muss sagen, was passiert ist, statt pauschal "Du bist dabei".
 const gewinnspielJs = await read('js/kidz-gewinnspiel.js');
