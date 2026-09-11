@@ -8,7 +8,7 @@
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/svg+xml" href="/assets/icons/icon.svg" />
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="../css/style.css?v=37" />
+  <link rel="stylesheet" href="../css/style.css?v=38" />
   <link rel="stylesheet" href="../css/dashboard.css?v=56" />
   <link rel="stylesheet" href="../css/dna.css?v=13" />
   <!-- Nach dna.css, weil die Listenregeln eigene Klassennamen haben und
@@ -164,7 +164,7 @@
       requireAuth, logout, loadEmpfehlungen, updateStatus, setInteressiert,
       updateEmpfehlung, formatDate, applyBeraterHeader, whatsappLink,
     } from '../js/dashboard.js';
-    import { deleteEmpfehlung, getVorlagen, markiereGesehen, getFunnelQuellen } from '../js/supabase.js';
+    import { deleteEmpfehlung, getVorlagen, markiereGesehen, getFunnelQuellen, themaGesperrt } from '../js/supabase.js';
     import { hydrateIcons, icon } from '../js/icons.js';
 
     applyBeraterHeader();
@@ -611,7 +611,10 @@
       for (const v of vorlagen) {
         const opt = document.createElement('option');
         opt.value = v.slug;
-        opt.textContent = v.titel || v.slug;
+        // Gesperrte Themen bleiben sichtbar, lassen sich aber nicht neu wählen (Phase 345).
+        const gesperrt = themaGesperrt(v);
+        opt.textContent = gesperrt ? `${v.titel || v.slug} (gesperrt)` : (v.titel || v.slug);
+        opt.disabled = gesperrt;
         editThema.appendChild(opt);
       }
     }

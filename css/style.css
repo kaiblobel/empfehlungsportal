@@ -515,6 +515,10 @@ img { max-width: 100%; display: block; }
   font-family: inherit;
 }
 .vorlage-kachel:active { transform: scale(0.98); }
+/* Gesperrtes Thema (Phase 345): sichtbar, aber nicht wählbar. */
+.vorlage-kachel.vorlage-kachel-bald { cursor: default; opacity: .55; }
+.vorlage-kachel.vorlage-kachel-bald:active { transform: none; }
+.vorlage-bald { font-size: 11px; color: var(--text-secondary); }
 .vorlage-kachel.selected {
   border-color: var(--text-primary);
   background: var(--surface-2);

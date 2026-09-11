@@ -47,7 +47,24 @@ async function rpc(name, body) {
   }
 }
 
+// Themen, die ein Interessent sehen darf: aktiv und nicht mehr in Arbeit
+// (Phase 345). null heißt: Abruf gescheitert, dann entscheidet der Aufrufer.
+async function freigegebeneThemen() {
+  try {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/vorlagen?select=slug&aktiv=eq.true&in_arbeit=eq.false`, {
+      headers: { apikey: ANON, Authorization: `Bearer ${ANON}` },
+    });
+    if (!r.ok) return null;
+    const rows = await r.json();
+    if (!Array.isArray(rows)) return null;
+    return new Set(rows.map((row) => String(row.slug || '').toLowerCase()));
+  } catch (_) {
+    return null;
+  }
+}
+
 module.exports = async function handler(req, res) {
+  const freigabeAbruf = freigegebeneThemen();
   const host = (req.headers['x-forwarded-host'] || req.headers.host || '').split(',')[0];
   const proto = (req.headers['x-forwarded-proto'] || 'https').split(',')[0];
   const base = `${proto}://${host}`;
@@ -86,7 +103,16 @@ module.exports = async function handler(req, res) {
     // Eintrag laesst sich die Seite auch direkt als Vorlage verschicken.
     ueberblick: '/ueberblick.html',
   };
-  const pagePath = pageByTemplate[template] || '/empfaenger.html';
+  let pagePath = pageByTemplate[template] || '/empfaenger.html';
+
+  // Gesperrte Themen (vorlagen.in_arbeit, Phase 345) bekommt kein Interessent
+  // zu sehen, auch nicht über einen Link, der schon verschickt ist. Er landet
+  // auf der allgemeinen Seite. Scheitert der Abruf, gilt das für alle Themen,
+  // die nur die gemeinsame Vorlage thema.html haben.
+  const freigegeben = await freigabeAbruf;
+  const immerFrei = template === 'allgemein' || template === 'ueberblick' || !template;
+  const gesperrt = !immerFrei && (freigegeben ? !freigegeben.has(template) : pagePath === '/thema.html');
+  if (gesperrt) pagePath = '/empfaenger.html';
 
   // Passende statische Empfänger-Seite holen (nicht rewritten -> keine Rekursion).
   let html;

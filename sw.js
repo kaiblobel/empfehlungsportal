@@ -13,7 +13,7 @@
  * trägt — die darf nie veraltet sein.
  */
 
-const CACHE_VERSION = 'v319-2026-09-10-phase344';
+const CACHE_VERSION = 'v320-2026-09-11-phase345';
 const SHELL_CACHE = `shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `assets-${CACHE_VERSION}`;
 
@@ -24,7 +24,7 @@ const SHELL_URLS = [
   '/dashboard/potenziale.html',
   '/dashboard/kidz-elternabend.html',
   '/thema.html',
-  '/css/style.css?v=37',
+  '/css/style.css?v=38',
   '/css/dashboard.css?v=56',
   '/css/hub.css?v=63',
   '/css/dna.css?v=13',
@@ -49,7 +49,7 @@ const SHELL_URLS = [
   '/js/potenziale-utils.mjs',
   '/js/empfehlung-detail.js?v=5',
   '/js/kidz-elternabend-admin.js?v=6',
-  '/js/themen-vorschau.js?v=11',
+  '/js/themen-vorschau.js?v=12',
   '/js/hot-lead-watcher.js',
   '/js/dashboard.js',
   '/js/supabase.js',

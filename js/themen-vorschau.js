@@ -4,6 +4,8 @@ import {
   getBeraterPublicBySlug,
   getEmpfehlungByToken,
   markInteressiert,
+  getVorlagenPublic,
+  themaGesperrt,
 } from './supabase.js';
 import { zeigeBueroStattBerater } from './buero-brand.js';
 
@@ -767,7 +769,9 @@ function renderBaufiMode() {
   document.getElementById('baufiFunding').hidden = !isBaufi;
   document.getElementById('baufiDifference').hidden = !isBaufi;
   document.getElementById('baufiSticky').hidden = !isBaufi;
-  document.getElementById('baufiNextSteps').hidden = !isBaufi;
+  // Gibt es nur auf thema.html, in themen-vorschau.html fehlt der Block.
+  const nextSteps = document.getElementById('baufiNextSteps');
+  if (nextSteps) nextSteps.hidden = !isBaufi;
   document.getElementById('signalsSection').hidden = isBaufi;
   document.getElementById('scopeSection').hidden = isBaufi;
   document.getElementById('toolsSection').hidden = isBaufi;
@@ -942,7 +946,55 @@ document.addEventListener('click', (event) => {
   if (event.target.closest('[data-track-booking], [data-track-tool]')) void markLeadInterest();
 });
 
-if (!isPreview && token) {
+async function istAngemeldet() {
+  try {
+    const { data } = await supabase.auth.getSession();
+    return Boolean(data?.session);
+  } catch (_) {
+    return false;
+  }
+}
+
+// Die interne Vorschau (themen-vorschau.html) zeigt Entwürfe und die
+// Beraterliste. Ohne Anmeldung geht es zum Login (Phase 345).
+async function vorschauNurAngemeldet() {
+  if (!isPreview || await istAngemeldet()) return false;
+  location.replace('/dashboard/index.html');
+  return true;
+}
+
+// Gesperrte Themen (vorlagen.in_arbeit, Phase 345) sieht kein Interessent.
+// Ohne Anmeldung geht es auf die allgemeine Seite, mit denselben Angaben zu
+// Empfehlung und Berater. Angemeldete Berater sehen den Entwurf mit Hinweis.
+async function weiterleitenWennGesperrt() {
+  if (isPreview) return false;
+  const liste = await getVorlagenPublic();
+  const eintrag = liste.find((v) => v.slug === currentTopic);
+  // Kein Eintrag (Abruf gescheitert oder unbekanntes Thema): lieber sperren.
+  const gesperrt = eintrag ? themaGesperrt(eintrag) : currentTopic !== 'allgemein';
+  if (!gesperrt) return false;
+  if (await istAngemeldet()) {
+    zeigeEntwurfBand();
+    return false;
+  }
+  const ziel = new URL('/empfaenger.html', window.location.origin);
+  if (token) ziel.searchParams.set('token', token);
+  if (expliziterSlug) ziel.searchParams.set('berater', expliziterSlug);
+  location.replace(ziel.toString());
+  return true;
+}
+
+function zeigeEntwurfBand() {
+  const band = document.createElement('div');
+  band.setAttribute('role', 'status');
+  band.textContent = 'Entwurf: Dieses Thema ist für Kunden gesperrt. Nur angemeldete Berater sehen diese Seite.';
+  band.style.cssText = 'position:sticky;top:0;z-index:50;padding:10px 16px;background:#13191D;color:#fff;font:600 13px/1.4 Inter,system-ui,sans-serif;text-align:center;';
+  document.body.prepend(band);
+}
+
+const seiteVerlassen = await vorschauNurAngemeldet();
+
+if (!seiteVerlassen && !isPreview && token) {
   const result = await getEmpfehlungByToken(token);
   recommendationData = result.data || null;
   if (recommendationData) {
@@ -953,9 +1005,11 @@ if (!isPreview && token) {
   } else {
     renderRecommendation();
   }
-} else if (currentMode === 'referral') {
+} else if (!seiteVerlassen && currentMode === 'referral') {
   renderRecommendation();
 }
 
-await loadAdvisor();
-render();
+if (!seiteVerlassen && !(await weiterleitenWennGesperrt())) {
+  await loadAdvisor();
+  render();
+}

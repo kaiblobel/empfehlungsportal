@@ -7,6 +7,7 @@ import {
   getVorlagen,
   getVorlagenPublic,
   getVorlage,
+  themaGesperrt,
   getEmpfehlerByCode,
   getBeraterPublicById,
   getBeraterPublicBySlug,
@@ -366,13 +367,19 @@ if (page === 'empfehlen') {
         renderNachrichtVorlagen('allgemein');
         return;
       }
-      grid.innerHTML = list.map(v => `
-        <button type="button" class="vorlage-kachel${v.slug === 'allgemein' ? ' selected' : ''}" data-slug="${v.slug}">
+      // Themen mit in_arbeit sind sichtbar, aber nicht wählbar (Phase 345).
+      // Allgemein bleibt immer frei, es ist der Rückfall für alles andere.
+      grid.innerHTML = list.map(v => {
+        const gesperrt = themaGesperrt(v);
+        return `
+        <button type="button" class="vorlage-kachel${gesperrt ? ' vorlage-kachel-bald' : (v.slug === 'allgemein' ? ' selected' : '')}" data-slug="${v.slug}"${gesperrt ? ' disabled aria-disabled="true" title="Diese Themenseite ist noch in Arbeit."' : ''}>
           <span class="icon">${vorlagenIconHtml(v.icon)}</span>
           <span class="titel">${escapeHtml(v.titel)}</span>
+          ${gesperrt ? '<span class="vorlage-bald">bald</span>' : ''}
         </button>
-      `).join('');
-      grid.querySelectorAll('.vorlage-kachel').forEach(btn => {
+      `;
+      }).join('');
+      grid.querySelectorAll('.vorlage-kachel:not([disabled])').forEach(btn => {
         btn.addEventListener('click', () => {
           grid.querySelectorAll('.vorlage-kachel').forEach(b => b.classList.toggle('selected', b === btn));
           if (vorlageSlugEl) vorlageSlugEl.value = btn.dataset.slug;
@@ -511,6 +518,10 @@ if (page === 'empfaenger') {
   const brandKey = params.get('berater') || (token ? `tok_${token}` : 'me');
   const sofort = gemerkterBerater(brandKey);
   if (sofort) applyBeraterBrand(sofort);
+  // Das Kürzel für applyVorlage. Stand bis hierher nur im Block der
+  // Empfehlen-Seite: Auf dieser Seite warf applyVorlage deshalb einen
+  // ReferenceError, und alles danach (Empfehlerkarte, Anrufwunsch) lief nie.
+  let aktuellerBeraterSlug = sofort?.slug || '';
 
   // Austragen-Link
   const optoutLink = document.getElementById('austragenLink');
@@ -588,6 +599,7 @@ if (page === 'empfaenger') {
     if (berater) {
       applyBeraterBrand(berater);
       merkeBerater(brandKey, berater);
+      aktuellerBeraterSlug = berater.slug || aktuellerBeraterSlug;
       fremderBerater = window.ENV_BERATER_ID
         ? berater.id !== window.ENV_BERATER_ID
         : berater.slug !== 'kai-blobel';
@@ -601,7 +613,9 @@ if (page === 'empfaenger') {
 
     const slugResolved = (urlVorlage || empData?.vorlage_slug || 'allgemein').toLowerCase();
 
-    const v = (await getVorlage(slugResolved)) || (await getVorlage('allgemein'));
+    // Ein gesperrtes Thema (Phase 345) zeigt die Inhalte von Allgemein.
+    const gewaehlt = await getVorlage(slugResolved);
+    const v = (gewaehlt && !themaGesperrt(gewaehlt) ? gewaehlt : null) || (await getVorlage('allgemein'));
 
     if (v) applyVorlage(v);
 

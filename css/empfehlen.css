@@ -227,6 +227,10 @@ body[data-page="empfehlen"] .vorlage-kachel .titel {
   color: var(--f-deep);
   line-height: 1.2;
 }
+/* Gesperrtes Thema (Phase 345): sichtbar, aber nicht wählbar. */
+body[data-page="empfehlen"] .vorlage-kachel.vorlage-kachel-bald { cursor: default; opacity: .55; }
+body[data-page="empfehlen"] .vorlage-kachel.vorlage-kachel-bald:hover { border-color: var(--f-hairline); }
+body[data-page="empfehlen"] .vorlage-bald { font-size: 12px; color: var(--f-anthracite); }
 body[data-page="empfehlen"] .vorlage-skel {
   background: var(--f-soft);
   border-radius: 4px;

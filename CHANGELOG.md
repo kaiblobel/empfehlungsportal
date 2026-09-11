@@ -1,7 +1,30 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.359 Beta** · Die Symbole sitzen in der Mitte, live seit 10.09.2026.
+Offizielle Live-Version: **v1.360 Beta** · Nur Fertiges im Schaufenster, live seit 11.09.2026.
+
+## v1.360 Beta - Phase 345 · Nur Fertiges im Schaufenster
+**2026-09-11**
+
+Kais Leitlinie vom 11.09.2026: Kein Interessent sieht eine Seite, die nicht fertig ist oder nicht richtig funktioniert.
+
+**Nur fertige Themen sind wählbar.** Eine eigene, fertige Seite haben Allgemein, Baufinanzierung und Kinder. Förderungen, Selbständige, Geldanlage, Absicherung, Karriere, Banking und Energie liefen über die gemeinsame Vorlage `thema.html`. Sie stehen in der Promoter-App und im Empfehlungsformular weiter da, aber mit „Kommt bald" und ohne Auswahl. Die Sperre ist das Feld `vorlagen.in_arbeit`. Das gab es seit Phase 22, es war aber nur eine Markierung in der Themen-Verwaltung. Dort heißt der Schalter jetzt „Für Empfehlungen gesperrt": Wer ihn ausschaltet, gibt das Thema frei, ohne dass etwas veröffentlicht werden muss. Allgemein ist nie gesperrt, es ist der Rückfall.
+
+Durchgesetzt an vier Stellen, weil jede allein ein Loch ließe:
+- Auswahl in Promoter-App, Formular und im Bearbeiten-Feld der Empfehlungsliste.
+- `create_empfehlung_public` setzt ein gesperrtes oder unbekanntes Thema auf Allgemein (`schema-phase345-themen-freigabe.sql`, live eingespielt, Rechte und Signatur unverändert).
+- `api/share.js` schickt Links, die schon verschickt sind, bei gesperrtem Thema auf die allgemeine Seite. Live betroffen ist eine echte Empfehlung.
+- `thema.html` leitet ohne Anmeldung ebenfalls um. Angemeldete Berater sehen den Entwurf mit einem Hinweisband.
+
+**Die allgemeine Seite zeigt wieder, wer empfohlen hat.** Seit Phase 311 (20.08.2026) warf `applyVorlage` auf `empfaenger.html` einen ReferenceError, weil `aktuellerBeraterSlug` nur im Block der Empfehlen-Seite angelegt war. Alles danach lief nie: Name und Nachricht des Empfehlungsgebers und der schon abgegebene Anrufwunsch. Die Seite lud trotzdem, deshalb fiel es drei Wochen nicht auf. Wächter: `tests/empfaenger-kuerzel.test.mjs`.
+
+**Die interne Themenvorschau braucht eine Anmeldung.** `themen-vorschau.html` war offen erreichbar, zeigte Entwürfe samt Beraterliste und warf einen Fehler, weil `baufiNextSteps` dort fehlt. Beides behoben.
+
+**Die Zugangs-Mail für Promoter hat wieder Umlaute.** Die Projektdatei war sauber, die im August hochgeladene Fassung bei Supabase doppelt kodiert („persÃ¶nlicher"). Neu hochgeladen (Fassung 2) und danach abgerufen und geprüft. Im Kopf der Mail steht „Persönlicher Zugang" statt „Empfehlungsportal".
+
+Wächter: `tests/themen-freigabe.test.mjs`. Beide neuen Tests gegen den alten Stand laufen lassen, beide rot. Sicherung vor der Datenänderung: `vorlagen_sicherung_2026_09_11`.
+
+---
 
 ## v1.359 Beta - Phase 344 · Die Symbole sitzen in der Mitte
 **2026-09-10 · live veröffentlicht**
