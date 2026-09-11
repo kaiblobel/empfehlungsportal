@@ -4,7 +4,7 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.372 Beta** · Zugangs-Mail professionell gestaltet, live seit 11.09.2026.
 
 ## v1.372 Beta - Phase 357 · Zugangs-Mail professionell gestaltet
-**2026-09-11**
+**2026-09-11 · live veröffentlicht**
 
 Kais Wunsch vom 11.09.2026 am Bildschirmfoto der Zugangs-Mail in Outlook: „können wir hier auch professioneller".
 
