@@ -3,6 +3,11 @@ const ALLOWED_SOURCES = new Set([
   'facebook', 'instagram', 'whatsapp', 'direkt',
 ]);
 const LOCAL_TURNSTILE_SITE_KEY = '1x00000000000000000000AA';
+const SUBMIT_LABEL = 'Unverbindlich vormerken';
+// Begrüßung je Herkunft. Alle anderen Aufrufe behalten den allgemeinen Satz aus dem HTML.
+const GREETINGS = {
+  'sommerfest-danke': 'Schön, dass ihr beim Sommerfest dabei wart.',
+};
 
 const form = document.getElementById('keaForm');
 const submit = document.getElementById('keaSubmit');
@@ -21,6 +26,14 @@ let captchaWidgetId = null;
 function readSource() {
   const value = String(new URLSearchParams(window.location.search).get('quelle') || 'direkt').trim().toLowerCase();
   return ALLOWED_SOURCES.has(value) ? value : 'direkt';
+}
+
+function showGreeting() {
+  const greeting = document.getElementById('keaGreeting');
+  const text = GREETINGS[readSource()];
+  if (!greeting || !text) return;
+  greeting.textContent = text;
+  greeting.classList.add('is-personal');
 }
 
 function requestedAdvisorSlug() {
@@ -144,6 +157,7 @@ form.addEventListener('submit', async (event) => {
   if (!form.reportValidity()) return;
   if (!email && !telefon) {
     showError('Bitte trage eine E-Mail-Adresse oder Mobilnummer ein.');
+    document.getElementById('keaEmail').focus();
     return;
   }
   if (!captchaToken) {
@@ -176,14 +190,36 @@ form.addEventListener('submit', async (event) => {
     successBox.hidden = false;
     referenceBox.textContent = result.reference ? `Vormerkung: ${result.reference}` : '';
     successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Tastatur und Vorleseprogramm landen bei der Bestätigung, nicht im Nichts,
+    // denn das Formular mit dem gerade gedrückten Knopf ist verschwunden.
+    successBox.focus({ preventScroll: true });
   } catch (error) {
     showError(messageFor(error.reason));
     resetTurnstile();
   } finally {
-    submit.textContent = 'Jetzt unverbindlich vormerken';
+    submit.textContent = SUBMIT_LABEL;
     if (!form.hidden) updateSubmitState();
   }
 });
 
+// Handy: der Knopf am unteren Rand erscheint erst, wenn der Knopf im Einstieg aus dem Bild
+// ist, und verschwindet, sobald das Formular erreicht ist. So verdeckt er nie ein Feld.
+function watchMobileCta() {
+  const bar = document.getElementById('keaMobileCta');
+  const heroActions = document.querySelector('.kea-hero-actions');
+  const register = document.getElementById('anmeldung');
+  if (!bar || !heroActions || !register || !('IntersectionObserver' in window)) return;
+  let heroVisible = true;
+  let formReached = false;
+  const update = () => { bar.hidden = heroVisible || formReached; };
+  new IntersectionObserver(([entry]) => { heroVisible = entry.isIntersecting; update(); }).observe(heroActions);
+  new IntersectionObserver(([entry]) => {
+    formReached = entry.isIntersecting || entry.boundingClientRect.top < 0;
+    update();
+  }).observe(register);
+}
+
+showGreeting();
+watchMobileCta();
 loadAdvisors();
 mountTurnstile();

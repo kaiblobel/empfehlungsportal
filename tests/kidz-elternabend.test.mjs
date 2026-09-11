@@ -108,7 +108,30 @@ const qrSvgStat = await stat(new URL('../assets/qr/kidz-elternabend.svg', import
 const ogImageStat = await stat(new URL('../assets/images/kidz-vorschau-elternabend.jpg', import.meta.url));
 
 assert.match(html, /KIDZ for Future/);
-assert.match(html, /Der persönliche Eltern-Workshop für Familien/);
+// Seit der Angleichung an die Konzeptseite (11.09.2026): eine Hauptaktion, Rahmen direkt
+// sichtbar, Begrüßung je Herkunft, keine künstliche Verknappung.
+assert.match(html, /Der Elternabend zur Zukunft deines Kindes\./);
+assert.match(html, /id="keaGreeting"/);
+// Kopfzeile wie auf der Konzeptseite: oben der Leitsatz, "KIDZ for Future" nur im Knopf.
+assert.match(html, /<strong>Kinderleicht in die Zukunft<\/strong><small>Team Wachsbleiche<\/small>/);
+assert.match(html, /class="kea-header-cta" href="#anmeldung">KIDZ for Future vormerken</);
+assert.match(html, /id="keaMobileCta" href="#anmeldung" hidden>KIDZ for Future vormerken</);
+assert.match(publicJs, /watchMobileCta\(\);/);
+assert.match(publicJs, /'sommerfest-danke': 'Schön, dass ihr beim Sommerfest dabei wart\.'/);
+assert.match(publicJs, /showGreeting\(\);/);
+assert.match(html, /class="kea-button kea-button-primary" href="#anmeldung">Unverbindlich vormerken</);
+assert.match(html, /id="keaSubmit" type="submit" disabled>Unverbindlich vormerken</);
+assert.match(publicJs, /const SUBMIT_LABEL = 'Unverbindlich vormerken';/);
+assert.match(html, /<dd>Kostenlos<\/dd>/);
+assert.match(html, /<dd>Wird noch bekannt gegeben<\/dd>/);
+assert.doesNotMatch(html, /[Ee]xklusiv|Maximal 15|zuerst an die Vormerkliste|Platz vormerken/);
+// "E-Mail oder Mobilnummer genügt" steht VOR den beiden Kontaktfeldern.
+assert.ok(html.indexOf('E-Mail oder Mobilnummer genügt.') > 0
+  && html.indexOf('E-Mail oder Mobilnummer genügt.') < html.indexOf('id="keaEmail"'));
+// Das Desktop-Bild liegt als Web-Kopie im Projekt und ist unter 250 KB.
+const heroImageStat = await stat(new URL('../assets/images/kidz-heuwagen-960.webp', import.meta.url));
+assert.ok(heroImageStat.size <= 250 * 1024, `Einstiegsbild ist ${Math.round(heroImageStat.size / 1024)} KB gross`);
+assert.match(html, /kidz-heuwagen-640\.webp 640w, \/assets\/images\/kidz-heuwagen-960\.webp 960w/);
 assert.match(html, /id="keaForm"/);
 assert.match(html, /id="keaAdvisor"/);
 assert.match(html, /promoter-anja-scholz">Anja Scholz/);
@@ -119,7 +142,19 @@ assert.match(html, /promoter-anika-bibrach">Anika Biebrach/);
 // einem anderen Berater zuordnen.
 assert.match(html, /"david-stamm">David Stamm/);
 assert.doesNotMatch(html, /promoter-david-stamm/);
-assert.match(html, /Keine Angaben zu Kindern\. Kein Kauf\. Keine automatische Werbeeinwilligung\./);
+// Kais Regel vom 11.09.2026: Verkaufswörter kommen auf der Seite gar nicht vor, auch nicht
+// verneint ("keine Produktshow", "kein Verkaufstermin", "ohne Abschlussdruck"). Wer so etwas
+// abstreitet, bringt den Gedanken erst mit. Dazu keine Füllwörter, die nichts sagen.
+// Ausgenommen ist nur der Datenschutztext unten, der "keine Einwilligung in allgemeine
+// Werbung" rechtlich festhält; deshalb wird er vor der Prüfung herausgenommen.
+const sichtbarOhneRechtstext = html
+  .replace(/<section class="kea-section kea-legal"[\s\S]*?<\/section>/, '')
+  .replace(/<!--[\s\S]*?-->/g, '');
+assert.doesNotMatch(sichtbarOhneRechtstext,
+  /verkauf|produktshow|abschluss|kaufdruck|kein kauf|werbe|werbung|in ruhe|verständlich|klarheit|orientierung|einblicke|exklusiv|ganz offen/i);
+assert.match(html, /Wir fragen nichts über deine Kinder und nutzen deine Angaben nur für diesen Elternabend\./);
+assert.match(html, /<strong>Und danach\?<\/strong> Du entscheidest selbst, ob du ein persönliches Gespräch möchtest\./);
+assert.match(html, /Ich bin volljährig und möchte für den nächsten Termin von KIDZ for Future vorgemerkt werden\./);
 assert.match(html, /keine Gewinnspielteilnahme, keine Kundenanfrage und keine Einwilligung in allgemeine Werbung/);
 assert.match(html, /property="og:image:width" content="1200"/);
 assert.match(html, /property="og:image:height" content="630"/);
