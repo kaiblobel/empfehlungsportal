@@ -1,7 +1,46 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.381 Beta** · Rückweg aus dem Finanzcheck, live seit 12.09.2026.
+Offizielle Live-Version: **v1.382 Beta** · Google-Rezensionen zum Blättern, live seit 12.09.2026.
+
+## v1.382 Beta - Phase 367 · Google-Rezensionen zum Blättern
+**2026-09-12**
+
+Kais Wunsch: „auf der seite erst kai kennen lernen da ist ja nur eine rezension ...
+mit wischen nach links oder rechts."
+
+- **Zwölf echte Google-Stimmen statt einer**, in Schritt 5 als Karussell zum Wischen.
+  Jede Karte mit Name, Zeitangabe, Local-Guide-Kennzeichnung, buntem Google-Zeichen
+  und fünf Sternen. Darüber „5,0 · bei Google, aus 16 Rezensionen" und der Weg zum
+  Profil.
+- **Woher die Stimmen kommen:** elf standen bereits im Wortlaut auf kaiblobel.de
+  (Stand 30.08.2026), die zwölfte stand hier. Wortlaut und Zeitangaben unverändert
+  übernommen, nichts umformuliert.
+- **Warum nicht live von Google:** Die offizielle Schnittstelle (Places API) gibt pro
+  Unternehmen immer nur fünf Rezensionen heraus, ohne Auswahlmöglichkeit. Ein
+  Live-Abruf würde also weniger zeigen als das, was schon dasteht. Der tägliche
+  Nachschub kommt getrennt, dann serverseitig geholt und mit dem Bestand
+  zusammengeführt.
+- **Nur beim Standard-Berater** (`data-default-berater-only`). Google-Rezensionen
+  hängen an einem Unternehmensprofil; bei einem fremden Berater wären sie falsch.
+  Die Profil-Kennung gehört später ans Büro, nicht in die Seite.
+- **Wischen macht der Browser** über `scroll-snap`, dazu zwei Pfeilknöpfe mit 44 px
+  Trefferfläche. Keine eigene Finger-Logik, keine fremde Bibliothek, kein fremdes
+  Skript, das die Besucher mitliest.
+- **Zwei Fallen, beide gemessen statt vermutet:**
+  - Das Grid-Feld um das Karussell hatte `min-width:auto` und wuchs auf die Breite
+    aller Karten zusammen (2.874 px statt 700 px). Das Karussell hatte nie zu wenig
+    Platz, scrollte deshalb nicht und wurde rechts abgeschnitten. Gelöst mit
+    `.trust-content{min-width:0}`.
+  - Die Pfeiltasten hätten im Karussell gleichzeitig den Schritt weitergeschaltet.
+    Der Tastaturfall spart den Track jetzt aus.
+- Lange Zitate sind auf fünf Zeilen begrenzt, sonst zieht eine einzige Stimme die
+  ganze Reihe auf über 400 px. Betrifft eines der zwölf, der volle Text steht bei
+  Google.
+- Wächter: `tests/empfaenger-rezensionen.test.mjs`, unter anderem gegen das
+  Auseinanderlaufen von genannter Zahl und tatsächlicher Kartenzahl.
+
+---
 
 ## v1.381 Beta - Phase 366 · Rückweg aus dem Finanzcheck
 **2026-09-12**

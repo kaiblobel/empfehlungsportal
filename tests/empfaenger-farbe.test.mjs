@@ -66,6 +66,8 @@ paare.push(['Blau im blaugrauen Symbolfeld', wert('--petrol'), wert('--blau-grau
 paare.push(['Schrift auf dem Gold-Knopf', wert('--auf-gold'), wert('--gold')]);
 paare.push(['Gold-Schrift auf Weiß', wert('--gold-dark'), '#ffffff']);
 paare.push(['Rand eines Bedienelements auf Weiß', wert('--rand'), '#ffffff']);
+// Phase 366: Der Buchstabe im Rezensions-Avatar ist Text, also 4,5:1.
+paare.push(['Buchstabe im Rezensions-Avatar', wert('--blau-dunkel'), wert('--blau-grau')]);
 
 // Text braucht 4,5:1. Für Ränder und Symbolflächen verlangt die Richtlinie 3:1,
 // sie tragen keine Schrift.
