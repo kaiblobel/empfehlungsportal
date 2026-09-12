@@ -1,0 +1,51 @@
+name: Kundenwege
+
+# Die Kante zwischen den Projekten, nicht das Innere eines Projekts.
+#
+# Am 11.09.2026 wurde hier im Portal die Themensperre eingebaut. Ab dem Moment führten
+# fünf Themenkacheln auf kaiblobel.de ins Leere, beziehungsweise auf eine Seite, die dem
+# Besucher eine Empfehlung zuschrieb, die es nicht gab. Keiner der 223 Wächter dieses
+# Projekts konnte das sehen, denn sie prüfen alle nur das eigene Haus.
+#
+# Diese Prüfung geht die Wege ab, die ein Kunde wirklich nimmt: von der Kundenseite und
+# den persönlichen Beraterseiten zum Portal, zur Baufinanzierung und zu KIDZ. Für jeden
+# der sieben Berater, denn Themenfreigabe und Beraterprofil gelten pro Berater.
+#
+# WARUM SIE NICHT IM VERÖFFENTLICHUNGS-ABLAUF STEHT
+#
+# Sie hängt an fremden Seiten. Wäre kaiblobel.de kurz nicht erreichbar, könnte das Portal
+# sonst nichts mehr veröffentlichen. Deshalb läuft sie getrennt, nach Zeitplan und auf
+# Knopfdruck, und blockiert keine Veröffentlichung.
+#
+# Sie schickt ausschließlich GET-Abrufe. Keine Nachricht, keine Anfrage, kein Datensatz.
+
+on:
+  schedule:
+    # Zweimal täglich, 6:10 und 18:10 UTC. Versetzt zur vollen Stunde, weil GitHub
+    # Zeitpläne zur vollen Stunde stark verzögert.
+    - cron: '10 6,18 * * *'
+  workflow_dispatch:
+  push:
+    # Wer an der Weiterleitungslogik oder der Prüfung selbst arbeitet, soll die Wege
+    # sofort mitgeprüft bekommen.
+    paths:
+      - 'js/themen-vorschau.js'
+      - 'js/supabase.js'
+      - 'tests/kundenwege.mjs'
+      - '.github/workflows/kundenwege.yml'
+
+jobs:
+  kundenwege:
+    name: Kundenwege
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Wege abgehen
+        run: node tests/kundenwege.mjs

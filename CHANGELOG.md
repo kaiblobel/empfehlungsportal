@@ -1,7 +1,38 @@
 ﻿# Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.389 Beta** · Der Türhüter prüft genau die Fassung, die live gehen soll.
+Offizielle Live-Version: **v1.390 Beta** · Die Kundenwege zwischen den Projekten werden geprüft.
+
+## v1.390 Beta - Phase 375 · Die Kundenwege zwischen den Projekten werden geprüft
+**2026-09-12**
+
+Kais Auflage: „Prüfe die Wege von Homepage und persönlichen Beraterseiten zu Portal,
+Baufinanzierung und KIDZ im Browser: abgemeldet, für alle sieben Berater und über den neutralen
+Team-Einstieg. Baue den ursprünglichen Fehler isoliert nach. Die neue Prüfung muss ihn erkennen."
+
+- **`tests/kundenwege.mjs`** geht die Kante zwischen den Projekten ab, nicht das Innere eines
+  Projekts. Sie vergleicht, was ein Link auf kaiblobel.de verspricht, mit dem, was das Portal
+  daraus macht, und zwar je Berater, weil Themenfreigabe und Beraterprofil pro Berater gelten.
+  42 Prüfungen: Themenwege, Erblogik der Freigabe, Beraterprofile, Kontaktziele, die beiden
+  fertigen Ziele Baufinanzierung und KIDZ, neutraler Einstieg.
+- **Gegen den Stand vom 11.09. nachgestellt** (Kundenseite vor `0fd169d`, lokal ausgeliefert):
+  35 Beanstandungen, fünf Kacheln mal sieben Berater, Rückgabewert 1. Gegen den heutigen Stand:
+  keine. Der Fehler wird also erkannt, und die Korrektur besteht.
+- **Ein echter Fund dabei:** Für `josephine-buerger` gibt es in `js/advisor-profile-data.js` der
+  Kundenseite kein Profil. Die Seite fällt still auf `defaultSlug: 'kai-blobel'` zurück. Ein Kunde
+  auf ihrer Adresse sieht Kais Namen, Kais Titel und Kais Terminziel; nur der Baufi-Link trägt
+  ihren Slug weiter. Die Prüfung meldet das jetzt.
+- **Vier Hinweise, kein Fehler:** Bei vier von sieben Beratern ist `bookings_url` in der Datenbank
+  NULL, das Terminziel fällt auf die Regionaldirektion zurück. Auf den Beraterseiten heißt der
+  Knopf wörtlich „Kontakt über die Regionaldirektion", das sieht nach Absicht aus. Still bleiben
+  darf es trotzdem nicht.
+- **Eigener Ablauf `.github/workflows/kundenwege.yml`**, zweimal täglich und auf Knopfdruck,
+  zusätzlich bei Änderungen an `js/themen-vorschau.js` oder `js/supabase.js`. Bewusst **nicht** im
+  Veröffentlichungs-Ablauf: Die Prüfung hängt an fremden Seiten, und wäre kaiblobel.de kurz nicht
+  erreichbar, könnte das Portal sonst nichts mehr veröffentlichen.
+- Nur GET-Abrufe. Keine Nachricht, keine Anfrage, kein Datensatz.
+
+---
 
 ## v1.389 Beta - Phase 374 · Der Türhüter prüft genau die Fassung, die live gehen soll
 **2026-09-12**
