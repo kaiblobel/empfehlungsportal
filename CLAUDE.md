@@ -18,7 +18,18 @@ tags: portal, supabase, empfehlung, promoter, potenzialbuch, kontakt-coach, spra
 
 - **Vanilla HTML / CSS / JS · No-Build · No-Framework**
 - **Supabase** Backend (Project `kkseqhmfubzfyloffkwe`): Postgres + RLS + Realtime + Edge Functions + pg_cron
-- **Vercel** Deployment auto-on-push-to-main
+- **Vercel** Deployment auto-on-push-to-main, aber nur bei gruenen Waechtern.
+  `vercel.json` traegt dafuer `ignoreCommand`. Vercel wertet den Rueckgabewert dieses
+  Befehls aus: **0 heisst "Bau ueberspringen", 1 heisst "bauen"** (Vercel-Doku, Ignored
+  Build Step). Der Befehl steht deshalb verdreht da: Sind die Pruefungen gruen, liefert
+  `node --test` eine 0, `&&` greift und wir beenden mit 1, es wird gebaut. Ist eine rot,
+  greift `||` und wir beenden mit 0, Vercel baut NICHT und die bisherige Fassung bleibt
+  stehen. Vorher meldete `.github/workflows/waechter.yml` nur (rotes Kreuz), und die
+  kaputte Fassung ging trotzdem live.
+  Zwei Fallen, beide am 12.09.2026 in einer Probe erlebt: In `vercel.json` ist **kein**
+  Kommentarschluessel erlaubt, auch nicht `"//"` (Vercel bricht mit
+  "should NOT have additional property" ab und baut dann gar nichts mehr). Und die
+  Wirkung laesst sich nur auf einem eigenen Zweig pruefen, nie an `main`.
 - **PWA**: `sw.js`, `manifest.json`, Web-Push + Telegram + Resend Email Notifications
 - **GitHub**: `kaiblobel/empfehlungsportal`
 

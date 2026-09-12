@@ -1,7 +1,41 @@
 ﻿# Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.387 Beta** · Gesperrtes Thema behauptet keine Empfehlung mehr.
+Offizielle Live-Version: **v1.388 Beta** · Ein roter Wächter hält die Veröffentlichung an.
+
+## v1.388 Beta - Phase 373 · Ein roter Wächter hält die Veröffentlichung an
+**2026-09-12**
+
+Kais Auflage: „Die Wächter müssen eine fehlerhafte Veröffentlichung tatsächlich verhindern.
+Bitte das in einer isolierten Probe nachweisen, nicht nur einen roten Prüflauf zeigen."
+
+- **Das Problem, gemessen:** Seit heute laufen die 202 Prüfungen bei jedem Hochladen
+  (`.github/workflows/waechter.yml`). Sie **melden** aber nur. In einer Probe war die Prüfung
+  nach 12 Sekunden rot, und Vercel hatte den kaputten Stand in derselben Minute gebaut und
+  ausgeliefert.
+- **Jetzt hält `tuerhueter.mjs` die Tür zu.** Vercel ruft die Datei als Ignored Build Step auf
+  (`vercel.json`, Feld `ignoreCommand`) und wertet den Rückgabewert aus: 0 heißt überspringen,
+  1 heißt bauen. Bei rotem Wächter kommt 0, Vercel baut nicht, die bisherige Fassung bleibt.
+- **Warum er nicht selbst testet, und das ist die eigentliche Lehre:** Der erste Versuch war
+  `node --test tests/*.test.mjs` als `ignoreCommand`. Das Protokoll sagte „tests 0, fail 0" und
+  Vercel baute. Grund: `.vercelignore` entfernt `tests/` (bewusst seit Phase 166), und zwar
+  **bevor** der Befehl läuft. Ein Türhüter ohne Tests meldet immer „alles gut". Deshalb fragt er
+  das Ergebnis jetzt dort ab, wo es entsteht: den Lauf „Pruefungen" über die öffentliche
+  GitHub-API, ohne Zugangsschlüssel, mit Warten bis zu 150 Sekunden.
+- **Zweite Falle:** In `vercel.json` ist kein Kommentarschlüssel erlaubt, auch nicht `"//"`.
+  Vercel bricht mit „should NOT have additional property" ab und baut dann gar nichts mehr. Die
+  Erklärung steht deshalb in `CLAUDE.md` und in `tuerhueter.mjs` selbst.
+- **Im Zweifel wird nicht veröffentlicht.** Kommt nach 150 Sekunden kein Ergebnis, bleibt die
+  Tür zu. Notausgang für den Fall einer GitHub-Störung: in den Vercel-Projekteinstellungen
+  `TUERHUETER_AUS=1` setzen, veröffentlichen, wieder entfernen.
+- **Der Job heißt jetzt `Pruefungen`** statt „Alle Prüfungen", weil `tuerhueter.mjs` den Namen
+  als Zeichenkette vergleicht. Wer ihn ändert, muss beide Stellen ändern, sonst findet der
+  Türhüter den Lauf nicht und blockiert alles.
+- **Nachgewiesen in vier Proben** auf `konrad/veroeffentlichung-blockiert`, ohne die Produktion
+  anzufassen: Prüfung rot mit eigenem Testlauf → Vercel READY (durchgelassen, schlecht).
+  Prüfung rot mit Türhüter → CANCELED. Prüfung grün → READY. Dazu der Schema-Fehler aus Probe 1.
+
+---
 
 ## v1.387 Beta - Phase 372 · Gesperrtes Thema behauptet keine Empfehlung mehr
 **2026-09-12**
