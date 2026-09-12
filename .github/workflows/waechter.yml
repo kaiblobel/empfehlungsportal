@@ -24,7 +24,10 @@ on:
 
 jobs:
   waechter:
-    name: Alle Prüfungen
+    # Der Name wird von tuerhueter.mjs mit einer Zeichenkette verglichen (Feld
+    # PRUEFUNG). Deshalb bewusst ohne Umlaut. Wer ihn hier aendert, muss ihn dort
+    # mitaendern, sonst findet der Tuerhueter den Lauf nicht und blockiert alles.
+    name: Pruefungen
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
