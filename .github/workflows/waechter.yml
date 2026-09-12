@@ -1,0 +1,46 @@
+name: Wächter
+
+# Warum es diesen Ablauf gibt
+#
+# In tests/ liegen rund hundert Prüfungen. Sie liefen bisher nur, wenn jemand
+# sie von Hand eintippte, und niemand tat das zuverlässig: Es gibt keinen
+# Git-Hook, Vercel führt keinen Bau-Befehl aus, und einen Ablauf wie diesen
+# gab es nicht. Ein Wächter, den keiner losschickt, ist kein Wächter.
+#
+# Was das gekostet hat: Am 11.09.2026 ging mit Phase 345 die Themensperre live
+# (v1.360). Von dem Moment an führten die Themenkacheln auf kaiblobel.de nicht
+# mehr auf die Themenseite, sondern auf die persönliche Empfehlungsseite, die
+# jedem Besucher eine Empfehlung zuschrieb, die es nicht gab. Gemerkt wurde es
+# einen Tag später, und zwar zufällig, weil Kai auf dem iPhone abgemeldet
+# unterwegs war.
+#
+# Ab jetzt laufen die Prüfungen bei jedem Hochladen, auf jedem Zweig. Rot
+# heißt: GitHub setzt einen roten Haken an den Commit und schickt dem Autor
+# eine Mail.
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  waechter:
+    name: Alle Prüfungen
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Stand holen
+        uses: actions/checkout@v4
+
+      - name: Node einrichten
+        uses: actions/setup-node@v4
+        with:
+          # Dieselbe Hauptversion wie auf Kais Rechner, damit ein Lauf hier
+          # und ein Lauf dort dasselbe Ergebnis haben.
+          node-version: '24'
+
+      # Das Projekt hat keine Abhängigkeiten und kein package.json. Es gibt
+      # deshalb nichts zu installieren; die Prüfungen laufen mit dem, was
+      # Node selbst mitbringt (node:test und node:assert).
+      - name: Alle Wächter laufen lassen
+        run: node --test tests/*.test.mjs tests/*.test.cjs
