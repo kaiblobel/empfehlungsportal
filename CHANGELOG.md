@@ -1,7 +1,37 @@
 ﻿# Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.388 Beta** · Ein roter Wächter hält die Veröffentlichung an.
+Offizielle Live-Version: **v1.389 Beta** · Der Türhüter prüft genau die Fassung, die live gehen soll.
+
+## v1.389 Beta - Phase 374 · Der Türhüter prüft genau die Fassung, die live gehen soll
+**2026-09-12**
+
+Kais Auflage: „Der Türhüter muss das erfolgreiche Prüfergebnis genau der Fassung zuordnen, die
+veröffentlicht werden soll. Ein älterer grüner Lauf reicht nicht. Fehlende, übersprungene oder
+abgebrochene Pflichtprüfungen dürfen nicht freigeben."
+
+Vier Löcher waren offen, alle vier sind zu:
+
+- **Es zählte der erste Lauf mit passendem Namen, nicht der neueste.** Wird ein Lauf wiederholt,
+  liefert die GitHub-API mehrere Einträge, und der erste kann der alte grüne sein, während der
+  neue rot ist. Jetzt wird je Name nach Startzeit sortiert, der jüngste entscheidet.
+- **Fehlte `VERCEL_GIT_COMMIT_SHA`, wurde gebaut.** Ohne Commit ist aber gar kein Prüfergebnis
+  zuordenbar. „Keine Zuordnung möglich" ist kein Grund zur Freigabe, jetzt bleibt die Tür zu.
+- **Es gab eine einzelne Pflichtprüfung ohne Liste.** Jetzt `PFLICHTPRUEFUNGEN`, und jeder Name
+  darin muss zu diesem Commit vorliegen und grün sein.
+- **Die Herkunft wurde nicht geprüft.** Jetzt wird `head_sha` gegen die zu bauende Fassung
+  verglichen und nur GitHub Actions als Quelle akzeptiert.
+
+Alles außer „completed + success" hält die Tür zu, also auch `skipped`, `cancelled`, `neutral`,
+`timed_out`, `action_required`, `stale` und ein fehlender Lauf.
+
+Damit das nicht still verrutscht: `tests/tuerhueter.test.mjs` mit 21 Prüfungen. Die Urteilslogik
+ist dafür als `urteil()` und `neuesterLauf()` herausgezogen und läuft beim Import nicht mit an.
+Zwei der Prüfungen sichern die Verdrahtung selbst: dass `vercel.json` den Türhüter aufruft, dass
+der Job-Name im Ablauf zur Pflichtliste passt (sonst hält er ab dann jede Veröffentlichung an),
+und dass der Türhüter nicht in `.vercelignore` landet, wo `tests/` schon einmal verschwand.
+
+---
 
 ## v1.388 Beta - Phase 373 · Ein roter Wächter hält die Veröffentlichung an
 **2026-09-12**
