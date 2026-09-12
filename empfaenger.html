@@ -123,7 +123,11 @@
     .reviews-alle{margin-left:auto;color:var(--petrol);font-size:12px;font-weight:600;text-underline-offset:2px}
     /* Das Wischen macht der Browser selbst, scroll-snap lässt die Karten einrasten.
        Deshalb keine eigene Finger-Logik und keine fremde Bibliothek. */
-    .review-track{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(250px,31%);gap:10px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:inline mandatory;padding:2px 2px 6px}
+    /* Kartenbreite entscheidet, wie viele Zitate gekürzt werden: Bei 250 px passen
+       nur ~33 Zeichen in eine Zeile und vier der zwölf Stimmen liefen über fünf
+       Zeilen hinaus. Bei ~280 px ist es nur noch die längste. Mehr Zeilen zuzulassen
+       wäre der falsche Hebel, das schiebt den Hauptknopf aus dem Bild. */
+    .review-track{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(300px,44%);gap:10px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:inline mandatory;padding:2px 2px 6px}
     .review-track>*{scroll-snap-align:start}
     .review-track:focus-visible{outline:2px solid var(--petrol);outline-offset:2px}
     .review-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px 14px}
