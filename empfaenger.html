@@ -62,7 +62,15 @@
     @media(prefers-reduced-motion:reduce){.step-dot.wink:before,.step-menu-knopf.wink svg{animation:none}}
 
     .chapters{position:relative;z-index:1;min-height:100svh}
-    .chapter{position:absolute;inset:72px 0 0;display:grid;align-items:center;padding:40px 5vw 76px;opacity:0;visibility:hidden;transform:translateY(26px);transition:opacity .45s ease,transform .45s ease,visibility .45s;overflow:auto}
+    /* scrollbar-gutter: Ohne diese Zeile wackelt die Seite beim Schrittwechsel.
+       Jedes Kapitel scrollt für sich, und nicht jedes ist gleich hoch: Bei 1440x900
+       laufen Schritt 1 und 5 über, 2, 3, 4 und 6 passen genau. Wo der Scrollbalken
+       Platz wegnimmt (Windows-Chrome im Normalfall, anders als die überlagernden
+       Balken auf dem Mac und am Handy), springt der Inhalt bei jedem Wechsel um
+       dessen Breite zur Seite. „stable" reserviert den Platz immer, auch wenn kein
+       Balken gebraucht wird. Gemessen: nutzbare Breite danach konstant 1425 statt
+       abwechselnd 1425 und 1440. Kais Befund am 12.09.2026. */
+    .chapter{position:absolute;inset:72px 0 0;display:grid;align-items:center;padding:40px 5vw 76px;opacity:0;visibility:hidden;transform:translateY(26px);transition:opacity .45s ease,transform .45s ease,visibility .45s;overflow:auto;scrollbar-gutter:stable}
     .chapter.active{opacity:1;visibility:visible;transform:none}.chapter.leaving{opacity:0;transform:translateY(-22px)}
     .inner{width:min(1140px,100%);margin:auto}
     .eyebrow{margin:0 0 14px;color:var(--gold-dark);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}

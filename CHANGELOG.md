@@ -1,7 +1,30 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.385 Beta** · Direkt zu einem Schritt springen, live seit 12.09.2026.
+Offizielle Live-Version: **v1.386 Beta** · Kein Springen beim Schrittwechsel, live seit 12.09.2026.
+
+## v1.386 Beta - Phase 371 · Kein Springen beim Schrittwechsel
+**2026-09-12**
+
+Kais Befund: „die seite ist nicht fixiert die wackelt im fenster."
+
+- **Ursache, gemessen bei 1440×900:** Jedes Kapitel scrollt für sich, und sie sind
+  unterschiedlich hoch. Schritt 1 (951 px Inhalt) und Schritt 5 (1.050 px) laufen über
+  die 828 px Sichthöhe hinaus, Schritt 2, 3, 4 und 6 passen genau. Wo der Scrollbalken
+  echten Platz wegnimmt, und das ist auf Windows der Normalfall, springt der Inhalt bei
+  jedem Wechsel um dessen Breite zur Seite.
+- **Behoben mit `scrollbar-gutter:stable` auf den Kapiteln.** Der Platz wird immer
+  reserviert, auch wenn kein Balken gebraucht wird. Gemessen: nutzbare Breite danach
+  konstant 1.425 px statt abwechselnd 1.425 und 1.440.
+- **Ehrlich dazu:** Der kopflose Chrome benutzt überlagernde Scrollbalken, die keinen
+  Platz wegnehmen. Das Wackeln ließ sich hier deshalb nicht sichtbar machen, weder mit
+  `--disable-features=OverlayScrollbar` noch über eigene `::-webkit-scrollbar`-Breiten.
+  Belegt ist die Ursache (welche Schritte überlaufen) und die Wirkung des Mittels (die
+  Breite ist danach konstant), nicht das Wackeln selbst.
+- Auf dem Mac und am Handy liegt der Balken über dem Inhalt, dort fiel es nie auf. Genau
+  deshalb gehört das in einen Wächter: `tests/empfaenger-kein-wackeln.test.mjs`.
+
+---
 
 ## v1.385 Beta - Phase 370 · Direkt zu einem Schritt springen
 **2026-09-12**
