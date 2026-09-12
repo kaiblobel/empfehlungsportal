@@ -3808,3 +3808,141 @@ body[data-page="hub"] .h-activity-unread {
     line-height: 1.35;
   }
 }
+
+
+/* ============================================================
+   Phase 365 · Themen-Seiten: nur noch das, was auch wirkt
+   ------------------------------------------------------------
+   Die Seite sah aus wie eine Datenbank-Maske: Kennung in
+   Schreibmaschinenschrift neben jedem Namen, ein Zahlenfeld fuer
+   die Reihenfolge, Felder ohne Wirkung. Jetzt steht in der
+   Kopfzeile, ob ein Thema frei oder gesperrt ist, verschoben wird
+   mit zwei Pfeilen.
+
+   Eigene Klasse thema-card, damit die Berater- und Belohnungs-
+   Karten (die dieselbe .cms-card benutzen) unberuehrt bleiben.
+   ============================================================ */
+
+.thema-card > summary { gap: 12px; }
+/* Das +/- der allgemeinen Karte weicht dem Chevron. Beide Zustaende, sonst
+   gewinnt .cms-card[open] summary::after mit der hoeheren Spezifitaet. */
+.thema-card > summary::after,
+.thema-card[open] > summary::after { content: none; }
+
+/* Die unsichtbare Checkbox des Schalters erbte width:100% von
+   .cms-body input und war damit so breit wie das Fenster. Sie schob die
+   Seite auf und erzeugte einen waagerechten Rollbalken. */
+.cms-switch input { width: auto; }
+
+.thema-card > summary .titel { min-width: 0; }
+
+.cms-zustand {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--ink-muted, var(--ink-muted));
+  white-space: nowrap;
+}
+.cms-zustand::before {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--sage, var(--sage));
+}
+.cms-zustand.gesperrt { color: var(--accent-hover, var(--accent-hover)); }
+.cms-zustand.gesperrt::before { background: var(--accent, var(--accent)); }
+
+.cms-sortier { display: flex; gap: 4px; flex-shrink: 0; }
+.cms-sortier button {
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  color: var(--symbol, var(--symbol));
+  cursor: pointer;
+  transition: border-color .15s ease, color .15s ease;
+}
+.cms-sortier button svg { width: 15px; height: 15px; }
+.cms-sortier button:hover:not([disabled]) {
+  border-color: var(--hairline-strong, var(--hairline-strong));
+  color: var(--ink, var(--ink));
+}
+.cms-sortier button[disabled] { opacity: .32; cursor: default; }
+
+.cms-chevron {
+  width: 20px; height: 20px;
+  flex-shrink: 0;
+  display: inline-flex;
+  color: var(--symbol, var(--symbol));
+  transition: transform .18s ease;
+}
+.cms-chevron svg { width: 100%; height: 100%; }
+.thema-card[open] > summary .cms-chevron { transform: rotate(180deg); }
+
+/* Themen, deren Inhalt fest im Programm steht */
+.cms-fest {
+  margin: 0;
+  padding: 13px 14px;
+  border-radius: 10px;
+  background: var(--dna-petrol-tint, var(--surface-2));
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ink-muted, var(--ink-muted));
+}
+.cms-fest b { color: var(--ink, var(--ink)); font-weight: 400; }
+
+/* Speichern erst, wenn es etwas zu speichern gibt */
+.thema-card .cms-save[disabled] {
+  background: var(--surface-2, var(--surface-2));
+  color: var(--symbol, var(--symbol));
+  cursor: default;
+}
+.thema-card .cms-save[disabled]:hover { opacity: 1; }
+.thema-card .cms-preview-link { margin-left: auto; }
+
+/* Gruppen-Ueberschriften in Satzschrift statt Versalien in Gold.
+   Die Versalien-Regel aus Phase 126 gilt weiter fuer die uebrigen Karten. */
+.thema-card .cms-group-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink, var(--ink));
+  margin-bottom: 3px;
+}
+.thema-card .cms-group-sub { font-size: 13px; }
+
+/* Der Freigabe-Schalter war unsichtbar: .cms-body label setzt display:block
+   (Spezifitaet 0,1,1) und traf damit auch das Schalter-Label, wodurch die
+   Schiene als inline-Kasten auf 0x0 zusammenfiel. Sichtbar war nur der Text.
+   .thema-card .cms-switch liegt mit 0,2,0 darueber. */
+.thema-card .cms-switch {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0;
+}
+.thema-card .cms-switch-track { display: block; margin-top: 1px; }
+.thema-card .cms-switch-text { flex: 1; min-width: 0; }
+
+/* Auf dem Handy zwei Zeilen: oben Symbol, Name und der Aufklapper,
+   darunter der Zustand links und die Pfeile rechts. Alles nebeneinander
+   wuerde den Namen auf zwei Zeichen zusammenquetschen. */
+@media (max-width: 560px) {
+  .thema-card > summary {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "symbol name aufklapper"
+      "zustand zustand pfeile";
+    row-gap: 10px;
+    align-items: center;
+  }
+  .thema-card > summary .icon { grid-area: symbol; }
+  .thema-card > summary .titel { grid-area: name; }
+  .thema-card > summary .cms-chevron { grid-area: aufklapper; }
+  .thema-card > summary .cms-zustand { grid-area: zustand; }
+  .thema-card > summary .cms-sortier { grid-area: pfeile; justify-self: end; }
+}

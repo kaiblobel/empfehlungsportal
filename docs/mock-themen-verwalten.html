@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Vorschau: Themen-Seiten verwalten</title>
+<style>
+@font-face{font-family:Outfit;font-style:normal;font-weight:300 700;font-display:swap;src:url('../assets/fonts/outfit-latin.woff2') format('woff2')}
+@font-face{font-family:Inter;font-style:normal;font-weight:300 700;font-display:swap;src:url('../assets/fonts/inter-latin.woff2') format('woff2')}
+:root{
+  --ink:#2B2B2B;--text:#575757;--symbol:#808080;
+  --paper:#F7F7F7;--paper-2:#EDEDED;--card:#FFFFFF;
+  --line:#D6D6D6;--line-strong:#ABABAB;
+  --gold:#C8AA22;--gold-dark:#786614;--gold-tint:#F4EED3;
+  --petrol:#00587C;--petrol-tint:#E5EEF2;--klick:#0070A8;
+  --head:Outfit,system-ui,sans-serif;--sans:Inter,system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input{font:inherit}
+h1,h2,h3{font-family:var(--head);color:var(--ink);letter-spacing:-.02em;margin:0}
+.hinweisband{padding:8px 16px;background:var(--gold-tint);color:#514827;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;text-align:center}
+
+.h-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 20px;background:var(--card);border-bottom:1px solid var(--line)}
+.h-header-left{display:flex;align-items:center;gap:12px}
+.h-header-photo{width:42px;height:42px;border-radius:50%;background:var(--paper-2);object-fit:cover}
+.h-header-name{font-family:var(--head);font-size:16px;font-weight:700;color:var(--ink)}
+.h-header-sub{font-size:12.5px;color:var(--text)}
+.h-logout{padding:8px 16px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font-size:13px;cursor:pointer}
+
+.h-main{max-width:840px;margin:0 auto;padding:26px 20px 80px}
+
+.cms-intro{margin-bottom:22px}
+.cms-intro h2{font-size:23px;margin-bottom:8px}
+.cms-intro p{margin:0;font-size:14px;color:var(--text);max-width:62ch}
+.cms-intro .zurueck{display:inline-block;margin-top:12px;font-size:13px;color:var(--klick);text-decoration:none}
+
+.cms-list{display:flex;flex-direction:column;gap:10px}
+.cms-card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.cms-card[open]{border-color:var(--line-strong);box-shadow:0 1px 3px rgba(0,0,0,.05)}
+
+.cms-card summary{display:flex;align-items:center;gap:13px;padding:15px 16px;cursor:pointer;list-style:none}
+.cms-card summary::-webkit-details-marker{display:none}
+.cms-card summary .icon{width:26px;height:26px;flex:none;color:var(--petrol);display:inline-flex}
+.cms-card summary .icon svg{width:100%;height:100%}
+.cms-card summary .titel{font-family:var(--head);font-size:16.5px;font-weight:600;color:var(--ink);flex:1;min-width:0}
+.zustand{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--text);white-space:nowrap}
+.zustand::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--petrol)}
+.zustand.gesperrt{color:var(--gold-dark)}
+.zustand.gesperrt::before{background:var(--gold)}
+.sortier{display:flex;gap:4px}
+.sortier button{width:28px;height:28px;display:grid;place-items:center;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--symbol);cursor:pointer;line-height:1}
+.sortier button:hover{border-color:var(--line-strong);color:var(--ink)}
+.sortier button[disabled]{opacity:.32;cursor:default}
+.cms-card summary .pfeil{width:20px;height:20px;flex:none;color:var(--symbol);display:inline-flex;transition:transform .15s}
+.cms-card summary .pfeil svg{width:100%;height:100%}
+.cms-card[open] summary .pfeil{transform:rotate(180deg)}
+
+.cms-body{padding:4px 16px 16px;border-top:1px solid var(--line)}
+.cms-group{padding:16px 0;border-bottom:1px solid var(--line)}
+.cms-group:last-of-type{border-bottom:0}
+.cms-group-title{font-family:var(--head);font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px}
+.cms-group-sub{margin:0 0 13px;font-size:13px;color:var(--text)}
+.cms-field{margin-bottom:14px}
+.cms-field:last-child{margin-bottom:0}
+.cms-field label{display:block;font-size:13.5px;color:var(--ink);margin-bottom:5px}
+.cms-hint{display:block;font-size:12.5px;color:var(--text);margin-bottom:7px}
+.cms-body input[type=text]{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);font-size:14.5px}
+.cms-body input[type=text]:focus{outline:none;border-color:var(--klick);background:var(--card)}
+
+.cms-symbols{display:flex;flex-wrap:wrap;gap:8px}
+.cms-symbol{width:42px;height:42px;display:grid;place-items:center;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--symbol);cursor:pointer}
+.cms-symbol svg{width:20px;height:20px}
+.cms-symbol:hover{border-color:var(--line-strong);color:var(--ink)}
+.cms-symbol.active{border-color:var(--gold);background:var(--gold-tint);color:var(--ink)}
+
+.cms-switch{display:flex;align-items:flex-start;gap:12px;cursor:pointer}
+.cms-switch input{position:absolute;opacity:0}
+.cms-switch-track{position:relative;flex:none;width:42px;height:24px;margin-top:1px;border-radius:999px;background:var(--line-strong);transition:background .15s}
+.cms-switch-track::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .15s}
+.cms-switch input:checked + .cms-switch-track{background:var(--gold)}
+.cms-switch input:checked + .cms-switch-track::after{transform:translateX(18px)}
+.cms-switch-text strong{display:block;font-size:13.5px;font-weight:600;color:var(--ink)}
+.cms-switch-text span{font-size:12.5px;color:var(--text)}
+
+.fest-hinweis{display:flex;gap:10px;padding:13px 14px;background:var(--petrol-tint);border-radius:10px;font-size:13px;color:var(--text)}
+.fest-hinweis b{color:var(--ink);font-weight:600}
+
+.cms-actions{display:flex;align-items:center;gap:14px;padding-top:16px;border-top:1px solid var(--line)}
+.cms-save{padding:10px 20px;border:0;border-radius:10px;background:var(--klick);color:#fff;font-size:14px;font-weight:600;cursor:pointer}
+.cms-save[disabled]{background:var(--paper-2);color:var(--symbol);cursor:default}
+.cms-preview-link{margin-left:auto;font-size:13.5px;color:var(--klick);text-decoration:none}
+.cms-preview-link:hover{text-decoration:underline}
+
+@media(max-width:560px){
+  .h-main{padding:20px 14px 70px}
+  .cms-card summary{flex-wrap:wrap;gap:10px}
+  .cms-card summary .titel{flex:1 1 100%;order:2}
+  .zustand{order:3}
+  .sortier{order:4;margin-left:auto}
+}
+</style>
+</head>
+<body>
+<div class="hinweisband">Nur eine Vorschau zum Ansehen · nichts hiervon ist live</div>
+
+<header class="h-header">
+  <div class="h-header-left">
+    <img class="h-header-photo" src="../assets/images/kai-portrait.jpg" alt="">
+    <div>
+      <div class="h-header-name">Kai Blobel</div>
+      <div class="h-header-sub">Themen-Seiten</div>
+    </div>
+  </div>
+  <button class="h-logout">Abmelden</button>
+</header>
+
+<main class="h-main">
+  <section class="cms-intro">
+    <h2>Themen-Seiten</h2>
+    <p>Hier legst du fest, wie deine Themen heißen, in welcher Reihenfolge sie stehen und welche davon
+       gerade für Empfehlungen frei sind. Jede Änderung ist sofort live.</p>
+    <a class="zurueck" href="#">← Zurück zum Überblick</a>
+  </section>
+
+  <section class="cms-list">
+
+    <details class="cms-card" open>
+      <summary>
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></span>
+        <span class="titel">Allgemein</span>
+        <span class="zustand">Frei</span>
+        <span class="sortier">
+          <button type="button" title="nach oben" disabled><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></button>
+          <button type="button" title="nach unten"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></button>
+        </span>
+        <span class="pfeil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+      </summary>
+      <div class="cms-body">
+
+        <div class="cms-group">
+          <div class="cms-group-title">Name und Symbol</div>
+          <p class="cms-group-sub">So heißt das Thema im Empfehlungs-Formular und in der Liste deines Promoters.</p>
+          <div class="cms-field">
+            <label>Name des Themas</label>
+            <input type="text" value="Allgemein">
+          </div>
+          <div class="cms-field">
+            <label>Symbol</label>
+            <span class="cms-hint">Erscheint im Empfehlungs-Formular neben dem Namen.</span>
+            <div class="cms-symbols">
+              <button type="button" class="cms-symbol active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></button>
+              <button type="button" class="cms-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></button>
+              <button type="button" class="cms-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg></button>
+              <button type="button" class="cms-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg></button>
+              <button type="button" class="cms-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></button>
+              <button type="button" class="cms-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></button>
+              <button type="button" class="cms-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
+              <button type="button" class="cms-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="cms-group">
+          <div class="cms-group-title">Der Knopf zum Finanzcheck</div>
+          <p class="cms-group-sub">Nur dieses Thema hat einen Knopf, den du selbst beschriften kannst.</p>
+          <div class="cms-field">
+            <label>Beschriftung</label>
+            <input type="text" value="Zeig mir, was bei mir drin ist →">
+          </div>
+          <div class="cms-field">
+            <label>Wohin er führt</label>
+            <input type="text" value="https://finanzcheck.kaiblobel.de/">
+          </div>
+        </div>
+
+        <div class="cms-group">
+          <label class="cms-switch">
+            <input type="checkbox">
+            <span class="cms-switch-track"></span>
+            <span class="cms-switch-text">
+              <strong>Für Empfehlungen sperren</strong>
+              <span>Solange der Schalter an ist, kann niemand dieses Thema auswählen. Schon verschickte Links führen auf die allgemeine Seite.</span>
+            </span>
+          </label>
+        </div>
+
+        <div class="cms-actions">
+          <button class="cms-save" disabled>Gespeichert</button>
+          <a class="cms-preview-link" href="#">Vorschau öffnen ↗</a>
+        </div>
+      </div>
+    </details>
+
+    <details class="cms-card" open>
+      <summary>
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>
+        <span class="titel">Baufinanzierung</span>
+        <span class="zustand">Frei</span>
+        <span class="sortier">
+          <button type="button" title="nach oben"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></button>
+          <button type="button" title="nach unten"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></button>
+        </span>
+        <span class="pfeil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+      </summary>
+      <div class="cms-body">
+
+        <div class="cms-group">
+          <div class="cms-group-title">Name und Symbol</div>
+          <p class="cms-group-sub">So heißt das Thema im Empfehlungs-Formular und in der Liste deines Promoters.</p>
+          <div class="cms-field">
+            <label>Name des Themas</label>
+            <input type="text" value="Baufinanzierung">
+          </div>
+          <div class="cms-field">
+            <label>Symbol</label>
+            <span class="cms-hint">Erscheint im Empfehlungs-Formular neben dem Namen.</span>
+            <div class="cms-symbols">
+              <button type="button" class="cms-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></button>
+              <button type="button" class="cms-symbol active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></button>
+              <button type="button" class="cms-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg></button>
+              <button type="button" class="cms-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg></button>
+              <button type="button" class="cms-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></button>
+              <button type="button" class="cms-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></button>
+              <button type="button" class="cms-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
+              <button type="button" class="cms-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="cms-group">
+          <div class="fest-hinweis">
+            <span>Die Texte und der Knopf dieser Seite stehen fest im Programm. <b>Wenn dort etwas geändert werden soll, sag Bescheid.</b></span>
+          </div>
+        </div>
+
+        <div class="cms-group">
+          <label class="cms-switch">
+            <input type="checkbox">
+            <span class="cms-switch-track"></span>
+            <span class="cms-switch-text">
+              <strong>Für Empfehlungen sperren</strong>
+              <span>Solange der Schalter an ist, kann niemand dieses Thema auswählen. Schon verschickte Links führen auf die allgemeine Seite.</span>
+            </span>
+          </label>
+        </div>
+
+        <div class="cms-actions">
+          <button class="cms-save" disabled>Gespeichert</button>
+          <a class="cms-preview-link" href="#">Vorschau öffnen ↗</a>
+        </div>
+      </div>
+    </details>
+
+    <details class="cms-card">
+      <summary>
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg></span>
+        <span class="titel">Staatliche Förderungen</span>
+        <span class="zustand gesperrt">Gesperrt</span>
+        <span class="sortier"><button type="button" title="nach oben"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></button><button type="button" title="nach unten"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></button></span>
+        <span class="pfeil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+      </summary>
+      <div class="cms-body"><div class="cms-group"><div class="fest-hinweis"><span>Aufgeklappt stehen hier Name, Symbol und der Schalter.</span></div></div></div>
+    </details>
+
+    <details class="cms-card">
+      <summary>
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg></span>
+        <span class="titel">Selbständige</span>
+        <span class="zustand gesperrt">Gesperrt</span>
+        <span class="sortier"><button type="button" title="nach oben"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></button><button type="button" title="nach unten"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></button></span>
+        <span class="pfeil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+      </summary>
+      <div class="cms-body"><div class="cms-group"><div class="fest-hinweis"><span>Aufgeklappt stehen hier Name, Symbol und der Schalter.</span></div></div></div>
+    </details>
+
+    <details class="cms-card">
+      <summary>
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+        <span class="titel">Für deine Kinder</span>
+        <span class="zustand">Frei</span>
+        <span class="sortier"><button type="button" title="nach oben"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></button><button type="button" title="nach unten" disabled><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></button></span>
+        <span class="pfeil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+      </summary>
+      <div class="cms-body"><div class="cms-group"><div class="fest-hinweis"><span>Aufgeklappt stehen hier Name, Symbol und der Schalter.</span></div></div></div>
+    </details>
+
+  </section>
+</main>
+</body>
+</html>

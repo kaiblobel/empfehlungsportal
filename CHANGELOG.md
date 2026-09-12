@@ -1,7 +1,24 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.379 Beta** · Empfängerseite in Weiß, Blau und Grau, live seit 12.09.2026.
+Offizielle Live-Version: **v1.380 Beta** · Themen-Seiten: nur noch das, was wirkt.
+
+## v1.380 Beta - Phase 365 · Themen-Seiten: nur noch das, was wirkt
+**2026-09-12**
+
+**Die Themen-Verwaltung sah aus wie eine Datenbank-Maske und bot Felder an, die nirgends ankamen.** Kais Eindruck am 12.09.2026: „wirkt alles noch so technisch und vieles benötige ich ja gar nicht". Die Prüfung gab ihm recht. Die „Unterzeile" (`headline`) schrieb seit dem Umbau der Empfängerseite nur noch in die Datenbank hinein, ihr Anker `eFinanzHeadline` existiert dort nicht mehr. Der Knopf-Block wirkt allein beim Thema „Allgemein": `js/app.js` liest `cta_text` und `quickcheck_url` ausschließlich auf `empfaenger.html`. Der Hinweis auf der Seite behauptete zusätzlich, er wirke auch bei „Baufinanzierung" — `js/baufi.js` lädt die Vorlage aber gar nicht, der Knopf dort steht fest im Programm.
+
+Was jetzt pro Thema angeboten wird: Name, Symbol, Reihenfolge und der Freigabe-Schalter. Beim Thema „Allgemein" zusätzlich Beschriftung und Ziel seines Knopfes. Bei allen anderen steht an dieser Stelle ein Satz, dass die Texte fest im Programm stehen.
+
+Weiteres in der Kopfzeile: Die Kennung in Schreibmaschinenschrift (`allgemein`, `baufi` …) ist weg, dafür steht dort in Worten **Frei** oder **Gesperrt** — ohne Aufklappen sichtbar. Verschoben wird mit zwei Pfeilen statt über ein Zahlenfeld; nach dem Tausch wird durchnummeriert und nur die Zeilen gespeichert, deren Wert sich ändert. Der Speichern-Knopf bleibt grau, solange nichts geändert wurde. Als Anker bleibt der Slug als `data-slug` und als `id` im Code, damit der Sprung aus der Befehlspalette (`vorlagen.html#<slug>`) das Thema findet und aufklappt.
+
+Zwei Fehler nebenbei behoben, beide vorher live: Der **Freigabe-Schalter war unsichtbar**. `.cms-body label` setzt `display:block` und traf damit auch das Schalter-Label, wodurch die Schiene als Inline-Kasten auf 0×0 zusammenfiel; sichtbar war nur der Text daneben. Und die unsichtbare Checkbox erbte `width:100%`, war damit so breit wie das Fenster und schob die Seite auf — auf dem Handy mit waagerechtem Rollbalken.
+
+Keine Änderung an der Datenbank. `headline`, `subtext`, `hero_bild_url`, die drei Vorteile und `hook_text` bleiben als Spalten stehen, sie werden nur nicht mehr angeboten.
+
+Vorschau vor dem Bau: `docs/mock-themen-verwalten.html`. Wächter: `tests/themen-verwaltung-schlank.test.mjs`.
+
+---
 
 ## v1.379 Beta - Phase 364 · Empfängerseite in Weiß, Blau und Grau
 **2026-09-12**
