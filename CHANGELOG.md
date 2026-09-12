@@ -1,7 +1,34 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.383 Beta** · Rezensionen: breitere Karten, vollständige Zitate, live seit 12.09.2026.
+Offizielle Live-Version: **v1.384 Beta** · Google-Bewertung auf Seite 1, live seit 12.09.2026.
+
+## v1.384 Beta - Phase 369 · Google-Bewertung auf Seite 1
+**2026-09-12**
+
+Kais Frage: „würdest du die Rezensionen auf die erste Seite packen?" Antwort: das
+Karussell nicht. Seite 1 lebt von der persönlichen Empfehlung, und zwölf fremde Stimmen
+daneben schwächen genau das. Aber eine Zeile schadet nicht, und wer nie bis Schritt 5
+kommt, sieht sonst gar nichts. Kais Vorgabe dazu: echte Farben, nicht nur hingeschrieben.
+
+- **Eine Zeile neben der Signatur:** buntes Google-Zeichen, Sterne in Googles eigenem
+  Gelb, dazu „5,0 von 5 · 16 Rezensionen". Kein Karussell, kein Zitat.
+- **Sie steht neben der Signatur, nicht darüber.** Als eigene Zeile kostete sie 36 px und
+  schob den Knopf „Zeig mir, worum es geht" auf dem iPhone aus dem Bild (694 px bei
+  664 px Fensterhöhe). Neben der Signatur ist der Platz ohnehin frei: gemessen **0 px**
+  Zusatzhöhe auf Rechner, iPhone 13 und iPhone SE.
+- **Am Handy schmaler:** kein Umbruch erlaubt, kleinere Schrift, „von 5" entfällt. Mit
+  Umbruch kostete sie 59 px, also mehr als vorher.
+- **Das Google-Zeichen ist umgezogen**, aus dem Rezensionsblock an den Anfang der Seite.
+  Der Block wird bei fremden Beratern auf `display:none` gesetzt, und ein `<use>` auf ein
+  Symbol in einem versteckten Zweig löst nicht zuverlässig auf. Sonst hätte das Zeichen
+  auf Seite 1 gefehlt.
+- **Sterne in `#fbbc05`**, dem Gelb aus dem Google-Zeichen. Auf Weiß sind das nur 1,9:1,
+  deshalb tragen sie die Aussage nicht allein: Sie sind `aria-hidden`, die Bewertung
+  steht als Text daneben, und jede Karte in Schritt 5 nennt sie im `aria-label`.
+- Nur beim Standard-Berater, wie der Block in Schritt 5.
+
+---
 
 ## v1.383 Beta - Phase 368 · Rezensionen: breitere Karten, vollständige Zitate
 **2026-09-12**

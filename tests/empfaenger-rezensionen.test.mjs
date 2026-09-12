@@ -79,6 +79,48 @@ assert.match(html, /if\(e\.target\?\.closest\?\.\('\[data-review-track\]'\)\)ret
 // Das Google-Zeichen liegt als eigenes Symbol in der Seite. Fremde Bausteine für
 // Rezensionen (Elfsight, Trustindex und Verwandte) lesen die Besucher mit.
 assert.match(html, /<symbol id="google-g" viewBox="0 0 24 24">/);
+// Das Symbol darf nicht im Rezensionsblock stehen. Der wird bei fremden Beratern auf
+// display:none gesetzt, und ein <use> auf ein Symbol in einem versteckten Zweig löst
+// nicht zuverlässig auf. Dann fehlte das Google-Zeichen auch in der Zeile auf Seite 1.
+assert.doesNotMatch(reviews, /<symbol id="google-g"/,
+  'Das Google-Symbol gehört vor den Rezensionsblock, nicht hinein.');
+assert.ok(html.indexOf('<symbol id="google-g"') < html.indexOf('<div class="reviews"'),
+  'Das Google-Symbol muss vor seiner ersten Verwendung stehen.');
+
+/* --- 7) Die Zeile auf Seite 1: Anker, kein zweites Karussell --- */
+
+// Auf das Markup schneiden, nicht auf den Stilblock: `data-step="1"` steht auch dort,
+// und ein Ausschnitt ab dem ersten Treffer erwischt CSS statt der Seite.
+const s1 = html.indexOf('<section class="chapter active" data-step="1">');
+const s2 = html.indexOf('<section class="chapter" data-step="2">');
+assert.ok(s1 > -1 && s2 > s1, 'Schritt 1 und 2 sind im Markup nicht auffindbar.');
+const seite1 = html.slice(s1, s2);
+const zeile = seite1.match(/<p class="google-note"[^>]*>[\s\S]*?<\/p>/);
+assert.ok(zeile, 'Auf Seite 1 fehlt die Google-Zeile.');
+assert.match(zeile[0], /data-default-berater-only/,
+  'Auch die Zeile auf Seite 1 gehört nur zum Standard-Berater.');
+assert.match(zeile[0], /<use href="#google-g">/, 'Der Zeile fehlt das bunte Google-Zeichen.');
+// Kein zweites Karussell auf Seite 1: Die Empfehlung ist dort die Hauptsache.
+assert.doesNotMatch(seite1, /review-card|review-track/,
+  'Auf Seite 1 gehört nur die Zeile, nicht das Karussell.');
+// Die Sterne stehen in Googles eigenem Gelb und schaffen auf Weiß nur 1,9:1. Deshalb
+// dürfen sie die Bewertung nicht allein tragen: Sie sind aria-hidden, und die Zahl
+// steht als Text daneben.
+assert.match(html, /--google-gelb:#fbbc05/, 'Das Google-Gelb fehlt als eigener Wert.');
+assert.match(html, /\.stars\{color:var\(--google-gelb\)\}/);
+assert.match(zeile[0], /<span class="stars" aria-hidden="true">/,
+  'Die Sterne der Zeile müssen Schmuck sein, sonst hängt die Aussage an einer blassen Farbe.');
+assert.match(zeile[0], /<b>5,0<\/b><span><span class="gn-lang">von 5 · <\/span>16 Rezensionen<\/span>/,
+  'Neben den Sternen muss die Bewertung als Text stehen.');
+// Am Handy entfällt „von 5", damit die Zeile neben der Signatur bleibt und nicht umbricht.
+assert.match(html, /\.gn-lang\{display:none\}/);
+assert.match(html, /\.bn-fuss\{flex-wrap:nowrap/);
+// Die Zeile steht neben der Signatur, nicht als eigene Zeile darüber. Als eigene Zeile
+// kostete sie 36 px und schob den Hauptknopf auf dem iPhone aus dem Bild (694 px bei
+// 664 px Fensterhöhe). Neben der Signatur kostet sie nichts.
+assert.match(seite1, /<div class="bn-fuss"><div class="sig"[^>]*>Kai<\/div><p class="google-note"/,
+  'Die Google-Zeile gehört neben die Signatur, sonst verdrängt sie den Knopf.');
+assert.match(html, /\.bn-fuss\{display:flex[^}]*justify-content:space-between/);
 assert.doesNotMatch(html, /elfsight|trustindex|embedsocial|reviewsonmywebsite/i,
   'Kein fremder Rezensions-Baustein auf der Seite.');
 assert.doesNotMatch(html, /maps\.googleapis\.com|places\.googleapis\.com/,
