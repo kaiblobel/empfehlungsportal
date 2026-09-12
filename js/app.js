@@ -633,6 +633,21 @@ if (page === 'empfaenger') {
     // bringt get_berater_public sie mit. Kommt der Berater aus der Anmeldung
     // (Vorschau) oder gar keiner (Aufruf ohne Link), fehlen sie im Datensatz.
     // Dann nur die Profile nachholen, der Rest der Seite bleibt, wie er ist.
+    // Phase 365 · Rückweg an den Finanzcheck mitgeben, auch ohne Berater.
+    //
+    // applyBeraterBrand setzt ihn nur, wenn ein Berater aufgelöst wurde. Ohne
+    // Zuordnung blieb der Link nackt, und das X im Check sprang blind im
+    // Verlauf zurück, zuletzt auf die Anmeldeseite des Portals.
+    document.querySelectorAll('[data-bb="finanzcheck"]').forEach((el) => {
+      try {
+        const ziel = new URL(el.href, window.location.origin);
+        if (!ziel.searchParams.get('zurueck')) {
+          ziel.searchParams.set('zurueck', window.location.href);
+          el.href = ziel.toString();
+        }
+      } catch (_) { /* kaputte Adresse im HTML: unverändert lassen */ }
+    });
+
     const profilQuelle = berater || sofort;
     if (!profilQuelle || !('instagram_url' in profilQuelle)) {
       const id = profilQuelle?.id || window.ENV_BERATER_ID;
@@ -667,7 +682,9 @@ if (page === 'empfaenger') {
         const target = new URL(v.quickcheck_url, location.href);
         // 'b' mit übernehmen, falls es schon in der Adresse steht: Das Branding
         // kann vor ODER nach dieser Stelle fertig werden, je nach Netz.
-        ['from', 'schwerpunkt', 'v', 'b'].forEach(key => {
+        // 'zurueck' ebenso: Sonst verliert der neu gebaute Link das Rückziel,
+        // und das X im Finanzcheck springt wieder blind im Verlauf zurück.
+        ['from', 'schwerpunkt', 'v', 'b', 'zurueck'].forEach(key => {
           const value = current.searchParams.get(key);
           if (value && !target.searchParams.has(key)) target.searchParams.set(key, value);
         });

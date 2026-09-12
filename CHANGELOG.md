@@ -1,7 +1,35 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.380 Beta** · Themen-Seiten: nur noch das, was wirkt.
+Offizielle Live-Version: **v1.381 Beta** · Rückweg aus dem Finanzcheck, live seit 12.09.2026.
+
+## v1.381 Beta - Phase 366 · Rückweg aus dem Finanzcheck
+**2026-09-12**
+
+Kais Befund: „wenn ich in den Finanzcheck klicke und dann auf das X schließen lande
+ich auf der Anmeldeseite des Empfehlungsportals."
+
+- **Das Portal gibt sein Rückziel mit.** An jeden Finanzcheck-Link hängt es die eigene
+  Adresse als `?zurueck=`. Der Check muss dann nichts mehr erraten.
+- **Drei Stellen, alle nötig:** `js/berater-brand.js` (Fall `finanzcheck`, bewusst
+  außerhalb der Bedingung für das Beraterkürzel, sonst fehlt der Rückweg genau dann,
+  wenn kein Berater zugeordnet ist), `js/app.js` (derselbe Fall ohne aufgelösten
+  Berater) und die Parameterliste in `applyVorlage`, die den Link neu baut und den
+  Rückweg sonst verwirft.
+- **Ursache:** `returnToWebsite()` in der Kundenseite sprang blind einen Schritt im
+  Browserverlauf zurück. Über die Empfängerseite stimmt das zufällig, im frisch
+  geöffneten Tab landet man im Nichts, und wer vorher woanders war, landet dort.
+- **Gegenstück:** Kundenseite v1.67.0 wertet den Parameter aus, aber nur `https` und
+  nur den Hostnamen des Portals. Sonst wäre es eine offene Weiterleitung.
+- **Reihenfolge beim Veröffentlichen:** erst die Kundenseite, dann das Portal. Sonst
+  trägt der Link kurzzeitig einen Parameter, den niemand auswertet.
+- Wächter: `tests/finanzcheck-rueckweg.test.mjs`. Nachgewiesen am echten Ablauf mit
+  beiden Seiten örtlich, mit und ohne Verlauf.
+- Nachgezogen am 12.09.2026: Diese Arbeit trug zuerst die Nummer v1.380 · Phase 365.
+  Die war zu dem Zeitpunkt schon von „Themen-Seiten: nur noch das, was wirkt" belegt
+  und veröffentlicht, deshalb steht sie jetzt auf v1.381 · Phase 366.
+
+---
 
 ## v1.380 Beta - Phase 365 · Themen-Seiten: nur noch das, was wirkt
 **2026-09-12**
