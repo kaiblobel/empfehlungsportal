@@ -37,6 +37,13 @@ assert.match(share, /if \(gesperrt\) pagePath = '\/empfaenger\.html'/, 'share.js
 const themen = read('js/themen-vorschau.js');
 assert.match(themen, /async function weiterleitenWennGesperrt/, 'thema.html prüft die Sperre nicht');
 assert.match(themen, /location\.replace\(ziel\.toString\(\)\)/, 'thema.html leitet gesperrte Themen nicht um');
+// Wohin umgeleitet wird, haengt am Empfehlungslink. Kais Befund vom 12.09.2026
+// auf dem iPhone: Der Klick auf Energie von der Kundenseite landete auf der
+// persoenlichen Empfehlungsseite, die ihm eine Empfehlung zuschrieb, die es
+// nicht gab. Mit Token bleibt empfaenger.html richtig, ohne Token gehoert der
+// Besucher auf die allgemeine Ueberblicksseite.
+assert.match(themen, /token\s*\?\s*new URL\('\/empfaenger\.html'/, 'mit Empfehlungslink muss die persoenliche Uebersicht bleiben');
+assert.match(themen, /:\s*new URL\('\/ueberblick\.html'/, 'ohne Empfehlungslink darf nicht die Empfaengerseite kommen');
 assert.match(themen, /async function vorschauNurAngemeldet/, 'themen-vorschau.html ist ohne Anmeldung offen');
 
 // Berater-Feld: gesperrte Themen nicht neu wählbar.

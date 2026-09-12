@@ -1,7 +1,37 @@
 ﻿# Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.386 Beta** · Kein Springen beim Schrittwechsel, live seit 12.09.2026.
+Offizielle Live-Version: **v1.387 Beta** · Gesperrtes Thema behauptet keine Empfehlung mehr.
+
+## v1.387 Beta - Phase 372 · Gesperrtes Thema behauptet keine Empfehlung mehr
+**2026-09-12**
+
+Kais Befund vom iPhone: „Auf dem iPhone habe ich oft die Unterseiten geklickt, also
+beispielsweise auf die Energieseite oder auf die Investmentseite, und dann bin ich auf meine
+Empfehlungsseite gekommen, die der Promoter an meine Empfehlungen sendet."
+
+- **Nachgestellt und bestätigt**, in einem frischen Browserkontext ohne alte Daten:
+  `thema.html?vorlage=energie&einstieg=kundenseite` leitet auf `empfaenger.html` um. Es lag
+  also nicht am Gerät und nicht am Zwischenspeicher.
+- **Die Weiterleitung selbst ist gewollt** (Phase 345): Ein Thema mit `in_arbeit = true` sieht
+  kein Interessent. Angemeldete Berater bekommen stattdessen das Entwurfsband, deshalb fiel es
+  am Rechner nie auf, auf dem Handy sofort.
+- **Falsch war das Ziel.** Wer ohne Empfehlungslink kommt, etwa über eine Themenkachel auf
+  kaiblobel.de, hat niemanden, der ihn empfohlen hat. Die Empfängerseite schrieb ihm trotzdem
+  eine zu: „Eine persönliche Empfehlung für dich", „Ich habe dir Kai empfohlen und diese Seite
+  nach unserem Gespräch weitergeschickt", „Jemand aus deinem Umfeld".
+- **Jetzt entscheidet der Token.** Mit Empfehlungslink geht es weiter auf die persönliche
+  Übersicht, dort stimmt die Ansprache. Ohne Token führt der Weg auf `/ueberblick.html`. Deren
+  Empfehlungsband erscheint nur, wenn wirklich ein Empfehler-Name vorliegt, sonst bleibt es aus.
+- `api/share.js` bleibt unangetastet: Der Weg dort läuft immer über einen Token, also über eine
+  echte Empfehlung. Da ist die Empfängerseite das richtige Ziel.
+- Der Wächter `tests/themen-freigabe.test.mjs` prüft jetzt beide Ziele, nicht mehr nur, dass
+  überhaupt umgeleitet wird.
+- Zweite Sperre an der Quelle: Die Themenkacheln auf kaiblobel.de verlinken seit v1.68.0 nur
+  noch auf KIDZ und Baufinanzierung. Das deckt sich mit der Freigabe hier, frei sind allein
+  `allgemein`, `baufi` und `kinder`.
+
+---
 
 ## v1.386 Beta - Phase 371 · Kein Springen beim Schrittwechsel
 **2026-09-12 · live veröffentlicht**

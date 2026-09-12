@@ -977,7 +977,16 @@ async function weiterleitenWennGesperrt() {
     zeigeEntwurfBand();
     return false;
   }
-  const ziel = new URL('/empfaenger.html', window.location.origin);
+  // Wohin, haengt davon ab, ob den Besucher wirklich jemand empfohlen hat.
+  // Mit Token gehoert er auf seine persoenliche Uebersicht, dort stimmt die
+  // Ansprache. Ohne Token hat ihn niemand empfohlen: er kommt etwa von einem
+  // Thema auf der Kundenseite. Die Empfaengerseite haette ihm dann eine
+  // Empfehlung behauptet, die es nicht gibt ("Jemand aus deinem Umfeld hat
+  // bei diesem Thema an dich gedacht"). Er geht deshalb auf die allgemeine
+  // Ueberblicksseite, die ohne Empfehler-Namen kein Empfehlungsband zeigt.
+  const ziel = token
+    ? new URL('/empfaenger.html', window.location.origin)
+    : new URL('/ueberblick.html', window.location.origin);
   if (token) ziel.searchParams.set('token', token);
   if (expliziterSlug) ziel.searchParams.set('berater', expliziterSlug);
   location.replace(ziel.toString());
