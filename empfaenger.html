@@ -60,6 +60,11 @@
     .berater-notiz{max-width:560px;display:flex;gap:14px;align-items:flex-start;margin-top:20px;padding:4px 0 0 18px;border-left:2px solid var(--gold)}
     .bn-foto{display:none;width:52px;height:52px;border-radius:50%;object-fit:cover;object-position:center 18%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(200,170,34,.6);flex:0 0 auto}
     .berater-notiz p{margin:0;color:#2c4148;font-size:16px;line-height:1.55}.berater-notiz .sig{margin-top:6px}
+    .bn-fuss{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;margin-top:6px}
+    .bn-fuss .sig{margin-top:0}
+    .google-note{display:flex;align-items:center;gap:6px;margin:0;color:var(--muted);font-size:13px}
+    .google-note b{color:var(--ink);font-size:16px;font-weight:750;letter-spacing:-.01em}
+    .google-note[hidden]{display:none}
     .portrait{margin:0;background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:0 40px 90px -60px rgba(18,36,42,.7)}
     .portrait img{display:block;width:100%;height:min(56vh,540px);object-fit:cover;object-position:center 18%;filter:none}
     .portrait figcaption{padding:16px 20px 18px}.portrait figcaption b{display:block;font-size:18px;font-weight:700}.portrait figcaption > span{display:block;margin-top:3px;color:var(--muted);font-size:13px}
@@ -185,6 +190,13 @@
       .choice-footer{display:grid;margin-top:18px}.choice-footer .primary{width:100%}
       .ablauf{padding:20px}
       .trust-person .buero{height:190px}.fakten{padding:12px 16px 16px}.fakt{padding:10px}.fakt b{font-size:17px}.fakt span{font-size:11px}
+      /* Am Handy muss die Google-Zeile neben der Signatur bleiben. Bricht sie um, kostet
+         sie eine ganze Zeile und der Knopf rutscht aus dem Bild. Deshalb hier schmaler:
+         kein Umbruch erlaubt, kleinere Schrift, und „von 5" entfällt. */
+      .bn-fuss{flex-wrap:nowrap;gap:10px}
+      .google-note{font-size:11px;gap:4px;white-space:nowrap}.google-note b{font-size:14px}.google-note .stars{font-size:11px;letter-spacing:1px}
+      .google-note .review-google{width:15px;height:15px}
+      .gn-lang{display:none}
       .ich-text{font-size:16px}.review-card{padding:14px 16px}.review-card blockquote{font-size:15px}
       .review-track{grid-auto-columns:86%}.reviews-alle{margin-left:0}
       .promises{grid-template-columns:1fr}
@@ -201,7 +213,7 @@
        Text #404040, Flächen #f2f2f2 und #e6eef2.
        Nur Farben, keine Maße: Die Maße hält tests/empfaenger-mobile-first fest.
        Kontraste gerechnet in tests/empfaenger-farbe.test.mjs. */
-    :root{--blau-hell:#e6eef2;--blau-grau:#cedfe6;--grau-flaeche:#f2f2f2;--blau-dunkel:#004663;--rand:#7394a3;--auf-gold:#2b2b2b}
+    :root{--blau-hell:#e6eef2;--blau-grau:#cedfe6;--grau-flaeche:#f2f2f2;--blau-dunkel:#004663;--rand:#7394a3;--auf-gold:#2b2b2b;--google-gelb:#fbbc05}
     .story{background:var(--white)}.story:before{display:none}
     .topbar{background:rgba(255,255,255,.96)}
     .chapter[data-step="1"],.chapter[data-step="2"],.chapter[data-step="5"]{background:var(--white)}
@@ -245,7 +257,11 @@
     /* Vorstellung: weiße Karte, Zahlen in Blau. */
     .trust-person,.decision-card,.review-card,.review-pfeil,.promise{border-radius:3px}
     .fakt{background:#fff;border-radius:3px}.fakt b{color:var(--petrol)}
-    .stars{color:var(--gold-dark)}
+    /* Kais Vorgabe: echte Farben, nicht nachgebaut. Das ist das Gelb aus dem
+       Google-Zeichen weiter oben. Es steht auf Weiß bei 1,9:1 und trägt deshalb
+       keine Information allein: Neben den Sternen steht immer die Bewertung als
+       Text, und jede Karte nennt sie zusätzlich im aria-label. */
+    .stars{color:var(--google-gelb)}
     /* Schritt 6 auf hellem Grau, die Kontaktkarte weiß mit feiner Goldkante. */
     .chapter[data-step="6"] .decision-card{background:#fff;border:1px solid var(--line);border-top:3px solid var(--gold)}
     .time{border-radius:3px;border-color:var(--rand)}
@@ -268,6 +284,11 @@
   </style>
 </head>
 <body data-page="empfaenger">
+  <!-- Das Google-Zeichen wird an zwei Stellen gebraucht: in der Zeile auf Seite 1 und
+       in jeder Rezensionskarte in Schritt 5. Es steht bewusst hier und nicht im
+       Rezensionsblock: Der wird bei fremden Beratern auf display:none gesetzt, und
+       ein <use> auf ein Symbol in einem versteckten Zweig löst nicht zuverlässig auf. -->
+  <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><symbol id="google-g" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></symbol></svg>
   <div class="story">
     <header class="topbar">
       <div class="brand"><img class="brand-foto" data-bb="foto" alt=""><div class="brand-text"><b><span data-bb="name">Kai Blobel</span> &amp; Team</b><span>Deine persönliche Empfehlung</span></div></div>
@@ -286,7 +307,15 @@
             <div class="promoter-card" id="ePromoterCard"><div class="pc-bubble"><p id="ePromoterMessage">Ich habe dir <span data-bb="vorname">Kai</span> empfohlen und diese Seite nach unserem Gespräch weitergeschickt.</p></div><p class="pc-name"><b data-promoter>Jemand aus deinem Umfeld</b></p></div>
             <div class="berater-notiz">
               <img class="bn-foto" data-bb="foto" alt="">
-              <div><p>Hallo, ich bin <span data-bb="vorname">Kai</span>. Hier lernst du mich und meine Arbeit kennen. Wenn du danach eine Frage hast, schreib mir einfach.</p><div class="sig" data-bb="vorname">Kai</div></div>
+              <!-- Vertrauensanker auf Seite 1: nur eine Zeile, kein Karussell. Die
+                   Empfehlung ist hier die Hauptsache, die Stimmen stehen in Schritt 5.
+                   Sie steht bewusst NEBEN der Signatur: Als eigene Zeile darüber kostete
+                   sie 36 px und schob den Knopf „Zeig mir, worum es geht" auf dem iPhone
+                   aus dem Bild (gemessen 694 px bei 664 px Fensterhöhe). Neben der
+                   Signatur ist der Platz ohnehin frei.
+                   Die Sterne sind Schmuck (aria-hidden), weil Googles Gelb auf Weiß nur
+                   1,9:1 schafft. Die Bewertung steht als Text daneben. -->
+              <div><p>Hallo, ich bin <span data-bb="vorname">Kai</span>. Hier lernst du mich und meine Arbeit kennen. Wenn du danach eine Frage hast, schreib mir einfach.</p><div class="bn-fuss"><div class="sig" data-bb="vorname">Kai</div><p class="google-note" data-default-berater-only><svg class="review-google" width="18" height="18" role="img" aria-label="Google"><use href="#google-g"></use></svg><span class="stars" aria-hidden="true">★★★★★</span><b>5,0</b><span><span class="gn-lang">von 5 · </span>16 Rezensionen</span></p></div></div>
             </div>
             <div class="actions"><button class="primary" data-next>Zeig mir, worum es geht</button></div>
             <p class="micro"><span>Etwa 3 Minuten</span><span>Kostenlos ansehen</span></p>
@@ -382,7 +411,6 @@
                  daneben und der Weg zum Profil daneben. Nur beim Standard-Berater:
                  fremde Berater haben ein eigenes Unternehmensprofil. -->
             <div class="reviews" data-default-berater-only>
-              <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><symbol id="google-g" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></symbol></svg>
               <div class="reviews-kopf"><span class="stars" aria-hidden="true">★★★★★</span><b>5,0</b><small>bei Google, aus 16 Rezensionen</small><a class="reviews-alle" href="https://www.google.com/maps?cid=83717418077442585" target="_blank" rel="noopener noreferrer">Alle bei Google ansehen</a></div>
               <div class="review-track" data-review-track tabindex="0" role="group" aria-label="Google-Rezensionen, seitlich durchblätterbar">
                 <article class="review-card"><div class="review-top"><span class="review-avatar" aria-hidden="true">C</span><div class="review-wer"><b>Cindy Kühn</b><small>vor 4 Monaten</small></div><svg class="review-google" width="16" height="16" role="img" aria-label="Google"><use href="#google-g"></use></svg></div><div class="stars" aria-label="5 von 5 Sternen">★★★★★</div><blockquote>„Angenehme und vertrauensvolle Zusammenarbeit. Die DVAG-Agentur Kai Blobel bietet gute Beratung und individuellen Service.“</blockquote></article>
