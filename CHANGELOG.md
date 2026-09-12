@@ -1,10 +1,10 @@
-# Changelog · Empfehlungsportal
+﻿# Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.386 Beta** · Kein Springen beim Schrittwechsel, live seit 12.09.2026.
 
 ## v1.386 Beta - Phase 371 · Kein Springen beim Schrittwechsel
-**2026-09-12**
+**2026-09-12 · live veröffentlicht**
 
 Kais Befund: „die seite ist nicht fixiert die wackelt im fenster."
 
@@ -27,7 +27,7 @@ Kais Befund: „die seite ist nicht fixiert die wackelt im fenster."
 ---
 
 ## v1.385 Beta - Phase 370 · Direkt zu einem Schritt springen
-**2026-09-12**
+**2026-09-12 · live veröffentlicht**
 
 Kais Frage: schnell von Schritt 6 zurück zu 3, ohne alles durchzuklicken, „wichtig, es
 muss einen Mehrwert bringen und nicht nur mehr Funktionen, die kein Kunde nutzt". Und:
@@ -61,7 +61,7 @@ muss einen Mehrwert bringen und nicht nur mehr Funktionen, die kein Kunde nutzt"
 ---
 
 ## v1.384 Beta - Phase 369 · Google-Bewertung auf Seite 1
-**2026-09-12**
+**2026-09-12 · live veröffentlicht**
 
 Kais Frage: „würdest du die Rezensionen auf die erste Seite packen?" Antwort: das
 Karussell nicht. Seite 1 lebt von der persönlichen Empfehlung, und zwölf fremde Stimmen
@@ -88,7 +88,7 @@ kommt, sieht sonst gar nichts. Kais Vorgabe dazu: echte Farben, nicht nur hinges
 ---
 
 ## v1.383 Beta - Phase 368 · Rezensionen: breitere Karten, vollständige Zitate
-**2026-09-12**
+**2026-09-12 · live veröffentlicht**
 
 Nachgemessen am Live-Stand von v1.382: Auf dem Rechner waren **vier von zwölf** Zitaten
 abgeschnitten, unter anderem „... bietet gute Beratung und individuellen..." bei einem
@@ -107,7 +107,7 @@ als würde jemand die Stimmen zurechtschneiden.
 ---
 
 ## v1.382 Beta - Phase 367 · Google-Rezensionen zum Blättern
-**2026-09-12**
+**2026-09-12 · live veröffentlicht**
 
 Kais Wunsch: „auf der seite erst kai kennen lernen da ist ja nur eine rezension ...
 mit wischen nach links oder rechts."
@@ -146,7 +146,7 @@ mit wischen nach links oder rechts."
 ---
 
 ## v1.381 Beta - Phase 366 · Rückweg aus dem Finanzcheck
-**2026-09-12**
+**2026-09-12 · live veröffentlicht**
 
 Kais Befund: „wenn ich in den Finanzcheck klicke und dann auf das X schließen lande
 ich auf der Anmeldeseite des Empfehlungsportals."
