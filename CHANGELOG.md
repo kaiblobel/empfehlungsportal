@@ -1,7 +1,26 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.382 Beta** · Google-Rezensionen zum Blättern, live seit 12.09.2026.
+Offizielle Live-Version: **v1.383 Beta** · Rezensionen: breitere Karten, vollständige Zitate, live seit 12.09.2026.
+
+## v1.383 Beta - Phase 368 · Rezensionen: breitere Karten, vollständige Zitate
+**2026-09-12**
+
+Nachgemessen am Live-Stand von v1.382: Auf dem Rechner waren **vier von zwölf** Zitaten
+abgeschnitten, unter anderem „... bietet gute Beratung und individuellen..." bei einem
+Text, der nur 125 Zeichen lang ist. Ein kurzes Zitat mitten im Wort zu kappen sieht aus,
+als würde jemand die Stimmen zurechtschneiden.
+
+- **Ursache war die Kartenbreite, nicht die Zeilenzahl.** Bei 250 px passen nur etwa 33
+  Zeichen in eine Zeile. Die Karten stehen jetzt auf mindestens 300 px, damit sind es
+  rund 40, und nur noch die längste Stimme (Mike Gerber, 250 Zeichen) wird gekürzt.
+- **Warum nicht einfach mehr Zeilen:** gemessen. Sechs Zeilen hätten den Hauptknopf
+  „Mit Kai sprechen" auf 909 px geschoben, bei 900 px Fensterhöhe also aus dem Bild.
+  Sieben Zeilen auf 930 px. Breitere Karten kosten dagegen keine Höhe: Der Track bleibt
+  bei 202 px, der Knopf bei 888 px.
+- Auf dem Handy war es schon vorher nur die eine Stimme, dort sind die Karten 298 px breit.
+
+---
 
 ## v1.382 Beta - Phase 367 · Google-Rezensionen zum Blättern
 **2026-09-12**
