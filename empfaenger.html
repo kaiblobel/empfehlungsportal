@@ -30,8 +30,36 @@
     .topbar{position:fixed;z-index:30;left:0;right:0;top:0;height:72px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 28px;border-bottom:1px solid var(--line);background:rgba(245,247,246,.95);backdrop-filter:blur(8px)}
     .brand{display:flex;align-items:center;gap:11px;min-width:0}.brand-foto{width:36px;height:36px;border-radius:50%;object-fit:cover;object-position:center 20%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(200,170,34,.55);flex:0 0 auto}
     .brand-text{min-width:0;line-height:1.25}.brand-text b{display:block;font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.brand-text > span{display:block;color:var(--muted);font-size:11px;font-weight:500}
-    .step-count{justify-self:end;color:var(--muted);font-size:11px;font-weight:600}.step-count b{color:var(--ink);font-size:14px}
-    .progress{display:flex;align-items:center;gap:5px}.progress i{display:block;width:34px;height:3px;border-radius:3px;background:#dcdfdb;transition:.35s}.progress i.active,.progress i.done{background:var(--gold)}
+    .step-count{position:relative;justify-self:end}
+    .step-menu-knopf{display:inline-flex;align-items:center;gap:5px;min-height:44px;padding:0 4px;background:none;border:0;color:var(--muted);font-size:11px;font-weight:600;cursor:pointer}
+    .step-menu-knopf b{color:var(--ink);font-size:14px}
+    .step-menu-knopf svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+    .step-menu-knopf[aria-expanded="true"] svg{transform:rotate(180deg)}
+    .step-menu{position:absolute;right:0;top:calc(100% + 2px);z-index:40;min-width:225px;margin:0;padding:6px;list-style:none;background:#fff;border:1px solid var(--line);box-shadow:0 10px 30px -14px rgba(18,36,42,.5)}
+    .step-menu[hidden]{display:none}
+    .step-menu li{margin:0}
+    .step-menu button,.step-menu .stumm{display:flex;width:100%;align-items:center;gap:9px;min-height:44px;padding:0 10px;background:none;border:0;text-align:left;font:inherit;font-size:13px;font-weight:500}
+    .step-menu button{color:var(--ink);cursor:pointer}
+    .step-menu button:hover,.step-menu button:focus-visible{background:var(--blau-hell)}
+    .step-menu .stumm{color:#8c8c8c}
+    .step-menu .nr{flex:none;width:16px;font-weight:700;color:var(--petrol)}
+    .step-menu .stumm .nr{color:#b0b0b0}
+    .step-menu .hier{margin-left:auto;font-size:11px;font-weight:600;color:var(--petrol)}
+    /* Die Striche: Der sichtbare Balken ist 3 px hoch, die Trefferfläche 44 px. */
+    .progress{display:flex;align-items:center;gap:5px}
+    .step-dot{position:relative;display:block;width:34px;padding:21px 0;background:none;border:0;cursor:default}
+    .step-dot:before{content:"";display:block;width:34px;height:3px;border-radius:3px;background:#dcdfdb;transition:background .35s,height .15s}
+    .step-dot.active:before,.step-dot.done:before{background:var(--gold)}
+    /* Nur besuchte Schritte sind anspringbar, und nur die fühlen sich auch so an. */
+    .step-dot[data-frei]{cursor:pointer}
+    .step-dot[data-frei]:hover:before,.step-dot[data-frei]:focus-visible:before{height:7px}
+    .step-dot[data-frei]:hover:after,.step-dot[data-frei]:focus-visible:after{content:attr(data-name);position:absolute;top:calc(50% + 12px);left:50%;transform:translateX(-50%);z-index:40;white-space:nowrap;background:var(--ink);color:#fff;font-size:11px;font-weight:600;padding:4px 8px;border-radius:3px;pointer-events:none}
+    /* Einmaliger Wink beim ersten Erreichen von Schritt 3: Wer nichts davon weiß,
+       findet eine stumme Funktion nie. Danach nie wieder, und nicht bei Nutzern,
+       die Bewegung abgestellt haben. */
+    @keyframes sprungwink{0%,100%{transform:translateY(0)}30%{transform:translateY(-4px)}60%{transform:translateY(0)}}
+    .step-dot.wink:before,.step-menu-knopf.wink svg{animation:sprungwink .7s ease-in-out 2}
+    @media(prefers-reduced-motion:reduce){.step-dot.wink:before,.step-menu-knopf.wink svg{animation:none}}
 
     .chapters{position:relative;z-index:1;min-height:100svh}
     .chapter{position:absolute;inset:72px 0 0;display:grid;align-items:center;padding:40px 5vw 76px;opacity:0;visibility:hidden;transform:translateY(26px);transition:opacity .45s ease,transform .45s ease,visibility .45s;overflow:auto}
@@ -221,7 +249,7 @@
     .chapter[data-step="6"]{background:var(--grau-flaeche)}
     /* Gold als Fläche schafft auf Weiß nur 2,3:1. Der Fortschritt ist Information,
        also trägt ihn Blau mit 7,8:1. */
-    .progress i.active,.progress i.done{background:var(--petrol)}
+    .step-dot.active:before,.step-dot.done:before{background:var(--petrol)}
     .eyebrow{display:flex;align-items:center;gap:10px;color:var(--petrol)}
     .eyebrow:before{content:"";width:26px;height:2px;background:var(--gold);flex:0 0 auto}
     .headline em,.chapter-title em{color:var(--petrol)}
@@ -292,8 +320,16 @@
   <div class="story">
     <header class="topbar">
       <div class="brand"><img class="brand-foto" data-bb="foto" alt=""><div class="brand-text"><b><span data-bb="name">Kai Blobel</span> &amp; Team</b><span>Deine persönliche Empfehlung</span></div></div>
-      <div class="progress" aria-label="Fortschritt"><i class="active"></i><i></i><i></i><i></i><i></i><i></i></div>
-      <div class="step-count"><b id="stepNow">1</b> / 6</div>
+      <!-- Zwei Wege zum selben Ziel, weil beide Geräte anderes hergeben: Am Rechner
+           sind die Striche selbst anklickbar. Am Handy sind sie ausgeblendet (kein
+           Platz, und 6 Treffflächen à 44 px passen dort nicht nebeneinander), dort
+           führt die Zahl in eine kurze Liste. Anspringbar ist nur, was schon gesehen
+           wurde: Schritt 4 zeigt das Ergebnis der Wahl aus Schritt 3 und wäre sonst leer. -->
+      <nav class="progress" aria-label="Schritte"><button type="button" class="step-dot"></button><button type="button" class="step-dot"></button><button type="button" class="step-dot"></button><button type="button" class="step-dot"></button><button type="button" class="step-dot"></button><button type="button" class="step-dot"></button></nav>
+      <div class="step-count">
+        <button type="button" class="step-menu-knopf" id="stepMenuKnopf" aria-expanded="false" aria-controls="stepMenu"><span><b id="stepNow">1</b> / 6</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <ul class="step-menu" id="stepMenu" hidden></ul>
+      </div>
     </header>
     <main class="chapters">
 
@@ -477,10 +513,18 @@
     }
 
     const chapters = [...document.querySelectorAll('.chapter')];
-    const bars = [...document.querySelectorAll('.progress i')];
+    const bars = [...document.querySelectorAll('.step-dot')];
     const back = document.getElementById('back');
     let step = 1;
     let interest = '';
+    // Namen für die Sprungmarken. Bewusst ohne Beraternamen: Die Seite läuft für
+    // mehrere Berater, „Über Kai" wäre bei einem fremden Berater falsch.
+    const SCHRITTE = ['Willkommen', 'Der Film', 'Dein Thema', 'Dein Schwerpunkt', 'Dein Ansprechpartner', 'Kennenlernen'];
+    // Anspringbar ist nur, was schon gesehen wurde. Vorwärts springen würde leere
+    // Schritte zeigen, und zurück zu Schritt 6 muss trotzdem möglich bleiben.
+    const besucht = new Set([1]);
+    const menuKnopf = document.getElementById('stepMenuKnopf');
+    const menu = document.getElementById('stepMenu');
     const legalNote = document.querySelector('.legal-note');
     function placeLegal(){const inner=chapters[step-1]?.querySelector('.inner');if(inner&&legalNote)inner.appendChild(legalNote)}
     placeLegal();
@@ -495,17 +539,60 @@
       setTimeout(()=>old.classList.remove('leaving'),450);
       step=next;chapters[step-1].classList.add('active');chapters[step-1].scrollTop=0;
       placeLegal();
-      bars.forEach((bar,i)=>{bar.classList.toggle('active',i===step-1);bar.classList.toggle('done',i<step-1)});
+      besucht.add(step);
+      zeichneMarken();
       document.getElementById('stepNow').textContent=step;back.classList.toggle('visible',step>1);
+      if(!menu.hidden) oeffneMenu(false);
+      wink();
       merke();
+    }
+    function zeichneMarken(){
+      bars.forEach((bar,i)=>{
+        const n=i+1, frei=besucht.has(n)&&n!==step;
+        bar.classList.toggle('active',n===step);
+        bar.classList.toggle('done',besucht.has(n)&&n!==step);
+        bar.disabled=!frei;
+        if(frei){bar.setAttribute('data-frei','');bar.dataset.name=SCHRITTE[i]}else{bar.removeAttribute('data-frei')}
+        bar.setAttribute('aria-label',n===step?`Schritt ${n} von 6: ${SCHRITTE[i]}, du bist hier`:`Zu Schritt ${n}: ${SCHRITTE[i]}`);
+      });
+      menu.innerHTML=SCHRITTE.map((name,i)=>{
+        const n=i+1;
+        if(n===step) return `<li><span class="stumm"><b class="nr">${n}</b>${name}<span class="hier">Du bist hier</span></span></li>`;
+        if(besucht.has(n)) return `<li><button type="button" data-goto="${n}"><b class="nr">${n}</b>${name}</button></li>`;
+        return `<li><span class="stumm"><b class="nr">${n}</b>${name}</span></li>`;
+      }).join('');
+    }
+    function oeffneMenu(auf){
+      menu.hidden=!auf;
+      menuKnopf.setAttribute('aria-expanded',auf?'true':'false');
+    }
+    // Der Wink: einmal pro Besuch, beim ersten Erreichen von Schritt 3. Vorher gibt es
+    // nur einen Schritt zurück, da lohnt das Springen noch nicht. Wer nie einen Hinweis
+    // bekommt, findet eine stumme Funktion nie.
+    function wink(){
+      if(step!==3) return;
+      try{ if(sessionStorage.getItem('empf-wink')) return; sessionStorage.setItem('empf-wink','1'); }catch(_){}
+      const teile=[...bars.filter(b=>b.hasAttribute('data-frei')),menuKnopf];
+      teile.forEach(t=>t.classList.add('wink'));
+      setTimeout(()=>teile.forEach(t=>t.classList.remove('wink')),1600);
     }
     // Wer aus dem Finanzcheck per X oder Zurück hierher zurückkommt, soll dort weitermachen,
     // wo er war, nicht wieder bei Schritt 1. Nur bei Zurück-Navigation, ein frisch geöffneter
     // Link beginnt immer vorne.
     const merkKey='empf-stand:'+location.pathname+location.search;
-    function merke(){try{sessionStorage.setItem(merkKey,JSON.stringify({step,interest}))}catch(_){}}
+    function merke(){try{sessionStorage.setItem(merkKey,JSON.stringify({step,interest,besucht:[...besucht]}))}catch(_){}}
     document.querySelectorAll('[data-next]').forEach(btn=>btn.addEventListener('click',()=>show(step+1)));
     back.addEventListener('click',()=>show(step-1));
+    // Sprung über die Striche (Rechner) und über die Liste hinter der Zahl (Handy).
+    bars.forEach((bar,i)=>bar.addEventListener('click',()=>{ if(besucht.has(i+1)) show(i+1); }));
+    menuKnopf.addEventListener('click',()=>oeffneMenu(menu.hidden));
+    menu.addEventListener('click',(e)=>{
+      const knopf=e.target.closest('button[data-goto]');
+      if(knopf) show(Number(knopf.dataset.goto));
+    });
+    document.addEventListener('click',(e)=>{ if(!menu.hidden&&!e.target.closest('.step-count')) oeffneMenu(false); });
+    document.addEventListener('keydown',(e)=>{ if(e.key==='Escape'&&!menu.hidden){oeffneMenu(false);menuKnopf.focus()} });
+    zeichneMarken();
     document.querySelectorAll('.choice').forEach(card=>card.addEventListener('click',()=>{
       document.querySelectorAll('.choice').forEach(c=>c.classList.remove('selected'));card.classList.add('selected');interest=card.dataset.interest;
       const c=copy[interest];document.getElementById('choiceFeedback').innerHTML='<b>Passt.</b> '+c.feedback;document.getElementById('choiceNext').disabled=false;
@@ -525,11 +612,15 @@
     // dieselbe Taste gleichzeitig den Schritt wechseln und die Seite springen.
     document.addEventListener('keydown',e=>{
       if(e.target?.closest?.('[data-review-track]'))return;
+      if(!menu.hidden)return;
       if(e.key==='ArrowLeft')show(step-1);if(e.key==='ArrowRight'&&!(step===3&&!interest))show(step+1)});
     try{
       const nav=performance.getEntriesByType('navigation')[0];
       const alt=JSON.parse(sessionStorage.getItem(merkKey)||'null');
       if(nav&&nav.type==='back_forward'&&alt&&alt.step>1&&alt.step<=6){
+        // Auch die besuchten Schritte zurückholen. Ohne das stünde jemand, der aus dem
+        // Finanzcheck zurückkommt, wieder ohne Sprungmarken da, obwohl er alles kennt.
+        if(Array.isArray(alt.besucht))alt.besucht.filter(n=>n>=1&&n<=6).forEach(n=>besucht.add(n));
         if(copy[alt.interest])document.querySelector(`.choice[data-interest="${alt.interest}"]`)?.click();
         show(alt.step);
       }
