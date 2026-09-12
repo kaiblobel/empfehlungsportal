@@ -27,7 +27,8 @@ assert.match(html, /\.choice\{background:var\(--blau-hell\)/);
 assert.match(html, /\.choice\.selected\{background:var\(--petrol\);[^}]*color:#fff\}/,
   'Die ausgewählte Themenkarte braucht Blau mit heller Schrift.');
 // Gold als Fläche schafft auf Weiß nur 2,3:1, taugt also nicht für den Fortschritt.
-assert.match(html, /\.progress i\.active,\.progress i\.done\{background:var\(--petrol\)\}/,
+// Phase 370: Aus den Strichen wurden Knöpfe, der Balken ist jetzt ein :before.
+assert.match(html, /\.step-dot\.active:before,\.step-dot\.done:before\{background:var\(--petrol\)\}/,
   'Der Fortschritt gehört in Blau, nicht in Gold.');
 // Keine vorausgewählte Anrufzeit (Kais Vorgabe vom 12.09.2026).
 assert.doesNotMatch(html, /class="time selected"/, 'Es darf keine Zeit vorausgewählt sein.');

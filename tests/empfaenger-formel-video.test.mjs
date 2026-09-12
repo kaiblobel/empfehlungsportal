@@ -19,7 +19,8 @@ assert.ok(posWahl > posFilm, 'die Themenwahl kommt nach dem Film');
 
 // --- Sechs Kapitel, und die Anzeige sagt auch sechs ---
 assert.equal((html.match(/<section class="chapter/g) || []).length, 6);
-assert.equal((html.match(/<div class="progress" aria-label="Fortschritt">(<i[^>]*><\/i>)+/)?.[0].match(/<i/g) || []).length, 6);
+// Seit Phase 370 sind die Striche anklickbare Marken (siehe empfaenger-schritt-sprung).
+assert.equal((html.match(/<nav class="progress" aria-label="Schritte">(<button type="button" class="step-dot"><\/button>)+/)?.[0].match(/<button/g) || []).length, 6);
 assert.match(html, /<b id="stepNow">1<\/b> \/ 6/);
 
 // --- Fest verdrahtete Schrittnummern im Skript: alle mitgewandert ---

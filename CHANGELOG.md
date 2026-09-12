@@ -1,7 +1,41 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.384 Beta** · Google-Bewertung auf Seite 1, live seit 12.09.2026.
+Offizielle Live-Version: **v1.385 Beta** · Direkt zu einem Schritt springen, live seit 12.09.2026.
+
+## v1.385 Beta - Phase 370 · Direkt zu einem Schritt springen
+**2026-09-12**
+
+Kais Frage: schnell von Schritt 6 zurück zu 3, ohne alles durchzuklicken, „wichtig, es
+muss einen Mehrwert bringen und nicht nur mehr Funktionen, die kein Kunde nutzt". Und:
+„der Kunde muss es auch wissen oder fühlen."
+
+- **Nur besuchte Schritte sind anspringbar.** Schritt 4 zeigt das Ergebnis der Wahl aus
+  Schritt 3; wer dorthin springt, ohne gewählt zu haben, sähe eine leere Hülle. Die Regel
+  ist „schon gesehen", nicht „liegt vor dir": Wer von 6 auf 3 zurückspringt, kommt mit
+  einem Klick wieder auf 6, ohne erneut zu wählen.
+- **Zwei Bedienwege, weil die Geräte Verschiedenes hergeben.** Am Rechner sind die
+  Fortschrittsstriche selbst anklickbar. Am Handy waren sie schon immer ausgeblendet
+  (`.progress{display:none}` ab 780 px), und sechs Trefferflächen à 44 px passen dort
+  nicht nebeneinander. Dort führt die Zahl „6 / 6" in eine kurze Liste mit Namen. Ohne
+  diesen zweiten Weg wäre die Funktion genau dort wirkungslos, wo die meisten
+  Empfehlungen geöffnet werden.
+- **Namen statt Nummern:** Willkommen, Der Film, Dein Thema, Dein Schwerpunkt, Dein
+  Ansprechpartner, Kennenlernen. Ohne Beraternamen, die Seite läuft für mehrere Berater.
+- **Damit es jemand merkt:** Beim ersten Erreichen von Schritt 3 winken die freien Marken
+  einmal kurz, danach nie wieder (gemerkt für die Sitzung). Wer Bewegung abgestellt hat,
+  bekommt keine. Dazu am Rechner Zeigefinger, eine Reaktion beim Darüberfahren und der
+  Name als kleine Beschriftung.
+- **Trefferfläche:** Der sichtbare Balken bleibt 3 px, die anklickbare Fläche ist 45 px
+  hoch. Mit der ersten Fassung waren es gemessen 43 und damit knapp zu wenig.
+- **Was nicht kaputtgehen durfte:** Nach der Rückkehr aus dem Finanzcheck sind die
+  besuchten Schritte wieder frei (sie werden mitgespeichert), bei offener Liste schalten
+  die Pfeiltasten nicht zusätzlich den Schritt weiter, und die Liste schließt bei Escape
+  und bei einem Klick daneben.
+- Wächter: `tests/empfaenger-schritt-sprung.test.mjs`. Am Verhalten nachgewiesen: Sprung
+  6 → 3 → 6, Thema bleibt gewählt, nicht besuchte Marken sind stumm.
+
+---
 
 ## v1.384 Beta - Phase 369 · Google-Bewertung auf Seite 1
 **2026-09-12**
