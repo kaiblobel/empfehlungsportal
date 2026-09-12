@@ -1,7 +1,24 @@
 # Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.379 Beta** · Empfängerseite in Weiß, Blau und Grau, live seit 12.09.2026.
+Offizielle Live-Version: **v1.380 Beta** · Rückweg aus dem Finanzcheck, live seit 12.09.2026.
+
+## v1.380 Beta - Phase 365 · Rückweg aus dem Finanzcheck
+**2026-09-12**
+
+Kais Befund: „wenn ich in den Finanzcheck klicke und dann auf das X schließen lande ich auf der Anmeldeseite des Empfehlungsportals." Das war schon einmal Thema, am 11.09. in der Kundenseite v1.65.2 behoben. Diesmal ist die Ursache eine andere.
+
+**Der Finanzcheck hat das Ziel geraten.** Das X ruft `returnToWebsite()` in `finanz-check.html`. Seit v1.65.2 springt die Funktion einen Schritt im Browserverlauf zurück. Über die Empfängerseite geklickt stimmt das zufällig. Fehlt der Verlauf, etwa im frisch geöffneten Tab, landet man im Nichts, und wer vorher woanders war, landet dort, bei Kai auf der Anmeldeseite. Nachgestellt mit beiden Seiten örtlich: mit Verlauf richtig, ohne Verlauf auf `about:blank`.
+
+**Jetzt gibt das Portal sein Ziel mit.** An jeden Finanzcheck-Link hängt es `?zurueck=` mit der eigenen Adresse. Der Check springt dorthin und muss nichts mehr erraten. Gesetzt wird der Parameter an drei Stellen, weil der Link auf drei Wegen entsteht: in `js/berater-brand.js` beim Branding (dort nicht mehr nur, wenn ein Kürzel vorliegt), in `js/app.js` für den Fall ohne aufgelösten Berater, und in `applyVorlage`, das den Link aus der Themenvorlage neu baut und `zurueck` jetzt mitnimmt. Fehlt eine dieser Stellen, ist der Parameter weg; genau das wäre bei der Vorlage passiert.
+
+Die Gegenseite steht in der Kundenseite v1.67 und nimmt nur Adressen des Portals an, damit der Parameter keine Weiterleitung auf fremde Seiten erlaubt.
+
+**Reihenfolge beim Veröffentlichen:** erst die Kundenseite, dann das Portal. Sonst trägt der Link kurzzeitig einen Parameter, den niemand auswertet (der alte Rücksprung greift dann weiter, es geht also nichts kaputt).
+
+Nachgewiesen am echten Ablauf mit beiden Seiten örtlich: Link enthält das Rückziel, mit Verlauf landet man auf der Empfängerseite, ohne Verlauf auf der mitgegebenen Adresse, keine Fehler auf der Seite. Wächter `tests/finanzcheck-rueckweg.test.mjs`, zwei Gegenproben rot gesehen. 192 von 192 Tests grün.
+
+---
 
 ## v1.379 Beta - Phase 364 · Empfängerseite in Weiß, Blau und Grau
 **2026-09-12** · live veröffentlicht
