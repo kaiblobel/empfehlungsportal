@@ -103,6 +103,11 @@
 
     /* 5 · Wer sich meldet */
     .trust-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:5vw;align-items:center}
+    /* Grid-Falle: Ein Grid-Feld wächst wegen min-width:auto mit seinem Inhalt, statt
+       ihn zu begrenzen. Ohne diese Zeile wird die Spalte so breit wie alle Rezensions-
+       karten zusammen (gemessen 2.874 px), das Karussell scrollt dann nie und die
+       Karten werden rechts abgeschnitten. */
+    .trust-content{min-width:0}
     .trust-person{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
     .trust-person .buero{display:block;width:100%;height:280px;object-fit:cover;object-position:center 30%;filter:none}.trust-person .buero[hidden]{display:none}
     .tp-kopf{display:flex;align-items:center;gap:13px;padding:18px 20px 6px}
@@ -111,9 +116,28 @@
     .fakten{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:14px 20px 20px}
     .fakt{padding:12px;border-radius:14px;background:var(--paper)}.fakt b{display:block;color:var(--petrol);font-size:20px;font-weight:750}.fakt span{display:block;margin-top:3px;color:var(--muted);font-size:12px;line-height:1.35}
     .ich-text{max-width:620px;margin:18px 0 0;color:#2c4148;font-size:17px;line-height:1.65}
-    .review{margin-top:22px;padding:20px 22px;background:#fff;border:1px solid var(--line);border-radius:18px}
+    .reviews{margin-top:16px}
     .stars{color:var(--gold);letter-spacing:2px;font-size:14px}
-    .review blockquote{margin:10px 0 12px;font-size:18px;line-height:1.5;font-weight:550}.review cite{font-style:normal;color:var(--muted);font-size:12px}
+    .reviews-kopf{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+    .reviews-kopf b{font-size:19px;font-weight:750}.reviews-kopf small{color:var(--muted);font-size:12px}
+    .reviews-alle{margin-left:auto;color:var(--petrol);font-size:12px;font-weight:600;text-underline-offset:2px}
+    /* Das Wischen macht der Browser selbst, scroll-snap lässt die Karten einrasten.
+       Deshalb keine eigene Finger-Logik und keine fremde Bibliothek. */
+    .review-track{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(250px,31%);gap:10px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:inline mandatory;padding:2px 2px 6px}
+    .review-track>*{scroll-snap-align:start}
+    .review-track:focus-visible{outline:2px solid var(--petrol);outline-offset:2px}
+    .review-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px 14px}
+    .review-top{display:flex;align-items:center;gap:10px}
+    .review-avatar{flex:none;width:34px;height:34px;border-radius:50%;background:var(--blau-grau);color:var(--blau-dunkel);display:grid;place-items:center;font-weight:700;font-size:14px}
+    .review-wer{flex:1;min-width:0}.review-wer b{display:block;font-size:14px;line-height:1.25}.review-wer small{display:block;color:var(--muted);font-size:11px}
+    .review-google{flex:none}
+    .review-card .stars{margin-top:7px;font-size:13px}
+    /* Alle Karten sind so hoch wie die längste. Ohne Begrenzung zieht ein einziges
+       langes Zitat die ganze Reihe auf über 400 px und es entstehen große Leerflächen.
+       Fünf Zeilen reichen für elf der zwölf Stimmen, der Rest steht bei Google. */
+    .review-card blockquote{margin:5px 0 0;font-size:14px;line-height:1.5;font-weight:500;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;overflow:hidden}
+    .review-steuer{display:flex;align-items:center;gap:8px;margin-top:6px}.review-steuer span{color:var(--muted);font-size:12px}
+    .review-pfeil{flex:none;width:44px;height:44px;border:1px solid var(--rand);background:#fff;color:var(--petrol);font-size:17px;line-height:1;cursor:pointer}
     .promises{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
     .promise{padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.6)}.promise b{display:block;font-size:13px}.promise span{display:block;margin-top:4px;color:var(--muted);font-size:12px;line-height:1.4}
 
@@ -157,7 +181,8 @@
       .choice-footer{display:grid;margin-top:18px}.choice-footer .primary{width:100%}
       .ablauf{padding:20px}
       .trust-person .buero{height:190px}.fakten{padding:12px 16px 16px}.fakt{padding:10px}.fakt b{font-size:17px}.fakt span{font-size:11px}
-      .ich-text{font-size:16px}.review{padding:18px}.review blockquote{font-size:16px}
+      .ich-text{font-size:16px}.review-card{padding:14px 16px}.review-card blockquote{font-size:15px}
+      .review-track{grid-auto-columns:86%}.reviews-alle{margin-left:0}
       .promises{grid-template-columns:1fr}
       .decision-card{padding:20px}
       .back{left:15px;bottom:calc(17px + env(safe-area-inset-bottom))}.transition-note{display:none}
@@ -214,7 +239,7 @@
     .reform-proof{background:var(--white);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:3px}
     .reform-kicker{color:var(--gold-dark)}
     /* Vorstellung: weiße Karte, Zahlen in Blau. */
-    .trust-person,.decision-card,.review,.promise{border-radius:3px}
+    .trust-person,.decision-card,.review-card,.review-pfeil,.promise{border-radius:3px}
     .fakt{background:#fff;border-radius:3px}.fakt b{color:var(--petrol)}
     .stars{color:var(--gold-dark)}
     /* Schritt 6 auf hellem Grau, die Kontaktkarte weiß mit feiner Goldkante. */
@@ -347,7 +372,30 @@
             <p class="eyebrow">Dein Ansprechpartner</p>
             <h2 class="chapter-title">Ich bin <span data-bb="vorname">Kai</span>. <em>Und ich höre erst mal zu.</em></h2>
             <p class="ich-text">Bevor wir über Zahlen sprechen, möchte ich wissen, was du vorhast. Ein eigenes Zuhause? Mehr Geld zur Seite legen? Oder erst einmal wissen, wo du stehst? Du bringst deine Fragen mit. Gemeinsam schauen wir, was zu deinem Alltag passt.</p>
-            <div class="review" data-default-berater-only><div class="stars">★★★★★</div><blockquote>„Ich kann die Betreuung bei Kai Blobel jedem empfehlen, der Wert auf Substanz und Fachkompetenz legt und keine Lust auf heiße Luft hat.“</blockquote><cite>Patrice Hempe · echte Google-Rezension 2026</cite></div>
+            <!-- Echte Google-Rezensionen, Wortlaut und Zeitangaben übernommen vom
+                 Google-Auftritt (Stand 30.08.2026, wie auf kaiblobel.de). Sie werden
+                 hier nicht automatisch aktualisiert, deshalb steht die Gesamtzahl
+                 daneben und der Weg zum Profil daneben. Nur beim Standard-Berater:
+                 fremde Berater haben ein eigenes Unternehmensprofil. -->
+            <div class="reviews" data-default-berater-only>
+              <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><symbol id="google-g" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></symbol></svg>
+              <div class="reviews-kopf"><span class="stars" aria-hidden="true">★★★★★</span><b>5,0</b><small>bei Google, aus 16 Rezensionen</small><a class="reviews-alle" href="https://www.google.com/maps?cid=83717418077442585" target="_blank" rel="noopener noreferrer">Alle bei Google ansehen</a></div>
+              <div class="review-track" data-review-track tabindex="0" role="group" aria-label="Google-Rezensionen, seitlich durchblätterbar">
+                <article class="review-card"><div class="review-top"><span class="review-avatar" aria-hidden="true">C</span><div class="review-wer"><b>Cindy Kühn</b><small>vor 4 Monaten</small></div><svg class="review-google" width="16" height="16" role="img" aria-label="Google"><use href="#google-g"></use></svg></div><div class="stars" aria-label="5 von 5 Sternen">★★★★★</div><blockquote>„Angenehme und vertrauensvolle Zusammenarbeit. Die DVAG-Agentur Kai Blobel bietet gute Beratung und individuellen Service.“</blockquote></article>
+                <article class="review-card"><div class="review-top"><span class="review-avatar" aria-hidden="true">S</span><div class="review-wer"><b>Sandra Heinze</b><small>vor 5 Monaten · Local Guide</small></div><svg class="review-google" width="16" height="16" role="img" aria-label="Google"><use href="#google-g"></use></svg></div><div class="stars" aria-label="5 von 5 Sternen">★★★★★</div><blockquote>„Fachlich exzellent, menschlich super angenehm. Kai Blobel &amp; Team nehmen sich Zeit, hören zu und entwickeln individuelle Konzepte. Sehr zu empfehlen!“</blockquote></article>
+                <article class="review-card"><div class="review-top"><span class="review-avatar" aria-hidden="true">P</span><div class="review-wer"><b>Patrice Hempe</b><small>2026</small></div><svg class="review-google" width="16" height="16" role="img" aria-label="Google"><use href="#google-g"></use></svg></div><div class="stars" aria-label="5 von 5 Sternen">★★★★★</div><blockquote>„Ich kann die Betreuung bei Kai Blobel jedem empfehlen, der Wert auf Substanz und Fachkompetenz legt und keine Lust auf heiße Luft hat.“</blockquote></article>
+                <article class="review-card"><div class="review-top"><span class="review-avatar" aria-hidden="true">M</span><div class="review-wer"><b>Mathias „Boggi“ Mathias</b><small>vor 11 Monaten · Local Guide</small></div><svg class="review-google" width="16" height="16" role="img" aria-label="Google"><use href="#google-g"></use></svg></div><div class="stars" aria-label="5 von 5 Sternen">★★★★★</div><blockquote>„Sehr lockere Gespräche. Die Atmosphäre passt auch.“</blockquote></article>
+                <article class="review-card"><div class="review-top"><span class="review-avatar" aria-hidden="true">M</span><div class="review-wer"><b>Max K</b><small>vor einem Jahr</small></div><svg class="review-google" width="16" height="16" role="img" aria-label="Google"><use href="#google-g"></use></svg></div><div class="stars" aria-label="5 von 5 Sternen">★★★★★</div><blockquote>„Außergewöhnliche und sehr individuelle Beratung. Man fühlt sich sofort gut aufgehoben und erhält kompetente Antworten auf alle Fragen.“</blockquote></article>
+                <article class="review-card"><div class="review-top"><span class="review-avatar" aria-hidden="true">M</span><div class="review-wer"><b>Mike Gerber</b><small>vor 2 Jahren · Local Guide</small></div><svg class="review-google" width="16" height="16" role="img" aria-label="Google"><use href="#google-g"></use></svg></div><div class="stars" aria-label="5 von 5 Sternen">★★★★★</div><blockquote>„Ich werde seit vielen Jahren in unterschiedlichen Finanzangelegenheiten erfolgreich durch Herrn Blobel beraten und sogar vertreten. Ob Versicherungen, Finanzierungen oder Fragen des finanziellen Alltags: immer kompetent und persönlich.“</blockquote></article>
+                <article class="review-card"><div class="review-top"><span class="review-avatar" aria-hidden="true">K</span><div class="review-wer"><b>Kimberly Schmidt</b><small>vor 2 Jahren</small></div><svg class="review-google" width="16" height="16" role="img" aria-label="Google"><use href="#google-g"></use></svg></div><div class="stars" aria-label="5 von 5 Sternen">★★★★★</div><blockquote>„Sehr zufrieden, tolle Beratung und sehr individuell auf die eigene Person zugeschnittene Finanzkonzepte. Ich fühle mich bei Herrn Blobel sehr gut aufgehoben.“</blockquote></article>
+                <article class="review-card"><div class="review-top"><span class="review-avatar" aria-hidden="true">H</span><div class="review-wer"><b>Hendrik Zoe</b><small>vor 2 Jahren · Local Guide</small></div><svg class="review-google" width="16" height="16" role="img" aria-label="Google"><use href="#google-g"></use></svg></div><div class="stars" aria-label="5 von 5 Sternen">★★★★★</div><blockquote>„Kompetente Beratung und schnelle, gute Ausarbeitung der Angebote. Auf meine Wünsche und die damit verbundenen Parameter ist man hervorragend eingegangen.“</blockquote></article>
+                <article class="review-card"><div class="review-top"><span class="review-avatar" aria-hidden="true">T</span><div class="review-wer"><b>Torsten Memczak</b><small>vor 2 Jahren</small></div><svg class="review-google" width="16" height="16" role="img" aria-label="Google"><use href="#google-g"></use></svg></div><div class="stars" aria-label="5 von 5 Sternen">★★★★★</div><blockquote>„Seit 2006 betreut mich Herr Blobel und hilft mir bei Versicherungsfragen. Auch mein Vermögen hat er stetig anwachsen lassen.“</blockquote></article>
+                <article class="review-card"><div class="review-top"><span class="review-avatar" aria-hidden="true">L</span><div class="review-wer"><b>Lucas Schmidt</b><small>vor 2 Jahren</small></div><svg class="review-google" width="16" height="16" role="img" aria-label="Google"><use href="#google-g"></use></svg></div><div class="stars" aria-label="5 von 5 Sternen">★★★★★</div><blockquote>„Sehr nette und kompetente Beratung bei jeglichen Fragen und Themen. Wir fühlen uns seit Anfang an gut aufgehoben.“</blockquote></article>
+                <article class="review-card"><div class="review-top"><span class="review-avatar" aria-hidden="true">M</span><div class="review-wer"><b>Martin Böhm</b><small>vor 2 Jahren</small></div><svg class="review-google" width="16" height="16" role="img" aria-label="Google"><use href="#google-g"></use></svg></div><div class="stars" aria-label="5 von 5 Sternen">★★★★★</div><blockquote>„Erstklassige Beratung und Betreuung, kann ich nur weiterempfehlen.“</blockquote></article>
+                <article class="review-card"><div class="review-top"><span class="review-avatar" aria-hidden="true">F</span><div class="review-wer"><b>Florian Kirstein</b><small>vor 2 Jahren</small></div><svg class="review-google" width="16" height="16" role="img" aria-label="Google"><use href="#google-g"></use></svg></div><div class="stars" aria-label="5 von 5 Sternen">★★★★★</div><blockquote>„Top Beratung.“</blockquote></article>
+              </div>
+              <div class="review-steuer"><button type="button" class="review-pfeil" data-review-prev aria-label="Vorherige Rezension">←</button><button type="button" class="review-pfeil" data-review-next aria-label="Nächste Rezension">→</button><span>12 von 16 Stimmen · zum Blättern wischen</span></div>
+            </div>
             <div class="promises"><div class="promise"><b>Unser erstes Gespräch</b><span>Du erzählst, was dich beschäftigt. Wir besprechen, welche Fragen wir gemeinsam angehen können.</span></div><div class="promise"><b>Wie es weitergeht</b><span>Du entscheidest nach dem Kennenlernen, ob du einen weiteren Termin möchtest.</span></div></div>
             <!-- Knopfinhalt in EINEM span: Knöpfe sind Flex, sonst klebt der
                  eingesetzte Name am Text (tests/knoepfe-namen.test.mjs). -->
@@ -434,7 +482,18 @@
       merke();
     }));
     document.querySelectorAll('.time').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.time').forEach(b=>b.classList.remove('selected'));btn.classList.add('selected');document.getElementById('eSlot').value=btn.dataset.value;document.getElementById('eAnrufConfirm').classList.remove('visible')}));
-    document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')show(step-1);if(e.key==='ArrowRight'&&!(step===3&&!interest))show(step+1)});
+    // Rezensionen: Wischen macht der Browser, die Pfeile springen eine Karte weiter.
+    const rTrack=document.querySelector('[data-review-track]');
+    if(rTrack){
+      const weite=()=>{const karte=rTrack.firstElementChild;return karte?karte.getBoundingClientRect().width+10:250};
+      document.querySelector('[data-review-prev]')?.addEventListener('click',()=>rTrack.scrollBy({left:-weite(),behavior:'smooth'}));
+      document.querySelector('[data-review-next]')?.addEventListener('click',()=>rTrack.scrollBy({left:weite(),behavior:'smooth'}));
+    }
+    // Im Karussell blättern die Pfeiltasten die Karten. Ohne diese Ausnahme würde
+    // dieselbe Taste gleichzeitig den Schritt wechseln und die Seite springen.
+    document.addEventListener('keydown',e=>{
+      if(e.target?.closest?.('[data-review-track]'))return;
+      if(e.key==='ArrowLeft')show(step-1);if(e.key==='ArrowRight'&&!(step===3&&!interest))show(step+1)});
     try{
       const nav=performance.getEntriesByType('navigation')[0];
       const alt=JSON.parse(sessionStorage.getItem(merkKey)||'null');

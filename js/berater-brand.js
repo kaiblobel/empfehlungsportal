@@ -284,13 +284,19 @@ export function applyBeraterBrand(b) {
         // (fc-advisors.php). Es reicht also, das eigene Kürzel anzuhängen: Der
         // Check läuft für alle gleich, und der Lead geht an den richtigen Berater.
         // Ohne Kürzel bliebe es beim Standard-Berater, deshalb wird es immer gesetzt.
-        if (b.slug) {
-          try {
-            const ziel = new URL(el.href, window.location.origin);
-            ziel.searchParams.set('b', b.slug);
-            el.href = ziel.toString();
-          } catch (_) { /* kaputte Adresse im HTML: lieber unverändert lassen */ }
-        }
+        // Phase 365 · Rückweg mitgeben, statt den Browserverlauf raten zu lassen.
+        //
+        // Das X im Finanzcheck sprang bisher blind einen Schritt zurück. Wer den
+        // Check in einem frischen Tab öffnete oder vorher woanders war, landete
+        // deshalb irgendwo, zuletzt auf der Anmeldeseite des Portals. Jetzt steht
+        // die Seite, von der aus gewechselt wurde, im Link. Der Check springt
+        // dorthin zurück und muss nichts mehr erraten.
+        try {
+          const ziel = new URL(el.href, window.location.origin);
+          if (b.slug) ziel.searchParams.set('b', b.slug);
+          ziel.searchParams.set('zurueck', window.location.href);
+          el.href = ziel.toString();
+        } catch (_) { /* kaputte Adresse im HTML: lieber unverändert lassen */ }
         break;
       }
     }

@@ -21,7 +21,9 @@ assert.match(app, /document\.querySelectorAll\('img\[data-bb="foto"\]'\)/, 'Rüc
 // Kais Zahlen und seine Bewertung nur beim Standard-Berater.
 assert.match(html, /<div class="fakt" data-default-berater-only><b>20\+<\/b>/);
 assert.match(html, /<div class="fakt" data-default-berater-only><b>3\.000\+<\/b>/);
-assert.match(html, /class="review" data-default-berater-only/);
+// Seit Phase 366 sind es die Google-Rezensionen im Karussell, Einzelheiten in
+// tests/empfaenger-rezensionen.test.mjs.
+assert.match(html, /class="reviews" data-default-berater-only/);
 
 // Bürofoto nur, wenn hinterlegt: kein data-bb="buerofoto" (das setzt sonst das Porträt ein).
 assert.match(html, /<img class="buero" id="eBueroFoto"/);
