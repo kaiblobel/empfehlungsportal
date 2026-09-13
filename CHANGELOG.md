@@ -1,21 +1,22 @@
 ﻿# Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.392 Beta** · Rückblick mit Film, allen Fotos, Preisbildern und Fußzeile, live seit 13.09.2026.
+Offizielle Live-Version: **v1.393 Beta** · Konzeptseite zeigt das Sommerfest als Rückblick, live seit 13.09.2026.
 
-<!-- Noch ohne Phasennummer: tests/versionsstand liest die oberste ##-Überschrift als aktuelle
-     Version. Beim Veröffentlichen wird daraus ein eigener Phaseneintrag. -->
-### Unveröffentlicht · Konzeptseite zeigt das Sommerfest als Rückblick
-**2026-09-13** · Zweig `konrad/kidz-rueckblick-konzept`
+## v1.393 Beta - Phase 378 · Konzeptseite zeigt das Sommerfest als Rückblick
+**2026-09-13** · live veröffentlicht
 
 Kai: Auf der Konzeptseite war das Fest noch als Termin erkennbar. Entscheidung: nicht löschen, sondern zum
 Rückblick machen, weil er zeigt, dass KIDZ echte Familien zusammenbringt.
+Freigabe am 13.09.2026: „ja“ auf die Frage, ob die Konzeptseite so live gehen soll.
 
 - Streifen vor der KIDZ-Idee: Foto vom Fest statt Einladungsflyer, „Rückblick · 6. September 2026“, „Danke an
   über 700 Gäste“, Kennzahlen 700+ Gäste, 1.250 € Spende, 314 cm Ballumfang. Knöpfe „Rückblick mit Film und
   Fotos“ und „Zur Auflösung“. Termin, Eintritt frei, Gewinnspiel-Anmeldung und „einfach vorbeikommen“ entfallen.
 - Menü: „Sommerfest“ heißt jetzt „Rückblick“, im Handy-Menü „Rückblick Sommerfest“.
 - `tests/kidz-konzept-sommerfest.test.mjs` prüft jetzt Rückblick statt Termin.
+
+---
 
 ## v1.392 Beta - Phase 377 · Rückblick mit Film, allen Fotos, Preisbildern und Fußzeile
 **2026-09-13** · live veröffentlicht
