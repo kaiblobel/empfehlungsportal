@@ -21,6 +21,8 @@ Offizielle Live-Version: **v1.391 Beta** · Rückblick mit Bildern, Schecküberg
   Sachpreise als flache Zeile.
 - **Vollständige Fußzeile:** Veranstalter mit Logo, Kontakt (Anschrift, Telefon, E-Mail aus den Stammdaten),
   KIDZ-Links, Instagram und Facebook, darunter ©-Zeile mit Impressum und Datenschutz.
+- **Instagram- und Facebook-Knöpfe dezenter:** kleiner, nebeneinander, mit Logo in den Markenfarben
+  (Instagram-Verlauf, Facebook-Blau) statt zwei breiter dunkelblauer Balken.
 - **KIDZ-Postfach in der Fußzeile:** kidz@teamwachsbleiche.de statt der Büro-Adresse. Fest eingetragen, weil es
   kein Stammdatenfeld dafür gibt; im Kontaktdaten-Wächter als begründete Ausnahme vermerkt.
 

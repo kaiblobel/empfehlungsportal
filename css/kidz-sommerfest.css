@@ -304,3 +304,14 @@ h2 { color: var(--kf-navy); font-size: clamp(30px, 5vw, 48px); line-height: 1.05
 @media (max-width: 760px) {
   .kf-footer.kf-footer-voll { flex-direction: column; align-items: stretch; }
 }
+
+/* Instagram und Facebook dezent in Markenfarben (13.09.2026) */
+.kf-knoepfe .kf-knopf-social { width: auto; min-height: 40px; gap: 8px; padding: 0 16px; font-size: 13.5px; border-radius: 999px; box-shadow: 0 4px 12px rgba(22,58,104,.12); }
+.kf-knopf-social svg { width: 18px; height: 18px; flex: none; }
+.kf-knopf-ig { background: linear-gradient(45deg, #f58529, #dd2a7b 55%, #8134af); }
+.kf-knopf-fb { background: #1877f2; }
+.kf-knopf-ig:hover, .kf-knopf-ig:focus-visible { background: linear-gradient(45deg, #e3761f, #c71f6c 55%, #6f2a98); }
+.kf-knopf-fb:hover, .kf-knopf-fb:focus-visible { background: #0f63d6; }
+@media (max-width: 560px) {
+  .kf-knoepfe .kf-knopf-social { width: auto; }
+}
