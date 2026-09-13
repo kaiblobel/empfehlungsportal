@@ -20,6 +20,9 @@ aufmerksam werden, nicht erst am Seitenende.
 - **Scheckübergabe in der Spendenkarte:** Foto vom 11.09.2026 (Elternabend in der Kita), Text nach dem
   Facebook-Beitrag: über 600 Euro vom Kuchenbasar, aufgerundet auf 625 Euro und verdoppelt. Vorher stand dort,
   die 1.250 Euro seien allein beim Kuchenbasar zusammengekommen.
+- **Bilder vom Fest:** neuer Streifen „So war das Fest“ zwischen Dank und KIDZ-Konzept mit sechs Fotos (Team,
+  Feuerwehr, KIDZ-Wagen, Festwiese, Blumendeko, Bänder), nur Motive ohne erkennbare Kinder oder Gäste. Handy zum
+  Wischen, Rechner drei nebeneinander.
 
 ## v1.388 Beta - Phase 373 · Ein roter Wächter hält die Veröffentlichung an
 **2026-09-12**

@@ -157,4 +157,16 @@ assert.match(html, /class="kf-spende-foto"><img src="\/assets\/images\/kidz-sche
 assert.match(html, /über 600 Euro zusammen/);
 assert.match(css, /\.kf-spende-foto/);
 
+// Bilder vom Fest (13.09.2026): sechs Fotos zwischen Dank und KIDZ-Konzept, nur Motive ohne
+// erkennbare Kinder oder Gäste.
+const bilderIndex = html.indexOf('kf-section-bilder');
+assert.ok(bilderIndex > dankeIndex && bilderIndex < konzeptIndex, 'Die Bilder stehen zwischen Dank und KIDZ-Konzept');
+const festbilder = ['team', 'feuerwehr', 'kidz-wagen', 'festwiese', 'deko', 'baender'];
+for (const name of festbilder) {
+  assert.match(html, new RegExp(`/assets/images/kidz-rueckblick-${name}\.webp`), `Festbild fehlt im HTML: ${name}`);
+  const bild = await stat(new URL(`../assets/images/kidz-rueckblick-${name}.webp`, import.meta.url));
+  assert.ok(bild.size < 200_000, `Festbild zu schwer: ${name}`);
+}
+assert.match(css, /\.kf-bilder/);
+
 console.log('kidz-sommerfest-startseite: OK');

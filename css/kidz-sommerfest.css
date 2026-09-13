@@ -219,3 +219,26 @@ h2 { color: var(--kf-navy); font-size: clamp(30px, 5vw, 48px); line-height: 1.05
 /* Scheckübergabe-Foto in der Spendenkarte (13.09.2026) */
 .kf-spende-foto { width: 100%; max-width: 360px; margin: 0 auto 8px; }
 .kf-spende-foto img { display: block; width: 100%; height: auto; border-radius: 14px; box-shadow: 0 9px 22px rgba(22,58,104,.12); }
+
+/* Bilder vom Fest (13.09.2026): flacher Streifen, Handy zum Wischen, Rechner drei nebeneinander */
+.kf-section-bilder { background: #fff; border-right: 1px solid rgba(255,255,255,.9); border-left: 1px solid rgba(255,255,255,.9); }
+.kf-bilder-titel { font-size: clamp(22px, 3.4vw, 32px); }
+.kf-bilder {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 72%;
+  gap: 10px;
+  max-width: 980px;
+  margin: 18px auto 0;
+  padding: 2px 2px 8px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-inline: contain;
+}
+.kf-bilder::-webkit-scrollbar { display: none; }
+.kf-bild { margin: 0; scroll-snap-align: start; }
+.kf-bild img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 14px; box-shadow: 0 9px 22px rgba(22,58,104,.1); }
+@media (min-width: 761px) {
+  .kf-bilder { grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; overflow: visible; }
+}
