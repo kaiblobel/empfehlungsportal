@@ -266,3 +266,18 @@ h2 { color: var(--kf-navy); font-size: clamp(30px, 5vw, 48px); line-height: 1.05
   .kf-bilder::-webkit-scrollbar { display: block; height: 8px; }
   .kf-bilder::-webkit-scrollbar-thumb { background: rgba(22,58,104,.25); border-radius: 8px; }
 }
+
+/* Preiskacheln kompakt auf dem Handy (Kais Wunsch 13.09.2026): Hauptpreis breit mit flachem Bild,
+   Kino und Tierpark nebeneinander, Sachpreise als flache Zeile. */
+@media (max-width: 760px) {
+  .kf-preise { grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+  .kf-preis { padding: 10px; gap: 3px; border-radius: 14px; box-shadow: 0 6px 16px rgba(22,58,104,.07); }
+  .kf-preis small { font-size: 9px; letter-spacing: .06em; }
+  .kf-preis strong { font-size: 15px; }
+  .kf-preis span { font-size: 12px; line-height: 1.4; }
+  .kf-preis-bild { aspect-ratio: 16 / 10; object-fit: contain; margin: 0 0 4px; border-radius: 9px; }
+  .kf-preis-haupt:not(.kf-spende) { grid-column: 1 / -1; }
+  .kf-preis-haupt:not(.kf-spende) .kf-preis-bild { aspect-ratio: 21 / 9; object-fit: cover; object-position: center 55%; }
+  .kf-preise .kf-preis:last-child { grid-column: 1 / -1; grid-template-columns: 38% 1fr; column-gap: 10px; align-items: center; }
+  .kf-preise .kf-preis:last-child .kf-preis-bild { grid-row: span 3; margin: 0; }
+}
