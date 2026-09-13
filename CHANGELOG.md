@@ -4,7 +4,9 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.402 Beta** · KIDZ-Rückblick: Eckdaten und Flyer am Handy kompakt, live seit 13.09.2026.
 
 ## v1.402 Beta - Phase 387 · KIDZ-Rückblick: Eckdaten und Flyer am Handy kompakt
-**2026-09-13**
+**2026-09-13** · live veröffentlicht
+
+Freigabe am 13.09.2026: „ja freigabe“.
 
 Kai: Das Fest ist Vergangenheit, Datum, Ort und Flyer wirken am Handy noch viel zu groß.
 
@@ -18,7 +20,9 @@ Kai: Das Fest ist Vergangenheit, Datum, Ort und Flyer wirken am Handy noch viel 
 ---
 
 ## v1.401 Beta - Phase 386 · KIDZ-Rückblick: Foto mit Kai und Hendrik ans Ende der Fotostrecke
-**2026-09-13**
+**2026-09-13** · live veröffentlicht
+
+Freigabe am 13.09.2026: „ja freigabe“.
 
 Kai: Das Foto mit ihm und Hendrik soll in der Fotostrecke nicht so weit vorne stehen.
 
