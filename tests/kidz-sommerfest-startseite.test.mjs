@@ -137,8 +137,8 @@ assert.match(css, /\.kf-preise/);
 assert.match(html, /Spreewald Survival, Cottbus Hüpft, den Förderverein/);
 assert.match(html, /class="kf-preis kf-preis-haupt kf-spende"/);
 assert.match(html, /1\.250 Euro für den Förderverein Zauberland Vetschau e\.V\./);
-// Kai, 13.09.2026: Der Riesenball kam von der Deutschen Vermögensberatung. Dank in der Partnerliste, nicht als Werbeblock.
-assert.match(html, /Dankeschön an die <a class="kf-dank-dvag" href="https:\/\/www\.dvag\.de\/"[^>]*>Deutsche Vermögensberatung<\/a> für unseren Riesenball/);
+// Kai, 13.09.2026: Dank an NIEDERLAUSITZ aktuell für die Ankündigung. Ein Dank an die Deutsche Vermögensberatung für den Riesenball war kurz drin und ist auf Kais Wunsch wieder raus.
+assert.doesNotMatch(html, /kf-dank-dvag/);
 assert.match(html, /<a class="kf-dank-nl" href="https:\/\/www\.niederlausitz-aktuell\.de\/"[^>]*>NIEDERLAUSITZ aktuell<\/a> für die Ankündigung/);
 assert.match(html, /<a class="kf-fuss-dvag" href="https:\/\/www\.dvag\.de\/kai\.blobel\/index\.html"/);
 const spendeIndex = html.indexOf('kf-spende');
