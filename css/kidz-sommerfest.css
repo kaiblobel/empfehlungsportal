@@ -317,3 +317,8 @@ h2 { color: var(--kf-navy); font-size: clamp(30px, 5vw, 48px); line-height: 1.05
 @media (max-width: 560px) {
   .kf-knoepfe .kf-knopf-social { width: auto; }
 }
+
+/* Veranstaltername in der Fußzeile verlinkt auf die Team-Wachsbleiche-Homepage (Kai, 13.09.2026). Unauffällig,
+   erst beim Überfahren unterstrichen: KIDZ bleibt vorn, die Homepage ist nur ein Hinweis, wer dahintersteht. */
+.kidz-homepage-link { color: inherit; text-decoration: none; }
+.kidz-homepage-link:hover strong, .kidz-homepage-link:focus-visible strong { text-decoration: underline; text-underline-offset: 3px; }

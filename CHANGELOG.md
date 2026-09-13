@@ -3,6 +3,18 @@
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.399 Beta** · Dank an NIEDERLAUSITZ aktuell, DVAG-Profil in der Fußzeile, live seit 13.09.2026.
 
+<!-- Noch ohne Phasennummer: tests/versionsstand liest die oberste ##-Überschrift als aktuelle
+     Version. Beim Veröffentlichen wird daraus ein eigener Phaseneintrag. -->
+### Unveröffentlicht · KIDZ-Seiten verlinken dezent die Team-Wachsbleiche-Homepage
+**2026-09-13** · Zweig `konrad/kidz-rueckblick-konzept`
+
+Kai: Die Homepage ist seit heute live, die KIDZ-Seiten sollen zeigen, wer dahintersteht. Dezent, ohne Knopf.
+
+- Rückblick, Konzeptseite und Elternabend: Der Veranstaltername „Regionaldirektion Kai Blobel & Team“ in der Fußzeile
+  ist ein Link auf teamwachsbleiche.de (leitet auf die Homepage), erst beim Überfahren unterstrichen.
+- Änderung jeweils in der bestehenden Zeile, die Wächter-Ausnahmen per Zeilennummer bleiben gültig.
+- Die vollständige Konzeptseite bleibt unverändert. Neuer Test `tests/kidz-homepage-link.test.mjs`.
+
 ## v1.399 Beta - Phase 384 · Dank an NIEDERLAUSITZ aktuell, DVAG-Profil in der Fußzeile
 **2026-09-13** · live veröffentlicht
 
