@@ -5,24 +5,22 @@ Offizielle Live-Version: **v1.388 Beta** · Ein roter Wächter hält die Veröff
 
 <!-- Noch ohne Phasennummer: tests/versionsstand liest die oberste ##-Überschrift als aktuelle
      Version. Beim Zusammenführen wird daraus ein eigener Phaseneintrag. -->
-### Unveröffentlicht · Der Rückblick führt zum KIDZ-Konzept
+### Unveröffentlicht · Bilder vom Fest, Scheckübergabe, KIDZ dezent im Schluss
 **2026-09-13** · Zweig `konrad/kidz-rueckblick-konzept`, Phasennummer wird beim Zusammenführen vergeben
 
-Kais Wunsch: Wer aus der Dankesmail auf den Rückblick kommt, soll schnell auf das KIDZ-Konzept
-aufmerksam werden, nicht erst am Seitenende.
+Kais Wunsch: Wer aus der Dankesmail kommt, soll das Fest sehen und KIDZ kennenlernen, ohne das Gefühl, das
+Fest sei nur ein Anlass für das Konzept gewesen. Familie und Spaß vorn, das Geschäftliche dezent.
 
-- **Neuer Abschnitt direkt nach dem Dank** auf `/kidz/sommerfest`: „Kinderleicht in die Zukunft“,
-  ein Satz zu den drei Grundlagen und zwei Knöpfe, „KIDZ-Konzept ansehen“ und „Elternabend vormerken“,
-  beide mit `quelle=sommerfest-danke`. Die Elternabend-Seite begrüßt damit weiter mit
-  „Schön, dass ihr beim Sommerfest dabei wart.“
-- Reihenfolge Danke, Auflösung, Helfer, Weiter und die Sprungmarken bleiben. Kein Anmeldeknopf.
-- `tests/kidz-sommerfest-startseite.test.mjs` prüft Lage und Ziele des neuen Abschnitts.
+- **Bilder vom Fest:** neuer Streifen „So war das Fest“ zwischen Dank und Auflösung mit sechs Fotos (Team,
+  Feuerwehr, KIDZ-Wagen, Festwiese, Blumendeko, Bänder), nur Motive ohne erkennbare Kinder oder Gäste. Handy zum
+  Wischen, Rechner drei nebeneinander.
 - **Scheckübergabe in der Spendenkarte:** Foto vom 11.09.2026 (Elternabend in der Kita), Text nach dem
   Facebook-Beitrag: über 600 Euro vom Kuchenbasar, aufgerundet auf 625 Euro und verdoppelt. Vorher stand dort,
   die 1.250 Euro seien allein beim Kuchenbasar zusammengekommen.
-- **Bilder vom Fest:** neuer Streifen „So war das Fest“ zwischen Dank und KIDZ-Konzept mit sechs Fotos (Team,
-  Feuerwehr, KIDZ-Wagen, Festwiese, Blumendeko, Bänder), nur Motive ohne erkennbare Kinder oder Gäste. Handy zum
-  Wischen, Rechner drei nebeneinander.
+- **KIDZ dezent im Schluss:** unter „Wie es weitergeht“ ein Textlink „Was hinter KIDZ steckt“ auf
+  `/kidz/konzept?quelle=sommerfest-danke`. Ein zwischenzeitlich gebauter eigener Konzept-Block nach dem Dank ist
+  bewusst wieder raus.
+- `tests/kidz-sommerfest-startseite.test.mjs` prüft Bilder, Scheckfoto und die Lage des Konzept-Links.
 
 ## v1.388 Beta - Phase 373 · Ein roter Wächter hält die Veröffentlichung an
 **2026-09-12**

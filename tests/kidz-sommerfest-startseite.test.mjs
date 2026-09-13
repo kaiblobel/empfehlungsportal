@@ -141,13 +141,12 @@ const spendeIndex = html.indexOf('kf-spende');
 assert.ok(spendeIndex > helferIndex && spendeIndex < weiterIndex, 'Die Spende gehört in den Dank-Abschnitt');
 assert.match(css, /\.kf-spende/);
 
-// Kais Wunsch vom 13.09.2026: Wer aus der Dankesmail kommt, stößt gleich nach dem Dank auf
-// das KIDZ-Konzept und den Elternabend. Beide Wege tragen die Herkunft sommerfest-danke.
-const konzeptIndex = html.indexOf('kf-section-konzept');
-assert.ok(konzeptIndex > dankeIndex && konzeptIndex < aufloesungIndex, 'Der Weg zum KIDZ-Konzept steht direkt nach dem Dank');
-assert.match(html, /href="\/kidz\/konzept\?quelle=sommerfest-danke"/);
-assert.match(html.slice(konzeptIndex, aufloesungIndex), /href="\/kidz\/elternabend\?quelle=sommerfest-danke"/);
-assert.match(css, /\.kf-section-konzept/);
+// Kais Wunsch vom 13.09.2026: KIDZ nur dezent im Schluss, kein eigener Werbeblock nach dem Dank.
+// Das Fest und die Familien stehen vorn, das Konzept ist ein Textlink unter "Wie es weitergeht".
+assert.doesNotMatch(html, /kf-section-konzept/, 'Kein eigener Konzept-Block auf dem Rückblick');
+const konzeptLinkIndex = html.indexOf('href="/kidz/konzept?quelle=sommerfest-danke"');
+assert.ok(konzeptLinkIndex > weiterIndex, 'Der Konzept-Link steht im Schluss unter "Wie es weitergeht"');
+assert.match(css, /\.kf-weiter-link/);
 
 // Scheckübergabe am 11.09.2026 (Kais Wunsch vom 13.09.2026): Foto in der Spendenkarte,
 // Zahlen wie im Facebook-Beitrag.
@@ -157,10 +156,10 @@ assert.match(html, /class="kf-spende-foto"><img src="\/assets\/images\/kidz-sche
 assert.match(html, /über 600 Euro zusammen/);
 assert.match(css, /\.kf-spende-foto/);
 
-// Bilder vom Fest (13.09.2026): sechs Fotos zwischen Dank und KIDZ-Konzept, nur Motive ohne
+// Bilder vom Fest (13.09.2026): sechs Fotos zwischen Dank und Auflösung, nur Motive ohne
 // erkennbare Kinder oder Gäste.
 const bilderIndex = html.indexOf('kf-section-bilder');
-assert.ok(bilderIndex > dankeIndex && bilderIndex < konzeptIndex, 'Die Bilder stehen zwischen Dank und KIDZ-Konzept');
+assert.ok(bilderIndex > dankeIndex && bilderIndex < aufloesungIndex, 'Die Bilder stehen zwischen Dank und Auflösung');
 const festbilder = ['team', 'feuerwehr', 'kidz-wagen', 'festwiese', 'deko', 'baender'];
 for (const name of festbilder) {
   assert.match(html, new RegExp(`/assets/images/kidz-rueckblick-${name}\.webp`), `Festbild fehlt im HTML: ${name}`);

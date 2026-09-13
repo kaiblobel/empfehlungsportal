@@ -242,3 +242,8 @@ h2 { color: var(--kf-navy); font-size: clamp(30px, 5vw, 48px); line-height: 1.05
 @media (min-width: 761px) {
   .kf-bilder { grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; overflow: visible; }
 }
+
+/* Dezenter Weg zum KIDZ-Konzept im Schluss (13.09.2026) */
+.kf-weiter-link { margin: 16px 0 0; }
+.kf-weiter-link a { color: #fff; font-size: 15px; font-weight: 750; text-decoration: underline; text-decoration-color: rgba(255,228,139,.8); text-underline-offset: 4px; }
+.kf-weiter-link a:hover, .kf-weiter-link a:focus-visible { color: #ffe48b; outline: none; }
