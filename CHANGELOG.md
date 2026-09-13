@@ -1,12 +1,13 @@
 ﻿# Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.388 Beta** · Ein roter Wächter hält die Veröffentlichung an.
+Offizielle Live-Version: **v1.391 Beta** · Rückblick mit Bildern, Scheckübergabe und KIDZ dezent im Schluss, live seit 13.09.2026.
 
-<!-- Noch ohne Phasennummer: tests/versionsstand liest die oberste ##-Überschrift als aktuelle
-     Version. Beim Zusammenführen wird daraus ein eigener Phaseneintrag. -->
-### Unveröffentlicht · Bilder vom Fest, Scheckübergabe, KIDZ dezent im Schluss
-**2026-09-13** · Zweig `konrad/kidz-rueckblick-konzept`, Phasennummer wird beim Zusammenführen vergeben
+## v1.391 Beta - Phase 376 · Rückblick mit Bildern, Scheckübergabe und KIDZ dezent im Schluss
+**2026-09-13** · live veröffentlicht
+
+Phasen 374 und 375 (v1.389, v1.390) liegen noch unveröffentlicht auf `konrad/tuerhueter-scharf`, deshalb
+springt die Nummer.
 
 Kais Wunsch: Wer aus der Dankesmail kommt, soll das Fest sehen und KIDZ kennenlernen, ohne das Gefühl, das
 Fest sei nur ein Anlass für das Konzept gewesen. Familie und Spaß vorn, das Geschäftliche dezent.
@@ -21,6 +22,8 @@ Fest sei nur ein Anlass für das Konzept gewesen. Familie und Spaß vorn, das Ge
   `/kidz/konzept?quelle=sommerfest-danke`. Ein zwischenzeitlich gebauter eigener Konzept-Block nach dem Dank ist
   bewusst wieder raus.
 - `tests/kidz-sommerfest-startseite.test.mjs` prüft Bilder, Scheckfoto und die Lage des Konzept-Links.
+
+---
 
 ## v1.388 Beta - Phase 373 · Ein roter Wächter hält die Veröffentlichung an
 **2026-09-12**
