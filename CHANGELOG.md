@@ -3,6 +3,18 @@
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.397 Beta** · Alle KIDZ-Seiten im Portal-Menü, Kurz- und Archivadresse, live seit 13.09.2026.
 
+<!-- Noch ohne Phasennummer: tests/versionsstand liest die oberste ##-Überschrift als aktuelle
+     Version. Beim Veröffentlichen wird daraus ein eigener Phaseneintrag. -->
+### Unveröffentlicht · KIDZ-Postfach in allen KIDZ-Fußzeilen
+**2026-09-13** · Zweig `konrad/kidz-rueckblick-konzept`
+
+Kai: Konzept- und Elternabend-Seite sollen wie der Rückblick kidz@teamwachsbleiche.de zeigen, nicht die Büro-Adresse.
+
+- **Konzeptseite:** kidz@teamwachsbleiche.de fest statt `data-bo="email-text"` (das setzte zur Laufzeit Kai.Blobel@dvag.de).
+- **Elternabend-Seite:** Die Fußzeile hatte gar keine E-Mail-Adresse, jetzt steht kidz@teamwachsbleiche.de unter der Anschrift.
+- Die vollständige Konzeptseite (`kidz-konzept-komplett.html`) bleibt bewusst unverändert.
+- `tests/kontaktdaten-im-html.test.mjs`: zwei begründete Ausnahmen, wie beim Rückblick an die Zeilennummer gebunden.
+
 ## v1.397 Beta - Phase 382 · Alle KIDZ-Seiten im Portal-Menü, Kurz- und Archivadresse
 **2026-09-13** · live veröffentlicht
 

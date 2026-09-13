@@ -90,6 +90,22 @@ const AUSNAHMEN = [
     // Rückblick verschiebt sie, dann hier nachziehen.
   },
   {
+    stelle: 'kidz-konzept.html:177',
+    art: 'E-Mail',
+    grund:
+      'Kais Wunsch vom 13.09.2026: Auch auf der KIDZ-Konzeptseite steht das KIDZ-Postfach kidz@teamwachsbleiche.de '
+      + 'statt der Büro-Adresse. Gleicher Grund wie beim Rückblick: kein Stammdatenfeld, data-bo würde überschreiben.',
+    // Hängt an der Zeilennummer, wie die Ausnahme darüber.
+  },
+  {
+    stelle: 'kidz-elternabend.html:271',
+    art: 'E-Mail',
+    grund:
+      'Kais Wunsch vom 13.09.2026: Die Fußzeile von KIDZ for Future nennt wie Rückblick und Konzeptseite das '
+      + 'KIDZ-Postfach kidz@teamwachsbleiche.de. Vorher stand dort gar keine E-Mail-Adresse.',
+    // Hängt an der Zeilennummer, wie die Ausnahmen darüber.
+  },
+  {
     stelle: 'kidz-gewinnspiel.html:218',
     art: 'Anschrift',
     grund:
