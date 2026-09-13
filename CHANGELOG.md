@@ -1,12 +1,12 @@
 ﻿# Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.393 Beta** · Konzeptseite zeigt das Sommerfest als Rückblick, live seit 13.09.2026.
+Offizielle Live-Version: **v1.394 Beta** · KIDZ früher erklärt und Film im Rückblick kleiner, live seit 13.09.2026.
 
-<!-- Noch ohne Phasennummer: tests/versionsstand liest die oberste ##-Überschrift als aktuelle
-     Version. Beim Veröffentlichen wird daraus ein eigener Phaseneintrag. -->
-### Unveröffentlicht · KIDZ auf der Elternabend-Seite früher erklärt
-**2026-09-13** · Zweig `konrad/kidz-rueckblick-konzept`
+## v1.394 Beta - Phase 379 · KIDZ früher erklärt und Film im Rückblick kleiner
+**2026-09-13** · live veröffentlicht
+
+Freigabe am 13.09.2026: „ja veröffentlichen“.
 
 Kai: Auf der Einladung zu KIDZ for Future fand man das Konzept nur ganz unten in der Fußzeile. Am Handy stimmte
 das, weil die Kopfnavigation unter 980 Pixeln ausgeblendet ist.
@@ -18,6 +18,8 @@ das, weil die Kopfnavigation unter 980 Pixeln ausgeblendet ist.
   herauszunehmen.
 - Rückblick: Der Hochkant-Film ist nur noch 210 statt 300 Pixel breit (etwa 370 statt 530 Pixel hoch). Kai: am
   Handy zu groß. Vollbild geht weiter über den Player.
+
+---
 
 ## v1.393 Beta - Phase 378 · Konzeptseite zeigt das Sommerfest als Rückblick
 **2026-09-13** · live veröffentlicht
