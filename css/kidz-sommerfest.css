@@ -215,3 +215,7 @@ h2 { color: var(--kf-navy); font-size: clamp(30px, 5vw, 48px); line-height: 1.05
   .kf-section-konzept .kf-knoepfe { flex-direction: column; }
   .kf-section-konzept .kf-knopf { width: 100%; }
 }
+
+/* Scheckübergabe-Foto in der Spendenkarte (13.09.2026) */
+.kf-spende-foto { width: 100%; max-width: 360px; margin: 0 auto 8px; }
+.kf-spende-foto img { display: block; width: 100%; height: auto; border-radius: 14px; box-shadow: 0 9px 22px rgba(22,58,104,.12); }

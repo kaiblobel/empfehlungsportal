@@ -149,4 +149,12 @@ assert.match(html, /href="\/kidz\/konzept\?quelle=sommerfest-danke"/);
 assert.match(html.slice(konzeptIndex, aufloesungIndex), /href="\/kidz\/elternabend\?quelle=sommerfest-danke"/);
 assert.match(css, /\.kf-section-konzept/);
 
+// Scheckübergabe am 11.09.2026 (Kais Wunsch vom 13.09.2026): Foto in der Spendenkarte,
+// Zahlen wie im Facebook-Beitrag.
+const scheckFoto = await stat(new URL('../assets/images/kidz-scheckuebergabe-zauberland.webp', import.meta.url));
+assert.ok(scheckFoto.size > 20_000 && scheckFoto.size < 200_000, 'Scheckfoto fehlt oder ist zu schwer');
+assert.match(html, /class="kf-spende-foto"><img src="\/assets\/images\/kidz-scheckuebergabe-zauberland\.webp"/);
+assert.match(html, /über 600 Euro zusammen/);
+assert.match(css, /\.kf-spende-foto/);
+
 console.log('kidz-sommerfest-startseite: OK');

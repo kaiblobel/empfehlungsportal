@@ -17,6 +17,9 @@ aufmerksam werden, nicht erst am Seitenende.
   „Schön, dass ihr beim Sommerfest dabei wart.“
 - Reihenfolge Danke, Auflösung, Helfer, Weiter und die Sprungmarken bleiben. Kein Anmeldeknopf.
 - `tests/kidz-sommerfest-startseite.test.mjs` prüft Lage und Ziele des neuen Abschnitts.
+- **Scheckübergabe in der Spendenkarte:** Foto vom 11.09.2026 (Elternabend in der Kita), Text nach dem
+  Facebook-Beitrag: über 600 Euro vom Kuchenbasar, aufgerundet auf 625 Euro und verdoppelt. Vorher stand dort,
+  die 1.250 Euro seien allein beim Kuchenbasar zusammengekommen.
 
 ## v1.388 Beta - Phase 373 · Ein roter Wächter hält die Veröffentlichung an
 **2026-09-12**
