@@ -4,8 +4,8 @@ import { access, readFile } from 'node:fs/promises';
 // Seit 13.09.2026 prüft dieser Test die vollständige Fassung. Die öffentliche Seite zeigt nur Ausschnitte,
 // siehe tests/kidz-konzept-ausschnitte.test.mjs.
 const htmlUrl = new URL('../kidz-konzept-komplett.html', import.meta.url);
-const cssUrl = new URL('../css/kidz-konzept.css', import.meta.url);
-const jsUrl = new URL('../js/kidz-konzept.js', import.meta.url);
+const cssUrl = new URL('../css/kidz-konzept-komplett.css', import.meta.url);
+const jsUrl = new URL('../js/kidz-konzept-komplett.js', import.meta.url);
 const planUrl = new URL('../docs/KIDZ-THEMENSEITE-PLAN-v1.md', import.meta.url);
 const vercelUrl = new URL('../vercel.json', import.meta.url);
 

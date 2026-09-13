@@ -329,37 +329,34 @@
     updateStory(next);
   }
 
-  // Die kurze Konzeptseite hat keine Bildstrecke (13.09.2026). Ohne diese Abfrage bricht das Skript hier ab.
-  if (storyTrack) {
-    document.querySelector('[data-story-prev]').addEventListener('click', () => showStory(activeStory - 1));
-    document.querySelector('[data-story-next]').addEventListener('click', () => showStory(activeStory + 1));
-    storyDots.forEach((dot) => dot.addEventListener('click', () => showStory(Number(dot.dataset.storyIndex))));
-    storyTrack.addEventListener('keydown', (event) => {
-      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
-      event.preventDefault();
-      if (event.key === 'ArrowLeft') showStory(activeStory - 1);
-      if (event.key === 'ArrowRight') showStory(activeStory + 1);
-      if (event.key === 'Home') showStory(0);
-      if (event.key === 'End') showStory(storySlides.length - 1);
-    });
-    storyTrack.addEventListener('scroll', () => {
-      window.cancelAnimationFrame(storyFrame);
-      storyFrame = window.requestAnimationFrame(() => {
-        const center = storyTrack.getBoundingClientRect().left + storyTrack.clientWidth / 2;
-        let closest = 0;
-        let distance = Infinity;
-        storySlides.forEach((slide, index) => {
-          const rect = slide.getBoundingClientRect();
-          const currentDistance = Math.abs(rect.left + rect.width / 2 - center);
-          if (currentDistance < distance) {
-            distance = currentDistance;
-            closest = index;
-          }
-        });
-        if (closest !== activeStory) updateStory(closest);
+  document.querySelector('[data-story-prev]').addEventListener('click', () => showStory(activeStory - 1));
+  document.querySelector('[data-story-next]').addEventListener('click', () => showStory(activeStory + 1));
+  storyDots.forEach((dot) => dot.addEventListener('click', () => showStory(Number(dot.dataset.storyIndex))));
+  storyTrack.addEventListener('keydown', (event) => {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault();
+    if (event.key === 'ArrowLeft') showStory(activeStory - 1);
+    if (event.key === 'ArrowRight') showStory(activeStory + 1);
+    if (event.key === 'Home') showStory(0);
+    if (event.key === 'End') showStory(storySlides.length - 1);
+  });
+  storyTrack.addEventListener('scroll', () => {
+    window.cancelAnimationFrame(storyFrame);
+    storyFrame = window.requestAnimationFrame(() => {
+      const center = storyTrack.getBoundingClientRect().left + storyTrack.clientWidth / 2;
+      let closest = 0;
+      let distance = Infinity;
+      storySlides.forEach((slide, index) => {
+        const rect = slide.getBoundingClientRect();
+        const currentDistance = Math.abs(rect.left + rect.width / 2 - center);
+        if (currentDistance < distance) {
+          distance = currentDistance;
+          closest = index;
+        }
       });
-    }, { passive: true });
-  }
+      if (closest !== activeStory) updateStory(closest);
+    });
+  }, { passive: true });
 
   const trainData = {
     vermoegen: { number: '01', label: 'Vermögensaufbau', title: 'Was kann Zeit für dein Kind möglich machen?', text: 'Ein kleiner Betrag bekommt eine große Wirkung, wenn er früh beginnt. Eltern legen den Grundstein, später kann das Kind selbst weiterbauen.', bullets: ['Früh starten statt später aufholen', 'Geld im Familienalltag verständlich machen'], question: 'Wie viel Freiheit kann ein früher Start später schenken?', link: 'Die Beispielrechnung ansehen', target: '#vermoegensaufbau' },

@@ -18,9 +18,9 @@ const [html, css] = await Promise.all([
 /* --- Der Abschnitt ist da und steht vor dem Konzepttext --- */
 
 const eventIndex = html.indexOf('id="sommerfest"');
-const ideaIndex = html.indexOf('id="idee"');
+const ideaIndex = html.indexOf('id="saeulen"');
 assert.ok(eventIndex >= 0, 'Auf der KIDZ-Elternseite fehlt der Sommerfest-Rückblick.');
-assert.ok(eventIndex < ideaIndex, 'Der Rückblick steht vor der KIDZ-Idee.');
+assert.ok(eventIndex < ideaIndex, 'Der Rückblick steht vor den drei Grundlagen.');
 
 /* --- Rückblick statt Termin --- */
 

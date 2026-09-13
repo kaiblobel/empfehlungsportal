@@ -17,7 +17,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <title>KIDZ | Kinderleicht in die Zukunft</title>
   <link rel="icon" type="image/png" href="/assets/images/kidz-logo-konzept.png">
-  <link rel="stylesheet" href="/css/kidz-konzept.css?v=29">
+  <link rel="stylesheet" href="/css/kidz-konzept.css?v=30">
   <!-- Wird für den Namen im Empfehlungsband gebraucht, wie auf Gewinnspiel- und
        KIDZ-for-Future-Seite (kidz-elternabend.html). Ohne diese Angaben bleibt das Band beim neutralen Text. -->
   <script src="/js/config.js"></script>
@@ -38,8 +38,7 @@
     </a>
     <nav class="desktop-nav" aria-label="Seitennavigation">
       <a class="nav-event" href="#sommerfest">Rückblick</a>
-      <a href="#idee">Die Idee</a>
-      <a href="#saeulen">Der Einstieg</a>
+      <a href="#saeulen">Die Idee</a>
       <a href="#luecke">§ 12</a>
       <a href="#elternabend">KIDZ for Future</a>
     </nav>
@@ -54,49 +53,31 @@
   <!-- Kleines Menü für das Handy: die Desktop-Navigation ist dort ausgeblendet. -->
   <nav class="mobile-menu" id="mobileMenu" aria-label="KIDZ-Menü" hidden>
     <p class="mobile-menu-title">KIDZ-Menü</p>
-    <p class="mobile-menu-label">Die drei Grundlagen</p>
-    <a href="#saeulen" data-pillar-link="kompetenz"><span>01</span>Finanzielle Kompetenz</a>
-    <a href="#saeulen" data-pillar-link="gesundheit"><span>02</span>Gesundheitszustand früh sichern</a>
-    <a href="#saeulen" data-pillar-link="absicherung"><span>03</span>Finanzielle Absicherung</a>
-    <p class="mobile-menu-label">Mehr auf dieser Seite</p>
+    <a href="#saeulen">Die drei Grundlagen</a>
     <a href="#luecke">§ 12: Was die Kasse zahlt</a>
-    <a href="#am-abend">Das zeigen wir am Abend</a>
+    <a href="#elternabend">Am Abend: KIDZ for Future</a>
     <a href="#sommerfest">Rückblick Sommerfest</a>
-    <a href="#elternabend">KIDZ for Future</a>
     <a href="#fragen">Häufige Fragen</a>
   </nav>
 
   <main id="inhalt">
-    <section class="hero" id="start" aria-labelledby="hero-title">
+    <!-- Kurze Fassung (Kai, 13.09.2026): kurz, intensiv, mobile first. Öffentlich stehen nur Ausschnitte, das Ganze
+         gibt es am Elternabend. Die vollständige Fassung ist getrennt gesichert (siehe CHANGELOG). -->
+    <section class="hero kurz-hero" id="start" aria-labelledby="hero-title">
       <div class="hero-copy">
         <p class="eyebrow">Ein Elternkonzept vom Team Wachsbleiche</p>
         <h1 id="hero-title">Was wünschst du dir für die Zukunft deines Kindes?</h1>
-        <p class="hero-lede">Du musst heute nicht jede Antwort kennen. KIDZ hilft dir, drei wichtige Grundlagen früh zu verstehen und in Ruhe zu ordnen.</p>
+        <p class="hero-lede">KIDZ ordnet drei Grundlagen für dein Kind: Geld, Gesundheit und Absicherung. Hier kurz erklärt, ausführlich am Elternabend.</p>
         <div class="hero-actions">
-          <a class="button button-primary" href="#idee">KIDZ kennenlernen</a>
-          <button class="button button-secondary" type="button" data-open-path="elternabend">KIDZ for Future vormerken</button>
+          <button class="button button-primary" type="button" data-open-path="elternabend">KIDZ for Future vormerken</button>
         </div>
-        <ul class="trust-list" aria-label="Was du erwarten kannst">
-          <li><span aria-hidden="true">✓</span> Verständlich erklärt</li>
-          <li><span aria-hidden="true">✓</span> Ohne Daten zu Kindern</li>
-          <li><span aria-hidden="true">✓</span> Du entscheidest selbst</li>
-        </ul>
       </div>
-
-      <div class="hero-media" aria-label="Bildmotive aus den offiziellen KIDZ-Unterlagen">
+      <div class="hero-media">
         <img src="/assets/images/kidz-konzept/kidz-original-collage.jpg" alt="Collage mit Familien, Kindern und Zukunftsmomenten aus den KIDZ-Unterlagen" width="1890" height="1063">
-        <div class="hero-question"><span>Früh verstehen.</span><strong>Gemeinsam entscheiden.</strong></div>
-        <button class="source-chip" type="button" data-open-gallery><span aria-hidden="true">＋</span> KIDZ-Bildmotive ansehen</button>
       </div>
-
-      <a class="scroll-cue" href="#idee"><span>Weiter</span><i aria-hidden="true"></i></a>
     </section>
 
-    <section class="confidence-strip" aria-label="KIDZ in einem Satz">
-      <p>KIDZ verbindet <strong>finanzielle Kompetenz</strong>, <strong>Gesundheit</strong> und <strong>finanzielle Absicherung</strong> zu einem verständlichen Weg für Eltern.</p>
-    </section>
-
-        <aside class="fest-streifen fest-rueckblick" id="sommerfest" aria-labelledby="summer-title">
+    <aside class="fest-streifen fest-rueckblick" id="sommerfest" aria-labelledby="summer-title">
       <!-- Seit 13.09.2026 Rückblick statt Termin (Kais Wunsch): Das Fest ist vorbei, bleibt aber als Beleg,
            dass KIDZ echte Familien zusammenbringt. Kein Gewinnspiel- und Anmeldeweg mehr. -->
       <a class="fest-flyer fest-foto" href="/kidz/sommerfest?quelle=direkt#sommerfest" aria-label="Rückblick mit Film und Fotos ansehen">
@@ -117,203 +98,51 @@
       </div>
     </aside>
 
-<section class="section intro-section" id="idee" aria-labelledby="idee-title">
-      <div class="section-heading section-heading-left">
-        <p class="eyebrow">Die KIDZ-Idee</p>
-        <h2 id="idee-title">Nicht jede Zukunft lässt sich planen. Gute Grundlagen schon.</h2>
-      </div>
-      <div class="intro-grid">
-        <div class="intro-image">
-          <img src="/assets/images/kidz-konzept/kidz-pusteblume.jpg" alt="Pusteblume als Bild für Wünsche und Zukunft" width="1500" height="1000" loading="lazy">
-          <blockquote>Eltern müssen nicht alles vorhersehen. Sie sollten nur wissen, welche Fragen rechtzeitig wichtig werden.</blockquote>
-        </div>
-        <div class="intro-copy">
-          <p>Kinder wachsen schnell. Mit jedem Abschnitt ändern sich Wünsche, Möglichkeiten und Risiken. KIDZ schafft einen ruhigen Überblick, bevor einzelne Produkte oder Verträge überhaupt eine Rolle spielen.</p>
-          <ol class="principle-list">
-            <li><span>01</span><div><strong>Verstehen</strong><p>Welche Themen gehören zur Zukunft eines Kindes?</p></div></li>
-            <li><span>02</span><div><strong>Einordnen</strong><p>Was ist für deine Familie heute schon wichtig?</p></div></li>
-            <li><span>03</span><div><strong>Entscheiden</strong><p>Welcher nächste Schritt fühlt sich für dich richtig an?</p></div></li>
-          </ol>
-          <div class="kidz-journey-mark">
-            <img src="/assets/images/kidz-konzept/kidz-lok-vermoegensaufbau-original.png" alt="Goldene KIDZ-Lok aus den Originalunterlagen" width="218" height="140" loading="lazy">
-            <p><strong>Die KIDZ-Lok steht für einen Weg, der früh beginnt.</strong><span>Die passenden Stationen wählen Eltern Schritt für Schritt und passend zur Lebensphase ihres Kindes.</span></p>
-          </div>
-        </div>
-      </div>
+    <section class="section kurz-grundlagen" id="saeulen" aria-labelledby="saeulen-title">
+      <p class="eyebrow">Die KIDZ-Idee</p>
+      <h2 id="saeulen-title">Drei Grundlagen, früh gelegt.</h2>
+      <ul class="kurz-liste">
+        <li><span class="pillar-icon pillar-icon-green" aria-hidden="true">€</span><div><strong>Finanzielle Kompetenz</strong><p>Wie dein Kind lernt, mit Geld und Wünschen umzugehen.</p></div></li>
+        <li><span class="pillar-icon pillar-icon-orange" aria-hidden="true">+</span><div><strong>Gesundheitszustand früh sichern</strong><p>Warum der heutige Gesundheitszustand spätere Möglichkeiten offenhält.</p></div></li>
+        <li><span class="pillar-icon pillar-icon-blue" aria-hidden="true">◇</span><div><strong>Finanzielle Absicherung</strong><p>Was deine Familie trägt, wenn etwas passiert.</p></div></li>
+      </ul>
     </section>
 
-    <section class="section pillars-section" id="saeulen" aria-labelledby="pillars-title">
-      <div class="section-heading">
-        <p class="eyebrow">Der Einstieg ins KIDZ-Konzept</p>
-        <h2 id="pillars-title">Finanzielle Kompetenz leitet ein.</h2>
-        <p>Erst verstehen Kinder Geld, Wünsche und Entscheidungen. Danach schauen Eltern früh auf Gesundheit und Absicherung.</p>
-      </div>
-
-      <div class="pillar-stack">
-        <p class="pillar-mobile-instruction" id="pillarMobileInstruction">Tippe auf eine Grundlage, um mehr zu erfahren.</p>
-        <div class="pillar-tabs" id="pillarTabs" role="tablist" aria-label="Die drei KIDZ-Grundlagen" aria-describedby="pillarMobileInstruction">
-          <button class="pillar-tab is-active" id="tab-kompetenz" type="button" role="tab" aria-selected="true" aria-controls="pillar-panel" data-pillar="kompetenz">
-            <span class="pillar-icon pillar-icon-green" aria-hidden="true">€</span>
-            <span><strong>Finanzielle Kompetenz</strong><small>Mit Geld umgehen lernen</small></span>
-            <span class="pillar-tab-state" aria-hidden="true"><span class="pillar-tab-check">✓ Ausgewählt</span><span class="pillar-tab-arrow">→</span></span>
-          </button>
-          <button class="pillar-tab" id="tab-gesundheit" type="button" role="tab" aria-selected="false" aria-controls="pillar-panel" data-pillar="gesundheit">
-            <span class="pillar-icon pillar-icon-orange" aria-hidden="true">+</span>
-            <span><strong>Gesundheitszustand früh sichern</strong><small>Möglichkeiten bewahren</small></span>
-            <span class="pillar-tab-state" aria-hidden="true"><span class="pillar-tab-check">✓ Ausgewählt</span><span class="pillar-tab-arrow">→</span></span>
-          </button>
-          <button class="pillar-tab" id="tab-absicherung" type="button" role="tab" aria-selected="false" aria-controls="pillar-panel" data-pillar="absicherung">
-            <span class="pillar-icon pillar-icon-blue" aria-hidden="true">◇</span>
-            <span><strong>Finanzielle Absicherung</strong><small>Pläne auch im Ernstfall schützen</small></span>
-            <span class="pillar-tab-state" aria-hidden="true"><span class="pillar-tab-check">✓ Ausgewählt</span><span class="pillar-tab-arrow">→</span></span>
-          </button>
-        </div>
-      </div>
-
-      <article class="pillar-panel" id="pillar-panel" role="tabpanel" aria-live="polite" aria-labelledby="tab-kompetenz">
-        <div class="pillar-panel-media">
-          <img id="pillarImage" src="/assets/images/kidz-konzept/kidz-finanzkompetenz.png" alt="Familien-, Schul- und Ausbildungsszenen aus den KIDZ-Unterlagen" width="1132" height="983" loading="lazy">
-          <span id="pillarNumber">01</span>
-        </div>
-        <div class="pillar-panel-copy">
-          <p id="pillarKicker">Finanzielle Kompetenz</p>
-          <h3 id="pillarHeading">Geld wird im Alltag gelernt, nicht erst mit dem ersten Gehalt.</h3>
-          <p id="pillarText">Kinder erleben täglich, wie Erwachsene über Wünsche, Sparen und Entscheidungen sprechen. KIDZ gibt Eltern einfache Impulse, wie daraus Schritt für Schritt ein gutes Gefühl für Geld entstehen kann.</p>
-          <ul id="pillarQuestions">
-            <li>Wie sprechen wir altersgerecht über Geld?</li>
-            <li>Wie werden aus Wünschen gute Entscheidungen?</li>
-            <li>Welche Rolle spielen Vorbilder im Familienalltag?</li>
-          </ul>
-        </div>
-      </article>
-
-      <div class="pillar-original">
-        <img src="/assets/images/kidz-konzept/kidz-drei-saeulen.png" alt="Originales KIDZ-Dreisäulenmodell mit Gesundheit, finanzieller Absicherung und finanzieller Kompetenz" width="1000" height="1000" loading="lazy">
-        <div><span>Aus den KIDZ-Originalunterlagen</span><strong>Das Dreisäulenmodell bleibt der inhaltliche Kern.</strong><p>Am Elternabend gehen wir jede Grundlage Schritt für Schritt durch.</p></div>
-      </div>
-    </section>
-
-    <section class="section gap-section" id="luecke" aria-labelledby="gap-title">
+    <section class="section gap-section kurz-gesetz" id="luecke" aria-labelledby="gap-title">
       <div class="gap-inner">
-        <div class="gap-head">
-          <p class="eyebrow">Das eigentliche Thema</p>
-          <h2 id="gap-title">Was die Kasse deinem Kind schuldet, steht im Gesetz.</h2>
-          <p class="gap-lede">Ein Satz, den die meisten Eltern nie gelesen haben. Setze den Namen deines Kindes ein und lies ihn noch einmal.</p>
-        </div>
-
+        <p class="eyebrow">§ 12 Sozialgesetzbuch V</p>
+        <h2 id="gap-title">Was die Kasse deinem Kind schuldet, steht im Gesetz.</h2>
         <div class="gap-name">
-          <label for="kindName">Name deines Kindes</label>
+          <label for="kindName">Setz den Namen deines Kindes ein</label>
           <input id="kindName" type="text" maxlength="24" placeholder="zum Beispiel Emil" autocomplete="off" spellcheck="false">
         </div>
-
         <blockquote class="gap-law" aria-live="polite">
-          <p class="gap-law-kicker">§ 12 Absatz 1 Sozialgesetzbuch V, Wirtschaftlichkeitsgebot</p>
-          <p class="gap-law-text">
-            Die Leistungen für <span class="gap-law-name" id="kindNameAusgabe">dein Kind</span> müssen
-            <b>ausreichend, zweckmäßig und wirtschaftlich</b> sein; sie <b>dürfen das Maß des Notwendigen nicht überschreiten</b>.
-            Leistungen, die nicht notwendig oder unwirtschaftlich sind, <b>können Versicherte nicht beanspruchen</b>,
-            dürfen die Leistungserbringer nicht bewirken und die Krankenkassen nicht bewilligen.
-          </p>
-          <p class="gap-law-source">
-            Wortlaut nach § 12 Absatz 1 SGB V, ergänzt um den Namen.
-            <a href="https://www.gesetze-im-internet.de/sgb_5/__12.html" target="_blank" rel="noopener noreferrer">Gesetzestext ansehen</a>
-          </p>
+          <p class="gap-law-text">Die Leistungen für <span class="gap-law-name" id="kindNameAusgabe">dein Kind</span> müssen <b>ausreichend, zweckmäßig und wirtschaftlich</b> sein; sie <b>dürfen das Maß des Notwendigen nicht überschreiten</b>.</p>
+          <p class="gap-law-source">Wortlaut nach § 12 Absatz 1 SGB V, ergänzt um den Namen. <a href="https://www.gesetze-im-internet.de/sgb_5/__12.html" target="_blank" rel="noopener noreferrer">Gesetzestext ansehen</a></p>
         </blockquote>
-
-        <p class="gap-bridge">Ausreichend ist nicht dasselbe wie das Beste, was möglich wäre. Was das bei Krankenhaus, Zahnspange oder Brille heißt, zeigen wir dir am Abend.</p>
+        <p class="gap-bridge">Ausreichend ist nicht das Beste, was möglich wäre. Was das bei Krankenhaus, Zahnspange oder Brille heißt, zeigen wir dir am Abend.</p>
       </div>
     </section>
 
-    <!-- Kai, 13.09.2026: Öffentlich nur Ausschnitte. KIDZ-Zug, 55-Euro-Rechnung, U4 und VIP-Ticket gibt es am
-         Elternabend. Die vollständige Fassung ist getrennt gesichert (siehe CHANGELOG). -->
-    <section class="section health-future-section am-abend-section" id="am-abend" aria-labelledby="am-abend-title">
-      <div class="health-future-intro">
-        <p class="eyebrow">KIDZ for Future</p>
-        <h2 id="am-abend-title">Das Wichtigste zeigen wir dir am Abend.</h2>
-        <p>Hier siehst du, worum es bei KIDZ geht. Was das für dein Kind konkret heißt, schauen wir uns gemeinsam an, mit Beispielen und mit Zeit für deine Fragen.</p>
-      </div>
-      <div class="health-future-grid">
-        <article class="am-abend-vorsprung"><span>Der Vorsprung, den Eltern ihrem Kind verschaffen können</span><strong>757.880 Euro</strong><p>So groß kann der Unterschied in unserer Beispielrechnung werden, nur weil Eltern früh anfangen. Wie das funktioniert, zeigen wir dir am Abend.</p><p class="am-abend-hinweis">Beispielrechnung mit 7,3 Prozent Wertentwicklung pro Jahr. Keine Zusage. Kosten, Steuern und Inflation sind nicht berücksichtigt.</p></article>
-        <article><span>01</span><h3>Der KIDZ-Zug</h3><p>Acht Bausteine, ein gemeinsamer Weg. Welche davon für deine Familie wichtig sind, ordnen wir zusammen ein.</p></article>
-        <article><span>02</span><h3>Gesundheit früh sichern</h3><p>Warum der Zeitpunkt bei der Gesundheit deines Kindes so viel ausmachen kann.</p></article>
-      </div>
-      <button class="button button-primary am-abend-cta" type="button" data-open-path="elternabend">Unverbindlich vormerken</button>
+    <section class="section kurz-abend" id="elternabend" aria-labelledby="evening-title">
+      <p class="eyebrow">KIDZ for Future</p>
+      <h2 id="evening-title">Das Wichtigste zeigen wir dir am Abend.</h2>
+      <article class="am-abend-vorsprung"><span>Der Vorsprung, den Eltern ihrem Kind verschaffen können</span><strong>757.880 Euro</strong><p>So groß kann der Unterschied in unserer Beispielrechnung werden, nur weil Eltern früh anfangen. Wie das funktioniert, zeigen wir dir am Abend.</p><p class="am-abend-hinweis">Beispielrechnung mit 7,3 Prozent Wertentwicklung pro Jahr. Keine Zusage. Kosten, Steuern und Inflation sind nicht berücksichtigt.</p></article>
+      <ul class="kurz-abend-themen">
+        <li><strong>Der KIDZ-Zug:</strong> acht Bausteine und welche davon für deine Familie zählen</li>
+        <li><strong>Gesundheit früh sichern:</strong> warum der Zeitpunkt so viel ausmacht</li>
+      </ul>
+      <ul class="kurz-fakten" aria-label="Der Rahmen">
+        <li><strong>60 Minuten</strong></li>
+        <li>Kostenlos</li>
+        <li>Persönliche Runde</li>
+      </ul>
+      <button class="button button-primary kurz-abend-cta" type="button" data-open-path="elternabend">Unverbindlich vormerken</button>
     </section>
 
-    <section class="section story-gallery" id="kidz-momente" aria-labelledby="story-gallery-title">
-      <div class="section-heading story-gallery-heading">
-        <p class="eyebrow">KIDZ in Bildern</p>
-        <h2 id="story-gallery-title">Was Zukunft für Kinder bedeuten kann.</h2>
-        <p>Sechs echte Motive aus den KIDZ-Unterlagen. Menschen, Wünsche und gemeinsame Wege, bewusst ohne Produkt- oder Anbieterbotschaft.</p>
-      </div>
-      <div class="story-slider">
-        <div class="story-controls">
-          <span class="story-status" id="storyStatus" aria-live="polite">Bild 1 von 6</span>
-          <button type="button" data-story-prev aria-controls="storyTrack" aria-label="Vorheriges Bild">←</button>
-          <button type="button" data-story-next aria-controls="storyTrack" aria-label="Nächstes Bild">→</button>
-        </div>
-        <div class="story-track" id="storyTrack" tabindex="0" aria-label="KIDZ-Bilderstrecke">
-          <figure class="story-slide" data-story-slide>
-            <img src="/assets/images/kidz-konzept/kidz-absicherung.jpg" alt="Fröhliche Familie blickt gemeinsam in die Kamera" width="2300" height="1535" loading="lazy">
-            <figcaption><span>01</span><strong>Sicherheit schafft Freiraum.</strong></figcaption>
-          </figure>
-          <figure class="story-slide" data-story-slide>
-            <img src="/assets/images/kidz-konzept/kidz-gesundheit.jpg" alt="Familie nutzt gemeinsam eine Videosprechstunde" width="2373" height="1535" loading="lazy">
-            <figcaption><span>02</span><strong>Gesund aufwachsen.</strong></figcaption>
-          </figure>
-          <figure class="story-slide" data-story-slide>
-            <img src="/assets/images/kidz-konzept/kidz-abenteuer.jpg" alt="Kind mit Kletterausrüstung sammelt neue Erfahrungen" width="2304" height="1536" loading="lazy">
-            <figcaption><span>03</span><strong>Mut für neue Erfahrungen.</strong></figcaption>
-          </figure>
-          <figure class="story-slide story-slide-collage" data-story-slide>
-            <img src="/assets/images/kidz-konzept/kidz-finanzkompetenz.png" alt="Familie, Schule und Ausbildung als Stationen des Erwachsenwerdens" width="1132" height="983" loading="lazy">
-            <figcaption><span>04</span><strong>Früh verstehen, später selbst entscheiden.</strong></figcaption>
-          </figure>
-          <figure class="story-slide story-slide-collage" data-story-slide>
-            <img src="/assets/images/kidz-konzept/kidz-original-collage.jpg" alt="Collage mit Kindern, Familie, Schule und Zukunftsmomenten" width="1890" height="1063" loading="lazy">
-            <figcaption><span>05</span><strong>Viele kleine Wünsche, ein großer Weg.</strong></figcaption>
-          </figure>
-          <figure class="story-slide" data-story-slide>
-            <img src="/assets/images/kidz-konzept/kidz-pusteblume.jpg" alt="Pusteblume als Bild für Wünsche und Zukunft" width="2931" height="1954" loading="lazy">
-            <figcaption><span>06</span><strong>Wünsche dürfen wachsen.</strong></figcaption>
-          </figure>
-        </div>
-        <div class="story-dots" role="group" aria-label="Bild direkt auswählen">
-          <button class="is-active" type="button" data-story-index="0" aria-label="Bild 1 anzeigen" aria-current="true"></button>
-          <button type="button" data-story-index="1" aria-label="Bild 2 anzeigen"></button>
-          <button type="button" data-story-index="2" aria-label="Bild 3 anzeigen"></button>
-          <button type="button" data-story-index="3" aria-label="Bild 4 anzeigen"></button>
-          <button type="button" data-story-index="4" aria-label="Bild 5 anzeigen"></button>
-          <button type="button" data-story-index="5" aria-label="Bild 6 anzeigen"></button>
-        </div>
-      </div>
-    </section>
-
-    <section class="section parent-evening" id="elternabend" aria-labelledby="evening-title">
-      <div class="evening-visual">
-        <img src="/assets/images/kidz-konzept/kidz-familienweg.png" alt="Familie geht gemeinsam einen Weg entlang" width="560" height="780" loading="lazy">
-        <div class="evening-badge"><strong>60 Minuten</strong><span>Orientierung, Fragen und Austausch</span></div>
-      </div>
-      <div class="evening-copy">
-        <p class="eyebrow">KIDZ for Future</p>
-        <h2 id="evening-title">Ein Abend, nach dem die nächsten Fragen klarer sind.</h2>
-        <p>Der Abend bringt Eltern in entspannter Runde zusammen und übersetzt die drei Grundlagen in Situationen aus dem Familienalltag.</p>
-        <ol class="evening-steps">
-          <li><span>1</span><div><strong>Ankommen</strong><p>Was wünschen Eltern ihren Kindern und was beschäftigt sie heute?</p></div></li>
-          <li><span>2</span><div><strong>Verstehen</strong><p>Die drei KIDZ-Grundlagen werden ohne Fachsprache erklärt.</p></div></li>
-          <li><span>3</span><div><strong>Fragen stellen</strong><p>Es bleibt Zeit für Austausch, ohne dass jemand etwas entscheiden muss.</p></div></li>
-          <li><span>4</span><div><strong>Nächsten Schritt wählen</strong><p>Nur zuhören, eine Termininfo erhalten oder persönlich sprechen.</p></div></li>
-        </ol>
-        <button class="button button-primary" type="button" data-open-path="elternabend">Unverbindlich vormerken</button>
-      </div>
-    </section>
-
-    <section class="section faq-section" id="fragen" aria-labelledby="faq-title">
-      <div class="faq-intro">
-        <p class="eyebrow">Kurz beantwortet</p>
-        <h2 id="faq-title">Was Eltern häufig wissen möchten.</h2>
-        <p>Fehlt deine Frage? Wähle unten den persönlichen Gesprächsweg.</p>
-      </div>
+    <section class="section kurz-fragen" id="fragen" aria-labelledby="faq-title">
+      <p class="eyebrow">Kurz beantwortet</p>
+      <h2 id="faq-title">Was Eltern häufig fragen.</h2>
       <div class="faq-list">
         <details>
           <summary>Muss ich nach dem Abend etwas entscheiden?<span aria-hidden="true">+</span></summary>
@@ -324,67 +153,10 @@
           <p>Nein. Für eine Termininfo oder Vormerkung werden nur die Kontaktdaten der volljährigen Person benötigt, die sich selbst meldet.</p>
         </details>
         <details>
-          <summary>Muss ich schon wissen, welche Lösung ich suche?<span aria-hidden="true">+</span></summary>
-          <p>Nein. KIDZ beginnt bewusst bei deinen Fragen und Zielen. Konkrete Lösungen werden erst später und nur nach persönlicher Einordnung betrachtet.</p>
-        </details>
-        <details>
           <summary>Kann ich auch erst einmal nur zuhören?<span aria-hidden="true">+</span></summary>
           <p>Ja. Du kannst als Gast teilnehmen, ohne eine Beratung oder weitere Kontaktaufnahme zu vereinbaren.</p>
         </details>
-        <details>
-          <summary>Wer führt KIDZ for Future durch?<span aria-hidden="true">+</span></summary>
-          <p>Kai Blobel oder ein fachlich freigegebener Berater aus dem Team Wachsbleiche führt durch den Abend und beantwortet die Fragen der Eltern.</p>
-        </details>
-        <details>
-          <summary>Für welches Alter ist KIDZ gedacht?<span aria-hidden="true">+</span></summary>
-          <p>KIDZ richtet sich an Eltern in unterschiedlichen Familienphasen. Die Fragen werden passend zum Alter und zur Lebensphase des Kindes eingeordnet.</p>
-        </details>
       </div>
-    </section>
-
-    <section class="section source-section" aria-labelledby="source-title">
-      <div class="source-stage">
-        <img class="source-stage-main" src="/assets/images/kidz-konzept/kidz-abenteuer.jpg" alt="Kind mit Kletterausrüstung erlebt ein Abenteuer" width="1100" height="730" loading="lazy">
-        <img class="source-stage-small" src="/assets/images/kidz-konzept/kidz-original-collage.jpg" alt="Bildcollage aus den KIDZ-Unterlagen" width="1024" height="768" loading="lazy">
-      </div>
-      <div class="source-copy">
-        <img class="source-kidz-logo" src="/assets/images/kidz-konzept/kidz-logo-original.png" alt="KIDZ-Konzept Logo" width="1080" height="1100" loading="lazy">
-        <p class="eyebrow">Konzept und Qualität</p>
-        <h2 id="source-title">Ein bestehendes KIDZ-Konzept, für Eltern verständlich aufbereitet.</h2>
-        <p>Die Inhalte, Bildmotive und das Dreisäulenmodell stammen aus den bereitgestellten KIDZ-Originalunterlagen. Auf dieser Seite stehen Familien, ihre Wünsche und die verständliche Einordnung im Mittelpunkt.</p>
-        <p class="source-note">Konkrete Produkte, Leistungen und Bedingungen werden erst nach einer aktuellen fachlichen Prüfung und immer passend zur persönlichen Situation besprochen.</p>
-        <button class="text-link" type="button" data-open-gallery>Bildmotive aus dem Konzept ansehen <span aria-hidden="true">→</span></button>
-      </div>
-    </section>
-
-    <section class="section choices-section" id="naechster-schritt" aria-labelledby="choices-title">
-      <div class="section-heading">
-        <p class="eyebrow">Dein nächster Schritt</p>
-        <h2 id="choices-title">Du wählst, wie nah du das Thema kennenlernen möchtest.</h2>
-        <p>Jeder Weg ist freiwillig. Eine Auswahl genügt.</p>
-      </div>
-      <div class="choice-grid">
-        <article class="choice-card choice-card-featured">
-          <span class="choice-label">Empfohlen zum Einstieg</span>
-          <strong>01</strong>
-          <h3>Teilnahme vormerken</h3>
-          <p>Du möchtest beim nächsten passenden Termin von KIDZ for Future gern dabei sein. Termin und Ort bestätigst du später in Ruhe.</p>
-          <button type="button" data-open-path="elternabend">Teilnahme vormerken</button>
-        </article>
-        <article class="choice-card">
-          <strong>02</strong>
-          <h3>Nur Termininfo erhalten</h3>
-          <p>Du möchtest einmalig Datum und Ort erfahren, ohne dich schon für eine Teilnahme vorzumerken.</p>
-          <button type="button" data-open-path="termininfo">Einmalig informieren</button>
-        </article>
-        <article class="choice-card">
-          <strong>03</strong>
-          <h3>Persönlich sprechen</h3>
-          <p>Du möchtest deine Familiensituation lieber direkt mit einem Ansprechpartner einordnen.</p>
-          <button type="button" data-open-path="gespraech">Gespräch anfragen</button>
-        </article>
-      </div>
-      <p class="privacy-line"><span aria-hidden="true">○</span> KIDZ erfasst keine Profile, Geburtsdaten oder Gesundheitsdaten von Kindern.</p>
     </section>
 
     </main>
@@ -469,7 +241,7 @@
   </dialog>
 
   <div class="mock-toast" id="mockToast" role="status" aria-live="polite"></div>
-  <script src="/js/kidz-konzept.js?v=10"></script>
+  <script src="/js/kidz-konzept.js?v=11"></script>
   <script src="/js/referral-tracking.js?v=3"></script>
   <script type="module" src="/js/kidz-empfehlung.js?v=1"></script>
   <script type="module" src="/js/buero-brand.js?v=1"></script>

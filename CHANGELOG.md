@@ -3,6 +3,28 @@
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.395 Beta** · Konzeptseite zeigt Ausschnitte, Original bleibt erhalten, live seit 13.09.2026.
 
+<!-- Noch ohne Phasennummer: tests/versionsstand liest die oberste ##-Überschrift als aktuelle
+     Version. Beim Veröffentlichen wird daraus ein eigener Phaseneintrag. -->
+### Unveröffentlicht · Konzeptseite radikal kurz, Original eingefroren
+**2026-09-13** · Zweig `konrad/kidz-rueckblick-konzept`
+
+Kai: Die gekürzte Seite ist für eine kurze Infoseite immer noch zu lang und wirkt am Handy zu groß. Kurz, intensiv,
+hochwertig, 100 Prozent mobile first. Die originale Konzeptseite bleibt unverändert, „das ist ganz wichtig“.
+
+- **Original eingefroren:** Die gemeinsame Stildatei hatte seit v1.393 Handy-Regeln bekommen, die auch das Original am
+  Handy verändert haben. `kidz-konzept-komplett.html` lädt jetzt `css/kidz-konzept-komplett.css` und
+  `js/kidz-konzept-komplett.js`, beide Byte für Byte der Stand vor der Kürzung (Commit a0734a4). Damit sieht das
+  Original wieder genau aus wie vorher, und keine Änderung an der kurzen Seite erreicht es mehr.
+- **Kurze Seite, sechs Abschnitte:** Einstieg mit einem Knopf, Rückblick-Streifen, drei Grundlagen als kurze Zeilen,
+  § 12 mit Namensfeld (nur der erste Satz), „Das Wichtigste zeigen wir dir am Abend“ mit Vorsprung-Karte, zwei
+  Stichpunkten, 60 Minuten, kostenlos, persönliche Runde und Knopf, dazu drei statt sechs Fragen.
+- **Weg:** Satz-Streifen, KIDZ-Idee mit Pusteblume, Reiter mit Großbild und Dreisäulenmodell, Bildstrecke,
+  „Konzept und Qualität“, drei Auswahlkarten. Menü entsprechend verkürzt.
+- **Stile:** neue `kurz-`Klassen, Grundregeln fürs Handy, ab 721 Pixeln breiter. `js/kidz-konzept.js` fragt die
+  Bildstrecke jetzt ab, bevor es sie anspricht.
+- Tests: `kidz-konzept-ausschnitte` prüft die feste Abschnittsfolge, drei Fragen, keine verratenen Inhalte und dass das
+  Original keine Spur der kurzen Seite trägt. `kidz-themenseite-mock` liest die eingefrorenen Dateien.
+
 ## v1.395 Beta - Phase 380 · Konzeptseite zeigt Ausschnitte, Original bleibt erhalten
 **2026-09-13** · live veröffentlicht
 
