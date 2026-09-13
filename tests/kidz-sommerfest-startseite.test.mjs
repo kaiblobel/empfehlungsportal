@@ -182,7 +182,8 @@ assert.ok(film.size < 12_000_000, 'Film zu schwer fürs Handy');
 await stat(new URL('../assets/film/kidz-sommerfest-film-poster.jpg', import.meta.url));
 // Vollständige Fußzeile (13.09.2026): Kontakt aus den Stammdaten, Impressum und Datenschutz.
 assert.match(html, /class="kf-footer kf-footer-voll" id="veranstalter"/);
-for (const bo of ['bezeichnung', 'adresse-zeilen', 'tel-text', 'email-text', 'impressum', 'datenschutz']) {
+assert.match(html, /href="mailto:kidz@teamwachsbleiche[.]de">kidz@teamwachsbleiche[.]de</, 'Fußzeile nennt das KIDZ-Postfach');
+for (const bo of ['bezeichnung', 'adresse-zeilen', 'tel-text', 'impressum', 'datenschutz']) {
   assert.match(html, new RegExp(`data-bo="${bo}"`), `Fußzeile ohne Stammdaten-Feld ${bo}`);
 }
 assert.match(css, /\.kf-footer-voll/);

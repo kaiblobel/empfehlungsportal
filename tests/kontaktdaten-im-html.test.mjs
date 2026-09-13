@@ -80,6 +80,16 @@ const MUSTER_MARKIERUNG = /data-muster/;
  */
 const AUSNAHMEN = [
   {
+    stelle: 'kidz-sommerfest.html:227',
+    art: 'E-Mail',
+    grund:
+      'Kais Wunsch vom 13.09.2026: Auf dem KIDZ-Rückblick steht das KIDZ-Postfach kidz@teamwachsbleiche.de, '
+      + 'nicht die Büro-Adresse aus public.buero. Für das KIDZ-Postfach gibt es kein Stammdatenfeld, '
+      + 'ein data-bo="email-text" würde es zur Laufzeit mit der Büro-Adresse überschreiben.',
+    // Kehrseite: Die Ausnahme hängt an der Zeilennummer. Jede Zeile mehr oder weniger darüber im
+    // Rückblick verschiebt sie, dann hier nachziehen.
+  },
+  {
     stelle: 'kidz-gewinnspiel.html:218',
     art: 'Anschrift',
     grund:

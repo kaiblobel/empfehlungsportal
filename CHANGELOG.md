@@ -21,6 +21,8 @@ Offizielle Live-Version: **v1.391 Beta** · Rückblick mit Bildern, Schecküberg
   Sachpreise als flache Zeile.
 - **Vollständige Fußzeile:** Veranstalter mit Logo, Kontakt (Anschrift, Telefon, E-Mail aus den Stammdaten),
   KIDZ-Links, Instagram und Facebook, darunter ©-Zeile mit Impressum und Datenschutz.
+- **KIDZ-Postfach in der Fußzeile:** kidz@teamwachsbleiche.de statt der Büro-Adresse. Fest eingetragen, weil es
+  kein Stammdatenfeld dafür gibt; im Kontaktdaten-Wächter als begründete Ausnahme vermerkt.
 
 ## v1.391 Beta - Phase 376 · Rückblick mit Bildern, Scheckübergabe und KIDZ dezent im Schluss
 **2026-09-13** · live veröffentlicht
