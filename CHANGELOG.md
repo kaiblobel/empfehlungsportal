@@ -3,6 +3,25 @@
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.394 Beta** · KIDZ früher erklärt und Film im Rückblick kleiner, live seit 13.09.2026.
 
+<!-- Noch ohne Phasennummer: tests/versionsstand liest die oberste ##-Überschrift als aktuelle
+     Version. Beim Veröffentlichen wird daraus ein eigener Phaseneintrag. -->
+### Unveröffentlicht · Konzeptseite zeigt nur noch Ausschnitte, Original bleibt erhalten
+**2026-09-13** · Zweig `konrad/kidz-rueckblick-konzept`
+
+Kai: Das KIDZ-Konzept gehört in die Präsentation am Elternabend. Öffentlich sollen nur Ausschnitte stehen, sonst
+fragt sich niemand mehr, warum er kommen soll. Die vollständige Seite soll trotzdem erhalten bleiben.
+
+- **Original gesichert:** `kidz-konzept-komplett.html` unter `/kidz/konzept-komplett`, inhaltlich unverändert,
+  `noindex,nofollow`, von keiner Seite verlinkt. Die Adresse steht auch nicht im Quelltext der öffentlichen Seite.
+- **Öffentlich entfernt:** KIDZ-Zug mit acht Bausteinen, 55-Euro-Rechnung, „Heute Gesundheit. Morgen
+  Wahlmöglichkeiten.“ mit der U4, VIP-Ticket und die Fallbeispiele zu Krankenhaus und Zahnspange unter § 12.
+- **Bleibt:** Einstieg, Rückblick, Idee, die drei Grundlagen, § 12 mit Namensfeld, Bildstrecke, Elternabend, Fragen,
+  nächster Schritt. Sprungziele `#saeulen` und `#luecke` für Empfehlungs- und Elternabend-Seite bestehen weiter.
+- **Neu:** Abschnitt „Das Wichtigste zeigen wir dir am Abend.“ mit drei kurzen Kärtchen (55 Euro, KIDZ-Zug,
+  Gesundheit früh sichern) und Knopf „Unverbindlich vormerken“. Menü ohne KIDZ-Zug, dafür „Das zeigen wir am Abend“.
+- Tests: `kidz-themenseite-mock` prüft jetzt die vollständige Fassung, neu `kidz-konzept-ausschnitte` für die
+  öffentliche Seite (nichts verraten, alle Sprungziele vorhanden, Original nirgends verlinkt).
+
 ## v1.394 Beta - Phase 379 · KIDZ früher erklärt und Film im Rückblick kleiner
 **2026-09-13** · live veröffentlicht
 

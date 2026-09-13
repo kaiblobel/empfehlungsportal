@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict';
 import { access, readFile } from 'node:fs/promises';
 
-const htmlUrl = new URL('../kidz-konzept.html', import.meta.url);
+// Seit 13.09.2026 prüft dieser Test die vollständige Fassung. Die öffentliche Seite zeigt nur Ausschnitte,
+// siehe tests/kidz-konzept-ausschnitte.test.mjs.
+const htmlUrl = new URL('../kidz-konzept-komplett.html', import.meta.url);
 const cssUrl = new URL('../css/kidz-konzept.css', import.meta.url);
 const jsUrl = new URL('../js/kidz-konzept.js', import.meta.url);
 const planUrl = new URL('../docs/KIDZ-THEMENSEITE-PLAN-v1.md', import.meta.url);
@@ -15,9 +17,10 @@ const [html, css, javascript, plan, vercel] = await Promise.all([
   readFile(vercelUrl, 'utf8'),
 ]);
 
-assert.match(html, /content="index,follow"/);
+assert.match(html, /content="noindex,nofollow"/);
 assert.match(html, /https:\/\/kidz\.teamwachsbleiche\.de\/kidz\/konzept/);
 assert.match(vercel, /"source": "\/kidz\/konzept"/);
+assert.match(vercel, /"source": "\/kidz\/konzept-komplett", "destination": "\/kidz-konzept-komplett\.html"/);
 assert.match(html, /Was wünschst du dir für die Zukunft deines Kindes\?/);
 assert.doesNotMatch(html, /Generali Deutschland|Deutsche(?:n)? Vermögensberatung/);
 assert.match(html, /Was Zukunft für Kinder bedeuten kann/);
