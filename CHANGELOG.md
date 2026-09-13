@@ -26,8 +26,9 @@ fragt sich niemand mehr, warum er kommen soll. Die vollständige Seite soll trot
   je Abschnitt 44 statt 78, Bilder mit fester Höhe (Grundlagen 190, Elternabend 220) statt Seitenverhältnis, Karten
   ohne Mindesthöhe. Seite am Handy 10.070 statt 14.200 Pixel, die vollständige Fassung 16.000 statt 20.500.
 - **Aufhänger Vorsprung:** Kai: nicht „55 Euro im Monat“, sondern der Vorsprung macht neugierig. Erste Karte jetzt
-  „Über 750.000 Euro Vorsprung für dein Kind.“ mit kleinem Pflichthinweis (7,3 Prozent, keine Zusage, ohne Kosten,
-  Steuern und Inflation). Die genaue Rechnung bleibt für den Abend.
+  im Stil des Originals: dunkler Kasten, „Der Vorsprung, den Eltern ihrem Kind verschaffen können“, groß
+  „757.880 Euro“, darunter der Hinweis (7,3 Prozent, keine Zusage, ohne Kosten, Steuern und Inflation). Monatsbetrag,
+  Laufzeit und Zwischenergebnisse bleiben für den Abend. Die beiden anderen Karten heißen jetzt 01 und 02.
 
 ## v1.394 Beta - Phase 379 · KIDZ früher erklärt und Film im Rückblick kleiner
 **2026-09-13** · live veröffentlicht

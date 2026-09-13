@@ -8,7 +8,7 @@ const [html, komplett] = await Promise.all([read('kidz-konzept.html'), read('kid
 
 assert.match(html, /content="index,follow"/);
 for (const verraten of [
-  /data-car=/, /55 Euro im Monat\. 18 Jahre lang/, /1\.045\.154/, /757\.880/,
+  /data-car=/, /55 Euro/, /18 Jahre lang/, /1\.045\.154/, /287\.274/, /11\.880/,
   /Die U4 als früher Orientierungspunkt/, /VIP-Ticket in puncto Gesundheit/, /class="gap-fall"/,
 ]) {
   assert.doesNotMatch(html, verraten);
@@ -19,9 +19,10 @@ assert.match(html, /<section class="section health-future-section am-abend-secti
 assert.match(html, /Das Wichtigste zeigen wir dir am Abend\./);
 const abend = html.slice(html.indexOf('id="am-abend"'), html.indexOf('id="kidz-momente"'));
 assert.match(abend, /data-open-path="elternabend"/);
-// Kai, 13.09.2026: Aufhänger ist der Vorsprung, nicht der Monatsbetrag. Die Zahl steht nur mit ihren Annahmen
-// da, die genaue Rechnung bleibt für den Abend.
-assert.match(abend, /Über 750\.000 Euro Vorsprung für dein Kind\./);
+// Kai, 13.09.2026: Aufhänger ist der Vorsprung im Stil des Originals, nicht der Monatsbetrag. Die Zahl steht nur
+// mit ihren Annahmen da und nur in diesem Abschnitt, die Rechnung dahinter bleibt für den Abend.
+assert.match(abend, /<article class="am-abend-vorsprung"><span>Der Vorsprung, den Eltern ihrem Kind verschaffen können<\/span><strong>757\.880 Euro<\/strong>/);
+assert.equal(html.split('757.880').length - 1, 1);
 assert.match(abend, /<p class="am-abend-hinweis">Beispielrechnung mit 7,3 Prozent Wertentwicklung pro Jahr\. Keine Zusage/);
 assert.doesNotMatch(abend, /55 Euro/);
 
