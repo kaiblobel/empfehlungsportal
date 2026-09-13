@@ -247,3 +247,22 @@ h2 { color: var(--kf-navy); font-size: clamp(30px, 5vw, 48px); line-height: 1.05
 .kf-weiter-link { margin: 16px 0 0; }
 .kf-weiter-link a { color: #fff; font-size: 15px; font-weight: 750; text-decoration: underline; text-decoration-color: rgba(255,228,139,.8); text-underline-offset: 4px; }
 .kf-weiter-link a:hover, .kf-weiter-link a:focus-visible { color: #ffe48b; outline: none; }
+
+/* Preisbilder aus dem Gewinnflyer auf den Kacheln (13.09.2026) */
+.kf-preis-bild { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; margin: -4px 0 6px; border-radius: 12px; background: #fbf5e6; }
+
+/* Film und 24 Fotos vom Fest (13.09.2026): Streifen bleibt auch am Rechner eine Wischreihe */
+.kf-bilder-hinweis { margin-bottom: 14px; }
+.kf-film { max-width: 300px; margin: 0 auto 16px; }
+.kf-film video { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; border-radius: 16px; background: #0c2a1b; box-shadow: 0 12px 28px rgba(22,58,104,.16); }
+@media (min-width: 761px) {
+  .kf-bilder {
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    grid-auto-columns: calc((100% - 36px) / 4);
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+  .kf-bilder::-webkit-scrollbar { display: block; height: 8px; }
+  .kf-bilder::-webkit-scrollbar-thumb { background: rgba(22,58,104,.25); border-radius: 8px; }
+}

@@ -156,16 +156,23 @@ assert.match(html, /class="kf-spende-foto"><img src="\/assets\/images\/kidz-sche
 assert.match(html, /über 600 Euro zusammen/);
 assert.match(css, /\.kf-spende-foto/);
 
-// Bilder vom Fest (13.09.2026): sechs Fotos zwischen Dank und Auflösung, nur Motive ohne
-// erkennbare Kinder oder Gäste.
+// Bilder vom Fest (13.09.2026): alle Fotos aus dem KIDZ-Ordner (ohne drei Beinahe-Doppel) zwischen Dank
+// und Auflösung. Kai am 13.09.2026: Einverständnis der abgebildeten Familien liegt vor.
 const bilderIndex = html.indexOf('kf-section-bilder');
 assert.ok(bilderIndex > dankeIndex && bilderIndex < aufloesungIndex, 'Die Bilder stehen zwischen Dank und Auflösung');
-const festbilder = ['team', 'feuerwehr', 'kidz-wagen', 'festwiese', 'deko', 'baender'];
+const festbilder = [...html.matchAll(/\/assets\/images\/(kidz-fest-\d{2}\.webp)/g)].map((m) => m[1]);
+assert.ok(festbilder.length >= 20, `Zu wenige Festbilder im Rückblick: ${festbilder.length}`);
 for (const name of festbilder) {
-  assert.match(html, new RegExp(`/assets/images/kidz-rueckblick-${name}\.webp`), `Festbild fehlt im HTML: ${name}`);
-  const bild = await stat(new URL(`../assets/images/kidz-rueckblick-${name}.webp`, import.meta.url));
+  const bild = await stat(new URL(`../assets/images/${name}`, import.meta.url));
   assert.ok(bild.size < 200_000, `Festbild zu schwer: ${name}`);
 }
 assert.match(css, /\.kf-bilder/);
+// Preisbilder aus dem Gewinnflyer auf den vier Kacheln, klein statt der 2,3-MB-Grafik.
+for (const preis of ['survival', 'kino', 'tierpark', 'geschenke']) {
+  assert.match(html, new RegExp(`class="kf-preis-bild" src="/assets/images/kidz-preis-${preis}[.]webp"`), `Preisbild fehlt: ${preis}`);
+  const bild = await stat(new URL(`../assets/images/kidz-preis-${preis}.webp`, import.meta.url));
+  assert.ok(bild.size < 100_000, `Preisbild zu schwer: ${preis}`);
+}
+assert.match(css, /\.kf-preis-bild/);
 
 console.log('kidz-sommerfest-startseite: OK');

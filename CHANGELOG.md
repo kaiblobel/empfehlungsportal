@@ -3,6 +3,20 @@
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.391 Beta** · Rückblick mit Bildern, Scheckübergabe und KIDZ dezent im Schluss, live seit 13.09.2026.
 
+<!-- Noch ohne Phasennummer: tests/versionsstand liest die oberste ##-Überschrift als aktuelle
+     Version. Beim Veröffentlichen wird daraus ein eigener Phaseneintrag. -->
+### Unveröffentlicht · Alle Fotos vom Fest und Preisbilder auf den Kacheln
+**2026-09-13** · Zweig `konrad/kidz-rueckblick-konzept`
+
+- **24 Fotos statt 6** im Streifen „So war das Fest“: alle Bilder aus dem KIDZ-Ordner, ohne drei
+  Beinahe-Doppel. Kai am 13.09.2026: Einverständnis der abgebildeten Familien liegt vor. Am Rechner bleibt der
+  Streifen eine Wischreihe mit vier Bildern, damit er nicht 24 Bilder hoch wird. Die sechs `kidz-rueckblick-*`
+  Bilder sind entfernt.
+- **Preisbilder auf den Kacheln:** Survival Camp, Kino, Tierpark und Geschenke aus dem Original-Gewinnflyer,
+  je 640 × 360 Pixel und unter 50 KB statt der 2,3-MB-Grafik.
+- **Film vom Fest noch nicht eingebunden:** wartet auf Kais Freigabe. Er gehört nicht nach `assets/video/`,
+  weil `ki-kennzeichnung` jede Datei dort als KI-Film behandelt, und es ist eine echte Aufnahme.
+
 ## v1.391 Beta - Phase 376 · Rückblick mit Bildern, Scheckübergabe und KIDZ dezent im Schluss
 **2026-09-13** · live veröffentlicht
 
