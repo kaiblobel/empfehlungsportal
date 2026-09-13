@@ -1,12 +1,12 @@
 ﻿# Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.394 Beta** · KIDZ früher erklärt und Film im Rückblick kleiner, live seit 13.09.2026.
+Offizielle Live-Version: **v1.395 Beta** · Konzeptseite zeigt Ausschnitte, Original bleibt erhalten, live seit 13.09.2026.
 
-<!-- Noch ohne Phasennummer: tests/versionsstand liest die oberste ##-Überschrift als aktuelle
-     Version. Beim Veröffentlichen wird daraus ein eigener Phaseneintrag. -->
-### Unveröffentlicht · Konzeptseite zeigt nur noch Ausschnitte, Original bleibt erhalten
-**2026-09-13** · Zweig `konrad/kidz-rueckblick-konzept`
+## v1.395 Beta - Phase 380 · Konzeptseite zeigt Ausschnitte, Original bleibt erhalten
+**2026-09-13** · live veröffentlicht
+
+Freigabe am 13.09.2026: „ja veröffentlichen und die 750000 verbessern“.
 
 Kai: Das KIDZ-Konzept gehört in die Präsentation am Elternabend. Öffentlich sollen nur Ausschnitte stehen, sonst
 fragt sich niemand mehr, warum er kommen soll. Die vollständige Seite soll trotzdem erhalten bleiben.
@@ -29,6 +29,8 @@ fragt sich niemand mehr, warum er kommen soll. Die vollständige Seite soll trot
   im Stil des Originals: dunkler Kasten, „Der Vorsprung, den Eltern ihrem Kind verschaffen können“, groß
   „757.880 Euro“, darunter der Hinweis (7,3 Prozent, keine Zusage, ohne Kosten, Steuern und Inflation). Monatsbetrag,
   Laufzeit und Zwischenergebnisse bleiben für den Abend. Die beiden anderen Karten heißen jetzt 01 und 02.
+
+---
 
 ## v1.394 Beta - Phase 379 · KIDZ früher erklärt und Film im Rückblick kleiner
 **2026-09-13** · live veröffentlicht
