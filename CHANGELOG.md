@@ -1,12 +1,12 @@
 ﻿# Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.395 Beta** · Konzeptseite zeigt Ausschnitte, Original bleibt erhalten, live seit 13.09.2026.
+Offizielle Live-Version: **v1.396 Beta** · Konzeptseite radikal kurz, Original eingefroren, live seit 13.09.2026.
 
-<!-- Noch ohne Phasennummer: tests/versionsstand liest die oberste ##-Überschrift als aktuelle
-     Version. Beim Veröffentlichen wird daraus ein eigener Phaseneintrag. -->
-### Unveröffentlicht · Konzeptseite radikal kurz, Original eingefroren
-**2026-09-13** · Zweig `konrad/kidz-rueckblick-konzept`
+## v1.396 Beta - Phase 381 · Konzeptseite radikal kurz, Original eingefroren
+**2026-09-13** · live veröffentlicht
+
+Freigabe am 13.09.2026: „ja veröffentlichen“.
 
 Kai: Die gekürzte Seite ist für eine kurze Infoseite immer noch zu lang und wirkt am Handy zu groß. Kurz, intensiv,
 hochwertig, 100 Prozent mobile first. Die originale Konzeptseite bleibt unverändert, „das ist ganz wichtig“.
@@ -24,6 +24,8 @@ hochwertig, 100 Prozent mobile first. Die originale Konzeptseite bleibt unverän
   Bildstrecke jetzt ab, bevor es sie anspricht.
 - Tests: `kidz-konzept-ausschnitte` prüft die feste Abschnittsfolge, drei Fragen, keine verratenen Inhalte und dass das
   Original keine Spur der kurzen Seite trägt. `kidz-themenseite-mock` liest die eingefrorenen Dateien.
+
+---
 
 ## v1.395 Beta - Phase 380 · Konzeptseite zeigt Ausschnitte, Original bleibt erhalten
 **2026-09-13** · live veröffentlicht
