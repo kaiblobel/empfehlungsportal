@@ -1,7 +1,19 @@
 ﻿# Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.400 Beta** · KIDZ-Seiten verlinken dezent die Team-Wachsbleiche-Homepage, live seit 13.09.2026.
+Offizielle Live-Version: **v1.401 Beta** · KIDZ-Rückblick: Foto mit Kai und Hendrik ans Ende der Fotostrecke, live seit 13.09.2026.
+
+## v1.401 Beta - Phase 386 · KIDZ-Rückblick: Foto mit Kai und Hendrik ans Ende der Fotostrecke
+**2026-09-13**
+
+Kai: Das Foto mit ihm und Hendrik soll in der Fotostrecke nicht so weit vorne stehen.
+
+- Rückblick `/kidz/sommerfest-2026`: `kidz-fest-02.webp` rückt von Platz 2 ans Ende der Fotostrecke (Platz 24).
+- Die Bildbeschreibungen „Bild 1“ bis „Bild 24“ sind neu durchnummeriert. Das erste Foto bleibt vorne.
+- Nur die Reihenfolge innerhalb der Strecke ändert sich, die Zeilenzahl der Seite bleibt gleich.
+  Die Ausnahmen des Kontaktdaten-Wächters per Zeilennummer bleiben dadurch gültig.
+
+---
 
 ## v1.400 Beta - Phase 385 · KIDZ-Seiten verlinken dezent die Team-Wachsbleiche-Homepage
 **2026-09-13** · live veröffentlicht
