@@ -141,4 +141,12 @@ const spendeIndex = html.indexOf('kf-spende');
 assert.ok(spendeIndex > helferIndex && spendeIndex < weiterIndex, 'Die Spende gehört in den Dank-Abschnitt');
 assert.match(css, /\.kf-spende/);
 
+// Kais Wunsch vom 13.09.2026: Wer aus der Dankesmail kommt, stößt gleich nach dem Dank auf
+// das KIDZ-Konzept und den Elternabend. Beide Wege tragen die Herkunft sommerfest-danke.
+const konzeptIndex = html.indexOf('kf-section-konzept');
+assert.ok(konzeptIndex > dankeIndex && konzeptIndex < aufloesungIndex, 'Der Weg zum KIDZ-Konzept steht direkt nach dem Dank');
+assert.match(html, /href="\/kidz\/konzept\?quelle=sommerfest-danke"/);
+assert.match(html.slice(konzeptIndex, aufloesungIndex), /href="\/kidz\/elternabend\?quelle=sommerfest-danke"/);
+assert.match(css, /\.kf-section-konzept/);
+
 console.log('kidz-sommerfest-startseite: OK');

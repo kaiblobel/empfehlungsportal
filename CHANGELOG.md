@@ -3,6 +3,21 @@
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.388 Beta** · Ein roter Wächter hält die Veröffentlichung an.
 
+<!-- Noch ohne Phasennummer: tests/versionsstand liest die oberste ##-Überschrift als aktuelle
+     Version. Beim Zusammenführen wird daraus ein eigener Phaseneintrag. -->
+### Unveröffentlicht · Der Rückblick führt zum KIDZ-Konzept
+**2026-09-13** · Zweig `konrad/kidz-rueckblick-konzept`, Phasennummer wird beim Zusammenführen vergeben
+
+Kais Wunsch: Wer aus der Dankesmail auf den Rückblick kommt, soll schnell auf das KIDZ-Konzept
+aufmerksam werden, nicht erst am Seitenende.
+
+- **Neuer Abschnitt direkt nach dem Dank** auf `/kidz/sommerfest`: „Kinderleicht in die Zukunft“,
+  ein Satz zu den drei Grundlagen und zwei Knöpfe, „KIDZ-Konzept ansehen“ und „Elternabend vormerken“,
+  beide mit `quelle=sommerfest-danke`. Die Elternabend-Seite begrüßt damit weiter mit
+  „Schön, dass ihr beim Sommerfest dabei wart.“
+- Reihenfolge Danke, Auflösung, Helfer, Weiter und die Sprungmarken bleiben. Kein Anmeldeknopf.
+- `tests/kidz-sommerfest-startseite.test.mjs` prüft Lage und Ziele des neuen Abschnitts.
+
 ## v1.388 Beta - Phase 373 · Ein roter Wächter hält die Veröffentlichung an
 **2026-09-12**
 

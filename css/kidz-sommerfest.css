@@ -203,3 +203,15 @@ h2 { color: var(--kf-navy); font-size: clamp(30px, 5vw, 48px); line-height: 1.05
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; }
 }
+
+/* Weg zum KIDZ-Konzept direkt nach dem Dank (Kais Wunsch vom 13.09.2026) */
+.kf-section-konzept { background: #fff; border-right: 1px solid rgba(255,255,255,.9); border-left: 1px solid rgba(255,255,255,.9); }
+.kf-section-konzept .kf-intro { margin-bottom: 20px; }
+.kf-knopf-gruen { background: var(--kf-green); }
+.kf-knopf-gruen:hover, .kf-knopf-gruen:focus-visible { background: var(--kf-green-dark); }
+.kf-knopf-hell { color: var(--kf-navy); background: #fff; border: 1px solid var(--kf-line); }
+.kf-knopf-hell:hover, .kf-knopf-hell:focus-visible { color: var(--kf-navy); background: #edf5fb; border-color: var(--kf-navy); }
+@media (max-width: 760px) {
+  .kf-section-konzept .kf-knoepfe { flex-direction: column; }
+  .kf-section-konzept .kf-knopf { width: 100%; }
+}
