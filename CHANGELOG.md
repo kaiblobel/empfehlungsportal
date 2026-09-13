@@ -1,18 +1,20 @@
 ﻿# Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.398 Beta** · KIDZ-Postfach in allen KIDZ-Fußzeilen, live seit 13.09.2026.
+Offizielle Live-Version: **v1.399 Beta** · Dank an NIEDERLAUSITZ aktuell, DVAG-Profil in der Fußzeile, live seit 13.09.2026.
 
-<!-- Noch ohne Phasennummer: tests/versionsstand liest die oberste ##-Überschrift als aktuelle
-     Version. Beim Veröffentlichen wird daraus ein eigener Phaseneintrag. -->
-### Unveröffentlicht · Dank an NIEDERLAUSITZ aktuell, DVAG-Profil in der Fußzeile
-**2026-09-13** · Zweig `konrad/kidz-rueckblick-konzept`
+## v1.399 Beta - Phase 384 · Dank an NIEDERLAUSITZ aktuell, DVAG-Profil in der Fußzeile
+**2026-09-13** · live veröffentlicht
+
+Freigabe am 13.09.2026: „und jetzt veröffentlichen“.
 
 - Dankesliste „Danke an alle, die mit angepackt haben“ beginnt mit „an NIEDERLAUSITZ aktuell für die Ankündigung“,
   mit Link. Kai: Sie haben das Fest beworben.
 - Ein Dank an die Deutsche Vermögensberatung für den Riesenball war kurz eingebaut und ist auf Kais Wunsch wieder raus.
 - Fußzeile: „Deutsche Vermögensberatung“ unter dem Veranstalter ist ein Link auf Kais offizielles DVAG-Profil.
 - Beide Änderungen stehen in bestehenden Zeilen, die Zeilennummer der kidz@-Ausnahme im Kontaktdaten-Wächter bleibt.
+
+---
 
 ## v1.398 Beta - Phase 383 · KIDZ-Postfach in allen KIDZ-Fußzeilen
 **2026-09-13** · live veröffentlicht
