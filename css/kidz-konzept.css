@@ -1317,3 +1317,13 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
 @media (prefers-reduced-motion: reduce) {
   .train-car { transition: none; }
 }
+
+/* Sommerfest-Rückblick statt Termin (13.09.2026): Foto im Querformat statt hochformatigem Flyer */
+.fest-flyer.fest-foto { width: 132px; }
+.fest-foto img { aspect-ratio: 4 / 3; object-fit: cover; }
+.fest-rueckblick .summer-facts dd { white-space: nowrap; }
+@media (max-width: 760px) {
+  .fest-flyer.fest-foto { width: 104px; }
+  .fest-rueckblick .summer-facts { gap: 2px 16px; }
+  .fest-rueckblick .summer-facts dd { white-space: normal; }
+}
