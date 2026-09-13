@@ -1,12 +1,12 @@
 ﻿# Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.396 Beta** · Konzeptseite radikal kurz, Original eingefroren, live seit 13.09.2026.
+Offizielle Live-Version: **v1.397 Beta** · Alle KIDZ-Seiten im Portal-Menü, Kurz- und Archivadresse, live seit 13.09.2026.
 
-<!-- Noch ohne Phasennummer: tests/versionsstand liest die oberste ##-Überschrift als aktuelle
-     Version. Beim Veröffentlichen wird daraus ein eigener Phaseneintrag. -->
-### Unveröffentlicht · Alle KIDZ-Seiten im Portal-Menü, feste Archivadresse für den Rückblick
-**2026-09-13** · Zweig `konrad/kidz-rueckblick-konzept`
+## v1.397 Beta - Phase 382 · Alle KIDZ-Seiten im Portal-Menü, Kurz- und Archivadresse
+**2026-09-13** · live veröffentlicht
+
+Freigabe am 13.09.2026: „ja“ auf die Frage, ob v1.397 veröffentlicht werden soll.
 
 Kai: Er will im Portal dort, wo KIDZ verwaltet wird, immer schnell auf alle KIDZ-Seiten kommen. Außerdem soll der
 Rückblick dauerhaft bestehen bleiben und die Seite für weitere Veranstaltungen nutzbar sein, ohne alles umzubauen.
@@ -21,6 +21,8 @@ Rückblick dauerhaft bestehen bleiben und die Seite für weitere Veranstaltungen
 - **Später, nicht jetzt:** Nach dem Versand der Dankesmail soll die Startadresse `kidz.teamwachsbleiche.de` auf die
   Konzeptseite zeigen. Vorher prüfen, ob gedruckte Flyer oder QR-Codes nur die Startadresse nutzen.
 - `tests/kidz-programm-im-menue.test.mjs` prüft jetzt „offen“ und die neuen Menüpunkte und Adressen.
+
+---
 
 ## v1.396 Beta - Phase 381 · Konzeptseite radikal kurz, Original eingefroren
 **2026-09-13** · live veröffentlicht
