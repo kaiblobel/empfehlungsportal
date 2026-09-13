@@ -3,6 +3,25 @@
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.396 Beta** · Konzeptseite radikal kurz, Original eingefroren, live seit 13.09.2026.
 
+<!-- Noch ohne Phasennummer: tests/versionsstand liest die oberste ##-Überschrift als aktuelle
+     Version. Beim Veröffentlichen wird daraus ein eigener Phaseneintrag. -->
+### Unveröffentlicht · Alle KIDZ-Seiten im Portal-Menü, feste Archivadresse für den Rückblick
+**2026-09-13** · Zweig `konrad/kidz-rueckblick-konzept`
+
+Kai: Er will im Portal dort, wo KIDZ verwaltet wird, immer schnell auf alle KIDZ-Seiten kommen. Außerdem soll der
+Rückblick dauerhaft bestehen bleiben und die Seite für weitere Veranstaltungen nutzbar sein, ohne alles umzubauen.
+
+- **KIDZ-Menü im Portal:** Unter „KIDZ“ stehen jetzt neben Gewinnspiel und KIDZ for Future auch KIDZ-Konzept,
+  KIDZ-Konzept vollständig, Anmeldung KIDZ for Future und Rückblick Sommerfest 2026. Das KIDZ-Konzept ist nicht mehr
+  mit „bald“ gesperrt, die Kachel „KIDZ für Eltern“ in den Einstellungen ebenfalls freigegeben. Die vollständige
+  Fassung öffnet über das neue Merkmal `neuerTab` im eigenen Tab, aber ohne Absender.
+- **Adressen:** `kidz.teamwachsbleiche.de/konzept` leitet auf `/kidz/konzept`. Der Rückblick ist zusätzlich unter der
+  festen Adresse `/kidz/sommerfest-2026` erreichbar und trägt sie als Hauptadresse. `/kidz/sommerfest` zeigt heute auf
+  denselben Rückblick und später auf das jeweils neueste Fest.
+- **Später, nicht jetzt:** Nach dem Versand der Dankesmail soll die Startadresse `kidz.teamwachsbleiche.de` auf die
+  Konzeptseite zeigen. Vorher prüfen, ob gedruckte Flyer oder QR-Codes nur die Startadresse nutzen.
+- `tests/kidz-programm-im-menue.test.mjs` prüft jetzt „offen“ und die neuen Menüpunkte und Adressen.
+
 ## v1.396 Beta - Phase 381 · Konzeptseite radikal kurz, Original eingefroren
 **2026-09-13** · live veröffentlicht
 

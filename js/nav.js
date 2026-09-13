@@ -36,20 +36,18 @@ export const NAV_ITEMS = [
   { id: 'potenziale',  label: 'Potenzialbuch', icon: 'NotebookPen',     href: path('dashboard/potenziale.html'),      bottom: false },
   { id: 'kidz',        label: 'KIDZ',           icon: 'Sparkles',     href: path('dashboard/kidz-gewinnspiel.html'), bottom: false,
     subs: [
-      // Die Elternseite stand bisher nur in den Einstellungen und war von außen
-      // gar nicht zu finden: kidz.teamwachsbleiche.de führt aufs Sommerfest,
-      // und von dort verlinkt nichts aufs Konzept. Hier steht sie da, wo die
-      // Partner ohnehin arbeiten.
-      // `bald: true` sperrt den Weg über das Menü, ohne den Punkt zu verstecken:
-      // Die Partner sehen, dass die Elternseite kommt, kommen aber noch nicht
-      // hin, weil sie noch nicht fertig ist. Die Seite selbst und ihre Adresse
-      // (kidz.teamwachsbleiche.de/konzept) bleiben unangetastet und erreichbar.
-      // Zum Freischalten reicht es, diese eine Zeile wieder zu entfernen.
-      // Heißt seit Phase 285 „KIDZ-Konzept" statt „Das KIDZ-Programm": kürzer,
-      // deckt sich mit der Adresse und bricht in der Leiste nicht mehr um.
-      { label: 'KIDZ-Konzept', href: '/kidz/konzept', kunde: true, bald: true },
+      // Erst die Verwaltung, dann die öffentlichen Seiten (Kai, 13.09.2026): Wer im Portal ist, soll jede
+      // KIDZ-Seite mit einem Klick erreichen, ohne sich Adressen merken zu müssen.
       { label: 'Sommerfest-Gewinnspiel', href: path('dashboard/kidz-gewinnspiel.html') },
       { label: 'KIDZ for Future', href: path('dashboard/kidz-elternabend.html') },
+      // Seit 13.09.2026 freigegeben: Die kurze Konzeptseite ist live. Das Merkmal bald bleibt im Renderer.
+      { label: 'KIDZ-Konzept', href: '/kidz/konzept', kunde: true },
+      // Die vollständige Fassung für den Elternabend. Öffentlich nirgends verlinkt und ohne Absender, weil sie
+      // nicht an Eltern weitergegeben wird.
+      { label: 'KIDZ-Konzept vollständig', href: '/kidz/konzept-komplett', neuerTab: true },
+      { label: 'Anmeldung KIDZ for Future', href: '/kidz/elternabend', kunde: true },
+      // Feste Archivadresse. /kidz/sommerfest zeigt später auf das jeweils neueste Fest.
+      { label: 'Rückblick Sommerfest 2026', href: '/kidz/sommerfest-2026', kunde: true },
     ] },
   // Teamleistung ist tägliche Führung und deshalb kein Verwaltungsmenü.
   { id: 'team',        label: 'Team',          icon: 'Users',           href: path('team.html'),                       bottom: false },
@@ -128,13 +126,14 @@ function sidebarItem(item) {
   // ausgegrauter Link: ein <a href> bliebe über Mittelklick, Kontextmenü und
   // Tastatur erreichbar, und der Slug-Anhänger data-berater-link hätte dort
   // nichts zu suchen.
+  // `neuerTab: true` öffnet eine interne Seite im eigenen Tab, aber ohne Absender.
   const subs = `<div class="nav-subs"><div class="nav-subs-inner">${item.subs.map(s => s.bald ? `
     <span class="nav-sub nav-sub-bald" aria-disabled="true" title="Die Seite ist in Arbeit und noch nicht freigegeben.">
       ${s.icon ? `<span class="nav-sub-icon">${icon(s.icon, { size: 14 })}</span>` : ''}
       <span>${s.label}</span>
       <span class="nav-sub-marke">bald</span>
     </span>` : `
-    <a class="nav-sub" href="${s.href}"${s.kunde ? ' target="_blank" rel="noopener" data-berater-link' : ''}>
+    <a class="nav-sub" href="${s.href}"${s.kunde ? ' target="_blank" rel="noopener" data-berater-link' : s.neuerTab ? ' target="_blank" rel="noopener"' : ''}>
       ${s.icon ? `<span class="nav-sub-icon">${icon(s.icon, { size: 14 })}</span>` : ''}
       <span>${s.label}</span>
     </a>`).join('')}</div></div>`;

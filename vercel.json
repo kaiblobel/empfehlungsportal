@@ -23,6 +23,12 @@
       "permanent": false
     },
     {
+      "source": "/konzept",
+      "has": [{ "type": "host", "value": "kidz.teamwachsbleiche.de" }],
+      "destination": "/kidz/konzept",
+      "permanent": false
+    },
+    {
       "source": "/",
       "has": [{ "type": "host", "value": "finanzierung.kaiblobel.de" }],
       "destination": "/baufinanzierung",
@@ -38,6 +44,7 @@
     { "source": "/e", "destination": "/api/share" },
     { "source": "/p/:berater/:quelle", "destination": "/promoter-start.html?berater=:berater&quelle=:quelle" },
     { "source": "/kidz/sommerfest", "destination": "/kidz-sommerfest.html" },
+    { "source": "/kidz/sommerfest-2026", "destination": "/kidz-sommerfest.html" },
     { "source": "/kidz/gewinnspiel", "destination": "/kidz-gewinnspiel.html" },
     { "source": "/kidz/elternabend", "destination": "/kidz-elternabend.html" },
     { "source": "/kidz/konzept", "destination": "/kidz-konzept.html" },
