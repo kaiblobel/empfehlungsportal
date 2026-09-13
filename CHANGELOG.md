@@ -21,6 +21,10 @@ fragt sich niemand mehr, warum er kommen soll. Die vollständige Seite soll trot
   Gesundheit früh sichern) und Knopf „Unverbindlich vormerken“. Menü ohne KIDZ-Zug, dafür „Das zeigen wir am Abend“.
 - Tests: `kidz-themenseite-mock` prüft jetzt die vollständige Fassung, neu `kidz-konzept-ausschnitte` für die
   öffentliche Seite (nichts verraten, alle Sprungziele vorhanden, Original nirgends verlinkt).
+- **Mobile first:** Kai am Handy: „wie riesig das alles aussieht“. Neuer Block am Ende von `css/kidz-konzept.css`
+  bis 720 Pixel: Abschnittsüberschriften 26 bis 30 statt 36 bis 48 Pixel, Einstieg 32 bis 38 statt 43 bis 58, Abstand
+  je Abschnitt 44 statt 78, Bilder mit fester Höhe (Grundlagen 190, Elternabend 220) statt Seitenverhältnis, Karten
+  ohne Mindesthöhe. Seite am Handy 10.070 statt 14.200 Pixel, die vollständige Fassung 16.000 statt 20.500.
 
 ## v1.394 Beta - Phase 379 · KIDZ früher erklärt und Film im Rückblick kleiner
 **2026-09-13** · live veröffentlicht

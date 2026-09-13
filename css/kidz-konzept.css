@@ -1340,3 +1340,78 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
   .am-abend-section .health-future-grid p { font-size: 14.5px; line-height: 1.45; }
   .am-abend-cta { display: none; }
 }
+
+/* Mobile first (Kai, 13.09.2026): Am Handy war alles zu groß, Überschriften bis 48px, 78px Abstand je
+   Abschnitt, Bilder bis 520px hoch. Dieser Block steht bewusst am Ende und gilt für die ganze Seite. */
+@media (max-width: 720px) {
+  .hero-copy { padding: 30px 16px 26px; }
+  .hero h1 { font-size: clamp(32px, 9.4vw, 38px); line-height: 1.02; letter-spacing: -0.04em; }
+  .hero-lede { margin-top: 14px; font-size: 16px; line-height: 1.5; }
+  .hero-actions { margin-top: 20px; gap: 10px; }
+  .trust-list { margin-top: 18px; gap: 6px; font-size: 14px; }
+  .hero-media { min-height: 260px; }
+  .scroll-cue { display: none; }
+  .section { padding: 44px 16px; }
+  .section-heading { margin-bottom: 20px; }
+  .section-heading > p:last-child { margin-top: 10px; font-size: 16px; }
+  .eyebrow { margin-bottom: 8px; font-size: 11px; }
+  .section h2, .closing h2, .gap-head h2 { font-size: clamp(26px, 7.4vw, 30px); line-height: 1.12; letter-spacing: -0.025em; }
+  .intro-image, .intro-image img { min-height: 240px; }
+  .intro-image blockquote { padding: 14px; font-size: 16px; }
+  .intro-copy > p { font-size: 16px; }
+  .pillar-original { grid-template-columns: 80px 1fr; gap: 14px; padding: 14px 16px; text-align: left; }
+  .pillar-original img { width: 80px; height: 80px; margin: 0; }
+  .pillar-tab { min-height: 68px; padding: 10px 92px 10px 12px; }
+  .pillar-icon { width: 40px; height: 40px; font-size: 19px; }
+  .pillar-panel-media { min-height: 190px; }
+  .pillar-panel-copy { padding: 20px 18px 22px; }
+  .pillar-panel-copy h3 { font-size: 21px; }
+  .gap-law-text { font-size: 16px; }
+  .evening-visual, .evening-visual img { min-height: 240px; }
+  .source-section { gap: 24px; }
+  .source-stage { min-height: 250px; }
+  .source-stage-main { height: 230px; }
+  .source-stage-small { width: 116px; height: 86px; }
+  .choice-card { padding: 18px; }
+  .story-slide figcaption strong { font-size: 17px; }
+  .health-future-section, .am-abend-section { padding-top: 44px; padding-bottom: 44px; }
+  /* Bilder richten sich sonst nach ihrem Seitenverhältnis und ignorieren die Mindesthöhe. */
+  .intro-grid { gap: 20px; }
+  .principle-list { margin-top: 18px; }
+  .principle-list li { grid-template-columns: 34px 1fr; gap: 12px; padding: 12px 0; }
+  .principle-list span { width: 34px; height: 34px; font-size: 13px; }
+  .principle-list strong { font-size: 17px; }
+  .principle-list p { font-size: 14.5px; }
+  .kidz-journey-mark { grid-template-columns: 72px 1fr; gap: 12px; margin-top: 18px; padding: 12px 14px; }
+  .kidz-journey-mark img { width: 72px; }
+  .kidz-journey-mark span { font-size: 13px; }
+  .pillar-panel-media { height: 190px; min-height: 0; }
+  .pillar-panel-media > span { top: 12px; left: 12px; width: 38px; height: 38px; font-size: 14px; }
+  .pillar-panel-copy > p:nth-of-type(2) { margin-top: 12px; font-size: 15.5px; line-height: 1.5; }
+  .pillar-panel-copy ul { gap: 8px; margin-top: 14px; }
+  .pillar-panel-copy li { font-size: 14.5px; }
+  .evening-visual { height: 220px; min-height: 0; border-radius: 22px; }
+  .evening-visual img { height: 100%; min-height: 0; }
+  .evening-badge { right: 12px; bottom: 12px; left: 12px; padding: 10px 14px; }
+  .evening-badge strong { font-size: 18px; }
+  .evening-copy > p:nth-of-type(2) { font-size: 16px; line-height: 1.5; }
+  .evening-steps { gap: 8px; margin: 18px 0; }
+  .evening-steps li { grid-template-columns: 30px 1fr; gap: 10px; padding: 12px; border-radius: 14px; }
+  .evening-steps li > span { width: 30px; height: 30px; font-size: 13px; }
+  .evening-steps strong { font-size: 15.5px; }
+  .evening-steps p { font-size: 13.5px; }
+  .faq-section { gap: 16px; }
+  .faq-intro > p:last-child { font-size: 16px; }
+  .faq-list summary { gap: 14px; padding: 15px 0; font-size: 16px; }
+  .faq-list summary span { width: 30px; height: 30px; }
+  .faq-list details p { margin-bottom: 16px; font-size: 15px; }
+  .source-copy > p:not(.eyebrow) { font-size: 16px; line-height: 1.5; }
+  .choice-grid { gap: 12px; }
+  .choice-card { min-height: 0; }
+  .choice-card::after { top: -60px; right: -60px; width: 120px; height: 120px; border-width: 20px; }
+  .choice-label { top: 16px; right: 16px; }
+  .choice-card h3 { margin: 22px 0 6px; font-size: 21px; }
+  .choice-card p { font-size: 14.5px; line-height: 1.45; }
+  .choice-card button { min-height: 44px; margin-top: 14px; }
+  .privacy-line { margin-top: 18px; font-size: 14px; }
+}
