@@ -145,6 +145,15 @@ assert.match(html, /„Die Leistungen müssen ausreichend, zweckmäßig und wirt
 assert.match(html, /href="\/kidz\/konzept#luecke"/);
 assert.doesNotMatch(html, /Zum ganzen KIDZ-Konzept|class="kea-more"/);
 assert.ok(html.indexOf('id="gesetz"') < html.indexOf('id="anmeldung"'));
+// Kai, 13.09.2026: KIDZ soll früher erkennbar sein. Unter 980 Pixeln trägt die Kopfzeile einen
+// Konzept-Knopf, vor den Themen steht "Was ist KIDZ?". Beides liegt weit vor dem Formular.
+assert.match(html, /<a class="kea-header-konzept" href="\/kidz\/konzept">KIDZ-Konzept<\/a>/);
+assert.match(html, /<p class="kea-eyebrow">Was ist KIDZ\?<\/p>/);
+assert.match(html, /<a class="kea-kidz-link" href="\/kidz\/konzept">/);
+assert.ok(html.indexOf('class="kea-kidz-intro"') < html.indexOf('id="keaTopicsTitle"'));
+assert.ok(html.indexOf('class="kea-kidz-link"') < html.indexOf('id="gesetz"'));
+assert.match(css, /\.kea-header-konzept \{ display: none; \}/);
+assert.match(css, /@media \(max-width: 980px\) \{\s*\.kea-header-konzept \{ display: inline-flex;/);
 // "Und danach?" gehört allen, deshalb steht es bei den Themen und nicht beim Berater.
 assert.ok(html.indexOf('<strong>Und danach?</strong>') < html.indexOf('id="gastgeber"'));
 assert.match(publicJs, /'sommerfest-danke': 'Schön, dass ihr beim Sommerfest dabei wart\.'/);

@@ -3,6 +3,20 @@
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.393 Beta** · Konzeptseite zeigt das Sommerfest als Rückblick, live seit 13.09.2026.
 
+<!-- Noch ohne Phasennummer: tests/versionsstand liest die oberste ##-Überschrift als aktuelle
+     Version. Beim Veröffentlichen wird daraus ein eigener Phaseneintrag. -->
+### Unveröffentlicht · KIDZ auf der Elternabend-Seite früher erklärt
+**2026-09-13** · Zweig `konrad/kidz-rueckblick-konzept`
+
+Kai: Auf der Einladung zu KIDZ for Future fand man das Konzept nur ganz unten in der Fußzeile. Am Handy stimmte
+das, weil die Kopfnavigation unter 980 Pixeln ausgeblendet ist.
+
+- Kopfzeile: Unter 980 Pixeln erscheint ein kleiner Knopf „KIDZ-Konzept“.
+- Vor den Themen steht eine kurze Karte „Was ist KIDZ?“ mit Logo, einem Satz zu den drei Grundlagen und dem Link
+  „Das KIDZ-Konzept ansehen“.
+- Am Formular kommt bewusst kein Link dazu. Das war der Grund vom 11.09., den Knopf „Zum ganzen KIDZ-Konzept“
+  herauszunehmen.
+
 ## v1.393 Beta - Phase 378 · Konzeptseite zeigt das Sommerfest als Rückblick
 **2026-09-13** · live veröffentlicht
 
