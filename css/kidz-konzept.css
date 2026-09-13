@@ -1415,3 +1415,6 @@ dialog::backdrop { background: rgba(17, 42, 57, 0.72); backdrop-filter: blur(8px
   .choice-card button { min-height: 44px; margin-top: 14px; }
   .privacy-line { margin-top: 18px; font-size: 14px; }
 }
+
+/* Pflichthinweis zur Zahl auf der Abend-Karte: klein, aber immer sichtbar (13.09.2026). */
+.health-future-grid p.am-abend-hinweis { margin-top: 10px; color: var(--muted); font-size: 12px; line-height: 1.4; }

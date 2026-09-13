@@ -19,6 +19,11 @@ assert.match(html, /<section class="section health-future-section am-abend-secti
 assert.match(html, /Das Wichtigste zeigen wir dir am Abend\./);
 const abend = html.slice(html.indexOf('id="am-abend"'), html.indexOf('id="kidz-momente"'));
 assert.match(abend, /data-open-path="elternabend"/);
+// Kai, 13.09.2026: Aufhänger ist der Vorsprung, nicht der Monatsbetrag. Die Zahl steht nur mit ihren Annahmen
+// da, die genaue Rechnung bleibt für den Abend.
+assert.match(abend, /Über 750\.000 Euro Vorsprung für dein Kind\./);
+assert.match(abend, /<p class="am-abend-hinweis">Beispielrechnung mit 7,3 Prozent Wertentwicklung pro Jahr\. Keine Zusage/);
+assert.doesNotMatch(abend, /55 Euro/);
 
 // Sprungziele, auf die andere Seiten zeigen, bleiben bestehen.
 for (const id of ['saeulen', 'luecke', 'elternabend', 'fragen', 'sommerfest']) {
