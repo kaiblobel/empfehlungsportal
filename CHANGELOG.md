@@ -16,6 +16,8 @@ das, weil die Kopfnavigation unter 980 Pixeln ausgeblendet ist.
   „Das KIDZ-Konzept ansehen“.
 - Am Formular kommt bewusst kein Link dazu. Das war der Grund vom 11.09., den Knopf „Zum ganzen KIDZ-Konzept“
   herauszunehmen.
+- Rückblick: Der Hochkant-Film ist nur noch 210 statt 300 Pixel breit (etwa 370 statt 530 Pixel hoch). Kai: am
+  Handy zu groß. Vollbild geht weiter über den Player.
 
 ## v1.393 Beta - Phase 378 · Konzeptseite zeigt das Sommerfest als Rückblick
 **2026-09-13** · live veröffentlicht
