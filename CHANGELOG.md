@@ -3,6 +3,19 @@
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.398 Beta** · KIDZ-Postfach in allen KIDZ-Fußzeilen, live seit 13.09.2026.
 
+<!-- Noch ohne Phasennummer: tests/versionsstand liest die oberste ##-Überschrift als aktuelle
+     Version. Beim Veröffentlichen wird daraus ein eigener Phaseneintrag. -->
+### Unveröffentlicht · Dank an die Deutsche Vermögensberatung für den Riesenball
+**2026-09-13** · Zweig `konrad/kidz-rueckblick-konzept`
+
+Kai: Der Riesenball kam von der Deutschen Vermögensberatung. Das soll im Rückblick stehen, dezent und als Dank.
+
+- Dankesliste „Danke an alle, die mit angepackt haben“ beginnt jetzt mit „an die Deutsche Vermögensberatung für
+  unseren Riesenball“, mit Link auf dvag.de. Kein eigener Block, damit das Fest nicht nach Werbung aussieht.
+- Fußzeile: „Deutsche Vermögensberatung“ unter dem Veranstalter ist jetzt ein Link auf Kais offizielles DVAG-Profil.
+- Beide Änderungen stehen in bestehenden Zeilen, die Zeilennummer der kidz@-Ausnahme im Kontaktdaten-Wächter bleibt.
+- Text an die DVAG liegt als Entwurf in OneDrive unter KIDZ Einladungen und Kommunikation.
+
 ## v1.398 Beta - Phase 383 · KIDZ-Postfach in allen KIDZ-Fußzeilen
 **2026-09-13** · live veröffentlicht
 
