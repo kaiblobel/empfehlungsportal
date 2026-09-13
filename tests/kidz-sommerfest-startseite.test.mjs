@@ -139,6 +139,7 @@ assert.match(html, /class="kf-preis kf-preis-haupt kf-spende"/);
 assert.match(html, /1\.250 Euro für den Förderverein Zauberland Vetschau e\.V\./);
 // Kai, 13.09.2026: Der Riesenball kam von der Deutschen Vermögensberatung. Dank in der Partnerliste, nicht als Werbeblock.
 assert.match(html, /Dankeschön an die <a class="kf-dank-dvag" href="https:\/\/www\.dvag\.de\/"[^>]*>Deutsche Vermögensberatung<\/a> für unseren Riesenball/);
+assert.match(html, /<a class="kf-dank-nl" href="https:\/\/www\.niederlausitz-aktuell\.de\/"[^>]*>NIEDERLAUSITZ aktuell<\/a> für die Ankündigung/);
 assert.match(html, /<a class="kf-fuss-dvag" href="https:\/\/www\.dvag\.de\/kai\.blobel\/index\.html"/);
 const spendeIndex = html.indexOf('kf-spende');
 assert.ok(spendeIndex > helferIndex && spendeIndex < weiterIndex, 'Die Spende gehört in den Dank-Abschnitt');

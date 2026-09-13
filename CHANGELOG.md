@@ -12,6 +12,7 @@ Kai: Der Riesenball kam von der Deutschen Vermögensberatung. Das soll im Rückb
 
 - Dankesliste „Danke an alle, die mit angepackt haben“ beginnt jetzt mit „an die Deutsche Vermögensberatung für
   unseren Riesenball“, mit Link auf dvag.de. Kein eigener Block, damit das Fest nicht nach Werbung aussieht.
+- Gleich danach „an NIEDERLAUSITZ aktuell für die Ankündigung“ mit Link. Kai: Sie haben das Fest beworben.
 - Fußzeile: „Deutsche Vermögensberatung“ unter dem Veranstalter ist jetzt ein Link auf Kais offizielles DVAG-Profil.
 - Beide Änderungen stehen in bestehenden Zeilen, die Zeilennummer der kidz@-Ausnahme im Kontaktdaten-Wächter bleibt.
 - Text an die DVAG liegt als Entwurf in OneDrive unter KIDZ Einladungen und Kommunikation.
