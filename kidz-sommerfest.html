@@ -32,7 +32,7 @@
   <title>Danke fürs Kinder-Sommerfest | Team Wachsbleiche</title>
   <link rel="icon" type="image/png" href="/assets/images/kidz-logo-konzept.png">
   <link rel="apple-touch-icon" href="/assets/images/kidz-logo-konzept.png">
-  <link rel="stylesheet" href="/css/kidz-sommerfest.css?v=14">
+  <link rel="stylesheet" href="/css/kidz-sommerfest.css?v=15">
   <link rel="stylesheet" href="/css/kidz-public-nav.css?v=3">
   <script src="/js/config.js"></script>
 </head>
@@ -95,7 +95,14 @@
     <section class="kf-section kf-section-bilder" aria-labelledby="kfBilderTitle">
       <p class="kf-step">So war das Fest</p>
       <h2 id="kfBilderTitle" class="kf-bilder-titel">Ein paar Eindrücke vom 6. September</h2>
-      <p class="kf-intro kf-bilder-hinweis">24 Fotos vom 6. September. Zum Durchblättern einfach wischen.</p>
+      <p class="kf-intro kf-bilder-hinweis">Ein kleiner Film und 24 Fotos vom 6. September. Zum Durchblättern einfach wischen.</p>
+      <!-- Echter Film vom Fest, keine KI. Kai am 13.09.2026 im Chat: "das ist ja unser Film, den kannst du
+           mit einbinden, das passt so". Liegt bewusst nicht in assets/video/ (dort gilt die KI-Kennzeichnung). -->
+      <div class="kf-film">
+        <video controls playsinline preload="none" poster="/assets/film/kidz-sommerfest-film-poster.jpg" width="540" height="960" aria-label="Kleiner Film vom KIDZ Kinder-Sommerfest">
+          <source src="/assets/film/kidz-sommerfest-film.mp4" type="video/mp4">
+        </video>
+      </div>
       <div class="kf-bilder" tabindex="0" aria-label="Fotos vom Kinder-Sommerfest, zum Wischen">
         <figure class="kf-bild"><img src="/assets/images/kidz-fest-01.webp" alt="Eindruck vom KIDZ Kinder-Sommerfest an der Kutzeburger Mühle, Bild 1" width="800" height="600" loading="lazy" decoding="async"></figure>
         <figure class="kf-bild"><img src="/assets/images/kidz-fest-02.webp" alt="Eindruck vom KIDZ Kinder-Sommerfest an der Kutzeburger Mühle, Bild 2" width="800" height="600" loading="lazy" decoding="async"></figure>
@@ -202,12 +209,43 @@
     </a>
   </section>
 
-  <footer class="kf-footer" id="veranstalter">
-    <div class="kf-organizer">
-      <img src="/assets/images/team-wachsbleiche-petrol.jpeg" alt="Team Wachsbleiche · Kai Blobel &amp; Team" width="1254" height="1254">
-      <div><strong>Veranstalter</strong><br><span data-bo="bezeichnung">Regionaldirektion Kai Blobel &amp; Team</span><br>Deutsche Vermögensberatung<br><span data-bo="adresse">An der Wachsbleiche 1a · 03046 Cottbus</span></div>
+  <footer class="kf-footer kf-footer-voll" id="veranstalter">
+    <div class="kf-fuss-spalten">
+      <div class="kf-organizer">
+        <img src="/assets/images/team-wachsbleiche-petrol.jpeg" alt="Team Wachsbleiche · Kai Blobel &amp; Team" width="1254" height="1254" loading="lazy">
+        <div>
+          <p class="kf-fuss-titel">Veranstalter</p>
+          <strong data-bo="bezeichnung">Regionaldirektion Kai Blobel &amp; Team</strong>
+          <span>Deutsche Vermögensberatung</span>
+        </div>
+      </div>
+
+      <address class="kf-fuss-kontakt">
+        <p class="kf-fuss-titel">Kontakt</p>
+        <span data-bo="adresse-zeilen">An der Wachsbleiche 1a<br>03046 Cottbus</span>
+        <a data-bo="tel-text" href="tel:+4935549497303">0355 49497303</a>
+        <a data-bo="email-text" href="mailto:Kai.Blobel@dvag.de">Kai.Blobel@dvag.de</a>
+      </address>
+
+      <nav class="kf-fuss-links" aria-label="Weitere KIDZ-Seiten">
+        <p class="kf-fuss-titel">KIDZ</p>
+        <a href="/kidz/konzept?quelle=sommerfest-danke">Was hinter KIDZ steckt</a>
+        <a href="/kidz/elternabend?quelle=sommerfest-danke">KIDZ for Future vormerken</a>
+        <a href="/kidz/gewinnspiel#teilnahmebedingungen">Teilnahmebedingungen Gewinnspiel</a>
+        <div class="kf-fuss-social">
+          <a href="https://www.instagram.com/team_wachsbleiche/" target="_blank" rel="noopener noreferrer" aria-label="Team Wachsbleiche auf Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://www.facebook.com/people/Team-Wachsbleiche/61594233901851/" target="_blank" rel="noopener noreferrer" aria-label="Team Wachsbleiche auf Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.8-.1-1.6-.15-2.4-.15-2.4 0-4.05 1.46-4.05 4.15v2.3H7.5V13h2.75v8z"/></svg></a>
+        </div>
+      </nav>
     </div>
-    <div><strong>Bis ganz bald</strong><br>Eure KIDZ-Crew<br>by Team Wachsbleiche</div>
+
+    <div class="kf-fuss-unten">
+      <span>© 2026 <span data-bo="bezeichnung">Regionaldirektion Kai Blobel &amp; Team</span> · KIDZ by Team Wachsbleiche</span>
+      <nav aria-label="Rechtliche Hinweise">
+        <a data-bo="impressum" href="https://www.dvag.de/kai.blobel/impressum.html" target="_blank" rel="noopener noreferrer">Impressum</a>
+        <a data-bo="datenschutz" href="https://www.dvag.de/kai.blobel/datenschutz.html" target="_blank" rel="noopener noreferrer">Datenschutz</a>
+      </nav>
+    </div>
   </footer>
 
   <script type="module" src="/js/kidz-public-nav.js?v=1"></script>

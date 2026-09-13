@@ -281,3 +281,26 @@ h2 { color: var(--kf-navy); font-size: clamp(30px, 5vw, 48px); line-height: 1.05
   .kf-preise .kf-preis:last-child { grid-column: 1 / -1; grid-template-columns: 38% 1fr; column-gap: 10px; align-items: center; }
   .kf-preise .kf-preis:last-child .kf-preis-bild { grid-row: span 3; margin: 0; }
 }
+
+/* Vollständige Fußzeile (13.09.2026): Handy untereinander, Rechner drei Spalten */
+.kf-footer.kf-footer-voll { display: block; width: min(1040px, calc(100% - 28px)); margin: 18px auto 28px; padding: 24px 20px 18px; color: var(--kf-muted); font-size: 14px; line-height: 1.55; background: #fff; border: 1px solid var(--kf-line); border-radius: 22px; box-shadow: 0 12px 30px rgba(22,58,104,.07); }
+.kf-fuss-spalten { display: grid; gap: 22px; }
+@media (min-width: 761px) { .kf-fuss-spalten { grid-template-columns: 1.3fr 1fr 1fr; gap: 28px; } }
+.kf-fuss-titel { margin: 0 0 6px; color: var(--kf-green); font-size: 10.5px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+.kf-footer-voll .kf-organizer { display: flex; align-items: flex-start; gap: 14px; }
+.kf-footer-voll .kf-organizer img { width: 64px; height: 64px; flex: 0 0 64px; border-radius: 50%; object-fit: cover; }
+.kf-footer-voll .kf-organizer strong { display: block; color: var(--kf-navy); font-size: 15px; line-height: 1.3; }
+.kf-footer-voll .kf-organizer span { display: block; }
+.kf-fuss-kontakt { display: grid; gap: 3px; font-style: normal; }
+.kf-fuss-links { display: grid; gap: 4px; align-content: start; }
+.kf-footer-voll a { color: var(--kf-navy); font-weight: 650; text-decoration: none; }
+.kf-footer-voll a:hover, .kf-footer-voll a:focus-visible { text-decoration: underline; text-underline-offset: 3px; outline: none; }
+.kf-fuss-social { display: flex; gap: 10px; margin-top: 8px; }
+.kf-fuss-social a { display: grid; width: 40px; height: 40px; place-items: center; color: #fff; background: var(--kf-navy); border-radius: 50%; }
+.kf-fuss-social a:hover, .kf-fuss-social a:focus-visible { background: var(--kf-green); text-decoration: none; }
+.kf-fuss-social svg { width: 20px; height: 20px; }
+.kf-fuss-unten { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--kf-line); font-size: 12.5px; }
+.kf-fuss-unten nav { display: flex; gap: 16px; }
+@media (max-width: 760px) {
+  .kf-footer.kf-footer-voll { flex-direction: column; align-items: stretch; }
+}

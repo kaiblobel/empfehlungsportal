@@ -59,7 +59,7 @@ assert.doesNotMatch(html, /Eintritt (&amp; Teilnahme )?kostenlos/);
 // Keine typografischen Gedankenstriche im sichtbaren Text.
 assert.doesNotMatch(html.replace(/<!--[\s\S]*?-->/g, ''), /[–—]/);
 
-assert.match(html, /class="kf-footer" id="veranstalter"/);
+assert.match(html, /class="kf-footer(?: [\w-]+)*" id="veranstalter"/);
 assert.match(html, /class="kf-organizer"/);
 assert.match(html, /assets\/images\/team-wachsbleiche-petrol\.jpeg/);
 assert.match(html, /alt="Team Wachsbleiche · Kai Blobel &amp; Team"/);
@@ -174,5 +174,17 @@ for (const preis of ['survival', 'kino', 'tierpark', 'geschenke']) {
   assert.ok(bild.size < 100_000, `Preisbild zu schwer: ${preis}`);
 }
 assert.match(css, /\.kf-preis-bild/);
+
+// Film vom Fest (Kais Freigabe 13.09.2026): echte Aufnahme, eigener Ordner assets/film/.
+assert.match(html, /<source src="\/assets\/film\/kidz-sommerfest-film[.]mp4" type="video\/mp4">/);
+const film = await stat(new URL('../assets/film/kidz-sommerfest-film.mp4', import.meta.url));
+assert.ok(film.size < 12_000_000, 'Film zu schwer fürs Handy');
+await stat(new URL('../assets/film/kidz-sommerfest-film-poster.jpg', import.meta.url));
+// Vollständige Fußzeile (13.09.2026): Kontakt aus den Stammdaten, Impressum und Datenschutz.
+assert.match(html, /class="kf-footer kf-footer-voll" id="veranstalter"/);
+for (const bo of ['bezeichnung', 'adresse-zeilen', 'tel-text', 'email-text', 'impressum', 'datenschutz']) {
+  assert.match(html, new RegExp(`data-bo="${bo}"`), `Fußzeile ohne Stammdaten-Feld ${bo}`);
+}
+assert.match(css, /\.kf-footer-voll/);
 
 console.log('kidz-sommerfest-startseite: OK');

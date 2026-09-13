@@ -14,8 +14,13 @@ Offizielle Live-Version: **v1.391 Beta** · Rückblick mit Bildern, Schecküberg
   Bilder sind entfernt.
 - **Preisbilder auf den Kacheln:** Survival Camp, Kino, Tierpark und Geschenke aus dem Original-Gewinnflyer,
   je 640 × 360 Pixel und unter 50 KB statt der 2,3-MB-Grafik.
-- **Film vom Fest noch nicht eingebunden:** wartet auf Kais Freigabe. Er gehört nicht nach `assets/video/`,
-  weil `ki-kennzeichnung` jede Datei dort als KI-Film behandelt, und es ist eine echte Aufnahme.
+- **Film vom Fest:** 61 Sekunden, auf 7,3 MB verkleinert, vor den Fotos. Kai am 13.09.2026: „das ist ja unser Film,
+  den kannst du mit einbinden, das passt so“. Echte Aufnahme, deshalb in `assets/film/` statt `assets/video/`
+  (dort gilt die KI-Kennzeichnung).
+- **Preiskacheln auf dem Handy kompakt:** Hauptpreis breit mit flachem Bild, Kino und Tierpark nebeneinander,
+  Sachpreise als flache Zeile.
+- **Vollständige Fußzeile:** Veranstalter mit Logo, Kontakt (Anschrift, Telefon, E-Mail aus den Stammdaten),
+  KIDZ-Links, Instagram und Facebook, darunter ©-Zeile mit Impressum und Datenschutz.
 
 ## v1.391 Beta - Phase 376 · Rückblick mit Bildern, Scheckübergabe und KIDZ dezent im Schluss
 **2026-09-13** · live veröffentlicht
