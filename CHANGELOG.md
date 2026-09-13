@@ -1,7 +1,21 @@
 ﻿# Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.401 Beta** · KIDZ-Rückblick: Foto mit Kai und Hendrik ans Ende der Fotostrecke, live seit 13.09.2026.
+Offizielle Live-Version: **v1.402 Beta** · KIDZ-Rückblick: Eckdaten und Flyer am Handy kompakt, live seit 13.09.2026.
+
+## v1.402 Beta - Phase 387 · KIDZ-Rückblick: Eckdaten und Flyer am Handy kompakt
+**2026-09-13**
+
+Kai: Das Fest ist Vergangenheit, Datum, Ort und Flyer wirken am Handy noch viel zu groß.
+
+- Rückblick bis 860 px Breite: Gäste, Datum und Ort stehen als schmale Zeile nebeneinander, mit kleinen
+  Symbolen und ohne Schatten. Vorher standen die drei Karten am Handy untereinander.
+- Der Flyer „So haben wir eingeladen“ ist dort 170 statt 300 px breit.
+- Gemessen bei 390 px: Danke-Bereich 672 statt 1.014 px hoch, Karten 89 statt 236 px, Flyer 257 statt 447 px.
+  Bei 680 px ist der Bereich 588 px hoch. Am Rechner bleibt alles wie bisher.
+- `css/kidz-sommerfest.css?v=19`. Nur die Rückblickseite lädt diese Datei.
+
+---
 
 ## v1.401 Beta - Phase 386 · KIDZ-Rückblick: Foto mit Kai und Hendrik ans Ende der Fotostrecke
 **2026-09-13**
