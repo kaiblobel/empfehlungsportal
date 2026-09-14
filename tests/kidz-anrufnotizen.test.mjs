@@ -114,6 +114,8 @@ assert.match(js, /p_termin_uhrzeit:/);
 assert.match(js, /mitEinwilligung:/);
 assert.match(js, /ohneEinwilligung:/);
 assert.match(js, /Kein Gespräch und kein KIDZ for Future anbieten/);
+// Anliegen und Terminwunsch sofort sichtbar, nicht erst nach Wahl des Ergebnisses.
+assert.match(js, /const mitDetails = !\['nicht_erreicht', 'kein_interesse'\]\.includes\(ergebnis\)/);
 // Termin nur mit Uhrzeit speichern.
 assert.match(js, /ergebnis === 'termin' && !anrufUhrzeit\.value/);
 

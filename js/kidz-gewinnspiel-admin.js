@@ -401,7 +401,9 @@ function gewaehltesErgebnis() {
 function updateAnrufForm() {
   const ergebnis = gewaehltesErgebnis();
   const brauchtDatum = Boolean(ERGEBNISSE[ergebnis]?.datum);
-  const mitDetails = ['gesprochen', 'termin', 'rueckruf'].includes(ergebnis);
+  // Anliegen und Terminwunsch stehen gleich beim Oeffnen da (Kai am 14.09.: "wo trage ich
+  // KIDZ4future oder persoenliches Gespraech ein?"). Weg sind sie nur, wenn sie nicht passen.
+  const mitDetails = !['nicht_erreicht', 'kein_interesse'].includes(ergebnis);
   anrufDatumFeld.hidden = !brauchtDatum;
   anrufUhrzeitFeld.hidden = !brauchtDatum;
   anrufAnliegenFeld.hidden = !mitDetails;
