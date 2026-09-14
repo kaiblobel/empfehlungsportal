@@ -149,3 +149,39 @@
   .kg-anruf-knopf { width: 100%; min-height: 44px; }
   .kg-anruf-wahl { grid-template-columns: 1fr; }
 }
+
+/* Phase 389: Einwilligung, Leitfaden, Anliegen, Terminwunsch, Uhrzeit, Sperre.
+   .kg-admin-dialog-check steht auf display: flex und schlaegt hidden, deshalb
+   braucht jedes ein- und ausblendbare Feld die Regel mit !important. */
+.kg-anruf-feld[hidden] { display: none !important; }
+.kg-anruf-einwilligung { margin: 0 0 12px; padding: 10px 12px; border-radius: 10px; font-size: 13px; line-height: 1.45; }
+.kg-anruf-einwilligung strong, .kg-anruf-einwilligung span { display: block; }
+.kg-anruf-einwilligung span { margin-top: 2px; }
+.kg-anruf-einwilligung[data-einwilligung="ja"] { color: #245b37; background: #eef7f1; border: 1px solid #c7dfcc; }
+.kg-anruf-einwilligung[data-einwilligung="nein"] { color: #7a4d11; background: #fff7df; border: 1px solid #ead59a; }
+.kg-anruf-leitfaden { margin: 10px 0 4px; padding: 10px 12px; background: #f7f8fa; border: 1px solid #e3e6ea; border-radius: 10px; }
+.kg-anruf-leitfaden summary { color: #18334b; font-size: 13px; font-weight: 800; cursor: pointer; }
+.kg-anruf-leitfaden-text { margin: 8px 0 0; color: #263746; font-size: 13px; line-height: 1.55; white-space: pre-line; overflow-wrap: anywhere; }
+.kg-anruf-leitfaden-text[data-leer="ja"] { color: #7c848b; font-style: italic; }
+.kg-anruf-leitfaden-text[hidden], .kg-anruf-leitfaden-editor[hidden], .kg-anruf-leitfaden-knopf[hidden],
+.kg-admin-dialog .kg-anruf-leitfaden-hinweis[hidden] { display: none !important; }
+.kg-admin-dialog .kg-anruf-leitfaden-hinweis { margin: 8px 0 0; padding: 8px 10px; color: #7a4d11 !important; background: #fff7df; border: 1px solid #ead59a; border-radius: 8px; font-size: 12px; }
+.kg-anruf-leitfaden-knopf { margin-top: 10px; min-height: 36px; padding: 0 14px; color: #18334b; background: #fff; border: 1px solid #c9ced3; border-radius: 999px; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+.kg-anruf-leitfaden-knopf.primaer { color: #fff; background: #0c6c3f; border-color: #0c6c3f; }
+.kg-anruf-leitfaden-knopf:disabled { opacity: .6; cursor: default; }
+.kg-anruf-leitfaden-editor { margin-top: 8px; }
+.kg-anruf-leitfaden-editor textarea { min-height: 260px; font-size: 13px; line-height: 1.5; }
+.kg-admin-dialog .kg-anruf-leitfaden-tipp { margin: 6px 0 0; font-size: 11px; }
+.kg-anruf-leitfaden-aktionen { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 0 8px; }
+.kg-anruf-leitfaden-aktionen span { margin: 10px auto 0 0; color: #646b72; font-size: 12px; }
+.kg-anruf-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.kg-anruf-chips label { display: inline-flex; align-items: center; gap: 7px; min-height: 40px; padding: 0 12px; color: #263746; border: 1px solid #d5d7da; border-radius: 999px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.kg-anruf-chips label:has(input:checked) { background: #eef7f1; border-color: #0c6c3f; }
+.kg-anruf-chips input { width: 16px; height: 16px; margin: 0; accent-color: #0c6c3f; }
+.kg-anruf-zeit { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; }
+.kg-admin-dialog input[type="time"] { width: 100%; min-height: 45px; padding: 0 12px; color: #263746; background: #fff; border: 1px solid #d5d7da; border-radius: 9px; font: inherit; }
+.kg-admin-dialog input[type="time"]:focus { border-color: #0c6c3f; outline: none; box-shadow: 0 0 0 3px rgba(12,108,63,.12); }
+.kg-admin-entry .kg-anruf-stand[data-ergebnis="gesperrt"] { color: #fff; background: #8a2f2f; }
+@media (max-width: 580px) {
+  .kg-anruf-zeit { grid-template-columns: 1fr; }
+}

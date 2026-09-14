@@ -1,7 +1,37 @@
 ﻿# Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.403 Beta** · KIDZ-Sommerfest: Anrufnotizen je Teilnehmer, live seit 14.09.2026.
+Offizielle Live-Version: **v1.404 Beta** · KIDZ-Anrufnotizen: Anliegen, Terminwunsch, Einwilligung, Leitfaden, live seit 14.09.2026.
+
+## v1.404 Beta - Phase 389 · KIDZ-Anrufnotizen: Anliegen, Terminwunsch, Einwilligung, Leitfaden
+**2026-09-14** · live veröffentlicht
+
+Freigabe am 14.09.2026: „ok dann passt das wenn sich für alle ändert dann bitte veröffentlichen“.
+Datenbank zuerst angewendet (`phase_389_kidz_anrufnotizen_details`), danach die Seite.
+
+Kai nach dem ersten Anruftag: „Interesse KIDZ4future oder Persönliches Gespräch und Anfang der Woche
+oder Ende der Woche … wir wollen 2 Termine anbieten“ und „das Kontaktgespräch mit rein“. Die übrigen
+Vorschläge freigegeben mit „alle Punkte passen“.
+
+- **Worum geht es?** KIDZ for Future, Persönliches Gespräch oder Beides. Steht gleich beim Öffnen da
+  (Kai fand die Felder zuerst nicht, als sie erst nach Wahl des Ergebnisses erschienen).
+- **Terminwunsch** Anfang oder Ende der Woche, **Uhrzeit** beim Termin Pflicht, beim Rückruf freiwillig.
+- **Einwilligung** oben im Fenster: ja (grün) oder nein (gelb, „kein Gespräch anbieten, außer die Familie
+  fragt selbst“). Laut Teilnahmebedingungen war fürs Gewinnspiel keine Werbeeinwilligung nötig.
+- **Widerruf am Telefon** nimmt das Häkchen KIDZ for Future zurück, setzen kann die Funktion es nie.
+- **„Bitte nicht mehr anrufen“** bei Kein Interesse, roter Vermerk an der Karte fürs ganze Team.
+- **Leitfaden fürs Gespräch** aus der neuen Tabelle `kidz_leitfaden`: Admins fügen ihn selbst ein und
+  bearbeiten ihn, alle Berater lesen dieselbe Fassung. `{name}` und `{berater}` werden eingesetzt.
+  Angezeigt als reiner Text, nie als HTML.
+- Neue Filter KIDZ for Future, Persönliches Gespräch, Nicht mehr anrufen. Export mit vier neuen Spalten.
+- Die Funktion `add_kidz_kontaktnotiz` nimmt die neuen Angaben mit Vorgabewerten an, die alte Fassung mit
+  vier Angaben ist entfernt (sonst zwei gleichnamige Funktionen). Kernregel unverändert: eintragen darf,
+  wer die Anmeldung sieht.
+- Probeläufe auf der Live-Datenbank mit vollständiger Rücknahme: Termin ohne Uhrzeit abgelehnt, Angaben bei
+  Nicht erreicht verworfen, Sperre nur bei Kein Interesse, Widerruf setzt nur auf false, Schalter aus und
+  fremder Kontakt gesperrt, Leitfaden nur von Admins änderbar, anon ohne Zugriff.
+
+---
 
 ## v1.403 Beta - Phase 388 · KIDZ-Sommerfest: Anrufnotizen je Teilnehmer
 **2026-09-14** · live veröffentlicht

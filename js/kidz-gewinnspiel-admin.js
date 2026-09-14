@@ -71,8 +71,21 @@ const ANRUF_FILTER = [
   ['nicht_erreicht', 'Nicht erreicht'],
   ['faellig', 'Rückruf fällig'],
   ['termin', 'Termin'],
+  ['kff', 'KIDZ for Future'],
+  ['gespraech', 'Persönliches Gespräch'],
   ['kein_interesse', 'Kein Interesse'],
+  ['gesperrt', 'Nicht mehr anrufen'],
 ];
+// Phase 389: Worum es der Familie geht und wann es passt. Die Alternativfrage
+// "Anfang oder Ende der Woche?" steht als zwei Knoepfe da, weil das Team zwei
+// Termine zur Wahl anbietet.
+const ANLIEGEN = { kff: 'KIDZ for Future', gespraech: 'Persönliches Gespräch', beides: 'KIDZ for Future und Gespräch' };
+const TERMINWUNSCH = { anfang: 'Anfang der Woche', ende: 'Ende der Woche' };
+const ERREICHT = new Set(['rueckruf', 'termin', 'kein_interesse', 'gesprochen']);
+// Der Leitfaden fuers Kontaktgespraech steht in der Datenbank (kidz_leitfaden). Kai
+// fuegt ihn als Admin selbst ein und bearbeitet ihn, alle Berater sehen dieselbe
+// Fassung. {name} und {berater} werden beim Oeffnen eingesetzt.
+const LEITFADEN_MAX = 8000;
 const anrufFilterBox = document.getElementById('anrufFilter');
 const anrufDialog = document.getElementById('anrufDialog');
 const anrufForm = document.getElementById('anrufForm');
@@ -85,6 +98,30 @@ const anrufNotiz = document.getElementById('anrufNotiz');
 const anrufStatus = document.getElementById('anrufStatus');
 const anrufSaveBtn = document.getElementById('anrufSaveBtn');
 const anrufCancelBtn = document.getElementById('anrufCancelBtn');
+const anrufEinwilligung = document.getElementById('anrufEinwilligung');
+const anrufLeitfaden = document.getElementById('anrufLeitfaden');
+const anrufLeitfadenText = document.getElementById('anrufLeitfadenText');
+const anrufLeitfadenHinweis = document.getElementById('anrufLeitfadenHinweis');
+const leitfadenBearbeitenBtn = document.getElementById('leitfadenBearbeitenBtn');
+const leitfadenEditor = document.getElementById('leitfadenEditor');
+const leitfadenEingabe = document.getElementById('leitfadenEingabe');
+const leitfadenSpeichernBtn = document.getElementById('leitfadenSpeichernBtn');
+const leitfadenAbbrechenBtn = document.getElementById('leitfadenAbbrechenBtn');
+const leitfadenStatus = document.getElementById('leitfadenStatus');
+let leitfadenInhalt = '';
+// Bleibt aus, solange die Tabelle fehlt. Dann gibt es auch keinen Bearbeiten-Knopf.
+let leitfadenVerfuegbar = false;
+let anrufEintrag = null;
+const anrufAnliegenFeld = document.getElementById('anrufAnliegenFeld');
+const anrufWunschFeld = document.getElementById('anrufWunschFeld');
+const anrufUhrzeitFeld = document.getElementById('anrufUhrzeitFeld');
+const anrufUhrzeit = document.getElementById('anrufUhrzeit');
+const anrufUhrzeitLabel = document.getElementById('anrufUhrzeitLabel');
+const anrufSperreFeld = document.getElementById('anrufSperreFeld');
+const anrufSperre = document.getElementById('anrufSperre');
+const anrufWiderrufFeld = document.getElementById('anrufWiderrufFeld');
+const anrufWiderruf = document.getElementById('anrufWiderruf');
+let anrufEinwilligungJa = false;
 // teilnahme_id -> Eintraege, der neueste zuerst
 const notizen = new Map();
 // Bleibt aus, solange die Tabelle nicht erreichbar ist (etwa vor der
@@ -132,7 +169,7 @@ function visibleEntries({ mitAnrufFilter = true } = {}) {
   const needle = searchInput.value.trim().toLowerCase();
   const participantChoice = participantFilterChoices.get(advisorFilter.value);
   return entries.filter((entry) => {
-    if (mitAnrufFilter && anrufFilter && anrufStand(entry) !== anrufFilter) return false;
+    if (mitAnrufFilter && anrufFilter && !passtAnrufFilter(entry, anrufFilter)) return false;
     if (parentOnly.checked && !entry.elternabend_interesse) return false;
     if (onsiteOnly.checked && entry.source !== ONSITE_SOURCE) return false;
     if (participantChoice?.kind === 'advisor' && entry.berater?.slug !== participantChoice.slug) return false;
@@ -218,6 +255,28 @@ function notizenVon(entry) {
   return notizen.get(entry.id) || [];
 }
 
+/** Das zuletzt genannte Anliegen, auch wenn der letzte Anruf keins trug. */
+function letztesAnliegen(entry) {
+  return notizenVon(entry).find((n) => n.anliegen)?.anliegen || '';
+}
+
+/** Hat jemand "Bitte nicht mehr anrufen" eingetragen? Gilt dann fuer das ganze Team. */
+function gesperrt(entry) {
+  return notizenVon(entry).some((n) => n.keine_anrufe);
+}
+
+function uhrzeit(wert) {
+  return wert ? String(wert).slice(0, 5) : '';
+}
+
+/** Passt die Anmeldung zu einem Filterknopf? */
+function passtAnrufFilter(entry, key) {
+  if (key === 'kff') return ['kff', 'beides'].includes(letztesAnliegen(entry));
+  if (key === 'gespraech') return ['gespraech', 'beides'].includes(letztesAnliegen(entry));
+  if (key === 'gesperrt') return gesperrt(entry);
+  return anrufStand(entry) === key;
+}
+
 /** Der Stand fuer Filter und Zaehler: offen, faellig oder das letzte Ergebnis. */
 function anrufStand(entry) {
   const letzter = notizenVon(entry)[0];
@@ -240,18 +299,32 @@ function anrufZeile(entry) {
   const versuche = liste.filter((n) => n.ergebnis === 'nicht_erreicht').length;
   let text = ERGEBNISSE[letzter.ergebnis]?.label || letzter.ergebnis;
   if (letzter.ergebnis === 'nicht_erreicht' && versuche > 1) text += ` (${versuche}×)`;
-  if (letzter.faellig_am) text += ` · ${kurzDatum(letzter.faellig_am)}`;
-  if (stand === 'faellig') text = `Rückruf fällig · ${kurzDatum(letzter.faellig_am)}`;
+  const uhr = letzter.termin_uhrzeit ? ` · ${uhrzeit(letzter.termin_uhrzeit)} Uhr` : '';
+  if (letzter.faellig_am) text += ` · ${kurzDatum(letzter.faellig_am)}${uhr}`;
+  if (stand === 'faellig') text = `Rückruf fällig · ${kurzDatum(letzter.faellig_am)}${uhr}`;
   const kurzNotiz = letzter.notiz
     ? ` · „${letzter.notiz.length > 70 ? `${letzter.notiz.slice(0, 70)} …` : letzter.notiz}“`
     : '';
-  const verlauf = liste.map((n) => `
-          <li><b>${escapeHtml(ERGEBNISSE[n.ergebnis]?.label || n.ergebnis)}${n.faellig_am ? ` · ${escapeHtml(kurzDatum(n.faellig_am))}` : ''}</b>
-            · ${escapeHtml(kurzZeit(n.erstellt_am))} · ${escapeHtml(n.erstellt_von_name)}${n.notiz ? `<p>${escapeHtml(n.notiz)}</p>` : ''}</li>`).join('');
+  const meta = [kurzZeit(letzter.erstellt_am), letzter.erstellt_von_name, ANLIEGEN[letztesAnliegen(entry)], TERMINWUNSCH[letzter.terminwunsch]]
+    .filter(Boolean).join(' · ') + kurzNotiz;
+  const verlauf = liste.map((n) => {
+    const zusatz = [
+      n.faellig_am ? kurzDatum(n.faellig_am) : '',
+      n.termin_uhrzeit ? `${uhrzeit(n.termin_uhrzeit)} Uhr` : '',
+      ANLIEGEN[n.anliegen] || '',
+      TERMINWUNSCH[n.terminwunsch] || '',
+      n.keine_anrufe ? 'Nicht mehr anrufen' : '',
+      n.kff_widerrufen ? 'Einwilligung KIDZ for Future widerrufen' : '',
+    ].filter(Boolean).map((teil) => ` · ${escapeHtml(teil)}`).join('');
+    return `
+          <li><b>${escapeHtml(ERGEBNISSE[n.ergebnis]?.label || n.ergebnis)}${zusatz}</b>
+            · ${escapeHtml(kurzZeit(n.erstellt_am))} · ${escapeHtml(n.erstellt_von_name)}${n.notiz ? `<p>${escapeHtml(n.notiz)}</p>` : ''}</li>`;
+  }).join('');
+  const sperre = gesperrt(entry) ? '<span class="kg-anruf-stand" data-ergebnis="gesperrt">Nicht mehr anrufen</span>' : '';
   return `
       <div class="kg-anruf">
-        <span class="kg-anruf-stand" data-ergebnis="${escapeHtml(stand)}">${escapeHtml(text)}</span>
-        <span class="kg-anruf-meta">${escapeHtml(`${kurzZeit(letzter.erstellt_am)} · ${letzter.erstellt_von_name}${kurzNotiz}`)}</span>
+        ${sperre}<span class="kg-anruf-stand" data-ergebnis="${escapeHtml(stand)}">${escapeHtml(text)}</span>
+        <span class="kg-anruf-meta">${escapeHtml(meta)}</span>
         ${knopf}
         <details class="kg-anruf-verlauf"><summary>Verlauf (${liste.length})</summary><ol>${verlauf}</ol></details>
       </div>`;
@@ -264,7 +337,7 @@ function renderAnrufFilter() {
   if (!notizenVerfuegbar) return;
   const basis = visibleEntries({ mitAnrufFilter: false }).filter((entry) => !entry.ist_test);
   anrufFilterBox.innerHTML = ANRUF_FILTER.map(([key, label]) => {
-    const zahl = key ? basis.filter((entry) => anrufStand(entry) === key).length : basis.length;
+    const zahl = key ? basis.filter((entry) => passtAnrufFilter(entry, key)).length : basis.length;
     return `<button type="button" data-anruf-filter="${key}" aria-pressed="${anrufFilter === key}">${escapeHtml(label)}<b>${zahl}</b></button>`;
   }).join('');
 }
@@ -279,11 +352,13 @@ function aktualisiereKarte(participantId) {
 function anrufSpalten(entry) {
   const liste = notizenVon(entry);
   const letzter = liste[0];
-  if (!letzter) return ['Noch nicht angerufen', '', '', 0, ''];
+  if (!letzter) return ['Noch nicht angerufen', '', '', 0, '', '', '', '', ''];
   const stand = anrufStand(entry);
   return [
     stand === 'faellig' ? 'Rückruf fällig' : (ERGEBNISSE[letzter.ergebnis]?.label || letzter.ergebnis),
     formatDate(letzter.erstellt_am), letzter.faellig_am || '', liste.length, letzter.notiz || '',
+    ANLIEGEN[letztesAnliegen(entry)] || '', TERMINWUNSCH[letzter.terminwunsch] || '',
+    uhrzeit(letzter.termin_uhrzeit), gesperrt(entry) ? 'Ja' : '',
   ];
 }
 
@@ -295,7 +370,7 @@ function anrufSpalten(entry) {
 async function loadNotizen() {
   const { data, error } = await supabase
     .from('kidz_kontaktnotizen')
-    .select('id,teilnahme_id,ergebnis,notiz,faellig_am,erstellt_von_name,erstellt_am')
+    .select('id,teilnahme_id,ergebnis,notiz,faellig_am,erstellt_von_name,erstellt_am,anliegen,terminwunsch,termin_uhrzeit,keine_anrufe,kff_widerrufen')
     .eq('event_key', EVENT_KEY)
     .order('erstellt_am', { ascending: false });
   if (error) {
@@ -312,22 +387,135 @@ async function loadNotizen() {
   notizenVerfuegbar = true;
 }
 
+function auswahl(name) {
+  return anrufForm.querySelector(`input[name="${name}"]:checked`)?.value || '';
+}
+
 function gewaehltesErgebnis() {
-  return anrufForm.querySelector('input[name="anrufErgebnis"]:checked')?.value || '';
+  return auswahl('anrufErgebnis');
 }
 
 function updateAnrufForm() {
   const ergebnis = gewaehltesErgebnis();
   const brauchtDatum = Boolean(ERGEBNISSE[ergebnis]?.datum);
+  // Anliegen und Terminwunsch stehen gleich beim Oeffnen da (Kai am 14.09.: "wo trage ich
+  // KIDZ4future oder persoenliches Gespraech ein?"). Weg sind sie nur, wenn sie nicht passen.
+  const mitDetails = !['nicht_erreicht', 'kein_interesse'].includes(ergebnis);
   anrufDatumFeld.hidden = !brauchtDatum;
+  anrufUhrzeitFeld.hidden = !brauchtDatum;
+  anrufAnliegenFeld.hidden = !mitDetails;
+  anrufWunschFeld.hidden = !mitDetails;
+  anrufSperreFeld.hidden = ergebnis !== 'kein_interesse';
+  // Widerrufen kann nur, wer eingewilligt hat, und nur wenn jemand erreicht wurde.
+  anrufWiderrufFeld.hidden = !(anrufEinwilligungJa && ERREICHT.has(ergebnis));
   if (ergebnis !== anrufLetztesErgebnis) {
     // Beim Wechsel das Datum neu setzen: Ein Rueckruf startet mit morgen, ein
     // Termin leer, damit niemand aus Versehen "morgen" als Termin speichert.
     anrufDatum.value = ergebnis === 'rueckruf' ? datumIso(1) : '';
+    anrufUhrzeit.value = '';
+    if (anrufSperreFeld.hidden) anrufSperre.checked = false;
+    if (anrufWiderrufFeld.hidden) anrufWiderruf.checked = false;
     anrufLetztesErgebnis = ergebnis;
   }
-  if (brauchtDatum) anrufDatumLabel.textContent = ergebnis === 'termin' ? 'Termin am' : 'Rückruf am';
-  anrufSaveBtn.disabled = !ergebnis || (brauchtDatum && !anrufDatum.value);
+  if (brauchtDatum) {
+    anrufDatumLabel.textContent = ergebnis === 'termin' ? 'Termin am' : 'Rückruf am';
+    anrufUhrzeitLabel.textContent = ergebnis === 'termin' ? 'Uhrzeit' : 'Uhrzeit, freiwillig';
+  }
+  anrufSaveBtn.disabled = !ergebnis
+    || (brauchtDatum && !anrufDatum.value)
+    || (ergebnis === 'termin' && !anrufUhrzeit.value);
+}
+
+function leitfadenText(text, entry) {
+  const name = String(entry.name || '').trim();
+  const anrede = /^familie\s/i.test(name) ? name : (name.split(/\s+/)[0] || 'du');
+  const berater = String(currentAdvisor?.name || '').trim().split(/\s+/)[0] || 'dein Berater';
+  return text.replaceAll('{name}', anrede).replaceAll('{berater}', berater);
+}
+
+/**
+ * Oben im Fenster: ob die Familie eingewilligt hat, und der passende Leitfaden.
+ * Laut Teilnahmebedingungen war fuer das Gewinnspiel keine Werbeeinwilligung
+ * noetig. Eingewilligt hat nur, wer das Haekchen zu KIDZ for Future gesetzt hat.
+ */
+function zeigeEinwilligungUndLeitfaden(entry) {
+  anrufEinwilligungJa = entry.elternabend_interesse === true;
+  anrufEinwilligung.dataset.einwilligung = anrufEinwilligungJa ? 'ja' : 'nein';
+  anrufEinwilligung.innerHTML = anrufEinwilligungJa
+    ? '<strong>Einwilligung KIDZ for Future: ja</strong><span>Die Familie möchte über KIDZ for Future informiert werden. Du darfst ein Gespräch anbieten.</span>'
+    : '<strong>Einwilligung KIDZ for Future: nein</strong><span>Anmeldung nur zum Gewinnspiel. Kein Gespräch anbieten, außer die Familie fragt selbst danach.</span>';
+  anrufEintrag = entry;
+  zeigeLeitfaden();
+}
+
+/** Phase 389: Leitfaden aus der Datenbank holen. Ohne Tabelle bleibt das Feld leer. */
+async function ladeLeitfaden() {
+  const { data, error } = await supabase
+    .from('kidz_leitfaden')
+    .select('inhalt')
+    .eq('event_key', EVENT_KEY)
+    .maybeSingle();
+  if (error) console.warn('[kidz-leitfaden]', error);
+  leitfadenVerfuegbar = !error && Boolean(data);
+  leitfadenInhalt = leitfadenVerfuegbar ? String(data.inhalt || '') : '';
+}
+
+function zeigeLeitfaden() {
+  const vorhanden = Boolean(leitfadenInhalt.trim());
+  anrufLeitfadenHinweis.hidden = anrufEinwilligungJa || !vorhanden;
+  // Als Text, nie als HTML: Was hineinkopiert wird, bleibt reiner Text.
+  anrufLeitfadenText.textContent = vorhanden
+    ? leitfadenText(leitfadenInhalt, anrufEintrag || {})
+    : 'Noch kein Leitfaden hinterlegt.';
+  anrufLeitfadenText.dataset.leer = vorhanden ? 'nein' : 'ja';
+  schliesseLeitfadenEditor();
+}
+
+function schliesseLeitfadenEditor() {
+  leitfadenEditor.hidden = true;
+  anrufLeitfadenText.hidden = false;
+  leitfadenStatus.textContent = '';
+  leitfadenBearbeitenBtn.hidden = !(currentAdvisor?.ist_admin && leitfadenVerfuegbar);
+}
+
+function oeffneLeitfadenEditor() {
+  if (!currentAdvisor?.ist_admin || !leitfadenVerfuegbar) return;
+  leitfadenEingabe.value = leitfadenInhalt;
+  leitfadenStatus.textContent = '';
+  anrufLeitfaden.open = true;
+  anrufLeitfadenText.hidden = true;
+  leitfadenBearbeitenBtn.hidden = true;
+  leitfadenEditor.hidden = false;
+  leitfadenEingabe.focus();
+}
+
+/** Nur Admins. Die Datenbank laesst es anderen ohnehin nicht zu. */
+async function speichereLeitfaden() {
+  if (!currentAdvisor?.ist_admin) return;
+  const inhalt = leitfadenEingabe.value.replace(/\r\n/g, '\n').trim();
+  if (inhalt.length > LEITFADEN_MAX) {
+    leitfadenStatus.textContent = `Zu lang, höchstens ${LEITFADEN_MAX} Zeichen.`;
+    return;
+  }
+  leitfadenSpeichernBtn.disabled = true;
+  leitfadenStatus.textContent = 'wird gespeichert ...';
+  try {
+    const { data, error } = await supabase
+      .from('kidz_leitfaden')
+      .update({ inhalt })
+      .eq('event_key', EVENT_KEY)
+      .select('inhalt')
+      .maybeSingle();
+    if (error) throw error;
+    if (!data) throw new Error('Der Leitfaden wurde nicht gespeichert.');
+    leitfadenInhalt = String(data.inhalt || '');
+    zeigeLeitfaden();
+  } catch (error) {
+    console.warn('[kidz-leitfaden] speichern', error);
+    leitfadenStatus.textContent = `Hat nicht geklappt: ${error.message || 'bitte nochmal versuchen'}`;
+  } finally {
+    leitfadenSpeichernBtn.disabled = false;
+  }
 }
 
 function openAnrufDialog(participantId) {
@@ -345,6 +533,7 @@ function openAnrufDialog(participantId) {
   anrufForm.reset();
   anrufLetztesErgebnis = '';
   anrufStatus.textContent = '';
+  zeigeEinwilligungUndLeitfaden(entry);
   updateAnrufForm();
   anrufDialog.showModal();
 }
@@ -369,6 +558,11 @@ async function saveAnruf() {
       p_ergebnis: ergebnis,
       p_notiz: notiz || null,
       p_faellig_am: ERGEBNISSE[ergebnis].datum ? anrufDatum.value : null,
+      p_anliegen: anrufAnliegenFeld.hidden ? null : (auswahl('anrufAnliegen') || null),
+      p_terminwunsch: anrufWunschFeld.hidden ? null : (auswahl('anrufWunsch') || null),
+      p_termin_uhrzeit: anrufUhrzeitFeld.hidden || !anrufUhrzeit.value ? null : anrufUhrzeit.value,
+      p_keine_anrufe: !anrufSperreFeld.hidden && anrufSperre.checked,
+      p_kff_widerruf: !anrufWiderrufFeld.hidden && anrufWiderruf.checked,
     });
     if (error) throw error;
     if (!data?.ok) {
@@ -378,6 +572,8 @@ async function saveAnruf() {
         invalid_result: 'Bitte ein Ergebnis auswählen.',
         date_required: 'Bitte ein Datum eintragen.',
         note_too_long: 'Die Notiz ist zu lang, höchstens 500 Zeichen.',
+        time_required: 'Bitte die Uhrzeit des Termins eintragen.',
+        invalid_details: 'Bitte die Auswahl bei Anliegen und Terminwunsch prüfen.',
       }[data?.reason] || 'Der Eintrag konnte nicht gespeichert werden.';
       return;
     }
@@ -389,8 +585,18 @@ async function saveAnruf() {
       faellig_am: data.faellig_am || null,
       erstellt_von_name: data.erstellt_von_name,
       erstellt_am: data.erstellt_am,
+      anliegen: data.anliegen || null,
+      terminwunsch: data.terminwunsch || null,
+      termin_uhrzeit: data.termin_uhrzeit || null,
+      keine_anrufe: data.keine_anrufe === true,
+      kff_widerrufen: data.kff_widerrufen === true,
     };
     notizen.set(participantId, [neu, ...(notizen.get(participantId) || [])]);
+    // Widerruf am Telefon: Die Datenbank hat das Haekchen schon zurueckgenommen,
+    // die Karte soll es sofort zeigen.
+    if (neu.kff_widerrufen) {
+      entries = entries.map((item) => (item.id === participantId ? { ...item, elternabend_interesse: false } : item));
+    }
     closeAnrufDialog();
     aktualisiereKarte(participantId);
   } catch (error) {
@@ -526,7 +732,7 @@ function csvCell(value) {
 }
 
 function exportCsv() {
-  const header = ['Teilnahmebestätigung', 'Erfassungsweg', 'Personen', 'Schätzung in cm', 'Name', 'E-Mail', 'Mobilnummer', 'Vermögensberater', 'Eingeladen von', 'Quelle', 'KIDZ for Future', 'Teilnahmebedingungen', 'Angemeldet am', 'Letzter Anrufstand', 'Stand vom', 'Rückruf oder Termin am', 'Anrufe', 'Letzte Notiz'];
+  const header = ['Teilnahmebestätigung', 'Erfassungsweg', 'Personen', 'Schätzung in cm', 'Name', 'E-Mail', 'Mobilnummer', 'Vermögensberater', 'Eingeladen von', 'Quelle', 'KIDZ for Future', 'Teilnahmebedingungen', 'Angemeldet am', 'Letzter Anrufstand', 'Stand vom', 'Rückruf oder Termin am', 'Anrufe', 'Letzte Notiz', 'Anliegen', 'Terminwunsch', 'Uhrzeit', 'Nicht mehr anrufen'];
   const rows = entries.map((entry) => [
     entry.reference,
     entry.source === ONSITE_SOURCE ? 'Vor Ort (Papier)' : 'Online',
@@ -1092,6 +1298,10 @@ document.getElementById('teamSichtAn')?.addEventListener('change', (event) => {
   schalteTeamSicht(event.target.checked);
 });
 
+leitfadenBearbeitenBtn.addEventListener('click', oeffneLeitfadenEditor);
+leitfadenAbbrechenBtn.addEventListener('click', schliesseLeitfadenEditor);
+leitfadenSpeichernBtn.addEventListener('click', speichereLeitfaden);
+
 entriesBox.addEventListener('change', (event) => {
   const feld = event.target.closest('[data-assign-participant]');
   if (!feld) return;
@@ -1170,6 +1380,7 @@ if (session) {
     currentAdvisor = await getCurrentBerater();
     // Erst der Schalter, dann die Namen: Beides braucht die Liste beim Zeichnen.
     await ladeTeamSicht();
+    await ladeLeitfaden().catch((error) => console.warn('[kidz-leitfaden]', error));
     await ladeBeraterNamen();
     // Die Beraterliste muss FERTIG sein, bevor die Liste gezeichnet wird, sonst
     // faellt das Auswahlfeld fuer die Zuordnung auf den festen Namen zurueck.

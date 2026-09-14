@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
   <link rel="stylesheet" href="../css/style.css?v=38">
   <link rel="stylesheet" href="../css/dashboard.css?v=57">
-  <link rel="stylesheet" href="../css/kidz-gewinnspiel-admin.css?v=9">
+  <link rel="stylesheet" href="../css/kidz-gewinnspiel-admin.css?v=10">
   <link rel="stylesheet" href="../css/dna.css?v=13" />
   <script src="../js/config.js"></script>
   <script src="../js/wartung.js?v=4"></script>
@@ -220,7 +220,29 @@
       <div class="h-label">Anruf eintragen</div>
       <h2 id="anrufDialogTitle">Wie ist der Anruf gelaufen?</h2>
       <p class="kg-admin-dialog-person" id="anrufPerson"></p>
+      <!-- Phase 389: Einwilligung und Leitfaden. Laut Teilnahmebedingungen war fürs
+           Gewinnspiel keine Werbeeinwilligung nötig, eingewilligt hat nur, wer das
+           Häkchen zu KIDZ for Future gesetzt hat. -->
+      <div class="kg-anruf-einwilligung" id="anrufEinwilligung" data-einwilligung="nein" role="note"></div>
       <a class="kg-anruf-tel" id="anrufTel" href="#" hidden>Anrufen</a>
+
+      <details class="kg-anruf-leitfaden" id="anrufLeitfaden">
+        <summary>Leitfaden fürs Gespräch</summary>
+        <p class="kg-anruf-leitfaden-hinweis" id="anrufLeitfadenHinweis" hidden>Diese Familie hat nicht eingewilligt. Den Leitfaden nur nutzen, wenn sie selbst nach KIDZ for Future oder einem Gespräch fragt.</p>
+        <div class="kg-anruf-leitfaden-text" id="anrufLeitfadenText"></div>
+        <!-- Nur für Admins: Leitfaden einfügen und bearbeiten, gilt für alle Berater. -->
+        <button class="kg-anruf-leitfaden-knopf" id="leitfadenBearbeitenBtn" type="button" hidden>Text bearbeiten</button>
+        <div class="kg-anruf-leitfaden-editor" id="leitfadenEditor" hidden>
+          <label class="kg-admin-dialog-label" for="leitfadenEingabe">Leitfaden für alle Berater</label>
+          <textarea id="leitfadenEingabe" rows="14" maxlength="8000"></textarea>
+          <p class="kg-anruf-leitfaden-tipp">Einfach hineinkopieren, Leerzeilen bleiben erhalten. {name} wird beim Anruf zum Namen der Familie, {berater} zum Vornamen dessen, der anruft.</p>
+          <div class="kg-anruf-leitfaden-aktionen">
+            <span id="leitfadenStatus" role="status"></span>
+            <button class="kg-anruf-leitfaden-knopf" id="leitfadenAbbrechenBtn" type="button">Abbrechen</button>
+            <button class="kg-anruf-leitfaden-knopf primaer" id="leitfadenSpeichernBtn" type="button">Leitfaden speichern</button>
+          </div>
+        </div>
+      </details>
 
       <div class="kg-anruf-wahl" role="radiogroup" aria-label="Ergebnis des Anrufs">
         <label><input type="radio" name="anrufErgebnis" value="nicht_erreicht"> Nicht erreicht</label>
@@ -230,10 +252,42 @@
         <label><input type="radio" name="anrufErgebnis" value="gesprochen"> Gesprochen</label>
       </div>
 
-      <div id="anrufDatumFeld" hidden>
-        <label class="kg-admin-dialog-label" for="anrufDatum" id="anrufDatumLabel">Rückruf am</label>
-        <input id="anrufDatum" type="date">
+      <div class="kg-anruf-feld" id="anrufAnliegenFeld" hidden>
+        <span class="kg-admin-dialog-label">Worum geht es?</span>
+        <div class="kg-anruf-chips" role="radiogroup" aria-label="Worum geht es?">
+          <label><input type="radio" name="anrufAnliegen" value="kff"> KIDZ for Future</label>
+          <label><input type="radio" name="anrufAnliegen" value="gespraech"> Persönliches Gespräch</label>
+          <label><input type="radio" name="anrufAnliegen" value="beides"> Beides</label>
+        </div>
       </div>
+
+      <div class="kg-anruf-feld" id="anrufWunschFeld" hidden>
+        <span class="kg-admin-dialog-label">Terminwunsch</span>
+        <div class="kg-anruf-chips" role="radiogroup" aria-label="Terminwunsch">
+          <label><input type="radio" name="anrufWunsch" value="anfang"> Anfang der Woche</label>
+          <label><input type="radio" name="anrufWunsch" value="ende"> Ende der Woche</label>
+        </div>
+      </div>
+
+      <div class="kg-anruf-zeit">
+        <div id="anrufDatumFeld" hidden>
+          <label class="kg-admin-dialog-label" for="anrufDatum" id="anrufDatumLabel">Rückruf am</label>
+          <input id="anrufDatum" type="date">
+        </div>
+        <div class="kg-anruf-feld" id="anrufUhrzeitFeld" hidden>
+          <label class="kg-admin-dialog-label" for="anrufUhrzeit" id="anrufUhrzeitLabel">Uhrzeit</label>
+          <input id="anrufUhrzeit" type="time" step="900">
+        </div>
+      </div>
+
+      <label class="kg-admin-dialog-check kg-anruf-feld" id="anrufSperreFeld" for="anrufSperre" hidden>
+        <input id="anrufSperre" type="checkbox">
+        Bitte nicht mehr anrufen. Die Karte bekommt einen Sperrvermerk für das ganze Team.
+      </label>
+      <label class="kg-admin-dialog-check kg-anruf-feld" id="anrufWiderrufFeld" for="anrufWiderruf" hidden>
+        <input id="anrufWiderruf" type="checkbox">
+        Einwilligung zu KIDZ for Future widerrufen. Das Häkchen an der Anmeldung wird zurückgenommen.
+      </label>
 
       <label class="kg-admin-dialog-label" for="anrufNotiz">Notiz, freiwillig</label>
       <textarea id="anrufNotiz" maxlength="500" rows="3" placeholder="z. B. Mailbox, ruft abends zurück, möchte erst mit dem Partner sprechen"></textarea>
@@ -248,6 +302,6 @@
   </dialog>
 
   <script type="module" src="../js/nav.js?v=71"></script>
-  <script type="module" src="../js/kidz-gewinnspiel-admin.js?v=20"></script>
+  <script type="module" src="../js/kidz-gewinnspiel-admin.js?v=21"></script>
 </body>
 </html>
