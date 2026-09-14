@@ -79,4 +79,52 @@ assert.match(css, /\.kg-anruf-filter\[hidden\]\s*\{\s*display:\s*none/);
 assert.match(css, /#anrufDatumFeld\[hidden\]\s*\{\s*display:\s*none/);
 assert.match(css, /\.kg-anruf-tel\[hidden\]\s*\{\s*display:\s*none/);
 
+// --- Phase 389: Anliegen, Terminwunsch, Uhrzeit, Sperre, Widerruf, Leitfaden ----
+const sql389 = read('schema-phase389-kidz-anrufnotizen-details.sql').replace(/^--.*$/gm, '');
+assert.match(sql389, /add column if not exists anliegen text/);
+assert.match(sql389, /add column if not exists terminwunsch text/);
+assert.match(sql389, /add column if not exists termin_uhrzeit time/);
+assert.match(sql389, /add column if not exists keine_anrufe boolean not null default false/);
+assert.match(sql389, /add column if not exists kff_widerrufen boolean not null default false/);
+assert.match(sql389, /anliegen in \('kff', 'gespraech', 'beides'\)/);
+assert.match(sql389, /terminwunsch in \('anfang', 'ende'\)/);
+assert.match(sql389, /not keine_anrufe or ergebnis = 'kein_interesse'/);
+// Die alte Fassung mit vier Angaben muss weg, sonst gibt es zwei gleichnamige Funktionen.
+assert.match(sql389, /drop function if exists public\.add_kidz_kontaktnotiz\(uuid, text, text, date\);/);
+// Die neue nimmt vier Angaben weiterhin an (Vorgabewerte), damit die alte Seite nicht bricht.
+assert.match(sql389, /p_anliegen text default null/);
+assert.match(sql389, /p_kff_widerruf boolean default false/);
+assert.match(sql389, /'reason', 'time_required'/);
+// Kernregel unveraendert.
+assert.match(sql389, /v_is_admin or \(v_event is not null and \(v_berater = v_actor or public\.kidz_team_sicht_offen\(v_event\)\)\)/);
+// Eine Einwilligung wird hier nur zurueckgenommen, nie gesetzt.
+assert.match(sql389, /set elternabend_interesse = false/);
+assert.doesNotMatch(sql389, /elternabend_interesse = true/);
+assert.doesNotMatch(sql389, /set[\s\S]{0,80}(berater_id|name|schaetzung_cm) = /,
+  'Ausser dem Widerruf darf die Funktion an der Anmeldung nichts aendern.');
+assert.match(sql389, /revoke execute on function public\.add_kidz_kontaktnotiz\(uuid, text, text, date, text, text, time, boolean, boolean\)[\s\S]{0,40}from public, anon, service_role/);
+assert.match(sql389, /grant execute on function public\.add_kidz_kontaktnotiz\(uuid, text, text, date, text, text, time, boolean, boolean\)[\s\S]{0,20}to authenticated/);
+
+for (const text of ['Anfang der Woche', 'Ende der Woche', 'Persönliches Gespräch', 'Nicht mehr anrufen', 'Einwilligung KIDZ for Future: ja', 'Einwilligung KIDZ for Future: nein']) {
+  assert.ok(js.includes(text), `Text fehlt: ${text}`);
+}
+assert.match(js, /p_kff_widerruf:/);
+assert.match(js, /p_termin_uhrzeit:/);
+// Der Leitfaden hat zwei Fassungen, je nach Einwilligung.
+assert.match(js, /mitEinwilligung:/);
+assert.match(js, /ohneEinwilligung:/);
+assert.match(js, /Kein Gespräch und kein KIDZ for Future anbieten/);
+// Termin nur mit Uhrzeit speichern.
+assert.match(js, /ergebnis === 'termin' && !anrufUhrzeit\.value/);
+
+for (const wert of ['kff', 'gespraech', 'beides']) assert.match(html, new RegExp(`name="anrufAnliegen" value="${wert}"`));
+for (const wert of ['anfang', 'ende']) assert.match(html, new RegExp(`name="anrufWunsch" value="${wert}"`));
+assert.match(html, /id="anrufUhrzeit" type="time"/);
+assert.match(html, /id="anrufSperre" type="checkbox"/);
+assert.match(html, /id="anrufWiderruf" type="checkbox"/);
+assert.match(html, /id="anrufLeitfaden"/);
+assert.match(html, /id="anrufEinwilligung"/);
+assert.match(css, /\.kg-anruf-feld\[hidden\]\s*\{\s*display:\s*none\s*!important/,
+  'Sperre und Widerruf stehen auf display: flex und blieben sonst immer sichtbar.');
+
 console.log('kidz-anrufnotizen: OK');

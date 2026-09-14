@@ -1,7 +1,14 @@
 ﻿# Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.403 Beta** · KIDZ-Sommerfest: Anrufnotizen je Teilnehmer, live seit 14.09.2026.
+Offizielle Live-Version: **v1.404 Beta** · KIDZ-Anrufnotizen: Anliegen, Terminwunsch, Einwilligung, Leitfaden, live seit 14.09.2026.
+
+## v1.404 Beta - Phase 389 · KIDZ-Anrufnotizen: Anliegen, Terminwunsch, Einwilligung, Leitfaden
+**2026-09-14**
+
+- (hier eintragen, was sich geändert hat und warum)
+
+---
 
 ## v1.403 Beta - Phase 388 · KIDZ-Sommerfest: Anrufnotizen je Teilnehmer
 **2026-09-14** · live veröffentlicht
