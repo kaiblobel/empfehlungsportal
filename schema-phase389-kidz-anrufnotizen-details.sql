@@ -1,5 +1,8 @@
 -- Phase 389: Anrufnotizen KIDZ-Sommerfest, zweite Stufe
 --
+-- LIVE ANGEWENDET am 14.09.2026 als Migration phase_389_kidz_anrufnotizen_details
+-- (ohne begin/commit, die setzt apply_migration selbst).
+--
 -- Kais Wuensche vom 14.09.2026 nach dem ersten Tag: "Interesse KIDZ4future oder Persoenliches
 -- Gespraech und Anfang der Woche oder Ende der Woche ... wir wollen 2 Termine anbieten
 -- alternativ" und "das Kontaktgespraech mit rein". Dazu von mir vorgeschlagen und von Kai mit
