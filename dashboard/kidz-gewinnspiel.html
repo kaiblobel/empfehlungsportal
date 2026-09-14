@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
   <link rel="stylesheet" href="../css/style.css?v=38">
   <link rel="stylesheet" href="../css/dashboard.css?v=57">
-  <link rel="stylesheet" href="../css/kidz-gewinnspiel-admin.css?v=8">
+  <link rel="stylesheet" href="../css/kidz-gewinnspiel-admin.css?v=9">
   <link rel="stylesheet" href="../css/dna.css?v=13" />
   <script src="../js/config.js"></script>
   <script src="../js/wartung.js?v=4"></script>
@@ -95,6 +95,10 @@
           Nur Vor-Ort-Zettel
         </label>
       </section>
+
+      <!-- Phase 388: Anrufstand. Die Knöpfe füllt die Seite, sobald die
+           Anrufnotizen geladen sind. -->
+      <section class="kg-anruf-filter" id="anrufFilter" aria-label="Nach Anrufstand filtern" hidden></section>
 
       <section aria-labelledby="entriesTitle">
         <div class="kg-admin-section-head">
@@ -210,7 +214,40 @@
     </form>
   </dialog>
 
+  <!-- Phase 388: Anruf eintragen. Ein Eintrag je Anruf, nie überschreiben. -->
+  <dialog class="kg-admin-dialog" id="anrufDialog" aria-labelledby="anrufDialogTitle">
+    <form method="dialog" class="kg-admin-dialog-card" id="anrufForm">
+      <div class="h-label">Anruf eintragen</div>
+      <h2 id="anrufDialogTitle">Wie ist der Anruf gelaufen?</h2>
+      <p class="kg-admin-dialog-person" id="anrufPerson"></p>
+      <a class="kg-anruf-tel" id="anrufTel" href="#" hidden>Anrufen</a>
+
+      <div class="kg-anruf-wahl" role="radiogroup" aria-label="Ergebnis des Anrufs">
+        <label><input type="radio" name="anrufErgebnis" value="nicht_erreicht"> Nicht erreicht</label>
+        <label><input type="radio" name="anrufErgebnis" value="rueckruf"> Rückruf vereinbart</label>
+        <label><input type="radio" name="anrufErgebnis" value="termin"> Termin vereinbart</label>
+        <label><input type="radio" name="anrufErgebnis" value="kein_interesse"> Kein Interesse</label>
+        <label><input type="radio" name="anrufErgebnis" value="gesprochen"> Gesprochen</label>
+      </div>
+
+      <div id="anrufDatumFeld" hidden>
+        <label class="kg-admin-dialog-label" for="anrufDatum" id="anrufDatumLabel">Rückruf am</label>
+        <input id="anrufDatum" type="date">
+      </div>
+
+      <label class="kg-admin-dialog-label" for="anrufNotiz">Notiz, freiwillig</label>
+      <textarea id="anrufNotiz" maxlength="500" rows="3" placeholder="z. B. Mailbox, ruft abends zurück, möchte erst mit dem Partner sprechen"></textarea>
+      <p class="kg-admin-dialog-hint">Nur Sachliches zum Anruf. Keine Gesundheits-, Einkommens- oder Vertragsdetails, dafür ist das Beratungsgespräch da.</p>
+
+      <p class="kg-admin-dialog-status" id="anrufStatus" role="status"></p>
+      <div class="kg-admin-dialog-actions">
+        <button class="kg-admin-secondary" type="button" id="anrufCancelBtn">Abbrechen</button>
+        <button class="kg-admin-primary" type="submit" id="anrufSaveBtn" disabled>Eintrag speichern</button>
+      </div>
+    </form>
+  </dialog>
+
   <script type="module" src="../js/nav.js?v=71"></script>
-  <script type="module" src="../js/kidz-gewinnspiel-admin.js?v=19"></script>
+  <script type="module" src="../js/kidz-gewinnspiel-admin.js?v=20"></script>
 </body>
 </html>

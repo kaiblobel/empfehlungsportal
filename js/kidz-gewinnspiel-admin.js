@@ -54,6 +54,45 @@ const guessValue = document.getElementById('guessValue');
 const guessStatus = document.getElementById('guessStatus');
 const guessSaveBtn = document.getElementById('guessSaveBtn');
 const guessCancelBtn = document.getElementById('guessCancelBtn');
+// Phase 388: Anrufnotizen. Jeder Anruf ist ein eigener Eintrag mit einem von
+// fuenf Ergebnissen, einem optionalen Satz und bei Rueckruf oder Termin einem
+// Datum. Kais Wunsch vom 14.09.2026: nicht zu umfangreich, aber so, dass beim
+// Durchrufen jeder sieht, wo das Team steht.
+const ERGEBNISSE = {
+  nicht_erreicht: { label: 'Nicht erreicht', datum: false },
+  rueckruf: { label: 'Rückruf vereinbart', datum: true },
+  termin: { label: 'Termin vereinbart', datum: true },
+  kein_interesse: { label: 'Kein Interesse', datum: false },
+  gesprochen: { label: 'Gesprochen', datum: false },
+};
+const ANRUF_FILTER = [
+  ['', 'Alle'],
+  ['offen', 'Noch nicht angerufen'],
+  ['nicht_erreicht', 'Nicht erreicht'],
+  ['faellig', 'Rückruf fällig'],
+  ['termin', 'Termin'],
+  ['kein_interesse', 'Kein Interesse'],
+];
+const anrufFilterBox = document.getElementById('anrufFilter');
+const anrufDialog = document.getElementById('anrufDialog');
+const anrufForm = document.getElementById('anrufForm');
+const anrufPerson = document.getElementById('anrufPerson');
+const anrufTel = document.getElementById('anrufTel');
+const anrufDatumFeld = document.getElementById('anrufDatumFeld');
+const anrufDatum = document.getElementById('anrufDatum');
+const anrufDatumLabel = document.getElementById('anrufDatumLabel');
+const anrufNotiz = document.getElementById('anrufNotiz');
+const anrufStatus = document.getElementById('anrufStatus');
+const anrufSaveBtn = document.getElementById('anrufSaveBtn');
+const anrufCancelBtn = document.getElementById('anrufCancelBtn');
+// teilnahme_id -> Eintraege, der neueste zuerst
+const notizen = new Map();
+// Bleibt aus, solange die Tabelle nicht erreichbar ist (etwa vor der
+// Datenbankfreigabe). Dann erscheint nichts, statt Knoepfe, die scheitern.
+let notizenVerfuegbar = false;
+let anrufFilter = '';
+let anrufParticipantId = '';
+let anrufLetztesErgebnis = '';
 let entries = [];
 let currentAdvisor = null;
 // Die Berater fuer das Zuordnungs-Auswahlfeld auf der Karte. Wird beim Aufbau
@@ -89,10 +128,11 @@ function formatDate(value) {
   }).format(new Date(value));
 }
 
-function visibleEntries() {
+function visibleEntries({ mitAnrufFilter = true } = {}) {
   const needle = searchInput.value.trim().toLowerCase();
   const participantChoice = participantFilterChoices.get(advisorFilter.value);
   return entries.filter((entry) => {
+    if (mitAnrufFilter && anrufFilter && anrufStand(entry) !== anrufFilter) return false;
     if (parentOnly.checked && !entry.elternabend_interesse) return false;
     if (onsiteOnly.checked && entry.source !== ONSITE_SOURCE) return false;
     if (participantChoice?.kind === 'advisor' && entry.berater?.slug !== participantChoice.slug) return false;
@@ -116,16 +156,25 @@ function render() {
   document.getElementById('advisorCount').textContent = String(new Set(echte.map((entry) => entry.berater_id)).size);
   document.getElementById('resultMeta').textContent = `${visible.length} von ${entries.length}`;
   exportBtn.disabled = entries.length === 0;
+  renderAnrufFilter();
 
   if (!visible.length) {
     entriesBox.innerHTML = '<div class="kg-admin-empty">Für diesen Filter gibt es noch keine Teilnahmen.</div>';
     return;
   }
 
-  entriesBox.innerHTML = visible.map((entry) => {
+  entriesBox.innerHTML = visible.map(karteHtml).join('');
+}
+
+/**
+ * Eine Karte der Liste. Eigene Funktion, damit nach einem Anrufeintrag nur diese
+ * Karte neu gezeichnet wird: Wer nach "Noch nicht angerufen" gefiltert hat, soll
+ * mitten im Durchgang nicht die Stelle verlieren (wie bei der Zuordnung).
+ */
+function karteHtml(entry) {
     const hasGuess = entry.schaetzung_cm !== null && entry.schaetzung_cm !== undefined;
     return `
-    <article class="kg-admin-entry">
+    <article class="kg-admin-entry" data-entry="${escapeHtml(entry.id)}">
       <div><strong>${escapeHtml(entry.name)}</strong>${entry.ist_test ? '<span class="badge badge-test">Test</span>' : ''}<span>${escapeHtml(entry.reference)}</span></div>
       <div><strong>${escapeHtml(entry.email || entry.telefon || 'Kein Kontaktweg')}</strong><span>${escapeHtml(entry.email && entry.telefon ? entry.telefon : '')}</span></div>
       <div><small>Zugeordnet zu</small>${zuordnungsFeld(entry)}${entry.empfehler?.name ? `<span>Eingeladen von ${escapeHtml(entry.empfehler.name)}</span>` : ''}<span class="kg-admin-assign-hinweis" data-assign-note="${escapeHtml(entry.id)}" hidden></span></div>
@@ -139,9 +188,217 @@ function render() {
         <span>KIDZ for Future: ${entry.elternabend_interesse ? 'Interesse' : 'Nein'}</span>`}
         ${currentAdvisor?.ist_admin ? `<button class="kg-admin-manage" type="button" data-manage-participant="${escapeHtml(entry.id)}">Teilnahme verwalten</button>` : ''}
       </div>
+      ${anrufZeile(entry)}
     </article>
   `;
+}
+
+// ---- Anrufnotizen (Phase 388) ------------------------------------------------
+
+function datumIso(tageSpaeter = 0) {
+  const d = new Date();
+  d.setDate(d.getDate() + tageSpaeter);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+function kurzDatum(iso) {
+  const [jahr, monat, tag] = String(iso || '').split('-').map(Number);
+  if (!jahr) return '';
+  return new Intl.DateTimeFormat('de-DE', { weekday: 'short', day: '2-digit', month: '2-digit' })
+    .format(new Date(jahr, monat - 1, tag));
+}
+
+function kurzZeit(value) {
+  return new Intl.DateTimeFormat('de-DE', {
+    weekday: 'short', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit',
+  }).format(new Date(value));
+}
+
+function notizenVon(entry) {
+  return notizen.get(entry.id) || [];
+}
+
+/** Der Stand fuer Filter und Zaehler: offen, faellig oder das letzte Ergebnis. */
+function anrufStand(entry) {
+  const letzter = notizenVon(entry)[0];
+  if (!letzter) return 'offen';
+  if (letzter.ergebnis === 'rueckruf' && letzter.faellig_am && letzter.faellig_am <= datumIso()) return 'faellig';
+  return letzter.ergebnis;
+}
+
+/** Die Zeile unter der Karte: letzter Stand, Knopf, aufklappbarer Verlauf. */
+function anrufZeile(entry) {
+  if (!notizenVerfuegbar) return '';
+  const liste = notizenVon(entry);
+  const knopf = `<button class="kg-anruf-knopf" type="button" data-anruf-participant="${escapeHtml(entry.id)}">Anruf eintragen</button>`;
+  const letzter = liste[0];
+  if (!letzter) {
+    return `
+      <div class="kg-anruf"><span class="kg-anruf-stand" data-ergebnis="offen">Noch nicht angerufen</span>${knopf}</div>`;
+  }
+  const stand = anrufStand(entry);
+  const versuche = liste.filter((n) => n.ergebnis === 'nicht_erreicht').length;
+  let text = ERGEBNISSE[letzter.ergebnis]?.label || letzter.ergebnis;
+  if (letzter.ergebnis === 'nicht_erreicht' && versuche > 1) text += ` (${versuche}×)`;
+  if (letzter.faellig_am) text += ` · ${kurzDatum(letzter.faellig_am)}`;
+  if (stand === 'faellig') text = `Rückruf fällig · ${kurzDatum(letzter.faellig_am)}`;
+  const kurzNotiz = letzter.notiz
+    ? ` · „${letzter.notiz.length > 70 ? `${letzter.notiz.slice(0, 70)} …` : letzter.notiz}“`
+    : '';
+  const verlauf = liste.map((n) => `
+          <li><b>${escapeHtml(ERGEBNISSE[n.ergebnis]?.label || n.ergebnis)}${n.faellig_am ? ` · ${escapeHtml(kurzDatum(n.faellig_am))}` : ''}</b>
+            · ${escapeHtml(kurzZeit(n.erstellt_am))} · ${escapeHtml(n.erstellt_von_name)}${n.notiz ? `<p>${escapeHtml(n.notiz)}</p>` : ''}</li>`).join('');
+  return `
+      <div class="kg-anruf">
+        <span class="kg-anruf-stand" data-ergebnis="${escapeHtml(stand)}">${escapeHtml(text)}</span>
+        <span class="kg-anruf-meta">${escapeHtml(`${kurzZeit(letzter.erstellt_am)} · ${letzter.erstellt_von_name}${kurzNotiz}`)}</span>
+        ${knopf}
+        <details class="kg-anruf-verlauf"><summary>Verlauf (${liste.length})</summary><ol>${verlauf}</ol></details>
+      </div>`;
+}
+
+/** Filterknoepfe mit Zaehlern. Gezaehlt wird, was die uebrigen Filter gerade zeigen. */
+function renderAnrufFilter() {
+  if (!anrufFilterBox) return;
+  anrufFilterBox.hidden = !notizenVerfuegbar;
+  if (!notizenVerfuegbar) return;
+  const basis = visibleEntries({ mitAnrufFilter: false }).filter((entry) => !entry.ist_test);
+  anrufFilterBox.innerHTML = ANRUF_FILTER.map(([key, label]) => {
+    const zahl = key ? basis.filter((entry) => anrufStand(entry) === key).length : basis.length;
+    return `<button type="button" data-anruf-filter="${key}" aria-pressed="${anrufFilter === key}">${escapeHtml(label)}<b>${zahl}</b></button>`;
   }).join('');
+}
+
+function aktualisiereKarte(participantId) {
+  const entry = entries.find((item) => item.id === participantId);
+  const karte = entriesBox.querySelector(`[data-entry="${CSS.escape(participantId)}"]`);
+  if (entry && karte) karte.outerHTML = karteHtml(entry);
+  renderAnrufFilter();
+}
+
+function anrufSpalten(entry) {
+  const liste = notizenVon(entry);
+  const letzter = liste[0];
+  if (!letzter) return ['Noch nicht angerufen', '', '', 0, ''];
+  const stand = anrufStand(entry);
+  return [
+    stand === 'faellig' ? 'Rückruf fällig' : (ERGEBNISSE[letzter.ergebnis]?.label || letzter.ergebnis),
+    formatDate(letzter.erstellt_am), letzter.faellig_am || '', liste.length, letzter.notiz || '',
+  ];
+}
+
+/**
+ * Die Anrufnotizen des Fests holen. Sichtbar ist, was die Datenbank herausgibt:
+ * die Notizen zu den Anmeldungen, die man selbst sehen darf (Schalter).
+ * Scheitert es, bleibt die Funktion aus, der Rest der Seite laeuft weiter.
+ */
+async function loadNotizen() {
+  const { data, error } = await supabase
+    .from('kidz_kontaktnotizen')
+    .select('id,teilnahme_id,ergebnis,notiz,faellig_am,erstellt_von_name,erstellt_am')
+    .eq('event_key', EVENT_KEY)
+    .order('erstellt_am', { ascending: false });
+  if (error) {
+    console.warn('[kidz-anrufnotizen]', error);
+    notizenVerfuegbar = false;
+    return;
+  }
+  notizen.clear();
+  (data || []).forEach((notiz) => {
+    const liste = notizen.get(notiz.teilnahme_id) || [];
+    liste.push(notiz);
+    notizen.set(notiz.teilnahme_id, liste);
+  });
+  notizenVerfuegbar = true;
+}
+
+function gewaehltesErgebnis() {
+  return anrufForm.querySelector('input[name="anrufErgebnis"]:checked')?.value || '';
+}
+
+function updateAnrufForm() {
+  const ergebnis = gewaehltesErgebnis();
+  const brauchtDatum = Boolean(ERGEBNISSE[ergebnis]?.datum);
+  anrufDatumFeld.hidden = !brauchtDatum;
+  if (ergebnis !== anrufLetztesErgebnis) {
+    // Beim Wechsel das Datum neu setzen: Ein Rueckruf startet mit morgen, ein
+    // Termin leer, damit niemand aus Versehen "morgen" als Termin speichert.
+    anrufDatum.value = ergebnis === 'rueckruf' ? datumIso(1) : '';
+    anrufLetztesErgebnis = ergebnis;
+  }
+  if (brauchtDatum) anrufDatumLabel.textContent = ergebnis === 'termin' ? 'Termin am' : 'Rückruf am';
+  anrufSaveBtn.disabled = !ergebnis || (brauchtDatum && !anrufDatum.value);
+}
+
+function openAnrufDialog(participantId) {
+  const entry = entries.find((item) => item.id === participantId);
+  if (!entry) return;
+  anrufParticipantId = participantId;
+  anrufPerson.textContent = `${entry.name} · ${entry.reference}`;
+  // Am Handy direkt waehlen. Nur Ziffern und Plus, damit tel: sicher funktioniert.
+  const nummer = String(entry.telefon || '').replace(/[^\d+]/g, '');
+  anrufTel.hidden = !nummer;
+  if (nummer) {
+    anrufTel.href = `tel:${nummer}`;
+    anrufTel.textContent = `Anrufen: ${entry.telefon}`;
+  }
+  anrufForm.reset();
+  anrufLetztesErgebnis = '';
+  anrufStatus.textContent = '';
+  updateAnrufForm();
+  anrufDialog.showModal();
+}
+
+function closeAnrufDialog() {
+  if (anrufDialog.open) anrufDialog.close();
+  anrufParticipantId = '';
+  anrufStatus.textContent = '';
+}
+
+async function saveAnruf() {
+  const ergebnis = gewaehltesErgebnis();
+  const participantId = anrufParticipantId;
+  if (!participantId || !ERGEBNISSE[ergebnis]) return;
+  const notiz = anrufNotiz.value.trim();
+  anrufSaveBtn.disabled = true;
+  anrufSaveBtn.textContent = 'Wird gespeichert ...';
+  anrufStatus.textContent = '';
+  try {
+    const { data, error } = await supabase.rpc('add_kidz_kontaktnotiz', {
+      p_teilnahme_id: participantId,
+      p_ergebnis: ergebnis,
+      p_notiz: notiz || null,
+      p_faellig_am: ERGEBNISSE[ergebnis].datum ? anrufDatum.value : null,
+    });
+    if (error) throw error;
+    if (!data?.ok) {
+      anrufStatus.textContent = {
+        forbidden: 'Diese Anmeldung gehört einem anderen Berater, und die Teamsicht ist gerade aus.',
+        not_found: 'Die Anmeldung wurde nicht gefunden. Bitte die Liste neu laden.',
+        invalid_result: 'Bitte ein Ergebnis auswählen.',
+        date_required: 'Bitte ein Datum eintragen.',
+        note_too_long: 'Die Notiz ist zu lang, höchstens 500 Zeichen.',
+      }[data?.reason] || 'Der Eintrag konnte nicht gespeichert werden.';
+      return;
+    }
+    const neu = {
+      id: data.id,
+      teilnahme_id: participantId,
+      ergebnis,
+      notiz: notiz || null,
+      faellig_am: data.faellig_am || null,
+      erstellt_von_name: data.erstellt_von_name,
+      erstellt_am: data.erstellt_am,
+    };
+    notizen.set(participantId, [neu, ...(notizen.get(participantId) || [])]);
+    closeAnrufDialog();
+    aktualisiereKarte(participantId);
+  } catch (error) {
+    anrufStatus.textContent = error.message || 'Der Eintrag konnte nicht gespeichert werden.';
+  } finally {
+    anrufSaveBtn.textContent = 'Eintrag speichern';
+    updateAnrufForm();
+  }
 }
 
 /**
@@ -269,7 +526,7 @@ function csvCell(value) {
 }
 
 function exportCsv() {
-  const header = ['Teilnahmebestätigung', 'Erfassungsweg', 'Personen', 'Schätzung in cm', 'Name', 'E-Mail', 'Mobilnummer', 'Vermögensberater', 'Eingeladen von', 'Quelle', 'KIDZ for Future', 'Teilnahmebedingungen', 'Angemeldet am'];
+  const header = ['Teilnahmebestätigung', 'Erfassungsweg', 'Personen', 'Schätzung in cm', 'Name', 'E-Mail', 'Mobilnummer', 'Vermögensberater', 'Eingeladen von', 'Quelle', 'KIDZ for Future', 'Teilnahmebedingungen', 'Angemeldet am', 'Letzter Anrufstand', 'Stand vom', 'Rückruf oder Termin am', 'Anrufe', 'Letzte Notiz'];
   const rows = entries.map((entry) => [
     entry.reference,
     entry.source === ONSITE_SOURCE ? 'Vor Ort (Papier)' : 'Online',
@@ -277,6 +534,7 @@ function exportCsv() {
     entry.schaetzung_cm ?? '',
     entry.name, entry.email, entry.telefon, entry.berater?.name || 'Kai Blobel', entry.empfehler?.name || '', sourceLabel(entry.source),
     entry.elternabend_interesse ? 'Ja' : 'Nein', entry.conditions_version, formatDate(entry.created_at),
+    ...anrufSpalten(entry),
   ]);
   const content = `\uFEFF${[header, ...rows].map((row) => row.map(csvCell).join(';')).join('\r\n')}`;
   const url = URL.createObjectURL(new Blob([content], { type: 'text/csv;charset=utf-8' }));
@@ -752,6 +1010,23 @@ async function saveGuess() {
 
 applyBeraterHeader();
 document.getElementById('logoutBtn').addEventListener('click', logout);
+anrufFilterBox?.addEventListener('click', (event) => {
+  const knopf = event.target.closest('[data-anruf-filter]');
+  if (!knopf) return;
+  anrufFilter = String(knopf.dataset.anrufFilter || '');
+  render();
+});
+anrufForm.addEventListener('change', updateAnrufForm);
+anrufDatum.addEventListener('input', updateAnrufForm);
+anrufCancelBtn.addEventListener('click', closeAnrufDialog);
+anrufDialog.addEventListener('cancel', (event) => {
+  event.preventDefault();
+  closeAnrufDialog();
+});
+anrufForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  saveAnruf();
+});
 searchInput.addEventListener('input', render);
 parentOnly.addEventListener('change', render);
 onsiteOnly.addEventListener('change', render);
@@ -824,6 +1099,11 @@ entriesBox.addEventListener('change', (event) => {
 });
 
 entriesBox.addEventListener('click', (event) => {
+  const anrufButton = event.target.closest('[data-anruf-participant]');
+  if (anrufButton) {
+    openAnrufDialog(String(anrufButton.dataset.anrufParticipant || ''));
+    return;
+  }
   const guessButton = event.target.closest('[data-guess-participant]');
   if (guessButton) {
     openGuessDialog(String(guessButton.dataset.guessParticipant || ''));
@@ -896,6 +1176,9 @@ if (session) {
     // Deshalb hier nacheinander und nicht nebenher: Nebenher hiesse nur "zur
     // gleichen Zeit gestartet", nicht "vorher fertig".
     await ladeBeraterAuswahl();
+    // Phase 388: Die Anrufnotizen muessen vor dem ersten Zeichnen da sein, sonst
+    // stuende an jeder Karte kurz "Noch nicht angerufen".
+    await loadNotizen();
     await Promise.all([
       loadEntries(),
       loadPageviews().catch((error) => {
