@@ -82,25 +82,10 @@ const ANRUF_FILTER = [
 const ANLIEGEN = { kff: 'KIDZ for Future', gespraech: 'Persönliches Gespräch', beides: 'KIDZ for Future und Gespräch' };
 const TERMINWUNSCH = { anfang: 'Anfang der Woche', ende: 'Ende der Woche' };
 const ERREICHT = new Set(['rueckruf', 'termin', 'kein_interesse', 'gesprochen']);
-// Der Leitfaden fuers Kontaktgespraech. ENTWURF, bis Kais Text vom Zettel da ist.
-// {anrede} und {anrufer} werden beim Oeffnen eingesetzt. Zwei Fassungen, weil nur
-// wer das Haekchen zu KIDZ for Future gesetzt hat, eingewilligt hat, informiert zu
-// werden. Laut Teilnahmebedingungen war fuer das Gewinnspiel keine
-// Werbeeinwilligung noetig.
-const LEITFADEN = {
-  mitEinwilligung: [
-    'Hallo {anrede}, hier ist {anrufer} vom Team Wachsbleiche. Wir haben uns beim KIDZ-Sommerfest an der Kutzeburger Mühle gesehen. Hast du kurz zwei Minuten?',
-    'Du hattest angekreuzt, dass du mehr über KIDZ for Future erfahren möchtest. Deshalb melde ich mich.',
-    'Das erklären wir am liebsten persönlich. Magst du lieber zum Infoabend kommen oder in ein persönliches Gespräch?',
-    'Passt es dir eher Anfang der Woche oder eher Ende der Woche? Dann zwei konkrete Termine anbieten.',
-    'Prima, dann halte ich das so fest. Danke dir und bis bald!',
-  ],
-  ohneEinwilligung: [
-    'Hallo {anrede}, hier ist {anrufer} vom Team Wachsbleiche. Wir haben uns beim KIDZ-Sommerfest an der Kutzeburger Mühle gesehen. Hast du kurz zwei Minuten?',
-    'Ich melde mich wegen des Gewinnspiels vom Sommerfest.',
-    'Kein Gespräch und kein KIDZ for Future anbieten. Fragt die Familie selbst danach, gern weiterhelfen und das in der Notiz festhalten.',
-  ],
-};
+// Der Leitfaden fuers Kontaktgespraech steht in der Datenbank (kidz_leitfaden). Kai
+// fuegt ihn als Admin selbst ein und bearbeitet ihn, alle Berater sehen dieselbe
+// Fassung. {name} und {berater} werden beim Oeffnen eingesetzt.
+const LEITFADEN_MAX = 8000;
 const anrufFilterBox = document.getElementById('anrufFilter');
 const anrufDialog = document.getElementById('anrufDialog');
 const anrufForm = document.getElementById('anrufForm');
@@ -114,7 +99,19 @@ const anrufStatus = document.getElementById('anrufStatus');
 const anrufSaveBtn = document.getElementById('anrufSaveBtn');
 const anrufCancelBtn = document.getElementById('anrufCancelBtn');
 const anrufEinwilligung = document.getElementById('anrufEinwilligung');
+const anrufLeitfaden = document.getElementById('anrufLeitfaden');
 const anrufLeitfadenText = document.getElementById('anrufLeitfadenText');
+const anrufLeitfadenHinweis = document.getElementById('anrufLeitfadenHinweis');
+const leitfadenBearbeitenBtn = document.getElementById('leitfadenBearbeitenBtn');
+const leitfadenEditor = document.getElementById('leitfadenEditor');
+const leitfadenEingabe = document.getElementById('leitfadenEingabe');
+const leitfadenSpeichernBtn = document.getElementById('leitfadenSpeichernBtn');
+const leitfadenAbbrechenBtn = document.getElementById('leitfadenAbbrechenBtn');
+const leitfadenStatus = document.getElementById('leitfadenStatus');
+let leitfadenInhalt = '';
+// Bleibt aus, solange die Tabelle fehlt. Dann gibt es auch keinen Bearbeiten-Knopf.
+let leitfadenVerfuegbar = false;
+let anrufEintrag = null;
 const anrufAnliegenFeld = document.getElementById('anrufAnliegenFeld');
 const anrufWunschFeld = document.getElementById('anrufWunschFeld');
 const anrufUhrzeitFeld = document.getElementById('anrufUhrzeitFeld');
@@ -432,8 +429,8 @@ function updateAnrufForm() {
 function leitfadenText(text, entry) {
   const name = String(entry.name || '').trim();
   const anrede = /^familie\s/i.test(name) ? name : (name.split(/\s+/)[0] || 'du');
-  const anrufer = String(currentAdvisor?.name || '').trim().split(/\s+/)[0] || 'dein Berater';
-  return text.replaceAll('{anrede}', anrede).replaceAll('{anrufer}', anrufer);
+  const berater = String(currentAdvisor?.name || '').trim().split(/\s+/)[0] || 'dein Berater';
+  return text.replaceAll('{name}', anrede).replaceAll('{berater}', berater);
 }
 
 /**
@@ -447,8 +444,78 @@ function zeigeEinwilligungUndLeitfaden(entry) {
   anrufEinwilligung.innerHTML = anrufEinwilligungJa
     ? '<strong>Einwilligung KIDZ for Future: ja</strong><span>Die Familie möchte über KIDZ for Future informiert werden. Du darfst ein Gespräch anbieten.</span>'
     : '<strong>Einwilligung KIDZ for Future: nein</strong><span>Anmeldung nur zum Gewinnspiel. Kein Gespräch anbieten, außer die Familie fragt selbst danach.</span>';
-  const schritte = anrufEinwilligungJa ? LEITFADEN.mitEinwilligung : LEITFADEN.ohneEinwilligung;
-  anrufLeitfadenText.innerHTML = schritte.map((schritt) => `<li>${escapeHtml(leitfadenText(schritt, entry))}</li>`).join('');
+  anrufEintrag = entry;
+  zeigeLeitfaden();
+}
+
+/** Phase 389: Leitfaden aus der Datenbank holen. Ohne Tabelle bleibt das Feld leer. */
+async function ladeLeitfaden() {
+  const { data, error } = await supabase
+    .from('kidz_leitfaden')
+    .select('inhalt')
+    .eq('event_key', EVENT_KEY)
+    .maybeSingle();
+  if (error) console.warn('[kidz-leitfaden]', error);
+  leitfadenVerfuegbar = !error && Boolean(data);
+  leitfadenInhalt = leitfadenVerfuegbar ? String(data.inhalt || '') : '';
+}
+
+function zeigeLeitfaden() {
+  const vorhanden = Boolean(leitfadenInhalt.trim());
+  anrufLeitfadenHinweis.hidden = anrufEinwilligungJa || !vorhanden;
+  // Als Text, nie als HTML: Was hineinkopiert wird, bleibt reiner Text.
+  anrufLeitfadenText.textContent = vorhanden
+    ? leitfadenText(leitfadenInhalt, anrufEintrag || {})
+    : 'Noch kein Leitfaden hinterlegt.';
+  anrufLeitfadenText.dataset.leer = vorhanden ? 'nein' : 'ja';
+  schliesseLeitfadenEditor();
+}
+
+function schliesseLeitfadenEditor() {
+  leitfadenEditor.hidden = true;
+  anrufLeitfadenText.hidden = false;
+  leitfadenStatus.textContent = '';
+  leitfadenBearbeitenBtn.hidden = !(currentAdvisor?.ist_admin && leitfadenVerfuegbar);
+}
+
+function oeffneLeitfadenEditor() {
+  if (!currentAdvisor?.ist_admin || !leitfadenVerfuegbar) return;
+  leitfadenEingabe.value = leitfadenInhalt;
+  leitfadenStatus.textContent = '';
+  anrufLeitfaden.open = true;
+  anrufLeitfadenText.hidden = true;
+  leitfadenBearbeitenBtn.hidden = true;
+  leitfadenEditor.hidden = false;
+  leitfadenEingabe.focus();
+}
+
+/** Nur Admins. Die Datenbank laesst es anderen ohnehin nicht zu. */
+async function speichereLeitfaden() {
+  if (!currentAdvisor?.ist_admin) return;
+  const inhalt = leitfadenEingabe.value.replace(/\r\n/g, '\n').trim();
+  if (inhalt.length > LEITFADEN_MAX) {
+    leitfadenStatus.textContent = `Zu lang, höchstens ${LEITFADEN_MAX} Zeichen.`;
+    return;
+  }
+  leitfadenSpeichernBtn.disabled = true;
+  leitfadenStatus.textContent = 'wird gespeichert ...';
+  try {
+    const { data, error } = await supabase
+      .from('kidz_leitfaden')
+      .update({ inhalt })
+      .eq('event_key', EVENT_KEY)
+      .select('inhalt')
+      .maybeSingle();
+    if (error) throw error;
+    if (!data) throw new Error('Der Leitfaden wurde nicht gespeichert.');
+    leitfadenInhalt = String(data.inhalt || '');
+    zeigeLeitfaden();
+  } catch (error) {
+    console.warn('[kidz-leitfaden] speichern', error);
+    leitfadenStatus.textContent = `Hat nicht geklappt: ${error.message || 'bitte nochmal versuchen'}`;
+  } finally {
+    leitfadenSpeichernBtn.disabled = false;
+  }
 }
 
 function openAnrufDialog(participantId) {
@@ -1231,6 +1298,10 @@ document.getElementById('teamSichtAn')?.addEventListener('change', (event) => {
   schalteTeamSicht(event.target.checked);
 });
 
+leitfadenBearbeitenBtn.addEventListener('click', oeffneLeitfadenEditor);
+leitfadenAbbrechenBtn.addEventListener('click', schliesseLeitfadenEditor);
+leitfadenSpeichernBtn.addEventListener('click', speichereLeitfaden);
+
 entriesBox.addEventListener('change', (event) => {
   const feld = event.target.closest('[data-assign-participant]');
   if (!feld) return;
@@ -1309,6 +1380,7 @@ if (session) {
     currentAdvisor = await getCurrentBerater();
     // Erst der Schalter, dann die Namen: Beides braucht die Liste beim Zeichnen.
     await ladeTeamSicht();
+    await ladeLeitfaden().catch((error) => console.warn('[kidz-leitfaden]', error));
     await ladeBeraterNamen();
     // Die Beraterliste muss FERTIG sein, bevor die Liste gezeichnet wird, sonst
     // faellt das Auswahlfeld fuer die Zuordnung auf den festen Namen zurueck.

@@ -182,4 +182,67 @@ grant execute on function public.add_kidz_kontaktnotiz(uuid, text, text, date, t
 comment on function public.add_kidz_kontaktnotiz(uuid, text, text, date, text, text, time, boolean, boolean) is
   'Haengt eine Anrufnotiz an eine KIDZ-Gewinnspiel-Teilnahme an (Phase 389: Anliegen, Terminwunsch, Uhrzeit, Anrufsperre, Widerruf KIDZ for Future). Erlaubt fuer Admins, den zugeordneten Berater und bei offener Teamsicht fuer jeden Berater. Ein Widerruf setzt elternabend_interesse auf false, setzt es aber nie auf true.';
 
+-- 3. Leitfaden fuers Kontaktgespraech ---------------------------------------------
+-- Kai am 14.09.2026: "das ich das manuell einfuegen, reinkopieren und bearbeiten kann".
+-- Je Fest ein Text. Lesen darf jeder Berater, aendern nur ein Admin. Gleiches Muster
+-- wie der Teamsicht-Schalter aus Phase 360. Als Startpunkt steht der Entwurf drin.
+create table if not exists public.kidz_leitfaden (
+  event_key     text primary key,
+  inhalt        text not null default '' check (char_length(inhalt) <= 8000),
+  geaendert_von uuid references public.berater(id) on delete set null,
+  geaendert_am  timestamptz not null default now()
+);
+
+comment on table public.kidz_leitfaden is
+  'Leitfaden fuers Kontaktgespraech je KIDZ-Fest (Phase 389). Jeder Berater liest, nur Admins aendern. {name} und {berater} setzt die Seite beim Anruf ein.';
+
+insert into public.kidz_leitfaden (event_key, inhalt)
+values ('kidz-sommerfest-2026',
+'Hallo {name}, hier ist {berater} vom Team Wachsbleiche. Wir haben uns beim KIDZ-Sommerfest an der Kutzeburger Mühle gesehen. Hast du kurz zwei Minuten?
+
+Du hattest angekreuzt, dass du mehr über KIDZ for Future erfahren möchtest. Deshalb melde ich mich.
+
+Das erklären wir am liebsten persönlich. Magst du lieber zum Infoabend kommen oder in ein persönliches Gespräch?
+
+Passt es dir eher Anfang der Woche oder eher Ende der Woche? (Dann zwei konkrete Termine anbieten.)
+
+Prima, dann halte ich das so fest. Danke dir und bis bald!')
+on conflict (event_key) do nothing;
+
+alter table public.kidz_leitfaden enable row level security;
+
+revoke all on public.kidz_leitfaden from public, anon, authenticated;
+grant select on public.kidz_leitfaden to authenticated;
+grant update (inhalt) on public.kidz_leitfaden to authenticated;
+
+drop policy if exists kidz_leitfaden_berater_select on public.kidz_leitfaden;
+create policy kidz_leitfaden_berater_select
+  on public.kidz_leitfaden for select
+  to authenticated
+  using ((select public.current_berater_id()) is not null);
+
+drop policy if exists kidz_leitfaden_admin_update on public.kidz_leitfaden;
+create policy kidz_leitfaden_admin_update
+  on public.kidz_leitfaden for update
+  to authenticated
+  using ((select public.is_current_berater_admin()))
+  with check ((select public.is_current_berater_admin()));
+
+create or replace function public.kidz_leitfaden_stempel()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+begin
+  new.geaendert_von := public.current_berater_id();
+  new.geaendert_am := now();
+  return new;
+end;
+$$;
+
+drop trigger if exists kidz_leitfaden_stempel on public.kidz_leitfaden;
+create trigger kidz_leitfaden_stempel
+  before update on public.kidz_leitfaden
+  for each row execute function public.kidz_leitfaden_stempel();
+
 commit;

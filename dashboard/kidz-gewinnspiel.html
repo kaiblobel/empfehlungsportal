@@ -228,8 +228,20 @@
 
       <details class="kg-anruf-leitfaden" id="anrufLeitfaden">
         <summary>Leitfaden fürs Gespräch</summary>
-        <p class="kg-anruf-leitfaden-entwurf">Entwurf, bis Kais Leitfaden vom Zettel eingetragen ist.</p>
-        <ol id="anrufLeitfadenText"></ol>
+        <p class="kg-anruf-leitfaden-hinweis" id="anrufLeitfadenHinweis" hidden>Diese Familie hat nicht eingewilligt. Den Leitfaden nur nutzen, wenn sie selbst nach KIDZ for Future oder einem Gespräch fragt.</p>
+        <div class="kg-anruf-leitfaden-text" id="anrufLeitfadenText"></div>
+        <!-- Nur für Admins: Leitfaden einfügen und bearbeiten, gilt für alle Berater. -->
+        <button class="kg-anruf-leitfaden-knopf" id="leitfadenBearbeitenBtn" type="button" hidden>Text bearbeiten</button>
+        <div class="kg-anruf-leitfaden-editor" id="leitfadenEditor" hidden>
+          <label class="kg-admin-dialog-label" for="leitfadenEingabe">Leitfaden für alle Berater</label>
+          <textarea id="leitfadenEingabe" rows="14" maxlength="8000"></textarea>
+          <p class="kg-anruf-leitfaden-tipp">Einfach hineinkopieren, Leerzeilen bleiben erhalten. {name} wird beim Anruf zum Namen der Familie, {berater} zum Vornamen dessen, der anruft.</p>
+          <div class="kg-anruf-leitfaden-aktionen">
+            <span id="leitfadenStatus" role="status"></span>
+            <button class="kg-anruf-leitfaden-knopf" id="leitfadenAbbrechenBtn" type="button">Abbrechen</button>
+            <button class="kg-anruf-leitfaden-knopf primaer" id="leitfadenSpeichernBtn" type="button">Leitfaden speichern</button>
+          </div>
+        </div>
       </details>
 
       <div class="kg-anruf-wahl" role="radiogroup" aria-label="Ergebnis des Anrufs">

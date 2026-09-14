@@ -110,10 +110,21 @@ for (const text of ['Anfang der Woche', 'Ende der Woche', 'Persönliches Gesprä
 }
 assert.match(js, /p_kff_widerruf:/);
 assert.match(js, /p_termin_uhrzeit:/);
-// Der Leitfaden hat zwei Fassungen, je nach Einwilligung.
-assert.match(js, /mitEinwilligung:/);
-assert.match(js, /ohneEinwilligung:/);
-assert.match(js, /Kein Gespräch und kein KIDZ for Future anbieten/);
+// Der Leitfaden steht in der Datenbank, Kai bearbeitet ihn selbst. Lesen alle Berater,
+// aendern nur Admins, nie anlegen oder loeschen aus dem Browser.
+assert.match(sql389, /create table if not exists public\.kidz_leitfaden/);
+assert.match(sql389, /char_length\(inhalt\) <= 8000/);
+assert.match(sql389, /alter table public\.kidz_leitfaden enable row level security/);
+assert.match(sql389, /revoke all on public\.kidz_leitfaden from public, anon, authenticated/);
+assert.match(sql389, /grant update \(inhalt\) on public\.kidz_leitfaden to authenticated/);
+assert.doesNotMatch(sql389, /grant[^;]*(insert|delete)[^;]*on public\.kidz_leitfaden/);
+assert.match(sql389, /create policy kidz_leitfaden_admin_update[\s\S]{0,120}for update[\s\S]{0,80}is_current_berater_admin\(\)/);
+assert.match(js, /\.from\('kidz_leitfaden'\)/);
+assert.match(js, /anrufLeitfadenText\.textContent = /, 'Hineinkopierter Text darf nie als HTML landen.');
+assert.doesNotMatch(js, /const LEITFADEN = /, 'Kein fest eingebauter Leitfaden mehr.');
+assert.match(html, /id="leitfadenEingabe"[^>]*maxlength="8000"/);
+assert.match(html, /id="leitfadenBearbeitenBtn" type="button"/);
+assert.match(css, /\.kg-anruf-leitfaden-editor\[hidden\]/);
 // Anliegen und Terminwunsch sofort sichtbar, nicht erst nach Wahl des Ergebnisses.
 assert.match(js, /const mitDetails = !\['nicht_erreicht', 'kein_interesse'\]\.includes\(ergebnis\)/);
 // Termin nur mit Uhrzeit speichern.
