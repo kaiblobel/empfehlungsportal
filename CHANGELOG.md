@@ -4,7 +4,10 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.403 Beta** · KIDZ-Sommerfest: Anrufnotizen je Teilnehmer, live seit 14.09.2026.
 
 ## v1.403 Beta - Phase 388 · KIDZ-Sommerfest: Anrufnotizen je Teilnehmer
-**2026-09-14**
+**2026-09-14** · live veröffentlicht
+
+Freigabe am 14.09.2026: „perfekt freigabe für live“. Datenbank zuerst angewendet
+(`phase_388_kidz_anrufnotizen`), danach die Seite.
 
 Kai: „bei jeden Teilnehmer eine zusätzliche Notizfunktion … wir wollen die diese Woche anfangen durchzurufen … professioneller mit angerufen, erreicht etc., aber nicht zu umfangreich … nachhaltig, sonst sieht da keiner mehr durch.“ Freigabe des Vorschlags: „ja“.
 

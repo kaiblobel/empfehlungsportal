@@ -1,5 +1,9 @@
 -- Phase 388: Anrufnotizen fuer die Teilnehmer des KIDZ-Sommerfests
 --
+-- LIVE ANGEWENDET AM 14.09.2026 ALS phase_388_kidz_anrufnotizen (Supabase kkseqhmfubzfyloffkwe),
+-- auf Kais Freigabe "perfekt freigabe fuer live". Vorher gegen die echte Datenbank mit
+-- vollstaendiger Ruecknahme geprueft (Schalter an/aus, fremd/eigen, Rechte, Mitloeschen).
+--
 -- Kais Auftrag vom 14.09.2026: "bei jedem Teilnehmer eine zusaetzliche
 -- Notizfunktion ... wir wollen die diese Woche anfangen durchzurufen ... mit
 -- angerufen, erreicht etc., aber nicht zu umfangreich ... nachhaltig, sonst sieht
