@@ -105,3 +105,47 @@
   .kg-admin-dialog-actions { flex-direction: column-reverse; }
   .kg-admin-dialog-actions button { width: 100%; }
 }
+
+/* Phase 388: Anrufnotizen. Eine schmale Zeile unter jeder Karte: letzter Stand,
+   wer wann, Knopf, aufklappbarer Verlauf. Farben nur zur Orientierung, der Text
+   steht immer dabei. */
+.kg-anruf { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding-top: 11px; border-top: 1px solid #efeee9; }
+.kg-admin-entry .kg-anruf-stand { display: inline-flex; width: fit-content; margin: 0; padding: 5px 10px; color: #4a5561; background: #f1f2f3; border-radius: 999px; font-size: 12px; font-weight: 750; }
+.kg-admin-entry .kg-anruf-stand[data-ergebnis="nicht_erreicht"] { color: #7a4d11; background: #fff3dd; }
+.kg-admin-entry .kg-anruf-stand[data-ergebnis="rueckruf"] { color: #1f5a8a; background: #e8f1f9; }
+.kg-admin-entry .kg-anruf-stand[data-ergebnis="faellig"] { color: #fff; background: #b4542f; }
+.kg-admin-entry .kg-anruf-stand[data-ergebnis="termin"] { color: #245b37; background: #e6f3ea; }
+.kg-admin-entry .kg-anruf-stand[data-ergebnis="kein_interesse"] { color: #6b6f76; background: #ececea; }
+.kg-admin-entry .kg-anruf-stand[data-ergebnis="gesprochen"] { color: #35506a; background: #eaf0f5; }
+.kg-admin-entry .kg-anruf-meta { flex: 1 1 220px; margin: 0; color: #747981; font-size: 12px; }
+/* Der Knopf steht immer rechts, auch wenn noch kein Anruf eingetragen ist. */
+.kg-anruf-knopf { min-height: 36px; margin-left: auto; padding: 0 14px; color: #fff; background: #0c6c3f; border: 1px solid #0c6c3f; border-radius: 9px; font: inherit; font-size: 12px; font-weight: 750; cursor: pointer; }
+/* Eine allgemeine Grundregel setzt margin auf 0, dann oeffnen alle Fenster dieser
+   Seite oben links statt in der Mitte. auto stellt die Mitte wieder her. */
+.kg-admin-dialog { margin: auto; }
+.kg-anruf-verlauf { flex-basis: 100%; }
+.kg-anruf-verlauf summary { width: fit-content; color: #56616c; font-size: 12px; font-weight: 700; cursor: pointer; }
+.kg-anruf-verlauf ol { display: grid; gap: 6px; margin: 8px 0 0; padding: 0; list-style: none; }
+.kg-anruf-verlauf li { padding: 8px 10px; color: #3e4852; background: #fafaf8; border: 1px solid #efeee9; border-radius: 9px; font-size: 12px; line-height: 1.5; }
+.kg-anruf-verlauf li b { color: #24384c; }
+.kg-anruf-verlauf li p { margin: 3px 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.kg-anruf-filter { display: flex; flex-wrap: wrap; gap: 8px; margin: -12px 0 20px; }
+.kg-anruf-filter[hidden] { display: none; }
+.kg-anruf-filter button { min-height: 38px; padding: 0 13px; color: #3e4852; background: #fff; border: 1px solid #dadce0; border-radius: 999px; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; }
+.kg-anruf-filter button b { margin-left: 6px; font-weight: 800; opacity: .7; }
+.kg-anruf-filter button[aria-pressed="true"] { color: #fff; background: #18334b; border-color: #18334b; }
+.kg-anruf-filter button[aria-pressed="true"] b { opacity: .85; }
+.kg-anruf-tel { display: inline-flex; align-items: center; min-height: 42px; margin: 0 0 4px; padding: 0 14px; color: #0c6c3f; background: #eef7f1; border: 1px solid #c7dfcc; border-radius: 10px; font-size: 14px; font-weight: 800; text-decoration: none; }
+.kg-anruf-tel[hidden] { display: none; }
+.kg-anruf-wahl { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+.kg-anruf-wahl label { display: flex; align-items: center; gap: 9px; min-height: 46px; padding: 0 12px; color: #263746; border: 1px solid #d5d7da; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.kg-anruf-wahl label:has(input:checked) { background: #eef7f1; border-color: #0c6c3f; box-shadow: 0 0 0 2px rgba(12,108,63,.14); }
+.kg-anruf-wahl input { width: 18px; height: 18px; margin: 0; accent-color: #0c6c3f; }
+#anrufDatumFeld[hidden] { display: none; }
+.kg-admin-dialog textarea { width: 100%; padding: 10px 12px; color: #263746; background: #fff; border: 1px solid #d5d7da; border-radius: 9px; font: inherit; font-size: 14px; resize: vertical; }
+.kg-admin-dialog input[type="date"] { width: 100%; min-height: 45px; padding: 0 12px; color: #263746; background: #fff; border: 1px solid #d5d7da; border-radius: 9px; font: inherit; }
+.kg-admin-dialog textarea:focus, .kg-admin-dialog input[type="date"]:focus { border-color: #0c6c3f; outline: none; box-shadow: 0 0 0 3px rgba(12,108,63,.12); }
+@media (max-width: 580px) {
+  .kg-anruf-knopf { width: 100%; min-height: 44px; }
+  .kg-anruf-wahl { grid-template-columns: 1fr; }
+}

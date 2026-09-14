@@ -1,7 +1,36 @@
 ﻿# Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.402 Beta** · KIDZ-Rückblick: Eckdaten und Flyer am Handy kompakt, live seit 13.09.2026.
+Offizielle Live-Version: **v1.403 Beta** · KIDZ-Sommerfest: Anrufnotizen je Teilnehmer, live seit 14.09.2026.
+
+## v1.403 Beta - Phase 388 · KIDZ-Sommerfest: Anrufnotizen je Teilnehmer
+**2026-09-14**
+
+Kai: „bei jeden Teilnehmer eine zusätzliche Notizfunktion … wir wollen die diese Woche anfangen durchzurufen … professioneller mit angerufen, erreicht etc., aber nicht zu umfangreich … nachhaltig, sonst sieht da keiner mehr durch.“ Freigabe des Vorschlags: „ja“.
+
+- **Anruf eintragen an jeder Karte.** Fünf Ergebnisse: Nicht erreicht, Rückruf vereinbart (mit Datum,
+  Vorgabe morgen), Termin vereinbart (mit Datum), Kein Interesse, Gesprochen. Dazu ein freiwilliger
+  Satz bis 500 Zeichen mit dem Hinweis „Nur Sachliches zum Anruf“. Am Handy wählt ein Knopf direkt die
+  Nummer. Wer wann eingetragen hat, schreibt die Datenbank selbst.
+- **Nie überschreiben.** Jeder Anruf ist ein neuer Eintrag, die Karte zeigt den letzten Stand
+  („Nicht erreicht (2×)“, „Rückruf fällig · Mo., 15.09.“) und klappt den Verlauf auf.
+- **Filter mit Zählern** über der Liste: Alle · Noch nicht angerufen · Nicht erreicht · Rückruf fällig ·
+  Termin · Kein Interesse. Gezählt wird, was die übrigen Filter gerade zeigen, also auch je Berater.
+- **Wer darf eintragen:** Kais Regel, wer die Anmeldung sieht. Teamsicht aus = nur bei eigenen
+  Kontakten, Teamsicht an = bei allen, Admins immer. Durchgesetzt in der Datenbank
+  (`add_kidz_kontaktnotiz`, security definer), nicht nur in der Seite. Löschen nur Admins.
+- **Datenschutz:** Notizen hängen mit `on delete cascade` an der Anmeldung. Löschwunsch, Dublette und
+  Aufbewahrungsfrist nehmen sie mit.
+- **Export:** fünf neue Spalten (Letzter Anrufstand, Stand vom, Rückruf oder Termin am, Anrufe, Letzte Notiz).
+- **Nebenbei:** Die Fenster dieser Seite öffneten oben links statt in der Mitte (allgemeine Regel setzte
+  `margin: 0`), jetzt `.kg-admin-dialog { margin: auto; }`.
+- Datenbank `schema-phase388-kidz-anrufnotizen.sql` (neue Tabelle `kidz_kontaktnotizen`, nichts an
+  bestehenden Tabellen geändert). Vor dem Anwenden gegen die echte Datenbank mit Rücknahme geprüft:
+  Schalter an/aus, fremd/eigen, direktes Einfügen und Ändern verweigert, Löschen ohne Admin 0 Zeilen,
+  Mitlöschen mit der Anmeldung. Ohne die Tabelle bleibt die Funktion auf der Seite unsichtbar.
+- Wächter `tests/kidz-anrufnotizen.test.mjs`.
+
+---
 
 ## v1.402 Beta - Phase 387 · KIDZ-Rückblick: Eckdaten und Flyer am Handy kompakt
 **2026-09-13** · live veröffentlicht
