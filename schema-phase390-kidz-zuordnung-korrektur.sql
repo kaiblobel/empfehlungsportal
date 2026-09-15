@@ -1,5 +1,8 @@
 -- Phase 390: KIDZ-Sommerfest, Zuordnung bestaetigen und Kontaktdaten korrigieren
 --
+-- LIVE ANGEWENDET am 15.09.2026 als Migration phase_390_kidz_zuordnung_korrektur
+-- (ohne begin/commit, die setzt apply_migration selbst).
+--
 -- Kais Wunsch vom 15.09.2026: Wer sich online ohne Berater angemeldet hat, liegt beim
 -- Vorgabeberater Kai und sieht dort genauso aus wie seine echten Kontakte. "Dass ich mir
 -- erstmal meine echten zuordnen kann ... und jetzt haben wir entsprechend den Rest, die

@@ -4,7 +4,10 @@ Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
 Offizielle Live-Version: **v1.405 Beta** · KIDZ: Zuordnung bestätigen und Kontaktdaten korrigieren, live seit 15.09.2026.
 
 ## v1.405 Beta - Phase 390 · KIDZ: Zuordnung bestätigen und Kontaktdaten korrigieren
-**2026-09-15**
+**2026-09-15** · live veröffentlicht
+
+Freigabe am 15.09.2026: „veröffentlichen“. Datenbank zuerst angewendet (`phase_390_kidz_zuordnung_korrektur`),
+danach die Seite.
 
 Kai am 15.09.2026: Wer sich online ohne Berater angemeldet hat, liegt bei ihm und sieht aus wie seine echten
 Kontakte. „Dass ich mir erstmal meine echten zuordnen kann … und jetzt haben wir entsprechend den Rest, die wir dann
