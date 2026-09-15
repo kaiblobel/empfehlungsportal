@@ -30,17 +30,6 @@ jobs:
     name: Pruefungen
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    services:
-      betrieb-redis:
-        image: redis:7.4.2-alpine@sha256:02419de7eddf55aa5bcf49efb74e88fa8d931b4d77c07eff8a6b2144472b6952
-        ports:
-          - 16387:6379
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 5s
-          --health-timeout 3s
-          --health-retries 10
-
     steps:
       - name: Stand holen
         uses: actions/checkout@v4
@@ -56,6 +45,4 @@ jobs:
         run: npm ci --ignore-scripts --no-audit --no-fund
 
       - name: Alle Wächter laufen lassen
-        env:
-          BETRIEB_REDIS_TEST: '1'
         run: node --test tests/*.test.mjs tests/*.test.cjs

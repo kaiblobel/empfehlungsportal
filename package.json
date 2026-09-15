@@ -1,6 +1,15 @@
 {
   "name": "empfehlungsportal",
   "private": true,
-  "scripts": { "test:betrieb": "node --test tests/betrieb*.test.mjs" },
-  "dependencies": { "@vercel/functions": "3.9.7", "redis": "6.2.1" }
+  "type": "module",
+  "scripts": {
+    "test:betrieb": "node --test tests/betrieb*.test.mjs"
+  },
+  "dependencies": {
+    "@vercel/blob": "2.8.0",
+    "@vercel/functions": "3.9.7"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.4"
+  }
 }
