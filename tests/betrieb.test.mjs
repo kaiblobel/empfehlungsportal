@@ -162,3 +162,11 @@ test('Sperrprofil deckt alle Seiten mit bisherigem Wartungsskript ab',()=>{
   // Kritische direkt benannte Seiten, der ganze Dashboard-Arbeitsbereich kommt hinzu.
   for(const p of ['/hub.html','/team.html','/berater.html','/praemien.html','/vorlagen.html','/programm-verwalten.html','/changelog.html','/dashboard/kidz-gewinnspiel.html','/dashboard/kidz-elternabend.html']) assert.equal(portalPfad(p),true,p);
 });
+test('Schraegstrich hinter einer Partnerdatei umgeht die Sperre nicht (Befund Abnahme 15.09.2026)',async()=>{
+  // Vercel liefert /hub.html/, /hub.html%2F und /hub.html/. als hub.html aus.
+  for(const p of ['/hub.html/','/hub.html%2F','/hub.html%2f','/hub.html/.','/team.html/','/berater.html/','/dashboard/overview.html/']) assert.equal(portalPfad(p),true,p);
+  for(const p of ['/dashboard/','/dashboard/index.html/','/kidz/konzept/','/programm.html/']) assert.equal(portalPfad(p),false,p);
+  const f=fixture(); await f.send(schalten('wartung'));
+  for(const p of ['/hub.html/','/hub.html%2F','/team.html/']) assert.equal((await f.run(p)).status,503,p);
+  assert.equal(await (await f.run('/dashboard/index.html/')).text(),'ECHTE SEITE');
+});

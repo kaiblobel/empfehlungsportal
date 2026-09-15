@@ -7,7 +7,8 @@ const helper = readFileSync(new URL('../js/betrieb-pwa.js',import.meta.url),'utf
 const worker = readFileSync(new URL('../sw.js',import.meta.url),'utf8');
 test('Browser- und Serverprofil stimmen ueberein',()=>{
   const ctx={self:{},URL};vm.runInNewContext(helper,ctx);
-  for(const p of ['/hub','/hub.html','/%68ub.html','/%2568ub.html','/%2fhub.html','/team.html','/dashboard/','/dashboard/index','/dashboard/settings.html','/dashboard/detail.html','/kidz/konzept','/api/share','/baufinanzierung','/index.html']) assert.equal(ctx.self.betriebPartnerPfad(p),portalPfad(p),p);
+  for(const p of ['/hub','/hub.html','/%68ub.html','/%2568ub.html','/%2fhub.html','/team.html','/dashboard/','/dashboard/index','/dashboard/settings.html','/dashboard/detail.html','/kidz/konzept','/api/share','/baufinanzierung','/index.html',
+    '/hub.html/','/hub.html%2F','/hub.html%2f','/hub.html/.','/team.html/','/berater.html/','/dashboard/overview.html/','/dashboard/index.html/','/dashboard','/kidz/konzept/','/programm.html/']) assert.equal(ctx.self.betriebPartnerPfad(p),portalPfad(p),p);
 });
 test('PWA liefert Partnersperre aus dem Netz und niemals alten Offline-Hub',async()=>{
   let fetchHandler, networkResponse, fail=false, cacheReads=0, response;
