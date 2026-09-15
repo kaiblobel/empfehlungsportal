@@ -18,6 +18,19 @@ const entriesBox = document.getElementById('entries');
 const searchInput = document.getElementById('searchInput');
 const parentOnly = document.getElementById('parentOnly');
 const onsiteOnly = document.getElementById('onsiteOnly');
+// Phase 390: Zuordnung offen oder bestaetigt, Kontaktdaten korrigieren.
+const zuordnungOffenOnly = document.getElementById('zuordnungOffenOnly');
+const zuordnungOffenZahl = document.getElementById('zuordnungOffenZahl');
+const korrekturDialog = document.getElementById('korrekturDialog');
+const korrekturForm = document.getElementById('korrekturForm');
+const korrekturPerson = document.getElementById('korrekturPerson');
+const korrekturName = document.getElementById('korrekturName');
+const korrekturEmail = document.getElementById('korrekturEmail');
+const korrekturTelefon = document.getElementById('korrekturTelefon');
+const korrekturStatus = document.getElementById('korrekturStatus');
+const korrekturSaveBtn = document.getElementById('korrekturSaveBtn');
+const korrekturCancelBtn = document.getElementById('korrekturCancelBtn');
+let korrekturParticipantId = '';
 const advisorFilter = document.getElementById('advisorFilter');
 const exportBtn = document.getElementById('exportBtn');
 const copyInviteBtn = document.getElementById('copyInviteBtn');
@@ -172,6 +185,7 @@ function visibleEntries({ mitAnrufFilter = true } = {}) {
     if (mitAnrufFilter && anrufFilter && !passtAnrufFilter(entry, anrufFilter)) return false;
     if (parentOnly.checked && !entry.elternabend_interesse) return false;
     if (onsiteOnly.checked && entry.source !== ONSITE_SOURCE) return false;
+    if (zuordnungOffenOnly?.checked && !istOffen(entry)) return false;
     if (participantChoice?.kind === 'advisor' && entry.berater?.slug !== participantChoice.slug) return false;
     if (participantChoice?.kind === 'promoter' && entry.empfehler?.name !== participantChoice.name) return false;
     if (!needle) return true;
@@ -194,6 +208,7 @@ function render() {
   document.getElementById('resultMeta').textContent = `${visible.length} von ${entries.length}`;
   exportBtn.disabled = entries.length === 0;
   renderAnrufFilter();
+  zeigeOffenZahl();
 
   if (!visible.length) {
     entriesBox.innerHTML = '<div class="kg-admin-empty">Für diesen Filter gibt es noch keine Teilnahmen.</div>';
@@ -214,7 +229,7 @@ function karteHtml(entry) {
     <article class="kg-admin-entry" data-entry="${escapeHtml(entry.id)}">
       <div><strong>${escapeHtml(entry.name)}</strong>${entry.ist_test ? '<span class="badge badge-test">Test</span>' : ''}<span>${escapeHtml(entry.reference)}</span></div>
       <div><strong>${escapeHtml(entry.email || entry.telefon || 'Kein Kontaktweg')}</strong><span>${escapeHtml(entry.email && entry.telefon ? entry.telefon : '')}</span></div>
-      <div><small>Zugeordnet zu</small>${zuordnungsFeld(entry)}${entry.empfehler?.name ? `<span>Eingeladen von ${escapeHtml(entry.empfehler.name)}</span>` : ''}<span class="kg-admin-assign-hinweis" data-assign-note="${escapeHtml(entry.id)}" hidden></span></div>
+      <div><small>Zugeordnet zu</small>${zuordnungsFeld(entry)}${zuordnungsStand(entry)}${entry.empfehler?.name ? `<span>Eingeladen von ${escapeHtml(entry.empfehler.name)}</span>` : ''}<span class="kg-admin-assign-hinweis" data-assign-note="${escapeHtml(entry.id)}" hidden></span></div>
       <div><small>${escapeHtml(formatDate(entry.created_at))}</small><span>${escapeHtml(sourceLabel(entry.source))}</span>${entry.begleitpersonen === null || entry.begleitpersonen === undefined ? '' : `<span>${1 + entry.begleitpersonen} ${1 + entry.begleitpersonen === 1 ? 'Person' : 'Personen'}</span>`}</div>
       <div>
         ${entry.source === ONSITE_SOURCE ? '<span class="kg-admin-badge kg-admin-badge-onsite">Vor Ort · Papier</span>' : ''}
@@ -223,6 +238,7 @@ function karteHtml(entry) {
         <button class="kg-admin-manage" type="button" data-interest-participant="${escapeHtml(entry.id)}">KIDZ for Future: ${entry.elternabend_interesse ? 'Interesse' : 'Nein'}</button>` : `
         <span>${hasGuess ? `Schätzung: ${escapeHtml(String(entry.schaetzung_cm))} cm` : 'Ohne Schätzung'}</span>
         <span>KIDZ for Future: ${entry.elternabend_interesse ? 'Interesse' : 'Nein'}</span>`}
+        <button class="kg-admin-manage" type="button" data-korrektur-participant="${escapeHtml(entry.id)}">Daten korrigieren</button>
         ${currentAdvisor?.ist_admin ? `<button class="kg-admin-manage" type="button" data-manage-participant="${escapeHtml(entry.id)}">Teilnahme verwalten</button>` : ''}
       </div>
       ${anrufZeile(entry)}
@@ -347,6 +363,7 @@ function aktualisiereKarte(participantId) {
   const karte = entriesBox.querySelector(`[data-entry="${CSS.escape(participantId)}"]`);
   if (entry && karte) karte.outerHTML = karteHtml(entry);
   renderAnrufFilter();
+  zeigeOffenZahl();
 }
 
 function anrufSpalten(entry) {
@@ -696,6 +713,11 @@ async function assignParticipant(participantId, slug, feld) {
     const gewaehlt = beraterAuswahl.find((b) => b.slug === slug);
     eintrag.berater = { name: data.berater || gewaehlt?.name || '', slug };
     if (data.berater_id) eintrag.berater_id = data.berater_id;
+    // Phase 390: Wer bewusst zuordnet, bestaetigt damit die Zuordnung.
+    eintrag.zuordnung_bestaetigt_am = new Date().toISOString();
+    const stand = document.querySelector(`[data-zuordnung-stand="${CSS.escape(participantId)}"]`);
+    if (stand) stand.outerHTML = zuordnungsStand(eintrag);
+    zeigeOffenZahl();
     zeigen(`gespeichert, jetzt bei ${data.berater || gewaehlt?.name || 'dem neuen Berater'}`, 'fertig');
   } catch (error) {
     feld.value = vorher;
@@ -732,7 +754,7 @@ function csvCell(value) {
 }
 
 function exportCsv() {
-  const header = ['Teilnahmebestätigung', 'Erfassungsweg', 'Personen', 'Schätzung in cm', 'Name', 'E-Mail', 'Mobilnummer', 'Vermögensberater', 'Eingeladen von', 'Quelle', 'KIDZ for Future', 'Teilnahmebedingungen', 'Angemeldet am', 'Letzter Anrufstand', 'Stand vom', 'Rückruf oder Termin am', 'Anrufe', 'Letzte Notiz', 'Anliegen', 'Terminwunsch', 'Uhrzeit', 'Nicht mehr anrufen'];
+  const header = ['Teilnahmebestätigung', 'Erfassungsweg', 'Personen', 'Schätzung in cm', 'Name', 'E-Mail', 'Mobilnummer', 'Vermögensberater', 'Eingeladen von', 'Quelle', 'KIDZ for Future', 'Teilnahmebedingungen', 'Angemeldet am', 'Letzter Anrufstand', 'Stand vom', 'Rückruf oder Termin am', 'Anrufe', 'Letzte Notiz', 'Anliegen', 'Terminwunsch', 'Uhrzeit', 'Nicht mehr anrufen', 'Zuordnung'];
   const rows = entries.map((entry) => [
     entry.reference,
     entry.source === ONSITE_SOURCE ? 'Vor Ort (Papier)' : 'Online',
@@ -741,6 +763,7 @@ function exportCsv() {
     entry.name, entry.email, entry.telefon, entry.berater?.name || 'Kai Blobel', entry.empfehler?.name || '', sourceLabel(entry.source),
     entry.elternabend_interesse ? 'Ja' : 'Nein', entry.conditions_version, formatDate(entry.created_at),
     ...anrufSpalten(entry),
+    istOffen(entry) ? 'offen' : 'bestätigt',
   ]);
   const content = `\uFEFF${[header, ...rows].map((row) => row.map(csvCell).join(';')).join('\r\n')}`;
   const url = URL.createObjectURL(new Blob([content], { type: 'text/csv;charset=utf-8' }));
@@ -754,7 +777,7 @@ function exportCsv() {
 async function loadEntries() {
   const { data, error } = await supabase
     .from('kidz_gewinnspiel_teilnahmen')
-    .select('id,reference,name,email,telefon,source,schaetzung_cm,schaetzung_am,begleitpersonen,elternabend_interesse,conditions_version,consent_at,created_at,berater_id,empfehler_id,ist_test,berater:berater_id(name,slug),empfehler:empfehler_id(name)')
+    .select('id,reference,name,email,telefon,source,schaetzung_cm,schaetzung_am,begleitpersonen,elternabend_interesse,conditions_version,consent_at,created_at,berater_id,empfehler_id,ist_test,zuordnung_bestaetigt_am,berater:berater_id(name,slug),empfehler:empfehler_id(name)')
     .eq('event_key', EVENT_KEY)
     .order('created_at', { ascending: false });
   if (error) throw error;
@@ -1294,6 +1317,153 @@ async function toggleInterest(participantId) {
   }
 }
 
+// ---- Zuordnung bestaetigen und Daten korrigieren (Phase 390) --------------------
+
+/**
+ * Ist die Zuordnung noch offen? Offen heisst: Die Anmeldung liegt beim
+ * Vorgabeberater, weil niemand gewaehlt wurde, und keiner hat sie bisher
+ * bestaetigt oder umgehaengt. Kais Wunsch vom 15.09.2026: erst die echten
+ * eigenen bestaetigen, dann den Rest aufteilen.
+ */
+function istOffen(entry) {
+  return !entry.zuordnung_bestaetigt_am;
+}
+
+function zuordnungsStand(entry) {
+  const id = escapeHtml(entry.id);
+  const inhalt = istOffen(entry)
+    ? `<span class="kg-admin-zuordnung" data-stand="offen">Zuordnung offen</span><button class="kg-admin-claim" type="button" data-claim-participant="${id}">Gehört zu mir</button>`
+    : '<span class="kg-admin-zuordnung" data-stand="bestaetigt">bestätigt</span>';
+  return `<span class="kg-admin-zuordnung-box" data-zuordnung-stand="${id}">${inhalt}</span>`;
+}
+
+function zeigeOffenZahl() {
+  if (!zuordnungOffenZahl) return;
+  zuordnungOffenZahl.textContent = String(entries.filter((entry) => !entry.ist_test && istOffen(entry)).length);
+}
+
+function zuordnungsHinweis(participantId, text, art) {
+  const notiz = document.querySelector(`[data-assign-note="${CSS.escape(participantId)}"]`);
+  if (!notiz) return;
+  notiz.textContent = text;
+  notiz.dataset.art = art;
+  notiz.hidden = false;
+}
+
+/**
+ * "Gehört zu mir": Jeder Berater nimmt eine offene Anmeldung an sich (Kais
+ * Entscheidung vom 15.09.2026). Die Datenbank laesst das nur bei offener
+ * Zuordnung oder bei der eigenen zu. Wie beim Umhaengen wird die Liste nicht
+ * neu sortiert, damit niemand mitten im Durchgang die Stelle verliert.
+ */
+async function bestaetigeZuordnung(participantId, knopf) {
+  const eintrag = entries.find((item) => item.id === participantId);
+  if (!eintrag) return;
+  knopf.disabled = true;
+  zuordnungsHinweis(participantId, 'wird gespeichert ...', 'wartet');
+  try {
+    const { data, error } = await supabase.rpc('bestaetige_kidz_zuordnung', { p_teilnahme_id: participantId });
+    if (error) throw error;
+    if (!data?.ok) {
+      const grund = {
+        already_confirmed: `Schon bestätigt${data?.berater ? ` bei ${data.berater}` : ''}. Bitte die Liste neu laden.`,
+        forbidden: 'Die Teamsicht ist gerade aus. Bestätigen kannst du dann nur deine eigenen.',
+        not_found: 'Die Anmeldung wurde nicht gefunden. Bitte die Liste neu laden.',
+      }[data?.reason] || 'Die Zuordnung konnte nicht bestätigt werden.';
+      knopf.disabled = false;
+      zuordnungsHinweis(participantId, grund, 'fehler');
+      return;
+    }
+    eintrag.berater = { name: data.berater || currentAdvisor?.name || '', slug: data.slug || currentAdvisor?.slug || '' };
+    if (data.berater_id) eintrag.berater_id = data.berater_id;
+    eintrag.zuordnung_bestaetigt_am = new Date().toISOString();
+    aktualisiereKarte(participantId);
+    zuordnungsHinweis(participantId, 'bestätigt, gehört jetzt zu dir', 'fertig');
+  } catch (error) {
+    knopf.disabled = false;
+    zuordnungsHinweis(participantId, error.message || 'Die Zuordnung konnte nicht bestätigt werden.', 'fehler');
+  }
+}
+
+function openKorrekturDialog(participantId) {
+  const entry = entries.find((item) => item.id === participantId);
+  if (!entry) return;
+  korrekturParticipantId = participantId;
+  korrekturPerson.textContent = `${entry.name} · ${entry.reference}`;
+  korrekturName.value = entry.name || '';
+  korrekturEmail.value = entry.email || '';
+  korrekturTelefon.value = entry.telefon || '';
+  korrekturStatus.textContent = '';
+  korrekturSaveBtn.disabled = false;
+  korrekturDialog.showModal();
+  korrekturName.focus();
+}
+
+function closeKorrekturDialog() {
+  korrekturParticipantId = '';
+  if (korrekturDialog.open) korrekturDialog.close();
+}
+
+/**
+ * Korrektur ueber den Server: Nur er kann den Dublettenschluessel zur neuen
+ * E-Mail bilden. Die Datenbank schreibt alten und neuen Wert ins Protokoll.
+ */
+async function saveKorrektur() {
+  const participantId = korrekturParticipantId;
+  const entry = entries.find((item) => item.id === participantId);
+  if (!entry) return;
+  korrekturSaveBtn.disabled = true;
+  korrekturStatus.textContent = 'wird gespeichert ...';
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.access_token) throw new Error('Deine Anmeldung ist abgelaufen. Bitte melde dich neu an.');
+    const response = await fetch('/api/kidz-nacherfassung', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${session.access_token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'korrektur',
+        teilnahmeId: participantId,
+        name: korrekturName.value.trim(),
+        email: korrekturEmail.value.trim(),
+        telefon: korrekturTelefon.value.trim(),
+      }),
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result?.ok) {
+      const grund = {
+        already_exists: 'Diese E-Mail oder Mobilnummer gehört schon zu einer anderen Anmeldung.',
+        invalid_input: 'Der Name braucht mindestens zwei Zeichen.',
+        invalid_contact: 'Bitte eine gültige E-Mail oder Mobilnummer eintragen. Eins von beiden muss bleiben.',
+        forbidden: 'Diese Anmeldung darfst du nicht ändern.',
+        not_found: 'Die Anmeldung wurde nicht gefunden. Bitte die Liste neu laden.',
+        authentication_required: 'Deine Anmeldung ist abgelaufen. Bitte melde dich neu an.',
+        not_configured: 'Die Korrektur ist noch nicht freigeschaltet.',
+      }[result?.reason] || 'Die Korrektur konnte nicht gespeichert werden.';
+      throw new Error(grund);
+    }
+    entry.name = result.name ?? entry.name;
+    entry.email = result.email ?? null;
+    entry.telefon = result.telefon ?? null;
+    aktualisiereKarte(participantId);
+    closeKorrekturDialog();
+    zuordnungsHinweis(participantId, result.unchanged ? 'keine Änderung' : 'Daten korrigiert', 'fertig');
+  } catch (error) {
+    korrekturStatus.textContent = error.message || 'Die Korrektur konnte nicht gespeichert werden.';
+    korrekturSaveBtn.disabled = false;
+  }
+}
+
+zuordnungOffenOnly?.addEventListener('change', render);
+korrekturCancelBtn.addEventListener('click', closeKorrekturDialog);
+korrekturDialog.addEventListener('cancel', (event) => {
+  event.preventDefault();
+  closeKorrekturDialog();
+});
+korrekturForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  saveKorrektur();
+});
+
 document.getElementById('teamSichtAn')?.addEventListener('change', (event) => {
   schalteTeamSicht(event.target.checked);
 });
@@ -1312,6 +1482,16 @@ entriesBox.addEventListener('click', (event) => {
   const anrufButton = event.target.closest('[data-anruf-participant]');
   if (anrufButton) {
     openAnrufDialog(String(anrufButton.dataset.anrufParticipant || ''));
+    return;
+  }
+  const claimButton = event.target.closest('[data-claim-participant]');
+  if (claimButton) {
+    bestaetigeZuordnung(String(claimButton.dataset.claimParticipant || ''), claimButton);
+    return;
+  }
+  const korrekturButton = event.target.closest('[data-korrektur-participant]');
+  if (korrekturButton) {
+    openKorrekturDialog(String(korrekturButton.dataset.korrekturParticipant || ''));
     return;
   }
   const guessButton = event.target.closest('[data-guess-participant]');

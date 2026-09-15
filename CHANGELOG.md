@@ -1,7 +1,31 @@
 ﻿# Changelog · Empfehlungsportal
 
 Versionierung: `v1.{Phase}` — jede Phase im Build-Plan bekommt eine Minor.
-Offizielle Live-Version: **v1.404 Beta** · KIDZ-Anrufnotizen: Anliegen, Terminwunsch, Einwilligung, Leitfaden, live seit 14.09.2026.
+Offizielle Live-Version: **v1.405 Beta** · KIDZ: Zuordnung bestätigen und Kontaktdaten korrigieren, live seit 15.09.2026.
+
+## v1.405 Beta - Phase 390 · KIDZ: Zuordnung bestätigen und Kontaktdaten korrigieren
+**2026-09-15**
+
+Kai am 15.09.2026: Wer sich online ohne Berater angemeldet hat, liegt bei ihm und sieht aus wie seine echten
+Kontakte. „Dass ich mir erstmal meine echten zuordnen kann … und jetzt haben wir entsprechend den Rest, die wir dann
+aufteilen.“ Dazu Name und E-Mail „manuell ändern … nachhaltig, dass das auch wirklich geändert ist“.
+Kais Entscheidungen: „Gehört zu mir“ darf jeder für sich, korrigieren darf, wer die Anmeldung sieht.
+
+- **Zuordnung offen oder bestätigt.** Neue Spalten `zuordnung_bestaetigt_am/_von`. Startstand: Was bei einem anderen
+  Berater liegt oder schon umgehängt wurde, gilt als bestätigt. Offen bleibt, was ohne Umhängen bei Kai liegt. Die
+  Datenbank kann nicht nachträglich unterscheiden, ob jemand Kai gewählt hat oder beim Vorgabeberater gelandet ist.
+- **„Gehört zu mir“** an jeder offenen Karte (`bestaetige_kidz_zuordnung`): setzt den angemeldeten Berater und
+  bestätigt. Erlaubt für alle, die die Anmeldung sehen, solange sie offen oder schon die eigene ist. Eine bestätigte
+  Anmeldung eines anderen nimmt niemand per Knopf weg, auch nicht bei gleichzeitigem Drücken.
+- **Umhängen über das Auswahlfeld** bestätigt die Zuordnung gleich mit.
+- **Filter „Nur Zuordnung offen“** mit Zähler, Export-Spalte „Zuordnung“.
+- **Daten korrigieren:** Fenster für Name, E-Mail und Mobilnummer. Läuft über `api/kidz-nacherfassung.js`
+  (`action: 'korrektur'`), weil nur der Server den Dublettenschlüssel zur neuen E-Mail bilden kann und das Portal bei
+  Vercel an der Grenze von zwölf Serverfunktionen steht. Die Funktion `korrigiere_kidz_teilnahme` prüft den geheimen
+  Wert, Kais Sichtregel, Format und Dubletten und schreibt alten und neuen Wert in `kidz_teilnahme_korrekturen`
+  (fällt mit der Anmeldung weg, nur Admins löschen, niemand ändert).
+
+---
 
 ## v1.404 Beta - Phase 389 · KIDZ-Anrufnotizen: Anliegen, Terminwunsch, Einwilligung, Leitfaden
 **2026-09-14** · live veröffentlicht
