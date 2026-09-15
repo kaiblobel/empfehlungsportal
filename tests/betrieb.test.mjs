@@ -128,6 +128,24 @@ test('Frisch eingeloester Zugang wirkt auch in einer Instanz mit vorgehaltenem Z
   f.vor(1000); await f.run('/hub.html',{headers:{cookie:'__Host-kai_betrieb='+'c'.repeat(64)}},zweite);
   assert.equal(f.reads()-vorher,1,'danach hoechstens eine je Sekunde');
 });
+test('Notfallweg 2 (Variable): sperrt Partnerbereich ohne Speicher und trotz gueltigem Zugang, Kunden frei, KAI sieht Notschalter',async()=>{
+  const f=fixture(); await f.send(schalten('intern'));
+  const cookie=(await f.run(ZUGANG,f.access())).headers.get('set-cookie').split(';')[0];
+  assert.equal((await f.run('/hub.html',{headers:{cookie}})).status,200,'Zugang wirkt ohne Variable');
+  const vorher=f.reads();
+  const kaputt={notfall:true, speicher:()=>{throw new Error('Speicher ausgefallen');}};
+  for(const p of ['/hub.html','/dashboard/detail.html','/%68ub.html','/team']) {
+    const r=await f.run(p,{headers:{cookie}},kaputt);
+    assert.equal(r.status,503,p); assert.equal(r.headers.get('x-kai-betrieb'),'wartung',p); assert.match(r.headers.get('cache-control'),/no-store/);
+  }
+  assert.equal(f.reads(),vorher,'Notfallweg 2 liest den Speicher nicht');
+  for(const p of ['/kidz/konzept','/programm.html','/api/share','/dashboard/index.html']) assert.equal(await (await f.run(p,{},kaputt)).text(),'ECHTE SEITE',p);
+  const ist=JSON.parse(await (await f.send(befehl(),{notfall:true})).text()).ist;
+  assert.deepEqual([ist.notfall,ist.gesperrt,ist.betriebszustand],[true,true,'wartung']);
+  await f.send(befehl('notfall_aufheben'),{notfall:true});
+  assert.equal((await f.run('/hub.html',{headers:{cookie}},{notfall:true})).status,503,'KAI hebt die Variable nicht auf');
+  assert.equal((await f.run('/hub.html',{headers:{cookie}})).status,200,'ohne Variable gilt wieder der gespeicherte Zustand');
+});
 test('Middleware-Filter: alle Seiten und die Steuerung laufen hindurch, statische Ordner und uebrige Funktionen nicht',()=>{
   const quelle=readFileSync(new URL('../middleware.ts',import.meta.url),'utf8');
   const m=quelle.match(/matcher:\s*\[\s*'([^']+)'\s*\]/); assert.ok(m,'matcher fehlt');
