@@ -14,7 +14,7 @@
 .kg-admin-kpis article.kg-admin-kpi-featured { border-color: #d9d0b7; background: #fffdf8; }
 .kg-admin-kpis span, .kg-admin-kpis small { display: block; color: #73777f; font-size: 12px; }
 .kg-admin-kpis strong { display: block; margin: 5px 0 3px; color: #18334b; font-size: 34px; letter-spacing: -.04em; }
-.kg-admin-toolbar { display: grid; grid-template-columns: auto minmax(220px, 1fr) minmax(180px, .55fr) auto auto; gap: 10px; align-items: center; margin: 0 0 24px; padding: 12px 14px; background: #fff; border: 1px solid #e4e3df; border-radius: 12px; }
+.kg-admin-toolbar { display: grid; grid-template-columns: auto minmax(220px, 1fr) minmax(180px, .55fr) auto auto auto; gap: 10px; align-items: center; margin: 0 0 24px; padding: 12px 14px; background: #fff; border: 1px solid #e4e3df; border-radius: 12px; }
 .kg-admin-toolbar > label:first-child { color: #666b72; font-size: 12px; font-weight: 700; }
 .kg-admin-toolbar input[type="search"] { min-height: 42px; padding: 0 12px; border: 1px solid #d9dadd; border-radius: 9px; font: inherit; font-size: 14px; }
 .kg-admin-toolbar select { min-height: 42px; padding: 0 34px 0 11px; border: 1px solid #d9dadd; border-radius: 9px; background: #fff; color: #3e4852; font: inherit; font-size: 12px; }
@@ -84,6 +84,20 @@
 .kg-admin-dialog-check input { width: 18px; height: 18px; margin: 1px 0 0; flex: 0 0 auto; accent-color: #0c6c3f; }
 .kg-admin-dialog-counter { min-height: 18px; margin: 6px 0 0; color: #73777f !important; font-size: 12px !important; }
 .kg-admin-badge-onsite { color: #7a4d11 !important; background: #fff3dd; }
+
+/* Phase 390: Zuordnung offen oder bestätigt, "Gehört zu mir" */
+.kg-admin-zuordnung-box { display: flex !important; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 6px !important; }
+.kg-admin-zuordnung { display: inline-flex !important; width: fit-content; margin: 0 !important; padding: 3px 8px; border-radius: 999px; font-size: 10px !important; font-weight: 800; }
+.kg-admin-zuordnung[data-stand="offen"] { color: #7a4d11 !important; background: #fff3dd; }
+.kg-admin-zuordnung[data-stand="bestaetigt"] { color: #72767c !important; background: #f1f2f3; }
+.kg-admin-claim { min-height: 30px; padding: 0 11px; color: #fff; background: #0c6c3f; border: 0; border-radius: 999px; font: inherit; font-size: 11px; font-weight: 800; cursor: pointer; }
+.kg-admin-claim:hover { background: #0a5a35; }
+.kg-admin-claim:focus-visible { outline: 3px solid rgba(12,108,63,.3); outline-offset: 2px; }
+.kg-admin-claim:disabled { opacity: .6; cursor: wait; }
+.kg-admin-toggle-zahl { display: inline-block; min-width: 20px; margin-left: 4px; padding: 1px 6px; color: #7a4d11; background: #fff3dd; border-radius: 999px; font-size: 11px; text-align: center; }
+@media (max-width: 580px) {
+  .kg-admin-claim { min-height: 40px; padding: 0 14px; }
+}
 .kg-admin-dialog-actions { flex-wrap: wrap; }
 .kg-admin-danger { min-height: 43px; padding: 0 15px; color: #fff; background: #a74437; border: 1px solid #a74437; border-radius: 10px; font: inherit; font-size: 13px; font-weight: 800; cursor: pointer; }
 .kg-admin-danger:disabled { opacity: .55; cursor: wait; }

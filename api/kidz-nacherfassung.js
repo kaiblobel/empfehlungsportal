@@ -120,6 +120,78 @@ async function recordParticipation(secret, accessToken, payload) {
   return result;
 }
 
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/**
+ * Phase 390: Name, E-Mail oder Mobilnummer einer Anmeldung korrigieren.
+ *
+ * Steckt in dieser Datei, weil das Portal bei Vercel an der Grenze von zwoelf
+ * Serverfunktionen steht und diese Datei Geheimnis, Anmeldung und
+ * Dublettenschluessel ohnehin kennt. Der Schluessel wird zeichengleich zur
+ * Anmeldung gebildet, sonst erkennt das Portal spaeter keine Dubletten mehr.
+ * Wer korrigieren darf, entscheidet die Datenbank: wer die Anmeldung sieht.
+ */
+async function handleKorrektur(res, secret, accessToken, body) {
+  const teilnahmeId = String(body.teilnahmeId || '').trim();
+  const name = cleanName(body.name);
+  const rawEmail = String(body.email || '').trim();
+  const rawPhone = String(body.telefon || '').trim();
+  const email = cleanEmail(rawEmail);
+  const telefon = cleanPhone(rawPhone);
+
+  if (!UUID_PATTERN.test(teilnahmeId)) return send(res, 400, { ok: false, reason: 'not_found' });
+  if (name.length < 2) return send(res, 400, { ok: false, reason: 'invalid_input' });
+  if ((rawEmail && !email) || (rawPhone && !telefon) || (!email && !telefon)) {
+    return send(res, 400, { ok: false, reason: 'invalid_contact' });
+  }
+
+  const contactIdentity = email ? `email:${email}` : `phone:${telefon}`;
+  try {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/korrigiere_kidz_teilnahme`, {
+      method: 'POST',
+      headers: {
+        apikey: ANON,
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        p_secret: secret,
+        p_teilnahme_id: teilnahmeId,
+        p_name: name,
+        p_email: email || null,
+        p_telefon: telefon || null,
+        p_contact_key: hmac(secret, `${EVENT_KEY}|${contactIdentity}`),
+      }),
+    });
+
+    const text = await response.text();
+    let result = null;
+    try { result = text ? JSON.parse(text) : null; } catch (_) {}
+    if (!response.ok) {
+      const status = response.status === 401 || response.status === 403 ? 401 : 502;
+      return send(res, status, { ok: false, reason: status === 401 ? 'authentication_required' : 'correction_failed' });
+    }
+
+    const reason = result?.reason;
+    if (reason === 'already_exists') return send(res, 409, { ok: false, reason });
+    if (reason === 'forbidden') return send(res, 403, { ok: false, reason });
+    if (reason === 'not_found') return send(res, 404, { ok: false, reason });
+    if (reason === 'invalid_name') return send(res, 400, { ok: false, reason: 'invalid_input' });
+    if (reason === 'invalid_contact') return send(res, 400, { ok: false, reason });
+    if (!result?.ok) throw new Error('Unvollständige Antwort der Korrektur');
+    return send(res, 200, {
+      ok: true,
+      unchanged: result.unchanged === true,
+      name: result.name,
+      email: result.email ?? null,
+      telefon: result.telefon ?? null,
+    });
+  } catch (error) {
+    console.error('[kidz-korrektur]', error.message);
+    return send(res, 502, { ok: false, reason: 'correction_failed' });
+  }
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -143,6 +215,9 @@ module.exports = async function handler(req, res) {
   }
 
   const body = readBody(req);
+  if (body.action === 'korrektur') {
+    return handleKorrektur(res, registrationSecret, accessToken, body);
+  }
   const name = cleanName(body.name);
   const rawEmail = String(body.email || '').trim();
   const rawPhone = String(body.telefon || '').trim();
