@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { leer, signiere, gueltig, leseStand, tokenHash } from '../lib/betrieb/kern.mjs';
-import { behandle } from '../lib/betrieb/handler.mjs';
+import { behandle, neueAnzeige, ANZEIGE_MS } from '../lib/betrieb/handler.mjs';
 import { HOST, STEUERUNG, ZUGANG, portalPfad } from '../lib/betrieb/profil.mjs';
 
 const KEY = 'ab'.repeat(32), NOW = 1789480000;
@@ -13,13 +13,13 @@ const wirkung = z => ({ http: ['wartung','stoerung'].includes(z) ? 503 : z === '
 export const befehl = (typ = 'status', extra = {}) => ({ v:1, typ, host:HOST, anwendung:'empfehlung', iat:NOW, exp:NOW+60, nonce:nonce(), ...extra });
 const schalten = (z, version = 1) => befehl('schalten', { version, betriebszustand:z, wirkung:wirkung(z), texte:{ ueberschrift:'Probe', beschreibung:'Hallo', zusatz:'' }, wieder_da:null });
 function fixture() {
-  let raw = JSON.stringify(leer()), reads = 0;
+  let raw = JSON.stringify(leer()), reads = 0, ms = 1_000_000;
   const store = { read: async () => { reads++; return raw; }, cas: async (alt, neu) => { if (raw !== alt) return false; raw=neu; return true; } };
-  const opts = { aktiv:true, key:KEY, jetzt:()=>NOW, speicher: f => f(store), next: o => new Response('ECHTE SEITE', { headers:o?.headers }) };
+  const opts = { aktiv:true, key:KEY, jetzt:()=>NOW, uhrMs:()=>ms, anzeige:neueAnzeige(), speicher: f => f(store), next: o => new Response('ECHTE SEITE', { headers:o?.headers }) };
   const run = (path, init = {}, options = {}) => behandle(new Request(`https://${HOST}${path}`, init), { ...opts, ...options });
   const send = (d, options={}) => { const body = JSON.stringify(d); return run(STEUERUNG, { method:'POST', body, headers:{'content-type':'application/json','x-kai-signatur':signiere(KEY,'befehl',body)} }, options); };
   const access = (extra={}) => { const d = befehl('zugang',{advisor:'synthetisch',ziel:'/hub.html',exp:NOW+30,...extra}); const beleg=Buffer.from(JSON.stringify(d)).toString('base64url'); return { body:new URLSearchParams({beleg,signatur:signiere(KEY,'zugang',beleg)}).toString(), method:'POST', headers:{'content-type':'application/x-www-form-urlencoded'} }; };
-  return {run,send,access,store,opts, raw:()=>raw, reads:()=>reads, corrupt: v=>{raw=v;}};
+  return {run,send,access,store,opts, raw:()=>raw, reads:()=>reads, corrupt: v=>{raw=v;}, vor: x=>{ms+=x;}};
 }
 test('Unaktivierter Rollout beruehrt weder Kundenfunktion noch Laufzeitspeicher', async()=>{
   const f=fixture();
@@ -83,12 +83,57 @@ test('Zugang lehnt Umleitungen, andere Anwendung und falsche Tokens ab',async()=
   assert.equal((await f.run(ZUGANG,f.access({anwendung:'karriere'}))).status,403);
   for(const cookie of ['__Host-kai_betrieb=abc','__Host-kai_betrieb='+ 'a'.repeat(64),'portal_wartung_v1=0; berater_ist_admin_v1=1']) assert.equal((await f.run('/hub.html',{headers:{cookie}})).status,403);
 });
-test('Fehlende/defekte Ablage und Netzausfall sperren Partner, nie Kunden',async()=>{
+// Entscheidung Kai 15.09.2026: Bei Speicherstoerung gilt der letzte bekannte Zustand, sonst offen.
+test('Speicherstoerung ohne bekannten Zustand: Partnerbereich offen, Fehlerkopf fuer den Waechter, Kunden unberuehrt',async()=>{
   for(const raw of [null,'{','{}',JSON.stringify({...leer(),notfall:'false'}),JSON.stringify({...leer(),soll:{version:1}})]) {
-    const f=fixture(); f.corrupt(raw); const r=await f.run('/hub.html'); assert.equal(r.status,503); assert.equal(r.headers.get('x-kai-betrieb-fehler'),'laufzeit');
-    assert.equal((await f.run('/kidz/konzept')).status,200);
+    const f=fixture(); f.corrupt(raw); const r=await f.run('/hub.html');
+    assert.equal(r.status,200,String(raw)); assert.equal(await r.text(),'ECHTE SEITE');
+    assert.equal(r.headers.get('x-kai-betrieb-fehler'),'laufzeit'); assert.equal(r.headers.get('x-kai-betrieb'),null);
+    const kunde=await f.run('/kidz/konzept'); assert.equal(kunde.status,200); assert.equal(kunde.headers.get('x-kai-betrieb-fehler'),null);
   }
-  assert.equal((await fixture().run('/hub.html',{}, {speicher:()=>{throw new Error('timeout');}})).status,503);
+  const r=await fixture().run('/hub.html',{}, {speicher:()=>{throw new Error('timeout');}});
+  assert.equal(r.status,200); assert.equal(r.headers.get('x-kai-betrieb-fehler'),'laufzeit');
+});
+test('Speicherstoerung mit bekanntem Zustand: letzter Zustand gilt weiter, mit Fehlerkopf',async()=>{
+  const f=fixture(); await f.send(schalten('wartung')); f.corrupt('{'); f.vor(ANZEIGE_MS);
+  const r=await f.run('/hub.html'); assert.equal(r.status,503); assert.equal(r.headers.get('x-kai-betrieb'),'wartung'); assert.equal(r.headers.get('x-kai-betrieb-fehler'),'laufzeit');
+  const g=fixture(); await g.send(schalten('online')); g.corrupt('{'); g.vor(ANZEIGE_MS);
+  const o=await g.run('/hub.html'); assert.equal(o.status,200); assert.equal(o.headers.get('x-kai-betrieb'),'online'); assert.equal(o.headers.get('x-kai-betrieb-fehler'),'laufzeit');
+  const h=fixture(); await h.send(schalten('online')); await h.send(befehl('notfall_setzen')); h.corrupt(null); h.vor(ANZEIGE_MS);
+  assert.equal((await h.run('/hub.html')).status,503,'Notschalter bleibt auch bei Stoerung wirksam');
+});
+test('Anzeige: Zustand wird 5 Sekunden vorgehalten, die schaltende Instanz ist sofort aktuell',async()=>{
+  const f=fixture(); await f.send(schalten('wartung')); const vorher=f.reads();
+  for(let i=0;i<5;i++) assert.equal((await f.run('/hub.html')).status,503);
+  assert.equal(f.reads(),vorher,'innerhalb der Vorhaltezeit kein Speicherabruf');
+  f.vor(ANZEIGE_MS); assert.equal((await f.run('/hub.html')).status,503); assert.equal(f.reads(),vorher+1);
+  await f.send(schalten('online',2)); assert.equal((await f.run('/hub.html')).status,200);
+});
+test('Andere Instanz: Umschalten wirkt spaetestens nach der Vorhaltezeit',async()=>{
+  const f=fixture(); await f.send(schalten('online')); const zweite={anzeige:neueAnzeige()};
+  assert.equal((await f.run('/hub.html',{},zweite)).status,200);
+  await f.send(schalten('wartung',2));
+  assert.equal((await f.run('/hub.html',{},zweite)).status,200,'noch vorgehalten');
+  f.vor(ANZEIGE_MS-1); assert.equal((await f.run('/hub.html',{},zweite)).status,200);
+  f.vor(1); assert.equal((await f.run('/hub.html',{},zweite)).status,503);
+});
+test('Frisch eingeloester Zugang wirkt auch in einer Instanz mit vorgehaltenem Zustand, erfundene Cookies fluten nicht',async()=>{
+  const f=fixture(); await f.send(schalten('intern')); const zweite={anzeige:neueAnzeige()};
+  assert.equal((await f.run('/hub.html',{},zweite)).status,403);
+  const cookie=(await f.run(ZUGANG,f.access())).headers.get('set-cookie').split(';')[0];
+  assert.equal((await f.run('/hub.html',{headers:{cookie}},zweite)).status,200);
+  const vorher=f.reads();
+  for(let i=0;i<20;i++) assert.equal((await f.run('/hub.html',{headers:{cookie:'__Host-kai_betrieb='+'c'.repeat(64)}},zweite)).status,403);
+  assert.equal(f.reads()-vorher,0,'innerhalb einer Sekunde keine weitere erzwungene Lesung');
+  f.vor(1000); await f.run('/hub.html',{headers:{cookie:'__Host-kai_betrieb='+'c'.repeat(64)}},zweite);
+  assert.equal(f.reads()-vorher,1,'danach hoechstens eine je Sekunde');
+});
+test('Middleware-Filter: alle Seiten und die Steuerung laufen hindurch, statische Ordner und uebrige Funktionen nicht',()=>{
+  const quelle=readFileSync(new URL('../middleware.ts',import.meta.url),'utf8');
+  const m=quelle.match(/matcher:\s*\[\s*'([^']+)'\s*\]/); assert.ok(m,'matcher fehlt');
+  const re=new RegExp('^'+m[1]+'$');
+  for(const p of ['/','/hub.html','/hub','/%68ub.html','/%2568ub.html','/dashboard/','/dashboard/detail.html','/team.html','/kidz/konzept','/empfehlung/abc','/programm.html','/api/betrieb/steuerung','/api/betrieb/zugang','/lib/betrieb/kern.mjs','/middleware.ts','/package.json','/sw.js']) assert.ok(re.test(p),p);
+  for(const p of ['/assets/x.webp','/assets/video/film.mp4','/css/style.css','/js/config.js','/js/betrieb-pwa.js','/api/share','/api/promoter-register','/api/bruecke']) assert.ok(!re.test(p),p);
 });
 test('Inhalte werden escaped, Wirkungen koennen nicht frei erfunden werden',async()=>{
   const f=fixture(), d=schalten('wartung'); d.texte.ueberschrift='<script>alert(1)</script>'; await f.send(d);
