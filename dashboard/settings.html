@@ -16,7 +16,7 @@
   <!-- Nur wegen der Vorschau. `data-nur-vorschau` verhindert, dass der Schirm
        hier von selbst aufgeht: das ist die einzige Seite, auf der man den
        Schalter wieder ausmachen kann. -->
-  <script src="../js/wartung.js?v=4" data-nur-vorschau></script>
+  <script src="../js/wartung.js?v=5" data-nur-vorschau></script>
   <style>
     /* Wartungsschalter (Phase 250) · nur hier gebraucht, deshalb nicht im Design-System */
     .w-schalter { display: flex; align-items: center; gap: 12px; cursor: pointer; }
@@ -471,6 +471,8 @@
 
     async function wartungLaden() {
       if (!supabase || !wSchalter) return;
+      try { if (await wZentralPruefen()) return; }
+      catch (_) { wLage.textContent = 'Betriebszustand gerade nicht prüfbar.'; return; }
       const { data, error } = await supabase
         .from('portal_wartung').select('aktiv, titel, text, seit').eq('id', true).maybeSingle();
       if (error || !data) { wLage.textContent = 'Stand gerade nicht abrufbar.'; return; }
@@ -481,6 +483,7 @@
     }
 
     async function wSchreiben(felder) {
+      if (await wZentralPruefen()) throw new Error('Der Betriebszustand wird in KAI. unter Anwendungen > Betrieb geändert.');
       const { data, error } = await supabase
         .from('portal_wartung')
         .update({
@@ -514,6 +517,16 @@
         wSchalter.disabled = false;
       }
     });
+
+    async function wZentralPruefen() {
+      if (typeof window.portalBetriebZentral !== 'function') throw new Error('Betriebsprüfung nicht verfügbar.');
+      const zentral = await window.portalBetriebZentral();
+      if (zentral) {
+        [wSchalter, wBtn, wVorschau, wTitel, wText].forEach(el => { if (el) el.disabled = true; });
+        wLage.textContent = 'Der Partnerbereich wird über KAI. unter Anwendungen > Betrieb gesteuert.';
+      }
+      return zentral;
+    }
 
     wBtn?.addEventListener('click', async () => {
       wBtn.disabled = true; wSetMsg('', true);

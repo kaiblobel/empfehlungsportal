@@ -328,7 +328,16 @@
     zeigeSchirm(d);
   }
 
-  function laden() {
+  window.portalBetriebZentral = function () {
+    return fetch('/hub.html', { method: 'HEAD', cache: 'no-store' }).then(function (r) {
+      return r.headers.has('x-kai-betrieb');
+    });
+  };
+
+  async function laden() {
+    try {
+      if (await window.portalBetriebZentral()) { entferneSchirm(); zeigeBand(false); return; }
+    } catch (_) { return; }
     return fetch(url, {
       headers: { apikey: key, Accept: 'application/json' },
       cache: 'no-store'
@@ -350,7 +359,7 @@
     // Bekannter Stand aus dem letzten Aufruf steht sofort, damit die Seite
     // nicht erst kurz aufblitzt, bevor der Schirm kommt.
     var c = leseCache();
-    if (c && c.aktiv && !istAdmin()) zeigeSchirm(c);
+    // Der alte Cache darf nach Uebernahme keinen zweiten Schirm zeigen.
     laden();
     setInterval(laden, POLL_MS);
 

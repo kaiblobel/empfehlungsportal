@@ -1,0 +1,231 @@
+{
+    "beschreibung": "HMAC-SHA256 ueber \"<zweck>.<daten>\", base64url ohne Auffuellung (ADR-0063). Testschluessel, keine Geheimnisse.",
+    "erzeugt_mit": "PHP 8.4.25",
+    "vektoren": [
+        {
+            "art": "signatur",
+            "schluessel": "nullen",
+            "schluessel_hex": "0000000000000000000000000000000000000000000000000000000000000000",
+            "zweck": "befehl",
+            "daten": "{\"v\":1,\"typ\":\"status\",\"host\":\"karrierecheck.kaiblobel.de\",\"iat\":1789000000,\"exp\":1789000060,\"nonce\":\"00112233445566778899aabbccddeeff\"}",
+            "signatur": "PEInZRCUvhxSdYEmmzlMAzXlIGh4EW_UHMXtyjM1IPc"
+        },
+        {
+            "art": "signatur",
+            "schluessel": "nullen",
+            "schluessel_hex": "0000000000000000000000000000000000000000000000000000000000000000",
+            "zweck": "antwort",
+            "daten": "{\"ok\":true,\"ist\":{\"betriebszustand\":\"wartung\",\"version\":3},\"anfrage\":\"00112233445566778899aabbccddeeff\"}",
+            "signatur": "hoxXSqzmGzclVSk4ymcDYWq2NcD-kBvMRjXa6sYlnpk"
+        },
+        {
+            "art": "signatur",
+            "schluessel": "nullen",
+            "schluessel_hex": "0000000000000000000000000000000000000000000000000000000000000000",
+            "zweck": "zugang",
+            "daten": "eyJ2IjoxLCJ0eXAiOiJ6dWdhbmcifQ",
+            "signatur": "-JOa-wuZQs2pU1CaOC-p0_Pwdmm0OPtXOcr6-NaM8mw"
+        },
+        {
+            "art": "signatur",
+            "schluessel": "nullen",
+            "schluessel_hex": "0000000000000000000000000000000000000000000000000000000000000000",
+            "zweck": "befehl",
+            "daten": "Umlaute und Zeichen: äöüß € “ ” ’",
+            "signatur": "ghko6G7gXhZKnpgFg736lwiYlawvabHTdJkyqulVitQ"
+        },
+        {
+            "art": "signatur",
+            "schluessel": "nullen",
+            "schluessel_hex": "0000000000000000000000000000000000000000000000000000000000000000",
+            "zweck": "befehl",
+            "daten": "",
+            "signatur": "1lI9ob7XRXmtaUMS_XD-R2eViokn9f2PAn_o8NvisKI"
+        },
+        {
+            "art": "signatur",
+            "schluessel": "nullen",
+            "schluessel_hex": "0000000000000000000000000000000000000000000000000000000000000000",
+            "zweck": "antwort",
+            "daten": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "signatur": "_MqAERKygcCrHwrh0DIImZx1KcdarUQpEHPNtC9GE7o"
+        },
+        {
+            "art": "signatur",
+            "schluessel": "folge",
+            "schluessel_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+            "zweck": "befehl",
+            "daten": "{\"v\":1,\"typ\":\"status\",\"host\":\"karrierecheck.kaiblobel.de\",\"iat\":1789000000,\"exp\":1789000060,\"nonce\":\"00112233445566778899aabbccddeeff\"}",
+            "signatur": "kSOwHmGRXH6Eh628XO3CRvxGhhOVmN8W5rLtZlX7v14"
+        },
+        {
+            "art": "signatur",
+            "schluessel": "folge",
+            "schluessel_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+            "zweck": "antwort",
+            "daten": "{\"ok\":true,\"ist\":{\"betriebszustand\":\"wartung\",\"version\":3},\"anfrage\":\"00112233445566778899aabbccddeeff\"}",
+            "signatur": "tv09-yhVnaruDAqKsw_YrQfi6uLUMl4NLXxMNZ5LDPU"
+        },
+        {
+            "art": "signatur",
+            "schluessel": "folge",
+            "schluessel_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+            "zweck": "zugang",
+            "daten": "eyJ2IjoxLCJ0eXAiOiJ6dWdhbmcifQ",
+            "signatur": "ckGJFoQjqoDSTBrNqApQ_tYq7Pxql5iRz9_z712ULEo"
+        },
+        {
+            "art": "signatur",
+            "schluessel": "folge",
+            "schluessel_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+            "zweck": "befehl",
+            "daten": "Umlaute und Zeichen: äöüß € “ ” ’",
+            "signatur": "09oU8PERDDapa-08Cz3wPn3WgwN7pLxm0b77T96Higc"
+        },
+        {
+            "art": "signatur",
+            "schluessel": "folge",
+            "schluessel_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+            "zweck": "befehl",
+            "daten": "",
+            "signatur": "RuzpbanPKw42MDs65-heVAe6uAQD8qJD2lb5Kx3YcMY"
+        },
+        {
+            "art": "signatur",
+            "schluessel": "folge",
+            "schluessel_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+            "zweck": "antwort",
+            "daten": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "signatur": "IckIzezErMAiMPYpX-mcR-5JeyPAfwW3AGTgWtgxZcA"
+        },
+        {
+            "art": "signatur",
+            "schluessel": "abgeleitet",
+            "schluessel_hex": "923a3d1bfc6cd827b11fae4faf372e24ad86388bb5daac18b9c5b68b155026da",
+            "zweck": "befehl",
+            "daten": "{\"v\":1,\"typ\":\"status\",\"host\":\"karrierecheck.kaiblobel.de\",\"iat\":1789000000,\"exp\":1789000060,\"nonce\":\"00112233445566778899aabbccddeeff\"}",
+            "signatur": "28DiQ6vbm40xQ12pamOrzl52jOWX6OJAmzvs6mJ0A-s"
+        },
+        {
+            "art": "signatur",
+            "schluessel": "abgeleitet",
+            "schluessel_hex": "923a3d1bfc6cd827b11fae4faf372e24ad86388bb5daac18b9c5b68b155026da",
+            "zweck": "antwort",
+            "daten": "{\"ok\":true,\"ist\":{\"betriebszustand\":\"wartung\",\"version\":3},\"anfrage\":\"00112233445566778899aabbccddeeff\"}",
+            "signatur": "llmHR4Rc7sJtKmTFlN7e5IxXPqqrDYVkz9IyAjed1X8"
+        },
+        {
+            "art": "signatur",
+            "schluessel": "abgeleitet",
+            "schluessel_hex": "923a3d1bfc6cd827b11fae4faf372e24ad86388bb5daac18b9c5b68b155026da",
+            "zweck": "zugang",
+            "daten": "eyJ2IjoxLCJ0eXAiOiJ6dWdhbmcifQ",
+            "signatur": "C2ZSz_jc0umyyhYb2-pr8AlsOIfadbKqta04eNGfE_Y"
+        },
+        {
+            "art": "signatur",
+            "schluessel": "abgeleitet",
+            "schluessel_hex": "923a3d1bfc6cd827b11fae4faf372e24ad86388bb5daac18b9c5b68b155026da",
+            "zweck": "befehl",
+            "daten": "Umlaute und Zeichen: äöüß € “ ” ’",
+            "signatur": "H5qGjvYd9gOUpQ0IlQTYXNNuSoMT5qnmT18We5SGmZw"
+        },
+        {
+            "art": "signatur",
+            "schluessel": "abgeleitet",
+            "schluessel_hex": "923a3d1bfc6cd827b11fae4faf372e24ad86388bb5daac18b9c5b68b155026da",
+            "zweck": "befehl",
+            "daten": "",
+            "signatur": "L-aaFgVA1KiQQpXMf49ZyhKiJOGKz6ntCgSAXlQRBuA"
+        },
+        {
+            "art": "signatur",
+            "schluessel": "abgeleitet",
+            "schluessel_hex": "923a3d1bfc6cd827b11fae4faf372e24ad86388bb5daac18b9c5b68b155026da",
+            "zweck": "antwort",
+            "daten": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "signatur": "pErGlDz_sosJWrqPe9dZgAm17gLgSwYtaoUcXz-9rbw"
+        },
+        {
+            "art": "pruefung",
+            "titel": "korrekt",
+            "schluessel_hex": "923a3d1bfc6cd827b11fae4faf372e24ad86388bb5daac18b9c5b68b155026da",
+            "zweck": "befehl",
+            "daten": "{\"v\":1,\"typ\":\"status\",\"host\":\"karrierecheck.kaiblobel.de\",\"iat\":1789000000,\"exp\":1789000060,\"nonce\":\"00112233445566778899aabbccddeeff\"}",
+            "signatur": "28DiQ6vbm40xQ12pamOrzl52jOWX6OJAmzvs6mJ0A-s",
+            "gueltig": true
+        },
+        {
+            "art": "pruefung",
+            "titel": "anderer Zweck",
+            "schluessel_hex": "923a3d1bfc6cd827b11fae4faf372e24ad86388bb5daac18b9c5b68b155026da",
+            "zweck": "antwort",
+            "daten": "{\"v\":1,\"typ\":\"status\",\"host\":\"karrierecheck.kaiblobel.de\",\"iat\":1789000000,\"exp\":1789000060,\"nonce\":\"00112233445566778899aabbccddeeff\"}",
+            "signatur": "28DiQ6vbm40xQ12pamOrzl52jOWX6OJAmzvs6mJ0A-s",
+            "gueltig": false
+        },
+        {
+            "art": "pruefung",
+            "titel": "Daten veraendert",
+            "schluessel_hex": "923a3d1bfc6cd827b11fae4faf372e24ad86388bb5daac18b9c5b68b155026da",
+            "zweck": "befehl",
+            "daten": "{\"v\":1,\"typ\":\"status\",\"host\":\"karrierecheck.kaiblobel.de\",\"iat\":1789000000,\"exp\":1789000060,\"nonce\":\"00112233445566778899aabbccddeeff\"} ",
+            "signatur": "28DiQ6vbm40xQ12pamOrzl52jOWX6OJAmzvs6mJ0A-s",
+            "gueltig": false
+        },
+        {
+            "art": "pruefung",
+            "titel": "anderer Schluessel",
+            "schluessel_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+            "zweck": "befehl",
+            "daten": "{\"v\":1,\"typ\":\"status\",\"host\":\"karrierecheck.kaiblobel.de\",\"iat\":1789000000,\"exp\":1789000060,\"nonce\":\"00112233445566778899aabbccddeeff\"}",
+            "signatur": "28DiQ6vbm40xQ12pamOrzl52jOWX6OJAmzvs6mJ0A-s",
+            "gueltig": false
+        },
+        {
+            "art": "pruefung",
+            "titel": "mit Auffuellung =",
+            "schluessel_hex": "923a3d1bfc6cd827b11fae4faf372e24ad86388bb5daac18b9c5b68b155026da",
+            "zweck": "befehl",
+            "daten": "{\"v\":1,\"typ\":\"status\",\"host\":\"karrierecheck.kaiblobel.de\",\"iat\":1789000000,\"exp\":1789000060,\"nonce\":\"00112233445566778899aabbccddeeff\"}",
+            "signatur": "28DiQ6vbm40xQ12pamOrzl52jOWX6OJAmzvs6mJ0A-s=",
+            "gueltig": false
+        },
+        {
+            "art": "pruefung",
+            "titel": "Standard-base64 statt url",
+            "schluessel_hex": "923a3d1bfc6cd827b11fae4faf372e24ad86388bb5daac18b9c5b68b155026da",
+            "zweck": "befehl",
+            "daten": "{\"v\":1,\"typ\":\"status\",\"host\":\"karrierecheck.kaiblobel.de\",\"iat\":1789000000,\"exp\":1789000060,\"nonce\":\"00112233445566778899aabbccddeeff\"}",
+            "signatur": "28DiQ6vbm40xQ12pamOrzl52jOWX6OJAmzvs6mJ0A+s",
+            "gueltig": false
+        },
+        {
+            "art": "pruefung",
+            "titel": "leer",
+            "schluessel_hex": "923a3d1bfc6cd827b11fae4faf372e24ad86388bb5daac18b9c5b68b155026da",
+            "zweck": "befehl",
+            "daten": "{\"v\":1,\"typ\":\"status\",\"host\":\"karrierecheck.kaiblobel.de\",\"iat\":1789000000,\"exp\":1789000060,\"nonce\":\"00112233445566778899aabbccddeeff\"}",
+            "signatur": "",
+            "gueltig": false
+        },
+        {
+            "art": "pruefung",
+            "titel": "um ein Zeichen gekuerzt",
+            "schluessel_hex": "923a3d1bfc6cd827b11fae4faf372e24ad86388bb5daac18b9c5b68b155026da",
+            "zweck": "befehl",
+            "daten": "{\"v\":1,\"typ\":\"status\",\"host\":\"karrierecheck.kaiblobel.de\",\"iat\":1789000000,\"exp\":1789000060,\"nonce\":\"00112233445566778899aabbccddeeff\"}",
+            "signatur": "28DiQ6vbm40xQ12pamOrzl52jOWX6OJAmzvs6mJ0A-",
+            "gueltig": false
+        },
+        {
+            "art": "pruefung",
+            "titel": "Gross-/Kleinschreibung vertauscht",
+            "schluessel_hex": "923a3d1bfc6cd827b11fae4faf372e24ad86388bb5daac18b9c5b68b155026da",
+            "zweck": "befehl",
+            "daten": "{\"v\":1,\"typ\":\"status\",\"host\":\"karrierecheck.kaiblobel.de\",\"iat\":1789000000,\"exp\":1789000060,\"nonce\":\"00112233445566778899aabbccddeeff\"}",
+            "signatur": "28DIQ6VBM40XQ12PAMORZL52JOWX6OJAMZVS6MJ0A-S",
+            "gueltig": false
+        }
+    ]
+}

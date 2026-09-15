@@ -13,7 +13,8 @@
  * trägt — die darf nie veraltet sein.
  */
 
-const CACHE_VERSION = 'v359-2026-09-14-phase389';
+const CACHE_VERSION = 'v360-2026-09-15-phase389';
+importScripts('/js/betrieb-pwa.js');
 const SHELL_CACHE = `shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `assets-${CACHE_VERSION}`;
 
@@ -101,11 +102,21 @@ self.addEventListener('fetch', (event) => {
 
   // HTML: network-first
   if (request.mode === 'navigate' || request.destination === 'document') {
+    if (self.betriebPartnerPfad(url.pathname)) {
+      event.respondWith(fetch(request, { cache: 'no-store' }).catch(() =>
+        new Response('Der Partnerbereich braucht eine Verbindung. Bitte versuche es erneut.', {
+          status: 503, headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'no-store' }
+        })
+      ));
+      return;
+    }
     event.respondWith(
       fetch(request)
         .then((res) => {
-          const copy = res.clone();
-          caches.open(SHELL_CACHE).then((c) => c.put(request, copy)).catch(() => {});
+          if (res.ok && !res.headers.get('cache-control')?.includes('no-store')) {
+            const copy = res.clone();
+            caches.open(SHELL_CACHE).then((c) => c.put(request, copy)).catch(() => {});
+          }
           return res;
         })
         .catch(() => caches.match(request).then((r) => r || caches.match('/hub.html')))
