@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
   <link rel="stylesheet" href="../css/style.css?v=38">
   <link rel="stylesheet" href="../css/dashboard.css?v=57">
-  <link rel="stylesheet" href="../css/kidz-gewinnspiel-admin.css?v=10">
+  <link rel="stylesheet" href="../css/kidz-gewinnspiel-admin.css?v=11">
   <link rel="stylesheet" href="../css/dna.css?v=13" />
   <script src="../js/config.js"></script>
   <script src="../js/wartung.js?v=5"></script>
@@ -93,6 +93,11 @@
         <label class="kg-admin-toggle" for="onsiteOnly">
           <input id="onsiteOnly" type="checkbox">
           Nur Vor-Ort-Zettel
+        </label>
+        <!-- Phase 390: offen = beim Vorgabeberater gelandet, noch nicht bestätigt. -->
+        <label class="kg-admin-toggle" for="zuordnungOffenOnly">
+          <input id="zuordnungOffenOnly" type="checkbox">
+          Nur Zuordnung offen <b class="kg-admin-toggle-zahl" id="zuordnungOffenZahl">0</b>
         </label>
       </section>
 
@@ -214,6 +219,33 @@
     </form>
   </dialog>
 
+  <!-- Phase 390: Name, E-Mail oder Mobilnummer korrigieren. Läuft über den Server,
+       weil nur er den Dublettenschlüssel zur neuen E-Mail bilden kann. -->
+  <dialog class="kg-admin-dialog" id="korrekturDialog" aria-labelledby="korrekturDialogTitle">
+    <form method="dialog" class="kg-admin-dialog-card" id="korrekturForm">
+      <div class="h-label">Daten korrigieren</div>
+      <h2 id="korrekturDialogTitle">Name und Kontakt korrigieren</h2>
+      <p class="kg-admin-dialog-person" id="korrekturPerson"></p>
+
+      <label class="kg-admin-dialog-label" for="korrekturName">Name</label>
+      <input id="korrekturName" type="text" maxlength="100" autocomplete="off" autocapitalize="words">
+
+      <label class="kg-admin-dialog-label" for="korrekturEmail">E-Mail</label>
+      <input id="korrekturEmail" type="email" maxlength="180" autocomplete="off" inputmode="email">
+
+      <label class="kg-admin-dialog-label" for="korrekturTelefon">Mobilnummer</label>
+      <input id="korrekturTelefon" type="tel" maxlength="40" autocomplete="off" inputmode="tel">
+
+      <p class="kg-admin-dialog-hint">Die Änderung gilt überall: in der Liste, im Export und bei der Gewinnbenachrichtigung. Alter und neuer Wert werden mit deinem Namen festgehalten. Bitte nur eintragen, was die Person selbst angegeben oder bestätigt hat.</p>
+
+      <p class="kg-admin-dialog-status" id="korrekturStatus" role="status"></p>
+      <div class="kg-admin-dialog-actions">
+        <button class="kg-admin-secondary" type="button" id="korrekturCancelBtn">Abbrechen</button>
+        <button class="kg-admin-primary" type="submit" id="korrekturSaveBtn">Korrektur speichern</button>
+      </div>
+    </form>
+  </dialog>
+
   <!-- Phase 388: Anruf eintragen. Ein Eintrag je Anruf, nie überschreiben. -->
   <dialog class="kg-admin-dialog" id="anrufDialog" aria-labelledby="anrufDialogTitle">
     <form method="dialog" class="kg-admin-dialog-card" id="anrufForm">
@@ -302,6 +334,6 @@
   </dialog>
 
   <script type="module" src="../js/nav.js?v=71"></script>
-  <script type="module" src="../js/kidz-gewinnspiel-admin.js?v=21"></script>
+  <script type="module" src="../js/kidz-gewinnspiel-admin.js?v=22"></script>
 </body>
 </html>
